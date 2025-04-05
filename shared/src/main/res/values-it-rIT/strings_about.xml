@@ -21,6 +21,6 @@
     <string name="about_source_code">Codice sorgente</string>
     <string name="about_open_source_licenses">Licenze Open Source</string>
     <string name="about_app_intro">Introduzione App</string>
-    <string name="about_feedback">Parere</string>
+    <string name="about_feedback">Feedback</string>
     <string name="about_rate_this_app">Valuta l\'app</string>
 </resources>

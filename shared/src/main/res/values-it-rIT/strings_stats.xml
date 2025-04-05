@@ -32,16 +32,16 @@
         <item>Giorni</item>
         <item>Settimane</item>
         <item>Mesi</item>
-        <item>Trimestre</item>
+        <item>Trimestri</item>
         <item>Anni</item>
     </string-array>
     <string name="stats_productive_hours">Ore produttive</string>
     <string name="stats_heatmap">Heatmap</string>
-    <string name="stats_focus_distribution">Distribuzione a fuoco</string>
-    <string name="stats_focus_break_ratio">Rapporto Focus/break</string>
+    <string name="stats_focus_distribution">Distribuzione focus</string>
+    <string name="stats_focus_break_ratio">Rapporto focus/pausa</string>
     <string name="stats_add_session">Aggiungi sessione</string>
     <string name="stats_focus">Focus</string>
-    <string name="stats_break">Rompi</string>
+    <string name="stats_break">Pausa</string>
     <string name="stats_duration">Durata</string>
     <string name="stats_time">Tempo</string>
     <string name="stats_label">Etichetta</string>

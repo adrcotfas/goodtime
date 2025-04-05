@@ -32,14 +32,14 @@
     <string name="main_open_app_menu">Apri menu app</string>
     <string name="main_reset_to_default">Ripristina impostazioni predefinite</string>
     <string name="main_save">Salva</string>
-    <string name="main_focus_session_in_progress">Focus sessione in corso</string>
-    <string name="main_focus_session_paused">Sessione di messa in pausa</string>
+    <string name="main_focus_session_in_progress">Sessione di focus in corso</string>
+    <string name="main_focus_session_paused">Sessione di focus in pausa</string>
     <string name="main_break_in_progress">Pausa in corso</string>
     <string name="main_pause">Pausa</string>
     <string name="main_resume">Riprendi</string>
     <string name="main_skip">Salta</string>
     <string name="main_stop">Ferma</string>
-    <string name="main_focus_session_finished">Sessione di messa a fuoco completata</string>
+    <string name="main_focus_session_finished">Sessione di focus completata</string>
     <string name="main_break_finished">Pausa finita</string>
     <string name="main_continue">Continuare?</string>
     <string name="main_productivity_reminder_desc">"È ora di essere produttivi!"</string>
@@ -47,5 +47,5 @@
     <string name="main_reminder_channel_name">Notifiche Promemoria</string>
     <string name="main_crash_channel_name">Segnalazioni di crash</string>
     <string name="main_crash_notification_title">App bloccata</string>
-    <string name="main_crash_notification_desc">Siamo spiacenti per l\'inconveniente. Si prega di inviare un rapporto allo sviluppatore.</string>
+    <string name="main_crash_notification_desc">Siamo spiacenti per l\'inconveniente. Si prega di inviare una segnalazione allo sviluppatore.</string>
 </resources>

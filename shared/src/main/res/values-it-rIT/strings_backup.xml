@@ -24,7 +24,7 @@
     <string name="backup_export_csv">Esporta CSV</string>
     <string name="backup_export_json">Esporta JSON</string>
     <string name="backup_completed_successfully">Backup completato con successo</string>
-    <string name="backup_failed_please_try_again">Backup non riuscito. Riprova</string>
+    <string name="backup_failed_please_try_again">Backup non riuscito. Per favore riprova</string>
     <string name="backup_restore_completed_successfully">Ripristino completato con successo</string>
     <string name="backup_restore_failed_please_try_again">Ripristino fallito. Per favore riprova</string>
 </resources>

@@ -21,12 +21,12 @@
     <string name="settings_action_required">Azione richiesta</string>
     <string name="settings_allow_background">Consenti a questa app di eseguire in background</string>
     <string name="settings_allow_notifications">Consenti notifiche</string>
-    <string name="settings_allow_alarms">Consenti all\'avviso di utilizzare il timer</string>
+    <string name="settings_allow_alarms">Consenti permessi di sveglia per il timer</string>
     <string name="settings_allow">Consenti</string>
     <string name="settings_productivity_reminder_title">Promemoria di produttività</string>
     <string name="settings_days_of_the_week">Giorni della settimana</string>
     <string name="settings_reminder_time">Orario promemoria</string>
-    <string name="settings_timer_style_title">Personalizzazione Timer</string>
+    <string name="settings_timer_style_title">Personalizzazione timer</string>
     <string name="settings_notifications_title">Notifiche</string>
     <string name="settings_custom_start_of_day_title">Inizio personalizzato del giorno</string>
     <string name="settings_custom_start_of_day_desc">Definisce quando inizia il giorno per le statistiche</string>
@@ -37,15 +37,15 @@
         <item>Chiaro</item>
         <item>Scuro</item>
     </string-array>
-    <string name="settings_use_dynamic_color">Usa Colore Dinamico</string>
+    <string name="settings_use_dynamic_color">Usa colore dinamico</string>
     <string name="settings_during_work_sessions">Durante le sessioni di lavoro</string>
     <string name="settings_fullscreen_mode">Modalità a schermo intero</string>
-    <string name="settings_true_black_mode_title">Modalità vera nera</string>
-    <string name="settings_true_black_mode_desc">Usa vero nero per lo sfondo</string>
+    <string name="settings_true_black_mode_title">Modalità true black</string>
+    <string name="settings_true_black_mode_desc">Usa true black per lo sfondo</string>
     <string name="settings_keep_the_screen_on">Mantieni lo schermo acceso</string>
     <string name="settings_screensaver_mode">Modalità salvaschermo</string>
-    <string name="settings_do_not_disturb_mode">Modalità \"non disturbare\"</string>
-    <string name="settings_click_to_grant_permission">Premere per concedere l\'autorizzazione</string>
+    <string name="settings_do_not_disturb_mode">Modalità non disturbare</string>
+    <string name="settings_click_to_grant_permission">Premi per concedere l\'autorizzazione</string>
     <string name="settings_demo">demo</string>
     <string name="settings_refresh_demo_label">Aggiorna etichetta demo</string>
     <string name="settings_show_status_title">Mostra stato</string>
@@ -54,8 +54,8 @@
     <string name="settings_show_sessions_long_break_desc">Per i timer di conto alla rovescia con interruzioni lunghe abilitati</string>
     <string name="settings_show_label">Mostra etichetta</string>
     <string name="settings_hide_seconds">Nascondi secondi</string>
-    <string name="settings_focus_complete_sound">Fuoco suono completo</string>
-    <string name="settings_break_complete_sound">Interrompi il suono completo</string>
+    <string name="settings_focus_complete_sound">Suono di focus completato</string>
+    <string name="settings_break_complete_sound">Suono di pausa completata</string>
     <string name="settings_silent">Silenzioso</string>
     <string name="settings_default_notification_sound">Suono di notifica predefinito</string>
     <string name="settings_your_sounds">I tuoi suoni</string>
@@ -70,10 +70,10 @@
     <string name="settings_torch_desc">Una notifica visiva per ambienti silenziosi</string>
     <string name="settings_insistent_notification_title">Notifica insistente</string>
     <string name="settings_insistent_notification_desc">Ripeti la notifica fino a quando non viene annullata</string>
-    <string name="settings_auto_start_focus_title">Avvia automaticamente il focus</string>
+    <string name="settings_auto_start_focus_title">Avvia automaticamente la sessione di focus</string>
     <string name="settings_auto_start_focus_desc">Inizia la sessione di lavoro dopo una pausa senza interazione dell\'utente</string>
     <string name="settings_auto_start_break_title">Inizia automaticamente la pausa</string>
-    <string name="settings_auto_start_break_desc">Avvia la sessione di interruzione dopo una sessione di lavoro senza interazione utente</string>
+    <string name="settings_auto_start_break_desc">Avvia la sessione di pausa dopo una sessione di lavoro senza interazione utente</string>
     <string name="settings_display_over_lock_screen">Visualizza sopra la schermata di blocco</string>
     <string name="settings_display_over_lock_screen_desc">Mantieni l\'applicazione visibile sulla schermata di blocco</string>
     <string name="settings_timer_durations_title">Durata del timer</string>

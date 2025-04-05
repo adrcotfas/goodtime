@@ -20,11 +20,11 @@
     <string name="unlock_premium">Sblocca Premium</string>
     <string name="unlock_premium_to_access_features">Sblocca Premium per accedere alle funzionalità</string>
     <string name="unlock_timer_style">Sblocca Premium per salvare la personalizzazione del timer</string>
-    <string name="unlock_premium_tagline">Acquisto una volta. Nessun abbonamento. Semplicemente una migliore produttività.</string>
+    <string name="unlock_premium_tagline">Acquista una volta. Nessun abbonamento. Semplicemente una migliore produttività.</string>
     <string name="unlock_premium_desc1">%s è uno strumento di gestione del tempo open-source indie, progettato per la semplicità e una grande esperienza utente, senza annunci, tracciamento o raccolta dati.</string>
     <string name="unlock_premium_desc2">Se lo trovi utile, considera l\'aggiornamento alla versione premium per sbloccare più funzionalità.</string>
     <string name="unlock_premium_desc3">Il tuo supporto aiuta i miglioramenti futuri!</string>
-    <string name="support_development">Sostenere lo sviluppo</string>
+    <string name="support_development">Sostieni lo sviluppo</string>
     <string name="unlock_colors">Sblocca colori</string>
     <string name="support_donate_desc">Se lo trovi utile, considera di fare una donazione.</string>
     <string name="feature_labels_title">Etichette</string>
@@ -33,7 +33,7 @@
     <string name="feature_timer_customization_title">Personalizzazione Timer</string>
     <string name="feature_timer_customization_desc1">Regola dimensione, peso e modalità immersiva</string>
     <string name="feature_timer_customization_desc2">Nascondi secondi e altri indicatori</string>
-    <string name="feature_notifications_title">Notifiche Avanzate</string>
+    <string name="feature_notifications_title">Notifiche avanzate</string>
     <string name="feature_notifications_desc1">Abilita torcia e avvisi persistenti</string>
     <string name="feature_stats_title">Statistiche avanzate</string>
     <string name="feature_stats_desc1">Visualizza i dati in base alle etichette</string>
@@ -42,6 +42,6 @@
     <string name="feature_backup_title"><![CDATA[Backup & Esportazione]]></string>
     <string name="feature_backup_desc1">Esporta e importa backup per etichette e statistiche</string>
     <string name="feature_backup_desc2">Esporta statistiche come CSV o JSON</string>
-    <string name="feature_support_title">Sostenere lo sviluppo</string>
+    <string name="feature_support_title">Sostieni lo sviluppo</string>
     <string name="feature_support_desc1">Sblocca gratuitamente tutte le funzionalità future</string>
 </resources>
