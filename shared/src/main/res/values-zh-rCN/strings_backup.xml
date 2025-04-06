@@ -24,7 +24,7 @@
     <string name="backup_export_csv">导出CSV</string>
     <string name="backup_export_json">导出 JSON</string>
     <string name="backup_completed_successfully">备份成功完成</string>
-    <string name="backup_failed_please_try_again">备份失败。请重试</string>
+    <string name="backup_failed_please_try_again">备份失败，请重试</string>
     <string name="backup_restore_completed_successfully">恢复已成功完成</string>
-    <string name="backup_restore_failed_please_try_again">恢复失败。请重试</string>
+    <string name="backup_restore_failed_please_try_again">恢复失败，请重试</string>
 </resources>

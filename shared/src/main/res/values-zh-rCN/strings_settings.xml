@@ -21,7 +21,7 @@
     <string name="settings_action_required">需要采取的行动</string>
     <string name="settings_allow_background">允许此应用在后台运行</string>
     <string name="settings_allow_notifications">允许通知</string>
-    <string name="settings_allow_alarms">允许闹钟权限使用计时器</string>
+    <string name="settings_allow_alarms">允许闹钟权限以使用计时器</string>
     <string name="settings_allow">允许</string>
     <string name="settings_productivity_reminder_title">效率提醒</string>
     <string name="settings_days_of_the_week">一周中的天数</string>
@@ -34,7 +34,7 @@
     <string name="settings_theme">主题</string>
     <string-array name="settings_theme_options">
         <item>系统</item>
-        <item>亮色的</item>
+        <item>亮色</item>
         <item>深色</item>
     </string-array>
     <string name="settings_use_dynamic_color">使用动态颜色</string>
@@ -45,37 +45,37 @@
     <string name="settings_keep_the_screen_on">保持屏幕常亮</string>
     <string name="settings_screensaver_mode">屏保模式</string>
     <string name="settings_do_not_disturb_mode">勿扰模式</string>
-    <string name="settings_click_to_grant_permission">轻触来授予权限。</string>
+    <string name="settings_click_to_grant_permission">点击以授予权限</string>
     <string name="settings_demo">演示模式</string>
     <string name="settings_refresh_demo_label">刷新演示标签</string>
     <string name="settings_show_status_title">显示状态</string>
     <string name="settings_show_status_desc">显示工作或休息的图标</string>
-    <string name="settings_show_sessions_long_break_title">显示会话直到长课间休息。</string>
-    <string name="settings_show_sessions_long_break_desc">倒计时器启用了长课间休息。</string>
+    <string name="settings_show_sessions_long_break_title">显示到长休息前的周期数</string>
+    <string name="settings_show_sessions_long_break_desc">适用于已启用长休息的倒计时。</string>
     <string name="settings_show_label">显示标签</string>
-    <string name="settings_hide_seconds">隐藏秒</string>
-    <string name="settings_focus_complete_sound">聚焦完整的声音</string>
-    <string name="settings_break_complete_sound">打破完整的声音</string>
+    <string name="settings_hide_seconds">隐藏秒数</string>
+    <string name="settings_focus_complete_sound">专注完成音效</string>
+    <string name="settings_break_complete_sound">休息完成音效</string>
     <string name="settings_silent">静音</string>
     <string name="settings_default_notification_sound">默认通知声音</string>
-    <string name="settings_your_sounds">您的声音</string>
-    <string name="settings_system_sounds">系统声音</string>
-    <string name="settings_delete_sound">删除声音</string>
+    <string name="settings_your_sounds">你的音效</string>
+    <string name="settings_system_sounds">系统音效</string>
+    <string name="settings_delete_sound">删除音效</string>
     <string name="settings_remove">删除</string>
-    <string name="settings_add_custom_sound">添加自定义声音</string>
-    <string name="settings_override_sound_profile_title">覆盖声音配置文件</string>
-    <string name="settings_override_sound_profile_desc">通知声音就像闹钟</string>
+    <string name="settings_add_custom_sound">添加自定义音效</string>
+    <string name="settings_override_sound_profile_title">覆盖音效配置文件</string>
+    <string name="settings_override_sound_profile_desc">通知音效行为类似于闹钟</string>
     <string name="settings_vibration_strength">振动强度</string>
-    <string name="settings_torch_title">火灯</string>
-    <string name="settings_torch_desc">静音环境的视觉通知</string>
+    <string name="settings_torch_title">手电筒</string>
+    <string name="settings_torch_desc">适用于安静环境的视觉通知</string>
     <string name="settings_insistent_notification_title">持续通知</string>
     <string name="settings_insistent_notification_desc">重复通知直至被取消</string>
-    <string name="settings_auto_start_focus_title">自动开始对焦</string>
-    <string name="settings_auto_start_focus_desc">休息结束后自动开始工作，不需要用户手动操作</string>
+    <string name="settings_auto_start_focus_title">自动开始专注</string>
+    <string name="settings_auto_start_focus_desc">休息结束后自动开始专注，无需用户操作</string>
     <string name="settings_auto_start_break_title">自动开始休息</string>
-    <string name="settings_auto_start_break_desc">工作会话结束后开始断开会话，无需用户互动</string>
+    <string name="settings_auto_start_break_desc">专注结束后自动开始休息，无需用户操作</string>
     <string name="settings_display_over_lock_screen">在锁定屏幕上显示</string>
-    <string name="settings_display_over_lock_screen_desc">在锁屏界面保持应用程序可见</string>
-    <string name="settings_timer_durations_title">计时器持续时间</string>
-    <string name="settings_timer_durations_desc">设置工作和休息的时间</string>
+    <string name="settings_display_over_lock_screen_desc">在锁屏上保持应用可见</string>
+    <string name="settings_timer_durations_title">计时器时长</string>
+    <string name="settings_timer_durations_desc">设置专注和休息时长</string>
 </resources>
