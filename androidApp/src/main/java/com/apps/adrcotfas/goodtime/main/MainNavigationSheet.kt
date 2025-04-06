@@ -161,7 +161,7 @@ fun MainNavigationSheetContent(
         )
 
         IconTextButton(
-            title = "Statistics",
+            title = stringResource(R.string.stats_title),
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.PieChart,
@@ -171,7 +171,7 @@ fun MainNavigationSheetContent(
             onClick = navigateToStats,
         )
         IconTextButton(
-            title = "Backup and restore",
+            title = stringResource(R.string.backup_and_restore_title),
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.Sync,
@@ -184,7 +184,7 @@ fun MainNavigationSheetContent(
         )
         SubtleHorizontalDivider()
         IconTextButton(
-            title = "Settings",
+            title = stringResource(R.string.settings_title),
             icon = {
                 BadgedBoxWithCount(count = settingsBadgeItemCount) {
                     Icon(
@@ -196,7 +196,7 @@ fun MainNavigationSheetContent(
             onClick = navigateToSettings,
         )
         IconTextButton(
-            title = "About and feedback",
+            title = stringResource(R.string.about_and_feedback_title),
             subtitle = "v${context.getVersionName()}",
             icon = {
                 Icon(

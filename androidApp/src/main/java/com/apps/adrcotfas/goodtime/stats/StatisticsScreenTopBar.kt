@@ -101,7 +101,7 @@ fun StatisticsScreenTopBar(
             } else {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text("Statistics")
+                        Text(stringResource(R.string.stats_title))
                     },
                     actions = {
                         IconButton(onClick = {

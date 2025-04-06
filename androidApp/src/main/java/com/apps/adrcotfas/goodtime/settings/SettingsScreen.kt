@@ -132,7 +132,7 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = "Settings",
+                title = stringResource(R.string.settings_title),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
