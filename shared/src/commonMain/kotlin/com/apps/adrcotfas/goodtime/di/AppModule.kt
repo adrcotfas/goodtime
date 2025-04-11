@@ -24,7 +24,6 @@ import co.touchlab.kermit.Logger
 import co.touchlab.kermit.Severity
 import co.touchlab.kermit.StaticConfig
 import co.touchlab.kermit.platformLogWriter
-import com.apps.adrcotfas.goodtime.bl.FinishedSessionsHandler
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.createTimeProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
@@ -105,15 +104,6 @@ private val coreModule = module {
     }
     single<TimeProvider> {
         createTimeProvider()
-    }
-
-    single<FinishedSessionsHandler> {
-        FinishedSessionsHandler(
-            get<CoroutineScope>(named(IO_SCOPE)),
-            get<LocalDataRepository>(),
-            get<SettingsRepository>(),
-            getWith("FinishedSessionsHandler"),
-        )
     }
 
     single<BackupManager> {

@@ -21,10 +21,7 @@ import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
-import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
-import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
-import com.apps.adrcotfas.goodtime.data.settings.streakInUse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -33,12 +30,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.math.max
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
@@ -52,6 +47,8 @@ class TimerManager(
     private val listeners: List<EventListener>,
     private val timeProvider: TimeProvider,
     private val finishedSessionsHandler: FinishedSessionsHandler,
+    private val streakManager: StreakManager,
+    private val breakBudgetManager: BreakBudgetManager,
     private val log: Logger,
     private val coroutineScope: CoroutineScope,
 ) {
@@ -71,7 +68,6 @@ class TimerManager(
         mainJob = coroutineScope.launch {
             initAndObserveLabelChange()
         }
-        initPersistentData()
     }
 
     fun restart() {
@@ -120,23 +116,6 @@ class TimerManager(
             }
     }
 
-    private fun initPersistentData() {
-        coroutineScope.launch {
-            settingsRepo.settings.map { it.longBreakData }
-                .first().let {
-                    log.i { "new long break data: $it" }
-                    _timerData.update { data -> data.copy(longBreakData = it) }
-                }
-        }
-        coroutineScope.launch {
-            settingsRepo.settings.map { it.breakBudgetData }
-                .first().let {
-                    log.i { "new break budget: ${it.getRemainingBreakBudget(timeProvider.elapsedRealtime())}" }
-                    _timerData.update { data -> data.copy(breakBudgetData = it) }
-                }
-        }
-    }
-
     fun start(timerType: TimerType = timerData.value.type, autoStarted: Boolean = false) {
         log.i { "Starting timer..." }
         val data = timerData.value
@@ -146,15 +125,20 @@ class TimerManager(
         }
 
         val elapsedRealTime = timeProvider.elapsedRealtime()
+        val profile = data.getTimerProfile()
 
-        if (data.state.isReset) {
+        // Update budget *before* calculating end time for count-up breaks
+        val currentBreakBudget = if (data.state.isReset && !profile.isCountdown) {
             updateBreakBudgetIfNeeded()
+        } else {
+            breakBudgetManager.getPersistedBreakBudgetAmount() // Use existing budget if not reset
         }
 
         val newTimerData = timerData.value.copy(
             startTime = elapsedRealTime,
             lastStartTime = elapsedRealTime,
-            endTime = data.getEndTime(timerType, elapsedRealTime),
+            // Pass break budget to getEndTime for count-up breaks
+            endTime = data.getEndTime(timerType, elapsedRealTime, currentBreakBudget),
             state = TimerState.RUNNING,
             type = timerType,
             timeSpentPaused = 0,
@@ -181,29 +165,13 @@ class TimerManager(
     }
 
     private fun updateBreakBudgetIfNeeded(): Duration {
-        if (!timerData.value.label.isCountdown) {
-            val elapsedRealtime = timeProvider.elapsedRealtime()
-            val breakBudget = timerData.value.getBreakBudget(elapsedRealtime)
-            log.v { "Persisting break budget: $breakBudget" }
-            _timerData.update {
-                it.copy(
-                    breakBudgetData = BreakBudgetData(
-                        breakBudget = breakBudget,
-                        breakBudgetStart = elapsedRealtime,
-                    ),
-                )
-            }
-            coroutineScope.launch {
-                settingsRepo.setBreakBudgetData(
-                    BreakBudgetData(
-                        breakBudget = breakBudget,
-                        breakBudgetStart = elapsedRealtime,
-                    ),
-                )
-            }
-            return breakBudget
-        }
-        return 0.minutes
+        val data = timerData.value
+        return breakBudgetManager.updateAndPersistBreakBudget(
+            timerType = data.type,
+            timerState = data.state,
+            timerProfile = data.label.profile,
+            lastStartTime = data.lastStartTime,
+        )
     }
 
     fun addOneMinute() {
@@ -344,9 +312,8 @@ class TimerManager(
         val isWork = data.type.isWork
         val isCountDown = data.getTimerProfile().isCountdown
 
-        updateBreakBudgetIfNeeded()
+        val breakBudget = updateBreakBudgetIfNeeded()
 
-        val breakBudget = data.getBreakBudget(timeProvider.elapsedRealtime())
         if (isWork && !isCountDown && breakBudget < 1.minutes) {
             log.e { "Break budget is depleted, cannot start break" }
             return
@@ -361,7 +328,7 @@ class TimerManager(
         val nextType = when {
             !isWork || (isWork && !timerProfile.profile.isBreakEnabled) -> TimerType.WORK
             !isCountDown -> TimerType.BREAK
-            shouldConsiderStreak(timeProvider.elapsedRealtime()) -> TimerType.LONG_BREAK
+            streakManager.shouldConsiderStreak(timerProfile.profile, timeProvider.elapsedRealtime()) -> TimerType.LONG_BREAK
             else -> TimerType.BREAK
         }
         log.i { "Next: $nextType" }
@@ -445,9 +412,7 @@ class TimerManager(
 
     private fun handlePersistentDataAtStart() {
         if (timerData.value.type == TimerType.WORK) {
-            // filter out the case when some time passes since the last work session
-            // preemptively reset the streak if the current work session cannot end in time
-            resetStreakIfNeeded(timerData.value.endTime)
+            streakManager.resetStreakIfNeeded(timerData.value.label.profile, timerData.value.endTime)
         }
     }
 
@@ -479,7 +444,7 @@ class TimerManager(
                     finishActionType == FinishActionType.MANUAL_SKIP
                 )
         ) {
-            incrementStreak()
+            streakManager.incrementStreak()
         }
     }
 
@@ -518,54 +483,6 @@ class TimerManager(
             label = data.getLabelName(),
             isWork = isWork,
         )
-    }
-
-    private fun incrementStreak() {
-        val lastWorkEndTime = timeProvider.elapsedRealtime()
-        val newStreak = timerData.value.longBreakData.streak + 1
-        val newData = LongBreakData(newStreak, lastWorkEndTime)
-        _timerData.update { it.copy(longBreakData = newData) }
-        coroutineScope.launch {
-            settingsRepo.setLongBreakData(newData)
-        }
-        log.v { "Streak incremented: $newStreak" }
-    }
-
-    fun resetStreakIfNeeded(millis: Long = timeProvider.elapsedRealtime()) {
-        log.v { "resetStreakIfNeeded" }
-        if (!didLastWorkSessionFinishRecently(millis)) {
-            log.v { "reset long break data" }
-            _timerData.update { it.copy(longBreakData = LongBreakData()) }
-            coroutineScope.launch {
-                settingsRepo.setLongBreakData(LongBreakData())
-            }
-        }
-    }
-
-    private fun shouldConsiderStreak(workEndTime: Long): Boolean {
-        val data = timerData.value
-        val timerProfile = data.label
-        if (!timerProfile.profile.isCountdown || !timerProfile.profile.isLongBreakEnabled) return false
-
-        val streakForLongBreakIsReached =
-            (data.longBreakData.streakInUse(timerProfile.profile.sessionsBeforeLongBreak) == 0)
-        return streakForLongBreakIsReached && didLastWorkSessionFinishRecently(
-            workEndTime,
-        )
-    }
-
-    private fun didLastWorkSessionFinishRecently(workEndTime: Long): Boolean {
-        val data = timerData.value
-        val timerProfile = data.label
-        if (!timerProfile.profile.isCountdown) return false
-
-        val maxIdleTime = timerProfile.profile.workDuration.minutes.inWholeMilliseconds +
-            timerProfile.profile.breakDuration.minutes.inWholeMilliseconds +
-            30.minutes.inWholeMilliseconds
-        return data.longBreakData.lastWorkEndTime != 0L && max(
-            0,
-            workEndTime - data.longBreakData.lastWorkEndTime,
-        ) < maxIdleTime
     }
 
     fun onSendToBackground() {

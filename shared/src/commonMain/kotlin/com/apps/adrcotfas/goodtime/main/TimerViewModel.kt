@@ -19,9 +19,11 @@ package com.apps.adrcotfas.goodtime.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apps.adrcotfas.goodtime.bl.BreakBudgetManager
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
+import com.apps.adrcotfas.goodtime.bl.StreakManager
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.bl.TimerState
@@ -97,6 +99,8 @@ class TimerViewModel(
     private val timeProvider: TimeProvider,
     private val settingsRepo: SettingsRepository,
     private val localDataRepo: LocalDataRepository,
+    private val streakManager: StreakManager,
+    private val breakBudgetManager: BreakBudgetManager,
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -197,8 +201,13 @@ class TimerViewModel(
                 timeSpentPaused = it.timeSpentPaused,
                 endTime = it.endTime,
                 sessionsBeforeLongBreak = it.inUseSessionsBeforeLongBreak(),
-                longBreakData = it.longBreakData,
-                breakBudgetMinutes = it.getBreakBudget(timeProvider.elapsedRealtime()).inWholeMinutes,
+                longBreakData = streakManager.longBreakData.value,
+                breakBudgetMinutes = breakBudgetManager.getCurrentBreakBudget(
+                    timerType = it.type,
+                    timerState = it.state,
+                    timerProfile = it.label.profile,
+                    lastStartTime = it.lastStartTime,
+                ).inWholeMinutes,
             ),
         )
     }

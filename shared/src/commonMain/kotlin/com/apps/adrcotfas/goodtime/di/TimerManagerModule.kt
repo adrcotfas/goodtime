@@ -17,16 +17,46 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
+import com.apps.adrcotfas.goodtime.bl.BreakBudgetManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.FinishedSessionsHandler
+import com.apps.adrcotfas.goodtime.bl.StreakManager
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import kotlinx.coroutines.CoroutineScope
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val timerManagerModule = module {
+    single<FinishedSessionsHandler> {
+        FinishedSessionsHandler(
+            get<CoroutineScope>(named(IO_SCOPE)),
+            get<LocalDataRepository>(),
+            get<SettingsRepository>(),
+            getWith("FinishedSessionsHandler"),
+        )
+    }
+
+    single<StreakManager> {
+        StreakManager(
+            get<SettingsRepository>(),
+            get<TimeProvider>(),
+            getWith("StreakManager"),
+            coroutineScope = get(named(IO_SCOPE)),
+        )
+    }
+
+    single<BreakBudgetManager> {
+        BreakBudgetManager(
+            get<SettingsRepository>(),
+            get<TimeProvider>(),
+            getWith("BreakBudgetManager"),
+            coroutineScope = get(named(IO_SCOPE)),
+        )
+    }
+
     single<TimerManager> {
         TimerManager(
             get<LocalDataRepository>(),
@@ -34,6 +64,8 @@ val timerManagerModule = module {
             get<List<EventListener>>(),
             get<TimeProvider>(),
             get<FinishedSessionsHandler>(),
+            get<StreakManager>(),
+            get<BreakBudgetManager>(),
             getWith("TimerManager"),
             coroutineScope = get(named(IO_SCOPE)),
         )

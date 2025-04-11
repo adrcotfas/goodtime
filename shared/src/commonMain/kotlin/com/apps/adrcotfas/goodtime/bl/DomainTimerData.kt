@@ -17,15 +17,13 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
+// BreakBudgetData removed
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.duration
 import com.apps.adrcotfas.goodtime.data.model.endTime
 import com.apps.adrcotfas.goodtime.data.model.getLabelData
-import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
-import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
 data class LabelData(
@@ -50,19 +48,9 @@ fun DomainLabel.getLabelData() = this.label.getLabelData()
 data class DomainTimerData(
     val isReady: Boolean = false,
     val label: DomainLabel = DomainLabel(),
-    /**
-     * This is persisted in the settings too for cases where the app is killed.
-     * I don't like updating the data in two places(see [TimerManager.incrementStreak]
-     * and [TimerManager.resetStreakIfNeeded]) but I don't want to risk invalid data
-     *  when updating the repository and possibly waiting for the flow to emit the new data
-     *  while executing the next command.
-     */
-    val longBreakData: LongBreakData = LongBreakData(),
-    val breakBudgetData: BreakBudgetData = BreakBudgetData(),
+    // Removed longBreakData - managed by StreakManager
+    // Removed breakBudgetData - managed by BreakBudgetManager
 
-    /**
-     * Bellow we have the dynamic data that is not stored in persistent storage.
-     */
     val startTime: Long = 0, // millis since boot
     val lastStartTime: Long = 0, // millis since boot
     val lastPauseTime: Long = 0, // millis since boot
@@ -77,8 +65,8 @@ data class DomainTimerData(
         isReady = isReady,
         label = label,
         state = TimerState.RESET,
-        longBreakData = longBreakData,
-        breakBudgetData = breakBudgetData,
+        // Removed longBreakData
+        // Removed breakBudgetData
     )
 
     fun getTimerProfile(): TimerProfile {
@@ -98,44 +86,23 @@ data class DomainTimerData(
         }
     }
 
-    fun getEndTime(timerType: TimerType, elapsedRealtime: Long): Long {
+    fun getEndTime(timerType: TimerType, elapsedRealtime: Long, breakBudgetDuration: Duration): Long {
         return if (getTimerProfile().isCountdown) {
             getTimerProfile().endTime(timerType, elapsedRealtime)
         } else if (timerType.isBreak) {
-            val breakBudget = breakBudgetData.breakBudget.inWholeMilliseconds
-            elapsedRealtime + breakBudget
+            elapsedRealtime + breakBudgetDuration.inWholeMilliseconds
         } else {
-            0
+            0 // Count-up work has no predefined end time based on duration
         }
     }
 
     fun isDefaultLabel() = label.getLabelName() == Label.DEFAULT_LABEL_NAME
 
-    fun getBreakBudget(elapsedRealtime: Long): Duration {
-        if (label.profile.isCountdown) return 0.minutes
-        return if (type.isWork) {
-            when (state) {
-                TimerState.RUNNING -> {
-                    val breakBudgetMillis = breakBudgetData.breakBudget
-                    val workBreakRatio = label.profile.workBreakRatio
-                    (
-                        (
-                            (elapsedRealtime - lastStartTime).milliseconds /
-                                workBreakRatio
-                            ) + breakBudgetMillis
-                        ).let {
-                        if (it.isNegative()) 0.minutes else it
-                    }
-                }
-                else -> breakBudgetData.getRemainingBreakBudget(elapsedRealtime)
-            }
-        } else {
-            breakBudgetData.getRemainingBreakBudget(elapsedRealtime)
-        }
-    }
+    // Removed getBreakBudget - logic moved to BreakBudgetManager
 
     fun isCurrentSessionCountdown(): Boolean {
-        return getTimerProfile().isCountdown || type != TimerType.WORK
+        // Simplified: Count-up work is the only non-countdown session type relevant here
+        return getTimerProfile().isCountdown || type.isBreak
     }
 }
 
