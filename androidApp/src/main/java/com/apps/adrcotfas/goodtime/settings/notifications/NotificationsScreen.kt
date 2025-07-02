@@ -143,7 +143,7 @@ fun NotificationsScreen(
                 subtitle = stringResource(R.string.settings_insistent_notification_desc),
                 checked = settings.insistentNotification,
             ) {
-                viewModel.setEnableFlashScreen(it)
+                viewModel.setInsistentNotification(it)
             }
         }
 
