@@ -24,8 +24,6 @@ import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitDragOrCancellation
@@ -39,7 +37,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -69,6 +66,7 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Fill
 import compose.icons.evaicons.fill.ArrowIosBack
 import compose.icons.evaicons.fill.ArrowIosForward
+import compose.icons.evaicons.fill.Plus
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.zip
@@ -180,8 +178,8 @@ fun <T> DialControl(
     Box {
         AnimatedVisibility(
             visible = state.isDragging,
-            enter = scaleIn(initialScale = 0.75f) + fadeIn(),
-            exit = scaleOut(targetScale = 0.75f) + fadeOut(),
+            enter = fadeIn(),
+            exit = fadeOut(),
             modifier =
                 Modifier // containerModifier
                     .padding(16.dp)
@@ -210,7 +208,7 @@ private fun <T> CircleDial(
     colors: DialControlColors,
     indicator: @Composable () -> Unit,
 ) {
-    val scales =
+    val alphas =
         remember(state.options) {
             state.options.associateWith { Animatable(initialValue = 0f, Float.VectorConverter) }.toMap()
         }
@@ -218,7 +216,7 @@ private fun <T> CircleDial(
     LaunchedEffect(state.selectedOption, state.options) {
         state.options.forEach { option ->
             launch {
-                scales[option]?.animateTo(
+                alphas[option]?.animateTo(
                     if (option == state.selectedOption) 1f else 0f,
                     animationSpec =
                         spring(
@@ -247,17 +245,15 @@ private fun <T> CircleDial(
                         .background(color = colors.dialColor, shape = CircleShape),
             ) {
                 state.options.forEachIndexed { index, option ->
-                    val scale = scales[option]!!.value
+                    val alpha = alphas[option]!!.value
                     val startAngle = calculateStartAngle(index = index, count = state.options.size)
-                    scale(scale) {
-                        drawArc(
-                            color = colors.selectionColor,
-                            startAngle = startAngle,
-                            sweepAngle = sweep,
-                            alpha = scale,
-                            useCenter = true,
-                        )
-                    }
+                    drawArc(
+                        color = colors.selectionColor,
+                        startAngle = startAngle,
+                        sweepAngle = sweep,
+                        alpha = alpha,
+                        useCenter = true,
+                    )
                 }
 
                 val radius = size.minDimension / 2
@@ -290,7 +286,7 @@ private fun <T> CircleDial(
                     modifier =
                         Modifier
                             .graphicsLayer {
-                                val scale = 1f + (scales[option]!!.value).coerceAtMost(0.2f)
+                                val optionAlpha = 1f
                                 val startAngle =
                                     calculateStartAngle(index = index, count = state.options.size)
                                 val radians = (startAngle + sweep / 2) * Math.PI / 180
@@ -298,8 +294,7 @@ private fun <T> CircleDial(
                                     (state.config.size.toPx() / 2) * (state.config.cutoffFraction + (1f - state.config.cutoffFraction) / 2)
                                 translationX = (radius * cos(radians)).toFloat()
                                 translationY = (radius * sin(radians)).toFloat()
-                                scaleX = scale
-                                scaleY = scale
+                                alpha = optionAlpha
                             },
                 ) {
                     optionContent(option)
@@ -313,7 +308,7 @@ enum class DialRegion(
     val icon: ImageVector,
     val labelId: Int,
 ) {
-    TOP(icon = Icons.Filled.PlusOne, labelId = R.string.main_plus_1_min),
+    TOP(icon = EvaIcons.Fill.Plus, labelId = R.string.main_plus_1_min),
     RIGHT(icon = EvaIcons.Fill.ArrowIosForward, labelId = R.string.main_skip),
     BOTTOM(icon = Icons.Filled.Close, R.string.main_stop),
     LEFT(icon = EvaIcons.Fill.ArrowIosBack, labelId = R.string.main_skip),
