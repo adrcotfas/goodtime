@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Sesión de enfoque rematada</string>
     <string name="main_break_finished">Acabou o descanso</string>
     <string name="main_continue">Continuar?</string>
+    <string name="main_idle">Idle</string>
     <string name="main_productivity_reminder_desc">"É hora de traballar!"</string>
     <string name="main_notifications_channel_name">Notificacións do temporizador</string>
     <string name="main_reminder_channel_name">Notificacións de recordatorio</string>

@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">专注结束</string>
     <string name="main_break_finished">休息结束</string>
     <string name="main_continue">继续？</string>
+    <string name="main_idle">空闲的</string>
     <string name="main_productivity_reminder_desc">"是时候提高效率了！"</string>
     <string name="main_notifications_channel_name">计时器通知</string>
     <string name="main_reminder_channel_name">提醒通知</string>

@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">انتهت جلسة التركيز</string>
     <string name="main_break_finished">الانتهاء من كسر</string>
     <string name="main_continue">واصل؟</string>
+    <string name="main_idle">الخمول</string>
     <string name="main_productivity_reminder_desc">"حان الوقت لتكون منتجا!"</string>
     <string name="main_notifications_channel_name">إشعارات المؤقت</string>
     <string name="main_reminder_channel_name">تنبيهات التذكير</string>

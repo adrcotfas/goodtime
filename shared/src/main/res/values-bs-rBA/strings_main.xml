@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Fokusna sesija je završena</string>
     <string name="main_break_finished">Pauza završena</string>
     <string name="main_continue">Nastaviti?</string>
+    <string name="main_idle">Idle</string>
     <string name="main_productivity_reminder_desc">"Vrijeme je da se bude produktivno!"</string>
     <string name="main_notifications_channel_name">Obavještenja o tajmeru</string>
     <string name="main_reminder_channel_name">Obavještenja o podsjetnicima</string>

@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Sessione di focus completata</string>
     <string name="main_break_finished">Pausa finita</string>
     <string name="main_continue">Continuare?</string>
+    <string name="main_idle">Inattivo</string>
     <string name="main_productivity_reminder_desc">"È ora di essere produttivi!"</string>
     <string name="main_notifications_channel_name">Notifiche Timer</string>
     <string name="main_reminder_channel_name">Notifiche Promemoria</string>

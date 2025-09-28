@@ -21,7 +21,7 @@
     <string name="main_cancel">İptal et</string>
     <string name="main_delete">Sil</string>
     <string name="main_edit">Düzenle</string>
-    <string name="main_duplicate">Duplicate</string>
+    <string name="main_duplicate">Çoğalt</string>
     <string name="main_failed_to_open_url">URLyi açmak başarısız oldu</string>
     <string name="main_start_focus">Odağı başlat</string>
     <string name="main_start_break">Arayı başlat</string>
@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Odak oturumu bitti</string>
     <string name="main_break_finished">Ara bitti</string>
     <string name="main_continue">Devam et?</string>
+    <string name="main_idle">Idle</string>
     <string name="main_productivity_reminder_desc">"Verimli olma zamanı!"</string>
     <string name="main_notifications_channel_name">Zamanlayıcı Bildirimleri</string>
     <string name="main_reminder_channel_name">Hatırlatıcı Bildirimleri</string>

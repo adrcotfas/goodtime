@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Focus session finished</string>
     <string name="main_break_finished">विश्राम समाप्त</string>
     <string name="main_continue">जारी रखें?</string>
+    <string name="main_idle">Idle</string>
     <string name="main_productivity_reminder_desc">"अब उपयोगी बनने का समय है"</string>
     <string name="main_notifications_channel_name">Timer Notifications</string>
     <string name="main_reminder_channel_name">Reminder Notifications</string>

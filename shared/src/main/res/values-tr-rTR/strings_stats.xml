@@ -54,5 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Veriyi etiketlere göre ayrılmış çubuklar olarak görselleştir"</string>
     <string name="stats_more_options">Daha fazla seçenek</string>
     <string name="stats_show_breaks">Araları göster</string>
-    <string name="stats_show_archived">Show archived</string>
+    <string name="stats_show_archived">Arşivi göster</string>
 </resources>

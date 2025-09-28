@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Focus sessie beëindigd</string>
     <string name="main_break_finished">Pauze afgelopen</string>
     <string name="main_continue">Doorgaan?</string>
+    <string name="main_idle">Inactief</string>
     <string name="main_productivity_reminder_desc">"Het is tijd om productief te zijn!"</string>
     <string name="main_notifications_channel_name">Timer Notificaties</string>
     <string name="main_reminder_channel_name">Herinneringsnotificaties</string>

@@ -33,7 +33,3 @@ files:
     translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
     labels:
       - support
-  - source: "shared/src/main/res/values/strings_time.xml"
-    translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
-    labels:
-      - time

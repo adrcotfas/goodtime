@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Завершена фокус-сессия</string>
     <string name="main_break_finished">Перерыв закончен</string>
     <string name="main_continue">Продолжить?</string>
+    <string name="main_idle">Простой</string>
     <string name="main_productivity_reminder_desc">"Пришло время быть продуктивным!"</string>
     <string name="main_notifications_channel_name">Уведомления о таймере</string>
     <string name="main_reminder_channel_name">Уведомления о напоминании</string>

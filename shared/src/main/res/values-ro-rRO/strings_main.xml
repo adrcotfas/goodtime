@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Sesiune de focus finalizată</string>
     <string name="main_break_finished">Pauza s-a terminat</string>
     <string name="main_continue">Continuați?</string>
+    <string name="main_idle">Inactiv</string>
     <string name="main_productivity_reminder_desc">"Este timpul să fii productiv!"</string>
     <string name="main_notifications_channel_name">Notificări cronometru</string>
     <string name="main_reminder_channel_name">Notificări de memento</string>

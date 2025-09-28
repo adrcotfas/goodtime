@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Istunto suoritettu</string>
     <string name="main_break_finished">Tauko päättyi</string>
     <string name="main_continue">Jatka?</string>
+    <string name="main_idle">Jouten</string>
     <string name="main_productivity_reminder_desc">"On aika olla tuottava!"</string>
     <string name="main_notifications_channel_name">Ajastinilmoitukset</string>
     <string name="main_reminder_channel_name">Muistutusilmoitukset</string>

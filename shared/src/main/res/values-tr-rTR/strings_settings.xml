@@ -27,7 +27,7 @@
     <string name="settings_days_of_the_week">Haftanın günleri</string>
     <string name="settings_reminder_time">Hatırlatıcı zamanı</string>
     <string name="settings_timer_style_title">Zamanlayıcı Özelleştirmesi</string>
-    <string name="settings_user_interface">User interface</string>
+    <string name="settings_user_interface">Kullanıcı arayüzü</string>
     <string name="settings_notifications_title">Bildirimler</string>
     <string name="settings_custom_start_of_day_title">Özelleştirilmiş gün başlangıcı</string>
     <string name="settings_custom_start_of_day_desc">İstatistikler için günün ne zaman başladığını tanımlar</string>
@@ -68,7 +68,7 @@
     <string name="settings_override_sound_profile_desc">Bildirim sesi, telefon sessiz modda olsa bile çalar</string>
     <string name="settings_vibration_strength">Titreşim gücü</string>
     <string name="settings_torch_title">Meşale</string>
-    <string name="settings_screen_flash_title">Screen flash</string>
+    <string name="settings_screen_flash_title">Ekran parlaması</string>
     <string name="settings_torch_desc">Sessiz ortamlar için görsel bildirim</string>
     <string name="settings_insistent_notification_title">Israrlı bildirim</string>
     <string name="settings_insistent_notification_desc">Bildirimi, iptal edilinceye kadar tekrarla</string>
@@ -78,12 +78,12 @@
     <string name="settings_auto_start_break_desc">Ara oturumunu çalışma oturumunun ardından kullanıcı etkileşimi olmadan başlat</string>
     <string name="settings_display_over_lock_screen">Kilit ekranının üstünde görüntüle</string>
     <string name="settings_display_over_lock_screen_desc">Uygulamayı kilit ekranının üstünde görünür kıl</string>
-    <string name="settings_timer_durations_title">Timer profile</string>
+    <string name="settings_timer_durations_title">Zamanlayıcı profili</string>
     <string name="settings_timer_durations_desc">Çalışma ve ara sürelerini ayarla</string>
-    <string name="settings_create_profile">Create profile</string>
-    <string name="settings_delete_profile">Delete profile</string>
-    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
-    <string name="settings_launcher_name">Launcher name</string>
+    <string name="settings_create_profile">Profil oluştur</string>
+    <string name="settings_delete_profile">Profili sil</string>
+    <string name="settings_delete_profile_confirmation">%1$s profilini silmek istediğinizden emin misiniz?</string>
+    <string name="settings_launcher_name">Başlatıcı ismi</string>
     <string name="settings_language">Dil</string>
     <string name="settings_update">Güncelle</string>
     <string name="settings_update_available">Yeni bir güncelleme mevcut</string>

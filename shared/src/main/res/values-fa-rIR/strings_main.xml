@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">دوره تمرکز تمام شده است</string>
     <string name="main_break_finished">استراحت تمام شد</string>
     <string name="main_continue">ادامه؟</string>
+    <string name="main_idle">Idle</string>
     <string name="main_productivity_reminder_desc">"زمان کارآمد بودن فرا رسیده!"</string>
     <string name="main_notifications_channel_name">اعلان‌های زمان‌سنج</string>
     <string name="main_reminder_channel_name">یادآوری اعلان‌ها</string>

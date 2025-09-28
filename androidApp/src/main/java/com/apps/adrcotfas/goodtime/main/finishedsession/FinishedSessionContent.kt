@@ -316,7 +316,7 @@ private fun CurrentSessionCard(
                                 verticalArrangement = Arrangement.SpaceBetween,
                                 horizontalAlignment = Alignment.Start,
                             ) {
-                                Text("Idle", style = MaterialTheme.typography.labelSmall)
+                                Text(stringResource(R.string.main_idle), style = MaterialTheme.typography.labelSmall)
                                 Text(
                                     idleMillis.formatMilliseconds(),
                                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),

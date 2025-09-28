@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">フォーカスセッションが終了しました</string>
     <string name="main_break_finished">ブレイク終了</string>
     <string name="main_continue">続行</string>
+    <string name="main_idle">待機中</string>
     <string name="main_productivity_reminder_desc">"それは生産的になる時間です!"</string>
     <string name="main_notifications_channel_name">タイマー通知</string>
     <string name="main_reminder_channel_name">リマインダー通知</string>

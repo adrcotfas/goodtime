@@ -43,6 +43,7 @@
     <string name="main_focus_session_finished">Focus session finished</string>
     <string name="main_break_finished">Istirahat selesai</string>
     <string name="main_continue">Lanjutkan?</string>
+    <string name="main_idle">Idle</string>
     <string name="main_productivity_reminder_desc">"Saatnya produktif!"</string>
     <string name="main_notifications_channel_name">Timer Notifications</string>
     <string name="main_reminder_channel_name">Reminder Notifications</string>
