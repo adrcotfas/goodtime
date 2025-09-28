@@ -33,15 +33,24 @@ import com.apps.adrcotfas.goodtime.settings.notifications.toSoundData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import java.io.Closeable
 import java.lang.reflect.Method
 
-data class SoundPlayerData(
-    val workSoundUri: String,
-    val breakSoundUri: String,
-    val loop: Boolean,
-    val overrideSoundProfile: Boolean,
+/**
+ * Represents the configuration state of the sound player.
+ */
+private data class SoundPlayerState(
+    /** Sound configuration for work/focus timer completion */
+    val workRingTone: SoundData = SoundData(),
+    /** Sound configuration for break timer completion */
+    val breakRingTone: SoundData = SoundData(),
+    /** Whether sounds should loop until manually stopped */
+    val loop: Boolean = false,
+    /** Whether to override system sound profile settings */
+    val overrideSoundProfile: Boolean = false,
 )
 
 class SoundPlayer(
@@ -50,55 +59,67 @@ class SoundPlayer(
     private val playerScope: CoroutineScope,
     private val settingsRepo: SettingsRepository,
     private val logger: Logger,
-) {
+) : Closeable {
+    companion object {
+        private const val SET_LOOPING_METHOD_NAME = "setLooping"
+    }
+
     private var job: Job? = null
+    private val playbackMutex = Mutex()
 
-    private var audioManager: AudioManager? = null
-    private var ringtone: Ringtone? = null
+    @Volatile
+    private var state = SoundPlayerState()
+
+    @Volatile
+    private var currentRingtone: Ringtone? = null
+
     private lateinit var setLoopingMethod: Method
-
-    private var workRingTone = SoundData()
-    private var breakRingTone = SoundData()
-    private var loop = false
-    private var overrideSoundProfile = false
 
     init {
         try {
             setLoopingMethod =
                 Ringtone::class.java.getDeclaredMethod(
-                    "setLooping",
+                    SET_LOOPING_METHOD_NAME,
                     Boolean::class.javaPrimitiveType,
                 )
         } catch (e: NoSuchMethodException) {
-            logger.e(e) { "Failed to get method setLooping" }
+            logger.e(e) { "Failed to get method $SET_LOOPING_METHOD_NAME" }
         }
         ioScope.launch {
-            settingsRepo.settings
-                .map { settings ->
-                    SoundPlayerData(
-                        workSoundUri = settings.workFinishedSound,
-                        breakSoundUri = settings.breakFinishedSound,
+            settingsRepo.settings.collect { settings ->
+                state =
+                    state.copy(
+                        workRingTone = toSoundData(settings.workFinishedSound),
+                        breakRingTone = toSoundData(settings.breakFinishedSound),
                         overrideSoundProfile = settings.overrideSoundProfile,
-                        loop = settings.insistentNotification,
+                        loop = settings.insistentNotification
                     )
-                }.collect {
-                    workRingTone = toSoundData(it.workSoundUri)
-                    breakRingTone = toSoundData(it.breakSoundUri)
-                    overrideSoundProfile = it.overrideSoundProfile
-                    loop = it.loop
-                }
+            }
         }
     }
 
+    /**
+     * Plays the appropriate sound for the given timer type.
+     * Uses the configured sound settings for work vs break timers.
+     *
+     * @param timerType The type of timer that finished (FOCUS, BREAK, or LONG_BREAK)
+     */
     fun play(timerType: TimerType) {
         val soundData =
             when (timerType) {
-                TimerType.FOCUS -> workRingTone
-                TimerType.BREAK, TimerType.LONG_BREAK -> breakRingTone
+                TimerType.FOCUS -> state.workRingTone
+                TimerType.BREAK, TimerType.LONG_BREAK -> state.breakRingTone
             }
-        play(soundData, loop)
+        play(soundData, state.loop)
     }
 
+    /**
+     * Plays a specific sound with custom configuration.
+     *
+     * @param soundData The sound configuration to play
+     * @param loop Whether the sound should loop until manually stopped
+     * @param forceSound Whether to force sound playback regardless of system sound profile
+     */
     fun play(
         soundData: SoundData,
         loop: Boolean = false,
@@ -114,12 +135,12 @@ class SoundPlayer(
         }
     }
 
-    private fun playInternal(
+    private suspend fun playInternal(
         soundData: SoundData,
         loop: Boolean,
         forceSound: Boolean,
-    ) {
-        if (soundData.isSilent) return
+    ) = playbackMutex.withLock {
+        if (soundData.isSilent) return@withLock
         val uri =
             soundData.uriString.let {
                 if (it.isEmpty()) {
@@ -129,40 +150,46 @@ class SoundPlayer(
                 }
             }
 
-        audioManager = (context.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
+        val audioManager = (context.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
 
         val usage =
-            if (areHeadphonesPluggedIn(audioManager!!)) {
+            if (areHeadphonesPluggedIn(audioManager)) {
                 AudioAttributes.USAGE_MEDIA
-            } else if (overrideSoundProfile || forceSound) {
+            } else if (state.overrideSoundProfile || forceSound) {
                 AudioAttributes.USAGE_ALARM
             } else {
                 AudioAttributes.USAGE_NOTIFICATION
             }
 
-        ringtone =
-            RingtoneManager.getRingtone(context, uri).apply {
-                audioAttributes =
-                    AudioAttributes
-                        .Builder()
-                        .setUsage(usage)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                        .build()
-            }
+        val ringtone = RingtoneManager.getRingtone(context, uri)
+        ringtone?.audioAttributes =
+            AudioAttributes
+                .Builder()
+                .setUsage(usage)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+
+        // Update currentRingtone
+        currentRingtone = ringtone
+
         try {
             if (loop) {
                 setLoopingMethod.invoke(ringtone, true)
             }
-        } catch (e: Throwable) {
+        } catch (e: Exception) {
             logger.e(e) { "Failed to set looping" }
         }
         try {
-            ringtone!!.play()
-        } catch (e: Throwable) {
+            ringtone?.play()
+        } catch (e: Exception) {
             logger.e(e) { "Failed to play ringtone" }
         }
     }
 
+    /**
+     * Stops any currently playing sound.
+     * This method is safe to call even if no sound is currently playing.
+     */
     fun stop() {
         playerScope.launch {
             job?.cancelAndJoin()
@@ -174,16 +201,16 @@ class SoundPlayer(
     }
 
     private fun stopInternal() {
-        ringtone?.let {
+        currentRingtone?.let {
             if (it.isPlaying) {
                 try {
                     it.stop()
-                } catch (e: Throwable) {
+                } catch (e: Exception) {
                     logger.e(e) { "Failed to stop ringtone" }
                 }
             }
         }
-        ringtone = null
+        currentRingtone = null
     }
 
     private fun areHeadphonesPluggedIn(audioManager: AudioManager): Boolean {
@@ -201,6 +228,14 @@ class SoundPlayer(
         }
         return audioDevices.any { deviceInfo ->
             list.contains(deviceInfo.type)
+        }
+    }
+
+    override fun close() {
+        playerScope.launch {
+            job?.cancelAndJoin()
+            stopInternal()
+            currentRingtone = null
         }
     }
 }
