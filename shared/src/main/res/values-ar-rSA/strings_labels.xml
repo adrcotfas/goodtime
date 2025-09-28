@@ -56,4 +56,5 @@
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>
     <string name="labels_edit_label_name">تحرير %1$s</string>
     <string name="labels_custom">مخصص</string>
+    <string name="labels_idle">idle</string>
 </resources>
