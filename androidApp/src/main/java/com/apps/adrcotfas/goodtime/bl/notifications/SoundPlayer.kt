@@ -92,7 +92,7 @@ class SoundPlayer(
                         workRingTone = toSoundData(settings.workFinishedSound),
                         breakRingTone = toSoundData(settings.breakFinishedSound),
                         overrideSoundProfile = settings.overrideSoundProfile,
-                        loop = settings.insistentNotification
+                        loop = settings.insistentNotification,
                     )
             }
         }
