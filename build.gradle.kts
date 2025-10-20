@@ -5,12 +5,13 @@ plugins {
     // in each subproject's classloader
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.composeMultiplatform) apply false
+    alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlinAndroid) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.room) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
-    alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.mikepenz.aboutlibraries) apply false
     alias(libs.plugins.spotless)
 }
@@ -38,11 +39,12 @@ subprojects {
             target("*.gradle.kts")
             ktlint()
         }
-        afterEvaluate {
-            tasks.named("preBuild") {
-                dependsOn("spotlessApply")
-            }
-        }
+        // TODO: Re-enable after composeApp module is fully set up
+        // afterEvaluate {
+        //     tasks.named("preBuild") {
+        //         dependsOn("spotlessApply")
+        //     }
+        // }
 
         tasks.withType<SpotlessTask>().configureEach {
             notCompatibleWithConfigurationCache("https://github.com/diffplug/spotless/issues/987")

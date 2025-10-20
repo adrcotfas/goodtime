@@ -8,6 +8,7 @@ android-targetSdk = "36"
 agp = "8.7.3" # Update after this is fixed: https://issuetracker.google.com/issues/406641857
 appUpdateKtx = "2.1.0"
 billingKtx = "8.0.0"
+composeMultiplatform = "1.9.0"
 coreSplashscreen = "1.2.0-rc01"
 kotlin = "2.2.10"
 kotlinxCollectionsImmutable = "0.4.0"
@@ -115,10 +116,11 @@ work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "w
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 mikepenz-aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "mikepenz-aboutlibraries" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 room = { id = "androidx.room", version.ref = "androidx-room" }

@@ -3,7 +3,7 @@ import com.mikepenz.aboutlibraries.plugin.DuplicateMode
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.mikepenz.aboutlibraries)
 }
