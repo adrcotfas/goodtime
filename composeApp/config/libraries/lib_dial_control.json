@@ -1,0 +1,14 @@
+{
+  "uniqueId": "dev.xiaoming.compose.example.dial",
+  "developers": [
+    {
+      "name": "emeowj",
+      "organisationUrl": "https://xiaoming.dev/"
+    }
+  ],
+  "name": "DialControl",
+  "licenses": [
+    "MIT"
+  ],
+  "website": "https://github.com/emeowj/compose-examples/"
+}
