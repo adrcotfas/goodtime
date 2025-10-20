@@ -39,12 +39,11 @@ subprojects {
             target("*.gradle.kts")
             ktlint()
         }
-        // TODO: Re-enable after composeApp module is fully set up
-        // afterEvaluate {
-        //     tasks.named("preBuild") {
-        //         dependsOn("spotlessApply")
-        //     }
-        // }
+         afterEvaluate {
+             tasks.named("preBuild") {
+                 dependsOn("spotlessApply")
+             }
+         }
 
         tasks.withType<SpotlessTask>().configureEach {
             notCompatibleWithConfigurationCache("https://github.com/diffplug/spotless/issues/987")

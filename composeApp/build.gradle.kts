@@ -21,12 +21,13 @@ kotlin {
     }
 
     listOf(
+        iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            isStatic = false
+            isStatic = true
             export(libs.touchlab.kermit.simple)
         }
     }
@@ -51,6 +52,7 @@ kotlin {
             // Android-specific libraries
             implementation(libs.androidx.documentfile)
             implementation(libs.androidx.lifecycle.runtime.ktx)
+            implementation(libs.androidx.icons.extended)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.paging.runtime)
             implementation(libs.androidx.paging.compose)
@@ -66,6 +68,11 @@ kotlin {
             implementation(libs.lottie.compose)
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.work.runtime.ktx)
+
+            // Google Play services (formerly google flavor)
+            implementation(libs.billing.ktx)
+            implementation(libs.app.update.ktx)
+            implementation(libs.review.ktx)
         }
 
         commonMain.dependencies {
@@ -80,6 +87,7 @@ kotlin {
             implementation(libs.koin.core)
             api(libs.coroutines.core)
             implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
             implementation(libs.androidx.room.paging)
             implementation(libs.androidx.datastore.preferences.core)
             api(libs.okio)
@@ -88,6 +96,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.androidx.lifecycle.viewmodel)
             api(libs.touchlab.kermit)
+            api(libs.touchlab.kermit.simple)
         }
 
         commonTest.dependencies {
@@ -106,8 +115,6 @@ kotlin {
         }
     }
 
-    // https://kotlinlang.org/docs/multiplatform-expect-actual.html#expected-and-actual-classes
-    // To suppress this warning about usage of expected and actual classes
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
@@ -117,15 +124,27 @@ kotlin {
 android {
     val packageName = "com.apps.adrcotfas.goodtime"
     namespace = packageName
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.compileSdk
+            .get()
+            .toInt()
 
     defaultConfig {
         applicationId = packageName
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+        targetSdk =
+            libs.versions.android.targetSdk
+                .get()
+                .toInt()
         versionCode = 345
         versionName = "3.0.14"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Set IS_FDROID to false (Google Play version)
+        buildConfigField("boolean", "IS_FDROID", "false")
     }
 
     buildFeatures {
@@ -139,25 +158,13 @@ android {
         }
     }
 
-    flavorDimensions += "distribution"
-    productFlavors {
-        create("google") {
-            dimension = "distribution"
-            buildConfigField("boolean", "IS_FDROID", "false")
-        }
-        create("fdroid") {
-            dimension = "distribution"
-            buildConfigField("boolean", "IS_FDROID", "true")
-        }
-    }
-
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             signingConfig = signingConfigs.getByName("debug")
         }
@@ -177,6 +184,11 @@ android {
         }
     }
 
+    androidResources {
+        @Suppress("UnstableApiUsage")
+        generateLocaleConfig = true
+    }
+
     aboutLibraries {
         collect.configPath = file("config")
         library.duplicationMode = DuplicateMode.MERGE
@@ -187,11 +199,6 @@ dependencies {
     debugImplementation(compose.uiTooling)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(platform(libs.androidx.compose.bom))
-
-    // Google-specific (flavor-specific dependencies)
-    add("googleImplementation", libs.billing.ktx)
-    add("googleImplementation", libs.app.update.ktx)
-    add("googleImplementation", libs.review.ktx)
 }
 
 room {
@@ -200,6 +207,7 @@ room {
 
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosX64", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }
