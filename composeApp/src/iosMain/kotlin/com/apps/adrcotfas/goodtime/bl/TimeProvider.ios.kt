@@ -20,9 +20,7 @@ package com.apps.adrcotfas.goodtime.bl
 import platform.Foundation.NSProcessInfo
 
 class IosTimeProvider : TimeProvider {
-    override fun elapsedRealtime(): Long {
-        return (NSProcessInfo.processInfo.systemUptime * 1000).toLong()
-    }
+    override fun elapsedRealtime(): Long = (NSProcessInfo.processInfo.systemUptime * 1000).toLong()
 }
 
 actual fun createTimeProvider(): TimeProvider = IosTimeProvider()

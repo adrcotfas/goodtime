@@ -21,6 +21,8 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.apps.adrcotfas.goodtime.data.local.migrations.MIGRATIONS
 
 @Database(
     entities = [LocalLabel::class, LocalSession::class, LocalTimerProfile::class],
@@ -36,11 +38,17 @@ abstract class ProductivityDatabase : RoomDatabase() {
     abstract fun timerProfileDao(): TimerProfileDao
 }
 
+// The Room compiler generates the `actual` implementations.
 @Suppress("NO_ACTUAL_FOR_EXPECT")
 expect object ProductivityDatabaseConstructor : RoomDatabaseConstructor<ProductivityDatabase> {
     override fun initialize(): ProductivityDatabase
 }
 
-expect fun getRoomDatabase(builder: RoomDatabase.Builder<ProductivityDatabase>): ProductivityDatabase
+fun getRoomDatabase(builder: RoomDatabase.Builder<ProductivityDatabase>): ProductivityDatabase =
+    builder
+        .addMigrations(*MIGRATIONS)
+        .setDriver(BundledSQLiteDriver())
+        .fallbackToDestructiveMigration(dropAllTables = true)
+        .build()
 
 const val DATABASE_NAME = "goodtime-db"

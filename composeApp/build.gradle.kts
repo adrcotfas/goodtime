@@ -95,8 +95,7 @@ kotlin {
             implementation(libs.kotlinx.collections.immutable)
             implementation(libs.kotlinx.datetime)
             implementation(libs.androidx.lifecycle.viewmodel)
-            api(libs.touchlab.kermit)
-            api(libs.touchlab.kermit.simple)
+            implementation(libs.touchlab.kermit)
         }
 
         commonTest.dependencies {
@@ -112,6 +111,10 @@ kotlin {
         }
 
         iosMain.dependencies {
+        }
+
+        iosTest.dependencies {
+            implementation(libs.androidx.room.testing)
         }
     }
 

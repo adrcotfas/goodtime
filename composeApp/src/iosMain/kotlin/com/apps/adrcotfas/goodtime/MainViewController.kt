@@ -20,8 +20,8 @@ package com.apps.adrcotfas.goodtime
 import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIViewController
 
-fun MainViewController(): UIViewController {
-    return ComposeUIViewController {
+@Suppress("ktlint:standard:function-naming")
+fun MainViewController(): UIViewController =
+    ComposeUIViewController {
         App()
     }
-}

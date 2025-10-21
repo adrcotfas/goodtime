@@ -37,7 +37,7 @@ reviewKtx = "2.0.2"
 compose-icons-eva = "1.1.1"
 koin = "4.1.0"
 okio = "3.16.0"
-kermit = "2.0.6"
+kermit = "2.0.8"
 mikepenz-aboutlibraries = "12.1.2"
 spotless = "7.2.1"
 
