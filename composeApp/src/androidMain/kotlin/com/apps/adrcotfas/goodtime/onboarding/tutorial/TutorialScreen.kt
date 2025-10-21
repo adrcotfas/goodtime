@@ -18,7 +18,6 @@
 package com.apps.adrcotfas.goodtime.onboarding.tutorial
 
 import androidx.annotation.RawRes
-import androidx.annotation.StringRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -68,19 +67,26 @@ import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.onboarding.PageIndicator
 import com.apps.adrcotfas.goodtime.onboarding.darkGray
 import com.apps.adrcotfas.goodtime.onboarding.lightGray
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.tutorial_swipe_down
+import goodtime_productivity.composeapp.generated.resources.tutorial_swipe_right
+import goodtime_productivity.composeapp.generated.resources.tutorial_swipe_up
+import goodtime_productivity.composeapp.generated.resources.tutorial_tap
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 data class TutorialScreen(
-    @StringRes val title: Int,
-    @RawRes val animation: Int,
+    val title: StringResource,
+    val animation: Int,
 ) {
     companion object {
         val pages =
             listOf(
-                TutorialScreen(title = R.string.tutorial_tap, animation = R.raw.tap),
-                TutorialScreen(title = R.string.tutorial_swipe_right, animation = R.raw.swipe_right),
-                TutorialScreen(title = R.string.tutorial_swipe_up, animation = R.raw.swipe_up),
-                TutorialScreen(title = R.string.tutorial_swipe_down, animation = R.raw.swipe_down),
+                TutorialScreen(title = Res.string.tutorial_tap, animation = R.raw.tap),
+                TutorialScreen(title = Res.string.tutorial_swipe_right, animation = R.raw.swipe_right),
+                TutorialScreen(title = Res.string.tutorial_swipe_up, animation = R.raw.swipe_up),
+                TutorialScreen(title = Res.string.tutorial_swipe_down, animation = R.raw.swipe_down),
             )
     }
 }

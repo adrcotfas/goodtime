@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Přejít zpět</string>
-    <string name="main_cancel">Zrušit</string>
-    <string name="main_delete">Odstranit</string>
-    <string name="main_edit">Upravit</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Nepodařilo se otevřít URL</string>
-    <string name="main_start_focus">Začít soustředění</string>
-    <string name="main_start_break">Začít přestávku</string>
-    <string name="main_break_complete">Přestávka dokončena</string>
-    <string name="main_session_complete">Blok dokončen</string>
-    <string name="main_this_session">Tento blok</string>
-    <string name="main_interruptions">Vyrušení</string>
-    <string name="main_consider_idle_time_as_extra_focus">Považovat čas nečinnosti za dodatečné soustředění</string>
-    <string name="main_open_app_menu">Otevřít menu aplikace</string>
-    <string name="main_reset_to_default">Obnovit výchozí</string>
-    <string name="main_save">Uložit</string>
-    <string name="main_focus_session_in_progress">Probíhá pracovní blok</string>
-    <string name="main_focus_session_paused">Pracovní blok pozastaven</string>
-    <string name="main_break_in_progress">Probíhá přestávka</string>
-    <string name="main_pause">Pozastavit</string>
-    <string name="main_resume">Pokračovat</string>
-    <string name="main_skip">Přeskočit</string>
-    <string name="main_stop">Zastavit</string>
-    <string name="main_focus_session_finished">Pracovní blok dokončen</string>
-    <string name="main_break_finished">Přestávka dokončena</string>
-    <string name="main_continue">Pokračovat?</string>
-    <string name="main_idle">Nečinný</string>
-    <string name="main_productivity_reminder_desc">"Je čas být produktivní!"</string>
-    <string name="main_notifications_channel_name">Oznámení časovače</string>
-    <string name="main_reminder_channel_name">Upozornění</string>
     <string name="main_crash_channel_name">Hlášení o chybách</string>
     <string name="main_crash_notification_title">Aplikace spadla</string>
     <string name="main_crash_notification_desc">Omlouváme se za nepříjemnosti. Pošlete prosím zprávu vývojáři.</string>

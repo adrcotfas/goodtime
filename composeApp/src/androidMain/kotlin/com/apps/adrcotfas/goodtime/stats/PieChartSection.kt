@@ -41,7 +41,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -59,6 +58,11 @@ import com.github.mikephil.charting.listener.ChartTouchListener.ChartGesture
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_default_label_name
+import goodtime_productivity.composeapp.generated.resources.labels_others
+import goodtime_productivity.composeapp.generated.resources.stats_focus_distribution
+import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.minutes
 
 @Composable
@@ -86,8 +90,8 @@ fun PieChartSection(
     for (label in workPerLabel.keys) {
         val labelName =
             when (label) {
-                Label.DEFAULT_LABEL_NAME -> stringResource(R.string.labels_default_label_name)
-                Label.OTHERS_LABEL_NAME -> stringResource(R.string.labels_others)
+                Label.DEFAULT_LABEL_NAME -> stringResource(Res.string.labels_default_label_name)
+                Label.OTHERS_LABEL_NAME -> stringResource(Res.string.labels_others)
                 else -> label
             }
         entries.add(PieEntry(workPerLabel[label]!!.toFloat(), labelName))
@@ -146,7 +150,7 @@ fun PieChartSection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                stringResource(R.string.stats_focus_distribution),
+                stringResource(Res.string.stats_focus_distribution),
                 style =
                     MaterialTheme.typography.labelLarge.copy(
                         fontWeight = FontWeight.Medium,

@@ -42,7 +42,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
@@ -52,6 +51,18 @@ import com.apps.adrcotfas.goodtime.ui.common.TimerTypeRow
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Edit
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_break_budget_desc1
+import goodtime_productivity.composeapp.generated.resources.labels_break_budget_desc2
+import goodtime_productivity.composeapp.generated.resources.labels_break_budget_info
+import goodtime_productivity.composeapp.generated.resources.labels_break_time
+import goodtime_productivity.composeapp.generated.resources.labels_custom
+import goodtime_productivity.composeapp.generated.resources.labels_enable_break_budget
+import goodtime_productivity.composeapp.generated.resources.labels_focus_break_ratio
+import goodtime_productivity.composeapp.generated.resources.labels_focus_time
+import goodtime_productivity.composeapp.generated.resources.labels_long_break
+import goodtime_productivity.composeapp.generated.resources.labels_sessions_before_long_break
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Reusable UI for editing a [TimerProfile].
@@ -84,7 +95,7 @@ fun TimerProfileSettings(
                     contentModifier = Modifier.fillMaxWidth(),
                     colored = true,
                     textStyle = MaterialTheme.typography.bodyLarge,
-                    value = timerProfile.name ?: stringResource(R.string.labels_custom),
+                    value = timerProfile.name ?: stringResource(Res.string.labels_custom),
                     options = timerProfiles.mapNotNull { it.name },
                     onDismissRequest = {},
                     onDropdownMenuItemSelected = {
@@ -117,14 +128,14 @@ fun TimerProfileSettings(
     AnimatedVisibility(timerProfile.isCountdown, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
         Column {
             EditableNumberListItem(
-                title = stringResource(R.string.labels_focus_time),
+                title = stringResource(Res.string.labels_focus_time),
                 value = timerProfile.workDuration,
                 onValueChange = {
                     onTimerProfileChange(timerProfile.copy(workDuration = it))
                 },
             )
             EditableNumberListItem(
-                title = stringResource(R.string.labels_break_time),
+                title = stringResource(Res.string.labels_break_time),
                 value = timerProfile.breakDuration,
                 onValueChange = {
                     onTimerProfileChange(timerProfile.copy(breakDuration = it))
@@ -142,7 +153,7 @@ fun TimerProfileSettings(
                 },
             )
             EditableNumberListItem(
-                title = stringResource(R.string.labels_long_break),
+                title = stringResource(Res.string.labels_long_break),
                 value = timerProfile.longBreakDuration,
                 onValueChange = {
                     onTimerProfileChange(timerProfile.copy(longBreakDuration = it))
@@ -155,7 +166,7 @@ fun TimerProfileSettings(
                 },
             )
             EditableNumberListItem(
-                title = stringResource(R.string.labels_sessions_before_long_break),
+                title = stringResource(Res.string.labels_sessions_before_long_break),
                 value = timerProfile.sessionsBeforeLongBreak,
                 minValue = 2,
                 maxValue = 8,
@@ -186,11 +197,11 @@ fun TimerProfileSettings(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
                     ) {
-                        Text(stringResource(R.string.labels_enable_break_budget))
+                        Text(stringResource(Res.string.labels_enable_break_budget))
                         IconButton(onClick = onBreakBudgetInfo) {
                             Icon(
                                 imageVector = Icons.Outlined.Info,
-                                contentDescription = stringResource(R.string.labels_break_budget_info),
+                                contentDescription = stringResource(Res.string.labels_break_budget_info),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
@@ -201,7 +212,7 @@ fun TimerProfileSettings(
                 },
             )
             SliderListItem(
-                title = stringResource(R.string.labels_focus_break_ratio),
+                title = stringResource(Res.string.labels_focus_break_ratio),
                 min = 2,
                 max = 6,
                 enabled = timerProfile.isBreakEnabled,
@@ -223,10 +234,10 @@ fun TimerProfileSettings(
 @Composable
 fun BreakBudgetInfoDialog(onDismiss: () -> Unit) {
     InfoDialog(
-        title = stringResource(R.string.labels_break_budget_info),
+        title = stringResource(Res.string.labels_break_budget_info),
         subtitle =
-            "${stringResource(R.string.labels_break_budget_desc1)}\n" +
-                stringResource(R.string.labels_break_budget_desc2),
+            "${stringResource(Res.string.labels_break_budget_desc1)}\n" +
+                stringResource(Res.string.labels_break_budget_desc2),
     ) {
         onDismiss()
     }

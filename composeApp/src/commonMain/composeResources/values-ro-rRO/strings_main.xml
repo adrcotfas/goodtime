@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Navighează înapoi</string>
+    <string name="main_cancel">Anulează</string>
+    <string name="main_delete">Șterge</string>
+    <string name="main_edit">Editează</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">Deschiderea URL-ului a eșuat</string>
+    <string name="main_start_focus">Începe sesiune de focus</string>
+    <string name="main_start_break">Începeți pauza</string>
+    <string name="main_break_complete">Pauza terminată</string>
+    <string name="main_session_complete">Sesiune terminată</string>
+    <string name="main_this_session">Această sesiune</string>
+    <string name="main_interruptions">Întreruperi</string>
+    <string name="main_consider_idle_time_as_extra_focus">Consideră timpul inactiv ca timp de focus suplimentar</string>
+    <string name="main_open_app_menu">Deschide meniul aplicației</string>
+    <string name="main_reset_to_default">Resetare la valori implicite</string>
+    <string name="main_save">Salvează</string>
+    <string name="main_focus_session_in_progress">Sesiune de focus în progres</string>
+    <string name="main_focus_session_paused">Sesiune de focus întreruptă</string>
+    <string name="main_break_in_progress">Pauza este în progres</string>
+    <string name="main_pause">Pauza</string>
+    <string name="main_resume">Continuă</string>
+    <string name="main_skip">Omitere</string>
+    <string name="main_stop">Oprește</string>
+    <string name="main_focus_session_finished">Sesiune de focus finalizată</string>
+    <string name="main_break_finished">Pauza s-a terminat</string>
+    <string name="main_continue">Continuați?</string>
+    <string name="main_idle">Inactiv</string>
+    <string name="main_productivity_reminder_desc">"Este timpul să fii productiv!"</string>
+    <string name="main_notifications_channel_name">Notificări cronometru</string>
+    <string name="main_reminder_channel_name">Notificări de memento</string>
+    <string name="main_crash_channel_name">Rapoarte de defecțiuni</string>
+    <string name="main_crash_notification_title">Aplicație blocată</string>
+    <string name="main_crash_notification_desc">Ne pare rău pentru neplăceri. Te rugăm să trimiți un raport dezvoltatorului.</string>
+</resources>

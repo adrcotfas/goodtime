@@ -47,7 +47,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -76,9 +75,36 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Bell
 import compose.icons.evaicons.outline.ColorPalette
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.settings_auto_start_break_desc
+import goodtime_productivity.composeapp.generated.resources.settings_auto_start_break_title
+import goodtime_productivity.composeapp.generated.resources.settings_auto_start_focus_desc
+import goodtime_productivity.composeapp.generated.resources.settings_auto_start_focus_title
+import goodtime_productivity.composeapp.generated.resources.settings_click_to_grant_permission
+import goodtime_productivity.composeapp.generated.resources.settings_custom_start_of_day_desc
+import goodtime_productivity.composeapp.generated.resources.settings_custom_start_of_day_title
+import goodtime_productivity.composeapp.generated.resources.settings_display_and_appearance
+import goodtime_productivity.composeapp.generated.resources.settings_display_over_lock_screen
+import goodtime_productivity.composeapp.generated.resources.settings_display_over_lock_screen_desc
+import goodtime_productivity.composeapp.generated.resources.settings_do_not_disturb_mode
+import goodtime_productivity.composeapp.generated.resources.settings_fullscreen_mode
+import goodtime_productivity.composeapp.generated.resources.settings_keep_the_screen_on
+import goodtime_productivity.composeapp.generated.resources.settings_notifications_title
+import goodtime_productivity.composeapp.generated.resources.settings_productivity_reminder_title
+import goodtime_productivity.composeapp.generated.resources.settings_screensaver_mode
+import goodtime_productivity.composeapp.generated.resources.settings_start_of_the_week
+import goodtime_productivity.composeapp.generated.resources.settings_timer_and_sessions
+import goodtime_productivity.composeapp.generated.resources.settings_timer_durations_desc
+import goodtime_productivity.composeapp.generated.resources.settings_timer_durations_title
+import goodtime_productivity.composeapp.generated.resources.settings_title
+import goodtime_productivity.composeapp.generated.resources.settings_true_black_mode_desc
+import goodtime_productivity.composeapp.generated.resources.settings_true_black_mode_title
+import goodtime_productivity.composeapp.generated.resources.settings_user_interface
+import goodtime_productivity.composeapp.generated.resources.stats_focus
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.isoDayNumber
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import java.util.Locale
@@ -130,7 +156,7 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.settings_title),
+                title = stringResource(Res.string.settings_title),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -149,7 +175,7 @@ fun SettingsScreen(
                     context.areNotificationsEnabled(),
             ) {
                 Column {
-                    CompactPreferenceGroupTitle(text = stringResource(R.string.settings_productivity_reminder_title))
+                    CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_productivity_reminder_title))
                     val reminderSettings = settings.productivityReminderSettings
                     ProductivityReminderListItem(
                         firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
@@ -161,39 +187,39 @@ fun SettingsScreen(
                     SubtleHorizontalDivider()
                 }
             }
-            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_timer_and_sessions))
+            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_timer_and_sessions))
 
             IconListItem(
-                title = stringResource(R.string.settings_timer_durations_title),
-                subtitle = stringResource(R.string.settings_timer_durations_desc),
+                title = stringResource(Res.string.settings_timer_durations_title),
+                subtitle = stringResource(Res.string.settings_timer_durations_desc),
                 icon = {
                     Image(
                         modifier = Modifier.size(24.dp),
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
                         painter = painterResource(R.drawable.ic_status_goodtime),
-                        contentDescription = stringResource(R.string.stats_focus),
+                        contentDescription = stringResource(Res.string.stats_focus),
                     )
                 },
                 onClick = onNavigateToDefaultLabel,
             )
             CheckboxListItem(
-                title = stringResource(R.string.settings_auto_start_focus_title),
-                subtitle = stringResource(R.string.settings_auto_start_focus_desc),
+                title = stringResource(Res.string.settings_auto_start_focus_title),
+                subtitle = stringResource(Res.string.settings_auto_start_focus_desc),
                 checked = settings.autoStartFocus,
             ) {
                 viewModel.setAutoStartWork(it)
             }
             CheckboxListItem(
-                title = stringResource(R.string.settings_auto_start_break_title),
-                subtitle = stringResource(R.string.settings_auto_start_break_desc),
+                title = stringResource(Res.string.settings_auto_start_break_title),
+                subtitle = stringResource(Res.string.settings_auto_start_break_desc),
                 checked = settings.autoStartBreak,
             ) {
                 viewModel.setAutoStartBreak(it)
             }
 
             BetterListItem(
-                title = stringResource(R.string.settings_custom_start_of_day_title),
-                subtitle = stringResource(R.string.settings_custom_start_of_day_desc),
+                title = stringResource(Res.string.settings_custom_start_of_day_title),
+                subtitle = stringResource(Res.string.settings_custom_start_of_day_desc),
                 trailing =
                     secondsOfDayToTimerFormat(
                         uiState.settings.workdayStart,
@@ -213,7 +239,7 @@ fun SettingsScreen(
                 }
 
             DropdownMenuListItem(
-                title = stringResource(R.string.settings_start_of_the_week),
+                title = stringResource(Res.string.settings_start_of_the_week),
                 value = localizedDayNamesFull(javaLocale)[DayOfWeek.of(uiState.settings.firstDayOfWeek).ordinal],
                 dropdownMenuOptions = days,
                 onDropdownMenuItemSelected = {
@@ -223,21 +249,21 @@ fun SettingsScreen(
 
             SubtleHorizontalDivider()
 
-            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_display_and_appearance))
+            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_display_and_appearance))
 
             IconListItem(
-                title = stringResource(R.string.settings_user_interface),
+                title = stringResource(Res.string.settings_user_interface),
                 icon = {
                     Icon(
                         modifier = Modifier.padding(vertical = 12.dp),
                         imageVector = EvaIcons.Outline.ColorPalette,
-                        contentDescription = stringResource(R.string.settings_user_interface),
+                        contentDescription = stringResource(Res.string.settings_user_interface),
                     )
                 },
                 onClick = onNavigateToUserInterface,
             )
             CheckboxListItem(
-                title = stringResource(R.string.settings_keep_the_screen_on),
+                title = stringResource(Res.string.settings_keep_the_screen_on),
                 checked = uiState.settings.uiSettings.keepScreenOn,
             ) {
                 viewModel.setKeepScreenOn(it)
@@ -247,7 +273,7 @@ fun SettingsScreen(
             }
             if (uiState.settings.isPro) {
                 CheckboxListItem(
-                    title = stringResource(R.string.settings_fullscreen_mode),
+                    title = stringResource(Res.string.settings_fullscreen_mode),
                     checked = uiState.settings.uiSettings.fullscreenMode,
                 ) {
                     viewModel.setFullscreenMode(it)
@@ -257,7 +283,7 @@ fun SettingsScreen(
                 }
             } else {
                 LockedCheckboxListItem(
-                    title = stringResource(R.string.settings_fullscreen_mode),
+                    title = stringResource(Res.string.settings_fullscreen_mode),
                     checked = false,
                     enabled = false,
                 ) {
@@ -269,7 +295,7 @@ fun SettingsScreen(
             }
             if (uiState.settings.isPro) {
                 CheckboxListItem(
-                    title = stringResource(R.string.settings_screensaver_mode),
+                    title = stringResource(Res.string.settings_screensaver_mode),
                     checked = uiState.settings.uiSettings.screensaverMode,
                     enabled = uiState.settings.uiSettings.keepScreenOn && uiState.settings.uiSettings.fullscreenMode,
                 ) {
@@ -277,7 +303,7 @@ fun SettingsScreen(
                 }
             } else {
                 LockedCheckboxListItem(
-                    title = stringResource(R.string.settings_screensaver_mode),
+                    title = stringResource(Res.string.settings_screensaver_mode),
                     checked = false,
                     enabled = false,
                 ) {
@@ -290,37 +316,37 @@ fun SettingsScreen(
                     ),
             ) {
                 CheckboxListItem(
-                    title = stringResource(R.string.settings_true_black_mode_title),
-                    subtitle = stringResource(R.string.settings_true_black_mode_desc),
+                    title = stringResource(Res.string.settings_true_black_mode_title),
+                    subtitle = stringResource(Res.string.settings_true_black_mode_desc),
                     checked = uiState.settings.uiSettings.trueBlackMode,
                 ) {
                     viewModel.setTrueBlackMode(it)
                 }
             }
             CheckboxListItem(
-                title = stringResource(R.string.settings_display_over_lock_screen),
-                subtitle = stringResource(R.string.settings_display_over_lock_screen_desc),
+                title = stringResource(Res.string.settings_display_over_lock_screen),
+                subtitle = stringResource(Res.string.settings_display_over_lock_screen_desc),
                 checked = uiState.settings.uiSettings.showWhenLocked,
             ) {
                 viewModel.setShowWhenLocked(it)
             }
 
             SubtleHorizontalDivider()
-            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_notifications_title))
+            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_notifications_title))
             IconListItem(
-                title = stringResource(R.string.settings_notifications_title),
+                title = stringResource(Res.string.settings_notifications_title),
                 icon = {
                     Icon(
                         modifier = Modifier.padding(vertical = 12.dp),
                         imageVector = EvaIcons.Outline.Bell,
-                        contentDescription = stringResource(R.string.settings_notifications_title),
+                        contentDescription = stringResource(Res.string.settings_notifications_title),
                     )
                 },
                 onClick = onNavigateToNotifications,
             )
             CheckboxListItem(
-                title = stringResource(R.string.settings_do_not_disturb_mode),
-                subtitle = if (isNotificationPolicyAccessGranted) null else stringResource(R.string.settings_click_to_grant_permission),
+                title = stringResource(Res.string.settings_do_not_disturb_mode),
+                subtitle = if (isNotificationPolicyAccessGranted) null else stringResource(Res.string.settings_click_to_grant_permission),
                 checked = uiState.settings.uiSettings.dndDuringWork,
             ) {
                 if (isNotificationPolicyAccessGranted) {

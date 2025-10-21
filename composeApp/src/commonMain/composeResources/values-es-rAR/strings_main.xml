@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Ir atrás</string>
+    <string name="main_cancel">Cancelar</string>
+    <string name="main_delete">Borrar</string>
+    <string name="main_edit">Editar</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">No se puede abrir URL</string>
+    <string name="main_start_focus">Iniciar enfoque</string>
+    <string name="main_start_break">Iniciar descanso</string>
+    <string name="main_break_complete">Descanso completo</string>
+    <string name="main_session_complete">Sesión completa</string>
+    <string name="main_this_session">Esta sesión</string>
+    <string name="main_interruptions">Interrupciones</string>
+    <string name="main_consider_idle_time_as_extra_focus">Considerar tiempo inactivo como enfoque extra</string>
+    <string name="main_open_app_menu">Abrir menú de la aplicación</string>
+    <string name="main_reset_to_default">Restablecer por defecto</string>
+    <string name="main_save">Guardar</string>
+    <string name="main_focus_session_in_progress">Sesión de enfoque en progreso</string>
+    <string name="main_focus_session_paused">Sesión de enfoque pausada</string>
+    <string name="main_break_in_progress">Descanso en progreso</string>
+    <string name="main_pause">Pausar</string>
+    <string name="main_resume">Continuar</string>
+    <string name="main_skip">Omitir</string>
+    <string name="main_stop">Detener</string>
+    <string name="main_focus_session_finished">Sesión de enfoque finalizada</string>
+    <string name="main_break_finished">Descanso finalizado</string>
+    <string name="main_continue">¿Continuar?</string>
+    <string name="main_idle">Idle</string>
+    <string name="main_productivity_reminder_desc">"¡Es hora de ser productivo!"</string>
+    <string name="main_notifications_channel_name">Notificaciones de temporizador</string>
+    <string name="main_reminder_channel_name">Notificaciones de recordatorio</string>
+    <string name="main_crash_channel_name">Informes de fallos</string>
+    <string name="main_crash_notification_title">La aplicación falló</string>
+    <string name="main_crash_notification_desc">Lamentamos el inconveniente. Por favor, mandá un informe al desarrollador.</string>
+</resources>

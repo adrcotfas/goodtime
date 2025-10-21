@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">戻って移動</string>
-    <string name="main_cancel">キャンセル</string>
-    <string name="main_delete">削除</string>
-    <string name="main_edit">編集</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">URLを開けませんでした</string>
-    <string name="main_start_focus">フォーカスを開始</string>
-    <string name="main_start_break">休憩を開始</string>
-    <string name="main_break_complete">休憩完了</string>
-    <string name="main_session_complete">セッション完了</string>
-    <string name="main_this_session">このセッション</string>
-    <string name="main_interruptions">中断</string>
-    <string name="main_consider_idle_time_as_extra_focus">余分な焦点としてアイドル時間を考慮する</string>
-    <string name="main_open_app_menu">アプリメニューを開く</string>
-    <string name="main_reset_to_default">既定にリセット</string>
-    <string name="main_save">保存</string>
-    <string name="main_focus_session_in_progress">セッションにフォーカス中</string>
-    <string name="main_focus_session_paused">フォーカスセッションを一時停止しました</string>
-    <string name="main_break_in_progress">進行中</string>
-    <string name="main_pause">一時停止</string>
-    <string name="main_resume">再開</string>
-    <string name="main_skip">スキップ</string>
-    <string name="main_stop">やめる</string>
-    <string name="main_focus_session_finished">フォーカスセッションが終了しました</string>
-    <string name="main_break_finished">ブレイク終了</string>
-    <string name="main_continue">続行</string>
-    <string name="main_idle">待機中</string>
-    <string name="main_productivity_reminder_desc">"それは生産的になる時間です!"</string>
-    <string name="main_notifications_channel_name">タイマー通知</string>
-    <string name="main_reminder_channel_name">リマインダー通知</string>
     <string name="main_crash_channel_name">クラッシュレポート</string>
     <string name="main_crash_notification_title">アプリがクラッシュしました</string>
     <string name="main_crash_notification_desc">ご迷惑をおかけして申し訳ございません。開発者にレポートを送信してください。</string>

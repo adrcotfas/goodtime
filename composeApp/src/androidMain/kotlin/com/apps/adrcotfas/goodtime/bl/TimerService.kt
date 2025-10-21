@@ -22,15 +22,21 @@ import android.content.Context
 import android.content.Intent
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
+import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.injectLogger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.koin.core.qualifier.named
 
 class TimerService :
     Service(),
     KoinComponent {
     private val notificationManager: NotificationArchManager by inject()
     private val timerManager: TimerManager by inject()
+
+    private val coroutineScope: CoroutineScope by inject((named(MAIN_SCOPE)))
     private val log: Logger by injectLogger("TimerService")
 
     override fun onBind(intent: Intent?) = null
@@ -49,10 +55,13 @@ class TimerService :
         when (intent.action) {
             Action.StartOrUpdate.name -> {
                 notificationManager.clearFinishedNotification()
-                startForeground(
-                    NotificationArchManager.IN_PROGRESS_NOTIFICATION_ID,
-                    notificationManager.buildInProgressNotification(data),
-                )
+                coroutineScope.launch {
+                    val notification = notificationManager.buildInProgressNotification(data)
+                    startForeground(
+                        NotificationArchManager.IN_PROGRESS_NOTIFICATION_ID,
+                        notification,
+                    )
+                }
             }
 
             Action.Reset.name -> {
@@ -68,7 +77,9 @@ class TimerService :
                     stopForeground(STOP_FOREGROUND_REMOVE)
                     stopSelf()
                 }
-                notificationManager.notifyFinished(data, withActions = !autoStart)
+                coroutineScope.launch {
+                    notificationManager.notifyFinished(data, withActions = !autoStart)
+                }
                 return START_NOT_STICKY
             }
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">返回</string>
+    <string name="main_cancel">取消</string>
+    <string name="main_delete">刪除</string>
+    <string name="main_edit">編輯</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">打開 URL 失敗</string>
+    <string name="main_start_focus">開始聚焦</string>
+    <string name="main_start_break">開始休息</string>
+    <string name="main_break_complete">中斷完成</string>
+    <string name="main_session_complete">已完成</string>
+    <string name="main_this_session">本次</string>
+    <string name="main_interruptions">干擾</string>
+    <string name="main_consider_idle_time_as_extra_focus">中斷完成</string>
+    <string name="main_open_app_menu">打開App選單</string>
+    <string name="main_reset_to_default">還原至初始設定</string>
+    <string name="main_save">儲存</string>
+    <string name="main_focus_session_in_progress">正在進行中的工作</string>
+    <string name="main_focus_session_paused">焦點會話已暫停</string>
+    <string name="main_break_in_progress">正在休息</string>
+    <string name="main_pause">暫停</string>
+    <string name="main_resume">繼續下載</string>
+    <string name="main_skip">Skip</string>
+    <string name="main_stop">停止</string>
+    <string name="main_focus_session_finished">焦點會話已暫停</string>
+    <string name="main_break_finished">休息已完成</string>
+    <string name="main_continue">要繼續嗎？</string>
+    <string name="main_idle">Idle</string>
+    <string name="main_productivity_reminder_desc">"是時候變得有生產力了！"</string>
+    <string name="main_notifications_channel_name">定時器通知</string>
+    <string name="main_reminder_channel_name">提醒通知</string>
+    <string name="main_crash_channel_name">當機回報</string>
+    <string name="main_crash_notification_title">程式出錯了</string>
+    <string name="main_crash_notification_desc">帶來不便敬請諒解。請向開發商發送報告。</string>
+</resources>

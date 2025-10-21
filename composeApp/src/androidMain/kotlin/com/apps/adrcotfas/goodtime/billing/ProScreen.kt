@@ -52,14 +52,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.main.ProListItem
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
@@ -71,6 +69,31 @@ import compose.icons.evaicons.outline.ColorPalette
 import compose.icons.evaicons.outline.Heart
 import compose.icons.evaicons.outline.PieChart
 import compose.icons.evaicons.outline.Sync
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.feature_backup_desc1
+import goodtime_productivity.composeapp.generated.resources.feature_backup_desc2
+import goodtime_productivity.composeapp.generated.resources.feature_backup_title
+import goodtime_productivity.composeapp.generated.resources.feature_labels_desc1
+import goodtime_productivity.composeapp.generated.resources.feature_labels_desc2
+import goodtime_productivity.composeapp.generated.resources.feature_labels_title
+import goodtime_productivity.composeapp.generated.resources.feature_notifications_desc1
+import goodtime_productivity.composeapp.generated.resources.feature_notifications_title
+import goodtime_productivity.composeapp.generated.resources.feature_stats_desc1
+import goodtime_productivity.composeapp.generated.resources.feature_stats_desc2
+import goodtime_productivity.composeapp.generated.resources.feature_stats_desc3
+import goodtime_productivity.composeapp.generated.resources.feature_stats_title
+import goodtime_productivity.composeapp.generated.resources.feature_support_desc1
+import goodtime_productivity.composeapp.generated.resources.feature_support_title
+import goodtime_productivity.composeapp.generated.resources.feature_timer_customization_desc1
+import goodtime_productivity.composeapp.generated.resources.feature_timer_customization_desc2
+import goodtime_productivity.composeapp.generated.resources.feature_timer_customization_title
+import goodtime_productivity.composeapp.generated.resources.product_name_long
+import goodtime_productivity.composeapp.generated.resources.unlock_premium
+import goodtime_productivity.composeapp.generated.resources.unlock_premium_desc1
+import goodtime_productivity.composeapp.generated.resources.unlock_premium_desc2
+import goodtime_productivity.composeapp.generated.resources.unlock_premium_desc3
+import goodtime_productivity.composeapp.generated.resources.unlock_premium_tagline
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @Composable
@@ -115,7 +138,7 @@ fun ProScreenContent(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.unlock_premium),
+                title = stringResource(Res.string.unlock_premium),
                 icon = Icons.Default.Close,
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
@@ -135,7 +158,7 @@ fun ProScreenContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
-                    stringResource(R.string.unlock_premium_tagline),
+                    stringResource(Res.string.unlock_premium_tagline),
                     style = MaterialTheme.typography.labelSmall.copy(textAlign = TextAlign.Center),
                 )
                 ProListItem(subtitle = priceString, centered = true) {
@@ -151,78 +174,78 @@ fun ProScreenContent(
                     .padding(paddingValues),
         ) {
             Column(Modifier.verticalScroll(listState)) {
-                val productName = stringResource(R.string.product_name_long)
+                val productName = stringResource(Res.string.product_name_long)
                 Text(
                     modifier = Modifier.padding(12.dp),
                     text =
-                        stringResource(R.string.unlock_premium_desc1, productName) + "\n" +
+                        stringResource(Res.string.unlock_premium_desc1, productName) + "\n" +
                             "\n" +
-                            stringResource(R.string.unlock_premium_desc2) +
+                            stringResource(Res.string.unlock_premium_desc2) +
                             "\n" +
-                            stringResource(R.string.unlock_premium_desc3),
+                            stringResource(Res.string.unlock_premium_desc3),
                     style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
                 ProFeatureListItem(
-                    title = stringResource(R.string.feature_labels_title),
+                    title = stringResource(Res.string.feature_labels_title),
                     subtitle =
                         listOf(
-                            stringResource(R.string.feature_labels_desc1),
-                            stringResource(R.string.feature_labels_desc2),
+                            stringResource(Res.string.feature_labels_desc1),
+                            stringResource(Res.string.feature_labels_desc2),
                         ),
                     icon = Icons.AutoMirrored.Outlined.Label,
                     color = color,
                 )
 
                 ProFeatureListItem(
-                    title = stringResource(R.string.feature_timer_customization_title),
+                    title = stringResource(Res.string.feature_timer_customization_title),
                     subtitle =
                         listOf(
-                            stringResource(R.string.feature_timer_customization_desc1),
-                            stringResource(R.string.feature_timer_customization_desc2),
+                            stringResource(Res.string.feature_timer_customization_desc1),
+                            stringResource(Res.string.feature_timer_customization_desc2),
                         ),
                     icon = EvaIcons.Outline.ColorPalette,
                     color = color,
                 )
 
                 ProFeatureListItem(
-                    title = stringResource(R.string.feature_notifications_title),
+                    title = stringResource(Res.string.feature_notifications_title),
                     subtitle =
                         listOf(
-                            stringResource(R.string.feature_notifications_desc1),
+                            stringResource(Res.string.feature_notifications_desc1),
                         ),
                     icon = EvaIcons.Outline.Bell,
                     color = color,
                 )
 
                 ProFeatureListItem(
-                    title = stringResource(R.string.feature_stats_title),
+                    title = stringResource(Res.string.feature_stats_title),
                     subtitle =
                         listOf(
-                            stringResource(R.string.feature_stats_desc1),
-                            stringResource(R.string.feature_stats_desc2),
-                            stringResource(R.string.feature_stats_desc3),
+                            stringResource(Res.string.feature_stats_desc1),
+                            stringResource(Res.string.feature_stats_desc2),
+                            stringResource(Res.string.feature_stats_desc3),
                         ),
                     icon = EvaIcons.Outline.PieChart,
                     color = color,
                 )
 
                 ProFeatureListItem(
-                    title = stringResource(R.string.feature_backup_title),
+                    title = stringResource(Res.string.feature_backup_title),
                     subtitle =
                         listOf(
-                            stringResource(R.string.feature_backup_desc1),
-                            stringResource(R.string.feature_backup_desc2),
+                            stringResource(Res.string.feature_backup_desc1),
+                            stringResource(Res.string.feature_backup_desc2),
                         ),
                     icon = EvaIcons.Outline.Sync,
                     color = color,
                 )
                 ProFeatureListItem(
-                    title = stringResource(R.string.feature_support_title),
+                    title = stringResource(Res.string.feature_support_title),
                     subtitle =
                         listOf(
-                            stringResource(R.string.feature_support_desc1),
+                            stringResource(Res.string.feature_support_desc1),
                         ),
                     icon = EvaIcons.Outline.Heart,
                     color = color,

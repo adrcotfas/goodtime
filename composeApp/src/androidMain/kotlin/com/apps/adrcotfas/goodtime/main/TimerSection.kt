@@ -56,7 +56,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -80,9 +79,13 @@ import com.apps.adrcotfas.goodtime.ui.breakColor
 import com.apps.adrcotfas.goodtime.ui.common.hideUnless
 import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import com.apps.adrcotfas.goodtime.ui.timerFontRobotoMap
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_break_budget
+import goodtime_productivity.composeapp.generated.resources.stats_break
+import goodtime_productivity.composeapp.generated.resources.stats_focus
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.minutes
-import com.apps.adrcotfas.goodtime.R as Mr
 
 @Composable
 fun MainTimerView(
@@ -264,14 +267,14 @@ fun StatusIndicator(
                 if (it) {
                     Image(
                         colorFilter = ColorFilter.tint(color),
-                        painter = painterResource(Mr.drawable.ic_break),
-                        contentDescription = stringResource(R.string.stats_break),
+                        painter = painterResource(R.drawable.ic_break),
+                        contentDescription = stringResource(Res.string.stats_break),
                     )
                 } else {
                     Image(
                         colorFilter = ColorFilter.tint(color),
-                        painter = painterResource(Mr.drawable.ic_status_goodtime),
-                        contentDescription = stringResource(R.string.stats_focus),
+                        painter = painterResource(R.drawable.ic_status_goodtime),
+                        contentDescription = stringResource(Res.string.stats_focus),
                     )
                 }
             }
@@ -363,8 +366,8 @@ fun BreakBudgetIndicator(
             ) {
                 Image(
                     colorFilter = ColorFilter.tint(color),
-                    painter = painterResource(Mr.drawable.ic_break),
-                    contentDescription = stringResource(R.string.labels_break_budget),
+                    painter = painterResource(R.drawable.ic_break),
+                    contentDescription = stringResource(Res.string.labels_break_budget),
                 )
                 Text(
                     modifier = Modifier.padding(horizontal = 4.dp),

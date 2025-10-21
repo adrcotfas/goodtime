@@ -47,7 +47,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.NavController
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.getVersionName
 import com.apps.adrcotfas.goodtime.settings.ActionSection
 import com.apps.adrcotfas.goodtime.ui.common.IconTextButton
@@ -58,6 +57,14 @@ import compose.icons.evaicons.outline.Info
 import compose.icons.evaicons.outline.PieChart
 import compose.icons.evaicons.outline.Settings
 import compose.icons.evaicons.outline.Sync
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.about_and_feedback_title
+import goodtime_productivity.composeapp.generated.resources.backup_and_restore_title
+import goodtime_productivity.composeapp.generated.resources.labels_title
+import goodtime_productivity.composeapp.generated.resources.product_name_long
+import goodtime_productivity.composeapp.generated.resources.settings_title
+import goodtime_productivity.composeapp.generated.resources.stats_title
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -151,7 +158,7 @@ fun MainNavigationSheetContent(
                 contentDescription = null,
             )
             Text(
-                text = stringResource(R.string.product_name_long),
+                text = stringResource(Res.string.product_name_long),
                 style =
                     MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
@@ -165,32 +172,32 @@ fun MainNavigationSheetContent(
             ProListItem { navigateToPro() }
         }
         IconTextButton(
-            title = stringResource(R.string.labels_title),
+            title = stringResource(Res.string.labels_title),
             icon = {
                 Icon(
                     imageVector = Icons.AutoMirrored.Outlined.Label,
-                    contentDescription = stringResource(R.string.labels_title),
+                    contentDescription = stringResource(Res.string.labels_title),
                 )
             },
             onClick = navigateToLabels,
         )
 
         IconTextButton(
-            title = stringResource(R.string.stats_title),
+            title = stringResource(Res.string.stats_title),
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.PieChart,
-                    contentDescription = stringResource(R.string.stats_title),
+                    contentDescription = stringResource(Res.string.stats_title),
                 )
             },
             onClick = navigateToStats,
         )
         IconTextButton(
-            title = stringResource(R.string.backup_and_restore_title),
+            title = stringResource(Res.string.backup_and_restore_title),
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.Sync,
-                    contentDescription = stringResource(R.string.backup_and_restore_title),
+                    contentDescription = stringResource(Res.string.backup_and_restore_title),
                 )
             },
             onClick = {
@@ -208,22 +215,22 @@ fun MainNavigationSheetContent(
             SubtleHorizontalDivider()
         }
         IconTextButton(
-            title = stringResource(R.string.settings_title),
+            title = stringResource(Res.string.settings_title),
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.Settings,
-                    contentDescription = stringResource(R.string.settings_title),
+                    contentDescription = stringResource(Res.string.settings_title),
                 )
             },
             onClick = navigateToSettings,
         )
         IconTextButton(
-            title = stringResource(R.string.about_and_feedback_title),
+            title = stringResource(Res.string.about_and_feedback_title),
             subtitle = "v${context.getVersionName()}",
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.Info,
-                    contentDescription = stringResource(R.string.about_and_feedback_title),
+                    contentDescription = stringResource(Res.string.about_and_feedback_title),
                 )
             },
             onClick = {

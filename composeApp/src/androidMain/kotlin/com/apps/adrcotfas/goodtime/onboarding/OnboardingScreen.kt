@@ -64,9 +64,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.isPortrait
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.intro1_desc1
+import goodtime_productivity.composeapp.generated.resources.intro1_desc2
+import goodtime_productivity.composeapp.generated.resources.intro1_title
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
-import com.apps.adrcotfas.goodtime.R as AndroidR
 
 val lightGray = Color(0xFFDEDEDE)
 val darkGray = Color(0xFF4C4546)
@@ -272,13 +276,13 @@ fun PageIndicator(
 @Composable
 fun OnboardingPagePreview() {
     OnboardingPage(
-        title = stringResource(R.string.intro1_title),
-        description1 = stringResource(R.string.intro1_desc1),
-        description2 = stringResource(R.string.intro1_desc2),
+        title = stringResource(Res.string.intro1_title),
+        description1 = stringResource(Res.string.intro1_desc1),
+        description2 = stringResource(Res.string.intro1_desc2),
         image = {
             Image(
-                painter = painterResource(id = AndroidR.drawable.intro1),
-                contentDescription = stringResource(R.string.intro1_title),
+                painter = painterResource(id = R.drawable.intro1),
+                contentDescription = stringResource(Res.string.intro1_title),
             )
         },
     )

@@ -23,9 +23,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.getVersionCode
 import com.apps.adrcotfas.goodtime.common.getVersionName
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.contact_address
+import goodtime_productivity.composeapp.generated.resources.feedback_title
+import org.jetbrains.compose.resources.getString
 
 fun getDeviceInfo(): String {
     val manufacturer = Build.MANUFACTURER
@@ -34,11 +37,11 @@ fun getDeviceInfo(): String {
     return "$manufacturer $model API $version"
 }
 
-fun sendFeedback(context: Context) {
+suspend fun sendFeedback(context: Context) {
     val email = Intent(Intent.ACTION_SENDTO)
     email.data = Uri.Builder().scheme("mailto").build()
-    email.putExtra(Intent.EXTRA_EMAIL, arrayOf(context.getString(R.string.contact_address)))
-    email.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback_title))
+    email.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(Res.string.contact_address)))
+    email.putExtra(Intent.EXTRA_SUBJECT, getString(Res.string.feedback_title))
     email.putExtra(
         Intent.EXTRA_TEXT,
         """

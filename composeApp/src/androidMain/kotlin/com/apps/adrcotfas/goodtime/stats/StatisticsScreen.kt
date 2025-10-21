@@ -50,7 +50,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.isDefault
 import com.apps.adrcotfas.goodtime.common.installIsOlderThan10Days
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -64,6 +63,15 @@ import com.apps.adrcotfas.goodtime.ui.common.toLocalTime
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Lock
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_edit_label
+import goodtime_productivity.composeapp.generated.resources.labels_select_label
+import goodtime_productivity.composeapp.generated.resources.main_save
+import goodtime_productivity.composeapp.generated.resources.stats_change_label_of_selected_sessions
+import goodtime_productivity.composeapp.generated.resources.stats_delete_selected_sessions
+import goodtime_productivity.composeapp.generated.resources.stats_overview
+import goodtime_productivity.composeapp.generated.resources.stats_timeline
+import goodtime_productivity.composeapp.generated.resources.unlock_premium
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
@@ -74,6 +82,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
 private enum class TabType {
@@ -140,8 +149,8 @@ fun StatisticsScreen(
         var type by rememberSaveable { mutableStateOf(TabType.Overview) }
         val titles =
             listOf(
-                stringResource(R.string.stats_overview),
-                stringResource(R.string.stats_timeline),
+                stringResource(Res.string.stats_overview),
+                stringResource(Res.string.stats_timeline),
             )
 
         Crossfade(isLoading) { isLoading ->
@@ -220,7 +229,7 @@ fun StatisticsScreen(
                         sheetState = sheetState,
                         dragHandle = {
                             DragHandle(
-                                buttonText = stringResource(R.string.main_save),
+                                buttonText = stringResource(Res.string.main_save),
                                 isEnabled = uiState.canSave && uiState.isPro,
                                 buttonIcon =
                                     if (uiState.isPro) {
@@ -229,7 +238,7 @@ fun StatisticsScreen(
                                         {
                                             Icon(
                                                 imageVector = EvaIcons.Outline.Lock,
-                                                contentDescription = stringResource(R.string.unlock_premium),
+                                                contentDescription = stringResource(Res.string.unlock_premium),
                                             )
                                         }
                                     },
@@ -346,7 +355,7 @@ fun StatisticsScreen(
                 }
                 if (showSelectLabelDialog) {
                     SelectLabelDialog(
-                        title = stringResource(R.string.labels_select_label),
+                        title = stringResource(Res.string.labels_select_label),
                         labels = uiState.labels.filter { !it.isDefault() },
                         initialSelectedLabels = persistentListOf(uiState.newSession.label),
                         onDismiss = { showSelectLabelDialog = false },
@@ -385,7 +394,7 @@ fun StatisticsScreen(
                 }
                 if (showDeleteConfirmationDialog) {
                     ConfirmationDialog(
-                        title = stringResource(R.string.stats_delete_selected_sessions),
+                        title = stringResource(Res.string.stats_delete_selected_sessions),
                         onDismiss = { showDeleteConfirmationDialog = false },
                         onConfirm = {
                             viewModel.deleteSelectedSessions()
@@ -396,7 +405,7 @@ fun StatisticsScreen(
                 }
                 if (showEditBulkLabelDialog) {
                     SelectLabelDialog(
-                        title = stringResource(R.string.labels_edit_label),
+                        title = stringResource(Res.string.labels_edit_label),
                         labels = uiState.labels.filter { !it.isDefault() },
                         onDismiss = { showEditBulkLabelDialog = false },
                         singleSelection = true,
@@ -411,7 +420,7 @@ fun StatisticsScreen(
                 }
                 if (showEditLabelConfirmationDialog) {
                     ConfirmationDialog(
-                        title = stringResource(R.string.stats_change_label_of_selected_sessions),
+                        title = stringResource(Res.string.stats_change_label_of_selected_sessions),
                         onDismiss = { showEditLabelConfirmationDialog = false },
                         onConfirm = {
                             viewModel.bulkEditLabel()

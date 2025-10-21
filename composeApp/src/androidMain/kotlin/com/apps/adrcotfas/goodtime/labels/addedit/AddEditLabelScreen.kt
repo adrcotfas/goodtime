@@ -57,12 +57,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.BreakBudgetInfoDialog
 import com.apps.adrcotfas.goodtime.common.TimerProfileSettings
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.LABEL_NAME_MAX_LENGTH
@@ -74,6 +71,14 @@ import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Navigation2
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_add_label_name
+import goodtime_productivity.composeapp.generated.resources.labels_default_label_name
+import goodtime_productivity.composeapp.generated.resources.labels_follow_default_time_profile
+import goodtime_productivity.composeapp.generated.resources.labels_label_name_already_exists
+import goodtime_productivity.composeapp.generated.resources.main_save
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,12 +92,11 @@ fun AddEditLabelScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val isEditMode = labelName.isNotEmpty()
-    val context = LocalContext.current
 
     val listState = rememberScrollState()
 
     LaunchedEffect(labelName) {
-        val defaultLabelDisplayName = context.getString(R.string.labels_default_label_name)
+        val defaultLabelDisplayName = getString(Res.string.labels_default_label_name)
         viewModel.init(labelName, defaultLabelDisplayName)
     }
 
@@ -162,7 +166,7 @@ fun AddEditLabelScreen(
                         ) {
                             Icon(
                                 imageVector = EvaIcons.Outline.Navigation2,
-                                contentDescription = stringResource(R.string.labels_default_label_name),
+                                contentDescription = stringResource(Res.string.labels_default_label_name),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
@@ -170,7 +174,7 @@ fun AddEditLabelScreen(
                     }
                 },
                 headlineContent = {
-                    Text(stringResource(R.string.labels_follow_default_time_profile))
+                    Text(stringResource(Res.string.labels_follow_default_time_profile))
                 },
                 trailingContent = {
                     Switch(
@@ -215,7 +219,7 @@ fun AddEditLabelScreen(
                         onNavigateBack()
                     },
                 ) {
-                    Text(stringResource(R.string.main_save))
+                    Text(stringResource(Res.string.main_save))
                 }
             }
         }
@@ -272,7 +276,7 @@ private fun LabelNameRow(
                 Text(
                     text =
                         stringResource(
-                            R.string.labels_add_label_name,
+                            Res.string.labels_add_label_name,
                         ),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -281,7 +285,7 @@ private fun LabelNameRow(
         }
         AnimatedVisibility(showError && labelName.isNotEmpty()) {
             Text(
-                text = stringResource(R.string.labels_label_name_already_exists),
+                text = stringResource(Res.string.labels_label_name_already_exists),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error,
             )

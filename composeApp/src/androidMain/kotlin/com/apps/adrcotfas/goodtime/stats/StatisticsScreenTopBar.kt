@@ -45,7 +45,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
@@ -53,6 +52,19 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.MoreVertical
 import compose.icons.evaicons.outline.Trash
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_edit_label
+import goodtime_productivity.composeapp.generated.resources.labels_select_labels
+import goodtime_productivity.composeapp.generated.resources.main_cancel
+import goodtime_productivity.composeapp.generated.resources.main_delete
+import goodtime_productivity.composeapp.generated.resources.main_navigate_back
+import goodtime_productivity.composeapp.generated.resources.stats_add_session
+import goodtime_productivity.composeapp.generated.resources.stats_more_options
+import goodtime_productivity.composeapp.generated.resources.stats_select_all
+import goodtime_productivity.composeapp.generated.resources.stats_show_archived
+import goodtime_productivity.composeapp.generated.resources.stats_show_breaks
+import goodtime_productivity.composeapp.generated.resources.stats_title
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,19 +102,19 @@ fun StatisticsScreenTopBar(
                         }) {
                             Icon(
                                 imageVector = EvaIcons.Outline.Trash,
-                                contentDescription = stringResource(R.string.main_delete),
+                                contentDescription = stringResource(Res.string.main_delete),
                             )
                         }
                         IconButton(onClick = onSelectAll) {
                             Icon(
                                 imageVector = Icons.Default.SelectAll,
-                                contentDescription = stringResource(R.string.stats_select_all),
+                                contentDescription = stringResource(Res.string.stats_select_all),
                             )
                         }
                         IconButton(onClick = onLabelButtonClick) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Outlined.Label,
-                                contentDescription = stringResource(R.string.labels_edit_label),
+                                contentDescription = stringResource(Res.string.labels_edit_label),
                             )
                         }
                     },
@@ -110,7 +122,7 @@ fun StatisticsScreenTopBar(
                         IconButton(onClick = onCancel) {
                             Icon(
                                 imageVector = Icons.Default.Clear,
-                                contentDescription = stringResource(R.string.main_cancel),
+                                contentDescription = stringResource(Res.string.main_cancel),
                             )
                         }
                     },
@@ -119,7 +131,7 @@ fun StatisticsScreenTopBar(
             } else {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text(stringResource(R.string.stats_title))
+                        Text(stringResource(Res.string.stats_title))
                     },
                     actions = {
                         IconButton(onClick = {
@@ -127,13 +139,13 @@ fun StatisticsScreenTopBar(
                         }) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = stringResource(R.string.stats_add_session),
+                                contentDescription = stringResource(Res.string.stats_add_session),
                             )
                         }
                         IconButton(onClick = onLabelButtonClick) {
                             Icon(
                                 Icons.AutoMirrored.Outlined.Label,
-                                stringResource(R.string.labels_select_labels),
+                                stringResource(Res.string.labels_select_labels),
                             )
                         }
                         var dropDownMenuExpanded by remember { mutableStateOf(false) }
@@ -141,7 +153,7 @@ fun StatisticsScreenTopBar(
                             IconButton(onClick = { dropDownMenuExpanded = true }) {
                                 Icon(
                                     EvaIcons.Outline.MoreVertical,
-                                    contentDescription = stringResource(R.string.stats_more_options),
+                                    contentDescription = stringResource(Res.string.stats_more_options),
                                 )
                             }
 
@@ -160,7 +172,7 @@ fun StatisticsScreenTopBar(
                                     text = {
                                         Text(
                                             modifier = paddingModifier,
-                                            text = stringResource(R.string.stats_show_breaks),
+                                            text = stringResource(Res.string.stats_show_breaks),
                                         )
                                     },
                                     onClick = {
@@ -177,7 +189,7 @@ fun StatisticsScreenTopBar(
                                     text = {
                                         Text(
                                             modifier = paddingModifier,
-                                            text = stringResource(R.string.stats_show_archived),
+                                            text = stringResource(Res.string.stats_show_archived),
                                         )
                                     },
                                     onClick = {
@@ -192,7 +204,7 @@ fun StatisticsScreenTopBar(
                         IconButton(onClick = onNavigateBack) {
                             Icon(
                                 Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.main_navigate_back),
+                                contentDescription = stringResource(Res.string.main_navigate_back),
                             )
                         }
                     },

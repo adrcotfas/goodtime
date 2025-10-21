@@ -56,7 +56,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.common.getFileName
@@ -74,7 +73,15 @@ import compose.icons.evaicons.outline.BellOff
 import compose.icons.evaicons.outline.CheckmarkCircle2
 import compose.icons.evaicons.outline.Plus
 import compose.icons.evaicons.outline.Trash
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.settings_add_custom_sound
+import goodtime_productivity.composeapp.generated.resources.settings_delete_sound
+import goodtime_productivity.composeapp.generated.resources.settings_remove
+import goodtime_productivity.composeapp.generated.resources.settings_silent
+import goodtime_productivity.composeapp.generated.resources.settings_system_sounds
+import goodtime_productivity.composeapp.generated.resources.settings_your_sounds
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
@@ -204,7 +211,7 @@ private fun NotificationSoundPickerDialogContent(
                             modifier = Modifier.animateItem(),
                             text =
                                 stringResource(
-                                    R.string.settings_your_sounds,
+                                    Res.string.settings_your_sounds,
                                 ),
                         )
                     }
@@ -231,14 +238,14 @@ private fun NotificationSoundPickerDialogContent(
                             modifier = Modifier.animateItem(),
                             text =
                                 stringResource(
-                                    R.string.settings_system_sounds,
+                                    Res.string.settings_system_sounds,
                                 ),
                         )
                     }
                     item(key = "silent") {
                         NotificationSoundItem(
                             modifier = Modifier.animateItem(),
-                            name = stringResource(R.string.settings_silent),
+                            name = stringResource(Res.string.settings_silent),
                             isSilent = true,
                             isSelected = selectedItem.uriString == Uri.EMPTY.toString(),
                         ) {
@@ -309,10 +316,10 @@ fun NotificationSoundItem(
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Trash,
-                            contentDescription = stringResource(R.string.settings_delete_sound),
+                            contentDescription = stringResource(Res.string.settings_delete_sound),
                         )
                     },
-                    text = { Text(modifier = paddingModifier, text = stringResource(R.string.settings_remove)) },
+                    text = { Text(modifier = paddingModifier, text = stringResource(Res.string.settings_remove)) },
                     onClick = {
                         onRemove()
                         dropDownMenuExpanded = false
@@ -371,7 +378,7 @@ fun AddCustomSoundButton(
             tint = MaterialTheme.colorScheme.primary,
         )
         Text(
-            text = stringResource(R.string.settings_add_custom_sound),
+            text = stringResource(Res.string.settings_add_custom_sound),
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.weight(1f),
         )

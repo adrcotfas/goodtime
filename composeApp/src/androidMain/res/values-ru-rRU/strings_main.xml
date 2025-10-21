@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Назад</string>
-    <string name="main_cancel">Отмена</string>
-    <string name="main_delete">Удалить</string>
-    <string name="main_edit">Изменить</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Не удалось открыть URL</string>
-    <string name="main_start_focus">Начать фокус</string>
-    <string name="main_start_break">Начать перерыв</string>
-    <string name="main_break_complete">Перерыв завершен</string>
-    <string name="main_session_complete">Сеанс завершен</string>
-    <string name="main_this_session">Эта сессия</string>
-    <string name="main_interruptions">Прерывания</string>
-    <string name="main_consider_idle_time_as_extra_focus">Рассматривать время простоя как дополнительный фокус</string>
-    <string name="main_open_app_menu">Открыть меню приложения</string>
-    <string name="main_reset_to_default">Сброс по умолчанию</string>
-    <string name="main_save">Сохранить</string>
-    <string name="main_focus_session_in_progress">Выполняется фокус сессии</string>
-    <string name="main_focus_session_paused">Сеанс фокуса приостановлен</string>
-    <string name="main_break_in_progress">Перерыв в прогрессе</string>
-    <string name="main_pause">Пауза</string>
-    <string name="main_resume">Продолжить</string>
-    <string name="main_skip">Пропустить</string>
-    <string name="main_stop">Стоп</string>
-    <string name="main_focus_session_finished">Завершена фокус-сессия</string>
-    <string name="main_break_finished">Перерыв закончен</string>
-    <string name="main_continue">Продолжить?</string>
-    <string name="main_idle">Простой</string>
-    <string name="main_productivity_reminder_desc">"Пришло время быть продуктивным!"</string>
-    <string name="main_notifications_channel_name">Уведомления о таймере</string>
-    <string name="main_reminder_channel_name">Уведомления о напоминании</string>
     <string name="main_crash_channel_name">Отчеты об ошибках</string>
     <string name="main_crash_notification_title">Приложение прервано</string>
     <string name="main_crash_notification_desc">Извините за неудобства. Пожалуйста, отправьте сообщение разработчику.</string>

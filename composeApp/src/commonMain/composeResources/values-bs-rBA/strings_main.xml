@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Vrati se nazad</string>
+    <string name="main_cancel">Otkaži</string>
+    <string name="main_delete">Izbriši</string>
+    <string name="main_edit">Uredi</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">Otvaranje URL-a nije uspjelo</string>
+    <string name="main_start_focus">Pokreni fokus</string>
+    <string name="main_start_break">Započni pauzu</string>
+    <string name="main_break_complete">Pauza završena</string>
+    <string name="main_session_complete">Sesija je završena</string>
+    <string name="main_this_session">Ova sesija</string>
+    <string name="main_interruptions">Prekidi</string>
+    <string name="main_consider_idle_time_as_extra_focus">Razmotrite vrijeme mirovanja kao dodatni fokus</string>
+    <string name="main_open_app_menu">Otvorite meni aplikacije</string>
+    <string name="main_reset_to_default">Resetiraj na početne postavke</string>
+    <string name="main_save">Pohrani</string>
+    <string name="main_focus_session_in_progress">Fokusna sesija je u toku</string>
+    <string name="main_focus_session_paused">Sesija fokusa je pauzirana</string>
+    <string name="main_break_in_progress">Pauza u toku</string>
+    <string name="main_pause">Zaustavi</string>
+    <string name="main_resume">Nastavi</string>
+    <string name="main_skip">Skip</string>
+    <string name="main_stop">Prekini</string>
+    <string name="main_focus_session_finished">Fokusna sesija je završena</string>
+    <string name="main_break_finished">Pauza završena</string>
+    <string name="main_continue">Nastaviti?</string>
+    <string name="main_idle">Idle</string>
+    <string name="main_productivity_reminder_desc">"Vrijeme je da se bude produktivno!"</string>
+    <string name="main_notifications_channel_name">Obavještenja o tajmeru</string>
+    <string name="main_reminder_channel_name">Obavještenja o podsjetnicima</string>
+    <string name="main_crash_channel_name">Izvještaj o padu</string>
+    <string name="main_crash_notification_title">Aplikacija se srušila</string>
+    <string name="main_crash_notification_desc">Izvinite na smetnji. Molimo pošaljite izvještaj programeru.</string>
+</resources>

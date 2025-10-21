@@ -20,7 +20,6 @@ package com.apps.adrcotfas.goodtime
 import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.backup.AutoBackupManager
 import com.apps.adrcotfas.goodtime.backup.AutoBackupWorker
 import com.apps.adrcotfas.goodtime.billing.BillingAbstract
@@ -102,6 +101,7 @@ class GoodtimeApplication :
                         NotificationArchManager(
                             get<Context>(),
                             MainActivity::class.java,
+                            coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
                         )
                     }
                     single<EventListener>(named(EventListener.TIMER_SERVICE_HANDLER)) {
@@ -218,17 +218,17 @@ class GoodtimeApplication :
 
             notification {
                 // required
-                title = getString(R.string.main_crash_notification_title)
+                title = context.getString(R.string.main_crash_notification_title)
                 // required
-                text = getString(R.string.main_crash_notification_desc)
+                text = context.getString(R.string.main_crash_notification_desc)
                 // required
-                channelName = getString(R.string.main_crash_channel_name)
+                channelName = context.getString(R.string.main_crash_channel_name)
                 resSendButtonIcon = null
                 resDiscardButtonIcon = null
             }
             mailSender {
-                mailTo = getString(R.string.contact_address)
-                subject = getString(R.string.crash_report_title)
+                mailTo = context.getString(R.string.contact_address)
+                subject = context.getString(R.string.crash_report_title)
                 reportFileName = "crash.txt"
             }
         }

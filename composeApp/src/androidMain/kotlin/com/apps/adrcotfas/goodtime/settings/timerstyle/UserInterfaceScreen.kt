@@ -57,7 +57,6 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
@@ -83,6 +82,26 @@ import com.apps.adrcotfas.goodtime.ui.timerFontWeights
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Unlock
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.settings_demo
+import goodtime_productivity.composeapp.generated.resources.settings_general_title
+import goodtime_productivity.composeapp.generated.resources.settings_hide_seconds
+import goodtime_productivity.composeapp.generated.resources.settings_language
+import goodtime_productivity.composeapp.generated.resources.settings_launcher_name
+import goodtime_productivity.composeapp.generated.resources.settings_refresh_demo_label
+import goodtime_productivity.composeapp.generated.resources.settings_show_sessions_long_break_desc
+import goodtime_productivity.composeapp.generated.resources.settings_show_sessions_long_break_title
+import goodtime_productivity.composeapp.generated.resources.settings_show_status_desc
+import goodtime_productivity.composeapp.generated.resources.settings_show_status_title
+import goodtime_productivity.composeapp.generated.resources.settings_theme
+import goodtime_productivity.composeapp.generated.resources.settings_theme_options
+import goodtime_productivity.composeapp.generated.resources.settings_timer_style_title
+import goodtime_productivity.composeapp.generated.resources.settings_use_dynamic_color
+import goodtime_productivity.composeapp.generated.resources.settings_user_interface
+import goodtime_productivity.composeapp.generated.resources.unlock_premium
+import goodtime_productivity.composeapp.generated.resources.unlock_timer_style
+import org.jetbrains.compose.resources.stringArrayResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.minutes
@@ -107,7 +126,7 @@ fun UserInterfaceScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.settings_user_interface),
+                title = stringResource(Res.string.settings_user_interface),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -126,12 +145,12 @@ fun UserInterfaceScreen(
             var streak by rememberSaveable { mutableIntStateOf(1) }
             var timerType by rememberSaveable { mutableStateOf(TimerType.FOCUS) }
 
-            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_general_title))
+            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_general_title))
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val activity = context.findActivity()
                 BetterListItem(
-                    title = stringResource(R.string.settings_language),
+                    title = stringResource(Res.string.settings_language),
                     trailing = context.getAppLanguage(),
                     onClick = {
                         val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
@@ -142,9 +161,9 @@ fun UserInterfaceScreen(
             }
 
             DropdownMenuListItem(
-                title = stringResource(R.string.settings_theme),
-                value = stringArrayResource(R.array.settings_theme_options)[uiState.settings.uiSettings.themePreference.ordinal],
-                dropdownMenuOptions = stringArrayResource(R.array.settings_theme_options).toList(),
+                title = stringResource(Res.string.settings_theme),
+                value = stringArrayResource(Res.array.settings_theme_options)[uiState.settings.uiSettings.themePreference.ordinal],
+                dropdownMenuOptions = stringArrayResource(Res.array.settings_theme_options).toList(),
                 onDropdownMenuItemSelected = {
                     viewModel.setThemeOption(ThemePreference.entries[it])
                 },
@@ -152,7 +171,7 @@ fun UserInterfaceScreen(
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 CheckboxListItem(
-                    title = stringResource(R.string.settings_use_dynamic_color),
+                    title = stringResource(Res.string.settings_use_dynamic_color),
                     checked = uiState.settings.uiSettings.useDynamicColor,
                 ) {
                     viewModel.setUseDynamicColor(it)
@@ -160,9 +179,9 @@ fun UserInterfaceScreen(
             }
 
             DropdownMenuListItem(
-                title = stringResource(R.string.settings_launcher_name),
-                value = stringArrayResource(R.array.settings_launcher_name)[uiState.settings.uiSettings.launcherNameIndex],
-                dropdownMenuOptions = stringArrayResource(R.array.settings_launcher_name).toList(),
+                title = stringResource(Res.string.settings_launcher_name),
+                value = stringArrayResource(Res.array.settings_launcher_name)[uiState.settings.uiSettings.launcherNameIndex],
+                dropdownMenuOptions = stringArrayResource(Res.array.settings_launcher_name).toList(),
                 onDropdownMenuItemSelected = { index ->
                     viewModel.setLauncherNameIndex(index)
                     context.findActivity()?.let { activity ->
@@ -172,7 +191,7 @@ fun UserInterfaceScreen(
             )
 
             SubtleHorizontalDivider()
-            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_timer_style_title))
+            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_timer_style_title))
 
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 SliderListItem(
@@ -230,7 +249,7 @@ fun UserInterfaceScreen(
                 ) {
                     Text(
                         modifier = Modifier.padding(start = 16.dp),
-                        text = stringResource(R.string.settings_demo),
+                        text = stringResource(Res.string.settings_demo),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -246,7 +265,7 @@ fun UserInterfaceScreen(
                     }) {
                         Icon(
                             Icons.Default.Refresh,
-                            contentDescription = stringResource(R.string.settings_refresh_demo_label),
+                            contentDescription = stringResource(Res.string.settings_refresh_demo_label),
                             tint = MaterialTheme.colorScheme.primary,
                         )
                     }
@@ -280,23 +299,23 @@ fun UserInterfaceScreen(
             }
             Column {
                 CheckboxListItem(
-                    title = stringResource(R.string.settings_show_status_title),
-                    subtitle = stringResource(R.string.settings_show_status_desc),
+                    title = stringResource(Res.string.settings_show_status_title),
+                    subtitle = stringResource(Res.string.settings_show_status_desc),
                     checked = timerStyle.showStatus,
                     onCheckedChange = {
                         viewModel.setShowStatus(it)
                     },
                 )
                 CheckboxListItem(
-                    title = stringResource(R.string.settings_show_sessions_long_break_title),
-                    subtitle = stringResource(R.string.settings_show_sessions_long_break_desc),
+                    title = stringResource(Res.string.settings_show_sessions_long_break_title),
+                    subtitle = stringResource(Res.string.settings_show_sessions_long_break_desc),
                     checked = timerStyle.showStreak,
                     onCheckedChange = {
                         viewModel.setShowStreak(it)
                     },
                 )
                 CheckboxListItem(
-                    title = stringResource(R.string.settings_hide_seconds),
+                    title = stringResource(Res.string.settings_hide_seconds),
                     checked = timerStyle.minutesOnly,
                     onCheckedChange = {
                         viewModel.setTimerMinutesOnly(it)
@@ -306,9 +325,9 @@ fun UserInterfaceScreen(
                     ActionCard(icon = {
                         Icon(
                             imageVector = EvaIcons.Outline.Unlock,
-                            contentDescription = stringResource(R.string.unlock_premium),
+                            contentDescription = stringResource(Res.string.unlock_premium),
                         )
-                    }, description = stringResource(R.string.unlock_timer_style)) {
+                    }, description = stringResource(Res.string.unlock_timer_style)) {
                         onNavigateToPro()
                     }
                 }

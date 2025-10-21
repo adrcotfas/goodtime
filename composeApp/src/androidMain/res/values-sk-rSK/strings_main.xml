@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Navigate back</string>
-    <string name="main_cancel">Cancel</string>
-    <string name="main_delete">Odstrániť</string>
-    <string name="main_edit">Upraviť</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Failed to open URL</string>
-    <string name="main_start_focus">Start focus</string>
-    <string name="main_start_break">Začiatok prestávky</string>
-    <string name="main_break_complete">Break complete</string>
-    <string name="main_session_complete">Session complete</string>
-    <string name="main_this_session">This session</string>
-    <string name="main_interruptions">Interruptions</string>
-    <string name="main_consider_idle_time_as_extra_focus">Consider idle time as extra focus</string>
-    <string name="main_open_app_menu">Open app menu</string>
-    <string name="main_reset_to_default">Reset to default</string>
-    <string name="main_save">Uložiť</string>
-    <string name="main_focus_session_in_progress">Focus session in progress</string>
-    <string name="main_focus_session_paused">Focus session paused</string>
-    <string name="main_break_in_progress">Prebieha prestávka</string>
-    <string name="main_pause">Prerušiť</string>
-    <string name="main_resume">Pokračovať</string>
-    <string name="main_skip">Skip</string>
-    <string name="main_stop">Stop</string>
-    <string name="main_focus_session_finished">Focus session finished</string>
-    <string name="main_break_finished">Prestávka bola dokončená</string>
-    <string name="main_continue">Ďalej?</string>
-    <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"Je čas byť produktívny!"</string>
-    <string name="main_notifications_channel_name">Timer Notifications</string>
-    <string name="main_reminder_channel_name">Reminder Notifications</string>
     <string name="main_crash_channel_name">Crash reports</string>
     <string name="main_crash_notification_title">App crashed</string>
     <string name="main_crash_notification_desc">Sorry for the inconvenience. Please send a report to the developer.</string>

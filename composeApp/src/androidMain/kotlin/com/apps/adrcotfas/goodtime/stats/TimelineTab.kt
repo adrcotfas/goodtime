@@ -61,7 +61,10 @@ import com.apps.adrcotfas.goodtime.ui.common.selectedColors
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.List
-import com.apps.adrcotfas.goodtime.R as SharedR
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_min
+import goodtime_productivity.composeapp.generated.resources.stats_no_items
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TimelineTab(
@@ -94,10 +97,10 @@ fun TimelineTab(
                 modifier = Modifier.size(96.dp),
                 imageVector = EvaIcons.Outline.List,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                contentDescription = stringResource(R.string.stats_no_items),
+                contentDescription = stringResource(Res.string.stats_no_items),
             )
             Text(
-                text = stringResource(R.string.stats_no_items),
+                text = stringResource(Res.string.stats_no_items),
                 style =
                     MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -172,9 +175,9 @@ fun TimelineListItem(
                     painter =
                         painterResource(
                             if (session.isWork) {
-                                SharedR.drawable.ic_status_goodtime
+                                R.drawable.ic_status_goodtime
                             } else {
-                                SharedR.drawable.ic_break
+                                R.drawable.ic_break
                             },
                         ),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
@@ -183,7 +186,7 @@ fun TimelineListItem(
                 Spacer(modifier = Modifier.size(4.dp))
 
                 Text(
-                    text = stringResource(R.string.main_min, session.duration),
+                    text = stringResource(Res.string.main_min, session.duration),
                     maxLines = 1,
                     style =
                         MaterialTheme.typography.bodyMedium.copy(

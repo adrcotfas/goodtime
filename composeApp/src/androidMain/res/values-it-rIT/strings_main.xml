@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Torna indietro</string>
-    <string name="main_cancel">Annulla</string>
-    <string name="main_delete">Elimina</string>
-    <string name="main_edit">Modifica</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Impossibile aprire l\'URL</string>
-    <string name="main_start_focus">Inizia focus</string>
-    <string name="main_start_break">Inizia pausa</string>
-    <string name="main_break_complete">Interruzione completata</string>
-    <string name="main_session_complete">Sessione completata</string>
-    <string name="main_this_session">Questa sessione</string>
-    <string name="main_interruptions">Interruzioni</string>
-    <string name="main_consider_idle_time_as_extra_focus">Considera il tempo di inattività come focus extra</string>
-    <string name="main_open_app_menu">Apri menu app</string>
-    <string name="main_reset_to_default">Ripristina impostazioni predefinite</string>
-    <string name="main_save">Salva</string>
-    <string name="main_focus_session_in_progress">Sessione di focus in corso</string>
-    <string name="main_focus_session_paused">Sessione di focus in pausa</string>
-    <string name="main_break_in_progress">Pausa in corso</string>
-    <string name="main_pause">Pausa</string>
-    <string name="main_resume">Riprendi</string>
-    <string name="main_skip">Salta</string>
-    <string name="main_stop">Ferma</string>
-    <string name="main_focus_session_finished">Sessione di focus completata</string>
-    <string name="main_break_finished">Pausa finita</string>
-    <string name="main_continue">Continuare?</string>
-    <string name="main_idle">Inattivo</string>
-    <string name="main_productivity_reminder_desc">"È ora di essere produttivi!"</string>
-    <string name="main_notifications_channel_name">Notifiche Timer</string>
-    <string name="main_reminder_channel_name">Notifiche Promemoria</string>
     <string name="main_crash_channel_name">Segnalazioni di crash</string>
     <string name="main_crash_notification_title">App bloccata</string>
     <string name="main_crash_notification_desc">Siamo spiacenti per l\'inconveniente. Si prega di inviare una segnalazione allo sviluppatore.</string>

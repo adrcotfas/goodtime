@@ -41,11 +41,13 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.common.rememberMutableStateListOf
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.stats.LabelChip
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_clear_label
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -146,7 +148,7 @@ fun SelectLabelDialog(
                 ) {
                     AlertDialogButtonStack {
                         TextButton(onClick = { onConfirm(listOf(Label.DEFAULT_LABEL_NAME)) }) {
-                            Text(stringResource(R.string.labels_clear_label))
+                            Text(stringResource(Res.string.labels_clear_label))
                         }
                     }
                 }

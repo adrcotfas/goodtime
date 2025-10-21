@@ -40,9 +40,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_delete
+import goodtime_productivity.composeapp.generated.resources.settings_delete_profile
+import goodtime_productivity.composeapp.generated.resources.settings_delete_profile_confirmation
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,10 +61,10 @@ fun TimerProfileBottomSheet(
 
     if (showDeleteConfirmationDialog) {
         ConfirmationDialog(
-            title = stringResource(R.string.settings_delete_profile),
+            title = stringResource(Res.string.settings_delete_profile),
             subtitle =
                 stringResource(
-                    id = R.string.settings_delete_profile_confirmation,
+                    Res.string.settings_delete_profile_confirmation,
                     profileToDelete?.name ?: "",
                 ),
             onConfirm = {
@@ -94,7 +98,7 @@ fun TimerProfileBottomSheet(
                             imageVector = Icons.Outlined.Delete,
                             contentDescription =
                                 stringResource(
-                                    id = R.string.labels_delete,
+                                    Res.string.labels_delete,
                                     profile.name ?: "",
                                 ),
                         )

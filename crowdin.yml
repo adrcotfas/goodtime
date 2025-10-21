@@ -1,35 +1,39 @@
 ---
-base_path: "shared/src/main/res/values/"
 files:
-  - source: "shared/src/main/res/values/strings_about.xml"
-    translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
+  # Compose Multiplatform resources (commonMain)
+  - source: "composeApp/src/commonMain/composeResources/values/strings_about.xml"
+    translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
     labels:
       - about
-  - source: "shared/src/main/res/values/strings_backup.xml"
-    translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
+  - source: "composeApp/src/commonMain/composeResources/values/strings_backup.xml"
+    translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
     labels:
       - backup
-  - source: "shared/src/main/res/values/strings_intro.xml"
-    translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
+  - source: "composeApp/src/commonMain/composeResources/values/strings_intro.xml"
+    translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
     labels:
       - intro
-  - source: "shared/src/main/res/values/strings_labels.xml"
-    translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
+  - source: "composeApp/src/commonMain/composeResources/values/strings_labels.xml"
+    translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
     labels:
       - labels
-  - source: "shared/src/main/res/values/strings_main.xml"
-    translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
-    labels:
-      - main
-  - source: "shared/src/main/res/values/strings_settings.xml"
-    translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
+  - source: "composeApp/src/commonMain/composeResources/values/strings_settings.xml"
+    translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
     labels:
       - settings
-  - source: "shared/src/main/res/values/strings_stats.xml"
-    translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
+  - source: "composeApp/src/commonMain/composeResources/values/strings_stats.xml"
+    translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
     labels:
       - statistics
-  - source: "shared/src/main/res/values/strings_support.xml"
-    translation: "shared/src/main/res/values-%android_code%/%original_file_name%"
+  - source: "composeApp/src/commonMain/composeResources/values/strings_support.xml"
+    translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
     labels:
       - support
+
+  # Android-specific resources (ACRA crash reporting strings)
+  - source: "composeApp/src/androidMain/res/values/strings_main.xml"
+    translation: "composeApp/src/androidMain/res/values-%android_code%/%original_file_name%"
+    labels:
+      - main
+      - acra
+      - android-only

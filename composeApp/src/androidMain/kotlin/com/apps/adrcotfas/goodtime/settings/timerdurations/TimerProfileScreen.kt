@@ -50,7 +50,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.BreakBudgetInfoDialog
 import com.apps.adrcotfas.goodtime.common.TimerProfileSettings
 import com.apps.adrcotfas.goodtime.settings.TimerProfileViewModel
@@ -58,6 +57,11 @@ import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Lock
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_save
+import goodtime_productivity.composeapp.generated.resources.settings_create_profile
+import goodtime_productivity.composeapp.generated.resources.settings_timer_durations_title
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,7 +87,7 @@ fun TimerProfileScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.settings_timer_durations_title),
+                title = stringResource(Res.string.settings_timer_durations_title),
                 onNavigateBack = onNavigateBack,
                 icon = Icons.AutoMirrored.Default.ArrowBack,
                 showSeparator = listState.canScrollBackward,
@@ -168,7 +172,7 @@ fun TimerProfileScreen(
                                         )
                                     }
                                     Text(
-                                        text = stringResource(R.string.settings_create_profile),
+                                        text = stringResource(Res.string.settings_create_profile),
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
                                     )
@@ -182,7 +186,7 @@ fun TimerProfileScreen(
                                 enabled = isDifferentFromDefault,
                                 onClick = { viewModel.saveChanges(label = uiState.tmpLabel) },
                             ) {
-                                Text(stringResource(R.string.main_save))
+                                Text(stringResource(Res.string.main_save))
                             }
                         }
                     }

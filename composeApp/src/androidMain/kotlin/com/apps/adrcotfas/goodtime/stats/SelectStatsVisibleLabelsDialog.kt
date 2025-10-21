@@ -19,10 +19,14 @@ package com.apps.adrcotfas.goodtime.stats
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_select_labels
+import goodtime_productivity.composeapp.generated.resources.stats_show_label_breakdown_desc
+import goodtime_productivity.composeapp.generated.resources.stats_show_label_breakdown_title
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SelectStatsVisibleLabelsDialog(
@@ -34,12 +38,12 @@ fun SelectStatsVisibleLabelsDialog(
     onSetLineChart: (Boolean) -> Unit,
 ) {
     SelectLabelDialog(
-        title = stringResource(R.string.labels_select_labels),
+        title = stringResource(Res.string.labels_select_labels),
         labels = labels,
         extraContent = {
             CheckboxListItem(
-                title = stringResource(R.string.stats_show_label_breakdown_title),
-                subtitle = stringResource(R.string.stats_show_label_breakdown_desc),
+                title = stringResource(Res.string.stats_show_label_breakdown_title),
+                subtitle = stringResource(Res.string.stats_show_label_breakdown_desc),
                 checked = !isLineChart,
                 onCheckedChange = { onSetLineChart(!it) },
             )

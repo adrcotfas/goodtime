@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Điều hướng trở lại</string>
-    <string name="main_cancel">Hủy</string>
-    <string name="main_delete">Xóa</string>
-    <string name="main_edit">Thay đổi</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Không thể mở URL</string>
-    <string name="main_start_focus">Bắt đầu tập trung</string>
-    <string name="main_start_break">Bắt đầu nghỉ</string>
-    <string name="main_break_complete">Nghỉ hoàn thành</string>
-    <string name="main_session_complete">Hoàn tất Phiên</string>
-    <string name="main_this_session">Thời gian lần này</string>
-    <string name="main_interruptions">Gián đoạn</string>
-    <string name="main_consider_idle_time_as_extra_focus">Hãy coi thời gian nhàn rỗi là sự tập trung thêm</string>
-    <string name="main_open_app_menu">Mở menu ứng dụng</string>
-    <string name="main_reset_to_default">Khôi phục về mặc định</string>
-    <string name="main_save">Tiết kiệm</string>
-    <string name="main_focus_session_in_progress">Công việc đang diễn ra</string>
-    <string name="main_focus_session_paused">Phiên tập trung đã bị tạm dừng</string>
-    <string name="main_break_in_progress">Đang nghỉ</string>
-    <string name="main_pause">Dừng</string>
-    <string name="main_resume">Tiếp tục</string>
-    <string name="main_skip">Skip</string>
-    <string name="main_stop">Kết thúc</string>
-    <string name="main_focus_session_finished">Phiên tập trung đã bị tạm dừng</string>
-    <string name="main_break_finished">Nghỉ xong</string>
-    <string name="main_continue">Tiếp tục?</string>
-    <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"Đã đến lúc cần phải làm việc năng suất hơn!"</string>
-    <string name="main_notifications_channel_name">Thông báo hẹn giờ</string>
-    <string name="main_reminder_channel_name">Thông báo nhắc nhở</string>
     <string name="main_crash_channel_name">Báo cáo dừng đột ngột</string>
     <string name="main_crash_notification_title">Ứng dụng đã bị crash</string>
     <string name="main_crash_notification_desc">Xin lỗi vì sự bất tiện này. Vui lòng gửi báo cáo cho nhà phát triển.</string>

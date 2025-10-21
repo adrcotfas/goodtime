@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Перейти назад</string>
+    <string name="main_cancel">Скасувати</string>
+    <string name="main_delete">Видалити</string>
+    <string name="main_edit">Редагувати</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">Не вдалося відкрити посилання</string>
+    <string name="main_start_focus">Почати фокус</string>
+    <string name="main_start_break">Почати перерву</string>
+    <string name="main_break_complete">Перерву завершено</string>
+    <string name="main_session_complete">Сесія завершена</string>
+    <string name="main_this_session">Поточна сесія</string>
+    <string name="main_interruptions">Переривання</string>
+    <string name="main_consider_idle_time_as_extra_focus">Розгляньте час бездіяльності як додатковий фокус</string>
+    <string name="main_open_app_menu">Відкрити меню програми</string>
+    <string name="main_reset_to_default">Відновити типові</string>
+    <string name="main_save">Зберегти</string>
+    <string name="main_focus_session_in_progress">Фокусувати процес сеансу</string>
+    <string name="main_focus_session_paused">Фокус на призупинено</string>
+    <string name="main_break_in_progress">Перерва триває</string>
+    <string name="main_pause">Призупинити</string>
+    <string name="main_resume">Відновити</string>
+    <string name="main_skip">Пропустити</string>
+    <string name="main_stop">Зупинити</string>
+    <string name="main_focus_session_finished">Фокусування сеансу завершено</string>
+    <string name="main_break_finished">Перерва завершена</string>
+    <string name="main_continue">Продовжити?</string>
+    <string name="main_idle">В очікуванні</string>
+    <string name="main_productivity_reminder_desc">"Час бути продуктивним!"</string>
+    <string name="main_notifications_channel_name">Сповіщення таймера</string>
+    <string name="main_reminder_channel_name">Сповіщення про нагадування</string>
+    <string name="main_crash_channel_name">Звіти про падіння</string>
+    <string name="main_crash_notification_title">Збій додатку</string>
+    <string name="main_crash_notification_desc">Вибачте за незручності. Будь ласка, відправте звіт розробнику.</string>
+</resources>

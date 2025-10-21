@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Naviger tilbage</string>
+    <string name="main_cancel">Annuller</string>
+    <string name="main_delete">Slet</string>
+    <string name="main_edit">Redigér</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">Kunne ikke åbne URL</string>
+    <string name="main_start_focus">Start fokus</string>
+    <string name="main_start_break">Begynd pause</string>
+    <string name="main_break_complete">Pause fuldført</string>
+    <string name="main_session_complete">Session fuldført</string>
+    <string name="main_this_session">Denne session</string>
+    <string name="main_interruptions">Afbrydelser</string>
+    <string name="main_consider_idle_time_as_extra_focus">Overvej inaktiv tid som ekstra fokus</string>
+    <string name="main_open_app_menu">Åbn app-menu</string>
+    <string name="main_reset_to_default">Nulstil til standard</string>
+    <string name="main_save">Gem</string>
+    <string name="main_focus_session_in_progress">Fokussession i gang</string>
+    <string name="main_focus_session_paused">Fokussessionen er sat på pause</string>
+    <string name="main_break_in_progress">Pause i gang</string>
+    <string name="main_pause">Pause</string>
+    <string name="main_resume">Genoptag</string>
+    <string name="main_skip">Overspring</string>
+    <string name="main_stop">Stop</string>
+    <string name="main_focus_session_finished">Fokussession afsluttet</string>
+    <string name="main_break_finished">Pause færdig</string>
+    <string name="main_continue">Fortsæt?</string>
+    <string name="main_idle">Tomgang</string>
+    <string name="main_productivity_reminder_desc">"Det er tid til at være produktiv!"</string>
+    <string name="main_notifications_channel_name">Timer Notifikationer</string>
+    <string name="main_reminder_channel_name">Påmindelse Notifikationer</string>
+    <string name="main_crash_channel_name">Udslæt rapporter</string>
+    <string name="main_crash_notification_title">App styrtede ned</string>
+    <string name="main_crash_notification_desc">Beklager ulejligheden. Send venligst en rapport til udvikleren.</string>
+</resources>

@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.isDefault
@@ -55,6 +54,15 @@ import com.apps.adrcotfas.goodtime.ui.common.TextBox
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Clock
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_add_label
+import goodtime_productivity.composeapp.generated.resources.stats_add_notes
+import goodtime_productivity.composeapp.generated.resources.stats_break
+import goodtime_productivity.composeapp.generated.resources.stats_duration
+import goodtime_productivity.composeapp.generated.resources.stats_focus
+import goodtime_productivity.composeapp.generated.resources.stats_label
+import goodtime_productivity.composeapp.generated.resources.stats_time
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AddEditSessionContent(
@@ -85,7 +93,7 @@ fun AddEditSessionContent(
             FilterChip(
                 onClick = { onUpdate(session.copy(isWork = true)) },
                 label = {
-                    Text(stringResource(R.string.stats_focus))
+                    Text(stringResource(Res.string.stats_focus))
                 },
                 selected = session.isWork,
             )
@@ -93,14 +101,14 @@ fun AddEditSessionContent(
             FilterChip(
                 onClick = { onUpdate(session.copy(isWork = false, interruptions = 0)) },
                 label = {
-                    Text(stringResource(R.string.stats_break))
+                    Text(stringResource(Res.string.stats_break))
                 },
                 selected = !session.isWork,
             )
         }
 
         EditableNumberListItem(
-            title = stringResource(R.string.stats_duration),
+            title = stringResource(Res.string.stats_duration),
             value = session.duration.let { if (it != 0L) it.toInt() else null },
             icon = {
                 Spacer(modifier = Modifier.width(36.dp))
@@ -134,7 +142,7 @@ fun AddEditSessionContent(
                             bottom = 16.dp,
                         ),
                     imageVector = EvaIcons.Outline.Clock,
-                    contentDescription = stringResource(R.string.stats_time),
+                    contentDescription = stringResource(Res.string.stats_time),
                 )
                 Text(
                     text = date,
@@ -172,7 +180,7 @@ fun AddEditSessionContent(
                 Icon(
                     modifier = Modifier.padding(start = 12.dp),
                     imageVector = Icons.AutoMirrored.Outlined.Label,
-                    contentDescription = stringResource(R.string.stats_label),
+                    contentDescription = stringResource(Res.string.stats_label),
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
             },
@@ -180,7 +188,7 @@ fun AddEditSessionContent(
             headlineContent = {
                 if (labelData.isDefault()) {
                     Text(
-                        text = stringResource(R.string.labels_add_label),
+                        text = stringResource(Res.string.labels_add_label),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -201,7 +209,7 @@ fun AddEditSessionContent(
             Icon(
                 modifier = Modifier.padding(16.dp),
                 imageVector = Icons.AutoMirrored.Outlined.Notes,
-                contentDescription = stringResource(R.string.stats_add_notes),
+                contentDescription = stringResource(Res.string.stats_add_notes),
                 tint = MaterialTheme.colorScheme.onSurface,
             )
             TextBox(
@@ -211,7 +219,7 @@ fun AddEditSessionContent(
                         .weight(1f),
                 value = session.notes,
                 onValueChange = { onUpdate(session.copy(notes = it)) },
-                placeholder = stringResource(R.string.stats_add_notes),
+                placeholder = stringResource(Res.string.stats_add_notes),
             )
         }
     }

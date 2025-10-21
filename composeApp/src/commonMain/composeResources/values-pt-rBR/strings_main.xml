@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Navegar para trás</string>
+    <string name="main_cancel">cancelar</string>
+    <string name="main_delete">Excluir</string>
+    <string name="main_edit">Editar</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">Falha ao abrir URL</string>
+    <string name="main_start_focus">Iniciar foco</string>
+    <string name="main_start_break">Começar um intervalo</string>
+    <string name="main_break_complete">Interrupção completa</string>
+    <string name="main_session_complete">Sessão completa</string>
+    <string name="main_this_session">Esta sessão</string>
+    <string name="main_interruptions">Interrupções</string>
+    <string name="main_consider_idle_time_as_extra_focus">Considere o tempo ocioso como foco extra</string>
+    <string name="main_open_app_menu">Abrir menu do aplicativo</string>
+    <string name="main_reset_to_default">Redefinir ao padrão</string>
+    <string name="main_save">Salvar</string>
+    <string name="main_focus_session_in_progress">Sessão de foco em andamento</string>
+    <string name="main_focus_session_paused">Sessão de foco em pausa</string>
+    <string name="main_break_in_progress">Intervalo em andamento</string>
+    <string name="main_pause">Pausar</string>
+    <string name="main_resume">Retomar</string>
+    <string name="main_skip">Ignorar</string>
+    <string name="main_stop">Parar</string>
+    <string name="main_focus_session_finished">Sessão Foco concluída</string>
+    <string name="main_break_finished">Intervalo finalizado</string>
+    <string name="main_continue">Continuar?</string>
+    <string name="main_idle">Inativo</string>
+    <string name="main_productivity_reminder_desc">"É hora de ser produtivo!"</string>
+    <string name="main_notifications_channel_name">Notificações do temporizador</string>
+    <string name="main_reminder_channel_name">Notificações de lembrete</string>
+    <string name="main_crash_channel_name">Relatórios de erros</string>
+    <string name="main_crash_notification_title">App falhado</string>
+    <string name="main_crash_notification_desc">Lamentamos o inconveniente. Por favor, envie um relatório para o desenvolvedor.</string>
+</resources>

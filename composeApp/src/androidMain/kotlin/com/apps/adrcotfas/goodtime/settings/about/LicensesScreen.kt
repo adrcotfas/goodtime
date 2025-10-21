@@ -25,10 +25,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.about_open_source_licenses
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +39,7 @@ fun LicensesScreen(onNavigateBack: () -> Boolean) {
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.about_open_source_licenses),
+                title = stringResource(Res.string.about_open_source_licenses),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )

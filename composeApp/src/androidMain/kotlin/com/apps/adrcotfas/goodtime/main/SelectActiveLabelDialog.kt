@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.getLabelData
 import com.apps.adrcotfas.goodtime.data.model.isDefault
@@ -38,6 +37,14 @@ import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.unarchivedLabels
 import com.apps.adrcotfas.goodtime.ui.common.AlertDialogButtonStack
 import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_clear_label
+import goodtime_productivity.composeapp.generated.resources.labels_edit_active_label
+import goodtime_productivity.composeapp.generated.resources.labels_edit_labels
+import goodtime_productivity.composeapp.generated.resources.labels_select_active_label
+import goodtime_productivity.composeapp.generated.resources.settings_timer_durations_title
+import goodtime_productivity.composeapp.generated.resources.stats_no_items
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -59,7 +66,7 @@ fun SelectActiveLabelDialog(
 
     if (uiState.isLoading) return
     SelectLabelDialog(
-        title = stringResource(R.string.labels_select_active_label),
+        title = stringResource(Res.string.labels_select_active_label),
         singleSelection = true,
         labels = labels,
         initialSelectedLabels = listOf(initialSelectedLabel),
@@ -80,17 +87,17 @@ fun SelectActiveLabelDialog(
                     Text(
                         stringResource(
                             if (labelsIsEmpty || isDefaultLabelActive) {
-                                R.string.settings_timer_durations_title
+                                Res.string.settings_timer_durations_title
                             } else {
-                                R.string.labels_edit_active_label
+                                Res.string.labels_edit_active_label
                             },
                         ),
                     )
                 }
                 if (!isDefaultLabelActive) {
-                    TextButton(onClick = onClearLabel) { Text(stringResource(R.string.labels_clear_label)) }
+                    TextButton(onClick = onClearLabel) { Text(stringResource(Res.string.labels_clear_label)) }
                 }
-                TextButton(onClick = onNavigateToLabels) { Text(stringResource(R.string.labels_edit_labels)) }
+                TextButton(onClick = onNavigateToLabels) { Text(stringResource(Res.string.labels_edit_labels)) }
             }
         },
     )
@@ -106,7 +113,7 @@ private fun EmptyState() {
         horizontalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = stringResource(R.string.stats_no_items),
+            text = stringResource(Res.string.stats_no_items),
             style =
                 MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,

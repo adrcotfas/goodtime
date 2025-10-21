@@ -45,7 +45,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.archivedLabels
@@ -60,6 +59,14 @@ import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.MoreVertical
 import compose.icons.evaicons.outline.Trash
 import compose.icons.evaicons.outline.Undo
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_archived_labels_title
+import goodtime_productivity.composeapp.generated.resources.labels_delete
+import goodtime_productivity.composeapp.generated.resources.labels_delete_desc
+import goodtime_productivity.composeapp.generated.resources.labels_more_about
+import goodtime_productivity.composeapp.generated.resources.labels_unarchive
+import goodtime_productivity.composeapp.generated.resources.main_delete
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -79,7 +86,7 @@ fun ArchivedLabelsScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.labels_archived_labels_title),
+                title = stringResource(Res.string.labels_archived_labels_title),
                 onNavigateBack = onNavigateBack,
                 showSeparator = listState.canScrollBackward,
             )
@@ -113,8 +120,8 @@ fun ArchivedLabelsScreen(
             }
             if (showDeleteConfirmationDialog) {
                 ConfirmationDialog(
-                    title = stringResource(R.string.labels_delete, labelToDelete),
-                    subtitle = stringResource(R.string.labels_delete_desc),
+                    title = stringResource(Res.string.labels_delete, labelToDelete),
+                    subtitle = stringResource(Res.string.labels_delete_desc),
                     onConfirm = {
                         val lastLabelDeleted = labels.size == 1
                         viewModel.deleteLabel(labelToDelete)
@@ -167,7 +174,7 @@ fun ArchivedLabelListItem(
             IconButton(onClick = { dropDownMenuExpanded = true }) {
                 Icon(
                     EvaIcons.Outline.MoreVertical,
-                    contentDescription = stringResource(R.string.labels_more_about, labelName),
+                    contentDescription = stringResource(Res.string.labels_more_about, labelName),
                 )
             }
 
@@ -182,7 +189,7 @@ fun ArchivedLabelListItem(
                     text = {
                         Text(
                             modifier = paddingModifier,
-                            text = stringResource(R.string.labels_unarchive),
+                            text = stringResource(Res.string.labels_unarchive),
                         )
                     },
                     onClick = {
@@ -193,7 +200,7 @@ fun ArchivedLabelListItem(
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Undo,
-                            contentDescription = "${stringResource(R.string.labels_unarchive)} $labelName",
+                            contentDescription = "${stringResource(Res.string.labels_unarchive)} $labelName",
                         )
                     },
                 )
@@ -202,7 +209,7 @@ fun ArchivedLabelListItem(
                     text = {
                         Text(
                             modifier = paddingModifier,
-                            text = stringResource(R.string.main_delete),
+                            text = stringResource(Res.string.main_delete),
                         )
                     },
                     onClick = {
@@ -212,7 +219,7 @@ fun ArchivedLabelListItem(
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Trash,
-                            contentDescription = "${stringResource(R.string.main_delete)} $labelName",
+                            contentDescription = "${stringResource(Res.string.main_delete)} $labelName",
                         )
                     },
                 )

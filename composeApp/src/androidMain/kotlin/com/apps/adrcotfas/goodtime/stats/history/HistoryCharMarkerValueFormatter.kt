@@ -20,7 +20,6 @@ package com.apps.adrcotfas.goodtime.stats.history
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import androidx.annotation.ColorInt
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.patrykandpatrick.vico.core.cartesian.CartesianDrawingContext
@@ -35,7 +34,7 @@ val labelsKey = ExtraStore.Key<Set<String>>()
 class HistoryBarChartMarkerValueFormatter(
     private val defaultLabelName: String,
     private val othersLabelName: String,
-    @ColorInt private val othersLabelColor: Int,
+    private val othersLabelColor: Int,
     private val isTimeOverviewType: Boolean,
     private val totalLabel: String,
 ) : DefaultCartesianMarker.ValueFormatter {

@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Zurück</string>
-    <string name="main_cancel">Abbrechen</string>
-    <string name="main_delete">Löschen</string>
-    <string name="main_edit">Bearbeiten</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Fehler beim Öffnen der URL</string>
-    <string name="main_start_focus">Fokus starten</string>
-    <string name="main_start_break">Pause beginnen</string>
-    <string name="main_break_complete">Pause abgeschlossen</string>
-    <string name="main_session_complete">Sitzung abgeschlossen</string>
-    <string name="main_this_session">Diese Sitzung</string>
-    <string name="main_interruptions">Unterbrechungen</string>
-    <string name="main_consider_idle_time_as_extra_focus">Leerlaufzeit als zusätzlicher Fokus betrachten</string>
-    <string name="main_open_app_menu">App-Menü öffnen</string>
-    <string name="main_reset_to_default">Auf Standard zurücksetzen</string>
-    <string name="main_save">Speichern</string>
-    <string name="main_focus_session_in_progress">Sitzung wird fokussiert</string>
-    <string name="main_focus_session_paused">Fokus-Sitzung pausiert</string>
-    <string name="main_break_in_progress">Pause im Gange</string>
-    <string name="main_pause">Pausieren</string>
-    <string name="main_resume">Weiter</string>
-    <string name="main_skip">Überspringen</string>
-    <string name="main_stop">Stop</string>
-    <string name="main_focus_session_finished">Fokussitzung beendet</string>
-    <string name="main_break_finished">Pause beendet</string>
-    <string name="main_continue">Fortfahren?</string>
-    <string name="main_idle">Leerlauf</string>
-    <string name="main_productivity_reminder_desc">"Es ist an der Zeit, produktiv zu sein!"</string>
-    <string name="main_notifications_channel_name">Timer-Benachrichtigungen</string>
-    <string name="main_reminder_channel_name">Erinnerungsbenachrichtigungen</string>
     <string name="main_crash_channel_name">Absturzberichte</string>
     <string name="main_crash_notification_title">App abgestürzt</string>
     <string name="main_crash_notification_desc">Entschuldigen Sie die Unannehmlichkeiten. Bitte senden Sie einen Bericht an den Entwickler.</string>

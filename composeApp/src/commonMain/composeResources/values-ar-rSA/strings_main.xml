@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">التنقل إلى الوراء</string>
+    <string name="main_cancel">إلغاء</string>
+    <string name="main_delete">حذف</string>
+    <string name="main_edit">تحرير</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">فشل فتح الرابط</string>
+    <string name="main_start_focus">بدء التركيز</string>
+    <string name="main_start_break">ابدأ فاصل</string>
+    <string name="main_break_complete">اكتمال الاستراحة</string>
+    <string name="main_session_complete">اكتمل الجلسة</string>
+    <string name="main_this_session">هذه الدورة</string>
+    <string name="main_interruptions">الانقطاع</string>
+    <string name="main_consider_idle_time_as_extra_focus">اعتبار وقت الخمول كتركيز إضافي</string>
+    <string name="main_open_app_menu">فتح قائمة التطبيقات</string>
+    <string name="main_reset_to_default">إعادة التعيين إلى الافتراضي</string>
+    <string name="main_save">حفظ</string>
+    <string name="main_focus_session_in_progress">الدورة المحورية الجارية</string>
+    <string name="main_focus_session_paused">جلسة التركيز متوقفة مؤقتاً</string>
+    <string name="main_break_in_progress">كسر في التقدم</string>
+    <string name="main_pause">إيقاف مؤقت</string>
+    <string name="main_resume">إستكمال</string>
+    <string name="main_skip">تخطي</string>
+    <string name="main_stop">إيقاف</string>
+    <string name="main_focus_session_finished">انتهت جلسة التركيز</string>
+    <string name="main_break_finished">الانتهاء من كسر</string>
+    <string name="main_continue">واصل؟</string>
+    <string name="main_idle">الخمول</string>
+    <string name="main_productivity_reminder_desc">"حان الوقت لتكون منتجا!"</string>
+    <string name="main_notifications_channel_name">إشعارات المؤقت</string>
+    <string name="main_reminder_channel_name">تنبيهات التذكير</string>
+    <string name="main_crash_channel_name">تقارير الأعطال</string>
+    <string name="main_crash_notification_title">تعطل التطبيق</string>
+    <string name="main_crash_notification_desc">عذرا على الإزعاج. الرجاء إرسال تقرير إلى المطور.</string>
+</resources>

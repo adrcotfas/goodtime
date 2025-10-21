@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Navigeer terug</string>
-    <string name="main_cancel">annuleren</string>
-    <string name="main_delete">Verwijderen</string>
-    <string name="main_edit">Bewerken</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Fout bij openen URL</string>
-    <string name="main_start_focus">Start focus</string>
-    <string name="main_start_break">Start met pauzeren</string>
-    <string name="main_break_complete">Breek compleet</string>
-    <string name="main_session_complete">Sessie voltooid</string>
-    <string name="main_this_session">Deze sessie</string>
-    <string name="main_interruptions">Onderbrekingen</string>
-    <string name="main_consider_idle_time_as_extra_focus">Inactieve tijd beschouwen als extra focus</string>
-    <string name="main_open_app_menu">App-menu openen</string>
-    <string name="main_reset_to_default">Standaardinstellingen herstellen</string>
-    <string name="main_save">Opslaan</string>
-    <string name="main_focus_session_in_progress">Focus sessie in uitvoering</string>
-    <string name="main_focus_session_paused">Focus sessie onderbroken</string>
-    <string name="main_break_in_progress">Pauze aan de gang</string>
-    <string name="main_pause">Pauzeren</string>
-    <string name="main_resume">Hervatten</string>
-    <string name="main_skip">Overslaan</string>
-    <string name="main_stop">Stop</string>
-    <string name="main_focus_session_finished">Focus sessie beëindigd</string>
-    <string name="main_break_finished">Pauze afgelopen</string>
-    <string name="main_continue">Doorgaan?</string>
-    <string name="main_idle">Inactief</string>
-    <string name="main_productivity_reminder_desc">"Het is tijd om productief te zijn!"</string>
-    <string name="main_notifications_channel_name">Timer Notificaties</string>
-    <string name="main_reminder_channel_name">Herinneringsnotificaties</string>
     <string name="main_crash_channel_name">Crash rapporten</string>
     <string name="main_crash_notification_title">App gecrasht</string>
     <string name="main_crash_notification_desc">Sorry voor het ongemak. Stuur een verslag naar de ontwikkelaar.</string>

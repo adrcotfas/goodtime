@@ -72,7 +72,6 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.BuildConfig
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.getLabelData
 import com.apps.adrcotfas.goodtime.common.askForAlarmPermission
@@ -95,7 +94,11 @@ import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import com.apps.adrcotfas.goodtime.ui.common.SnackbarAction
 import com.apps.adrcotfas.goodtime.ui.common.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.common.SnackbarEvent
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.settings_allow
+import goodtime_productivity.composeapp.generated.resources.settings_allow_alarms
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import kotlin.math.roundToInt
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -399,10 +402,10 @@ private suspend fun showAlarmPermissionSnackbar(context: Context) {
     SnackbarController.sendEvent(
         event =
             SnackbarEvent(
-                message = context.getString(R.string.settings_allow_alarms),
+                message = getString(Res.string.settings_allow_alarms),
                 action =
                     SnackbarAction(
-                        name = context.getString(R.string.settings_allow),
+                        name = getString(Res.string.settings_allow),
                         action = {
                             context.askForAlarmPermission()
                         },

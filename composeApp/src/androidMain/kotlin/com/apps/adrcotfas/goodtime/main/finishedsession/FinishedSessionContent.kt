@@ -67,7 +67,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
 import com.apps.adrcotfas.goodtime.bl.TimerType
@@ -76,8 +75,22 @@ import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
 import com.apps.adrcotfas.goodtime.ui.common.TextBox
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_break_complete
+import goodtime_productivity.composeapp.generated.resources.main_consider_idle_time_as_extra_focus
+import goodtime_productivity.composeapp.generated.resources.main_idle
+import goodtime_productivity.composeapp.generated.resources.main_interruptions
+import goodtime_productivity.composeapp.generated.resources.main_session_complete
+import goodtime_productivity.composeapp.generated.resources.main_start_break
+import goodtime_productivity.composeapp.generated.resources.main_start_focus
+import goodtime_productivity.composeapp.generated.resources.main_this_session
+import goodtime_productivity.composeapp.generated.resources.stats_add_notes
+import goodtime_productivity.composeapp.generated.resources.stats_break
+import goodtime_productivity.composeapp.generated.resources.stats_focus
+import goodtime_productivity.composeapp.generated.resources.stats_today
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.milliseconds
@@ -120,10 +133,10 @@ fun FinishedSessionSheet(
             DragHandle(
                 buttonText =
                     if (isBreak) {
-                        stringResource(R.string.main_start_focus)
+                        stringResource(Res.string.main_start_focus)
                     } else {
                         stringResource(
-                            R.string.main_start_break,
+                            Res.string.main_start_break,
                         )
                     },
                 onClose = {
@@ -217,7 +230,7 @@ private fun FinishedSessionContent(
     ) {
         val isBreak = timerUiState.timerType.isBreak
         Text(
-            text = if (isBreak) stringResource(R.string.main_break_complete) else stringResource(R.string.main_session_complete),
+            text = if (isBreak) stringResource(Res.string.main_break_complete) else stringResource(Res.string.main_session_complete),
             style = MaterialTheme.typography.titleLarge,
         )
         CurrentSessionCard(
@@ -260,7 +273,7 @@ private fun CurrentSessionCard(
                     .padding(16.dp),
         ) {
             Text(
-                stringResource(R.string.main_this_session),
+                stringResource(Res.string.main_this_session),
                 style =
                     MaterialTheme.typography.titleSmall.copy(
                         MaterialTheme.colorScheme.primary,
@@ -281,7 +294,7 @@ private fun CurrentSessionCard(
                     horizontalAlignment = Alignment.Start,
                 ) {
                     Text(
-                        if (isBreak) stringResource(R.string.stats_break) else stringResource(R.string.stats_focus),
+                        if (isBreak) stringResource(Res.string.stats_break) else stringResource(Res.string.stats_focus),
                         style = MaterialTheme.typography.labelSmall,
                     )
                     Text(
@@ -299,7 +312,7 @@ private fun CurrentSessionCard(
                             horizontalAlignment = Alignment.Start,
                         ) {
                             Text(
-                                stringResource(R.string.main_interruptions),
+                                stringResource(Res.string.main_interruptions),
                                 style = MaterialTheme.typography.labelSmall,
                             )
                             Text(
@@ -316,7 +329,7 @@ private fun CurrentSessionCard(
                                 verticalArrangement = Arrangement.SpaceBetween,
                                 horizontalAlignment = Alignment.Start,
                             ) {
-                                Text(stringResource(R.string.main_idle), style = MaterialTheme.typography.labelSmall)
+                                Text(stringResource(Res.string.main_idle), style = MaterialTheme.typography.labelSmall)
                                 Text(
                                     idleMillis.formatMilliseconds(),
                                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
@@ -328,14 +341,14 @@ private fun CurrentSessionCard(
                                     FilledTonalIconButton(onClick = { onAddIdleMinutesChanged(false) }) {
                                         Icon(
                                             imageVector = Icons.Default.Check,
-                                            contentDescription = stringResource(R.string.main_consider_idle_time_as_extra_focus),
+                                            contentDescription = stringResource(Res.string.main_consider_idle_time_as_extra_focus),
                                         )
                                     }
                                 } else {
                                     IconButton(onClick = { onAddIdleMinutesChanged(true) }) {
                                         Icon(
                                             imageVector = Icons.Default.Add,
-                                            contentDescription = stringResource(R.string.main_consider_idle_time_as_extra_focus),
+                                            contentDescription = stringResource(Res.string.main_consider_idle_time_as_extra_focus),
                                         )
                                     }
                                 }
@@ -349,7 +362,7 @@ private fun CurrentSessionCard(
                 value = notes,
                 onValueChange = onNotesChanged,
                 enabled = enabled,
-                placeholder = stringResource(R.string.stats_add_notes),
+                placeholder = stringResource(Res.string.stats_add_notes),
             )
         }
     }
@@ -371,7 +384,7 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
                         .animateContentSize(),
             ) {
                 Text(
-                    stringResource(R.string.stats_today),
+                    stringResource(Res.string.stats_today),
                     style =
                         MaterialTheme.typography.titleSmall.copy(
                             MaterialTheme.colorScheme.primary,
@@ -392,7 +405,7 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
                         horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
-                            stringResource(R.string.stats_focus),
+                            stringResource(Res.string.stats_focus),
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
@@ -406,7 +419,7 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
                         horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
-                            stringResource(R.string.stats_break),
+                            stringResource(Res.string.stats_break),
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
@@ -421,7 +434,7 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
                             horizontalAlignment = Alignment.Start,
                         ) {
                             Text(
-                                stringResource(R.string.main_interruptions),
+                                stringResource(Res.string.main_interruptions),
                                 style = MaterialTheme.typography.labelSmall,
                             )
                             Text(

@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Naviger tilbake</string>
-    <string name="main_cancel">Avbryt</string>
-    <string name="main_delete">Slett</string>
-    <string name="main_edit">Rediger</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Kan ikke åpne URL</string>
-    <string name="main_start_focus">Start fokus</string>
-    <string name="main_start_break">Start pause</string>
-    <string name="main_break_complete">Pause fullført</string>
-    <string name="main_session_complete">Økt fullført</string>
-    <string name="main_this_session">Denne sesjonen</string>
-    <string name="main_interruptions">Avvik</string>
-    <string name="main_consider_idle_time_as_extra_focus">Vurder inaktiv tid som ekstra fokus</string>
-    <string name="main_open_app_menu">Åpne app-meny</string>
-    <string name="main_reset_to_default">Tilbakestill til standard</string>
-    <string name="main_save">Lagre</string>
-    <string name="main_focus_session_in_progress">Fokusøkt pågår</string>
-    <string name="main_focus_session_paused">Fokuset er satt på</string>
-    <string name="main_break_in_progress">Pause pågår</string>
-    <string name="main_pause">Paus</string>
-    <string name="main_resume">Gjenoppta</string>
-    <string name="main_skip">Hopp</string>
-    <string name="main_stop">Stopp</string>
-    <string name="main_focus_session_finished">Fokuset ferdig</string>
-    <string name="main_break_finished">Pause ferdig</string>
-    <string name="main_continue">Fortsette?</string>
-    <string name="main_idle">Inaktiv</string>
-    <string name="main_productivity_reminder_desc">"Tid for å være produktiv!"</string>
-    <string name="main_notifications_channel_name">Tidtaker varsler</string>
-    <string name="main_reminder_channel_name">Påminnelse varsling</string>
     <string name="main_crash_channel_name">Krasj rapporter</string>
     <string name="main_crash_notification_title">Appen krasjet</string>
     <string name="main_crash_notification_desc">Beklager ulempen. Send rapport til utvikleren.</string>

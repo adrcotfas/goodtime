@@ -45,7 +45,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.stats.LabelChip
@@ -54,6 +53,10 @@ import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Menu2
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_title
+import goodtime_productivity.composeapp.generated.resources.main_open_app_menu
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BottomAppBar(
@@ -93,7 +96,7 @@ fun BottomAppBar(
                 BadgedBoxWithCount(count = badgeItemCount) {
                     Icon(
                         imageVector = EvaIcons.Outline.Menu2,
-                        contentDescription = stringResource(R.string.main_open_app_menu),
+                        contentDescription = stringResource(Res.string.main_open_app_menu),
                     )
                 }
             }
@@ -108,7 +111,7 @@ fun BottomAppBar(
                 IconButton(onClick = onNavigateToSelectLabelDialog) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.Label,
-                        contentDescription = stringResource(R.string.labels_title),
+                        contentDescription = stringResource(Res.string.labels_title),
                         tint = color,
                     )
                 }

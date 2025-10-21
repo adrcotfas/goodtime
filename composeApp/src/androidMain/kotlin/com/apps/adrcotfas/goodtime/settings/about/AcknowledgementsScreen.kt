@@ -30,10 +30,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.about_acknowledgements
+import goodtime_productivity.composeapp.generated.resources.main_failed_to_open_url
+import org.jetbrains.compose.resources.stringResource
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +46,7 @@ fun AcknowledgementsScreen(onNavigateBack: () -> Boolean) {
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.about_acknowledgements),
+                title = stringResource(Res.string.about_acknowledgements),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -58,16 +60,25 @@ fun AcknowledgementsScreen(onNavigateBack: () -> Boolean) {
                     .verticalScroll(listState)
                     .background(MaterialTheme.colorScheme.background),
         ) {
+            val openUrlErrorMessage = stringResource(Res.string.main_failed_to_open_url)
             BetterListItem(
                 title = "Pomodoro Technique",
                 onClick = {
-                    openUrl(context, "https://en.wikipedia.org/wiki/Pomodoro_Technique")
+                    openUrl(
+                        context,
+                        "https://en.wikipedia.org/wiki/Pomodoro_Technique",
+                        toastErrorMessage = openUrlErrorMessage,
+                    )
                 },
             )
             BetterListItem(
                 title = "Third Time",
                 onClick = {
-                    openUrl(context, "https://www.lesswrong.com/posts/RWu8eZqbwgB9zaerh/third-time-a-better-way-to-work")
+                    openUrl(
+                        context,
+                        "https://www.lesswrong.com/posts/RWu8eZqbwgB9zaerh/third-time-a-better-way-to-work",
+                        toastErrorMessage = openUrlErrorMessage,
+                    )
                 },
             )
         }

@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">پیمایش به‌ عقب</string>
-    <string name="main_cancel">لغو</string>
-    <string name="main_delete">حذف</string>
-    <string name="main_edit">ویرایش</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">باز کردن لینک ناموفق بود</string>
-    <string name="main_start_focus">شروع تمرکز</string>
-    <string name="main_start_break">شروع استراحت</string>
-    <string name="main_break_complete">استراحت تکمیل شد</string>
-    <string name="main_session_complete">دوره تکمیل شد</string>
-    <string name="main_this_session">این دوره</string>
-    <string name="main_interruptions">وقفه‌ها</string>
-    <string name="main_consider_idle_time_as_extra_focus">زمان غیرفعال را به عنوان تمرکز مضاعف در نظر بگیر</string>
-    <string name="main_open_app_menu">منو برنامه را باز کن</string>
-    <string name="main_reset_to_default">بازگردانی به حالت پیش فرض</string>
-    <string name="main_save">ذخیره</string>
-    <string name="main_focus_session_in_progress">دوره تمرکز در حال انجام است</string>
-    <string name="main_focus_session_paused">دوره تمرکز متوقف شده است</string>
-    <string name="main_break_in_progress">استراحت درحال انجام است</string>
-    <string name="main_pause">توقف</string>
-    <string name="main_resume">ادامه</string>
-    <string name="main_skip">رد کردن</string>
-    <string name="main_stop">اتمام</string>
-    <string name="main_focus_session_finished">دوره تمرکز تمام شده است</string>
-    <string name="main_break_finished">استراحت تمام شد</string>
-    <string name="main_continue">ادامه؟</string>
-    <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"زمان کارآمد بودن فرا رسیده!"</string>
-    <string name="main_notifications_channel_name">اعلان‌های زمان‌سنج</string>
-    <string name="main_reminder_channel_name">یادآوری اعلان‌ها</string>
     <string name="main_crash_channel_name">گزارش خرابی</string>
     <string name="main_crash_notification_title">برنامه از کار افتاد</string>
     <string name="main_crash_notification_desc">برای ناسازگاری متاسفم. لطفا به توسعه دهنده گزارشی بفرستید.</string>

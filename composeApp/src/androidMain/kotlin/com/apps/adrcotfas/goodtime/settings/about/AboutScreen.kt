@@ -32,11 +32,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.ui.common.IconListItem
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
@@ -48,6 +48,19 @@ import compose.icons.evaicons.outline.Github
 import compose.icons.evaicons.outline.Globe
 import compose.icons.evaicons.outline.PaperPlane
 import compose.icons.evaicons.outline.Star
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.about_acknowledgements
+import goodtime_productivity.composeapp.generated.resources.about_and_feedback_title
+import goodtime_productivity.composeapp.generated.resources.about_app_intro
+import goodtime_productivity.composeapp.generated.resources.about_feedback
+import goodtime_productivity.composeapp.generated.resources.about_open_source_licenses
+import goodtime_productivity.composeapp.generated.resources.about_rate_this_app
+import goodtime_productivity.composeapp.generated.resources.about_source_code
+import goodtime_productivity.composeapp.generated.resources.about_translate_this_app
+import goodtime_productivity.composeapp.generated.resources.main_failed_to_open_url
+import goodtime_productivity.composeapp.generated.resources.tutorial_title
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,13 +73,14 @@ fun AboutScreen(
     onNavigateToMain: () -> Unit,
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val mainViewModel = koinInject<MainViewModel>()
     val listState = rememberScrollState()
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.about_and_feedback_title),
+                title = stringResource(Res.string.about_and_feedback_title),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -80,19 +94,22 @@ fun AboutScreen(
                     .verticalScroll(listState)
                     .background(MaterialTheme.colorScheme.background),
         ) {
+            val openUrlErrorMessage = stringResource(Res.string.main_failed_to_open_url)
             IconListItem(
-                title = stringResource(R.string.about_source_code),
+                title = stringResource(Res.string.about_source_code),
                 icon = { Icon(EvaIcons.Outline.Github, contentDescription = "GitHub") },
                 onClick = {
-                    openUrl(context, REPO_URL)
+                    scope.launch {
+                        openUrl(context, REPO_URL, openUrlErrorMessage)
+                    }
                 },
             )
             IconListItem(
-                title = stringResource(R.string.about_open_source_licenses),
+                title = stringResource(Res.string.about_open_source_licenses),
                 icon = {
                     Icon(
                         EvaIcons.Outline.BookOpen,
-                        contentDescription = stringResource(R.string.about_open_source_licenses),
+                        contentDescription = stringResource(Res.string.about_open_source_licenses),
                     )
                 },
                 onClick = {
@@ -101,11 +118,11 @@ fun AboutScreen(
                 isSelected = isLicensesSelected,
             )
             IconListItem(
-                title = stringResource(R.string.about_acknowledgements),
+                title = stringResource(Res.string.about_acknowledgements),
                 icon = {
                     Icon(
                         Icons.Outlined.CheckCircle,
-                        contentDescription = stringResource(R.string.about_acknowledgements),
+                        contentDescription = stringResource(Res.string.about_acknowledgements),
                     )
                 },
                 onClick = {
@@ -114,11 +131,11 @@ fun AboutScreen(
             )
             SubtleHorizontalDivider()
             IconListItem(
-                title = stringResource(R.string.about_app_intro),
+                title = stringResource(Res.string.about_app_intro),
                 icon = {
                     Icon(
                         Icons.Outlined.Flag,
-                        contentDescription = stringResource(R.string.about_app_intro),
+                        contentDescription = stringResource(Res.string.about_app_intro),
                     )
                 },
                 onClick = {
@@ -126,11 +143,11 @@ fun AboutScreen(
                 },
             )
             IconListItem(
-                title = stringResource(R.string.tutorial_title),
+                title = stringResource(Res.string.tutorial_title),
                 icon = {
                     Icon(
                         Icons.Outlined.Preview,
-                        contentDescription = stringResource(R.string.tutorial_title),
+                        contentDescription = stringResource(Res.string.tutorial_title),
                     )
                 },
                 onClick = {
@@ -140,37 +157,45 @@ fun AboutScreen(
             )
             SubtleHorizontalDivider()
             IconListItem(
-                title = stringResource(R.string.about_feedback),
+                title = stringResource(Res.string.about_feedback),
                 icon = {
                     Icon(
                         EvaIcons.Outline.PaperPlane,
-                        contentDescription = stringResource(R.string.about_feedback),
+                        contentDescription = stringResource(Res.string.about_feedback),
                     )
                 },
-                onClick = { sendFeedback(context) },
+                onClick = {
+                    scope.launch {
+                        sendFeedback(context)
+                    }
+                },
             )
             IconListItem(
-                title = stringResource(R.string.about_translate_this_app),
+                title = stringResource(Res.string.about_translate_this_app),
                 icon = {
                     Icon(
                         EvaIcons.Outline.Globe,
-                        contentDescription = stringResource(R.string.about_translate_this_app),
+                        contentDescription = stringResource(Res.string.about_translate_this_app),
                     )
                 },
                 onClick = {
-                    openUrl(context, TRANSLATE_URL)
+                    scope.launch {
+                        openUrl(context, TRANSLATE_URL, openUrlErrorMessage)
+                    }
                 },
             )
             IconListItem(
-                title = stringResource(R.string.about_rate_this_app),
+                title = stringResource(Res.string.about_rate_this_app),
                 icon = {
                     Icon(
                         EvaIcons.Outline.Star,
-                        contentDescription = stringResource(R.string.about_rate_this_app),
+                        contentDescription = stringResource(Res.string.about_rate_this_app),
                     )
                 },
                 onClick = {
-                    openUrl(context, GOOGLE_PLAY_URL)
+                    scope.launch {
+                        openUrl(context, GOOGLE_PLAY_URL, openUrlErrorMessage)
+                    }
                 },
             )
         }

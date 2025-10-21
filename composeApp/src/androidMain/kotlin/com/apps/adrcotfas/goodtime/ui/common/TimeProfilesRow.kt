@@ -26,7 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_count_up
+import goodtime_productivity.composeapp.generated.resources.labels_countdown
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TimerTypeRow(
@@ -40,7 +43,7 @@ fun TimerTypeRow(
         FilterChip(
             onClick = { onCountDownEnabled(true) },
             label = {
-                Text(stringResource(R.string.labels_countdown))
+                Text(stringResource(Res.string.labels_countdown))
             },
             selected = isCountDown,
         )
@@ -48,7 +51,7 @@ fun TimerTypeRow(
         FilterChip(
             onClick = { onCountDownEnabled(false) },
             label = {
-                Text(stringResource(R.string.labels_count_up))
+                Text(stringResource(Res.string.labels_count_up))
             },
             selected = !isCountDown,
         )

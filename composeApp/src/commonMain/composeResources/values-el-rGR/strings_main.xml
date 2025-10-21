@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Πλοήγηση πίσω</string>
+    <string name="main_cancel">Ακύρωση</string>
+    <string name="main_delete">Διαγραφή</string>
+    <string name="main_edit">Επεξεργασία</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">Αποτυχία ανοίγματος του URL</string>
+    <string name="main_start_focus">Έναρξη εστίασης</string>
+    <string name="main_start_break">Έναρξη διάλειμμα</string>
+    <string name="main_break_complete">Το διάλειμμα ολοκληρώθηκε</string>
+    <string name="main_session_complete">Η συνεδρία ολοκληρώθηκε</string>
+    <string name="main_this_session">Αυτή η συνεδρία</string>
+    <string name="main_interruptions">Διακοπές</string>
+    <string name="main_consider_idle_time_as_extra_focus">Θεωρήστε το χρόνο αδράνειας ως επιπλέον εστίαση</string>
+    <string name="main_open_app_menu">Άνοιγμα μενού εφαρμογών</string>
+    <string name="main_reset_to_default">Επαναφορά προεπιλογών</string>
+    <string name="main_save">Αποθήκευση</string>
+    <string name="main_focus_session_in_progress">Εστίαση συνεδρίας σε εξέλιξη</string>
+    <string name="main_focus_session_paused">Η συνεδρία εστίασης σταμάτησε</string>
+    <string name="main_break_in_progress">Σπάσει σε εξέλιξη</string>
+    <string name="main_pause">Παύση</string>
+    <string name="main_resume">Συνέχεια</string>
+    <string name="main_skip">Παράλειψη</string>
+    <string name="main_stop">Σταμάτα</string>
+    <string name="main_focus_session_finished">Η συνεδρία εστίασης ολοκληρώθηκε</string>
+    <string name="main_break_finished">Διάλειμμα τελείωσε</string>
+    <string name="main_continue">Να συνεχίσω;</string>
+    <string name="main_idle">Αδρανής</string>
+    <string name="main_productivity_reminder_desc">"Είναι ώρα να γίνουμε παραγωγικοί!"</string>
+    <string name="main_notifications_channel_name">Ειδοποιήσεις Χρονομέτρου</string>
+    <string name="main_reminder_channel_name">Ειδοποιήσεις Υπενθύμισης</string>
+    <string name="main_crash_channel_name">Αναφορές κατάρρευσης</string>
+    <string name="main_crash_notification_title">Η εφαρμογή κατέρρευσε</string>
+    <string name="main_crash_notification_desc">Συγγνώμη για την ταλαιπωρία. Παρακαλώ στείλτε μια αναφορά στον προγραμματιστή.</string>
+</resources>

@@ -60,17 +60,21 @@ import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlState.Companion.calculateStartAngle
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Fill
 import compose.icons.evaicons.fill.ArrowIosBack
 import compose.icons.evaicons.fill.ArrowIosForward
 import compose.icons.evaicons.fill.Plus
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_plus_1_min
+import goodtime_productivity.composeapp.generated.resources.main_skip
+import goodtime_productivity.composeapp.generated.resources.main_stop
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.StringResource
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -306,10 +310,10 @@ private fun <T> CircleDial(
 
 enum class DialRegion(
     val icon: ImageVector,
-    val labelId: Int,
+    val labelId: StringResource,
 ) {
-    TOP(icon = EvaIcons.Fill.Plus, labelId = R.string.main_plus_1_min),
-    RIGHT(icon = EvaIcons.Fill.ArrowIosForward, labelId = R.string.main_skip),
-    BOTTOM(icon = Icons.Filled.Close, R.string.main_stop),
-    LEFT(icon = EvaIcons.Fill.ArrowIosBack, labelId = R.string.main_skip),
+    TOP(icon = EvaIcons.Fill.Plus, labelId = Res.string.main_plus_1_min),
+    RIGHT(icon = EvaIcons.Fill.ArrowIosForward, labelId = Res.string.main_skip),
+    BOTTOM(icon = Icons.Filled.Close, Res.string.main_stop),
+    LEFT(icon = EvaIcons.Fill.ArrowIosBack, labelId = Res.string.main_skip),
 }

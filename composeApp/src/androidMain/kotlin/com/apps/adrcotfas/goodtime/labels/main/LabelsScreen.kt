@@ -56,7 +56,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
 import com.apps.adrcotfas.goodtime.ui.DraggableItem
@@ -68,6 +67,16 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Archive
 import compose.icons.evaicons.outline.Plus
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_add_label
+import goodtime_productivity.composeapp.generated.resources.labels_archived_labels_title
+import goodtime_productivity.composeapp.generated.resources.labels_default_label_name
+import goodtime_productivity.composeapp.generated.resources.labels_delete
+import goodtime_productivity.composeapp.generated.resources.labels_delete_label_confirmation
+import goodtime_productivity.composeapp.generated.resources.labels_navigate_to_archived
+import goodtime_productivity.composeapp.generated.resources.labels_title
+import goodtime_productivity.composeapp.generated.resources.stats_no_items
+import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,7 +92,7 @@ fun LabelsScreen(
     if (uiState.isLoading) return
     val labels = uiState.unarchivedLabels
     val activeLabelName = uiState.activeLabelName
-    val defaultLabelName = stringResource(id = R.string.labels_default_label_name)
+    val defaultLabelName = stringResource(Res.string.labels_default_label_name)
 
     var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
     var labelToDelete by remember { mutableStateOf("") }
@@ -110,7 +119,7 @@ fun LabelsScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.labels_title),
+                title = stringResource(Res.string.labels_title),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -132,7 +141,7 @@ fun LabelsScreen(
                         }
                     },
                 ) {
-                    Icon(EvaIcons.Outline.Plus, stringResource(R.string.labels_add_label))
+                    Icon(EvaIcons.Outline.Plus, stringResource(Res.string.labels_add_label))
                 }
             }
         },
@@ -149,12 +158,12 @@ fun LabelsScreen(
                         Icon(
                             imageVector = EvaIcons.Outline.Archive,
                             tint = MaterialTheme.colorScheme.secondary,
-                            contentDescription = stringResource(R.string.labels_navigate_to_archived),
+                            contentDescription = stringResource(Res.string.labels_navigate_to_archived),
                         )
                     },
                     headlineContent = {
                         Text(
-                            text = stringResource(R.string.labels_archived_labels_title),
+                            text = stringResource(Res.string.labels_archived_labels_title),
                             style =
                                 MaterialTheme.typography.labelLarge.copy(
                                     color = MaterialTheme.colorScheme.secondary,
@@ -185,10 +194,10 @@ fun LabelsScreen(
                         modifier = Modifier.size(96.dp),
                         imageVector = Icons.AutoMirrored.Outlined.Label,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        contentDescription = stringResource(R.string.stats_no_items),
+                        contentDescription = stringResource(Res.string.stats_no_items),
                     )
                     Text(
-                        text = stringResource(R.string.stats_no_items),
+                        text = stringResource(Res.string.stats_no_items),
                         style =
                             MaterialTheme.typography.bodyMedium.copy(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -236,8 +245,8 @@ fun LabelsScreen(
         }
         if (showDeleteConfirmationDialog) {
             ConfirmationDialog(
-                title = stringResource(R.string.labels_delete, labelToDelete),
-                subtitle = stringResource(R.string.labels_delete_label_confirmation),
+                title = stringResource(Res.string.labels_delete, labelToDelete),
+                subtitle = stringResource(Res.string.labels_delete_label_confirmation),
                 onConfirm = {
                     viewModel.deleteLabel(labelToDelete)
                     showDeleteConfirmationDialog = false

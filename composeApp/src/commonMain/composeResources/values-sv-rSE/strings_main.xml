@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Navigera tillbaka</string>
+    <string name="main_cancel">Avbryt</string>
+    <string name="main_delete">Ta bort</string>
+    <string name="main_edit">Redigera</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">Det gick inte att öppna URL</string>
+    <string name="main_start_focus">Börja fokusera</string>
+    <string name="main_start_break">Påbörja paus</string>
+    <string name="main_break_complete">Brytningen slutförd</string>
+    <string name="main_session_complete">Sessionen slutförd</string>
+    <string name="main_this_session">Denna session</string>
+    <string name="main_interruptions">Avbrott</string>
+    <string name="main_consider_idle_time_as_extra_focus">Betrakta sysslolös tid som extra fokus</string>
+    <string name="main_open_app_menu">Öppna appmenyn</string>
+    <string name="main_reset_to_default">Återställ till standard</string>
+    <string name="main_save">Spara</string>
+    <string name="main_focus_session_in_progress">Fokussessionen pågår</string>
+    <string name="main_focus_session_paused">Fokussessionen pausad</string>
+    <string name="main_break_in_progress">Paus pågår</string>
+    <string name="main_pause">Pausa</string>
+    <string name="main_resume">Återuppta</string>
+    <string name="main_skip">Hoppa</string>
+    <string name="main_stop">Stopp</string>
+    <string name="main_focus_session_finished">Fokussessionen avslutad</string>
+    <string name="main_break_finished">Paus avslutad</string>
+    <string name="main_continue">Fortsätta?</string>
+    <string name="main_idle">Inaktiv</string>
+    <string name="main_productivity_reminder_desc">"Dags att vara produktiv!"</string>
+    <string name="main_notifications_channel_name">Tidtagarens aviseringar</string>
+    <string name="main_reminder_channel_name">Påminnelse aviseringar</string>
+    <string name="main_crash_channel_name">Kraschrapporter</string>
+    <string name="main_crash_notification_title">Appen kraschade</string>
+    <string name="main_crash_notification_desc">Ledsen för besväret. Vänligen skicka en rapport till utvecklaren.</string>
+</resources>

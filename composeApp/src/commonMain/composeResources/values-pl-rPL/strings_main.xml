@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Nawiguj wstecz</string>
+    <string name="main_cancel">Anuluj</string>
+    <string name="main_delete">Kasować</string>
+    <string name="main_edit">Edytuj</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">Nie udało się otworzyć adresu URL</string>
+    <string name="main_start_focus">Rozpocznij koncentrację</string>
+    <string name="main_start_break">Rozpoczęcie przerwy</string>
+    <string name="main_break_complete">Przerwanie zakończone</string>
+    <string name="main_session_complete">Sesja zakończona</string>
+    <string name="main_this_session">Ta sesja</string>
+    <string name="main_interruptions">Przerwania</string>
+    <string name="main_consider_idle_time_as_extra_focus">Rozważ czas bezczynności jako dodatkowe ognisko</string>
+    <string name="main_open_app_menu">Otwórz menu aplikacji</string>
+    <string name="main_reset_to_default">Przywróć domyślne</string>
+    <string name="main_save">Zapisz</string>
+    <string name="main_focus_session_in_progress">Skoncentrowanie sesji w toku</string>
+    <string name="main_focus_session_paused">Skoncentrowanie sesji wstrzymane</string>
+    <string name="main_break_in_progress">Przerwa w toku</string>
+    <string name="main_pause">Pauza</string>
+    <string name="main_resume">Wznów</string>
+    <string name="main_skip">Pomiń</string>
+    <string name="main_stop">Stop</string>
+    <string name="main_focus_session_finished">Skoncentrowanie sesji zakończone</string>
+    <string name="main_break_finished">Przerwa zakończona</string>
+    <string name="main_continue">Dalej?</string>
+    <string name="main_idle">Bezczynny</string>
+    <string name="main_productivity_reminder_desc">"Czas być produktywnym!"</string>
+    <string name="main_notifications_channel_name">Powiadomienia timera</string>
+    <string name="main_reminder_channel_name">Powiadomienia przypomnienia</string>
+    <string name="main_crash_channel_name">Raporty awarii</string>
+    <string name="main_crash_notification_title">Aplikacja uległa awarii</string>
+    <string name="main_crash_notification_desc">Przepraszamy za niedogodności. Proszę wysłać raport do dewelopera.</string>
+</resources>

@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun DialControlButton(
@@ -70,7 +71,7 @@ fun DialControlButton(
                     ),
             ) {
                 Text(
-                    text = stringResource(id = region.labelId),
+                    text = stringResource(region.labelId),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.inverseOnSurface,
                     textAlign = TextAlign.Center,

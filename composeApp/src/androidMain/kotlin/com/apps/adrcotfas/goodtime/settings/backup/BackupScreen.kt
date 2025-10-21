@@ -42,7 +42,6 @@ import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.isUriPersisted
 import com.apps.adrcotfas.goodtime.common.releasePersistableUriPermission
 import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
@@ -57,6 +56,22 @@ import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Unlock
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.backup_and_restore_title
+import goodtime_productivity.composeapp.generated.resources.backup_auto_backup
+import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_export_backup
+import goodtime_productivity.composeapp.generated.resources.backup_export_csv
+import goodtime_productivity.composeapp.generated.resources.backup_export_json
+import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
+import goodtime_productivity.composeapp.generated.resources.backup_restore_backup
+import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
+import goodtime_productivity.composeapp.generated.resources.backup_the_file_can_be_imported_back
+import goodtime_productivity.composeapp.generated.resources.unlock_premium
+import goodtime_productivity.composeapp.generated.resources.unlock_premium_to_access_features
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -132,10 +147,10 @@ fun BackupScreen(
                 .makeText(
                     context,
                     if (it) {
-                        context.getString(R.string.backup_completed_successfully)
+                        getString(Res.string.backup_completed_successfully)
                     } else {
-                        context.getString(
-                            R.string.backup_failed_please_try_again,
+                        getString(
+                            Res.string.backup_failed_please_try_again,
                         )
                     },
                     Toast.LENGTH_SHORT,
@@ -150,10 +165,10 @@ fun BackupScreen(
                 .makeText(
                     context,
                     if (it) {
-                        context.getString(R.string.backup_restore_completed_successfully)
+                        getString(Res.string.backup_restore_completed_successfully)
                     } else {
-                        context.getString(
-                            R.string.backup_restore_failed_please_try_again,
+                        getString(
+                            Res.string.backup_restore_failed_please_try_again,
                         )
                     },
                     Toast.LENGTH_SHORT,
@@ -172,7 +187,7 @@ fun BackupScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.backup_and_restore_title),
+                title = stringResource(Res.string.backup_and_restore_title),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -191,16 +206,16 @@ fun BackupScreen(
                     icon = {
                         Icon(
                             imageVector = EvaIcons.Outline.Unlock,
-                            contentDescription = context.getString(R.string.unlock_premium),
+                            contentDescription = stringResource(Res.string.unlock_premium),
                         )
                     },
-                    description = stringResource(R.string.unlock_premium_to_access_features),
+                    description = stringResource(Res.string.unlock_premium_to_access_features),
                 ) {
                     onNavigateToPro()
                 }
             }
             SwitchListItem(
-                title = stringResource(R.string.backup_auto_backup),
+                title = stringResource(Res.string.backup_auto_backup),
                 checked = uiState.backupSettings.autoBackupEnabled,
                 enabled = enabled,
                 onCheckedChange = {
@@ -216,15 +231,15 @@ fun BackupScreen(
             )
             SubtleHorizontalDivider()
             CircularProgressListItem(
-                title = stringResource(R.string.backup_export_backup),
-                subtitle = stringResource(R.string.backup_the_file_can_be_imported_back),
+                title = stringResource(Res.string.backup_export_backup),
+                subtitle = stringResource(Res.string.backup_the_file_can_be_imported_back),
                 enabled = enabled,
                 showProgress = uiState.isBackupInProgress,
             ) {
                 viewModel.backup()
             }
             CircularProgressListItem(
-                title = stringResource(R.string.backup_restore_backup),
+                title = stringResource(Res.string.backup_restore_backup),
                 enabled = enabled,
                 showProgress = uiState.isRestoreInProgress,
             ) {
@@ -232,14 +247,14 @@ fun BackupScreen(
             }
             SubtleHorizontalDivider()
             CircularProgressListItem(
-                title = stringResource(R.string.backup_export_csv),
+                title = stringResource(Res.string.backup_export_csv),
                 enabled = enabled,
                 showProgress = uiState.isCsvBackupInProgress,
             ) {
                 viewModel.backupToCsv()
             }
             CircularProgressListItem(
-                title = stringResource(R.string.backup_export_json),
+                title = stringResource(Res.string.backup_export_json),
                 enabled = enabled,
                 showProgress = uiState.isJsonBackupInProgress,
             ) {

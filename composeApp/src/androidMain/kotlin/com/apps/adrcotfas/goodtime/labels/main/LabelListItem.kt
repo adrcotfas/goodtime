@@ -43,7 +43,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
@@ -58,6 +57,17 @@ import compose.icons.evaicons.outline.Copy
 import compose.icons.evaicons.outline.Edit
 import compose.icons.evaicons.outline.MoreVertical
 import compose.icons.evaicons.outline.Trash
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_archive_label_name
+import goodtime_productivity.composeapp.generated.resources.labels_archived
+import goodtime_productivity.composeapp.generated.resources.labels_delete_label_name
+import goodtime_productivity.composeapp.generated.resources.labels_duplicate_label_name
+import goodtime_productivity.composeapp.generated.resources.labels_edit_label
+import goodtime_productivity.composeapp.generated.resources.labels_more_about
+import goodtime_productivity.composeapp.generated.resources.main_delete
+import goodtime_productivity.composeapp.generated.resources.main_duplicate
+import goodtime_productivity.composeapp.generated.resources.main_edit
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LabelListItem(
@@ -121,7 +131,7 @@ fun LabelListItem(
             IconButton(onClick = { dropDownMenuExpanded = true }) {
                 Icon(
                     EvaIcons.Outline.MoreVertical,
-                    contentDescription = stringResource(R.string.labels_more_about, labelName),
+                    contentDescription = stringResource(Res.string.labels_more_about, labelName),
                 )
             }
             BetterDropdownMenu(
@@ -134,7 +144,7 @@ fun LabelListItem(
                     text = {
                         Text(
                             modifier = paddingModifier,
-                            text = stringResource(R.string.main_edit),
+                            text = stringResource(Res.string.main_edit),
                         )
                     },
                     onClick = {
@@ -146,7 +156,7 @@ fun LabelListItem(
                             EvaIcons.Outline.Edit,
                             contentDescription =
                                 stringResource(
-                                    R.string.labels_edit_label,
+                                    Res.string.labels_edit_label,
                                     labelName,
                                 ),
                         )
@@ -156,7 +166,7 @@ fun LabelListItem(
                     text = {
                         Text(
                             modifier = paddingModifier,
-                            text = stringResource(R.string.main_duplicate),
+                            text = stringResource(Res.string.main_duplicate),
                         )
                     },
                     onClick = {
@@ -168,7 +178,7 @@ fun LabelListItem(
                             EvaIcons.Outline.Copy,
                             contentDescription =
                                 stringResource(
-                                    R.string.labels_duplicate_label_name,
+                                    Res.string.labels_duplicate_label_name,
                                     labelName,
                                 ),
                         )
@@ -179,7 +189,7 @@ fun LabelListItem(
                     text = {
                         Text(
                             modifier = paddingModifier,
-                            text = stringResource(R.string.labels_archived),
+                            text = stringResource(Res.string.labels_archived),
                         )
                     },
                     onClick = {
@@ -191,7 +201,7 @@ fun LabelListItem(
                             EvaIcons.Outline.Archive,
                             contentDescription =
                                 stringResource(
-                                    R.string.labels_archive_label_name,
+                                    Res.string.labels_archive_label_name,
                                     labelName,
                                 ),
                         )
@@ -202,7 +212,7 @@ fun LabelListItem(
                     text = {
                         Text(
                             modifier = paddingModifier,
-                            text = stringResource(R.string.main_delete),
+                            text = stringResource(Res.string.main_delete),
                         )
                     },
                     onClick = {
@@ -214,7 +224,7 @@ fun LabelListItem(
                             EvaIcons.Outline.Trash,
                             contentDescription =
                                 stringResource(
-                                    R.string.labels_delete_label_name,
+                                    Res.string.labels_delete_label_name,
                                     labelName,
                                 ),
                         )

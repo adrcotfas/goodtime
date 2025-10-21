@@ -17,36 +17,44 @@
  */
 package com.apps.adrcotfas.goodtime.onboarding
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import com.apps.adrcotfas.goodtime.R
-import com.apps.adrcotfas.goodtime.R as Mr
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.intro1_desc1
+import goodtime_productivity.composeapp.generated.resources.intro1_desc2
+import goodtime_productivity.composeapp.generated.resources.intro1_title
+import goodtime_productivity.composeapp.generated.resources.intro2_desc1
+import goodtime_productivity.composeapp.generated.resources.intro2_desc2
+import goodtime_productivity.composeapp.generated.resources.intro2_title
+import goodtime_productivity.composeapp.generated.resources.intro3_desc1
+import goodtime_productivity.composeapp.generated.resources.intro3_desc2
+import goodtime_productivity.composeapp.generated.resources.intro3_title
+import org.jetbrains.compose.resources.StringResource
 
 data class OnboardingPage(
-    @StringRes val title: Int,
-    @StringRes val description1: Int,
-    @StringRes val description2: Int,
-    @DrawableRes val image: Int,
+    val title: StringResource,
+    val description1: StringResource,
+    val description2: StringResource,
+    val image: Int,
 ) {
     companion object {
         val pages =
             listOf(
                 OnboardingPage(
-                    title = Mr.string.intro1_title,
-                    description1 = Mr.string.intro1_desc1,
-                    description2 = Mr.string.intro1_desc2,
+                    title = Res.string.intro1_title,
+                    description1 = Res.string.intro1_desc1,
+                    description2 = Res.string.intro1_desc2,
                     image = R.drawable.intro1,
                 ),
                 OnboardingPage(
-                    title = Mr.string.intro2_title,
-                    description1 = Mr.string.intro2_desc1,
-                    description2 = Mr.string.intro2_desc2,
+                    title = Res.string.intro2_title,
+                    description1 = Res.string.intro2_desc1,
+                    description2 = Res.string.intro2_desc2,
                     image = R.drawable.intro2,
                 ),
                 OnboardingPage(
-                    title = Mr.string.intro3_title,
-                    description1 = Mr.string.intro3_desc1,
-                    description2 = Mr.string.intro3_desc2,
+                    title = Res.string.intro3_title,
+                    description1 = Res.string.intro3_desc1,
+                    description2 = Res.string.intro3_desc2,
                     image = R.drawable.intro3,
                 ),
             )

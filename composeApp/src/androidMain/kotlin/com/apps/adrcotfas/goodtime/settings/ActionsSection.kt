@@ -35,7 +35,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.askForAlarmPermission
 import com.apps.adrcotfas.goodtime.common.askForDisableBatteryOptimization
 import com.apps.adrcotfas.goodtime.common.findActivity
@@ -43,6 +42,15 @@ import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.PreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.settings_action_required
+import goodtime_productivity.composeapp.generated.resources.settings_allow
+import goodtime_productivity.composeapp.generated.resources.settings_allow_alarms
+import goodtime_productivity.composeapp.generated.resources.settings_allow_background
+import goodtime_productivity.composeapp.generated.resources.settings_allow_notifications
+import goodtime_productivity.composeapp.generated.resources.settings_update
+import goodtime_productivity.composeapp.generated.resources.settings_update_available
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ActionSection(
@@ -66,7 +74,7 @@ fun ActionSection(
             SubtleHorizontalDivider()
             Spacer(Modifier.height(8.dp))
             PreferenceGroupTitle(
-                text = stringResource(R.string.settings_action_required),
+                text = stringResource(Res.string.settings_action_required),
                 paddingValues =
                     PaddingValues(
                         horizontal = 16.dp,
@@ -75,23 +83,23 @@ fun ActionSection(
             )
             AnimatedVisibility(permissionsState.shouldAskForAlarmPermission) {
                 ActionCard(
-                    cta = stringResource(R.string.settings_allow),
-                    description = stringResource(R.string.settings_allow_alarms),
+                    cta = stringResource(Res.string.settings_allow),
+                    description = stringResource(Res.string.settings_allow_alarms),
                     onClick = { context.askForAlarmPermission() },
                 )
             }
             AnimatedVisibility(permissionsState.shouldAskForBatteryOptimizationRemoval) {
                 ActionCard(
-                    cta = stringResource(R.string.settings_allow),
-                    description = stringResource(R.string.settings_allow_background),
+                    cta = stringResource(Res.string.settings_allow),
+                    description = stringResource(Res.string.settings_allow_background),
                     onClick = { context.askForDisableBatteryOptimization() },
                 )
             }
 
             AnimatedVisibility(permissionsState.shouldAskForNotificationPermission) {
                 ActionCard(
-                    cta = stringResource(R.string.settings_allow),
-                    description = stringResource(R.string.settings_allow_notifications),
+                    cta = stringResource(Res.string.settings_allow),
+                    description = stringResource(Res.string.settings_allow_notifications),
                     onClick = {
                         if (wasNotificationPermissionDenied &&
                             !shouldShowRequestPermissionRationale(
@@ -111,8 +119,8 @@ fun ActionSection(
 
             AnimatedVisibility(isUpdateAvailable) {
                 ActionCard(
-                    cta = stringResource(R.string.settings_update),
-                    description = stringResource(R.string.settings_update_available),
+                    cta = stringResource(Res.string.settings_update),
+                    description = stringResource(Res.string.settings_update_available),
                     onClick = onUpdateClicked,
                 )
             }

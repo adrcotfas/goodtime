@@ -53,9 +53,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.convertSpToDp
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.stats_productive_hours
 import kotlinx.datetime.LocalTime
+import org.jetbrains.compose.resources.stringResource
 
 private fun Int.toFormattedHour(is24HourFormat: Boolean): String =
     if (is24HourFormat) {
@@ -108,7 +110,7 @@ fun ProductiveTimeSection(
                 Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-            text = stringResource(R.string.stats_productive_hours),
+            text = stringResource(Res.string.stats_productive_hours),
             style =
                 MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,

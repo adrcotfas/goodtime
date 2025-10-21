@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.localizedMonthNamesFull
 import com.apps.adrcotfas.goodtime.common.Time.currentDateTime
 import com.apps.adrcotfas.goodtime.common.isoWeekNumber
@@ -36,7 +35,12 @@ import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.StatisticsSettings
 import com.apps.adrcotfas.goodtime.stats.history.HistorySection
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.stats_today
+import goodtime_productivity.composeapp.generated.resources.stats_total
+import goodtime_productivity.composeapp.generated.resources.stats_week
 import kotlinx.datetime.DayOfWeek
+import org.jetbrains.compose.resources.stringResource
 import java.util.Locale
 
 @Composable
@@ -63,14 +67,14 @@ fun OverviewTab(
     ) {
         val typeNames =
             mapOf(
-                OverviewDurationType.TODAY to stringResource(R.string.stats_today),
+                OverviewDurationType.TODAY to stringResource(Res.string.stats_today),
                 OverviewDurationType.THIS_WEEK to
                     stringResource(
-                        R.string.stats_week,
+                        Res.string.stats_week,
                         currentDateTime.date.isoWeekNumber(),
                     ),
                 OverviewDurationType.THIS_MONTH to localizedMonthNamesFull(javaLocale)[currentDateTime.month.ordinal],
-                OverviewDurationType.TOTAL to stringResource(R.string.stats_total),
+                OverviewDurationType.TOTAL to stringResource(Res.string.stats_total),
             )
 
         OverviewSection(

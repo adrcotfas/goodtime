@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Navegar atrás</string>
-    <string name="main_cancel">Cancelar</string>
-    <string name="main_delete">Eliminar</string>
-    <string name="main_edit">Editar</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Error al abrir la URL</string>
-    <string name="main_start_focus">Enfoque inicial</string>
-    <string name="main_start_break">Iniciar descanso</string>
-    <string name="main_break_complete">Interrupción completa</string>
-    <string name="main_session_complete">Sesión completada</string>
-    <string name="main_this_session">Esta sesión</string>
-    <string name="main_interruptions">Interrupciones</string>
-    <string name="main_consider_idle_time_as_extra_focus">Considerar tiempo inactivo como foco extra</string>
-    <string name="main_open_app_menu">Abrir menú de app</string>
-    <string name="main_reset_to_default">Restablecer por defecto</string>
-    <string name="main_save">Guardar</string>
-    <string name="main_focus_session_in_progress">Sesión de concentración en progreso</string>
-    <string name="main_focus_session_paused">Sesión de concentración pausada</string>
-    <string name="main_break_in_progress">Descanso en progreso</string>
-    <string name="main_pause">Pausar</string>
-    <string name="main_resume">Reanudar</string>
-    <string name="main_skip">Saltar</string>
-    <string name="main_stop">Detener</string>
-    <string name="main_focus_session_finished">Sesión de concentración finalizada</string>
-    <string name="main_break_finished">Descanso terminado</string>
-    <string name="main_continue">¿Continuar?</string>
-    <string name="main_idle">Inactivo</string>
-    <string name="main_productivity_reminder_desc">"Es hora de ser productivo!"</string>
-    <string name="main_notifications_channel_name">Notificaciones de temporizador</string>
-    <string name="main_reminder_channel_name">Notificaciones de recordatorio</string>
     <string name="main_crash_channel_name">Informes de fallos</string>
     <string name="main_crash_notification_title">Aplicación fallida</string>
     <string name="main_crash_notification_desc">Disculpe las molestias. Por favor, envíe un informe al desarrollador.</string>

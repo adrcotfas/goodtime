@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">পিছনে যান</string>
+    <string name="main_cancel">বাতিল করুন</string>
+    <string name="main_delete">মুছে ফেলুন</string>
+    <string name="main_edit">সম্পাদনা</string>
+    <string name="main_duplicate">Duplicate</string>
+    <string name="main_failed_to_open_url">URL খুলতে ব্যর্থ হয়েছে৷</string>
+    <string name="main_start_focus">ফোকাস শুরু করুন</string>
+    <string name="main_start_break">বিরতি শুরু</string>
+    <string name="main_break_complete">বিরতি সম্পূর্ণ</string>
+    <string name="main_session_complete">সেশন সম্পূর্ণ</string>
+    <string name="main_this_session">অধিবেশন সম্পাদনা করুন</string>
+    <string name="main_interruptions">বাধা</string>
+    <string name="main_consider_idle_time_as_extra_focus">অলস সময়কে অতিরিক্ত ফোকাস হিসাবে বিবেচনা করুন</string>
+    <string name="main_open_app_menu">অ্যাপ মেনু খুলুন</string>
+    <string name="main_reset_to_default">পুনরায় ডিফল্টে চলে যান</string>
+    <string name="main_save">সংরক্ষণ করুন</string>
+    <string name="main_focus_session_in_progress">সেশন চলছে কাজ</string>
+    <string name="main_focus_session_paused">ফোকাস সেশন পজ করা হয়েছে</string>
+    <string name="main_break_in_progress">বিরতি চলছে</string>
+    <string name="main_pause">বিরাম</string>
+    <string name="main_resume">পুনঃসূচনা</string>
+    <string name="main_skip">Skip</string>
+    <string name="main_stop">বন্ধ</string>
+    <string name="main_focus_session_finished">ফোকাস সেশন পজ করা হয়েছে</string>
+    <string name="main_break_finished">সম্পূর্ণ ভেঙে</string>
+    <string name="main_continue">অবিরত রাখতে চান?</string>
+    <string name="main_idle">Idle</string>
+    <string name="main_productivity_reminder_desc">"এটা উত্পাদনশীল হতে সময়!"</string>
+    <string name="main_notifications_channel_name">গুডটাইম বিজ্ঞপ্তি</string>
+    <string name="main_reminder_channel_name">গুডটাইম বিজ্ঞপ্তি</string>
+    <string name="main_crash_channel_name">বিপর্যয় প্রতিবেদন</string>
+    <string name="main_crash_notification_title">অ্যাপ ক্র্যাশ হয়েছে</string>
+    <string name="main_crash_notification_desc">অসুবিধার জন্য দুঃখিত। অনুগ্রহ করে বিকাশকারীকে একটি প্রতিবেদন পাঠান.</string>
+</resources>

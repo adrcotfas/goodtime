@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Geri dön</string>
+    <string name="main_cancel">İptal et</string>
+    <string name="main_delete">Sil</string>
+    <string name="main_edit">Düzenle</string>
+    <string name="main_duplicate">Çoğalt</string>
+    <string name="main_failed_to_open_url">URLyi açmak başarısız oldu</string>
+    <string name="main_start_focus">Odağı başlat</string>
+    <string name="main_start_break">Arayı başlat</string>
+    <string name="main_break_complete">Ara tamamlandı</string>
+    <string name="main_session_complete">Oturum tamamlandı</string>
+    <string name="main_this_session">Bu oturum</string>
+    <string name="main_interruptions">Kesintiler</string>
+    <string name="main_consider_idle_time_as_extra_focus">Boş zamanı fazladan odak olarak değerlendir</string>
+    <string name="main_open_app_menu">Uygulama menüsünü aç</string>
+    <string name="main_reset_to_default">Varsayılana sıfırla</string>
+    <string name="main_save">Kaydet</string>
+    <string name="main_focus_session_in_progress">Odak oturumu devam ediyor</string>
+    <string name="main_focus_session_paused">Odak oturumu durduruldu</string>
+    <string name="main_break_in_progress">Ara devam ediyor</string>
+    <string name="main_pause">Duraklat</string>
+    <string name="main_resume">Devam ettir</string>
+    <string name="main_skip">Atla</string>
+    <string name="main_stop">Durdur</string>
+    <string name="main_focus_session_finished">Odak oturumu bitti</string>
+    <string name="main_break_finished">Ara bitti</string>
+    <string name="main_continue">Devam et?</string>
+    <string name="main_idle">Idle</string>
+    <string name="main_productivity_reminder_desc">"Verimli olma zamanı!"</string>
+    <string name="main_notifications_channel_name">Zamanlayıcı Bildirimleri</string>
+    <string name="main_reminder_channel_name">Hatırlatıcı Bildirimleri</string>
+    <string name="main_crash_channel_name">Çöküş raporları</string>
+    <string name="main_crash_notification_title">Uygulama çöktü</string>
+    <string name="main_crash_notification_desc">Rahatsızlık için özür dileriz. Lütfen geliştiriciye bir rapor gönderin.</string>
+</resources>

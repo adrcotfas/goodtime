@@ -17,36 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Siirry takaisin</string>
-    <string name="main_cancel">Peruuta</string>
-    <string name="main_delete">Poista</string>
-    <string name="main_edit">Muokkaa</string>
-    <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">URL-osoitetta ei voitu avata</string>
-    <string name="main_start_focus">Keskity</string>
-    <string name="main_start_break">Pidä tauko</string>
-    <string name="main_break_complete">Tauko ohi</string>
-    <string name="main_session_complete">Istunto suoritettu</string>
-    <string name="main_this_session">Tämä istunto</string>
-    <string name="main_interruptions">Keskeytyksiä</string>
-    <string name="main_consider_idle_time_as_extra_focus">Pidä joutoaika lisäkeskittymisenä</string>
-    <string name="main_open_app_menu">Avaa sovellusvalikko</string>
-    <string name="main_reset_to_default">Palauta oletuksiin</string>
-    <string name="main_save">Tallenna</string>
-    <string name="main_focus_session_in_progress">Istunto käynnissä</string>
-    <string name="main_focus_session_paused">Istunto keskeytetty</string>
-    <string name="main_break_in_progress">Tauko käynnissä</string>
-    <string name="main_pause">Tauko</string>
-    <string name="main_resume">Jatka</string>
-    <string name="main_skip">Ohita</string>
-    <string name="main_stop">Pysäytä</string>
-    <string name="main_focus_session_finished">Istunto suoritettu</string>
-    <string name="main_break_finished">Tauko päättyi</string>
-    <string name="main_continue">Jatka?</string>
-    <string name="main_idle">Jouten</string>
-    <string name="main_productivity_reminder_desc">"On aika olla tuottava!"</string>
-    <string name="main_notifications_channel_name">Ajastinilmoitukset</string>
-    <string name="main_reminder_channel_name">Muistutusilmoitukset</string>
     <string name="main_crash_channel_name">Kaatumisraportit</string>
     <string name="main_crash_notification_title">Sovellus kaatui</string>
     <string name="main_crash_notification_desc">Pahoittelut. Ole hyvä ja lähetä raportti kehittäjälle.</string>

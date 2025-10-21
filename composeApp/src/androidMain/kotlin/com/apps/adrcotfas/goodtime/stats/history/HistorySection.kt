@@ -39,7 +39,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.getLocalizedDayNamesForStats
 import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.getLocalizedMonthNamesForStats
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -76,8 +75,16 @@ import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
 import com.patrykandpatrick.vico.core.cartesian.layer.ColumnCartesianLayer
 import com.patrykandpatrick.vico.core.cartesian.layer.LineCartesianLayer
 import com.patrykandpatrick.vico.core.common.shape.CorneredShape
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.labels_default_label_name
+import goodtime_productivity.composeapp.generated.resources.labels_others
+import goodtime_productivity.composeapp.generated.resources.stats_history_interval_type_options
+import goodtime_productivity.composeapp.generated.resources.stats_history_title
+import goodtime_productivity.composeapp.generated.resources.stats_total
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Month
+import org.jetbrains.compose.resources.stringArrayResource
+import org.jetbrains.compose.resources.stringResource
 import java.text.DecimalFormat
 import java.util.Locale
 
@@ -158,7 +165,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                stringResource(R.string.stats_history_title),
+                stringResource(Res.string.stats_history_title),
                 style =
                     MaterialTheme.typography.labelLarge.copy(
                         fontWeight = FontWeight.Medium,
@@ -168,8 +175,8 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
 
             DropdownMenuBox(
                 textStyle = MaterialTheme.typography.bodySmall,
-                value = stringArrayResource(R.array.stats_history_interval_type_options)[type.ordinal],
-                options = stringArrayResource(R.array.stats_history_interval_type_options).toList(),
+                value = stringArrayResource(Res.array.stats_history_interval_type_options)[type.ordinal],
+                options = stringArrayResource(Res.array.stats_history_interval_type_options).toList(),
                 onDismissRequest = {},
                 onDropdownMenuItemSelected = {
                     viewModel.setType(HistoryIntervalType.entries[it])
@@ -214,9 +221,9 @@ private fun BarHistoryChart(
     isTimeOverviewType: Boolean,
     colors: List<Color>,
 ) {
-    val defaultLabelName = stringResource(id = R.string.labels_default_label_name)
-    val othersLabelName = stringResource(id = R.string.labels_others)
-    val totalLabel = stringResource(id = R.string.stats_total)
+    val defaultLabelName = stringResource(Res.string.labels_default_label_name)
+    val othersLabelName = stringResource(Res.string.labels_others)
+    val totalLabel = stringResource(Res.string.stats_total)
     val othersLabelColor = colors.last().toArgb()
 
     val scrollState =
