@@ -33,9 +33,7 @@ files:
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
     labels:
       - support
-
-  # Android-specific resources (ACRA crash reporting strings)
-  - source: "composeApp/src/androidMain/res/values/strings_main.xml"
+  - source: "composeApp/src/androidMain/res/values/strings_crash_reporting.xml"
     translation: "composeApp/src/androidMain/res/values-%android_code%/%original_file_name%"
     labels:
       - main
