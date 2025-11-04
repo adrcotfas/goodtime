@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">ラベルを編集</string>
     <string name="labels_edit_active_label">アクティブなラベルを編集</string>
     <string name="labels_break_budget_info">集中して休憩時間を稼ぎましょう</string>
-    <string name="labels_break_budget_desc1">"選択したフォーカス/ブレーク比率に応じて休憩予算が増加し、中断された場合に休憩予算が減少します。"</string>
-    <string name="labels_break_budget_desc2">"好きなときはいつでも休憩しましょう。"</string>
+    <string name="labels_break_budget_desc1">選択したフォーカス/ブレーク比率に応じて休憩予算が増加し、中断された場合に休憩予算が減少します。</string>
+    <string name="labels_break_budget_desc2">好きなときはいつでも休憩しましょう。</string>
     <string name="labels_break_budget">予算を中断する</string>
     <string name="labels_follow_default_time_profile">既定の時間プロファイルをフォロー</string>
-    <string name="labels_add_label">"ラベルを追加"</string>
+    <string name="labels_add_label">ラベルを追加</string>
     <string name="labels_add_label_name">ラベル名を追加</string>
     <string name="labels_label_name_already_exists">ラベル名は既に存在します</string>
     <string name="labels_archived_labels_title">アーカイブされたラベル</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">ラベルを選択</string>
     <string name="labels_select_labels">ラベルを選択</string>
     <string name="labels_edit_label">ラベルを編集</string>
-    <string name="labels_delete_label_confirmation">"このラベルを削除すると、関連する完了したセッションから削除されます。"</string>
-    <string name="labels_navigate_to_archived">"アーカイブされたラベルに移動"</string>
-    <string name="labels_clear_label">"ラベルをクリア"</string>
+    <string name="labels_delete_label_confirmation">このラベルを削除すると、関連する完了したセッションから削除されます。</string>
+    <string name="labels_navigate_to_archived">アーカイブされたラベルに移動</string>
+    <string name="labels_clear_label">ラベルをクリア</string>
     <string name="labels_delete_label_name">%1$s を削除</string>
     <string name="labels_archive_label_name">アーカイブ %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

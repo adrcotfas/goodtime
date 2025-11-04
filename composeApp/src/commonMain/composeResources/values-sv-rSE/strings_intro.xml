@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Håll dig fokuserad"</string>
-    <string name="intro1_desc1">"Öka produktiviteten med tidsinställda arbetspass."</string>
-    <string name="intro1_desc2">"Välj mellan en strukturerad nedräkning eller en flexibel nedräkningstimer."</string>
-    <string name="intro2_title">"Uppdatera ditt sinne"</string>
-    <string name="intro2_desc1">"Ta välförtjänta pauser för att ladda och hålla sig skarp."</string>
-    <string name="intro2_desc2">"För räknetimers, ackumulera paustid när du arbetar."</string>
-    <string name="intro3_title">"Kom igång"</string>
-    <string name="intro3_desc1">"Följ dina framsteg med detaljerad statistik."</string>
-    <string name="intro3_desc2">"Slå förhalning och förbättra ditt fokus."</string>
+    <string name="intro1_title">Håll dig fokuserad</string>
+    <string name="intro1_desc1">Öka produktiviteten med tidsinställda arbetspass.</string>
+    <string name="intro1_desc2">Välj mellan en strukturerad nedräkning eller en flexibel nedräkningstimer.</string>
+    <string name="intro2_title">Uppdatera ditt sinne</string>
+    <string name="intro2_desc1">Ta välförtjänta pauser för att ladda och hålla sig skarp.</string>
+    <string name="intro2_desc2">För räknetimers, ackumulera paustid när du arbetar.</string>
+    <string name="intro3_title">Kom igång</string>
+    <string name="intro3_desc1">Följ dina framsteg med detaljerad statistik.</string>
+    <string name="intro3_desc2">Slå förhalning och förbättra ditt fokus.</string>
     <string name="tutorial_title">Guide</string>
     <string name="tutorial_tap">👆 Tryck på timern för att starta och pausa.</string>
     <string name="tutorial_swipe_right">👉 Dra åt vänster eller höger för att hoppa över den aktuella sessionen.</string>

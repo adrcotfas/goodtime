@@ -44,7 +44,7 @@
     <string name="main_break_finished">Ara bitti</string>
     <string name="main_continue">Devam et?</string>
     <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"Verimli olma zamanı!"</string>
+    <string name="main_productivity_reminder_desc">Verimli olma zamanı!</string>
     <string name="main_notifications_channel_name">Zamanlayıcı Bildirimleri</string>
     <string name="main_reminder_channel_name">Hatırlatıcı Bildirimleri</string>
     <string name="main_crash_channel_name">Çöküş raporları</string>

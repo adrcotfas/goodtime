@@ -20,15 +20,15 @@
     <string name="product_name_long" translatable="false">Goodtime Productivity</string>
     <string name="main_min" translatable="false">%1$smin</string>
     <string name="main_plus_1_min" translatable="false">+1 min</string>
-    <string name="contact_address" translatable="false">"goodtime-app@googlegroups.com"</string>
-    <string name="feedback_title" translatable="false">"[Goodtime Productivity] Feedback"</string>
-    <string name="crash_report_title" translatable="false">"[Goodtime Productivity] Crash report"</string>
+    <string name="contact_address" translatable="false">goodtime-app@googlegroups.com</string>
+    <string name="feedback_title" translatable="false">[Goodtime Productivity] Feedback</string>
+    <string name="crash_report_title" translatable="false">[Goodtime Productivity] Crash report</string>
 
     <string name="default_launcher_name" translatable="false">Goodtime</string>
     <string name="productivity_launcher_name" translatable="false">Productivity</string>
 
     <string-array name="settings_launcher_name">
-        <item>@string/default_launcher_name</item>
-        <item>@string/productivity_launcher_name</item>
+        <item>Goodtime</item>
+        <item>Productivity</item>
     </string-array>
 </resources>

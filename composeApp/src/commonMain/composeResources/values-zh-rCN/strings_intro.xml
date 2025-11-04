@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"保持专注"</string>
-    <string name="intro1_desc1">"通过定时的工作周期提升生产力。"</string>
-    <string name="intro1_desc2">"在结构化的倒计时和灵活的正计时之间进行选择。"</string>
-    <string name="intro2_title">"放松心情"</string>
-    <string name="intro2_desc1">"通过应得的休息时间充电并保持敏锐。"</string>
-    <string name="intro2_desc2">"对于正计时器，工作时累积休息时间。"</string>
-    <string name="intro3_title">"开始吧"</string>
-    <string name="intro3_desc1">"通过详细的统计数据跟踪您的进度。"</string>
-    <string name="intro3_desc2">"战胜拖延症，增强专注力。"</string>
+    <string name="intro1_title">保持专注</string>
+    <string name="intro1_desc1">通过定时的工作周期提升生产力。</string>
+    <string name="intro1_desc2">在结构化的倒计时和灵活的正计时之间进行选择。</string>
+    <string name="intro2_title">放松心情</string>
+    <string name="intro2_desc1">通过应得的休息时间充电并保持敏锐。</string>
+    <string name="intro2_desc2">对于正计时器，工作时累积休息时间。</string>
+    <string name="intro3_title">开始吧</string>
+    <string name="intro3_desc1">通过详细的统计数据跟踪您的进度。</string>
+    <string name="intro3_desc2">战胜拖延症，增强专注力。</string>
     <string name="tutorial_title">教程</string>
     <string name="tutorial_tap">👆 点击计时器以开始和暂停。</string>
     <string name="tutorial_swipe_right">👉 向左或向右滑动以跳过当前阶段。</string>

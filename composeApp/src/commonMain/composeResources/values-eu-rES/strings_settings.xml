@@ -54,7 +54,7 @@
     <string name="settings_show_sessions_long_break_title">Erakutsi saioak atseden luzera arte</string>
     <string name="settings_show_sessions_long_break_desc">Atzerako kontaketa kontagailuentzat, atseden luzeak aktibatuta</string>
     <string name="settings_show_label">Etiketak erakutsi</string>
-    <string name="settings_hide_seconds">Ezkutatu segundoak\"</string>
+    <string name="settings_hide_seconds">Ezkutatu segundoak\</string>
     <string name="settings_focus_complete_sound">Arreta amaitutako soinua</string>
     <string name="settings_break_complete_sound">Atsedena amaitutako soinua</string>
     <string name="settings_silent">Isilik modua</string>

@@ -44,7 +44,7 @@
     <string name="main_break_finished">Pause færdig</string>
     <string name="main_continue">Fortsæt?</string>
     <string name="main_idle">Tomgang</string>
-    <string name="main_productivity_reminder_desc">"Det er tid til at være produktiv!"</string>
+    <string name="main_productivity_reminder_desc">Det er tid til at være produktiv!</string>
     <string name="main_notifications_channel_name">Timer Notifikationer</string>
     <string name="main_reminder_channel_name">Påmindelse Notifikationer</string>
     <string name="main_crash_channel_name">Udslæt rapporter</string>

@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">編輯分類</string>
     <string name="labels_edit_active_label">選擇活動標籤</string>
     <string name="labels_break_budget_info">當你集中註意力時賺取休息時間</string>
-    <string name="labels_break_budget_desc1">"您的休息預算會根據您選擇的焦點/休息比率而增加，並在您被打擾時減少。"</string>
-    <string name="labels_break_budget_desc2">"只要你願意，就休息一下。"</string>
+    <string name="labels_break_budget_desc1">您的休息預算會根據您選擇的焦點/休息比率而增加，並在您被打擾時減少。</string>
+    <string name="labels_break_budget_desc2">只要你願意，就休息一下。</string>
     <string name="labels_break_budget">打破預算</string>
     <string name="labels_follow_default_time_profile">遵循預設時間配置文件</string>
-    <string name="labels_add_label">"添加分類"</string>
+    <string name="labels_add_label">添加分類</string>
     <string name="labels_add_label_name">新增標籤名稱</string>
     <string name="labels_label_name_already_exists">標籤名稱已存在。</string>
     <string name="labels_archived_labels_title">歸檔標籤</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">選擇分類</string>
     <string name="labels_select_labels">选择标签</string>
     <string name="labels_edit_label">編輯標記</string>
-    <string name="labels_delete_label_confirmation">"刪除此標籤會將其從關聯的已完成會話中刪除。"</string>
-    <string name="labels_navigate_to_archived">"導航至存檔標籤"</string>
-    <string name="labels_clear_label">"清除已選取標籤"</string>
+    <string name="labels_delete_label_confirmation">刪除此標籤會將其從關聯的已完成會話中刪除。</string>
+    <string name="labels_navigate_to_archived">導航至存檔標籤</string>
+    <string name="labels_clear_label">清除已選取標籤</string>
     <string name="labels_delete_label_name">Delete %1$s</string>
     <string name="labels_archive_label_name">Archive %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Rimani concentrato"</string>
-    <string name="intro1_desc1">"Aumenta la produttività con sessioni di lavoro temporizzate."</string>
-    <string name="intro1_desc2">"Scegli tra un timer strutturato o un cronometro flessibile."</string>
-    <string name="intro2_title">"Aggiorna la tua mente"</string>
-    <string name="intro2_desc1">"Prendi delle meritate pause per ricaricarti e mantenere la concentrazione."</string>
-    <string name="intro2_desc2">"Per il cronometro si accumula il tempo di pausa man mano che si lavora."</string>
-    <string name="intro3_title">"Inizia adesso"</string>
-    <string name="intro3_desc1">"Traccia i tuoi progressi con statistiche dettagliate."</string>
-    <string name="intro3_desc2">"Sconfiggi la procrastinazione e migliora la tua concentrazione."</string>
+    <string name="intro1_title">Rimani concentrato</string>
+    <string name="intro1_desc1">Aumenta la produttività con sessioni di lavoro temporizzate.</string>
+    <string name="intro1_desc2">Scegli tra un timer strutturato o un cronometro flessibile.</string>
+    <string name="intro2_title">Aggiorna la tua mente</string>
+    <string name="intro2_desc1">Prendi delle meritate pause per ricaricarti e mantenere la concentrazione.</string>
+    <string name="intro2_desc2">Per il cronometro si accumula il tempo di pausa man mano che si lavora.</string>
+    <string name="intro3_title">Inizia adesso</string>
+    <string name="intro3_desc1">Traccia i tuoi progressi con statistiche dettagliate.</string>
+    <string name="intro3_desc2">Sconfiggi la procrastinazione e migliora la tua concentrazione.</string>
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_tap">👆 Premi il timer per iniziare o per fermarti.</string>
     <string name="tutorial_swipe_right">👉 Scorri verso sinistra o destra per saltare la sessione corrente.</string>

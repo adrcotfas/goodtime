@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Editar etiquetas</string>
     <string name="labels_edit_active_label">Seleccione a etiqueta activa</string>
     <string name="labels_break_budget_info">Gaña tempo de descanso mentres te concentras</string>
-    <string name="labels_break_budget_desc1">"O teu orzamento de pausa aumenta segundo a relación de enfoque/pausa seleccionada e diminúe cando te interrompen."</string>
-    <string name="labels_break_budget_desc2">"Fai pausas cando queiras."</string>
+    <string name="labels_break_budget_desc1">O teu orzamento de pausa aumenta segundo a relación de enfoque/pausa seleccionada e diminúe cando te interrompen.</string>
+    <string name="labels_break_budget_desc2">Fai pausas cando queiras.</string>
     <string name="labels_break_budget">Romper o orzamento</string>
     <string name="labels_follow_default_time_profile">Siga o perfil de tempo predeterminado</string>
-    <string name="labels_add_label">"Engadir unha etiqueta"</string>
+    <string name="labels_add_label">Engadir unha etiqueta</string>
     <string name="labels_add_label_name">Engade o nome da etiqueta</string>
     <string name="labels_label_name_already_exists">O nome da etiqueta xa existe</string>
     <string name="labels_archived_labels_title">Etiquetas arquivadas</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Seleccionar unha etiqueta</string>
     <string name="labels_select_labels">Seleccionar unha etiqueta</string>
     <string name="labels_edit_label">Editar etiquetas</string>
-    <string name="labels_delete_label_confirmation">"Ao eliminar esta etiqueta eliminarase das sesións completadas asociadas."</string>
-    <string name="labels_navigate_to_archived">"Navega ata as etiquetas arquivadas"</string>
-    <string name="labels_clear_label">"Limpar etiquetas"</string>
+    <string name="labels_delete_label_confirmation">Ao eliminar esta etiqueta eliminarase das sesións completadas asociadas.</string>
+    <string name="labels_navigate_to_archived">Navega ata as etiquetas arquivadas</string>
+    <string name="labels_clear_label">Limpar etiquetas</string>
     <string name="labels_delete_label_name">Delete %1$s</string>
     <string name="labels_archive_label_name">Archive %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

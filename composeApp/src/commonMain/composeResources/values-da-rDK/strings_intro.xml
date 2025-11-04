@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Forbliv Fokuseret"</string>
-    <string name="intro1_desc1">"Øg produktiviteten med tidsbestemte arbejdssessioner."</string>
-    <string name="intro1_desc2">"Vælg mellem en struktureret nedtælling eller en fleksibel optællingstime."</string>
-    <string name="intro2_title">"Opdater Dit Sind"</string>
-    <string name="intro2_desc1">"Tag veltjente pauser til at genoplade og holde skarp."</string>
-    <string name="intro2_desc2">"For optælling timere, akkumulere pause tid, mens du arbejder."</string>
-    <string name="intro3_title">"Kom i gang"</string>
-    <string name="intro3_desc1">"Spor dine fremskridt med detaljerede statistikker."</string>
-    <string name="intro3_desc2">"Beat udsættelse og forbedre dit fokus."</string>
+    <string name="intro1_title">Forbliv Fokuseret</string>
+    <string name="intro1_desc1">Øg produktiviteten med tidsbestemte arbejdssessioner.</string>
+    <string name="intro1_desc2">Vælg mellem en struktureret nedtælling eller en fleksibel optællingstime.</string>
+    <string name="intro2_title">Opdater Dit Sind</string>
+    <string name="intro2_desc1">Tag veltjente pauser til at genoplade og holde skarp.</string>
+    <string name="intro2_desc2">For optælling timere, akkumulere pause tid, mens du arbejder.</string>
+    <string name="intro3_title">Kom i gang</string>
+    <string name="intro3_desc1">Spor dine fremskridt med detaljerede statistikker.</string>
+    <string name="intro3_desc2">Beat udsættelse og forbedre dit fokus.</string>
     <string name="tutorial_title">Guide</string>
     <string name="tutorial_tap">👆 Tryk på timeren for at starte og pause.</string>
     <string name="tutorial_swipe_right">👉 Stryg til venstre eller højre for at springe den aktuelle session over.</string>

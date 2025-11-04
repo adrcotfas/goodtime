@@ -50,8 +50,8 @@
     <string name="stats_add_notes">Lisää muistiinpanoja</string>
     <string name="stats_select_all">Valitse kaikki</string>
     <string name="stats_no_items">Ei kohteita</string>
-    <string name="stats_show_label_breakdown_title">"Näytä tunnisteen erittely"</string>
-    <string name="stats_show_label_breakdown_desc">"Piirrä tieto pinottavina palkkeina, jotka erotetaan tunnisteella"</string>
+    <string name="stats_show_label_breakdown_title">Näytä tunnisteen erittely</string>
+    <string name="stats_show_label_breakdown_desc">Piirrä tieto pinottavina palkkeina, jotka erotetaan tunnisteella</string>
     <string name="stats_more_options">Lisäasetukset</string>
     <string name="stats_show_breaks">Näytä tauot</string>
     <string name="stats_show_archived">Näytä arkistoidut</string>

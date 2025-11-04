@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Chỉnh sửa nhãn</string>
     <string name="labels_edit_active_label">Chỉnh sửa nhãn đang hoạt động</string>
     <string name="labels_break_budget_info">Kiếm thời gian nghỉ ngơi khi bạn tập trung</string>
-    <string name="labels_break_budget_desc1">"Ngân sách nghỉ ngơi của bạn tăng theo tỷ lệ tập trung/nghỉ ngơi bạn chọn và giảm khi bạn bị làm phiền."</string>
-    <string name="labels_break_budget_desc2">"Nghỉ ngơi bất cứ khi nào bạn muốn."</string>
+    <string name="labels_break_budget_desc1">Ngân sách nghỉ ngơi của bạn tăng theo tỷ lệ tập trung/nghỉ ngơi bạn chọn và giảm khi bạn bị làm phiền.</string>
+    <string name="labels_break_budget_desc2">Nghỉ ngơi bất cứ khi nào bạn muốn.</string>
     <string name="labels_break_budget">Phá vỡ ngân sách</string>
     <string name="labels_follow_default_time_profile">Theo dõi hồ sơ thời gian mặc định</string>
-    <string name="labels_add_label">"Thêm nhãn"</string>
+    <string name="labels_add_label">Thêm nhãn</string>
     <string name="labels_add_label_name">Thêm tên nhãn</string>
     <string name="labels_label_name_already_exists">Nhãn đã tồn tại</string>
     <string name="labels_archived_labels_title">Nhãn đã lưu trữ</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Chọn nhãn</string>
     <string name="labels_select_labels">Chọn nhãn</string>
     <string name="labels_edit_label">Chỉnh sửa nhãn</string>
-    <string name="labels_delete_label_confirmation">"Xóa nhãn này sẽ xóa nhãn đó khỏi các phiên đã hoàn thành có liên quan."</string>
-    <string name="labels_navigate_to_archived">"Điều hướng đến nhãn đã lưu trữ"</string>
-    <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_confirmation">Xóa nhãn này sẽ xóa nhãn đó khỏi các phiên đã hoàn thành có liên quan.</string>
+    <string name="labels_navigate_to_archived">Điều hướng đến nhãn đã lưu trữ</string>
+    <string name="labels_clear_label">Clear label</string>
     <string name="labels_delete_label_name">Xóa %1$s</string>
     <string name="labels_archive_label_name">Archive %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

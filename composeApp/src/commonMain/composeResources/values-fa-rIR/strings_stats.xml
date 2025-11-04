@@ -50,8 +50,8 @@
     <string name="stats_add_notes">اضافه یاداشت</string>
     <string name="stats_select_all">انتخاب همه</string>
     <string name="stats_no_items">موردی نیست</string>
-    <string name="stats_show_label_breakdown_title">"نمایش با تفکیک برچسب"</string>
-    <string name="stats_show_label_breakdown_desc">"داده را به صورت میله‌های انباشته شده با برچسب به تصویر بکشید"</string>
+    <string name="stats_show_label_breakdown_title">نمایش با تفکیک برچسب</string>
+    <string name="stats_show_label_breakdown_desc">داده را به صورت میله‌های انباشته شده با برچسب به تصویر بکشید</string>
     <string name="stats_more_options">گزینه‌های بیشتر</string>
     <string name="stats_show_breaks">نمایش استراحت‌ها</string>
     <string name="stats_show_archived">Show archived</string>

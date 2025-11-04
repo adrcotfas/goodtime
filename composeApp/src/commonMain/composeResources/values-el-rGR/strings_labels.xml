@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Επεξεργασία ετικετών</string>
     <string name="labels_edit_active_label">Επεξεργασία ενεργής ετικέτας</string>
     <string name="labels_break_budget_info">Κερδίστε χρόνο διάλειμμα καθώς εστιάζετε</string>
-    <string name="labels_break_budget_desc1">"Το διάλειμμα του προϋπολογισμού σας αυξάνεται σύμφωνα με την επιλεγμένη αναλογία εστίασης/διάλειμμα και μειώνεται όταν διακόπτετε."</string>
-    <string name="labels_break_budget_desc2">"Πάρτε διαλείμματα όποτε σας αρέσει."</string>
+    <string name="labels_break_budget_desc1">Το διάλειμμα του προϋπολογισμού σας αυξάνεται σύμφωνα με την επιλεγμένη αναλογία εστίασης/διάλειμμα και μειώνεται όταν διακόπτετε.</string>
+    <string name="labels_break_budget_desc2">Πάρτε διαλείμματα όποτε σας αρέσει.</string>
     <string name="labels_break_budget">Διακοπή προϋπολογισμού</string>
     <string name="labels_follow_default_time_profile">Ακολουθήστε το προεπιλεγμένο προφίλ ώρας</string>
-    <string name="labels_add_label">"Προσθήκη ετικέτας"</string>
+    <string name="labels_add_label">Προσθήκη ετικέτας</string>
     <string name="labels_add_label_name">Προσθήκη ονόματος ετικέτας</string>
     <string name="labels_label_name_already_exists">Το όνομα της ετικέτας υπάρχει ήδη</string>
     <string name="labels_archived_labels_title">Αρχειοθετημένες ετικέτα</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Επιλέξτε ετικέτα</string>
     <string name="labels_select_labels">Επιλογή ετικετών</string>
     <string name="labels_edit_label">Επεξεργασία ετικέτας</string>
-    <string name="labels_delete_label_confirmation">"Η διαγραφή αυτής της ετικέτας θα την αφαιρέσει από τις σχετικές ολοκληρωμένες συνεδρίες."</string>
-    <string name="labels_navigate_to_archived">"Πλοήγηση σε αρχειοθετημένες ετικέτες"</string>
-    <string name="labels_clear_label">"Καθαρισμός ετικέτας"</string>
+    <string name="labels_delete_label_confirmation">Η διαγραφή αυτής της ετικέτας θα την αφαιρέσει από τις σχετικές ολοκληρωμένες συνεδρίες.</string>
+    <string name="labels_navigate_to_archived">Πλοήγηση σε αρχειοθετημένες ετικέτες</string>
+    <string name="labels_clear_label">Καθαρισμός ετικέτας</string>
     <string name="labels_delete_label_name">Διαγραφή %1$s</string>
     <string name="labels_archive_label_name">Αρχειοθέτηση %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

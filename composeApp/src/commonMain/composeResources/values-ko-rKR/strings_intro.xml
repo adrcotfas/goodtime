@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Stay Focused"</string>
-    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
-    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
-    <string name="intro2_title">"Refresh Your Mind"</string>
-    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
-    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
-    <string name="intro3_title">"시작하세요"</string>
-    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
-    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
+    <string name="intro1_title">Stay Focused</string>
+    <string name="intro1_desc1">Boost productivity with timed work sessions.</string>
+    <string name="intro1_desc2">Choose between a structured countdown or a flexible count-up timer.</string>
+    <string name="intro2_title">Refresh Your Mind</string>
+    <string name="intro2_desc1">Take well-earned breaks to recharge and stay sharp.</string>
+    <string name="intro2_desc2">For count-up timers, accumulate break time as you work.</string>
+    <string name="intro3_title">시작하세요</string>
+    <string name="intro3_desc1">Track your progress with detailed statistics.</string>
+    <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">사용 방법</string>
     <string name="tutorial_tap">👆 타이머를 탭하면 시작하고 일시중지합니다.</string>
     <string name="tutorial_swipe_right">👉 현재 구간을 건너뛰려면 왼쪽이나 오른쪽으로 스와이프하세요.</string>

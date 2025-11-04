@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Ostanite fokusirani"</string>
-    <string name="intro1_desc1">"Povećajte produktivnost uz tempirane radne sesije."</string>
-    <string name="intro1_desc2">"Odaberite između strukturiranog odbrojavanja ili fleksibilnog tajmera za odbrojavanje."</string>
-    <string name="intro2_title">"Osvježite svoj um"</string>
-    <string name="intro2_desc1">"Pravite zaslužene pauze da se napunite i ostanite oštri."</string>
-    <string name="intro2_desc2">"Za tajmere za odbrojavanje, akumulirajte vrijeme pauze dok radite."</string>
-    <string name="intro3_title">"Započnite s radom"</string>
-    <string name="intro3_desc1">"Pratite svoj napredak uz detaljnu statistiku."</string>
-    <string name="intro3_desc2">"Pobijedite odlaganje i poboljšajte svoj fokus."</string>
+    <string name="intro1_title">Ostanite fokusirani</string>
+    <string name="intro1_desc1">Povećajte produktivnost uz tempirane radne sesije.</string>
+    <string name="intro1_desc2">Odaberite između strukturiranog odbrojavanja ili fleksibilnog tajmera za odbrojavanje.</string>
+    <string name="intro2_title">Osvježite svoj um</string>
+    <string name="intro2_desc1">Pravite zaslužene pauze da se napunite i ostanite oštri.</string>
+    <string name="intro2_desc2">Za tajmere za odbrojavanje, akumulirajte vrijeme pauze dok radite.</string>
+    <string name="intro3_title">Započnite s radom</string>
+    <string name="intro3_desc1">Pratite svoj napredak uz detaljnu statistiku.</string>
+    <string name="intro3_desc2">Pobijedite odlaganje i poboljšajte svoj fokus.</string>
     <string name="tutorial_title">Vodič</string>
     <string name="tutorial_tap">👆 Pritisnite mjerač vremena da počnete i zaustavite.</string>
     <string name="tutorial_swipe_right">👉 Prevucite ulijevo ili udesno da preskočite trenutni period.</string>

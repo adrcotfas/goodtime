@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Manteniu-vos concentrats"</string>
-    <string name="intro1_desc1">"Augmenta la productivitat amb sessions de treball programades."</string>
-    <string name="intro1_desc2">"Trieu entre un compte enrere estructurat o un temporitzador de recompte flexible."</string>
-    <string name="intro2_title">"Refresca la teva ment"</string>
-    <string name="intro2_desc1">"Preneu-vos pauses ben merescudes per recarregar les forces i mantenir-vos en forma."</string>
-    <string name="intro2_desc2">"Per als temporitzadors de recompte, acumula temps de descans mentre treballes."</string>
-    <string name="intro3_title">"Comencem"</string>
-    <string name="intro3_desc1">"Feu un seguiment del vostre progrés amb estadístiques detallades."</string>
-    <string name="intro3_desc2">"Supera la procrastinació i millora la teva concentració."</string>
+    <string name="intro1_title">Manteniu-vos concentrats</string>
+    <string name="intro1_desc1">Augmenta la productivitat amb sessions de treball programades.</string>
+    <string name="intro1_desc2">Trieu entre un compte enrere estructurat o un temporitzador de recompte flexible.</string>
+    <string name="intro2_title">Refresca la teva ment</string>
+    <string name="intro2_desc1">Preneu-vos pauses ben merescudes per recarregar les forces i mantenir-vos en forma.</string>
+    <string name="intro2_desc2">Per als temporitzadors de recompte, acumula temps de descans mentre treballes.</string>
+    <string name="intro3_title">Comencem</string>
+    <string name="intro3_desc1">Feu un seguiment del vostre progrés amb estadístiques detallades.</string>
+    <string name="intro3_desc2">Supera la procrastinació i millora la teva concentració.</string>
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_tap">👆 Toqueu el temporitzador per iniciar i pausar.</string>
     <string name="tutorial_swipe_right">👉 Desplaceu-vos cap a l\'esquerra o cap a la dreta per ometre la sessió actual.</string>

@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Labels bearbeiten</string>
     <string name="labels_edit_active_label">Aktive Bezeichnung bearbeiten</string>
     <string name="labels_break_budget_info">Verdienen Sie Pausenzeit während Sie fokussieren</string>
-    <string name="labels_break_budget_desc1">"Dein Pausenbudget erhöht sich entsprechend dem gewählten Fokus/Pausenverhältnis und verringert sich bei Unterbrechungen."</string>
-    <string name="labels_break_budget_desc2">"Nimm Pausen, wann immer du möchtest."</string>
+    <string name="labels_break_budget_desc1">Dein Pausenbudget erhöht sich entsprechend dem gewählten Fokus/Pausenverhältnis und verringert sich bei Unterbrechungen.</string>
+    <string name="labels_break_budget_desc2">Nimm Pausen, wann immer du möchtest.</string>
     <string name="labels_break_budget">Budget anhalten</string>
     <string name="labels_follow_default_time_profile">Standard-Zeitprofil folgen</string>
-    <string name="labels_add_label">"Beschriftung hinzufügen"</string>
+    <string name="labels_add_label">Beschriftung hinzufügen</string>
     <string name="labels_add_label_name">Name hinzufügen</string>
     <string name="labels_label_name_already_exists">Labelname existiert bereits</string>
     <string name="labels_archived_labels_title">Archivierte Bezeichnungen</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Label auswählen</string>
     <string name="labels_select_labels">Label auswählen</string>
     <string name="labels_edit_label">Label bearbeiten</string>
-    <string name="labels_delete_label_confirmation">"Das Löschen dieses Labels entfernt es von zugehörigen abgeschlossenen Sitzungen."</string>
-    <string name="labels_navigate_to_archived">"Navigiere zu archivierten Labels"</string>
-    <string name="labels_clear_label">"Label löschen"</string>
+    <string name="labels_delete_label_confirmation">Das Löschen dieses Labels entfernt es von zugehörigen abgeschlossenen Sitzungen.</string>
+    <string name="labels_navigate_to_archived">Navigiere zu archivierten Labels</string>
+    <string name="labels_clear_label">Label löschen</string>
     <string name="labels_delete_label_name">Löschen %1$s</string>
     <string name="labels_archive_label_name">Archiv %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

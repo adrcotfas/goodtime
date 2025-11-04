@@ -50,8 +50,8 @@
     <string name="stats_add_notes">Dodaj notatki</string>
     <string name="stats_select_all">Zaznacz wszystko</string>
     <string name="stats_no_items">Żadnych przedmiotów</string>
-    <string name="stats_show_label_breakdown_title">"Pokaż podział etykiety"</string>
-    <string name="stats_show_label_breakdown_desc">"Wizualizuj dane jako stosy oddzielone etykietą"</string>
+    <string name="stats_show_label_breakdown_title">Pokaż podział etykiety</string>
+    <string name="stats_show_label_breakdown_desc">Wizualizuj dane jako stosy oddzielone etykietą</string>
     <string name="stats_more_options">Więcej opcji</string>
     <string name="stats_show_breaks">Pokaż przerwy</string>
     <string name="stats_show_archived">Pokaż archiwizowane</string>

@@ -44,7 +44,7 @@
     <string name="main_break_finished">ההפסקה הסתיימה</string>
     <string name="main_continue">ברצונך להמשיך?</string>
     <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"הגיע הזמן להיות פרודוקטיבי!"</string>
+    <string name="main_productivity_reminder_desc">הגיע הזמן להיות פרודוקטיבי!</string>
     <string name="main_notifications_channel_name">התראות Goodtime</string>
     <string name="main_reminder_channel_name">התראות טיימר</string>
     <string name="main_crash_channel_name">דוחות קריסה</string>

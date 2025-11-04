@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Ostani fokusiran"</string>
-    <string name="intro1_desc1">"Povećajte produktivnost uz vremenski ograničene radne sesije."</string>
-    <string name="intro1_desc2">"Odaberite između strukturiranog odbrojavanja ili fleksibilnog brojanja unazad."</string>
-    <string name="intro2_title">"Osvježite svoj um"</string>
-    <string name="intro2_desc1">"Uzmi zaslužene pauze kako bi se napunio energijom i ostao oštar."</string>
-    <string name="intro2_desc2">"Za tajmere s brojanjem unazad, akumulirajte vrijeme pauze dok radite."</string>
-    <string name="intro3_title">"Započni"</string>
-    <string name="intro3_desc1">"Pratite svoj napredak uz detaljnu statistiku."</string>
-    <string name="intro3_desc2">"Pobijedite prokrastinaciju i poboljšajte svoju koncentraciju."</string>
+    <string name="intro1_title">Ostani fokusiran</string>
+    <string name="intro1_desc1">Povećajte produktivnost uz vremenski ograničene radne sesije.</string>
+    <string name="intro1_desc2">Odaberite između strukturiranog odbrojavanja ili fleksibilnog brojanja unazad.</string>
+    <string name="intro2_title">Osvježite svoj um</string>
+    <string name="intro2_desc1">Uzmi zaslužene pauze kako bi se napunio energijom i ostao oštar.</string>
+    <string name="intro2_desc2">Za tajmere s brojanjem unazad, akumulirajte vrijeme pauze dok radite.</string>
+    <string name="intro3_title">Započni</string>
+    <string name="intro3_desc1">Pratite svoj napredak uz detaljnu statistiku.</string>
+    <string name="intro3_desc2">Pobijedite prokrastinaciju i poboljšajte svoju koncentraciju.</string>
     <string name="tutorial_title">Tutorijal</string>
     <string name="tutorial_tap">👆 Za početak i pauziranje taknite tajmer.</string>
     <string name="tutorial_swipe_right">👉 Prijeđite prstom lijevo ili desno da biste preskočili trenutnu sesiju.</string>

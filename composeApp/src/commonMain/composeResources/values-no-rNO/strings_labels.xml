@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Redigere etiketter</string>
     <string name="labels_edit_active_label">Rediger aktiv etikett</string>
     <string name="labels_break_budget_info">Tjen pausetid når du fokuserer på</string>
-    <string name="labels_break_budget_desc1">"Ditt pause budsjett øker i henhold til din valgte fokus/pauseforhold og reduserer når du blir avbrutt."</string>
-    <string name="labels_break_budget_desc2">"Ta knekk når du vil."</string>
+    <string name="labels_break_budget_desc1">Ditt pause budsjett øker i henhold til din valgte fokus/pauseforhold og reduserer når du blir avbrutt.</string>
+    <string name="labels_break_budget_desc2">Ta knekk når du vil.</string>
     <string name="labels_break_budget">Bryt budsjett</string>
     <string name="labels_follow_default_time_profile">Følg standard tidsprofil</string>
-    <string name="labels_add_label">"Legge til en etikett"</string>
+    <string name="labels_add_label">Legge til en etikett</string>
     <string name="labels_add_label_name">Legg til etikett</string>
     <string name="labels_label_name_already_exists">Etikettnavnet finnes allerede</string>
     <string name="labels_archived_labels_title">Arkiverte etiketter</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Velg etikett</string>
     <string name="labels_select_labels">Velg etiketter</string>
     <string name="labels_edit_label">Rediger etikett</string>
-    <string name="labels_delete_label_confirmation">"Sletting av denne etiketten vil fjerne den fra tilknyttede fullførte økter."</string>
-    <string name="labels_navigate_to_archived">"Naviger til arkiverte etiketter"</string>
-    <string name="labels_clear_label">"Tøm etikett"</string>
+    <string name="labels_delete_label_confirmation">Sletting av denne etiketten vil fjerne den fra tilknyttede fullførte økter.</string>
+    <string name="labels_navigate_to_archived">Naviger til arkiverte etiketter</string>
+    <string name="labels_clear_label">Tøm etikett</string>
     <string name="labels_delete_label_name">Slett %1$s</string>
     <string name="labels_archive_label_name">Arkiver %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Etiketleri düzenle</string>
     <string name="labels_edit_active_label">Etkin etiketi düzenle</string>
     <string name="labels_break_budget_info">Odaklandıkça ara zamanı kazanın</string>
-    <string name="labels_break_budget_desc1">"Ara bütçeniz seçtiğiniz odak/ara oranına göre artar ve kesintiye uğradığınızda azalır."</string>
-    <string name="labels_break_budget_desc2">"İstediğiniz zaman ara verin."</string>
+    <string name="labels_break_budget_desc1">Ara bütçeniz seçtiğiniz odak/ara oranına göre artar ve kesintiye uğradığınızda azalır.</string>
+    <string name="labels_break_budget_desc2">İstediğiniz zaman ara verin.</string>
     <string name="labels_break_budget">Ara bütçesi</string>
     <string name="labels_follow_default_time_profile">Varsayılan zaman profilini kullan</string>
-    <string name="labels_add_label">"Etiket ekle"</string>
+    <string name="labels_add_label">Etiket ekle</string>
     <string name="labels_add_label_name">Etiket ismi ekle</string>
     <string name="labels_label_name_already_exists">Etiket ismi zaten mevcut</string>
     <string name="labels_archived_labels_title">Arşivlenmiş etiketler</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Etiket seç</string>
     <string name="labels_select_labels">Etiketleri seç</string>
     <string name="labels_edit_label">Etiketi düzenle</string>
-    <string name="labels_delete_label_confirmation">"Bu etiketi silmek bağlı olduğu tamamlanmış oturumlardan kaldıracaktır."</string>
-    <string name="labels_navigate_to_archived">"Arşivlenmiş etiketlere git"</string>
-    <string name="labels_clear_label">"Etiketi kaldır"</string>
+    <string name="labels_delete_label_confirmation">Bu etiketi silmek bağlı olduğu tamamlanmış oturumlardan kaldıracaktır.</string>
+    <string name="labels_navigate_to_archived">Arşivlenmiş etiketlere git</string>
+    <string name="labels_clear_label">Etiketi kaldır</string>
     <string name="labels_delete_label_name">%1$s etiketini sil</string>
     <string name="labels_archive_label_name">%1$s etiketini arşivle</string>
     <string name="labels_duplicate_label_name">%1$s etiketini çoğalt</string>

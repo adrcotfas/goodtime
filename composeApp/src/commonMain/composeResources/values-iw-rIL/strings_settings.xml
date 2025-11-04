@@ -45,7 +45,7 @@
     <string name="settings_true_black_mode_desc">השתמש בשחור אמיתי עבור הרקע</string>
     <string name="settings_keep_the_screen_on">השאר את המסך דלוק</string>
     <string name="settings_screensaver_mode">מצב שומר מסך</string>
-    <string name="settings_do_not_disturb_mode">הפעל מצב \"נא לא להפריע\"</string>
+    <string name="settings_do_not_disturb_mode">הפעל מצב \"נא לא להפריע\</string>
     <string name="settings_click_to_grant_permission">לחץ כדי להעניק הרשאה</string>
     <string name="settings_demo">הדגמה</string>
     <string name="settings_refresh_demo_label">רענן את תווית ההדגמה</string>

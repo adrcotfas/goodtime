@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Редагувати мітку</string>
     <string name="labels_edit_active_label">Редагувати активну мітку</string>
     <string name="labels_break_budget_info">Заробляйте час перерви при фокусі</string>
-    <string name="labels_break_budget_desc1">"Ваш бюджет перерви збільшується відповідно до ваших обраних сторін фокусу/перерви і зменшується, коли вас переривають."</string>
-    <string name="labels_break_budget_desc2">"Робіть перерви коли забажаєте."</string>
+    <string name="labels_break_budget_desc1">Ваш бюджет перерви збільшується відповідно до ваших обраних сторін фокусу/перерви і зменшується, коли вас переривають.</string>
+    <string name="labels_break_budget_desc2">Робіть перерви коли забажаєте.</string>
     <string name="labels_break_budget">Руйнівний бюджет</string>
     <string name="labels_follow_default_time_profile">Слідкувати за часом профілю за замовчуванням</string>
-    <string name="labels_add_label">"Додати мітку"</string>
+    <string name="labels_add_label">Додати мітку</string>
     <string name="labels_add_label_name">Додати назву мітки</string>
     <string name="labels_label_name_already_exists">Така назва мітки вже існує</string>
     <string name="labels_archived_labels_title">Архівовані мітки</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Виберіть мітку</string>
     <string name="labels_select_labels">Виберіть мітки</string>
     <string name="labels_edit_label">Редагувати мітку</string>
-    <string name="labels_delete_label_confirmation">"Видалення цієї мітки прибере її з пов'язаних сесій."</string>
-    <string name="labels_navigate_to_archived">"Перейти до архівованих міток"</string>
-    <string name="labels_clear_label">"Видалити мітку"</string>
+    <string name="labels_delete_label_confirmation">Видалення цієї мітки прибере її з пов'язаних сесій.</string>
+    <string name="labels_navigate_to_archived">Перейти до архівованих міток</string>
+    <string name="labels_clear_label">Видалити мітку</string>
     <string name="labels_delete_label_name">Видалити %1$s</string>
     <string name="labels_archive_label_name">Архівувати %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

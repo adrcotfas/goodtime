@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Stay Focused"</string>
-    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
-    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
-    <string name="intro2_title">"Refresh Your Mind"</string>
-    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
-    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
-    <string name="intro3_title">"เริ่มต้นใช้งาน"</string>
-    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
-    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
+    <string name="intro1_title">Stay Focused</string>
+    <string name="intro1_desc1">Boost productivity with timed work sessions.</string>
+    <string name="intro1_desc2">Choose between a structured countdown or a flexible count-up timer.</string>
+    <string name="intro2_title">Refresh Your Mind</string>
+    <string name="intro2_desc1">Take well-earned breaks to recharge and stay sharp.</string>
+    <string name="intro2_desc2">For count-up timers, accumulate break time as you work.</string>
+    <string name="intro3_title">เริ่มต้นใช้งาน</string>
+    <string name="intro3_desc1">Track your progress with detailed statistics.</string>
+    <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">แนะนำการเล่นเบื้องต้น</string>
     <string name="tutorial_tap">👆 แตะตัวจับเวลาเพื่อเริ่มและหยุดชั่วคราว.</string>
     <string name="tutorial_swipe_right">👉 ปัดไปทางซ้ายหรือขวาเพื่อข้ามเซสชันปัจจุบัน.</string>

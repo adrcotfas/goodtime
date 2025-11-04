@@ -45,7 +45,7 @@
     <string name="settings_true_black_mode_desc">Usar negro verdadero para el fondo</string>
     <string name="settings_keep_the_screen_on">Mantener la pantalla encendida</string>
     <string name="settings_screensaver_mode">Modo protector de pantalla</string>
-    <string name="settings_do_not_disturb_mode">Modo \"No molestar\"</string>
+    <string name="settings_do_not_disturb_mode">Modo \"No molestar\</string>
     <string name="settings_click_to_grant_permission">Hacé clic para conceder permiso</string>
     <string name="settings_demo">demo</string>
     <string name="settings_refresh_demo_label">Actualizar etiqueta demo</string>

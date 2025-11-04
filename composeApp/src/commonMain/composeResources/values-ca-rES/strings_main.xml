@@ -44,7 +44,7 @@
     <string name="main_break_finished">Descans finalitzat</string>
     <string name="main_continue">Voleu continuar?</string>
     <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"És hora de ser productiu!"</string>
+    <string name="main_productivity_reminder_desc">És hora de ser productiu!</string>
     <string name="main_notifications_channel_name">Notificacions del temporitzador</string>
     <string name="main_reminder_channel_name">Notificacions de recordatoris</string>
     <string name="main_crash_channel_name">Informe d\'errors</string>

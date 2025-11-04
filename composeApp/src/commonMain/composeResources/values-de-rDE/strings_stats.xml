@@ -50,8 +50,8 @@
     <string name="stats_add_notes">Notizen hinzufügen</string>
     <string name="stats_select_all">Alle auswählen</string>
     <string name="stats_no_items">Keine Inhalte</string>
-    <string name="stats_show_label_breakdown_title">"Label-Aufteilung anzeigen"</string>
-    <string name="stats_show_label_breakdown_desc">"Visualisieren Sie Daten als gestapelte Balken durch Label getrennt"</string>
+    <string name="stats_show_label_breakdown_title">Label-Aufteilung anzeigen</string>
+    <string name="stats_show_label_breakdown_desc">Visualisieren Sie Daten als gestapelte Balken durch Label getrennt</string>
     <string name="stats_more_options">Weitere Optionen</string>
     <string name="stats_show_breaks">Pausen anzeigen</string>
     <string name="stats_show_archived">Archiv anzeigen</string>

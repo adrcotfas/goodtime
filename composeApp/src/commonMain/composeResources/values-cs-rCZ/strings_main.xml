@@ -44,7 +44,7 @@
     <string name="main_break_finished">Přestávka dokončena</string>
     <string name="main_continue">Pokračovat?</string>
     <string name="main_idle">Nečinný</string>
-    <string name="main_productivity_reminder_desc">"Je čas být produktivní!"</string>
+    <string name="main_productivity_reminder_desc">Je čas být produktivní!</string>
     <string name="main_notifications_channel_name">Oznámení časovače</string>
     <string name="main_reminder_channel_name">Upozornění</string>
     <string name="main_crash_channel_name">Hlášení o chybách</string>

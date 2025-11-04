@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"ابقَ مركزًا"</string>
-    <string name="intro1_desc1">"• عزز الإنتاجية بتوقيت الجلسات الدراسية."</string>
-    <string name="intro1_desc2">"اختر بين العد التنازلي المنظم أو مؤقت العد المرن."</string>
-    <string name="intro2_title">"تحديث عقلك"</string>
-    <string name="intro2_desc1">"خذ فترات استراحة مكتسبة للتغذية والبقاء حادة."</string>
-    <string name="intro2_desc2">"لتوقيت العد ، قم بتجميع وقت الاستراحة أثناء عملك."</string>
-    <string name="intro3_title">"البدء"</string>
-    <string name="intro3_desc1">"تتبع تقدمك مع الإحصائيات التفصيلية."</string>
-    <string name="intro3_desc2">"تغلب على المماطلة وتعزيز تركيزك."</string>
+    <string name="intro1_title">ابقَ مركزًا</string>
+    <string name="intro1_desc1">• عزز الإنتاجية بتوقيت الجلسات الدراسية.</string>
+    <string name="intro1_desc2">اختر بين العد التنازلي المنظم أو مؤقت العد المرن.</string>
+    <string name="intro2_title">تحديث عقلك</string>
+    <string name="intro2_desc1">خذ فترات استراحة مكتسبة للتغذية والبقاء حادة.</string>
+    <string name="intro2_desc2">لتوقيت العد ، قم بتجميع وقت الاستراحة أثناء عملك.</string>
+    <string name="intro3_title">البدء</string>
+    <string name="intro3_desc1">تتبع تقدمك مع الإحصائيات التفصيلية.</string>
+    <string name="intro3_desc2">تغلب على المماطلة وتعزيز تركيزك.</string>
     <string name="tutorial_title">البرنامج التعليمي</string>
     <string name="tutorial_tap">👆 اضغط على الموقت لبدء وقفة.</string>
     <string name="tutorial_swipe_right">👉 اسحب إلى اليسار أو اليمين لتخطي الجلسة الحالية.</string>

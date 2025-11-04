@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Zůstaňte soustředěni"</string>
-    <string name="intro1_desc1">"Zvyšte svou produktivitu s načasovanými pracovními sesemi."</string>
-    <string name="intro1_desc2">"Vyberte si mezi odpočítáváním a stopkami."</string>
-    <string name="intro2_title">"Vzpružte svou mysl"</string>
-    <string name="intro2_desc1">"Vezměte si zasloužené přestávky, naberte síly a zůstaňte bystří."</string>
-    <string name="intro2_desc2">"Při použití stopek získáváte čas na přestávky podle doby soustředění."</string>
-    <string name="intro3_title">"Pojďme na to"</string>
-    <string name="intro3_desc1">"Sledujte svůj pokrok pomocí podrobných statistik."</string>
-    <string name="intro3_desc2">"Poražte prokrastinaci a zvyšte své soustředění."</string>
+    <string name="intro1_title">Zůstaňte soustředěni</string>
+    <string name="intro1_desc1">Zvyšte svou produktivitu s načasovanými pracovními sesemi.</string>
+    <string name="intro1_desc2">Vyberte si mezi odpočítáváním a stopkami.</string>
+    <string name="intro2_title">Vzpružte svou mysl</string>
+    <string name="intro2_desc1">Vezměte si zasloužené přestávky, naberte síly a zůstaňte bystří.</string>
+    <string name="intro2_desc2">Při použití stopek získáváte čas na přestávky podle doby soustředění.</string>
+    <string name="intro3_title">Pojďme na to</string>
+    <string name="intro3_desc1">Sledujte svůj pokrok pomocí podrobných statistik.</string>
+    <string name="intro3_desc2">Poražte prokrastinaci a zvyšte své soustředění.</string>
     <string name="tutorial_title">Návod</string>
     <string name="tutorial_tap">👆 Klikněte pro start a pozastavení.</string>
     <string name="tutorial_swipe_right">👉 Přejeďte prstem doleva nebo doprava pro přeskočení aktuálního bloku.</string>

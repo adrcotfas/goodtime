@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Hold fokus"</string>
-    <string name="intro1_desc1">"Styrke produktiviteten med timeforbruk i arbeidslivet."</string>
-    <string name="intro1_desc2">"Velg mellom en strukturert nedtelling eller en fleksibel opptellingstidslinje."</string>
-    <string name="intro2_title">"Oppdater ditt gruve"</string>
-    <string name="intro2_desc1">"Ta velfortjente pauser til å lade seg og forbli skarpe."</string>
-    <string name="intro2_desc2">"For 'count-up'er, akkumuler tid når du fungerer."</string>
-    <string name="intro3_title">"Kom igang"</string>
-    <string name="intro3_desc1">"Finn fremdriften din med detaljert statistikk."</string>
-    <string name="intro3_desc2">"Slå på proffentinering og forbedre din fokus."</string>
+    <string name="intro1_title">Hold fokus</string>
+    <string name="intro1_desc1">Styrke produktiviteten med timeforbruk i arbeidslivet.</string>
+    <string name="intro1_desc2">Velg mellom en strukturert nedtelling eller en fleksibel opptellingstidslinje.</string>
+    <string name="intro2_title">Oppdater ditt gruve</string>
+    <string name="intro2_desc1">Ta velfortjente pauser til å lade seg og forbli skarpe.</string>
+    <string name="intro2_desc2">For 'count-up'er, akkumuler tid når du fungerer.</string>
+    <string name="intro3_title">Kom igang</string>
+    <string name="intro3_desc1">Finn fremdriften din med detaljert statistikk.</string>
+    <string name="intro3_desc2">Slå på proffentinering og forbedre din fokus.</string>
     <string name="tutorial_title">Opplæring</string>
     <string name="tutorial_tap">👆 Trykk på timeren for å starte og pause.</string>
     <string name="tutorial_swipe_right">👉 Dra til venstre eller høyre hoppe over gjeldende økt.</string>

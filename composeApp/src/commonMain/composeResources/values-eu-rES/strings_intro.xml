@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Mantendu kontzentratuta"</string>
-    <string name="intro1_desc1">"Areagotu produktibitatea denboraz mugatutako lan-saioekin."</string>
-    <string name="intro1_desc2">"Hautatu egituratutako atzerako kontaketa edo malgua den aurrerako kontagailua."</string>
-    <string name="intro2_title">"Freskatu Zure Burua"</string>
-    <string name="intro2_desc1">"Hartu merezitako atsedenak berriz indarberritu eta adi jarraitzeko."</string>
-    <string name="intro2_desc2">"Aurrerako kontagailuentzat, pilatu atsedeneko denbora lanean ari zarenean."</string>
-    <string name="intro3_title">"Hasi erabiltzen"</string>
-    <string name="intro3_desc1">"Jarraitu zure aurrerapena estatistika xeheekin."</string>
-    <string name="intro3_desc2">"Gainditu atzerapena eta hobetzeko arreta."</string>
+    <string name="intro1_title">Mantendu kontzentratuta</string>
+    <string name="intro1_desc1">Areagotu produktibitatea denboraz mugatutako lan-saioekin.</string>
+    <string name="intro1_desc2">Hautatu egituratutako atzerako kontaketa edo malgua den aurrerako kontagailua.</string>
+    <string name="intro2_title">Freskatu Zure Burua</string>
+    <string name="intro2_desc1">Hartu merezitako atsedenak berriz indarberritu eta adi jarraitzeko.</string>
+    <string name="intro2_desc2">Aurrerako kontagailuentzat, pilatu atsedeneko denbora lanean ari zarenean.</string>
+    <string name="intro3_title">Hasi erabiltzen</string>
+    <string name="intro3_desc1">Jarraitu zure aurrerapena estatistika xeheekin.</string>
+    <string name="intro3_desc2">Gainditu atzerapena eta hobetzeko arreta.</string>
     <string name="tutorial_title">Tutoriala</string>
     <string name="tutorial_tap">👆 Ukitu tenporizadorea hasteko eta pausatzeko.</string>
     <string name="tutorial_swipe_right">👉 Pasatu hatza ezkerrerantz edo eskubirantz uneko saioa saltatzeko.</string>

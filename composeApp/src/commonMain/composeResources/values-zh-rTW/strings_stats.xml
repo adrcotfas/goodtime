@@ -50,8 +50,8 @@
     <string name="stats_add_notes">添加说明</string>
     <string name="stats_select_all">全選</string>
     <string name="stats_no_items">沒有任何項目</string>
-    <string name="stats_show_label_breakdown_title">"Show label breakdown"</string>
-    <string name="stats_show_label_breakdown_desc">"Visualize data as stacked bars separated by label"</string>
+    <string name="stats_show_label_breakdown_title">Show label breakdown</string>
+    <string name="stats_show_label_breakdown_desc">Visualize data as stacked bars separated by label</string>
     <string name="stats_more_options">More options</string>
     <string name="stats_show_breaks">Show breaks</string>
     <string name="stats_show_archived">Show archived</string>

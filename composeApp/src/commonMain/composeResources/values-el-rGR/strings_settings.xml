@@ -45,7 +45,7 @@
     <string name="settings_true_black_mode_desc">Χρήση πραγματικού μαύρου για το φόντο</string>
     <string name="settings_keep_the_screen_on">Κράτησε την οθόνη ανοικτή</string>
     <string name="settings_screensaver_mode">Λειτουργία οθόνης</string>
-    <string name="settings_do_not_disturb_mode">Λειτουργία \"Μην ενοχλείτε\"</string>
+    <string name="settings_do_not_disturb_mode">Λειτουργία \"Μην ενοχλείτε\</string>
     <string name="settings_click_to_grant_permission">Κάνε κλικ για παραχώρηση άδειας</string>
     <string name="settings_demo">επίδειξη</string>
     <string name="settings_refresh_demo_label">Ανανέωση ετικέτας επίδειξης</string>

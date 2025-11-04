@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Μείνετε Εστιασμένη"</string>
-    <string name="intro1_desc1">"Ενισχύστε την παραγωγικότητα με τις χρονικές συνεδρίες εργασίας."</string>
-    <string name="intro1_desc2">"Επιλέξτε ανάμεσα σε μια δομημένη αντίστροφη μέτρηση ή ένα ευέλικτο χρονόμετρο αντίστροφης μέτρησης."</string>
-    <string name="intro2_title">"Ανανέωση Του Μυαλού Σας"</string>
-    <string name="intro2_desc1">"Πάρτε καλά κερδισμένα διαλείμματα για να επαναφορτιστεί και να παραμείνει απότομη."</string>
-    <string name="intro2_desc2">"Για μετρητές μέτρησης, συσσωρεύονται χρόνο διακοπής καθώς εργάζεστε."</string>
-    <string name="intro3_title">"Κάνε μία αρχή"</string>
-    <string name="intro3_desc1">"Παρακολουθήστε την πρόοδό σας με λεπτομερή στατιστικά στοιχεία."</string>
-    <string name="intro3_desc2">"Χτυπήστε την αναβλητικότητα και ενισχύστε την εστίασή σας."</string>
+    <string name="intro1_title">Μείνετε Εστιασμένη</string>
+    <string name="intro1_desc1">Ενισχύστε την παραγωγικότητα με τις χρονικές συνεδρίες εργασίας.</string>
+    <string name="intro1_desc2">Επιλέξτε ανάμεσα σε μια δομημένη αντίστροφη μέτρηση ή ένα ευέλικτο χρονόμετρο αντίστροφης μέτρησης.</string>
+    <string name="intro2_title">Ανανέωση Του Μυαλού Σας</string>
+    <string name="intro2_desc1">Πάρτε καλά κερδισμένα διαλείμματα για να επαναφορτιστεί και να παραμείνει απότομη.</string>
+    <string name="intro2_desc2">Για μετρητές μέτρησης, συσσωρεύονται χρόνο διακοπής καθώς εργάζεστε.</string>
+    <string name="intro3_title">Κάνε μία αρχή</string>
+    <string name="intro3_desc1">Παρακολουθήστε την πρόοδό σας με λεπτομερή στατιστικά στοιχεία.</string>
+    <string name="intro3_desc2">Χτυπήστε την αναβλητικότητα και ενισχύστε την εστίασή σας.</string>
     <string name="tutorial_title">Οδηγός λειτουργίας</string>
     <string name="tutorial_tap">👆 Πατήστε το χρονόμετρο να ξεκινήσετε και να διακόψετε.</string>
     <string name="tutorial_swipe_right">👉 Σαρώστε προς τα αριστερά ή δεξιά για να παρακάμψετε την τρέχουσα περίοδο λειτουργίας.</string>

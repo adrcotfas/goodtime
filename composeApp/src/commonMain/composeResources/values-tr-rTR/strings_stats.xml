@@ -50,8 +50,8 @@
     <string name="stats_add_notes">Not ekle</string>
     <string name="stats_select_all">Tümünü seç</string>
     <string name="stats_no_items">Öğe yok</string>
-    <string name="stats_show_label_breakdown_title">"Etiket özetini göster"</string>
-    <string name="stats_show_label_breakdown_desc">"Veriyi etiketlere göre ayrılmış çubuklar olarak görselleştir"</string>
+    <string name="stats_show_label_breakdown_title">Etiket özetini göster</string>
+    <string name="stats_show_label_breakdown_desc">Veriyi etiketlere göre ayrılmış çubuklar olarak görselleştir</string>
     <string name="stats_more_options">Daha fazla seçenek</string>
     <string name="stats_show_breaks">Araları göster</string>
     <string name="stats_show_archived">Arşivi göster</string>

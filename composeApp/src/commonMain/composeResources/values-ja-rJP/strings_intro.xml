@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"フォーカスを維持"</string>
-    <string name="intro1_desc1">"時間設定されたワークセッションで生産性を向上させます。"</string>
-    <string name="intro1_desc2">"構造化されたカウントダウンまたは柔軟なカウントアップタイマーのどちらかを選択します。"</string>
-    <string name="intro2_title">"あなたの心を更新"</string>
-    <string name="intro2_desc1">"よく稼いだ休憩を取って充電し、鋭い滞在します。"</string>
-    <string name="intro2_desc2">"カウントアップタイマーについては、作業中に休憩時間を蓄積します。"</string>
-    <string name="intro3_title">"はじめましょう"</string>
-    <string name="intro3_desc1">"詳細な統計で進捗状況を追跡します。"</string>
-    <string name="intro3_desc2">"先延ばしを打ち、あなたのフォーカスを高める。"</string>
+    <string name="intro1_title">フォーカスを維持</string>
+    <string name="intro1_desc1">時間設定されたワークセッションで生産性を向上させます。</string>
+    <string name="intro1_desc2">構造化されたカウントダウンまたは柔軟なカウントアップタイマーのどちらかを選択します。</string>
+    <string name="intro2_title">あなたの心を更新</string>
+    <string name="intro2_desc1">よく稼いだ休憩を取って充電し、鋭い滞在します。</string>
+    <string name="intro2_desc2">カウントアップタイマーについては、作業中に休憩時間を蓄積します。</string>
+    <string name="intro3_title">はじめましょう</string>
+    <string name="intro3_desc1">詳細な統計で進捗状況を追跡します。</string>
+    <string name="intro3_desc2">先延ばしを打ち、あなたのフォーカスを高める。</string>
     <string name="tutorial_title">チュートリアル</string>
     <string name="tutorial_tap">👆 タイマーをタップして開始し、一時停止します.</string>
     <string name="tutorial_swipe_right">👉 現在のセッションをスキップするには、左または右にスワイプします.</string>

@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"הישאר ממוקד"</string>
-    <string name="intro1_desc1">"הגבר את הפרודוקטיביות עם פגישות עבודה מתוזמנות."</string>
-    <string name="intro1_desc2">"בחר בין ספירה לאחור מובנית או טיימר גמיש לספירה לאחור."</string>
-    <string name="intro2_title">"רענן את דעתך"</string>
-    <string name="intro2_desc1">"קח הפסקות שרווחו היטב כדי להיטען מחדש ולהישאר חדים."</string>
-    <string name="intro2_desc2">"עבור טיימרים לספירה למעלה, צבור זמן הפסקה תוך כדי עבודה."</string>
-    <string name="intro3_title">"התחל"</string>
-    <string name="intro3_desc1">"עקוב אחר ההתקדמות שלך עם נתונים סטטיסטיים מפורטים."</string>
-    <string name="intro3_desc2">"לנצח את הדחיינות ולשפר את המיקוד שלך."</string>
+    <string name="intro1_title">הישאר ממוקד</string>
+    <string name="intro1_desc1">הגבר את הפרודוקטיביות עם פגישות עבודה מתוזמנות.</string>
+    <string name="intro1_desc2">בחר בין ספירה לאחור מובנית או טיימר גמיש לספירה לאחור.</string>
+    <string name="intro2_title">רענן את דעתך</string>
+    <string name="intro2_desc1">קח הפסקות שרווחו היטב כדי להיטען מחדש ולהישאר חדים.</string>
+    <string name="intro2_desc2">עבור טיימרים לספירה למעלה, צבור זמן הפסקה תוך כדי עבודה.</string>
+    <string name="intro3_title">התחל</string>
+    <string name="intro3_desc1">עקוב אחר ההתקדמות שלך עם נתונים סטטיסטיים מפורטים.</string>
+    <string name="intro3_desc2">לנצח את הדחיינות ולשפר את המיקוד שלך.</string>
     <string name="tutorial_title">הדרכה</string>
     <string name="tutorial_tap">👆 הקש על הטיימר כדי להפעיל ולהשהות.</string>
     <string name="tutorial_swipe_right">👉 החלק ימינה או שמאלה כדי לדלג על הסשן הנוכחי.</string>

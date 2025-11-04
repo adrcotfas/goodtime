@@ -50,8 +50,8 @@
     <string name="stats_add_notes">إضافة ملاحظات</string>
     <string name="stats_select_all">تحديد الكل</string>
     <string name="stats_no_items">لا توجد عناصر</string>
-    <string name="stats_show_label_breakdown_title">"إظهار تفاصيل التسمية"</string>
-    <string name="stats_show_label_breakdown_desc">"تصور البيانات كأشرطة مكدسة مفصولة بتسمية"</string>
+    <string name="stats_show_label_breakdown_title">إظهار تفاصيل التسمية</string>
+    <string name="stats_show_label_breakdown_desc">تصور البيانات كأشرطة مكدسة مفصولة بتسمية</string>
     <string name="stats_more_options">المزيد من الخيارات</string>
     <string name="stats_show_breaks">إظهار فترات الاستراحة</string>
     <string name="stats_show_archived">إظهار الأرشيف</string>

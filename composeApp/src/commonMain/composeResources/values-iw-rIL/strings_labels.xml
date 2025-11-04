@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">עריכת תוויות</string>
     <string name="labels_edit_active_label">בחר תווית פעילה</string>
     <string name="labels_break_budget_info">הרווח זמן הפסקה כשאתה מתמקד</string>
-    <string name="labels_break_budget_desc1">"תקציב ההפסקה שלך גדל בהתאם ליחס המיקוד/הפסקה שבחרת ויורד כאשר מפריעים לך."</string>
-    <string name="labels_break_budget_desc2">"קח הפסקות מתי שתרצה."</string>
+    <string name="labels_break_budget_desc1">תקציב ההפסקה שלך גדל בהתאם ליחס המיקוד/הפסקה שבחרת ויורד כאשר מפריעים לך.</string>
+    <string name="labels_break_budget_desc2">קח הפסקות מתי שתרצה.</string>
     <string name="labels_break_budget">לשבור את התקציב</string>
     <string name="labels_follow_default_time_profile">לשבור את התקציב</string>
-    <string name="labels_add_label">"הוסף תווית"</string>
+    <string name="labels_add_label">הוסף תווית</string>
     <string name="labels_add_label_name">הוסף שם תווית</string>
     <string name="labels_label_name_already_exists">שם התווית כבר קיים</string>
     <string name="labels_archived_labels_title">תוויות בארכיון</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">בחר תווית</string>
     <string name="labels_select_labels">בחר תווית</string>
     <string name="labels_edit_label">עריכת תווית</string>
-    <string name="labels_delete_label_confirmation">"מחיקת התווית הזו תסיר אותה מההפעלות שהושלמו המשויכות."</string>
-    <string name="labels_navigate_to_archived">"נווט אל תוויות בארכיון"</string>
-    <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_confirmation">מחיקת התווית הזו תסיר אותה מההפעלות שהושלמו המשויכות.</string>
+    <string name="labels_navigate_to_archived">נווט אל תוויות בארכיון</string>
+    <string name="labels_clear_label">Clear label</string>
     <string name="labels_delete_label_name">למחוק %1$s</string>
     <string name="labels_archive_label_name">Archive %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

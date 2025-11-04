@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Editar etiquetas</string>
     <string name="labels_edit_active_label">Editar etiqueta activa</string>
     <string name="labels_break_budget_info">Gana tiempo de descanso mientras te enfocas</string>
-    <string name="labels_break_budget_desc1">"El presupuesto de ruptura aumenta de acuerdo con la relación focus/break seleccionada y disminuye cuando se interrumpe."</string>
-    <string name="labels_break_budget_desc2">"Tome las pausas cuando quiera."</string>
+    <string name="labels_break_budget_desc1">El presupuesto de ruptura aumenta de acuerdo con la relación focus/break seleccionada y disminuye cuando se interrumpe.</string>
+    <string name="labels_break_budget_desc2">Tome las pausas cuando quiera.</string>
     <string name="labels_break_budget">Presupuesto de descanso</string>
     <string name="labels_follow_default_time_profile">Seguir perfil de tiempo por defecto</string>
-    <string name="labels_add_label">"Añadir etiqueta"</string>
+    <string name="labels_add_label">Añadir etiqueta</string>
     <string name="labels_add_label_name">Añadir nombre de etiqueta</string>
     <string name="labels_label_name_already_exists">Nombre de etiqueta ya existe</string>
     <string name="labels_archived_labels_title">Etiquetas archivadas</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Selecciona la Etiqueta</string>
     <string name="labels_select_labels">Seleccionar etiquetas</string>
     <string name="labels_edit_label">Editar etiqueta</string>
-    <string name="labels_delete_label_confirmation">"Eliminar esta etiqueta la eliminará de las sesiones completadas asociadas."</string>
-    <string name="labels_navigate_to_archived">"Navegar a etiquetas archivadas"</string>
-    <string name="labels_clear_label">"Borrar etiqueta"</string>
+    <string name="labels_delete_label_confirmation">Eliminar esta etiqueta la eliminará de las sesiones completadas asociadas.</string>
+    <string name="labels_navigate_to_archived">Navegar a etiquetas archivadas</string>
+    <string name="labels_clear_label">Borrar etiqueta</string>
     <string name="labels_delete_label_name">Eliminar %1$s</string>
     <string name="labels_archive_label_name">Archivo %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

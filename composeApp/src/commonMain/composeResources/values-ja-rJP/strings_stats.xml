@@ -50,8 +50,8 @@
     <string name="stats_add_notes">メモを追加</string>
     <string name="stats_select_all">全て選択する</string>
     <string name="stats_no_items">アイテムはありません</string>
-    <string name="stats_show_label_breakdown_title">"ラベルの内訳を表示"</string>
-    <string name="stats_show_label_breakdown_desc">"ラベルで区切られた積み上げ棒としてデータを視覚化"</string>
+    <string name="stats_show_label_breakdown_title">ラベルの内訳を表示</string>
+    <string name="stats_show_label_breakdown_desc">ラベルで区切られた積み上げ棒としてデータを視覚化</string>
     <string name="stats_more_options">その他のオプション</string>
     <string name="stats_show_breaks">休憩を表示</string>
     <string name="stats_show_archived">アーカイブを表示</string>

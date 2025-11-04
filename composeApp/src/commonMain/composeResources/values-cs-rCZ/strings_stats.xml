@@ -50,8 +50,8 @@
     <string name="stats_add_notes">Přidat poznámky</string>
     <string name="stats_select_all">Vybrat vše</string>
     <string name="stats_no_items">Žádné položky</string>
-    <string name="stats_show_label_breakdown_title">"Zobrazit rozpis štítku"</string>
-    <string name="stats_show_label_breakdown_desc">"Zobrazit data jako skládaný sloupcový graf rozdělený dle štítků"</string>
+    <string name="stats_show_label_breakdown_title">Zobrazit rozpis štítku</string>
+    <string name="stats_show_label_breakdown_desc">Zobrazit data jako skládaný sloupcový graf rozdělený dle štítků</string>
     <string name="stats_more_options">Další možnosti</string>
     <string name="stats_show_breaks">Zobrazit zalomení</string>
     <string name="stats_show_archived">Zobrazit archivované</string>

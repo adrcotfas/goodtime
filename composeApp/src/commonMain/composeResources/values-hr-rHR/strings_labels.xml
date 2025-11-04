@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Uredi oznake</string>
     <string name="labels_edit_active_label">Uredi aktivnu oznaku</string>
     <string name="labels_break_budget_info">Zaradite vrijeme pauze dok se fokusirate</string>
-    <string name="labels_break_budget_desc1">"Vaš budžet za pauze povećava se prema odabranom omjeru fokusa i pauza, a smanjuje se kada ste prekinuti."</string>
-    <string name="labels_break_budget_desc2">"Uzmi pauze kad god želiš."</string>
+    <string name="labels_break_budget_desc1">Vaš budžet za pauze povećava se prema odabranom omjeru fokusa i pauza, a smanjuje se kada ste prekinuti.</string>
+    <string name="labels_break_budget_desc2">Uzmi pauze kad god želiš.</string>
     <string name="labels_break_budget">Budžet za pauze</string>
     <string name="labels_follow_default_time_profile">Follow default time profile</string>
-    <string name="labels_add_label">"Dodajte oznaku"</string>
+    <string name="labels_add_label">Dodajte oznaku</string>
     <string name="labels_add_label_name">Dodajte naziv oznake</string>
     <string name="labels_label_name_already_exists">Oznaka već postoji</string>
     <string name="labels_archived_labels_title">Arhivirane oznake</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Odaberite oznaku</string>
     <string name="labels_select_labels">Odaberi etikete</string>
     <string name="labels_edit_label">Izmjeni oznaku</string>
-    <string name="labels_delete_label_confirmation">"Brisanje ove oznake uklonit će je iz povezanih dovršenih sesija."</string>
-    <string name="labels_navigate_to_archived">"Idite na arhivirane oznake"</string>
-    <string name="labels_clear_label">"Jasne oznake"</string>
+    <string name="labels_delete_label_confirmation">Brisanje ove oznake uklonit će je iz povezanih dovršenih sesija.</string>
+    <string name="labels_navigate_to_archived">Idite na arhivirane oznake</string>
+    <string name="labels_clear_label">Jasne oznake</string>
     <string name="labels_delete_label_name">Izbrisati %1$s</string>
     <string name="labels_archive_label_name">Archive %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

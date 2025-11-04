@@ -44,7 +44,7 @@
     <string name="main_break_finished">সম্পূর্ণ ভেঙে</string>
     <string name="main_continue">অবিরত রাখতে চান?</string>
     <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"এটা উত্পাদনশীল হতে সময়!"</string>
+    <string name="main_productivity_reminder_desc">এটা উত্পাদনশীল হতে সময়!</string>
     <string name="main_notifications_channel_name">গুডটাইম বিজ্ঞপ্তি</string>
     <string name="main_reminder_channel_name">গুডটাইম বিজ্ঞপ্তি</string>
     <string name="main_crash_channel_name">বিপর্যয় প্রতিবেদন</string>

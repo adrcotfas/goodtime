@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Muokkaa tunnisteita</string>
     <string name="labels_edit_active_label">Muokkaa aktiivista tunnistetta</string>
     <string name="labels_break_budget_info">Ansaitse taukoaikaa aina kun keskityt</string>
-    <string name="labels_break_budget_desc1">"Taukoaikasi kasvaa valitun keskittymis/taukosuhteen mukaisesti ja pienenee, kun sinut keskeytetään."</string>
-    <string name="labels_break_budget_desc2">"Pidä taukoja mielesi mukaan."</string>
+    <string name="labels_break_budget_desc1">Taukoaikasi kasvaa valitun keskittymis/taukosuhteen mukaisesti ja pienenee, kun sinut keskeytetään.</string>
+    <string name="labels_break_budget_desc2">Pidä taukoja mielesi mukaan.</string>
     <string name="labels_break_budget">Taukobudjetti</string>
     <string name="labels_follow_default_time_profile">Seuraa oletusaikaprofiilia</string>
-    <string name="labels_add_label">"Lisää tunniste"</string>
+    <string name="labels_add_label">Lisää tunniste</string>
     <string name="labels_add_label_name">Lisää tunnistenimi</string>
     <string name="labels_label_name_already_exists">Tunnistenimi on jo olemassa</string>
     <string name="labels_archived_labels_title">Arkistoidut tunnisteet</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Valitse tunniste</string>
     <string name="labels_select_labels">Valitse tunnisteet</string>
     <string name="labels_edit_label">Muokkaa tunnistetta</string>
-    <string name="labels_delete_label_confirmation">"Tämän tunnisteen poistaminen irrottaa sen suoritetuista istunnoista."</string>
-    <string name="labels_navigate_to_archived">"Siirry arkistoituihin tunnisteisiin"</string>
-    <string name="labels_clear_label">"Tyhjennä tunniste"</string>
+    <string name="labels_delete_label_confirmation">Tämän tunnisteen poistaminen irrottaa sen suoritetuista istunnoista.</string>
+    <string name="labels_navigate_to_archived">Siirry arkistoituihin tunnisteisiin</string>
+    <string name="labels_clear_label">Tyhjennä tunniste</string>
     <string name="labels_delete_label_name">Poista %1$s</string>
     <string name="labels_archive_label_name">Arkistoi %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

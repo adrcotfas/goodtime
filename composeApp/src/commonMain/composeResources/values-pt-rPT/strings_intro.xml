@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Manter Focado"</string>
-    <string name="intro1_desc1">"Aumente a produtividade com sessões de trabalho cronometradas."</string>
-    <string name="intro1_desc2">"Escolha entre uma contagem regressiva estruturada ou um temporizador flexível de contagem."</string>
-    <string name="intro2_title">"Atualize sua mente"</string>
-    <string name="intro2_desc1">"Faça pausas bem ganhas para recarregar e se manter afiado."</string>
-    <string name="intro2_desc2">"Para temporizadores, acumule o tempo de pausa enquanto você trabalha."</string>
-    <string name="intro3_title">"Começar"</string>
-    <string name="intro3_desc1">"Acompanhe seu progresso com estatísticas detalhadas."</string>
-    <string name="intro3_desc2">"Ultrapasse a procrastinação e melhorasse seu foco."</string>
+    <string name="intro1_title">Manter Focado</string>
+    <string name="intro1_desc1">Aumente a produtividade com sessões de trabalho cronometradas.</string>
+    <string name="intro1_desc2">Escolha entre uma contagem regressiva estruturada ou um temporizador flexível de contagem.</string>
+    <string name="intro2_title">Atualize sua mente</string>
+    <string name="intro2_desc1">Faça pausas bem ganhas para recarregar e se manter afiado.</string>
+    <string name="intro2_desc2">Para temporizadores, acumule o tempo de pausa enquanto você trabalha.</string>
+    <string name="intro3_title">Começar</string>
+    <string name="intro3_desc1">Acompanhe seu progresso com estatísticas detalhadas.</string>
+    <string name="intro3_desc2">Ultrapasse a procrastinação e melhorasse seu foco.</string>
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_tap">👆 Toque no temporizador para iniciar e pausar.</string>
     <string name="tutorial_swipe_right">👉 Deslize para a esquerda ou para a direita para dispensar a sessão atual.</string>

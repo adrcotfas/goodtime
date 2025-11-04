@@ -44,7 +44,7 @@
     <string name="main_break_finished">Descanso terminado</string>
     <string name="main_continue">¿Continuar?</string>
     <string name="main_idle">Inactivo</string>
-    <string name="main_productivity_reminder_desc">"Es hora de ser productivo!"</string>
+    <string name="main_productivity_reminder_desc">Es hora de ser productivo!</string>
     <string name="main_notifications_channel_name">Notificaciones de temporizador</string>
     <string name="main_reminder_channel_name">Notificaciones de recordatorio</string>
     <string name="main_crash_channel_name">Informes de fallos</string>

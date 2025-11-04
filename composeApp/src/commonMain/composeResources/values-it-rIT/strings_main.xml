@@ -44,7 +44,7 @@
     <string name="main_break_finished">Pausa finita</string>
     <string name="main_continue">Continuare?</string>
     <string name="main_idle">Inattivo</string>
-    <string name="main_productivity_reminder_desc">"È ora di essere produttivi!"</string>
+    <string name="main_productivity_reminder_desc">È ora di essere produttivi!</string>
     <string name="main_notifications_channel_name">Notifiche Timer</string>
     <string name="main_reminder_channel_name">Notifiche Promemoria</string>
     <string name="main_crash_channel_name">Segnalazioni di crash</string>

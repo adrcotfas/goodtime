@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">تحرير التسميات</string>
     <string name="labels_edit_active_label">تعديل التسمية النشطة</string>
     <string name="labels_break_budget_info">اكسب وقت الاستراحة مع التركيز</string>
-    <string name="labels_break_budget_desc1">"ترتفع ميزانية الاستراحة الخاصة بك وفقا لنسبة التركيز/الاستراحة المحددة الخاصة بك وتقل عند انقطاعك."</string>
-    <string name="labels_break_budget_desc2">"خذ فترات استراحة كلما أردت."</string>
+    <string name="labels_break_budget_desc1">ترتفع ميزانية الاستراحة الخاصة بك وفقا لنسبة التركيز/الاستراحة المحددة الخاصة بك وتقل عند انقطاعك.</string>
+    <string name="labels_break_budget_desc2">خذ فترات استراحة كلما أردت.</string>
     <string name="labels_break_budget">تكسير الميزانية</string>
     <string name="labels_follow_default_time_profile">اتبع الوضع الزمني الافتراضي</string>
-    <string name="labels_add_label">"أضف علامة"</string>
+    <string name="labels_add_label">أضف علامة</string>
     <string name="labels_add_label_name">إضافة اسم التسمية</string>
     <string name="labels_label_name_already_exists">اسم التسمية موجود مسبقاً</string>
     <string name="labels_archived_labels_title">العناوين المؤرشفة</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">حدد التسمية</string>
     <string name="labels_select_labels">حدد التسميات</string>
     <string name="labels_edit_label">تعديل التسمية</string>
-    <string name="labels_delete_label_confirmation">"سيؤدي حذف هذه التسمية إلى إزالتها من الجلسات المكتملة المرتبطة بها."</string>
-    <string name="labels_navigate_to_archived">"انتقل إلى التسميات المؤرشفة"</string>
-    <string name="labels_clear_label">"مسح التسمية"</string>
+    <string name="labels_delete_label_confirmation">سيؤدي حذف هذه التسمية إلى إزالتها من الجلسات المكتملة المرتبطة بها.</string>
+    <string name="labels_navigate_to_archived">انتقل إلى التسميات المؤرشفة</string>
+    <string name="labels_clear_label">مسح التسمية</string>
     <string name="labels_delete_label_name">حذف %1$s</string>
     <string name="labels_archive_label_name">أرشيف %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Céntrate"</string>
-    <string name="intro1_desc1">"Aumente a produtividade con sesións de traballo programadas."</string>
-    <string name="intro1_desc2">"Escolle entre unha conta atrás estruturada ou un temporizador de conta atrás flexible."</string>
-    <string name="intro2_title">"Refresca a túa mente"</string>
-    <string name="intro2_desc1">"Fai pausas ben gañadas para recargar enerxía e manterte atento."</string>
-    <string name="intro2_desc2">"Para os temporizadores de conta atrás, acumula o tempo de descanso mentres traballas."</string>
-    <string name="intro3_title">"Comeza"</string>
-    <string name="intro3_desc1">"Fai un seguimento do teu progreso con estatísticas detalladas."</string>
-    <string name="intro3_desc2">"Supera a procrastinación e mellora o teu foco."</string>
+    <string name="intro1_title">Céntrate</string>
+    <string name="intro1_desc1">Aumente a produtividade con sesións de traballo programadas.</string>
+    <string name="intro1_desc2">Escolle entre unha conta atrás estruturada ou un temporizador de conta atrás flexible.</string>
+    <string name="intro2_title">Refresca a túa mente</string>
+    <string name="intro2_desc1">Fai pausas ben gañadas para recargar enerxía e manterte atento.</string>
+    <string name="intro2_desc2">Para os temporizadores de conta atrás, acumula o tempo de descanso mentres traballas.</string>
+    <string name="intro3_title">Comeza</string>
+    <string name="intro3_desc1">Fai un seguimento do teu progreso con estatísticas detalladas.</string>
+    <string name="intro3_desc2">Supera a procrastinación e mellora o teu foco.</string>
     <string name="tutorial_title">Titorial</string>
     <string name="tutorial_tap">👆 Toca o temporizador para comezar e facer unha pausa.</string>
     <string name="tutorial_swipe_right">👉 Esvara o dedo á esquerda ou á dereita para saltar a sesión actual.</string>

@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Edita l\'etiqueta</string>
     <string name="labels_edit_active_label">Seleccioneu l\'etiqueta activa</string>
     <string name="labels_break_budget_info">Guanyeu temps de descans mentre us concentreu</string>
-    <string name="labels_break_budget_desc1">"El vostre pressupost de descans augmenta segons la vostra relació enfocament/descans seleccionat i disminueix quan se us interromp."</string>
-    <string name="labels_break_budget_desc2">"Fes pauses quan vulguis."</string>
+    <string name="labels_break_budget_desc1">El vostre pressupost de descans augmenta segons la vostra relació enfocament/descans seleccionat i disminueix quan se us interromp.</string>
+    <string name="labels_break_budget_desc2">Fes pauses quan vulguis.</string>
     <string name="labels_break_budget">Trenca el pressupost</string>
     <string name="labels_follow_default_time_profile">Seguiu el perfil horari predeterminat</string>
-    <string name="labels_add_label">"Afegir etiqueta"</string>
+    <string name="labels_add_label">Afegir etiqueta</string>
     <string name="labels_add_label_name">Afegeix el nom de l\'etiqueta</string>
     <string name="labels_label_name_already_exists">L\'etiqueta ja existeix</string>
     <string name="labels_archived_labels_title">Etiquetes arxivades</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Selecciona una Etiqueta</string>
     <string name="labels_select_labels">Selecciona etiquetes</string>
     <string name="labels_edit_label">Editar etiqueta</string>
-    <string name="labels_delete_label_confirmation">"Si suprimiu aquesta etiqueta, s'eliminarà de les sessions completades associades."</string>
-    <string name="labels_navigate_to_archived">"Navegueu a les etiquetes arxivades"</string>
-    <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_confirmation">Si suprimiu aquesta etiqueta, s'eliminarà de les sessions completades associades.</string>
+    <string name="labels_navigate_to_archived">Navegueu a les etiquetes arxivades</string>
+    <string name="labels_clear_label">Clear label</string>
     <string name="labels_delete_label_name">Voleu eliminar %1$s</string>
     <string name="labels_archive_label_name">Archive %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

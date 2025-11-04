@@ -44,7 +44,7 @@
     <string name="main_break_finished">Διάλειμμα τελείωσε</string>
     <string name="main_continue">Να συνεχίσω;</string>
     <string name="main_idle">Αδρανής</string>
-    <string name="main_productivity_reminder_desc">"Είναι ώρα να γίνουμε παραγωγικοί!"</string>
+    <string name="main_productivity_reminder_desc">Είναι ώρα να γίνουμε παραγωγικοί!</string>
     <string name="main_notifications_channel_name">Ειδοποιήσεις Χρονομέτρου</string>
     <string name="main_reminder_channel_name">Ειδοποιήσεις Υπενθύμισης</string>
     <string name="main_crash_channel_name">Αναφορές κατάρρευσης</string>

@@ -1,6 +1,10 @@
 ---
 files:
   # Compose Multiplatform resources (commonMain)
+  - source: "composeApp/src/commonMain/composeResources/values/strings_main.xml"
+    translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
+    labels:
+      - main
   - source: "composeApp/src/commonMain/composeResources/values/strings_about.xml"
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
     labels:

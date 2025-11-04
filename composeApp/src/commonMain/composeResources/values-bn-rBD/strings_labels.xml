@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">লেবেল সম্পাদনা করুন</string>
     <string name="labels_edit_active_label">সক্রিয় লেবেল নির্বাচন করুন</string>
     <string name="labels_break_budget_info">আপনি ফোকাস হিসাবে বিরতি সময় উপার্জন</string>
-    <string name="labels_break_budget_desc1">"আপনার নির্বাচিত ফোকাস/ব্রেক অনুপাত অনুযায়ী আপনার বিরতির বাজেট বৃদ্ধি পায় এবং আপনি বাধাপ্রাপ্ত হলে হ্রাস পায়."</string>
-    <string name="labels_break_budget_desc2">"আপনি যখন খুশি বিরতি নিন."</string>
+    <string name="labels_break_budget_desc1">আপনার নির্বাচিত ফোকাস/ব্রেক অনুপাত অনুযায়ী আপনার বিরতির বাজেট বৃদ্ধি পায় এবং আপনি বাধাপ্রাপ্ত হলে হ্রাস পায়.</string>
+    <string name="labels_break_budget_desc2">আপনি যখন খুশি বিরতি নিন.</string>
     <string name="labels_break_budget">বাজেট বিরতি</string>
     <string name="labels_follow_default_time_profile">ডিফল্ট সময় প্রোফাইল অনুসরণ করুন</string>
-    <string name="labels_add_label">"লেবেল যোগ করো"</string>
+    <string name="labels_add_label">লেবেল যোগ করো</string>
     <string name="labels_add_label_name">লেবেলের নাম যোগ করুন</string>
     <string name="labels_label_name_already_exists">লেবেল বর্তমানে উপস্থিত রয়েছে</string>
     <string name="labels_archived_labels_title">আর্কাইভ করা লেবেল</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">লেবেল নির্বাচন করুন</string>
     <string name="labels_select_labels">লেবেল নির্বাচন করুন</string>
     <string name="labels_edit_label">লেবেল সম্পাদনা করুন</string>
-    <string name="labels_delete_label_confirmation">"এই লেবেলটি মুছে দিলে এটি সংশ্লিষ্ট সম্পূর্ণ সেশন থেকে মুছে যাবে."</string>
-    <string name="labels_navigate_to_archived">"আর্কাইভ করা লেবেলে যান"</string>
-    <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_confirmation">এই লেবেলটি মুছে দিলে এটি সংশ্লিষ্ট সম্পূর্ণ সেশন থেকে মুছে যাবে.</string>
+    <string name="labels_navigate_to_archived">আর্কাইভ করা লেবেলে যান</string>
+    <string name="labels_clear_label">Clear label</string>
     <string name="labels_delete_label_name">%1$sমুছবেন</string>
     <string name="labels_archive_label_name">Archive %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

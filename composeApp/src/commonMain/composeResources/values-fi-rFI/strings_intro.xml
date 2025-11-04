@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Pysy keskittyneenä"</string>
-    <string name="intro1_desc1">"Lisää tuottavuutta ajastetuilla työjaksoilla."</string>
-    <string name="intro1_desc2">"Valitse ohjatun tai joustavan ajastimen väliltä."</string>
-    <string name="intro2_title">"Virkistä mielesi"</string>
-    <string name="intro2_desc1">"Palaudu ja pysy terävänä pitämällä ansaittuja taukoja."</string>
-    <string name="intro2_desc2">"Kerää käänteisillä ajastimilla taukoaikaa samalla kun työskentelet."</string>
-    <string name="intro3_title">"Näin pääset alkuun"</string>
-    <string name="intro3_desc1">"Seuraa edistymistäsi yksityiskohtaisilla tilastoilla."</string>
-    <string name="intro3_desc2">"Päihitä viivyttely ja paranna keskittymistäsi."</string>
+    <string name="intro1_title">Pysy keskittyneenä</string>
+    <string name="intro1_desc1">Lisää tuottavuutta ajastetuilla työjaksoilla.</string>
+    <string name="intro1_desc2">Valitse ohjatun tai joustavan ajastimen väliltä.</string>
+    <string name="intro2_title">Virkistä mielesi</string>
+    <string name="intro2_desc1">Palaudu ja pysy terävänä pitämällä ansaittuja taukoja.</string>
+    <string name="intro2_desc2">Kerää käänteisillä ajastimilla taukoaikaa samalla kun työskentelet.</string>
+    <string name="intro3_title">Näin pääset alkuun</string>
+    <string name="intro3_desc1">Seuraa edistymistäsi yksityiskohtaisilla tilastoilla.</string>
+    <string name="intro3_desc2">Päihitä viivyttely ja paranna keskittymistäsi.</string>
     <string name="tutorial_title">Opastus</string>
     <string name="tutorial_tap">👆 Käynnistä ja pysäytä ajastinta koskettamalla.</string>
     <string name="tutorial_swipe_right">👉 Pyyhkäise vasemmalle tai oikealle ohittaaksesi nykyisen istunnon.</string>

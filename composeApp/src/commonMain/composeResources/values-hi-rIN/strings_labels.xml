@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">वर्ग संपादित करें</string>
     <string name="labels_edit_active_label">Edit active label</string>
     <string name="labels_break_budget_info">Earn break time as you focus</string>
-    <string name="labels_break_budget_desc1">"Your break budget increases according to your selected focus/break ratio and decreases when you're interrupted."</string>
-    <string name="labels_break_budget_desc2">"Take breaks whenever you like."</string>
+    <string name="labels_break_budget_desc1">Your break budget increases according to your selected focus/break ratio and decreases when you're interrupted.</string>
+    <string name="labels_break_budget_desc2">Take breaks whenever you like.</string>
     <string name="labels_break_budget">Break budget</string>
     <string name="labels_follow_default_time_profile">Follow default time profile</string>
-    <string name="labels_add_label">"वर्ग जोड़ें"</string>
+    <string name="labels_add_label">वर्ग जोड़ें</string>
     <string name="labels_add_label_name">Add label name</string>
     <string name="labels_label_name_already_exists">Label name already exists</string>
     <string name="labels_archived_labels_title">Archived labels</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">वर्ग का चयन करें</string>
     <string name="labels_select_labels">Select labels</string>
     <string name="labels_edit_label">Edit label</string>
-    <string name="labels_delete_label_confirmation">"Deleting this label will remove it from associated completed sessions."</string>
-    <string name="labels_navigate_to_archived">"Navigate to archived labels"</string>
-    <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_confirmation">Deleting this label will remove it from associated completed sessions.</string>
+    <string name="labels_navigate_to_archived">Navigate to archived labels</string>
+    <string name="labels_clear_label">Clear label</string>
     <string name="labels_delete_label_name">Delete %1$s</string>
     <string name="labels_archive_label_name">Archive %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

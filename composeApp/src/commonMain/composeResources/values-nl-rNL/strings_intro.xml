@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Blijf gefocust"</string>
-    <string name="intro1_desc1">"Verhoog productiviteit met getimede werksessies."</string>
-    <string name="intro1_desc2">"Kies tussen een gestructureerde afteller of een flexibele opteltijd."</string>
-    <string name="intro2_title">"Ververs je geesten"</string>
-    <string name="intro2_desc1">"Neem goed verdiende pauzes om te herladen en scherp te blijven."</string>
-    <string name="intro2_desc2">"Voor optellende tijgers krijg je pauze terwijl je werkt."</string>
-    <string name="intro3_title">"Aan de slag"</string>
-    <string name="intro3_desc1">"Volg uw vooruitgang met gedetailleerde statistieken."</string>
-    <string name="intro3_desc2">"Versla uitstel en verbeter je focus."</string>
+    <string name="intro1_title">Blijf gefocust</string>
+    <string name="intro1_desc1">Verhoog productiviteit met getimede werksessies.</string>
+    <string name="intro1_desc2">Kies tussen een gestructureerde afteller of een flexibele opteltijd.</string>
+    <string name="intro2_title">Ververs je geesten</string>
+    <string name="intro2_desc1">Neem goed verdiende pauzes om te herladen en scherp te blijven.</string>
+    <string name="intro2_desc2">Voor optellende tijgers krijg je pauze terwijl je werkt.</string>
+    <string name="intro3_title">Aan de slag</string>
+    <string name="intro3_desc1">Volg uw vooruitgang met gedetailleerde statistieken.</string>
+    <string name="intro3_desc2">Versla uitstel en verbeter je focus.</string>
     <string name="tutorial_title">Handleiding</string>
     <string name="tutorial_tap">👆 Tik op de timer om te starten en te pauzeren.</string>
     <string name="tutorial_swipe_right">👉 Veeg naar links of rechts om de huidige sessie over te slaan.</string>

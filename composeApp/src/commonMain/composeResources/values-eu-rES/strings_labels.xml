@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Editatu etiketa</string>
     <string name="labels_edit_active_label">Editatu etiketa aktiboa</string>
     <string name="labels_break_budget_info">Jarraituz arreta jarriz, atseden denbora irabazi</string>
-    <string name="labels_break_budget_desc1">"Zure atsedenaren aurrekontua zure hautatutako arreta/atseden ratioaren arabera handitzen da eta etenak izan dituzunean murrizten da."</string>
-    <string name="labels_break_budget_desc2">"Hartu atsedenak nahi duzunean."</string>
+    <string name="labels_break_budget_desc1">Zure atsedenaren aurrekontua zure hautatutako arreta/atseden ratioaren arabera handitzen da eta etenak izan dituzunean murrizten da.</string>
+    <string name="labels_break_budget_desc2">Hartu atsedenak nahi duzunean.</string>
     <string name="labels_break_budget">Atsedenaren aurrekontua</string>
     <string name="labels_follow_default_time_profile">Jarraitza ezazu hasierako denbora profila</string>
-    <string name="labels_add_label">"Gehitu etiketa"</string>
+    <string name="labels_add_label">Gehitu etiketa</string>
     <string name="labels_add_label_name">Gehi itzazu etiketa izenak</string>
     <string name="labels_label_name_already_exists">Etiketa izena jada existitzen da</string>
     <string name="labels_archived_labels_title">Artxibatutako etiketa</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Hautatu etiketa</string>
     <string name="labels_select_labels">Hautatu etiketa</string>
     <string name="labels_edit_label">Editatu etiketa</string>
-    <string name="labels_delete_label_confirmation">"Etiketa hau ezabatzeak lotutako saio osatuetatik ere ezabatuko du."</string>
-    <string name="labels_navigate_to_archived">"Nabigatu artxibatutako etiketetara"</string>
-    <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_confirmation">Etiketa hau ezabatzeak lotutako saio osatuetatik ere ezabatuko du.</string>
+    <string name="labels_navigate_to_archived">Nabigatu artxibatutako etiketetara</string>
+    <string name="labels_clear_label">Clear label</string>
     <string name="labels_delete_label_name">Ezabatu %1$s</string>
     <string name="labels_archive_label_name">Archive %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

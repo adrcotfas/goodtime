@@ -44,7 +44,7 @@
     <string name="main_break_finished">Pertrauka baigta</string>
     <string name="main_continue">Tęsti?</string>
     <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"It's time to be productive!"</string>
+    <string name="main_productivity_reminder_desc">It's time to be productive!</string>
     <string name="main_notifications_channel_name">Timer Notifications</string>
     <string name="main_reminder_channel_name">Reminder Notifications</string>
     <string name="main_crash_channel_name">Crash reports</string>

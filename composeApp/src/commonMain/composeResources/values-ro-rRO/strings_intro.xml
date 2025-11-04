@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Rămâneți focalizat"</string>
-    <string name="intro1_desc1">"Sporirea productivității cu ocazia unor sesiuni de lucru programate."</string>
-    <string name="intro1_desc2">"Alegeți între o numărătoare inversă structurată sau un cronometru de numărare flexibil."</string>
-    <string name="intro2_title">"Reîmprospătează-ți Mind"</string>
-    <string name="intro2_desc1">"Fă pauze bine câștigate pentru a reîncărca și a rămâne ascuțite."</string>
-    <string name="intro2_desc2">"Pentru cronometre de numărat, acumulează timp pauză în timp ce lucrezi."</string>
-    <string name="intro3_title">"Începe"</string>
-    <string name="intro3_desc1">"Urmărește progresul tău cu statistici detaliate."</string>
-    <string name="intro3_desc2">"Luați procrastinarea și sporiți focalizarea."</string>
+    <string name="intro1_title">Rămâneți focalizat</string>
+    <string name="intro1_desc1">Sporirea productivității cu ocazia unor sesiuni de lucru programate.</string>
+    <string name="intro1_desc2">Alegeți între o numărătoare inversă structurată sau un cronometru de numărare flexibil.</string>
+    <string name="intro2_title">Reîmprospătează-ți Mind</string>
+    <string name="intro2_desc1">Fă pauze bine câștigate pentru a reîncărca și a rămâne ascuțite.</string>
+    <string name="intro2_desc2">Pentru cronometre de numărat, acumulează timp pauză în timp ce lucrezi.</string>
+    <string name="intro3_title">Începe</string>
+    <string name="intro3_desc1">Urmărește progresul tău cu statistici detaliate.</string>
+    <string name="intro3_desc2">Luați procrastinarea și sporiți focalizarea.</string>
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_tap">👆 Apasă cronometrul pentru a începe și pentru a pune pauză.</string>
     <string name="tutorial_swipe_right">👉 Glisați cu degetul spre stânga sau dreapta pentru a sări peste sesiunea curentă.</string>

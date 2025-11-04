@@ -44,7 +44,7 @@
     <string name="main_break_finished">Prestávka bola dokončená</string>
     <string name="main_continue">Ďalej?</string>
     <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"Je čas byť produktívny!"</string>
+    <string name="main_productivity_reminder_desc">Je čas byť produktívny!</string>
     <string name="main_notifications_channel_name">Timer Notifications</string>
     <string name="main_reminder_channel_name">Reminder Notifications</string>
     <string name="main_crash_channel_name">Crash reports</string>

@@ -50,8 +50,8 @@
     <string name="stats_add_notes">Tilføj noter</string>
     <string name="stats_select_all">Vælg alle</string>
     <string name="stats_no_items">Ingen elementer</string>
-    <string name="stats_show_label_breakdown_title">"Vis opdeling af etiketter"</string>
-    <string name="stats_show_label_breakdown_desc">"Visualiser data som stablede søjler adskilt af etiket"</string>
+    <string name="stats_show_label_breakdown_title">Vis opdeling af etiketter</string>
+    <string name="stats_show_label_breakdown_desc">Visualiser data som stablede søjler adskilt af etiket</string>
     <string name="stats_more_options">Flere valgmuligheder</string>
     <string name="stats_show_breaks">Vis pauser</string>
     <string name="stats_show_archived">Vis arkiverede</string>

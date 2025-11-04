@@ -50,8 +50,8 @@
     <string name="stats_add_notes">Agregar notas</string>
     <string name="stats_select_all">Seleccionar todo</string>
     <string name="stats_no_items">No hay elementos</string>
-    <string name="stats_show_label_breakdown_title">"Mostrar análisis de etiqueta"</string>
-    <string name="stats_show_label_breakdown_desc">"Visualizar datos como barras apiladas separadas por etiqueta"</string>
+    <string name="stats_show_label_breakdown_title">Mostrar análisis de etiqueta</string>
+    <string name="stats_show_label_breakdown_desc">Visualizar datos como barras apiladas separadas por etiqueta</string>
     <string name="stats_more_options">Más opciones</string>
     <string name="stats_show_breaks">Mostrar descansos</string>
     <string name="stats_show_archived">Show archived</string>

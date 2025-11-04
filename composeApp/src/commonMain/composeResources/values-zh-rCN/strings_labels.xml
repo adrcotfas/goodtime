@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">编辑标签</string>
     <string name="labels_edit_active_label">编辑生效标签</string>
     <string name="labels_break_budget_info">随专注赢取休息时间</string>
-    <string name="labels_break_budget_desc1">"您的休息预算会根据您选择的专注/休息比例增加，并在您被打断时减少。"</string>
-    <string name="labels_break_budget_desc2">"随时休息。"</string>
+    <string name="labels_break_budget_desc1">您的休息预算会根据您选择的专注/休息比例增加，并在您被打断时减少。</string>
+    <string name="labels_break_budget_desc2">随时休息。</string>
     <string name="labels_break_budget">休息预算</string>
     <string name="labels_follow_default_time_profile">跟随默认时间配置</string>
-    <string name="labels_add_label">"添加标签"</string>
+    <string name="labels_add_label">添加标签</string>
     <string name="labels_add_label_name">添加标签名称</string>
     <string name="labels_label_name_already_exists">标签名称已存在</string>
     <string name="labels_archived_labels_title">已归档标签</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">选择标签</string>
     <string name="labels_select_labels">选择多个标签</string>
     <string name="labels_edit_label">编辑标签</string>
-    <string name="labels_delete_label_confirmation">"删除此标签将从关联的已完成会话中移除。"</string>
-    <string name="labels_navigate_to_archived">"前往已归档标签"</string>
-    <string name="labels_clear_label">"清除标签"</string>
+    <string name="labels_delete_label_confirmation">删除此标签将从关联的已完成会话中移除。</string>
+    <string name="labels_navigate_to_archived">前往已归档标签</string>
+    <string name="labels_clear_label">清除标签</string>
     <string name="labels_delete_label_name">删除 %1$s</string>
     <string name="labels_archive_label_name">存档 %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

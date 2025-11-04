@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Modifier les étiquettes</string>
     <string name="labels_edit_active_label">Modifier l\'étiquette active</string>
     <string name="labels_break_budget_info">Gagnez du temps de pause en vous concentrant</string>
-    <string name="labels_break_budget_desc1">"Votre réserve de pauses augmente en fonction du taux de concentration/rupture que vous avez sélectionné et diminue lorsque vous êtes interrompu."</string>
-    <string name="labels_break_budget_desc2">"Prenez des pauses quand vous le souhaitez."</string>
+    <string name="labels_break_budget_desc1">Votre réserve de pauses augmente en fonction du taux de concentration/rupture que vous avez sélectionné et diminue lorsque vous êtes interrompu.</string>
+    <string name="labels_break_budget_desc2">Prenez des pauses quand vous le souhaitez.</string>
     <string name="labels_break_budget">Réserve de pause</string>
     <string name="labels_follow_default_time_profile">Suivre le profil de temps par défaut</string>
-    <string name="labels_add_label">"Ajouter une étiquette"</string>
+    <string name="labels_add_label">Ajouter une étiquette</string>
     <string name="labels_add_label_name">Ajouter un nom d\'étiquette</string>
     <string name="labels_label_name_already_exists">Ce nom d\'étiquette existe déjà</string>
     <string name="labels_archived_labels_title">Étiquettes archivées</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Sélectionner l’étiquette</string>
     <string name="labels_select_labels">Sélectionner les étiquettes</string>
     <string name="labels_edit_label">Modifier l\'étiquette</string>
-    <string name="labels_delete_label_confirmation">"La suppression de cette étiquette l'enlèvera des sessions terminées associées."</string>
-    <string name="labels_navigate_to_archived">"Naviguer vers les étiquettes archivées"</string>
-    <string name="labels_clear_label">"Effacer l'étiquette"</string>
+    <string name="labels_delete_label_confirmation">La suppression de cette étiquette l'enlèvera des sessions terminées associées.</string>
+    <string name="labels_navigate_to_archived">Naviguer vers les étiquettes archivées</string>
+    <string name="labels_clear_label">Effacer l'étiquette</string>
     <string name="labels_delete_label_name">Supprimer %1$s</string>
     <string name="labels_archive_label_name">Archiver %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

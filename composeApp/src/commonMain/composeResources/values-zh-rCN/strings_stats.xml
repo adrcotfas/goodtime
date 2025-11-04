@@ -50,8 +50,8 @@
     <string name="stats_add_notes">添加备注</string>
     <string name="stats_select_all">全选</string>
     <string name="stats_no_items">无项目</string>
-    <string name="stats_show_label_breakdown_title">"显示标签明细表"</string>
-    <string name="stats_show_label_breakdown_desc">"将数据可视化为按标签分隔的堆叠条形图"</string>
+    <string name="stats_show_label_breakdown_title">显示标签明细表</string>
+    <string name="stats_show_label_breakdown_desc">将数据可视化为按标签分隔的堆叠条形图</string>
     <string name="stats_more_options">更多选项</string>
     <string name="stats_show_breaks">显示间距</string>
     <string name="stats_show_archived">显示已归档的</string>

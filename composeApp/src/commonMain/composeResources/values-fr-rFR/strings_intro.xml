@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Rester Concentré"</string>
-    <string name="intro1_desc1">"Augmentez la productivité avec des sessions de travail chronométrées."</string>
-    <string name="intro1_desc2">"Choisissez entre un compte à rebours structuré ou un compteur flexible."</string>
-    <string name="intro2_title">"Rafraîchir votre esprit"</string>
-    <string name="intro2_desc1">"Prenez des pauses bien méritées, pour vous ressourcer et rester tranchant."</string>
-    <string name="intro2_desc2">"Pour les compteurs de minuteries, accumulez des temps de pause au fur et à mesure que vous travaillez."</string>
-    <string name="intro3_title">"Commencez"</string>
-    <string name="intro3_desc1">"Suivez vos progrès avec des statistiques détaillées."</string>
-    <string name="intro3_desc2">"Battez la procrastination et augmentez votre concentration."</string>
+    <string name="intro1_title">Rester Concentré</string>
+    <string name="intro1_desc1">Augmentez la productivité avec des sessions de travail chronométrées.</string>
+    <string name="intro1_desc2">Choisissez entre un compte à rebours structuré ou un compteur flexible.</string>
+    <string name="intro2_title">Rafraîchir votre esprit</string>
+    <string name="intro2_desc1">Prenez des pauses bien méritées, pour vous ressourcer et rester tranchant.</string>
+    <string name="intro2_desc2">Pour les compteurs de minuteries, accumulez des temps de pause au fur et à mesure que vous travaillez.</string>
+    <string name="intro3_title">Commencez</string>
+    <string name="intro3_desc1">Suivez vos progrès avec des statistiques détaillées.</string>
+    <string name="intro3_desc2">Battez la procrastination et augmentez votre concentration.</string>
     <string name="tutorial_title">Tutoriel</string>
     <string name="tutorial_tap">👆 Appuyez sur la minuterie pour démarrer et mettre en pause.</string>
     <string name="tutorial_swipe_right">👉 Glisser vers la gauche ou la droite pour sauter la session en cours.</string>

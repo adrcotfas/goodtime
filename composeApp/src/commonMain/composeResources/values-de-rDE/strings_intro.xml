@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Fokussiert bleiben"</string>
-    <string name="intro1_desc1">"Steigern Sie die Produktivität mit zeitgesteuerten Arbeitssitzungen."</string>
-    <string name="intro1_desc2">"Wählen Sie zwischen einem strukturierten Countdown oder einem flexiblen Count-up-Timer."</string>
-    <string name="intro2_title">"Erfrische deinen Geist"</string>
-    <string name="intro2_desc1">"Mache wohlverdiente Pausen, um dich aufzuladen und aufmerksam zu bleiben."</string>
-    <string name="intro2_desc2">"Für Count-up-Timer, sammeln Sie Pausenzeit während der Arbeit."</string>
-    <string name="intro3_title">"Starte jetzt"</string>
-    <string name="intro3_desc1">"Verfolgen Sie Ihren Fortschritt mit detaillierten Statistiken."</string>
-    <string name="intro3_desc2">"Überwinde die Prokrastination und verbessern Sie Ihren Fokus."</string>
+    <string name="intro1_title">Fokussiert bleiben</string>
+    <string name="intro1_desc1">Steigern Sie die Produktivität mit zeitgesteuerten Arbeitssitzungen.</string>
+    <string name="intro1_desc2">Wählen Sie zwischen einem strukturierten Countdown oder einem flexiblen Count-up-Timer.</string>
+    <string name="intro2_title">Erfrische deinen Geist</string>
+    <string name="intro2_desc1">Mache wohlverdiente Pausen, um dich aufzuladen und aufmerksam zu bleiben.</string>
+    <string name="intro2_desc2">Für Count-up-Timer, sammeln Sie Pausenzeit während der Arbeit.</string>
+    <string name="intro3_title">Starte jetzt</string>
+    <string name="intro3_desc1">Verfolgen Sie Ihren Fortschritt mit detaillierten Statistiken.</string>
+    <string name="intro3_desc2">Überwinde die Prokrastination und verbessern Sie Ihren Fokus.</string>
     <string name="tutorial_title">Einführungen</string>
     <string name="tutorial_tap">👆 Tippen Sie auf den Timer, um zu starten oder anzuhalten.</string>
     <string name="tutorial_swipe_right">👉 Wischen Sie nach links oder rechts, um die aktuelle Sitzung zu überspringen.</string>

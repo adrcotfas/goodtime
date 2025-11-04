@@ -44,7 +44,7 @@
     <string name="main_break_finished">Intervalo finalizado</string>
     <string name="main_continue">Continuar?</string>
     <string name="main_idle">Inativo</string>
-    <string name="main_productivity_reminder_desc">"É hora de ser produtivo!"</string>
+    <string name="main_productivity_reminder_desc">É hora de ser produtivo!</string>
     <string name="main_notifications_channel_name">Notificações do temporizador</string>
     <string name="main_reminder_channel_name">Notificações de lembrete</string>
     <string name="main_crash_channel_name">Relatórios de erros</string>

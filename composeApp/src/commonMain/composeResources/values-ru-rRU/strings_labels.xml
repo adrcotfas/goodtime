@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Редактировать ярлыки</string>
     <string name="labels_edit_active_label">Редактировать активную метку</string>
     <string name="labels_break_budget_info">Зарабатывайте время перерыва в фокусе</string>
-    <string name="labels_break_budget_desc1">"Ваш бюджет на перерыв увеличивается в соответствии с выбранным вами соотношением фокуса и перерывов и уменьшается, когда вы прерваны."</string>
-    <string name="labels_break_budget_desc2">"Возьмите перерыв в любое удобное для вас время."</string>
+    <string name="labels_break_budget_desc1">Ваш бюджет на перерыв увеличивается в соответствии с выбранным вами соотношением фокуса и перерывов и уменьшается, когда вы прерваны.</string>
+    <string name="labels_break_budget_desc2">Возьмите перерыв в любое удобное для вас время.</string>
     <string name="labels_break_budget">Прервать бюджет</string>
     <string name="labels_follow_default_time_profile">Перейти к профилю времени по умолчанию</string>
-    <string name="labels_add_label">"Добавить ярлык"</string>
+    <string name="labels_add_label">Добавить ярлык</string>
     <string name="labels_add_label_name">Добавить название метки</string>
     <string name="labels_label_name_already_exists">Название ярлыка уже существует</string>
     <string name="labels_archived_labels_title">Архивные метки</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Выберите ярлык</string>
     <string name="labels_select_labels">Выберите метки</string>
     <string name="labels_edit_label">Изменить метку</string>
-    <string name="labels_delete_label_confirmation">"Удаление ярлыка удалит его из связанных завершенных сессий."</string>
-    <string name="labels_navigate_to_archived">"Перейдите к архивированным меткам"</string>
-    <string name="labels_clear_label">"Очистить метку"</string>
+    <string name="labels_delete_label_confirmation">Удаление ярлыка удалит его из связанных завершенных сессий.</string>
+    <string name="labels_navigate_to_archived">Перейдите к архивированным меткам</string>
+    <string name="labels_clear_label">Очистить метку</string>
     <string name="labels_delete_label_name">Удалить %1$s</string>
     <string name="labels_archive_label_name">Архивировать %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

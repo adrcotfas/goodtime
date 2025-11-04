@@ -44,7 +44,7 @@
     <string name="main_break_finished">휴식 끝</string>
     <string name="main_continue">계속하시겠습니까?</string>
     <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"이제 집중할 차례입니다!"</string>
+    <string name="main_productivity_reminder_desc">이제 집중할 차례입니다!</string>
     <string name="main_notifications_channel_name">Timer Notifications</string>
     <string name="main_reminder_channel_name">Reminder Notifications</string>
     <string name="main_crash_channel_name">Crash reports</string>

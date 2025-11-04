@@ -44,7 +44,7 @@
     <string name="main_break_finished">Paus avslutad</string>
     <string name="main_continue">Fortsätta?</string>
     <string name="main_idle">Inaktiv</string>
-    <string name="main_productivity_reminder_desc">"Dags att vara produktiv!"</string>
+    <string name="main_productivity_reminder_desc">Dags att vara produktiv!</string>
     <string name="main_notifications_channel_name">Tidtagarens aviseringar</string>
     <string name="main_reminder_channel_name">Påminnelse aviseringar</string>
     <string name="main_crash_channel_name">Kraschrapporter</string>

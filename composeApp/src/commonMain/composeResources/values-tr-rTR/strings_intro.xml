@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Odaklı Kalın"</string>
-    <string name="intro1_desc1">"Zamanlı çalışma oturumlarıyla verimliliği arttırın."</string>
-    <string name="intro1_desc2">"Yapılandırılmış bir geri sayım ya da esnek bir sayım zamanlayıcısı arasında seçim yapın."</string>
-    <string name="intro2_title">"Zihninizi Tazeleyin"</string>
-    <string name="intro2_desc1">"Gücünüzü toplamak ve keskin kalmak için hak edilmiş aralar verin."</string>
-    <string name="intro2_desc2">"Sayım zamanlayıcıları için, çalıştıkça ara zamanı biriktirin."</string>
-    <string name="intro3_title">"Başlayın"</string>
-    <string name="intro3_desc1">"Gelişiminizi detaylı istatistikler ile takip edin."</string>
-    <string name="intro3_desc2">"Ertelemeyi yenin ve odağınızı iyileştirin."</string>
+    <string name="intro1_title">Odaklı Kalın</string>
+    <string name="intro1_desc1">Zamanlı çalışma oturumlarıyla verimliliği arttırın.</string>
+    <string name="intro1_desc2">Yapılandırılmış bir geri sayım ya da esnek bir sayım zamanlayıcısı arasında seçim yapın.</string>
+    <string name="intro2_title">Zihninizi Tazeleyin</string>
+    <string name="intro2_desc1">Gücünüzü toplamak ve keskin kalmak için hak edilmiş aralar verin.</string>
+    <string name="intro2_desc2">Sayım zamanlayıcıları için, çalıştıkça ara zamanı biriktirin.</string>
+    <string name="intro3_title">Başlayın</string>
+    <string name="intro3_desc1">Gelişiminizi detaylı istatistikler ile takip edin.</string>
+    <string name="intro3_desc2">Ertelemeyi yenin ve odağınızı iyileştirin.</string>
     <string name="tutorial_title">Öğretici</string>
     <string name="tutorial_tap">👆 Zamanlayıcıyı başlatmak ve duraklatmak için dokunun.</string>
     <string name="tutorial_swipe_right">👉 Geçerli oturumu atlamak için sağa ya da sola kaydırın.</string>

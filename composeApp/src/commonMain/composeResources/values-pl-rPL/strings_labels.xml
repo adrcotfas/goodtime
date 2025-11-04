@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Edycja etykiet</string>
     <string name="labels_edit_active_label">Edytuj aktywną etykietę</string>
     <string name="labels_break_budget_info">Zarabiaj czas przerwy podczas skupiania się</string>
-    <string name="labels_break_budget_desc1">"Twój budżet przerwy zwiększa się zgodnie z wybranym współczynnikiem ogniska/przerwy i zmniejsza się po przerwaniu działania."</string>
-    <string name="labels_break_budget_desc2">"Zabierz przerwy zawsze, gdy chcesz."</string>
+    <string name="labels_break_budget_desc1">Twój budżet przerwy zwiększa się zgodnie z wybranym współczynnikiem ogniska/przerwy i zmniejsza się po przerwaniu działania.</string>
+    <string name="labels_break_budget_desc2">Zabierz przerwy zawsze, gdy chcesz.</string>
     <string name="labels_break_budget">Przerwij budżet</string>
     <string name="labels_follow_default_time_profile">Śledź domyślny profil czasu</string>
-    <string name="labels_add_label">"Dodaj etykiety"</string>
+    <string name="labels_add_label">Dodaj etykiety</string>
     <string name="labels_add_label_name">Dodaj nazwę etykiety</string>
     <string name="labels_label_name_already_exists">Nazwa etykiety już istnieje</string>
     <string name="labels_archived_labels_title">Zarchiwizowane etykiety</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Wybierz etykietę</string>
     <string name="labels_select_labels">Wybierz etykiety</string>
     <string name="labels_edit_label">Edytuj etykietę</string>
-    <string name="labels_delete_label_confirmation">"Usunięcie tej etykiety spowoduje usunięcie jej z powiązanych ukończonych sesji."</string>
-    <string name="labels_navigate_to_archived">"Przejdź do zarchiwizowanych etykiet"</string>
-    <string name="labels_clear_label">"Usuń etykietę"</string>
+    <string name="labels_delete_label_confirmation">Usunięcie tej etykiety spowoduje usunięcie jej z powiązanych ukończonych sesji.</string>
+    <string name="labels_navigate_to_archived">Przejdź do zarchiwizowanych etykiet</string>
+    <string name="labels_clear_label">Usuń etykietę</string>
     <string name="labels_delete_label_name">Usuń %1$s</string>
     <string name="labels_archive_label_name">Archiwum %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

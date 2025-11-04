@@ -32,11 +32,11 @@
     <string name="labels_edit_labels">Redigera etiketter</string>
     <string name="labels_edit_active_label">Redigera aktiv etikett</string>
     <string name="labels_break_budget_info">Tjäna paustid när du fokuserar</string>
-    <string name="labels_break_budget_desc1">"Din paus budget ökar enligt din valda fokus/paus förhållande och minskar när du är avbruten."</string>
-    <string name="labels_break_budget_desc2">"Ta pauser när du vill."</string>
+    <string name="labels_break_budget_desc1">Din paus budget ökar enligt din valda fokus/paus förhållande och minskar när du är avbruten.</string>
+    <string name="labels_break_budget_desc2">Ta pauser när du vill.</string>
     <string name="labels_break_budget">Bryt budget</string>
     <string name="labels_follow_default_time_profile">Följ standardtidsprofil</string>
-    <string name="labels_add_label">"Lägg till etikett"</string>
+    <string name="labels_add_label">Lägg till etikett</string>
     <string name="labels_add_label_name">Lägg till etikettnamn</string>
     <string name="labels_label_name_already_exists">Etikettnamnet finns redan</string>
     <string name="labels_archived_labels_title">Arkiverade etiketter</string>
@@ -48,9 +48,9 @@
     <string name="labels_select_label">Välj etikett</string>
     <string name="labels_select_labels">Välj etiketter</string>
     <string name="labels_edit_label">Redigera etikett</string>
-    <string name="labels_delete_label_confirmation">"Borttagning av denna etikett kommer att ta bort den från associerade avslutade sessioner."</string>
-    <string name="labels_navigate_to_archived">"Navigera till arkiverade etiketter"</string>
-    <string name="labels_clear_label">"Rensa etikett"</string>
+    <string name="labels_delete_label_confirmation">Borttagning av denna etikett kommer att ta bort den från associerade avslutade sessioner.</string>
+    <string name="labels_navigate_to_archived">Navigera till arkiverade etiketter</string>
+    <string name="labels_clear_label">Rensa etikett</string>
     <string name="labels_delete_label_name">Ta bort %1$s</string>
     <string name="labels_archive_label_name">Arkivera %1$s</string>
     <string name="labels_duplicate_label_name">Duplicate %1$s</string>

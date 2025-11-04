@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Mantenete enfocado"</string>
-    <string name="intro1_desc1">"Aumentá tu productividad con sesiones de trabajo temporizadas."</string>
-    <string name="intro1_desc2">"Elegí entre una cuenta regresiva estructurada o un contador hacia adelante flexible."</string>
-    <string name="intro2_title">"Relajá tu mente"</string>
-    <string name="intro2_desc1">"Tomá descansos bien merecidos para recargar y mantenerte afilado."</string>
-    <string name="intro2_desc2">"Para los contadores hacia adelante, acumulá tiempo de descanso mientras te enfocás."</string>
-    <string name="intro3_title">"Iniciar"</string>
-    <string name="intro3_desc1">"Seguí tu progreso con estadísticas detalladas."</string>
-    <string name="intro3_desc2">"Vencé la procrastinación y mejorá tu concentración."</string>
+    <string name="intro1_title">Mantenete enfocado</string>
+    <string name="intro1_desc1">Aumentá tu productividad con sesiones de trabajo temporizadas.</string>
+    <string name="intro1_desc2">Elegí entre una cuenta regresiva estructurada o un contador hacia adelante flexible.</string>
+    <string name="intro2_title">Relajá tu mente</string>
+    <string name="intro2_desc1">Tomá descansos bien merecidos para recargar y mantenerte afilado.</string>
+    <string name="intro2_desc2">Para los contadores hacia adelante, acumulá tiempo de descanso mientras te enfocás.</string>
+    <string name="intro3_title">Iniciar</string>
+    <string name="intro3_desc1">Seguí tu progreso con estadísticas detalladas.</string>
+    <string name="intro3_desc2">Vencé la procrastinación y mejorá tu concentración.</string>
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_tap">👆 Tocá el temporizador para iniciar y pausar.</string>
     <string name="tutorial_swipe_right">👉 Deslizá hacia la izquierda o derecha para omitir la sesión actual.</string>

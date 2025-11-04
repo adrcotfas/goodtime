@@ -44,7 +44,7 @@
     <string name="main_break_finished">Nghỉ xong</string>
     <string name="main_continue">Tiếp tục?</string>
     <string name="main_idle">Idle</string>
-    <string name="main_productivity_reminder_desc">"Đã đến lúc cần phải làm việc năng suất hơn!"</string>
+    <string name="main_productivity_reminder_desc">Đã đến lúc cần phải làm việc năng suất hơn!</string>
     <string name="main_notifications_channel_name">Thông báo hẹn giờ</string>
     <string name="main_reminder_channel_name">Thông báo nhắc nhở</string>
     <string name="main_crash_channel_name">Báo cáo dừng đột ngột</string>

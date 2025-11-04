@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Permanecer concentrado"</string>
-    <string name="intro1_desc1">"Aumentar la productividad con sesiones de trabajo temporizadas."</string>
-    <string name="intro1_desc2">"Elija entre una cuenta regresiva estructurada o un temporizador de cuenta atrás flexible."</string>
-    <string name="intro2_title">"Actualizar tu mente"</string>
-    <string name="intro2_desc1">"Tome unas vacaciones bien merecidas para recargar y mantenerse afilado."</string>
-    <string name="intro2_desc2">"Para los temporizadores contables, acumule el tiempo de descanso mientras trabaja."</string>
-    <string name="intro3_title">"Iniciar"</string>
-    <string name="intro3_desc1">"Siga su progreso con estadísticas detalladas."</string>
-    <string name="intro3_desc2">"Supera la procrastinación y mejora tu enfoque."</string>
+    <string name="intro1_title">Permanecer concentrado</string>
+    <string name="intro1_desc1">Aumentar la productividad con sesiones de trabajo temporizadas.</string>
+    <string name="intro1_desc2">Elija entre una cuenta regresiva estructurada o un temporizador de cuenta atrás flexible.</string>
+    <string name="intro2_title">Actualizar tu mente</string>
+    <string name="intro2_desc1">Tome unas vacaciones bien merecidas para recargar y mantenerse afilado.</string>
+    <string name="intro2_desc2">Para los temporizadores contables, acumule el tiempo de descanso mientras trabaja.</string>
+    <string name="intro3_title">Iniciar</string>
+    <string name="intro3_desc1">Siga su progreso con estadísticas detalladas.</string>
+    <string name="intro3_desc2">Supera la procrastinación y mejora tu enfoque.</string>
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_tap">👆 Toque el temporizador para iniciar y pausar.</string>
     <string name="tutorial_swipe_right">👉 Deslizar hacia izquierda o derecha para saltar la sesión actual.</string>
