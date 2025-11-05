@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">فتح الميزات المتميزة للوصول إلى الميزات</string>
     <string name="unlock_timer_style">فتح النسخة المميزة لحفظ تخصيص المؤقت</string>
     <string name="unlock_premium_tagline">شراء لمرة واحدة. لا اشتراكات. فقط إنتاجية أفضل.</string>
-    <string name="unlock_premium_desc1">%s هو أداة لإدارة الوقت مفتوح المصدر، مصممة للبساطة والخبرة العظيمة للمستخدم - بدون إعلانات أو تتبع أو جمع بيانات.</string>
+    <string name="unlock_premium_desc1">%1$s هو أداة لإدارة الوقت مفتوح المصدر، مصممة للبساطة والخبرة العظيمة للمستخدم - بدون إعلانات أو تتبع أو جمع بيانات.</string>
     <string name="unlock_premium_desc2">إذا وجدتها مفيدة، فكر في الترقية إلى الإصدار المتميز لفتح المزيد من الميزات.</string>
     <string name="unlock_premium_desc3">دعمك يساعد في التحسين في المستقبل!</string>
     <string name="support_development">دعم التطوير</string>

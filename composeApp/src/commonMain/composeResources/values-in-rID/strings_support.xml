@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Unlock Premium to access features</string>
     <string name="unlock_timer_style">Unlock Premium to save timer customization</string>
     <string name="unlock_premium_tagline">One-time purchase. No subscriptions. Just better productivity.</string>
-    <string name="unlock_premium_desc1">%s is an indie open-source time management tool, designed for simplicity and a great user experience — without ads, tracking, or data collection.</string>
+    <string name="unlock_premium_desc1">%1$s is an indie open-source time management tool, designed for simplicity and a great user experience — without ads, tracking, or data collection.</string>
     <string name="unlock_premium_desc2">If you find it useful, consider upgrading to the premium version to unlock more features.</string>
     <string name="unlock_premium_desc3">Your support helps future improvements!</string>
     <string name="support_development">Support development</string>

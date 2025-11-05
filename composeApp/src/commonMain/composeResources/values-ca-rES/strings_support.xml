@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Desbloqueja Premium per accedir a les funcions</string>
     <string name="unlock_timer_style">Desbloqueja Premium per estalviar la personalització del temporitzador</string>
     <string name="unlock_premium_tagline">Compra única. Sense subscripcions. Només una millor productivitat.</string>
-    <string name="unlock_premium_desc1">%s és una eina independent de gestió del temps de codi obert, dissenyada per a la simplicitat i una gran experiència d\'usuari, sense anuncis, seguiment ni recollida de dades.</string>
+    <string name="unlock_premium_desc1">%1$s és una eina independent de gestió del temps de codi obert, dissenyada per a la simplicitat i una gran experiència d\'usuari, sense anuncis, seguiment ni recollida de dades.</string>
     <string name="unlock_premium_desc2">Si ho trobeu útil, penseu a actualitzar a la versió premium per desbloquejar més funcions.</string>
     <string name="unlock_premium_desc3">El vostre suport ajuda a millores futures!</string>
     <string name="support_development">Dóna suport al desenvolupament</string>

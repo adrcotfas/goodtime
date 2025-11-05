@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Otključajte Premium za pristup funkcijama</string>
     <string name="unlock_timer_style">Otključajte Premium da sačuvate prilagođavanje tajmera</string>
     <string name="unlock_premium_tagline">One-time purchase. No subscriptions. Just better productivity.</string>
-    <string name="unlock_premium_desc1">%s je indie aplikacija otvorenog koda, dizajnirana za jednostavnost i odlično korisničko iskustvo — bez oglasa, praćenja ili prikupljanja podataka.</string>
+    <string name="unlock_premium_desc1">%1$s je indie aplikacija otvorenog koda, dizajnirana za jednostavnost i odlično korisničko iskustvo — bez oglasa, praćenja ili prikupljanja podataka.</string>
     <string name="unlock_premium_desc2">If you find it useful, consider upgrading to the premium version to unlock more features.</string>
     <string name="unlock_premium_desc3">Vaša podrška pomaže budućim poboljšanjima!</string>
     <string name="support_development">Pomozi razvoj ove aplikacije</string>

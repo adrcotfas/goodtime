@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Desbloqueie o Premium para acessar as funcionalidades</string>
     <string name="unlock_timer_style">Desbloqueie Premium para salvar a personalização do temporizador</string>
     <string name="unlock_premium_tagline">Compra única. Sem assinaturas. Só melhor produtividade.</string>
-    <string name="unlock_premium_desc1">%s é uma ferramenta de gerenciamento de tempo aberto de índice, projetada para simplicidade e uma ótima experiência de usuário — sem anúncios, rastreamento ou coleta de dados.</string>
+    <string name="unlock_premium_desc1">%1$s é uma ferramenta de gerenciamento de tempo aberto de índice, projetada para simplicidade e uma ótima experiência de usuário — sem anúncios, rastreamento ou coleta de dados.</string>
     <string name="unlock_premium_desc2">Se você achar útil, considere atualizar para a versão premium para desbloquear mais recursos.</string>
     <string name="unlock_premium_desc3">Seu apoio ajuda futuras melhorias!</string>
     <string name="support_development">Apoie o desenvolvimento</string>

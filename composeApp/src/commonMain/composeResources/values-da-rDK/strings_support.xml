@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Lås Premium op for at få adgang til funktioner</string>
     <string name="unlock_timer_style">Oplås Premium for at gemme timertilpasning</string>
     <string name="unlock_premium_tagline">Én gang køb. Ingen abonnementer. Bare bedre produktivitet.</string>
-    <string name="unlock_premium_desc1">%s er et indie open source tidsstyringsværktøj, der er designet til enkelhed og en fantastisk brugeroplevelse - uden annoncer, sporing eller dataindsamling.</string>
+    <string name="unlock_premium_desc1">%1$s er et indie open source tidsstyringsværktøj, der er designet til enkelhed og en fantastisk brugeroplevelse - uden annoncer, sporing eller dataindsamling.</string>
     <string name="unlock_premium_desc2">Hvis du finder det nyttigt, overveje at opgradere til premium-versionen for at låse op for flere funktioner.</string>
     <string name="unlock_premium_desc3">Din støtte hjælper fremtidige forbedringer!</string>
     <string name="support_development">Støt udvikling</string>

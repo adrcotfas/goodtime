@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">解鎖高級版以存取功能</string>
     <string name="unlock_timer_style">解鎖高級版以儲存計時器自訂</string>
     <string name="unlock_premium_tagline">一次性購買。沒有訂閱。只是更高的生產力。</string>
-    <string name="unlock_premium_desc1">%s 是一款獨立的開源時間管理工具，專為簡單性和出色的用戶體驗而設計 - 沒有廣告、追蹤或資料收集。</string>
+    <string name="unlock_premium_desc1">%1$s 是一款獨立的開源時間管理工具，專為簡單性和出色的用戶體驗而設計 - 沒有廣告、追蹤或資料收集。</string>
     <string name="unlock_premium_desc2">如果您覺得有用，請考慮升級到高級版本以解鎖更多功能。</string>
     <string name="unlock_premium_desc3">如果您覺得有用，請考慮升級到高級版本以解鎖更多功能!</string>
     <string name="support_development">中文（繁體）

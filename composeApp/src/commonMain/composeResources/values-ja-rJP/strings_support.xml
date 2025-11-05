@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">機能にアクセスするにはプレミアムをアンロック</string>
     <string name="unlock_timer_style">プレミアムを解放してタイマーのカスタマイズを保存</string>
     <string name="unlock_premium_tagline">一回の購入でサブスクリプションはありません。生産性が向上します。</string>
-    <string name="unlock_premium_desc1">%s は、広告なし、トラッキング、データ収集なしで、シンプルで優れたユーザーエクスペリエンスを実現するために設計された、インディーなオープンソースタイム管理ツールです。</string>
+    <string name="unlock_premium_desc1">%1$s は、広告なし、トラッキング、データ収集なしで、シンプルで優れたユーザーエクスペリエンスを実現するために設計された、インディーなオープンソースタイム管理ツールです。</string>
     <string name="unlock_premium_desc2">便利だとわかった場合は、プレミアムバージョンにアップグレードして、より多くの機能をアンロックすることを検討してください。</string>
     <string name="unlock_premium_desc3">あなたのサポートは将来の改善に役立ちます！</string>
     <string name="support_development">開発を支援する</string>

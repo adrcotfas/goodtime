@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Avaa Premium ja hyödynnä lisäominaisuuksia</string>
     <string name="unlock_timer_style">Avaa Premium tallentaaksesi ajastimen mukautuksia</string>
     <string name="unlock_premium_tagline">Kertaosto. Ei tilauksia. Vain parempaa tuottavuutta.</string>
-    <string name="unlock_premium_desc1">%s on riippumaton avoimen lähdekoodin ajanhallintatyökalu, suoraviivaisuuteen ja erinomaiseen käyttäjäkokemukseen suunniteltu – ilman mainoksia, seurantaa tai tietokeräämistä.</string>
+    <string name="unlock_premium_desc1">%1$s on riippumaton avoimen lähdekoodin ajanhallintatyökalu, suoraviivaisuuteen ja erinomaiseen käyttäjäkokemukseen suunniteltu – ilman mainoksia, seurantaa tai tietokeräämistä.</string>
     <string name="unlock_premium_desc2">Jos havaitset sen hyödylliseksi, harkitse päivittämistä Premium-versioon avataksesi lisää ominaisuuksia.</string>
     <string name="unlock_premium_desc3">Tukesi auttaa tuomaan lisää parannuksia!</string>
     <string name="support_development">Tue kehitystä</string>

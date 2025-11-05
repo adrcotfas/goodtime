@@ -142,12 +142,24 @@ android {
             libs.versions.android.targetSdk
                 .get()
                 .toInt()
-        versionCode = 345
-        versionName = "3.0.14"
+        versionCode = 346
+        versionName = "3.0.15"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Set IS_FDROID to false (Google Play version)
-        buildConfigField("boolean", "IS_FDROID", "false")
+        flavorDimensions += "distribution"
+        productFlavors {
+            create("google") {
+                dimension = "distribution"
+                buildConfigField("boolean", "IS_FDROID", "false")
+            }
+            create("fdroid") {
+                dimension = "distribution"
+                buildConfigField("boolean", "IS_FDROID", "true")
+            }
+        }
+
+//        // Set IS_FDROID to false (Google Play version)
+//        buildConfigField("boolean", "IS_FDROID", "false")
     }
 
     buildFeatures {

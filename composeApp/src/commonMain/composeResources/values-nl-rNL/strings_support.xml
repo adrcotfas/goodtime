@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Ontgrendel Premium om toegang te krijgen tot functies</string>
     <string name="unlock_timer_style">Ontgrendel Premium om de timer aan te passen</string>
     <string name="unlock_premium_tagline">Eenmalige aankoop. Geen abonnementen. Net betere productiviteit.</string>
-    <string name="unlock_premium_desc1">%s is een indie open-source tijd beheer hulpmiddel, ontworpen voor eenvoud en een geweldige gebruikerservaring - zonder advertenties, tracking of data collectie.</string>
+    <string name="unlock_premium_desc1">%1$s is een indie open-source tijd beheer hulpmiddel, ontworpen voor eenvoud en een geweldige gebruikerservaring - zonder advertenties, tracking of data collectie.</string>
     <string name="unlock_premium_desc2">Als je het nuttig vindt, kun je upgraden naar de premium versie om meer functies te ontgrendelen.</string>
     <string name="unlock_premium_desc3">Je steun helpt toekomstige verbeteringen uit te voeren!</string>
     <string name="support_development">Ondersteun ontwikkeling</string>

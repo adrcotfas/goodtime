@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Desblokeatu Premium eginbideak atzitzeko</string>
     <string name="unlock_timer_style">Desblokeatu Premium tenporizadorearen pertsonalizazioa aurrezteko</string>
     <string name="unlock_premium_tagline">Behin-behineko erosketa. Ez dago harpidetzarik. Produktibitate hobea besterik ez.</string>
-    <string name="unlock_premium_desc1">%s kode irekiko indie denbora kudeatzeko tresna bat da, sinpletasunerako eta erabiltzailearen esperientzia bikaina izateko diseinatua, iragarkirik, jarraipenik edo datu-bilketarik gabe.</string>
+    <string name="unlock_premium_desc1">%1$s kode irekiko indie denbora kudeatzeko tresna bat da, sinpletasunerako eta erabiltzailearen esperientzia bikaina izateko diseinatua, iragarkirik, jarraipenik edo datu-bilketarik gabe.</string>
     <string name="unlock_premium_desc2">Baliagarria iruditzen bazaizu, kontuan hartu premium bertsiora berritzea funtzio gehiago desblokeatzeko.</string>
     <string name="unlock_premium_desc3">Zure laguntzak etorkizuneko hobekuntzak laguntzen ditu!</string>
     <string name="support_development">Babestu garapena</string>

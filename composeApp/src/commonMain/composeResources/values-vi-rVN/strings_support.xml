@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Mở khóa Premium để truy cập các tính năng</string>
     <string name="unlock_timer_style">Mở khóa Premium để lưu tùy chỉnh bộ đếm thời gian</string>
     <string name="unlock_premium_tagline">One-time purchase. No subscriptions. Just better productivity.</string>
-    <string name="unlock_premium_desc1">%s is an indie open-source time management tool, designed for simplicity and a great user experience — without ads, tracking, or data collection.</string>
+    <string name="unlock_premium_desc1">%1$s is an indie open-source time management tool, designed for simplicity and a great user experience — without ads, tracking, or data collection.</string>
     <string name="unlock_premium_desc2">Nếu bạn thấy hữu ích, hãy cân nhắc nâng cấp lên phiên bản cao cấp để mở khóa thêm nhiều tính năng hơn.</string>
     <string name="unlock_premium_desc3">Sự ủng hộ của bạn sẽ giúp cải thiện trong tương lai!</string>
     <string name="support_development">Hỗ trợ phát triển</string>

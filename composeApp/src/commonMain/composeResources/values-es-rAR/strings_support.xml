@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Desbloquear Premium para acceder a funciones</string>
     <string name="unlock_timer_style">Desbloquear Premium para guardar la personalización del temporizador</string>
     <string name="unlock_premium_tagline">Compra única. Sin suscripciones. Mejor productividad.</string>
-    <string name="unlock_premium_desc1">%s es una herramienta de administración de tiempo de código abierto, diseñada para la simplicidad y una gran experiencia de usuario — sin anuncios, rastreos o recolección de datos.</string>
+    <string name="unlock_premium_desc1">%1$s es una herramienta de administración de tiempo de código abierto, diseñada para la simplicidad y una gran experiencia de usuario — sin anuncios, rastreos o recolección de datos.</string>
     <string name="unlock_premium_desc2">Si te resulta útil, considerá actualizar a la versión Premium para desbloquear más funciones.</string>
     <string name="unlock_premium_desc3">¡Tu apoyo ayuda a mejoras futuras!</string>
     <string name="support_development">Apoyá el desarrollo</string>

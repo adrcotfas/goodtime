@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Otključajte Premium za pristup značajkama</string>
     <string name="unlock_timer_style">\"Otključajte Premium kako biste spremili prilagodbu timera</string>
     <string name="unlock_premium_tagline">Jednokratna kupnja. Bez pretplata. Samo bolja produktivnost.</string>
-    <string name="unlock_premium_desc1">%s je indie open-source alat za upravljanje vremenom, dizajniran za jednostavnost i izvrsno korisničko iskustvo — bez oglasa, praćenja ili prikupljanja podataka.</string>
+    <string name="unlock_premium_desc1">%1$s je indie open-source alat za upravljanje vremenom, dizajniran za jednostavnost i izvrsno korisničko iskustvo — bez oglasa, praćenja ili prikupljanja podataka.</string>
     <string name="unlock_premium_desc2">Ako vam je korisno, razmislite o nadogradnji na premium verziju kako biste otključali više značajki.</string>
     <string name="unlock_premium_desc3">Vaša podrška pomaže budućim poboljšanjima!</string>
     <string name="support_development">Podržite razvoj</string>

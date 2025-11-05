@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Lås upp Premium för att komma åt funktioner</string>
     <string name="unlock_timer_style">Lås upp Premium för att spara timeranpassning</string>
     <string name="unlock_premium_tagline">Engångsköp. Inga prenumerationer. Bara bättre produktivitet.</string>
-    <string name="unlock_premium_desc1">%s är ett verktyg med öppen källkod som är utformat för enkelhet och en bra användarupplevelse – utan annonser, spårning eller datainsamling.</string>
+    <string name="unlock_premium_desc1">%1$s är ett verktyg med öppen källkod som är utformat för enkelhet och en bra användarupplevelse – utan annonser, spårning eller datainsamling.</string>
     <string name="unlock_premium_desc2">Om du tycker att det är användbart, överväga att uppgradera till premiumversionen för att låsa upp fler funktioner.</string>
     <string name="unlock_premium_desc3">Ditt stöd hjälper framtida förbättringar!</string>
     <string name="support_development">Stöd utvecklingen</string>

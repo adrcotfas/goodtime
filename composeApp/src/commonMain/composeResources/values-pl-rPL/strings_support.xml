@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Odblokuj Premium, aby uzyskać dostęp do funkcji</string>
     <string name="unlock_timer_style">Odblokuj Premium, aby zapisać dostosowanie timera</string>
     <string name="unlock_premium_tagline">Jednorazowy zakup. Brak subskrypcji. Po prostu lepsza wydajność.</string>
-    <string name="unlock_premium_desc1">%s jest intuicyjnym narzędziem zarządzania czasem otwartym, zaprojektowanym dla prostoty i wspaniałego doświadczenia użytkownika — bez reklam, śledzenia lub gromadzenia danych.</string>
+    <string name="unlock_premium_desc1">%1$s jest intuicyjnym narzędziem zarządzania czasem otwartym, zaprojektowanym dla prostoty i wspaniałego doświadczenia użytkownika — bez reklam, śledzenia lub gromadzenia danych.</string>
     <string name="unlock_premium_desc2">Jeśli uważasz to za przydatne, rozważ uaktualnienie do wersji premium, aby odblokować więcej funkcji.</string>
     <string name="unlock_premium_desc3">Twoje wsparcie pomaga w przyszłych ulepszeniach!</string>
     <string name="support_development">Wesprzyj rozwój</string>

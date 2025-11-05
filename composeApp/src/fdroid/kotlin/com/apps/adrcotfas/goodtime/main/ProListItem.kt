@@ -19,12 +19,13 @@ package com.apps.adrcotfas.goodtime.main
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.ui.common.IconTextButton
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Heart
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.support_development
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ProListItem(
@@ -33,12 +34,12 @@ fun ProListItem(
     onClick: () -> Unit,
 ) {
     IconTextButton(
-        title = stringResource(R.string.support_development),
+        title = stringResource(Res.string.support_development),
         subtitle = subtitle,
         icon = {
             Icon(
                 imageVector = EvaIcons.Outline.Heart,
-                contentDescription = stringResource(R.string.support_development),
+                contentDescription = stringResource(Res.string.support_development),
             )
         },
         isFilled = true,

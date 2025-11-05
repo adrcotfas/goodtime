@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Ξεκλειδώστε το Premium για να αποκτήσετε πρόσβαση</string>
     <string name="unlock_timer_style">Ξεκλειδώστε το Premium για να εξοικονομήσετε προσαρμογή χρονοδιακόπτη</string>
     <string name="unlock_premium_tagline">Αγορά μιας φοράς. Χωρίς συνδρομές. Απλά καλύτερη παραγωγικότητα.</string>
-    <string name="unlock_premium_desc1">%s είναι ένα εργαλείο διαχείρισης χρόνου indie ανοιχτού κώδικα, σχεδιασμένο για απλότητα και μια μεγάλη εμπειρία χρήστη - χωρίς διαφημίσεις, παρακολούθηση ή συλλογή δεδομένων.</string>
+    <string name="unlock_premium_desc1">%1$s είναι ένα εργαλείο διαχείρισης χρόνου indie ανοιχτού κώδικα, σχεδιασμένο για απλότητα και μια μεγάλη εμπειρία χρήστη - χωρίς διαφημίσεις, παρακολούθηση ή συλλογή δεδομένων.</string>
     <string name="unlock_premium_desc2">Αν το θεωρήσετε χρήσιμο, σκεφτείτε την αναβάθμιση στην έκδοση premium για να ξεκλειδώσετε περισσότερες λειτουργίες.</string>
     <string name="unlock_premium_desc3">Η υποστήριξή σας βοηθά μελλοντικές βελτιώσεις!</string>
     <string name="support_development">Ανάπτυξη υποστήριξης</string>

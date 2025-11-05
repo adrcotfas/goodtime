@@ -41,14 +41,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.openUrl
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
-import com.apps.adrcotfas.goodtime.R as SharedR
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.product_name_long
+import goodtime_productivity.composeapp.generated.resources.support_development
+import goodtime_productivity.composeapp.generated.resources.support_donate_desc
+import goodtime_productivity.composeapp.generated.resources.unlock_premium_desc1
+import goodtime_productivity.composeapp.generated.resources.unlock_premium_desc3
+import org.jetbrains.compose.resources.stringResource
 
 private const val PAYPAL_URL = "https://paypal.me/adrcotfas"
 private const val BTC_URL =
@@ -64,7 +69,7 @@ fun ProScreen(onNavigateBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(SharedR.string.support_development),
+                title = stringResource(Res.string.support_development),
                 icon = Icons.Default.Close,
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
@@ -78,13 +83,14 @@ fun ProScreen(onNavigateBack: () -> Unit) {
                     .padding(paddingValues)
                     .verticalScroll(listState),
         ) {
-            val productName = stringResource(SharedR.string.product_name_long)
+            val productName = stringResource(Res.string.product_name_long)
             Text(
                 modifier = Modifier.padding(16.dp),
+                // TODO: compose does not not know about placeholders?
                 text =
-                    stringResource(SharedR.string.unlock_premium_desc1, productName) + "\n" + "\n" +
-                        stringResource(SharedR.string.support_donate_desc) + "\n" +
-                        stringResource(SharedR.string.unlock_premium_desc3),
+                    stringResource(Res.string.unlock_premium_desc1, productName) + "\n" + "\n" +
+                        stringResource(Res.string.support_donate_desc) + "\n" +
+                        stringResource(Res.string.unlock_premium_desc3),
                 style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
             )
 

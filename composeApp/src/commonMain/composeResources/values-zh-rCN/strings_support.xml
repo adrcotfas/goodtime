@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">解锁高级版以访问功能</string>
     <string name="unlock_timer_style">解锁高级版以节省定制计时器</string>
     <string name="unlock_premium_tagline">一次性购买，没有订阅，只需提高生产率。</string>
-    <string name="unlock_premium_desc1">%s 是一个开放源码时间管理工具，用于简单化和丰富的用户体验，没有广告、跟踪或数据收集。</string>
+    <string name="unlock_premium_desc1">%1$s 是一个开放源码时间管理工具，用于简单化和丰富的用户体验，没有广告、跟踪或数据收集。</string>
     <string name="unlock_premium_desc2">如果您发现它有用，请考虑升级到高级版本以解锁更多功能。</string>
     <string name="unlock_premium_desc3">您的支持有助于未来的改进！</string>
     <string name="support_development">支持开发</string>

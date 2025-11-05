@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">বৈশিষ্ট্যগুলি অ্যাক্সেস করতে প্রিমিয়াম আনলক করুন</string>
     <string name="unlock_timer_style">টাইমার কাস্টমাইজেশন সংরক্ষণ করতে প্রিমিয়াম আনলক করুন</string>
     <string name="unlock_premium_tagline">এককালীন কেনাকাটা। কোন সদস্যতা নেই. শুধু ভাল উত্পাদনশীলতা.</string>
-    <string name="unlock_premium_desc1">%s হল একটি ইন্ডি ওপেন সোর্স অ্যাপ, যা সরলতা এবং একটি দুর্দান্ত ব্যবহারকারীর অভিজ্ঞতার জন্য ডিজাইন করা হয়েছে — বিজ্ঞাপন, ট্র্যাকিং বা ডেটা সংগ্রহ ছাড়াই৷.</string>
+    <string name="unlock_premium_desc1">%1$s হল একটি ইন্ডি ওপেন সোর্স অ্যাপ, যা সরলতা এবং একটি দুর্দান্ত ব্যবহারকারীর অভিজ্ঞতার জন্য ডিজাইন করা হয়েছে — বিজ্ঞাপন, ট্র্যাকিং বা ডেটা সংগ্রহ ছাড়াই৷.</string>
     <string name="unlock_premium_desc2">আপনি যদি এটি দরকারী মনে করেন, আরও বৈশিষ্ট্য আনলক করতে প্রিমিয়াম সংস্করণে আপগ্রেড করার কথা বিবেচনা করুন৷.</string>
     <string name="unlock_premium_desc3">আপনার সমর্থন ভবিষ্যতে উন্নতি সাহায্য!</string>
     <string name="support_development">ডেভেলপমেন্টকে সমর্থন করুন</string>

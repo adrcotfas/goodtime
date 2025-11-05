@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">نسخه پولی را بازگشایی کنید تا به قابلیت‌ها دسترسی داشته باشید</string>
     <string name="unlock_timer_style">نسخه پولی را بازگشایی کنید تا شخصی سازی زمان‌سنج را ذخیره کنید</string>
     <string name="unlock_premium_tagline">یک‌بار بخرید. بدون حق اشتراک. فقط بهره‌وری بهتر.</string>
-    <string name="unlock_premium_desc1">%s یک ابزار مدیریت زمان متن باز مستقل است که برای استفاده راحت و تجربه کاربری عالی - بدون تبلیغات، رصد یا جمع‌آوری داده طراحی شده است.</string>
+    <string name="unlock_premium_desc1">%1$s یک ابزار مدیریت زمان متن باز مستقل است که برای استفاده راحت و تجربه کاربری عالی - بدون تبلیغات، رصد یا جمع‌آوری داده طراحی شده است.</string>
     <string name="unlock_premium_desc2">اگر آن را مفید یافتید، ارتقاء به نسخه پولی برای بازگشایی امکانات بیشتر را مد نظر قرار دهید.</string>
     <string name="unlock_premium_desc3">پشتیبانی شما به توسعه‌های آینده کمک می‌کند!</string>
     <string name="support_development">پشتیبانی از توسعه دهنده</string>

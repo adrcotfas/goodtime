@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">프리미엄 활성화 연결 실패</string>
     <string name="unlock_timer_style">타이머 커스텀을 위한 프리미엄 활성화</string>
     <string name="unlock_premium_tagline">1회 결제. 구독 없음. 더 나은 생산성.</string>
-    <string name="unlock_premium_desc1">%s는 광고, 추적, 데이터 수집 없이 간편하고 뛰어난 사용자 경험을 제공하도록 설계된 인디 오픈소스 시간 관리 도구입니다.</string>
+    <string name="unlock_premium_desc1">%1$s는 광고, 추적, 데이터 수집 없이 간편하고 뛰어난 사용자 경험을 제공하도록 설계된 인디 오픈소스 시간 관리 도구입니다.</string>
     <string name="unlock_premium_desc2">유용하다고 생각하신다면, 프리미엄 버전으로 업그레이드하여 더 많은 기능을 활성화하는 것을 고려해 보십시오.</string>
     <string name="unlock_premium_desc3">당신의 지원이 미래의 기능 향상을 돕습니다!</string>
     <string name="support_development">개발 지원</string>

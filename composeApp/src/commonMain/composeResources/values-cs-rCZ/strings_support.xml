@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Odemkněte Premium pro přístup k funkcím</string>
     <string name="unlock_timer_style">Odemkněte Premium pro uložení změn časovače</string>
     <string name="unlock_premium_tagline">Jednorázový nákup. Žádné předplatné. Jen lepší produktivita.</string>
-    <string name="unlock_premium_desc1">%s je nezávislý open-source nástroj pro time management, navržený pro jednoduchost a skvělý uživatelský zážitek – bez reklam, sledování nebo sběru dat.</string>
+    <string name="unlock_premium_desc1">%1$s je nezávislý open-source nástroj pro time management, navržený pro jednoduchost a skvělý uživatelský zážitek – bez reklam, sledování nebo sběru dat.</string>
     <string name="unlock_premium_desc2">Pokud to považujete za užitečné, zvažte upgrade na prémiovou verzi, abyste odemkli více funkcí.</string>
     <string name="unlock_premium_desc3">Vaše pomoc umožňuje další zlepšování!</string>
     <string name="support_development">Podpořte vývoj</string>

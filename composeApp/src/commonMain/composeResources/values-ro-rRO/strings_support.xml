@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Deblochează Premium pentru a accesa funcțiile</string>
     <string name="unlock_timer_style">Deblochează Premium pentru a salva personalizarea cronometrului</string>
     <string name="unlock_premium_tagline">Achiziție unică. Fără abonamente. Doar o productivitate mai bună.</string>
-    <string name="unlock_premium_desc1">%s este o unealtă indie open-source de gestionare a timpului, proiectată pentru simplitate și o experiență bună a utilizatorului - fără reclame, urmărire sau colectare de date.</string>
+    <string name="unlock_premium_desc1">%1$s este o unealtă indie open-source de gestionare a timpului, proiectată pentru simplitate și o experiență bună a utilizatorului - fără reclame, urmărire sau colectare de date.</string>
     <string name="unlock_premium_desc2">Dacă considerați că este utilă, luați în considerare actualizarea la versiunea premium pentru a debloca mai multe caracteristici.</string>
     <string name="unlock_premium_desc3">Sprijinul dumneavoastră ajută îmbunătățirile viitoare!</string>
     <string name="support_development">Sprijină dezvoltarea</string>

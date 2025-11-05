@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">בטל את הנעילה של Premium כדי לגשת לתכונות</string>
     <string name="unlock_timer_style">בטל את הנעילה של Premium כדי לחסוך בהתאמה אישית של טיימר</string>
     <string name="unlock_premium_tagline">רכישה חד פעמית. אין מנויים. רק פרודוקטיביות טובה יותר.</string>
-    <string name="unlock_premium_desc1">%s הוא כלי אינדי לניהול זמן בקוד פתוח, שנועד לפשטות ולחוויית משתמש נהדרת - ללא מודעות, מעקב או איסוף נתונים.</string>
+    <string name="unlock_premium_desc1">%1$s הוא כלי אינדי לניהול זמן בקוד פתוח, שנועד לפשטות ולחוויית משתמש נהדרת - ללא מודעות, מעקב או איסוף נתונים.</string>
     <string name="unlock_premium_desc2">אם אתה מוצא את זה שימושי, שקול לשדרג לגרסת הפרימיום כדי לפתוח תכונות נוספות.</string>
     <string name="unlock_premium_desc3">התמיכה שלך עוזרת לשיפורים עתידיים!</string>
     <string name="support_development">תמיכה בפיתוח</string>
