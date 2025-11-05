@@ -157,9 +157,6 @@ android {
                 buildConfigField("boolean", "IS_FDROID", "true")
             }
         }
-
-//        // Set IS_FDROID to false (Google Play version)
-//        buildConfigField("boolean", "IS_FDROID", "false")
     }
 
     buildFeatures {
