@@ -17,11 +17,11 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Instant
 
 object TimeUtils {
     fun Long.formatMilliseconds(minutesOnly: Boolean = false): String {
@@ -44,7 +44,7 @@ object TimeUtils {
             LocalDateTime.Format {
                 year()
                 monthNumber()
-                dayOfMonth()
+                day()
                 char('-')
                 hour()
                 minute()

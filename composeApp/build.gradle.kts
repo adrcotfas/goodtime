@@ -198,7 +198,10 @@ android {
 
     aboutLibraries {
         collect.configPath = file("config")
-        library.duplicationMode = DuplicateMode.MERGE
+        export {
+            outputFile = file("src/commonMain/composeResources/files/aboutlibraries.json")
+            prettyPrint = true
+        }
     }
 }
 
@@ -225,6 +228,10 @@ dependencies {
 }
 
 tasks.register("testClasses") { }
+
+tasks.named("exportLibraryDefinitions") {
+    dependsOn("copyNonXmlValueResourcesForCommonMain")
+}
 
 java {
     toolchain {

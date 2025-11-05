@@ -230,17 +230,10 @@ fun SettingsScreen(
                 },
             )
 
-            val days =
-                firstDayOfWeekOptions.map {
-                    it.getDisplayName(
-                        java.time.format.TextStyle.FULL_STANDALONE,
-                        Locale.getDefault(),
-                    )
-                }
-
+            val days = localizedDayNamesFull(Locale.getDefault())
             DropdownMenuListItem(
                 title = stringResource(Res.string.settings_start_of_the_week),
-                value = localizedDayNamesFull(javaLocale)[DayOfWeek.of(uiState.settings.firstDayOfWeek).ordinal],
+                value = localizedDayNamesFull(javaLocale)[DayOfWeek(uiState.settings.firstDayOfWeek).ordinal],
                 dropdownMenuOptions = days,
                 onDropdownMenuItemSelected = {
                     viewModel.setFirstDayOfWeek(firstDayOfWeekOptions[it].isoDayNumber)

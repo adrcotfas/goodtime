@@ -23,19 +23,27 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import co.touchlab.kermit.Logger
+import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.settings.ProductivityReminderSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.temporal.TemporalAdjusters
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atTime
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Instant
 
 class ReminderHelper(
     private val context: Context,
     private val settingsRepository: SettingsRepository,
+    private val timeProvider: TimeProvider,
     private val logger: Logger,
 ) {
     private var pendingIntents: Array<PendingIntent?> = arrayOfNulls(7)
@@ -58,7 +66,7 @@ class ReminderHelper(
     fun scheduleNotifications() {
         logger.d("scheduleNotifications")
         cancelNotifications()
-        val enabledDays = reminderSettings.days.map { DayOfWeek.of(it) }
+        val enabledDays = reminderSettings.days.map { DayOfWeek(it) }
         enabledDays.forEach { day ->
             scheduleNotification(day, reminderSettings.secondOfDay)
         }
@@ -96,25 +104,13 @@ class ReminderHelper(
         reminderDay: DayOfWeek,
         secondOfDay: Int,
     ) {
-        val now = LocalDateTime.now()
-        logger.d("now: ${now.toLocalTime()}")
-
-        val time = LocalTime.ofSecondOfDay(secondOfDay.toLong())
-        var reminderTime =
-            now
-                .withHour(time.hour)
-                .withMinute(time.minute)
-                .withSecond(0)
-                .with(TemporalAdjusters.nextOrSame(reminderDay))
-
-        if (reminderTime.isBefore(now)) {
-            logger.d("reminderTime is before now; schedule for next week")
-            reminderTime = reminderTime.plusWeeks(1)
-        }
-
-        logger.d("reminderTime: $reminderTime")
-
-        val reminderMillis = reminderTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val reminderMillis =
+            calculateNextReminderTime(
+                currentTimeMillis = timeProvider.now(),
+                reminderDay = reminderDay,
+                secondOfDay = secondOfDay,
+                timeZone = TimeZone.currentSystemDefault(),
+            )
 
         logger.d("scheduleNotification at: $reminderMillis")
         // TODO: consider daylight saving and time zone changes
@@ -129,5 +125,57 @@ class ReminderHelper(
     companion object {
         const val REMINDER_ACTION = "goodtime.reminder_action"
         const val REMINDER_REQUEST_CODE = 11
+
+        /**
+         * Calculates the next reminder time in milliseconds since epoch.
+         *
+         * @param currentTimeMillis The current time in milliseconds since epoch
+         * @param reminderDay The day of the week for the reminder
+         * @param secondOfDay The time of day in seconds (0-86399)
+         * @param timeZone The time zone to use for calculations
+         * @return The next reminder time in milliseconds since epoch
+         */
+        fun calculateNextReminderTime(
+            currentTimeMillis: Long,
+            reminderDay: DayOfWeek,
+            secondOfDay: Int,
+            timeZone: TimeZone,
+        ): Long {
+            val now = Instant.fromEpochMilliseconds(currentTimeMillis).toLocalDateTime(timeZone)
+
+            val time = LocalTime.fromSecondOfDay(secondOfDay)
+            var reminderTime =
+                LocalDateTime(
+                    now.year,
+                    now.month,
+                    now.day,
+                    time.hour,
+                    time.minute,
+                    0,
+                    0,
+                )
+
+            val currentDayNumber = now.dayOfWeek.isoDayNumber
+            val targetDayNumber = reminderDay.isoDayNumber
+            val daysUntilTarget = (targetDayNumber - currentDayNumber + 7) % 7
+
+            // Add days to reach the target day of week
+            if (daysUntilTarget > 0) {
+                reminderTime =
+                    reminderTime.date
+                        .plus(daysUntilTarget, DateTimeUnit.DAY)
+                        .atTime(reminderTime.time)
+            }
+
+            // If the reminder time is in the past or equal to now, schedule for next week
+            if (reminderTime <= now) {
+                reminderTime =
+                    reminderTime.date
+                        .plus(7, DateTimeUnit.DAY)
+                        .atTime(reminderTime.time)
+            }
+
+            return reminderTime.toInstant(timeZone).toEpochMilliseconds()
+        }
     }
 }

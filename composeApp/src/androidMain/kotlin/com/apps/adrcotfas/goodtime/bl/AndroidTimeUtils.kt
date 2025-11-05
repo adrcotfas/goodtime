@@ -19,7 +19,6 @@ package com.apps.adrcotfas.goodtime.bl
 
 import android.content.Context
 import android.text.format.DateFormat
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalTime
@@ -30,6 +29,15 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.format.TextStyle
 import java.util.Locale
+import kotlin.time.Instant
+
+fun List<DayOfWeek>.localizedNames(
+    locale: Locale,
+    textStyle: TextStyle = TextStyle.FULL_STANDALONE,
+): List<String> =
+    this.map {
+        it.getDisplayName(textStyle, locale)
+    }
 
 object AndroidTimeUtils {
     fun Long.formatToPrettyDateAndTime(
@@ -51,14 +59,6 @@ object AndroidTimeUtils {
 
         return Pair(date, time)
     }
-
-    private fun List<DayOfWeek>.localizedNames(
-        locale: Locale,
-        textStyle: TextStyle = TextStyle.FULL_STANDALONE,
-    ): List<String> =
-        this.map {
-            it.getDisplayName(textStyle, locale)
-        }
 
     private fun List<Month>.localizedMonthNames(
         locale: Locale,

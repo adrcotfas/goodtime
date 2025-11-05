@@ -17,7 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 
 interface TimeProvider {
     /**

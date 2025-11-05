@@ -24,9 +24,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
+import com.mikepenz.aboutlibraries.ui.compose.produceLibraries
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.about_open_source_licenses
 import org.jetbrains.compose.resources.stringResource
@@ -45,11 +47,14 @@ fun LicensesScreen(onNavigateBack: () -> Boolean) {
             )
         },
     ) { paddingValues ->
+        val libraries by produceLibraries {
+            Res.readBytes("files/aboutlibraries.json").decodeToString()
+        }
         LibrariesContainer(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
+            libraries,
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
             lazyListState = listState,
             contentPadding = paddingValues,
             showLicenseBadges = false,

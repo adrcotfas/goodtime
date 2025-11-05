@@ -44,7 +44,7 @@ val BottomAxisValueFormatter =
         val firstDayOfWeek = context.model.extraStore[extraFirstDayOfWeek]
 
         val localDate = toLocalDateTime(value).date
-        val dayOfMonth = localDate.dayOfMonth
+        val dayOfMonth = localDate.day
 
         when (type) {
             HistoryIntervalType.DAYS -> {

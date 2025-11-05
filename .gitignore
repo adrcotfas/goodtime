@@ -9,6 +9,7 @@ captures
 local.properties
 xcuserdata
 .kotlin
-androidApp/build
-androidApp/google
-androidApp/fdroid
+composeApp/build
+composeApp/google
+composeApp/fdroid
+composeApp/src/commonMain/composeResources/files

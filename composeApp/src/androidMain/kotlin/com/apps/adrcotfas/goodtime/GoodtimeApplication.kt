@@ -118,6 +118,7 @@ class GoodtimeApplication :
                         ReminderHelper(
                             get(),
                             get(),
+                            get<TimeProvider>(),
                             getWith("ReminderHelper"),
                         )
                     }

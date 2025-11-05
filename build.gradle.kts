@@ -42,6 +42,7 @@ subprojects {
          afterEvaluate {
              tasks.named("preBuild") {
                  dependsOn("spotlessApply")
+                 dependsOn("exportLibraryDefinitions")
              }
          }
 

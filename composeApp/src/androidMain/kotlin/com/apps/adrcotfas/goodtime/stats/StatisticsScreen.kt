@@ -47,7 +47,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.apps.adrcotfas.goodtime.bl.isDefault
@@ -73,9 +72,7 @@ import goodtime_productivity.composeapp.generated.resources.stats_overview
 import goodtime_productivity.composeapp.generated.resources.stats_timeline
 import goodtime_productivity.composeapp.generated.resources.unlock_premium
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
@@ -84,6 +81,8 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 private enum class TabType {
     Overview,
@@ -277,8 +276,9 @@ fun StatisticsScreen(
                             .toLocalDateTime(timeZone)
                     val now =
                         Instant
-                            .fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
-                            .toLocalDateTime(timeZone)
+                            .fromEpochMilliseconds(
+                                Clock.System.now().toEpochMilliseconds(),
+                            ).toLocalDateTime(timeZone)
                     val tomorrowMillis =
                         LocalDateTime(
                             now.date.plus(DatePeriod(days = 1)),

@@ -17,24 +17,25 @@
  */
 package com.apps.adrcotfas.goodtime.common
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.atTime
 import kotlinx.datetime.minus
+import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
+import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Instant
 
 fun Duration.formatOverview(): String {
     val hours = this.inWholeHours
@@ -139,7 +140,7 @@ fun LocalDateTime.minus(datePeriod: DatePeriod): LocalDateTime {
     return date.minus(datePeriod).atTime(time)
 }
 
-fun LocalDate.isoWeekNumber(): Int {
+fun LocalDate.isoWeekNumber(): Long {
     if (firstWeekInYearStart(year + 1) < this) return 1
     val currentYearStart = firstWeekInYearStart(year)
     val start = if (this < currentYearStart) firstWeekInYearStart(year - 1) else currentYearStart
@@ -196,7 +197,7 @@ fun LocalDate.firstDayOfThisQuarter(): LocalDate {
     return LocalDate(year, firstMonthInQuarter, 1)
 }
 
-val LocalDate.quarter get() = (monthNumber - 1) / 3 + 1
+val LocalDate.quarter get() = (month.number - 1) / 3 + 1
 
 fun LocalDate.toEpochMilliseconds(): Long = this.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
 
