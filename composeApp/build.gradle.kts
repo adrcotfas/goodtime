@@ -68,11 +68,6 @@ kotlin {
             implementation(libs.lottie.compose)
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.work.runtime.ktx)
-
-            // Google Play services (formerly google flavor)
-            implementation(libs.billing.ktx)
-            implementation(libs.app.update.ktx)
-            implementation(libs.review.ktx)
         }
 
         commonMain.dependencies {
@@ -211,6 +206,11 @@ dependencies {
     debugImplementation(compose.uiTooling)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(platform(libs.androidx.compose.bom))
+
+    // for the google flavor
+    add("googleImplementation", libs.billing.ktx)
+    add("googleImplementation", libs.app.update.ktx)
+    add("googleImplementation", libs.review.ktx)
 }
 
 room {

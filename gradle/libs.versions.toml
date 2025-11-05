@@ -5,14 +5,14 @@ android-minSdk = "26"
 android-compileSdk = "36"
 android-targetSdk = "36"
 
-agp = "8.13.0" # Update after this is fixed: https://issuetracker.google.com/issues/406641857
+agp = "8.13.0"
 appUpdateKtx = "2.1.0"
 billingKtx = "8.0.0"
 composeMultiplatform = "1.9.2"
 coreSplashscreen = "1.2.0-rc01"
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 kotlinxCollectionsImmutable = "0.4.0"
-ksp = "2.2.20-2.0.2"
+ksp = "2.3.1"
 
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
@@ -38,7 +38,7 @@ compose-icons-eva = "1.1.1"
 koin = "4.1.1"
 okio = "3.16.2"
 kermit = "2.0.8"
-mikepenz-aboutlibraries = "12.1.2"
+mikepenz-aboutlibraries = "13.1.0"
 spotless = "8.0.0"
 
 androidx-test-junit = "1.3.0"
@@ -46,7 +46,7 @@ espresso-core = "3.7.0"
 robolectric = "4.16"
 turbine = "1.2.1"
 
-vico = "2.2.1"
+vico = "2.3.0"
 androidchart = "3.1.0.25"
 
 work = "2.11.0"
@@ -57,7 +57,6 @@ acra-notification = { module = "ch.acra:acra-notification", version.ref = "acra"
 androidchart = { module = "com.github.AppDevNext:AndroidChart", version.ref = "androidchart" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
-androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-foundation" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
@@ -65,12 +64,7 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidx-paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidx-paging" }
 androidx-paging-testing = { group = "androidx.paging", name = "paging-testing", version.ref = "androidx-paging" }
-androidx-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation-compose" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-media = { group = "androidx.media", name = "media", version.ref = "androidx-media" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "androidx-documentfile" }
