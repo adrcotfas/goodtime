@@ -19,6 +19,8 @@ package com.apps.adrcotfas.goodtime.data.local
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.SQLiteDriver
+import androidx.sqlite.driver.NativeSQLiteDriver
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
@@ -28,6 +30,8 @@ fun getDatabaseBuilder(): RoomDatabase.Builder<ProductivityDatabase> {
     val dbFilePath = documentDirectory() + "/$DATABASE_NAME"
     return Room.databaseBuilder<ProductivityDatabase>(name = dbFilePath)
 }
+
+actual fun getDatabaseDriver(): SQLiteDriver = NativeSQLiteDriver()
 
 @OptIn(ExperimentalForeignApi::class)
 private fun documentDirectory(): String {

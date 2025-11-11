@@ -21,7 +21,7 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.SQLiteDriver
 import com.apps.adrcotfas.goodtime.data.local.migrations.MIGRATIONS
 
 @Database(
@@ -44,10 +44,15 @@ expect object ProductivityDatabaseConstructor : RoomDatabaseConstructor<Producti
     override fun initialize(): ProductivityDatabase
 }
 
-fun getRoomDatabase(builder: RoomDatabase.Builder<ProductivityDatabase>): ProductivityDatabase =
+expect fun getDatabaseDriver(): SQLiteDriver
+
+fun getRoomDatabase(
+    builder: RoomDatabase.Builder<ProductivityDatabase>,
+    driver: SQLiteDriver,
+): ProductivityDatabase =
     builder
         .addMigrations(*MIGRATIONS)
-        .setDriver(BundledSQLiteDriver())
+        .setDriver(driver)
         .fallbackToDestructiveMigration(dropAllTables = true)
         .build()
 

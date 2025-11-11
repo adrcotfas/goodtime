@@ -82,7 +82,6 @@ kotlin {
             implementation(libs.koin.core)
             api(libs.coroutines.core)
             implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.sqlite.bundled)
             implementation(libs.androidx.room.paging)
             implementation(libs.androidx.datastore.preferences.core)
             api(libs.okio)

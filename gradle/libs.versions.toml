@@ -30,7 +30,6 @@ androidx-datastore = "1.1.7"
 androidx-media = "1.7.1"
 androidx-documentfile = "1.1.0"
 androidx-room = "2.8.3"
-sqlite = "2.6.1"
 lottieCompose = "6.7.1"
 reviewKtx = "2.0.2"
 
@@ -69,7 +68,6 @@ androidx-icons-extended = { group = "androidx.compose.material", name = "materia
 androidx-media = { group = "androidx.media", name = "media", version.ref = "androidx-media" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "androidx-documentfile" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
-androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidx-room" }

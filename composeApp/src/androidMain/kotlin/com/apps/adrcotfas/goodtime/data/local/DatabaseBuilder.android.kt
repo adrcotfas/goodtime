@@ -20,6 +20,8 @@ package com.apps.adrcotfas.goodtime.data.local
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.SQLiteDriver
+import androidx.sqlite.driver.AndroidSQLiteDriver
 
 fun getDatabaseBuilder(context: Context): RoomDatabase.Builder<ProductivityDatabase> {
     val appContext = context.applicationContext
@@ -30,3 +32,5 @@ fun getDatabaseBuilder(context: Context): RoomDatabase.Builder<ProductivityDatab
             name = dbFile.absolutePath,
         ).setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
 }
+
+actual fun getDatabaseDriver(): SQLiteDriver = AndroidSQLiteDriver()
