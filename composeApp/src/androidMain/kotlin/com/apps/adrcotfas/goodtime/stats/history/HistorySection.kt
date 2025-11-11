@@ -34,13 +34,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.getLocalizedDayNamesForStats
-import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.getLocalizedMonthNamesForStats
+import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedDayNamesForStats
+import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedMonthNamesForStats
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
@@ -86,13 +84,9 @@ import kotlinx.datetime.Month
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 import java.text.DecimalFormat
-import java.util.Locale
 
 @Composable
 fun HistorySection(viewModel: StatisticsHistoryViewModel) {
-    val locale = androidx.compose.ui.text.intl.Locale.current
-    val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.data.x.isEmpty() || uiState.data.y.isEmpty()) return
 
@@ -115,13 +109,14 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
 
     val modelProducer = remember(isLineChart) { CartesianChartModelProducer() }
 
-    val daysOfTheWeekNames = getLocalizedDayNamesForStats(javaLocale)
-    val monthsOfTheYear = getLocalizedMonthNamesForStats(javaLocale)
+    val monthNames = remember { getLocalizedMonthNamesForStats() }
+    val dayNames = remember { getLocalizedDayNamesForStats() }
+
     val bottomAxisStrings =
-        remember(locale) {
+        remember(monthNames, dayNames) {
             BottomAxisStrings(
-                dayOfWeekNames = DayOfWeek.entries.map { daysOfTheWeekNames[it.ordinal].take(3) },
-                monthsOfYearNames = Month.entries.map { monthsOfTheYear[it.ordinal].take(3) },
+                dayOfWeekNames = DayOfWeek.entries.map { dayNames[it.ordinal].take(3) },
+                monthsOfYearNames = Month.entries.map { monthNames[it.ordinal].take(3) },
             )
         }
 

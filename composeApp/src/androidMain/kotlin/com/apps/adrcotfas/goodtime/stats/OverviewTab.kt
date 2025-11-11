@@ -25,10 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.localizedMonthNamesFull
+import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedMonthNamesForStats
 import com.apps.adrcotfas.goodtime.common.Time.currentDateTime
 import com.apps.adrcotfas.goodtime.common.isoWeekNumber
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
@@ -41,7 +40,6 @@ import goodtime_productivity.composeapp.generated.resources.stats_total
 import goodtime_productivity.composeapp.generated.resources.stats_week
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
-import java.util.Locale
 
 @Composable
 fun OverviewTab(
@@ -54,11 +52,10 @@ fun OverviewTab(
     onChangePieChartOverviewType: (OverviewDurationType) -> Unit,
     historyChartViewModel: StatisticsHistoryViewModel,
 ) {
-    val locale = androidx.compose.ui.text.intl.Locale.current
-    val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
-
     val currentDateTime = remember { currentDateTime() }
     val uiState by historyChartViewModel.uiState.collectAsStateWithLifecycle()
+
+    val monthNames = remember { getLocalizedMonthNamesForStats() }
 
     Column(
         Modifier
@@ -73,7 +70,7 @@ fun OverviewTab(
                         Res.string.stats_week,
                         currentDateTime.date.isoWeekNumber(),
                     ),
-                OverviewDurationType.THIS_MONTH to localizedMonthNamesFull(javaLocale)[currentDateTime.month.ordinal],
+                OverviewDurationType.THIS_MONTH to monthNames[currentDateTime.month.ordinal],
                 OverviewDurationType.TOTAL to stringResource(Res.string.stats_total),
             )
 

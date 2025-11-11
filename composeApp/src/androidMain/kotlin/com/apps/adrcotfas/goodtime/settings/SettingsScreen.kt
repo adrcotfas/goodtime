@@ -52,7 +52,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.R
-import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.localizedDayNamesFull
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.common.areNotificationsEnabled
 import com.apps.adrcotfas.goodtime.common.findActivity
@@ -101,6 +100,7 @@ import goodtime_productivity.composeapp.generated.resources.settings_true_black_
 import goodtime_productivity.composeapp.generated.resources.settings_true_black_mode_title
 import goodtime_productivity.composeapp.generated.resources.settings_user_interface
 import goodtime_productivity.composeapp.generated.resources.stats_focus
+import io.github.adrcotfas.datetime.names.getDisplayName
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.isoDayNumber
@@ -230,10 +230,10 @@ fun SettingsScreen(
                 },
             )
 
-            val days = localizedDayNamesFull(Locale.getDefault())
+            val days = DayOfWeek.entries.map { it.getDisplayName() }
             DropdownMenuListItem(
                 title = stringResource(Res.string.settings_start_of_the_week),
-                value = localizedDayNamesFull(javaLocale)[DayOfWeek(uiState.settings.firstDayOfWeek).ordinal],
+                value = days[DayOfWeek(uiState.settings.firstDayOfWeek).ordinal],
                 dropdownMenuOptions = days,
                 onDropdownMenuItemSelected = {
                     viewModel.setFirstDayOfWeek(firstDayOfWeekOptions[it].isoDayNumber)

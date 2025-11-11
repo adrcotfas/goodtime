@@ -12,6 +12,7 @@ composeMultiplatform = "1.9.2"
 coreSplashscreen = "1.2.0"
 kotlin = "2.2.21"
 kotlinxCollectionsImmutable = "0.4.0"
+kotlinxDatetimeNames = "0.1.1"
 ksp = "2.3.1"
 
 kotlinx-coroutines = "1.10.2"
@@ -75,6 +76,7 @@ androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billingKtx" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+kotlinx-datetime-names = { module = "io.github.adrcotfas:kotlinx-datetime-names", version.ref = "kotlinxDatetimeNames" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 

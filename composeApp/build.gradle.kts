@@ -89,6 +89,7 @@ kotlin {
             api(libs.kotlinx.serialization)
             implementation(libs.kotlinx.collections.immutable)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.datetime.names)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.touchlab.kermit)
         }
@@ -183,6 +184,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
 
     sourceSets {
@@ -209,6 +211,7 @@ dependencies {
     debugImplementation(compose.uiTooling)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(platform(libs.androidx.compose.bom))
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // for the google flavor
     add("googleImplementation", libs.billing.ktx)

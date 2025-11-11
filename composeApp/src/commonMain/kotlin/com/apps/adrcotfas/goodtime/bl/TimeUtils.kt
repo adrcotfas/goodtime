@@ -17,7 +17,13 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
+import io.github.adrcotfas.datetime.names.FormatStyle
+import io.github.adrcotfas.datetime.names.TextStyle
+import io.github.adrcotfas.datetime.names.format
+import io.github.adrcotfas.datetime.names.getDisplayName
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
@@ -59,5 +65,59 @@ object TimeUtils {
 
         val format = LocalDateTime.Formats.ISO
         return format.format(dateTime)
+    }
+
+    fun formatDateTime(
+        millis: Long,
+        dateStyle: FormatStyle = FormatStyle.MEDIUM,
+        timeStyle: FormatStyle = FormatStyle.SHORT,
+    ): String {
+        val instant = Instant.fromEpochMilliseconds(millis)
+        val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+        return dateTime.format(dateStyle, timeStyle)
+    }
+
+    fun formatDate(
+        millis: Long,
+        formatStyle: FormatStyle = FormatStyle.MEDIUM,
+    ): String {
+        val instant = Instant.fromEpochMilliseconds(millis)
+        val date = instant.toLocalDateTime(TimeZone.currentSystemDefault()).date
+        return date.format(formatStyle)
+    }
+
+    fun formatTime(
+        millis: Long,
+        formatStyle: FormatStyle = FormatStyle.SHORT,
+    ): String {
+        val instant = Instant.fromEpochMilliseconds(millis)
+        val time = instant.toLocalDateTime(TimeZone.currentSystemDefault()).time
+        return time.format(formatStyle)
+    }
+
+    fun localizedMonthNamesFull() = Month.entries.map { it.getDisplayName(textStyle = TextStyle.FULL_STANDALONE) }
+
+    fun getLocalizedDayNamesForStats(): List<String> {
+        val localizedDayNamesShort =
+            DayOfWeek.entries.map { it.getDisplayName(textStyle = TextStyle.SHORT_STANDALONE) }
+        return if (localizedDayNamesShort.any { it.length > 3 }) {
+            val localizedDayNamesNarrow =
+                DayOfWeek.entries.map { it.getDisplayName(textStyle = TextStyle.NARROW_STANDALONE) }
+            return localizedDayNamesNarrow
+        } else {
+            localizedDayNamesShort
+        }
+    }
+
+    fun getLocalizedMonthNamesForStats(): List<String> {
+        val localizedMonthNamesShort =
+            Month.entries.map { it.getDisplayName(textStyle = TextStyle.SHORT_STANDALONE) }
+        return if (localizedMonthNamesShort.any { it.length > 3 }) {
+            val localizedMonthNamesNarrow =
+                Month.entries.map { it.getDisplayName(textStyle = TextStyle.NARROW_STANDALONE) }
+            return localizedMonthNamesNarrow
+        } else {
+            localizedMonthNamesShort
+        }
     }
 }

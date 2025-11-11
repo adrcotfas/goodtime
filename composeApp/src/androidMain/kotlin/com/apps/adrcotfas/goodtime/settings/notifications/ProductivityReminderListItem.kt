@@ -30,14 +30,12 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.getLocalizedDayNamesForStats
+import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedDayNamesForStats
 import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
@@ -47,7 +45,6 @@ import goodtime_productivity.composeapp.generated.resources.settings_days_of_the
 import goodtime_productivity.composeapp.generated.resources.settings_reminder_time
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
-import java.util.Locale
 
 @Composable
 fun ProductivityReminderListItem(
@@ -58,8 +55,6 @@ fun ProductivityReminderListItem(
     onReminderTimeClick: () -> Unit,
 ) {
     val context = LocalContext.current
-    val locale = androidx.compose.ui.text.intl.Locale.current
-    val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
 
     val iconButtonColors = IconButtonDefaults.filledIconButtonColors()
     Column(
@@ -96,7 +91,7 @@ fun ProductivityReminderListItem(
                             onClick = { onSelectDay(day) },
                         ) {
                             Text(
-                                text = getLocalizedDayNamesForStats(javaLocale)[day.ordinal],
+                                text = getLocalizedDayNamesForStats()[day.ordinal],
                                 maxLines = 1,
                                 style = MaterialTheme.typography.bodySmall,
                             )

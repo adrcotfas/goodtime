@@ -43,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,8 +51,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.apps.adrcotfas.goodtime.R
-import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.bl.LabelData
+import com.apps.adrcotfas.goodtime.bl.TimeUtils
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.ui.common.enabledColors
@@ -197,10 +196,9 @@ fun TimelineListItem(
         },
         headlineContent = {
             Column {
-                val context = LocalContext.current
-                val (date, time) = session.timestamp.formatToPrettyDateAndTime(context)
+                val dateTime = TimeUtils.formatDateTime(session.timestamp)
                 Text(
-                    text = "$date $time",
+                    text = dateTime,
                     maxLines = 1,
                     style = MaterialTheme.typography.bodySmall,
                 )
