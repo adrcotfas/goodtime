@@ -137,7 +137,7 @@ android {
             libs.versions.android.targetSdk
                 .get()
                 .toInt()
-        versionCode = 346
+        versionCode = 347
         versionName = "3.0.15"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
