@@ -48,3 +48,21 @@ fun secondsOfDayToTimerFormat(
         },
     )
 }
+
+/**
+ * Formats milliseconds to time string for display in notifications.
+ * @param timeMillis Time in milliseconds
+ * @return Formatted string in MM:SS or HH:MM:SS format (e.g., "05:42", "25:00", "1:30:15")
+ */
+fun formatMillisToTime(timeMillis: Long): String {
+    val totalSeconds = (timeMillis / 1000).toInt()
+    val hours = totalSeconds / 3600
+    val minutes = (totalSeconds % 3600) / 60
+    val seconds = totalSeconds % 60
+
+    return if (hours > 0) {
+        "$hours:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}"
+    } else {
+        "${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}"
+    }
+}

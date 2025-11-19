@@ -23,7 +23,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.widget.RemoteViews
+import android.os.SystemClock
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.apps.adrcotfas.goodtime.R
@@ -32,6 +32,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerService
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isFocus
+import com.apps.adrcotfas.goodtime.common.formatMillisToTime
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.main_break_finished
 import goodtime_productivity.composeapp.generated.resources.main_break_in_progress
@@ -52,7 +53,6 @@ import goodtime_productivity.composeapp.generated.resources.settings_productivit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
-import com.apps.adrcotfas.goodtime.R as AndroidR
 
 class NotificationArchManager(
     private val context: Context,
@@ -71,50 +71,58 @@ class NotificationArchManager(
 
     suspend fun buildInProgressNotification(data: DomainTimerData): Notification {
         val isCountDown = data.isCurrentSessionCountdown()
-        val baseTime = if (isCountDown) data.endTime else data.startTime + data.timeSpentPaused
+        val elapsedRealTime = SystemClock.elapsedRealtime()
+        val baseTime =
+            if (isCountDown) {
+                data.endTime - elapsedRealTime
+            } else {
+                elapsedRealTime - (data.startTime + data.timeSpentPaused)
+            }
         val running = data.state != TimerState.PAUSED
         val timerType = data.type
         val labelName = data.getLabelName()
         val isDefaultLabel = data.label.isDefault()
-        val prefix =
-            if (isDefaultLabel) {
-                ""
-            } else {
-                "$labelName - "
-            }
-
         val stateText =
-            prefix +
-                if (timerType.isFocus) {
-                    if (running) {
-                        getString(Res.string.main_focus_session_in_progress)
-                    } else {
-                        getString(Res.string.main_focus_session_paused)
-                    }
+            if (timerType.isFocus) {
+                if (running) {
+                    getString(Res.string.main_focus_session_in_progress)
                 } else {
-                    getString(Res.string.main_break_in_progress)
+                    getString(Res.string.main_focus_session_paused)
                 }
+            } else {
+                getString(Res.string.main_break_in_progress)
+            }
 
         val icon = if (timerType.isFocus) R.drawable.ic_status_goodtime else R.drawable.ic_break
         val builder =
             NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
                 setSmallIcon(icon)
+                setContentTitle(stateText)
+                if (!isDefaultLabel) {
+                    setSubText(labelName)
+                }
                 setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 setContentIntent(createOpenActivityIntent(activityClass))
                 setOngoing(true)
+                setRequestPromotedOngoing(true)
+                setOnlyAlertOnce(true)
                 setSilent(true)
-                setShowWhen(false)
                 setAutoCancel(false)
-                setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                setCustomContentView(
-                    buildChronometer(
-                        base = baseTime,
-                        running = running,
-                        stateText = stateText,
-                        isCountDown = isCountDown,
-                    ),
-                )
+
+                // When paused, show the current time as text instead of chronometer
+                if (!running) {
+                    setShortCriticalText(formatMillisToTime(data.timeAtPause))
+                } else {
+                    setUsesChronometer(true)
+                    setChronometerCountDown(isCountDown)
+                    if (isCountDown) {
+                        setWhen(System.currentTimeMillis() + baseTime)
+                    } else {
+                        setWhen(System.currentTimeMillis() - baseTime)
+                    }
+                    setShowWhen(false)
+                }
             }
         if (isCountDown) {
             if (timerType == TimerType.FOCUS) {
@@ -210,7 +218,6 @@ class NotificationArchManager(
                 setSilent(true)
                 setShowWhen(false)
                 setAutoCancel(true)
-                setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 setContentTitle(stateText)
             }
         val extender = NotificationCompat.WearableExtender()
@@ -277,20 +284,6 @@ class NotificationArchManager(
                 setShowBadge(true)
             }
         notificationManager.createNotificationChannel(channel)
-    }
-
-    private fun buildChronometer(
-        base: Long,
-        running: Boolean,
-        stateText: CharSequence,
-        isCountDown: Boolean = true,
-    ): RemoteViews {
-        val content =
-            RemoteViews(context.packageName, AndroidR.layout.chronometer_notif_content)
-        content.setChronometerCountDown(AndroidR.id.chronometer, isCountDown)
-        content.setChronometer(AndroidR.id.chronometer, base, null, running)
-        content.setTextViewText(AndroidR.id.state, stateText)
-        return content
     }
 
     private fun createOpenActivityIntent(activityClass: Class<*>): PendingIntent {
