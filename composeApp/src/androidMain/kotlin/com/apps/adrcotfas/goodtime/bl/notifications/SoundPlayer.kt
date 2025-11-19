@@ -34,6 +34,7 @@ import com.apps.adrcotfas.goodtime.settings.notifications.toSoundData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -76,6 +77,9 @@ class SoundPlayer(
 
     @Volatile
     private var currentAudioFocusRequest: AudioFocusRequest? = null
+
+    @Volatile
+    private var focusMonitorJob: Job? = null
 
     private lateinit var setLoopingMethod: Method
 
@@ -193,6 +197,32 @@ class SoundPlayer(
         } catch (e: Exception) {
             logger.e(e) { "Failed to play ringtone" }
         }
+
+        // For non-looping sounds, monitor when playback completes and abandon focus
+        if (!loop) {
+            startFocusMonitoring(ringtone)
+        }
+    }
+
+    /**
+     * Monitors ringtone playback and abandons audio focus when it finishes.
+     * This is necessary because Ringtone doesn't automatically release audio focus.
+     */
+    private fun startFocusMonitoring(ringtone: Ringtone?) {
+        focusMonitorJob?.cancel()
+        focusMonitorJob =
+            playerScope.launch {
+                try {
+                    // Poll until the ringtone stops playing
+                    while (ringtone?.isPlaying == true) {
+                        delay(100)
+                    }
+                    // Sound finished playing, abandon audio focus
+                    abandonAudioFocusInternal()
+                } catch (e: Exception) {
+                    logger.e(e) { "Error monitoring ringtone completion" }
+                }
+            }
     }
 
     /**
@@ -210,6 +240,9 @@ class SoundPlayer(
     }
 
     private fun stopInternal() {
+        focusMonitorJob?.cancel()
+        focusMonitorJob = null
+
         currentRingtone?.let {
             if (it.isPlaying) {
                 try {
@@ -227,6 +260,9 @@ class SoundPlayer(
      * Requests audio focus to ensure notification sounds are audible.
      * Uses AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK for brief sounds (ducks background audio)
      * or AUDIOFOCUS_GAIN_TRANSIENT for looping sounds (pauses background audio).
+     *
+     * Note: Ringtone doesn't automatically signal completion to the audio system,
+     * so we manually monitor playback and abandon focus when the sound finishes.
      */
     private fun requestAudioFocusInternal(
         audioManager: AudioManager,
@@ -298,9 +334,11 @@ class SoundPlayer(
     override fun close() {
         playerScope.launch {
             job?.cancelAndJoin()
+            focusMonitorJob?.cancel()
             stopInternal()
             currentRingtone = null
             currentAudioFocusRequest = null
+            focusMonitorJob = null
         }
     }
 }
