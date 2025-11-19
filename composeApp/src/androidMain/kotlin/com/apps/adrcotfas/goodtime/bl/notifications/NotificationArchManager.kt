@@ -23,19 +23,15 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
-import androidx.core.graphics.toColorInt
 import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.TimerService
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isFocus
-import com.apps.adrcotfas.goodtime.data.model.Label.Companion.DEFAULT_LABEL_COLOR_INDEX
-import com.apps.adrcotfas.goodtime.ui.lightPalette
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.main_break_finished
 import goodtime_productivity.composeapp.generated.resources.main_break_in_progress
@@ -99,12 +95,6 @@ class NotificationArchManager(
                     getString(Res.string.main_break_in_progress)
                 }
 
-        val colorIndex =
-            data.label.label.colorIndex
-                .toInt()
-        val shouldColorize =
-            !Build.MANUFACTURER.contains("Xiaomi") && colorIndex != DEFAULT_LABEL_COLOR_INDEX
-
         val icon = if (timerType.isFocus) R.drawable.ic_status_goodtime else R.drawable.ic_break
         val builder =
             NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
@@ -115,10 +105,6 @@ class NotificationArchManager(
                 setOngoing(true)
                 setSilent(true)
                 setShowWhen(false)
-                if (shouldColorize) {
-                    setColorized(true)
-                    setColor(lightPalette[colorIndex].toColorInt())
-                }
                 setAutoCancel(false)
                 setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 setCustomContentView(
@@ -126,7 +112,6 @@ class NotificationArchManager(
                         base = baseTime,
                         running = running,
                         stateText = stateText,
-                        shouldColorize = shouldColorize,
                         isCountDown = isCountDown,
                     ),
                 )
@@ -222,14 +207,6 @@ class NotificationArchManager(
                 setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 setContentIntent(createOpenActivityIntent(activityClass))
                 setOngoing(false)
-                val colorIndex =
-                    data.label.label.colorIndex
-                        .toInt()
-                if (colorIndex != DEFAULT_LABEL_COLOR_INDEX) {
-                    setColorized(true)
-                    val color = lightPalette[colorIndex].toColorInt()
-                    setColor(color)
-                }
                 setSilent(true)
                 setShowWhen(false)
                 setAutoCancel(true)
@@ -306,7 +283,6 @@ class NotificationArchManager(
         base: Long,
         running: Boolean,
         stateText: CharSequence,
-        shouldColorize: Boolean = false,
         isCountDown: Boolean = true,
     ): RemoteViews {
         val content =
@@ -314,11 +290,6 @@ class NotificationArchManager(
         content.setChronometerCountDown(AndroidR.id.chronometer, isCountDown)
         content.setChronometer(AndroidR.id.chronometer, base, null, running)
         content.setTextViewText(AndroidR.id.state, stateText)
-        if (shouldColorize) {
-            val textColor = context.resources.getColor(android.R.color.black, null)
-            content.setTextColor(AndroidR.id.chronometer, textColor)
-            content.setTextColor(AndroidR.id.state, textColor)
-        }
         return content
     }
 
