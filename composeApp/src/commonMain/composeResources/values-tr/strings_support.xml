@@ -31,10 +31,10 @@
     <string name="feature_labels_desc1">Kişisel zaman profilleriyle renkli etiketler atayın</string>
     <string name="feature_labels_desc2">Daha iyi düzen için etiketleri arşivleyin</string>
     <string name="feature_timer_customization_title">Zamanlayıcı Kişiselleştirmesi</string>
-    <string name="feature_timer_customization_desc1">Boyut, ağırlık, ve sürükleyici modu ayarlayın</string>
+    <string name="feature_timer_customization_desc1">Boyut, ağırlık, ve sürükleyici modlarını ayarlayın</string>
     <string name="feature_timer_customization_desc2">Saniyeleri ve diğer göstergeleri saklayın</string>
     <string name="feature_notifications_title">Gelişmiş Bildirimler</string>
-    <string name="feature_notifications_desc1">Meşale ve inatçı uyarıları etkinleştir</string>
+    <string name="feature_notifications_desc1">Işıklı ve sürekli uyarıları etkinleştir</string>
     <string name="feature_stats_title">İyileştirilmiş istatistikler</string>
     <string name="feature_stats_desc1">Etiket temelli olarak verileri görselleştirin</string>
     <string name="feature_stats_desc2">Elle tamamlanmış oturumları ekleyin ya da düzenleyin</string>

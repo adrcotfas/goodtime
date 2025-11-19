@@ -1,40 +1,95 @@
 ---
+
+languages_mapping: &languages_mapping
+  android_code:
+    ar: "ar"
+    bn: "bn"
+    bs: "bs"
+    ca: "ca"
+    cs: "cs"
+    da: "da"
+    de: "de"
+    el: "el"
+    eu: "eu"
+    fa: "fa"
+    fi: "fi"
+    fr: "fr"
+    gl: "gl"
+    he: "iw"
+    hi: "hi"
+    hr: "hr"
+    hu: "hu"
+    id: "in"
+    it: "it"
+    ja: "ja"
+    ko: "ko"
+    lt: "lt"
+    lv: "lv"
+    nl: "nl"
+    "no": "no"
+    pl: "pl"
+    ro: "ro"
+    ru: "ru"
+    sk: "sk"
+    sl: "sl"
+    th: "th"
+    tr: "tr"
+    uk: "uk"
+    vi: "vi"
+    es-ES: "es"
+    pt-PT: "pt"
+    sv-SE: "sv"
+    es-AR: "es-rAR"
+    pt-BR: "pt-rBR"
+    sr-CS: "sr-rCS"
+    zh-CN: "zh-rCN"
+    zh-TW: "zh-rTW"
+
 files:
   # Compose Multiplatform resources (commonMain)
   - source: "composeApp/src/commonMain/composeResources/values/strings_main.xml"
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
+    languages_mapping: *languages_mapping
     labels:
       - main
   - source: "composeApp/src/commonMain/composeResources/values/strings_about.xml"
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
+    languages_mapping: *languages_mapping
     labels:
       - about
   - source: "composeApp/src/commonMain/composeResources/values/strings_backup.xml"
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
+    languages_mapping: *languages_mapping
     labels:
       - backup
   - source: "composeApp/src/commonMain/composeResources/values/strings_intro.xml"
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
+    languages_mapping: *languages_mapping
     labels:
       - intro
   - source: "composeApp/src/commonMain/composeResources/values/strings_labels.xml"
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
+    languages_mapping: *languages_mapping
     labels:
       - labels
   - source: "composeApp/src/commonMain/composeResources/values/strings_settings.xml"
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
+    languages_mapping: *languages_mapping
     labels:
       - settings
   - source: "composeApp/src/commonMain/composeResources/values/strings_stats.xml"
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
+    languages_mapping: *languages_mapping
     labels:
       - statistics
   - source: "composeApp/src/commonMain/composeResources/values/strings_support.xml"
     translation: "composeApp/src/commonMain/composeResources/values-%android_code%/%original_file_name%"
+    languages_mapping: *languages_mapping
     labels:
       - support
   - source: "composeApp/src/androidMain/res/values/strings_crash_reporting.xml"
     translation: "composeApp/src/androidMain/res/values-%android_code%/%original_file_name%"
+    languages_mapping: *languages_mapping
     labels:
       - main
       - acra

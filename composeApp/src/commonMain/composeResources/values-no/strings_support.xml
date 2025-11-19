@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Lås opp Premium for å få tilgang til funksjoner</string>
     <string name="unlock_timer_style">Lås opp Premium for å lagre tidstilpasning</string>
     <string name="unlock_premium_tagline">Engangskjøp. Ingen abonnementer. Bedre produktivitet.</string>
-    <string name="unlock_premium_desc1">%1$s er et alternativ for styring av åpen kildekode , designet for enkelhet og en stor brukeropplevelse - uten reklame, sporing eller datainnsamling.</string>
+    <string name="unlock_premium_desc1">%1$s er et alternativ for styring av åpen kildekode, designet for enkelhet og en stor brukeropplevelse - uten reklame, sporing eller datainnsamling.</string>
     <string name="unlock_premium_desc2">Hvis du synes det er nyttig, vurder å oppgradere til premiumversjonen for å få flere egenskaper.</string>
     <string name="unlock_premium_desc3">Din støtte hjelper til fremtidige forbedringer!</string>
     <string name="support_development">Støtt utviklingen</string>

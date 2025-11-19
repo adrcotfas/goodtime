@@ -30,10 +30,10 @@
     <string name="feature_labels_title">라벨</string>
     <string name="feature_labels_desc1">Assign colored labels with custom time profiles</string>
     <string name="feature_labels_desc2">Archive labels for better organization</string>
-    <string name="feature_timer_customization_title">Timer Customization</string>
+    <string name="feature_timer_customization_title">타이머 사용자 설정</string>
     <string name="feature_timer_customization_desc1">Adjust size, weight, and immersive mode</string>
     <string name="feature_timer_customization_desc2">Hide seconds and other indicators</string>
-    <string name="feature_notifications_title">Advanced Notifications</string>
+    <string name="feature_notifications_title">고급 알림</string>
     <string name="feature_notifications_desc1">Enable torch and persistent alerts</string>
     <string name="feature_stats_title">Enhanced statistics</string>
     <string name="feature_stats_desc1">Visualize data based on labels</string>
@@ -42,6 +42,6 @@
     <string name="feature_backup_title"><![CDATA[Backup & Export]]></string>
     <string name="feature_backup_desc1">Export and import backups for labels and statistics</string>
     <string name="feature_backup_desc2">Export statistics as CSV or JSON</string>
-    <string name="feature_support_title">Support development</string>
-    <string name="feature_support_desc1">Unlock all future features for free</string>
+    <string name="feature_support_title">개발 지원</string>
+    <string name="feature_support_desc1">무료로 모든 기능 사용</string>
 </resources>
