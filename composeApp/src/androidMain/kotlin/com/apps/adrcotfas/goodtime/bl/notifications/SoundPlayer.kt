@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.bl.notifications
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioDeviceInfo
+import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.Ringtone
 import android.media.RingtoneManager
@@ -72,6 +73,9 @@ class SoundPlayer(
 
     @Volatile
     private var currentRingtone: Ringtone? = null
+
+    @Volatile
+    private var currentAudioFocusRequest: AudioFocusRequest? = null
 
     private lateinit var setLoopingMethod: Method
 
@@ -161,13 +165,18 @@ class SoundPlayer(
                 AudioAttributes.USAGE_NOTIFICATION
             }
 
-        val ringtone = RingtoneManager.getRingtone(context, uri)
-        ringtone?.audioAttributes =
+        val audioAttributes =
             AudioAttributes
                 .Builder()
                 .setUsage(usage)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
+
+        // Request audio focus to duck background audio
+        requestAudioFocusInternal(audioManager, audioAttributes, loop)
+
+        val ringtone = RingtoneManager.getRingtone(context, uri)
+        ringtone?.audioAttributes = audioAttributes
 
         // Update currentRingtone
         currentRingtone = ringtone
@@ -211,6 +220,61 @@ class SoundPlayer(
             }
         }
         currentRingtone = null
+        abandonAudioFocusInternal()
+    }
+
+    /**
+     * Requests audio focus to ensure notification sounds are audible.
+     * Uses AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK for brief sounds (ducks background audio)
+     * or AUDIOFOCUS_GAIN_TRANSIENT for looping sounds (pauses background audio).
+     */
+    private fun requestAudioFocusInternal(
+        audioManager: AudioManager,
+        audioAttributes: AudioAttributes,
+        loop: Boolean,
+    ) {
+        // Release any previous audio focus
+        abandonAudioFocusInternal()
+
+        val focusGain =
+            if (loop) {
+                // For looping/insistent notifications, pause background audio
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+            } else {
+                // For brief notifications, duck (lower) background audio
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
+            }
+
+        try {
+            val focusRequest =
+                AudioFocusRequest
+                    .Builder(focusGain)
+                    .setAudioAttributes(audioAttributes)
+                    .setWillPauseWhenDucked(false)
+                    .build()
+            currentAudioFocusRequest = focusRequest
+            val result = audioManager.requestAudioFocus(focusRequest)
+            if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                logger.w { "Audio focus request was not granted: $result" }
+            }
+        } catch (e: Exception) {
+            logger.e(e) { "Failed to request audio focus" }
+        }
+    }
+
+    /**
+     * Abandons audio focus, allowing background audio to resume normal volume.
+     */
+    private fun abandonAudioFocusInternal() {
+        try {
+            val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            currentAudioFocusRequest?.let {
+                audioManager.abandonAudioFocusRequest(it)
+                currentAudioFocusRequest = null
+            }
+        } catch (e: Exception) {
+            logger.e(e) { "Failed to abandon audio focus" }
+        }
     }
 
     private fun areHeadphonesPluggedIn(audioManager: AudioManager): Boolean {
@@ -236,6 +300,7 @@ class SoundPlayer(
             job?.cancelAndJoin()
             stopInternal()
             currentRingtone = null
+            currentAudioFocusRequest = null
         }
     }
 }
