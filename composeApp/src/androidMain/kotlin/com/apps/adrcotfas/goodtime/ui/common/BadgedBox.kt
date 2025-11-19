@@ -35,8 +35,8 @@ fun BadgedBoxWithCount(
         badge = {
             if (count > 0) {
                 Badge(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.error,
                 ) {
                     Text(text = count.toString())
                 }
