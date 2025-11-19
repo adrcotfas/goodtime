@@ -109,6 +109,12 @@ class TimerManager(
                 val value = _timerData.value
                 val isActive = value.state.isActive
                 val isCountdown = value.label.isCountdown
+
+                if (isCountdown != it.isCountdown) {
+                    log.i { "reset the timer because the profile type changed" }
+                    reset()
+                }
+
                 _timerData.update { data ->
                     data.copy(
                         isReady = true,
@@ -117,11 +123,6 @@ class TimerManager(
                 }
                 if (isActive) {
                     onActiveLabelChanged()
-                }
-                if (isActive && isCountdown != it.isCountdown) {
-                    log.i { "restarting the timer because the profile type changed" }
-                    reset()
-                    start()
                 }
             }
     }
