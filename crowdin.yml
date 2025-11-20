@@ -1,4 +1,6 @@
 ---
+# To download translations:
+# crowdin download -v -i CROWDIN_PROJECT_ID -T CROWDIN_TOKEN
 
 languages_mapping: &languages_mapping
   android_code:
