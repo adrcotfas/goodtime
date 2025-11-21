@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">返回</string>
+    <string name="main_ok">好的</string>
     <string name="main_cancel">取消</string>
     <string name="main_delete">刪除</string>
     <string name="main_edit">編輯</string>

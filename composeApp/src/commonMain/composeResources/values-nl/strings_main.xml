@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Navigeer terug</string>
+    <string name="main_ok">Ok</string>
     <string name="main_cancel">annuleren</string>
     <string name="main_delete">Verwijderen</string>
     <string name="main_edit">Bewerken</string>
@@ -39,7 +40,7 @@
     <string name="main_pause">Pauzeren</string>
     <string name="main_resume">Hervatten</string>
     <string name="main_skip">Overslaan</string>
-    <string name="main_stop">Stop</string>
+    <string name="main_stop">Stoppen</string>
     <string name="main_focus_session_finished">Focus sessie beëindigd</string>
     <string name="main_break_finished">Pauze afgelopen</string>
     <string name="main_continue">Doorgaan?</string>

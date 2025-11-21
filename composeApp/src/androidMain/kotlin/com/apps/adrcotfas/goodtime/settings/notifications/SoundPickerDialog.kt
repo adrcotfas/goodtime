@@ -51,7 +51,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -74,6 +73,8 @@ import compose.icons.evaicons.outline.CheckmarkCircle2
 import compose.icons.evaicons.outline.Plus
 import compose.icons.evaicons.outline.Trash
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_cancel
+import goodtime_productivity.composeapp.generated.resources.main_ok
 import goodtime_productivity.composeapp.generated.resources.settings_add_custom_sound
 import goodtime_productivity.composeapp.generated.resources.settings_delete_sound
 import goodtime_productivity.composeapp.generated.resources.settings_remove
@@ -401,7 +402,7 @@ private fun ButtonsRow(
                 Modifier
                     .padding(end = 8.dp, bottom = 4.dp),
             onClick = onDismiss,
-        ) { Text(stringResource(id = android.R.string.cancel)) }
+        ) { Text(stringResource(Res.string.main_cancel)) }
 
         TextButton(
             modifier =
@@ -411,7 +412,7 @@ private fun ButtonsRow(
                 onSave(selectedItem)
                 onDismiss()
             },
-        ) { Text(stringResource(id = android.R.string.ok)) }
+        ) { Text(stringResource(Res.string.main_ok)) }
     }
 }
 

@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Navegar atrás</string>
+    <string name="main_ok">Ok</string>
     <string name="main_cancel">Cancelar</string>
     <string name="main_delete">Eliminar</string>
     <string name="main_edit">Editar</string>

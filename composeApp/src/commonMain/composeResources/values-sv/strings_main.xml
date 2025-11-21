@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Navigera tillbaka</string>
+    <string name="main_ok">Ok</string>
     <string name="main_cancel">Avbryt</string>
     <string name="main_delete">Ta bort</string>
     <string name="main_edit">Redigera</string>

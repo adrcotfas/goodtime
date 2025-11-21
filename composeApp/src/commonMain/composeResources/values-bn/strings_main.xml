@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">পিছনে যান</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">বাতিল করুন</string>
     <string name="main_delete">মুছে ফেলুন</string>
     <string name="main_edit">সম্পাদনা</string>

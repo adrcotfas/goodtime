@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Siirry takaisin</string>
+    <string name="main_ok">Ok</string>
     <string name="main_cancel">Peruuta</string>
     <string name="main_delete">Poista</string>
     <string name="main_edit">Muokkaa</string>

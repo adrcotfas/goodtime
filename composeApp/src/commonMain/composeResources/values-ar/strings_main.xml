@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">التنقل إلى الوراء</string>
+    <string name="main_ok">حسناً</string>
     <string name="main_cancel">إلغاء</string>
     <string name="main_delete">حذف</string>
     <string name="main_edit">تحرير</string>

@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Назад</string>
+    <string name="main_ok">ОК</string>
     <string name="main_cancel">Отмена</string>
     <string name="main_delete">Удалить</string>
     <string name="main_edit">Изменить</string>

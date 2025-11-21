@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Egin atzera</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">Ezeztatu</string>
     <string name="main_delete">Ezabatu</string>
     <string name="main_edit">Editatu</string>

@@ -24,6 +24,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_cancel
+import goodtime_productivity.composeapp.generated.resources.main_ok
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,13 +45,12 @@ fun DatePickerDialog(
                     onDismiss()
                 }
             }) {
-                // TODO: extract strings
-                Text("OK")
+                Text(stringResource(Res.string.main_ok))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(Res.string.main_cancel))
             }
         },
     ) {

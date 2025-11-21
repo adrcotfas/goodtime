@@ -25,6 +25,9 @@ import androidx.compose.runtime.Composable
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Info
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_ok
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun InfoDialog(
@@ -47,8 +50,7 @@ fun InfoDialog(
             TextButton(onClick = {
                 onDismiss()
             }) {
-                // TODO: extract string
-                Text("OK")
+                Text(stringResource(Res.string.main_ok))
             }
         },
         dismissButton = {

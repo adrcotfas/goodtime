@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Navighează înapoi</string>
+    <string name="main_ok">Ok</string>
     <string name="main_cancel">Anulează</string>
     <string name="main_delete">Șterge</string>
     <string name="main_edit">Editează</string>

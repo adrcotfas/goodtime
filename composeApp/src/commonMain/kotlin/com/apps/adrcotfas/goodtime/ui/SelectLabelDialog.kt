@@ -45,6 +45,8 @@ import com.apps.adrcotfas.goodtime.common.rememberMutableStateListOf
 import com.apps.adrcotfas.goodtime.data.model.Label
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.labels_clear_label
+import goodtime_productivity.composeapp.generated.resources.main_cancel
+import goodtime_productivity.composeapp.generated.resources.main_ok
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
@@ -132,12 +134,9 @@ fun SelectLabelDialog(
                                 .fillMaxWidth(),
                         horizontalArrangement = Arrangement.End,
                     ) {
-                        // TODO: extract strings
-                        TextButton(onClick = onDismiss) { Text("Cancel") }
+                        TextButton(onClick = onDismiss) { Text(stringResource(Res.string.main_cancel)) }
                         TextButton(onClick = { onConfirm(selectedLabels) }) {
-                            Text(
-                                "OK",
-                            )
+                            Text(stringResource(Res.string.main_ok))
                         }
                     }
                 } else if (buttons != null) {

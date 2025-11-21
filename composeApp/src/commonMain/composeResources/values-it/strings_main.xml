@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Torna indietro</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">Annulla</string>
     <string name="main_delete">Elimina</string>
     <string name="main_edit">Modifica</string>

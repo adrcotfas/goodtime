@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Điều hướng trở lại</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">Hủy</string>
     <string name="main_delete">Xóa</string>
     <string name="main_edit">Thay đổi</string>

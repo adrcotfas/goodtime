@@ -39,9 +39,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_cancel
+import goodtime_productivity.composeapp.generated.resources.main_ok
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,7 +113,10 @@ fun CreateTimerProfileDialog(
                     TextButton(
                         onClick = onDismiss,
                     ) {
-                        Text(stringResource(android.R.string.cancel))
+                        Text(
+                            org.jetbrains.compose.resources
+                                .stringResource(Res.string.main_cancel),
+                        )
                     }
                     TextButton(
                         enabled = validName,
@@ -119,7 +124,10 @@ fun CreateTimerProfileDialog(
                             onConfirm(timerProfileName)
                         },
                     ) {
-                        Text(stringResource(android.R.string.ok))
+                        Text(
+                            org.jetbrains.compose.resources
+                                .stringResource(Res.string.main_ok),
+                        )
                     }
                 }
             }

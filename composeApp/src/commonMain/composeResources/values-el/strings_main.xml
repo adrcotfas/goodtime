@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Πλοήγηση πίσω</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">Ακύρωση</string>
     <string name="main_delete">Διαγραφή</string>
     <string name="main_edit">Επεξεργασία</string>

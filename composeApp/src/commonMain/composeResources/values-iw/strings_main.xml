@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">ניווט חזרה</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">ביטול</string>
     <string name="main_delete">מחק</string>
     <string name="main_edit">ערוך</string>

@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Nawiguj wstecz</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">Anuluj</string>
     <string name="main_delete">Kasować</string>
     <string name="main_edit">Edytuj</string>
@@ -39,7 +40,7 @@
     <string name="main_pause">Pauza</string>
     <string name="main_resume">Wznów</string>
     <string name="main_skip">Pomiń</string>
-    <string name="main_stop">Stop</string>
+    <string name="main_stop">Zatrzymaj</string>
     <string name="main_focus_session_finished">Skoncentrowanie sesji zakończone</string>
     <string name="main_break_finished">Przerwa zakończona</string>
     <string name="main_continue">Dalej?</string>

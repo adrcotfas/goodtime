@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Přejít zpět</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">Zrušit</string>
     <string name="main_delete">Odstranit</string>
     <string name="main_edit">Upravit</string>

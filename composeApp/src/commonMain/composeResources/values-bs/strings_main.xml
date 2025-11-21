@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Vrati se nazad</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">Otkaži</string>
     <string name="main_delete">Izbriši</string>
     <string name="main_edit">Uredi</string>

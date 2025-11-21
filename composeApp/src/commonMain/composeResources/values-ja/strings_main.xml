@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">戻って移動</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">キャンセル</string>
     <string name="main_delete">削除</string>
     <string name="main_edit">編集</string>

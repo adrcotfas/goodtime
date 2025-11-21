@@ -35,10 +35,12 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_cancel
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RadioGroupDialog(
@@ -119,7 +121,7 @@ fun RadioGroupDialog(
                             .align(Alignment.End)
                             .padding(end = 8.dp, bottom = 4.dp),
                     onClick = onDismiss,
-                ) { Text(stringResource(id = android.R.string.cancel)) }
+                ) { Text(stringResource(Res.string.main_cancel)) }
             }
         }
     }

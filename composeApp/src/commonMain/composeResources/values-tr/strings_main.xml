@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Geri dön</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">İptal et</string>
     <string name="main_delete">Sil</string>
     <string name="main_edit">Düzenle</string>

@@ -18,6 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Kretanje natrag</string>
+    <string name="main_ok">OK</string>
     <string name="main_cancel">Poništi</string>
     <string name="main_delete">Obriši</string>
     <string name="main_edit">Uredi</string>
