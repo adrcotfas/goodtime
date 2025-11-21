@@ -65,9 +65,9 @@ import com.apps.adrcotfas.goodtime.common.TimerProfileSettings
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.LABEL_NAME_MAX_LENGTH
 import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.labelNameIsValid
-import com.apps.adrcotfas.goodtime.ui.common.ColorSelectRow
-import com.apps.adrcotfas.goodtime.ui.common.TopBar
-import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
+import com.apps.adrcotfas.goodtime.ui.ColorSelectRow
+import com.apps.adrcotfas.goodtime.ui.TopBar
+import com.apps.adrcotfas.goodtime.ui.clearFocusOnKeyboardDismiss
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Navigation2

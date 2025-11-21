@@ -35,12 +35,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
-import com.apps.adrcotfas.goodtime.ui.common.IconListItem
-import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
-import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import com.apps.adrcotfas.goodtime.ui.IconListItem
+import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.TopBar
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.BookOpen

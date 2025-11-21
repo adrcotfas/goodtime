@@ -41,7 +41,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,8 +54,9 @@ import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeUtils
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
-import com.apps.adrcotfas.goodtime.ui.common.enabledColors
-import com.apps.adrcotfas.goodtime.ui.common.selectedColors
+import com.apps.adrcotfas.goodtime.ui.SmallLabelChip
+import com.apps.adrcotfas.goodtime.ui.enabledColors
+import com.apps.adrcotfas.goodtime.ui.selectedColors
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.List

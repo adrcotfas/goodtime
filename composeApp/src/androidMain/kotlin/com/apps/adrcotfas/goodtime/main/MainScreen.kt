@@ -91,9 +91,9 @@ import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.tutorial.TutorialScreen
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
-import com.apps.adrcotfas.goodtime.ui.common.SnackbarAction
-import com.apps.adrcotfas.goodtime.ui.common.SnackbarController
-import com.apps.adrcotfas.goodtime.ui.common.SnackbarEvent
+import com.apps.adrcotfas.goodtime.ui.SnackbarAction
+import com.apps.adrcotfas.goodtime.ui.SnackbarController
+import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.settings_allow
 import goodtime_productivity.composeapp.generated.resources.settings_allow_alarms

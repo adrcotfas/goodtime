@@ -26,7 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import com.apps.adrcotfas.goodtime.ui.TopBar
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.produceLibraries
 import goodtime_productivity.composeapp.generated.resources.Res

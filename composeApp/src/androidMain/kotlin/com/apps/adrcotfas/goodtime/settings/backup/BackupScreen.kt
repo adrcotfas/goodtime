@@ -37,7 +37,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -48,11 +47,11 @@ import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
-import com.apps.adrcotfas.goodtime.ui.common.ActionCard
-import com.apps.adrcotfas.goodtime.ui.common.CircularProgressListItem
-import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
-import com.apps.adrcotfas.goodtime.ui.common.SwitchListItem
-import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import com.apps.adrcotfas.goodtime.ui.ActionCard
+import com.apps.adrcotfas.goodtime.ui.CircularProgressListItem
+import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.SwitchListItem
+import com.apps.adrcotfas.goodtime.ui.TopBar
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Unlock

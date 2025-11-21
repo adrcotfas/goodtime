@@ -37,7 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -45,7 +44,7 @@ import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
-import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
+import com.apps.adrcotfas.goodtime.ui.DropdownMenuBox
 import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry

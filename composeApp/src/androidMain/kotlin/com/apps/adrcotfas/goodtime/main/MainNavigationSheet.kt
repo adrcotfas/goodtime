@@ -42,15 +42,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.common.getVersionName
 import com.apps.adrcotfas.goodtime.settings.ActionSection
-import com.apps.adrcotfas.goodtime.ui.common.IconTextButton
-import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.IconTextButton
+import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Info

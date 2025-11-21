@@ -24,7 +24,15 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.core.graphics.toColorInt
+
+fun String.toColorInt(): Int {
+    var color = substring(1).toLong(16)
+    if (length == 7) {
+        // Set the alpha value.
+        color = color or 0x00000000FF000000L
+    }
+    return color.toInt()
+}
 
 val primaryLight = Color(0xFF176B53)
 val onPrimaryLight = Color(0xFFFFFFFF)

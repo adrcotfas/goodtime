@@ -30,12 +30,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
-import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
+import com.apps.adrcotfas.goodtime.ui.DropdownMenuBox
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.stats_focus_break_ratio
 import org.jetbrains.compose.resources.stringResource

@@ -44,7 +44,7 @@ fun InitTimerStyle(viewModel: TimerViewModel) {
 
     if (timerStyle.fontSize == 0f || abs(screenWidth.value - timerStyle.currentScreenWidth) > 64) {
         val maxContainerWidth = screenWidth * 0.75f
-        val timerTextSize = findMaxFontSize(timerTextRobotoStyle, maxContainerWidth)
+        val timerTextSize = findMaxFontSize(timerTextRobotoStyle(), maxContainerWidth)
         viewModel.initTimerStyle(
             maxSize = timerTextSize.em.value,
             screenWidth = screenWidth.value,

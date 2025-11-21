@@ -15,42 +15,34 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.ui.common
+package com.apps.adrcotfas.goodtime.ui
 
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.Modifier
 
 @Composable
-fun ConfirmationDialog(
-    title: String,
-    subtitle: String? = null,
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
+fun BadgedBoxWithCount(
+    modifier: Modifier = Modifier,
+    count: Int,
+    content: @Composable () -> Unit,
 ) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text = {
-            subtitle?.let {
-                Text(subtitle)
+    BadgedBox(
+        modifier = modifier,
+        badge = {
+            if (count > 0) {
+                Badge(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.error,
+                ) {
+                    Text(text = count.toString())
+                }
             }
         },
-        confirmButton = {
-            TextButton(
-                onClick = onConfirm,
-            ) {
-                Text(stringResource(id = android.R.string.ok))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = onDismiss,
-            ) {
-                Text(stringResource(id = android.R.string.cancel))
-            }
-        },
-    )
+    ) {
+        content()
+    }
 }

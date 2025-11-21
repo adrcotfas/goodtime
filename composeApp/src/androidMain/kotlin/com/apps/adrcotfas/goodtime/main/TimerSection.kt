@@ -76,8 +76,8 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlState
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialRegion
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.breakColor
-import com.apps.adrcotfas.goodtime.ui.common.hideUnless
 import com.apps.adrcotfas.goodtime.ui.getLabelColor
+import com.apps.adrcotfas.goodtime.ui.hideUnless
 import com.apps.adrcotfas.goodtime.ui.timerFontRobotoMap
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.labels_break_budget
@@ -431,6 +431,7 @@ fun TimerTextView(
     onClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
 ) {
+    val fontMap = timerFontRobotoMap()
     val scale by animateFloatAsState(
         targetValue = if (state?.isPressed == true) 0.96f else 1f,
         animationSpec = tween(durationMillis = 100),
@@ -473,7 +474,7 @@ fun TimerTextView(
         style =
             TextStyle(
                 fontSize = timerStyle.inUseFontSize().em,
-                fontFamily = timerFontRobotoMap[timerStyle.fontWeight],
+                fontFamily = fontMap[timerStyle.fontWeight],
                 color = color,
             ),
     )

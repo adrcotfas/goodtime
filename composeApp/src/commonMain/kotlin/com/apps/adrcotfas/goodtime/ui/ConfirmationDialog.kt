@@ -15,42 +15,42 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.ui.common
+package com.apps.adrcotfas.goodtime.ui
 
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DatePickerState
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerDialog(
-    onConfirm: (Long) -> Unit,
+fun ConfirmationDialog(
+    title: String,
+    subtitle: String? = null,
+    onConfirm: () -> Unit,
     onDismiss: () -> Unit,
-    datePickerState: DatePickerState,
 ) {
-    DatePickerDialog(
+    AlertDialog(
         onDismissRequest = onDismiss,
+        title = { Text(title) },
+        text = {
+            subtitle?.let {
+                Text(subtitle)
+            }
+        },
         confirmButton = {
-            TextButton(onClick = {
-                datePickerState.selectedDateMillis?.let {
-                    onConfirm(it)
-                    onDismiss()
-                }
-            }) {
-                Text(stringResource(id = android.R.string.ok))
+            TextButton(
+                onClick = onConfirm,
+            ) {
+                // TODO: extract strings
+                Text("OK")
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(id = android.R.string.cancel))
+            TextButton(
+                onClick = onDismiss,
+            ) {
+                Text("Cancel")
             }
         },
-    ) {
-        DatePicker(state = datePickerState)
-    }
+    )
 }

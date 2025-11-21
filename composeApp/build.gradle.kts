@@ -52,14 +52,12 @@ kotlin {
             // Android-specific libraries
             implementation(libs.androidx.documentfile)
             implementation(libs.androidx.lifecycle.runtime.ktx)
-            implementation(libs.androidx.icons.extended)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.paging.runtime)
             implementation(libs.androidx.paging.compose)
             implementation(libs.androidx.media)
             implementation(libs.mikepenz.aboutlibraries.core)
             implementation(libs.mikepenz.aboutlibraries.compose)
-            implementation(libs.devsrsouza.compose.icons.eva)
             implementation(libs.vico.compose)
             implementation(libs.vico.compose.m3)
             implementation(libs.androidchart)
@@ -74,10 +72,11 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-
+            implementation(libs.devsrsouza.compose.icons.eva)
             // Shared business logic dependencies
             implementation(libs.koin.core)
             api(libs.coroutines.core)

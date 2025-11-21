@@ -43,7 +43,7 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
-import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
+import com.apps.adrcotfas.goodtime.ui.DropdownMenuBox
 import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelComponent

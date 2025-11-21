@@ -27,7 +27,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -35,8 +34,8 @@ import com.apps.adrcotfas.goodtime.data.model.getLabelData
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.unarchivedLabels
-import com.apps.adrcotfas.goodtime.ui.common.AlertDialogButtonStack
-import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
+import com.apps.adrcotfas.goodtime.ui.AlertDialogButtonStack
+import com.apps.adrcotfas.goodtime.ui.SelectLabelDialog
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.labels_clear_label
 import goodtime_productivity.composeapp.generated.resources.labels_edit_active_label

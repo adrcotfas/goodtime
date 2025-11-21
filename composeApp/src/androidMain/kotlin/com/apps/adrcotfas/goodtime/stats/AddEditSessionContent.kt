@@ -47,8 +47,9 @@ import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeUtils
 import com.apps.adrcotfas.goodtime.bl.isDefault
 import com.apps.adrcotfas.goodtime.data.model.Session
-import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
-import com.apps.adrcotfas.goodtime.ui.common.TextBox
+import com.apps.adrcotfas.goodtime.ui.EditableNumberListItem
+import com.apps.adrcotfas.goodtime.ui.LabelChip
+import com.apps.adrcotfas.goodtime.ui.TextBox
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Clock

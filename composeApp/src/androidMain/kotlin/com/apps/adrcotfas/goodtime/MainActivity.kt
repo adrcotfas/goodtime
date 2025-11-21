@@ -85,8 +85,8 @@ import com.apps.adrcotfas.goodtime.settings.timerdurations.TimerProfileScreen
 import com.apps.adrcotfas.goodtime.settings.timerstyle.UserInterfaceScreen
 import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
-import com.apps.adrcotfas.goodtime.ui.common.ObserveAsEvents
-import com.apps.adrcotfas.goodtime.ui.common.SnackbarController
+import com.apps.adrcotfas.goodtime.ui.ObserveAsEvents
+import com.apps.adrcotfas.goodtime.ui.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.isSystemInDarkTheme
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope

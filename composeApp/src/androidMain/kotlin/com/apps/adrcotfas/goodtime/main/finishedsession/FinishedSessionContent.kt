@@ -58,7 +58,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -73,8 +72,8 @@ import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.main.TimerUiState
-import com.apps.adrcotfas.goodtime.ui.common.DragHandle
-import com.apps.adrcotfas.goodtime.ui.common.TextBox
+import com.apps.adrcotfas.goodtime.ui.DragHandle
+import com.apps.adrcotfas.goodtime.ui.TextBox
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.main_break_complete
 import goodtime_productivity.composeapp.generated.resources.main_consider_idle_time_as_extra_focus

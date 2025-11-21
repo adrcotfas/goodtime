@@ -41,14 +41,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.data.model.Label
-import com.apps.adrcotfas.goodtime.stats.LabelChip
-import com.apps.adrcotfas.goodtime.ui.common.BadgedBoxWithCount
+import com.apps.adrcotfas.goodtime.ui.BadgedBoxWithCount
+import com.apps.adrcotfas.goodtime.ui.LabelChip
 import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline

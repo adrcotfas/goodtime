@@ -18,46 +18,54 @@
 package com.apps.adrcotfas.goodtime.ui
 
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
-import com.apps.adrcotfas.goodtime.R
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.open_sans
+import goodtime_productivity.composeapp.generated.resources.roboto_mono
+import org.jetbrains.compose.resources.Font
 
-val bodyFontFamily = FontFamily(Font(resId = R.font.open_sans))
+@Composable
+fun bodyFontFamily() = FontFamily(Font(Res.font.open_sans))
 
 val baseline = Typography()
 
-val AppTypography =
-    Typography(
+@Composable
+fun appTypography(): Typography {
+    val bodyFont = bodyFontFamily()
+    return Typography(
         displayLarge = baseline.displayLarge,
         displayMedium = baseline.displayMedium,
         displaySmall = baseline.displaySmall,
         headlineLarge = baseline.headlineLarge,
         headlineMedium = baseline.headlineMedium,
         headlineSmall = baseline.headlineSmall,
-        titleLarge = baseline.titleLarge.copy(fontFamily = bodyFontFamily),
-        titleMedium = baseline.titleMedium.copy(fontFamily = bodyFontFamily),
-        titleSmall = baseline.titleSmall.copy(fontFamily = bodyFontFamily),
-        bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFontFamily),
-        bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFontFamily),
-        bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily),
+        titleLarge = baseline.titleLarge.copy(fontFamily = bodyFont),
+        titleMedium = baseline.titleMedium.copy(fontFamily = bodyFont),
+        titleSmall = baseline.titleSmall.copy(fontFamily = bodyFont),
+        bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFont),
+        bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFont),
+        bodySmall = baseline.bodySmall.copy(fontFamily = bodyFont),
         labelLarge = baseline.labelLarge,
         labelMedium = baseline.labelMedium,
         labelSmall = baseline.labelSmall,
     )
+}
 
 @OptIn(ExperimentalTextApi::class)
+@Composable
 fun timerFontWith(
-    resId: Int,
+    resource: org.jetbrains.compose.resources.FontResource,
     weight: Int,
 ): FontFamily =
     FontFamily(
         Font(
-            resId = resId,
+            resource = resource,
             weight = FontWeight(weight),
             variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
         ),
@@ -65,12 +73,14 @@ fun timerFontWith(
 
 val timerFontWeights = listOf(100, 200, 300)
 
-// TODO: remove unused glyphs from the font
-val timerFontRobotoMap =
-    timerFontWeights.associateWith { weight -> timerFontWith(R.font.roboto_mono, weight) }
+@Composable
+fun timerFontRobotoMap(): Map<Int, FontFamily> = timerFontWeights.associateWith { weight -> timerFontWith(Res.font.roboto_mono, weight) }
 
-val timerTextRobotoStyle =
-    TextStyle(
-        fontFamily = timerFontRobotoMap[100],
+@Composable
+fun timerTextRobotoStyle(): TextStyle {
+    val fontMap = timerFontRobotoMap()
+    return TextStyle(
+        fontFamily = fontMap[100],
         fontSize = 60.em,
     )
+}

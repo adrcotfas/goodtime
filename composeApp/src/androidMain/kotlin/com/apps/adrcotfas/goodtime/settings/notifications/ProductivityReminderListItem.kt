@@ -39,7 +39,7 @@ import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedDayNamesForStats
 import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
-import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
+import com.apps.adrcotfas.goodtime.ui.BetterListItem
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.settings_days_of_the_week
 import goodtime_productivity.composeapp.generated.resources.settings_reminder_time

@@ -15,26 +15,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.ui.common
+package com.apps.adrcotfas.goodtime.ui
 
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 
-data class SnackbarEvent(
-    val message: String,
-    val action: SnackbarAction? = null,
-)
-
-data class SnackbarAction(
-    val name: String,
-    val action: suspend () -> Unit,
-)
-
-object SnackbarController {
-    private val _events = Channel<SnackbarEvent>()
-    val events = _events.receiveAsFlow()
-
-    suspend fun sendEvent(event: SnackbarEvent) {
-        _events.send(event)
-    }
+@Composable
+@Stable
+fun Modifier.hideUnless(condition: Boolean): Modifier {
+    val alpha by animateFloatAsState(if (condition) 1f else 0f, label = "hide")
+    return this then Modifier.graphicsLayer { this.alpha = alpha }
 }
+
+@Stable
+expect fun Modifier.clearFocusOnKeyboardDismiss(onFocusCleared: () -> Unit = {}): Modifier

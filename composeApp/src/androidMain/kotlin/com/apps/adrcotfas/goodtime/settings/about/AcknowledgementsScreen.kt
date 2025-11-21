@@ -30,8 +30,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
-import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import com.apps.adrcotfas.goodtime.ui.BetterListItem
+import com.apps.adrcotfas.goodtime.ui.TopBar
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.about_acknowledgements
 import goodtime_productivity.composeapp.generated.resources.main_failed_to_open_url

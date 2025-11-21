@@ -18,10 +18,9 @@
 package com.apps.adrcotfas.goodtime.stats
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.apps.adrcotfas.goodtime.bl.LabelData
-import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
-import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
+import com.apps.adrcotfas.goodtime.ui.CheckboxListItem
+import com.apps.adrcotfas.goodtime.ui.SelectLabelDialog
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.labels_select_labels
 import goodtime_productivity.composeapp.generated.resources.stats_show_label_breakdown_desc

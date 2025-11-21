@@ -19,7 +19,7 @@ package com.apps.adrcotfas.goodtime.main
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import com.apps.adrcotfas.goodtime.ui.common.IconTextButton
+import com.apps.adrcotfas.goodtime.ui.IconTextButton
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Heart

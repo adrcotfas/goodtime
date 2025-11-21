@@ -38,10 +38,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
-import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
+import com.apps.adrcotfas.goodtime.ui.ConfirmationDialog
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.labels_delete
 import goodtime_productivity.composeapp.generated.resources.settings_delete_profile

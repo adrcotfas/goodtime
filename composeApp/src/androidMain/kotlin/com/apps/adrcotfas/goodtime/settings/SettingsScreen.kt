@@ -60,16 +60,16 @@ import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
 import com.apps.adrcotfas.goodtime.settings.notifications.ProductivityReminderListItem
-import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
-import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
-import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
-import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuListItem
-import com.apps.adrcotfas.goodtime.ui.common.IconListItem
-import com.apps.adrcotfas.goodtime.ui.common.LockedCheckboxListItem
-import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
-import com.apps.adrcotfas.goodtime.ui.common.TimePicker
-import com.apps.adrcotfas.goodtime.ui.common.TopBar
-import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
+import com.apps.adrcotfas.goodtime.ui.BetterListItem
+import com.apps.adrcotfas.goodtime.ui.CheckboxListItem
+import com.apps.adrcotfas.goodtime.ui.CompactPreferenceGroupTitle
+import com.apps.adrcotfas.goodtime.ui.DropdownMenuListItem
+import com.apps.adrcotfas.goodtime.ui.IconListItem
+import com.apps.adrcotfas.goodtime.ui.LockedCheckboxListItem
+import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.TimePicker
+import com.apps.adrcotfas.goodtime.ui.TopBar
+import com.apps.adrcotfas.goodtime.ui.toSecondOfDay
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Bell
@@ -107,7 +107,6 @@ import kotlinx.datetime.isoDayNumber
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -121,9 +120,6 @@ fun SettingsScreen(
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val settings = uiState.settings
-
-    val locale = androidx.compose.ui.text.intl.Locale.current
-    val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()

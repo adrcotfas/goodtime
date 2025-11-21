@@ -15,14 +15,13 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.ui.common
+package com.apps.adrcotfas.goodtime.ui
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Info
@@ -48,7 +47,8 @@ fun InfoDialog(
             TextButton(onClick = {
                 onDismiss()
             }) {
-                Text(stringResource(android.R.string.ok))
+                // TODO: extract string
+                Text("OK")
             }
         },
         dismissButton = {
