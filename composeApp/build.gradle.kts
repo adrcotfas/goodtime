@@ -62,7 +62,6 @@ kotlin {
             implementation(libs.androidchart)
             implementation(libs.acra.mail)
             implementation(libs.acra.notification)
-            implementation(libs.lottie.compose)
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.work.runtime.ktx)
         }
@@ -77,7 +76,10 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.devsrsouza.compose.icons.eva)
             implementation(libs.navigation.compose)
-            // Shared business logic dependencies
+            implementation(libs.compottie)
+            implementation(libs.compottie.dot)
+            implementation(libs.ui.backhandler)
+
             implementation(libs.koin.core)
             implementation(libs.koin.androidx.compose)
             api(libs.coroutines.core)

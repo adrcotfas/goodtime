@@ -17,24 +17,27 @@
  */
 package com.apps.adrcotfas.goodtime.onboarding
 
-import com.apps.adrcotfas.goodtime.R
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.intro1
 import goodtime_productivity.composeapp.generated.resources.intro1_desc1
 import goodtime_productivity.composeapp.generated.resources.intro1_desc2
 import goodtime_productivity.composeapp.generated.resources.intro1_title
+import goodtime_productivity.composeapp.generated.resources.intro2
 import goodtime_productivity.composeapp.generated.resources.intro2_desc1
 import goodtime_productivity.composeapp.generated.resources.intro2_desc2
 import goodtime_productivity.composeapp.generated.resources.intro2_title
+import goodtime_productivity.composeapp.generated.resources.intro3
 import goodtime_productivity.composeapp.generated.resources.intro3_desc1
 import goodtime_productivity.composeapp.generated.resources.intro3_desc2
 import goodtime_productivity.composeapp.generated.resources.intro3_title
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
 data class OnboardingPage(
     val title: StringResource,
     val description1: StringResource,
     val description2: StringResource,
-    val image: Int,
+    val image: DrawableResource,
 ) {
     companion object {
         val pages =
@@ -43,19 +46,19 @@ data class OnboardingPage(
                     title = Res.string.intro1_title,
                     description1 = Res.string.intro1_desc1,
                     description2 = Res.string.intro1_desc2,
-                    image = R.drawable.intro1,
+                    image = Res.drawable.intro1,
                 ),
                 OnboardingPage(
                     title = Res.string.intro2_title,
                     description1 = Res.string.intro2_desc1,
                     description2 = Res.string.intro2_desc2,
-                    image = R.drawable.intro2,
+                    image = Res.drawable.intro2,
                 ),
                 OnboardingPage(
                     title = Res.string.intro3_title,
                     description1 = Res.string.intro3_desc1,
                     description2 = Res.string.intro3_desc2,
-                    image = R.drawable.intro3,
+                    image = Res.drawable.intro3,
                 ),
             )
     }

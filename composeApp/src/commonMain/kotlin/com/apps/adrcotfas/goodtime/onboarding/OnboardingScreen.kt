@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.onboarding
 
-import android.annotation.SuppressLint
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -54,28 +52,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.intro1
 import goodtime_productivity.composeapp.generated.resources.intro1_desc1
 import goodtime_productivity.composeapp.generated.resources.intro1_desc2
 import goodtime_productivity.composeapp.generated.resources.intro1_title
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 val lightGray = Color(0xFFDEDEDE)
 val darkGray = Color(0xFF4C4546)
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
     val pages = OnboardingPage.pages
@@ -113,7 +110,7 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
                         description2 = stringResource(pages[page].description2),
                         image = {
                             Image(
-                                painter = painterResource(id = pages[page].image),
+                                painter = painterResource(pages[page].image),
                                 contentDescription = stringResource(pages[page].title),
                             )
                         },
@@ -186,8 +183,8 @@ fun OnboardingPage(
     description2: String,
     image: @Composable () -> Unit,
 ) {
-    val isPortrait = LocalConfiguration.current.isPortrait
-    if (isPortrait) {
+    val isPortraitOrientation = isPortrait()
+    if (isPortraitOrientation) {
         Column(
             modifier =
                 Modifier
@@ -281,7 +278,7 @@ fun OnboardingPagePreview() {
         description2 = stringResource(Res.string.intro1_desc2),
         image = {
             Image(
-                painter = painterResource(id = R.drawable.intro1),
+                painter = painterResource(Res.drawable.intro1),
                 contentDescription = stringResource(Res.string.intro1_title),
             )
         },

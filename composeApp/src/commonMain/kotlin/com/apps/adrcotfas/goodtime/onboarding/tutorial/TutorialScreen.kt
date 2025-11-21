@@ -17,8 +17,8 @@
  */
 package com.apps.adrcotfas.goodtime.onboarding.tutorial
 
-import androidx.annotation.RawRes
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -52,17 +52,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.rememberLottieComposition
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.onboarding.PageIndicator
 import com.apps.adrcotfas.goodtime.onboarding.darkGray
@@ -72,21 +64,38 @@ import goodtime_productivity.composeapp.generated.resources.tutorial_swipe_down
 import goodtime_productivity.composeapp.generated.resources.tutorial_swipe_right
 import goodtime_productivity.composeapp.generated.resources.tutorial_swipe_up
 import goodtime_productivity.composeapp.generated.resources.tutorial_tap
+import io.github.alexzhirkevich.compottie.Compottie
+import io.github.alexzhirkevich.compottie.DotLottie
+import io.github.alexzhirkevich.compottie.LottieCompositionSpec
+import io.github.alexzhirkevich.compottie.rememberLottieComposition
+import io.github.alexzhirkevich.compottie.rememberLottiePainter
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-data class TutorialScreen(
+data class TutorialScreenData(
     val title: StringResource,
-    val animation: Int,
+    val animationPath: String,
 ) {
     companion object {
         val pages =
             listOf(
-                TutorialScreen(title = Res.string.tutorial_tap, animation = R.raw.tap),
-                TutorialScreen(title = Res.string.tutorial_swipe_right, animation = R.raw.swipe_right),
-                TutorialScreen(title = Res.string.tutorial_swipe_up, animation = R.raw.swipe_up),
-                TutorialScreen(title = Res.string.tutorial_swipe_down, animation = R.raw.swipe_down),
+                TutorialScreenData(
+                    title = Res.string.tutorial_tap,
+                    animationPath = "files/tap.lottie",
+                ),
+                TutorialScreenData(
+                    title = Res.string.tutorial_swipe_right,
+                    animationPath = "files/swipe_right.lottie",
+                ),
+                TutorialScreenData(
+                    title = Res.string.tutorial_swipe_up,
+                    animationPath = "files/swipe_up.lottie",
+                ),
+                TutorialScreenData(
+                    title = Res.string.tutorial_swipe_down,
+                    animationPath = "files/swipe_down.lottie",
+                ),
             )
     }
 }
@@ -97,7 +106,7 @@ fun TutorialScreen(
     onClose: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val pages = TutorialScreen.pages
+    val pages = TutorialScreenData.pages
     val pagerState = rememberPagerState(pageCount = { pages.size })
 
     val black = Color.Black
@@ -120,7 +129,7 @@ fun TutorialScreen(
             HorizontalPager(state = pagerState) { page ->
                 TutorialPage(
                     title = stringResource(pages[page].title),
-                    animation = pages[page].animation,
+                    animationPath = pages[page].animationPath,
                 )
             }
         }
@@ -168,9 +177,12 @@ fun TutorialScreen(
             selectionColor = lightGray,
         )
 
-        IconButton(modifier = Modifier.align(Alignment.TopEnd).padding(end = 16.dp), onClick = {
-            onClose()
-        }) {
+        IconButton(
+            modifier = Modifier.align(Alignment.TopEnd).padding(end = 16.dp),
+            onClick = {
+                onClose()
+            },
+        ) {
             Icon(
                 imageVector = Icons.Outlined.Close,
                 contentDescription = null,
@@ -183,23 +195,30 @@ fun TutorialScreen(
 @Composable
 fun TutorialPage(
     title: String,
-    animation: Int,
+    animationPath: String,
 ) {
     val white = Color.White
 
-    val isPortrait = LocalConfiguration.current.isPortrait
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(animation))
-    val lottieModifier = if (isPortrait) Modifier.fillMaxSize(0.5f) else Modifier
+    val isPortraitOrientation = isPortrait()
+    val composition by rememberLottieComposition {
+        LottieCompositionSpec.DotLottie(Res.readBytes(animationPath))
+    }
+    val lottieModifier = if (isPortraitOrientation) Modifier.fillMaxSize(0.5f) else Modifier
+
     val lottieAnimation: @Composable () -> Unit = {
-        LottieAnimation(
+        Image(
             modifier = lottieModifier,
-            composition = composition,
+            painter =
+                rememberLottiePainter(
+                    composition = composition,
+                    iterations = Compottie.IterateForever,
+                ),
             contentScale = ContentScale.FillHeight,
-            iterations = LottieConstants.IterateForever,
+            contentDescription = null,
         )
     }
 
-    if (isPortrait) {
+    if (isPortraitOrientation) {
         Column(
             modifier =
                 Modifier
@@ -268,10 +287,4 @@ fun TutorialPage(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun TutorialPagePreview() {
-    TutorialPage("Tap the timer to start and pause", R.raw.tap)
 }

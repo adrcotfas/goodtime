@@ -12,4 +12,4 @@ xcuserdata
 composeApp/build
 composeApp/google
 composeApp/fdroid
-composeApp/src/commonMain/composeResources/files
+composeApp/src/commonMain/composeResources/files/aboutlibraries.json

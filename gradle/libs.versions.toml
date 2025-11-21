@@ -31,6 +31,7 @@ androidx-media = "1.7.1"
 androidx-documentfile = "1.1.0"
 androidx-room = "2.8.3"
 lottieCompose = "6.7.1"
+compottie = "2.0.2"
 navigationCompose = "2.9.1"
 reviewKtx = "2.0.2"
 
@@ -46,6 +47,7 @@ espresso-core = "3.7.0"
 robolectric = "4.16"
 turbine = "1.2.1"
 
+uiBackhandler = "1.9.3"
 vico = "2.3.0"
 androidchart = "3.1.0.25"
 
@@ -77,6 +79,8 @@ billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = 
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-datetime-names = { module = "io.github.adrcotfas:kotlinx-datetime-names", version.ref = "kotlinxDatetimeNames" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
+compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
+compottie-dot = { module = "io.github.alexzhirkevich:compottie-dot", version.ref = "compottie" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 
@@ -105,6 +109,7 @@ touchlab-kermit-simple = { module = "co.touchlab:kermit-simple", version.ref = "
 mikepenz-aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "mikepenz-aboutlibraries" }
 mikepenz-aboutlibraries-compose = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "mikepenz-aboutlibraries" }
 
+ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "uiBackhandler" }
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 
