@@ -23,9 +23,13 @@ import com.apps.adrcotfas.goodtime.ui.IconTextButton
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Heart
+import compose.icons.evaicons.outline.Unlock
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.support_development
+import goodtime_productivity.composeapp.generated.resources.unlock_premium
 import org.jetbrains.compose.resources.stringResource
+
+expect fun isFDroid(): Boolean
 
 @Composable
 fun ProListItem(
@@ -33,13 +37,16 @@ fun ProListItem(
     centered: Boolean = false,
     onClick: () -> Unit,
 ) {
+    val title =
+        if (isFDroid()) stringResource(Res.string.support_development) else stringResource(Res.string.unlock_premium)
+    val icon = if (isFDroid()) EvaIcons.Outline.Heart else EvaIcons.Outline.Unlock
     IconTextButton(
-        title = stringResource(Res.string.support_development),
+        title = title,
         subtitle = subtitle,
         icon = {
             Icon(
-                imageVector = EvaIcons.Outline.Heart,
-                contentDescription = stringResource(Res.string.support_development),
+                imageVector = icon,
+                contentDescription = title,
             )
         },
         isFilled = true,

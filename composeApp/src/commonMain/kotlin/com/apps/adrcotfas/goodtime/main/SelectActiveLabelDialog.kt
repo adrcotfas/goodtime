@@ -44,7 +44,7 @@ import goodtime_productivity.composeapp.generated.resources.labels_select_active
 import goodtime_productivity.composeapp.generated.resources.settings_timer_durations_title
 import goodtime_productivity.composeapp.generated.resources.stats_no_items
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SelectActiveLabelDialog(

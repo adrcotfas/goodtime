@@ -41,7 +41,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,7 +48,6 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeUtils
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -61,8 +59,11 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.List
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.ic_break
+import goodtime_productivity.composeapp.generated.resources.ic_status_goodtime
 import goodtime_productivity.composeapp.generated.resources.main_min
 import goodtime_productivity.composeapp.generated.resources.stats_no_items
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -174,9 +175,9 @@ fun TimelineListItem(
                     painter =
                         painterResource(
                             if (session.isWork) {
-                                R.drawable.ic_status_goodtime
+                                Res.drawable.ic_status_goodtime
                             } else {
-                                R.drawable.ic_break
+                                Res.drawable.ic_break
                             },
                         ),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),

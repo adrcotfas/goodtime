@@ -55,18 +55,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
 import com.apps.adrcotfas.goodtime.bl.TimerType
@@ -80,11 +77,15 @@ import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import com.apps.adrcotfas.goodtime.ui.hideUnless
 import com.apps.adrcotfas.goodtime.ui.timerFontRobotoMap
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.ic_break
+import goodtime_productivity.composeapp.generated.resources.ic_status_goodtime
 import goodtime_productivity.composeapp.generated.resources.labels_break_budget
 import goodtime_productivity.composeapp.generated.resources.stats_break
 import goodtime_productivity.composeapp.generated.resources.stats_focus
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Duration.Companion.minutes
 
 @Composable
@@ -267,13 +268,13 @@ fun StatusIndicator(
                 if (it) {
                     Image(
                         colorFilter = ColorFilter.tint(color),
-                        painter = painterResource(R.drawable.ic_break),
+                        painter = painterResource(Res.drawable.ic_break),
                         contentDescription = stringResource(Res.string.stats_break),
                     )
                 } else {
                     Image(
                         colorFilter = ColorFilter.tint(color),
-                        painter = painterResource(R.drawable.ic_status_goodtime),
+                        painter = painterResource(Res.drawable.ic_status_goodtime),
                         contentDescription = stringResource(Res.string.stats_focus),
                     )
                 }
@@ -366,7 +367,7 @@ fun BreakBudgetIndicator(
             ) {
                 Image(
                     colorFilter = ColorFilter.tint(color),
-                    painter = painterResource(R.drawable.ic_break),
+                    painter = painterResource(Res.drawable.ic_break),
                     contentDescription = stringResource(Res.string.labels_break_budget),
                 )
                 Text(

@@ -17,9 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
-import android.graphics.Bitmap
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,11 +38,8 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.common.getVersionName
 import com.apps.adrcotfas.goodtime.settings.ActionSection
@@ -134,8 +129,6 @@ fun MainNavigationSheetContent(
     navigateToAbout: () -> Unit,
     navigateToPro: () -> Unit,
 ) {
-    val context = LocalContext.current
-
     Column(
         modifier =
             Modifier
@@ -145,17 +138,12 @@ fun MainNavigationSheetContent(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top,
     ) {
-        val icon = context.packageManager.getApplicationIcon(context.packageName)
         Row(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.Start),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
-                modifier = Modifier.size(32.dp),
-                bitmap = icon.toBitmap(config = Bitmap.Config.ARGB_8888).asImageBitmap(),
-                contentDescription = null,
-            )
+            ProductIcon(modifier = Modifier.size(32.dp))
             Text(
                 text = stringResource(Res.string.product_name_long),
                 style =
@@ -225,7 +213,7 @@ fun MainNavigationSheetContent(
         )
         IconTextButton(
             title = stringResource(Res.string.about_and_feedback_title),
-            subtitle = "v${context.getVersionName()}",
+            subtitle = "v${getVersionName()}",
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.Info,

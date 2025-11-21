@@ -76,6 +76,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.devsrsouza.compose.icons.eva)
+            implementation(libs.navigation.compose)
             // Shared business logic dependencies
             implementation(libs.koin.core)
             implementation(libs.koin.androidx.compose)
