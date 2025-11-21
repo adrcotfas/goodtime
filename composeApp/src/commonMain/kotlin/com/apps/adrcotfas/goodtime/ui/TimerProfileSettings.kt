@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.common
+package com.apps.adrcotfas.goodtime.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -42,11 +42,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
-import com.apps.adrcotfas.goodtime.ui.DropdownMenuBox
-import com.apps.adrcotfas.goodtime.ui.EditableNumberListItem
-import com.apps.adrcotfas.goodtime.ui.InfoDialog
-import com.apps.adrcotfas.goodtime.ui.SliderListItem
-import com.apps.adrcotfas.goodtime.ui.TimerTypeRow
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Edit

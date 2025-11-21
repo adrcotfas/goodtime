@@ -49,9 +49,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.common.BreakBudgetInfoDialog
-import com.apps.adrcotfas.goodtime.common.TimerProfileSettings
 import com.apps.adrcotfas.goodtime.settings.TimerProfileViewModel
+import com.apps.adrcotfas.goodtime.ui.BreakBudgetInfoDialog
+import com.apps.adrcotfas.goodtime.ui.TimerProfileSettings
 import com.apps.adrcotfas.goodtime.ui.TopBar
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline

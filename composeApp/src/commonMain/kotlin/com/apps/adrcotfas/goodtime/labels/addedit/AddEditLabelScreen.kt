@@ -60,12 +60,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.common.BreakBudgetInfoDialog
-import com.apps.adrcotfas.goodtime.common.TimerProfileSettings
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.LABEL_NAME_MAX_LENGTH
 import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.labelNameIsValid
+import com.apps.adrcotfas.goodtime.ui.BreakBudgetInfoDialog
 import com.apps.adrcotfas.goodtime.ui.ColorSelectRow
+import com.apps.adrcotfas.goodtime.ui.TimerProfileSettings
 import com.apps.adrcotfas.goodtime.ui.TopBar
 import com.apps.adrcotfas.goodtime.ui.clearFocusOnKeyboardDismiss
 import compose.icons.EvaIcons
@@ -79,7 +79,7 @@ import goodtime_productivity.composeapp.generated.resources.labels_label_name_al
 import goodtime_productivity.composeapp.generated.resources.main_save
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -117,8 +117,7 @@ fun AddEditLabelScreen(
                     LabelNameRow(
                         isAddingNewLabel = !isEditMode,
                         labelName = labelNameToDisplay,
-                        onValueChange = {
-                            val newLabelName = it
+                        onValueChange = { newLabelName ->
                             viewModel.updateTmpLabel(
                                 uiState.tmpLabel.copy(name = newLabelName),
                                 resetProfile = false,

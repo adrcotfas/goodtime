@@ -46,7 +46,6 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.core.ktx)
             implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
             implementation(libs.koin.androidx.workmanager)
 
             // Android-specific libraries
@@ -79,6 +78,7 @@ kotlin {
             implementation(libs.devsrsouza.compose.icons.eva)
             // Shared business logic dependencies
             implementation(libs.koin.core)
+            implementation(libs.koin.androidx.compose)
             api(libs.coroutines.core)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.room.paging)

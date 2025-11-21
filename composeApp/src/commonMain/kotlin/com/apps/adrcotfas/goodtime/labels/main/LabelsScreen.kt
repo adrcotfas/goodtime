@@ -76,7 +76,7 @@ import goodtime_productivity.composeapp.generated.resources.labels_navigate_to_a
 import goodtime_productivity.composeapp.generated.resources.labels_title
 import goodtime_productivity.composeapp.generated.resources.stats_no_items
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
