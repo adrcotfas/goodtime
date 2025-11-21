@@ -28,9 +28,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
-import com.apps.adrcotfas.goodtime.common.screenHeight
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -38,6 +39,7 @@ import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ScreensaverMode(
     screensaverMode: Boolean,
@@ -47,7 +49,8 @@ fun ScreensaverMode(
 ) {
     val coroutineScope = rememberCoroutineScope()
     var animationJob: Job? by remember { mutableStateOf(null) }
-    val configuration = LocalConfiguration.current
+    val windowInfo = LocalWindowInfo.current
+    val density = LocalDensity.current
 
     LaunchedEffect(screensaverMode && isActive) {
         if (screensaverMode && isActive) {
@@ -55,7 +58,8 @@ fun ScreensaverMode(
                 coroutineScope.launch {
                     while (true) {
                         delay(30.seconds)
-                        val max = (configuration.screenHeight - screenWidth) / 3
+                        val screenHeight = with(density) { windowInfo.containerSize.height.toDp() }
+                        val max = (screenHeight - screenWidth) / 3
                         val maxValue = abs(max.value.toInt())
                         if (maxValue > 0) {
                             val newOffset = Random.nextInt(from = -maxValue, until = maxValue)
