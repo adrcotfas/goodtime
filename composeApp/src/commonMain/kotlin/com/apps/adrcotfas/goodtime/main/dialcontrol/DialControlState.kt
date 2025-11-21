@@ -28,6 +28,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Density
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.math.PI
 import kotlin.math.atan2
 
 @Stable
@@ -60,7 +61,7 @@ class DialControlState<T>(
         if (distance < radius * config.cutoffFraction) {
             null
         } else {
-            val degree = (180f / Math.PI) * atan2(y = offset.y, x = offset.x)
+            val degree = (180f / PI) * atan2(y = offset.y, x = offset.x)
             val sweep = 360f / options.size
             val index =
                 options.indices.firstOrNull { index ->

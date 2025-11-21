@@ -75,6 +75,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
+import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -263,7 +264,7 @@ private fun <T> CircleDial(
                 val radius = size.minDimension / 2
                 state.options.indices.forEach { index ->
                     val startAngle = calculateStartAngle(index = index, count = state.options.size)
-                    val radian = startAngle * Math.PI / 180
+                    val radian = startAngle * PI / 180
                     val x = center.x + radius * cos(radian)
                     val y = center.y + radius * sin(radian)
                     drawLine(
@@ -293,7 +294,7 @@ private fun <T> CircleDial(
                                 val optionAlpha = 1f
                                 val startAngle =
                                     calculateStartAngle(index = index, count = state.options.size)
-                                val radians = (startAngle + sweep / 2) * Math.PI / 180
+                                val radians = (startAngle + sweep / 2) * PI / 180
                                 val radius =
                                     (state.config.size.toPx() / 2) * (state.config.cutoffFraction + (1f - state.config.cutoffFraction) / 2)
                                 translationX = (radius * cos(radians)).toFloat()
