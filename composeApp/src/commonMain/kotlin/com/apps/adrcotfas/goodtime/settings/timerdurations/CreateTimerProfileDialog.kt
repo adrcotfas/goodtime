@@ -44,6 +44,7 @@ import androidx.compose.ui.window.DialogProperties
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.main_cancel
 import goodtime_productivity.composeapp.generated.resources.main_ok
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -114,8 +115,7 @@ fun CreateTimerProfileDialog(
                         onClick = onDismiss,
                     ) {
                         Text(
-                            org.jetbrains.compose.resources
-                                .stringResource(Res.string.main_cancel),
+                            stringResource(Res.string.main_cancel),
                         )
                     }
                     TextButton(
@@ -125,8 +125,7 @@ fun CreateTimerProfileDialog(
                         },
                     ) {
                         Text(
-                            org.jetbrains.compose.resources
-                                .stringResource(Res.string.main_ok),
+                            stringResource(Res.string.main_ok),
                         )
                     }
                 }

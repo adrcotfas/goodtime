@@ -61,7 +61,7 @@ import goodtime_productivity.composeapp.generated.resources.main_save
 import goodtime_productivity.composeapp.generated.resources.settings_create_profile
 import goodtime_productivity.composeapp.generated.resources.settings_timer_durations_title
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
