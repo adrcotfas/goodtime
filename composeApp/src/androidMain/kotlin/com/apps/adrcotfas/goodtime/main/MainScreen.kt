@@ -77,7 +77,6 @@ import com.apps.adrcotfas.goodtime.bl.getLabelData
 import com.apps.adrcotfas.goodtime.common.askForAlarmPermission
 import com.apps.adrcotfas.goodtime.common.installIsOlderThan10Days
 import com.apps.adrcotfas.goodtime.common.isPortrait
-import com.apps.adrcotfas.goodtime.common.screenWidth
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialConfig
@@ -175,9 +174,8 @@ fun MainScreen(
 
     val yOffset = remember { Animatable(0f) }
     ScreensaverMode(
-        screensaverMode = uiState.screensaverMode,
-        isActive = timerUiState.isActive,
-        screenWidth = configuration.screenWidth,
+        enabled = uiState.screensaverMode,
+        isTimerActive = timerUiState.isActive,
         yOffset = yOffset,
     )
 

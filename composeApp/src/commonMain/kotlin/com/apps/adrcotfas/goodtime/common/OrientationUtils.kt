@@ -19,7 +19,11 @@ package com.apps.adrcotfas.goodtime.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.unit.Dp
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Returns whether the device is in portrait orientation.
@@ -30,4 +34,32 @@ import androidx.compose.ui.platform.LocalWindowInfo
 fun isPortrait(): Boolean {
     val windowInfo = LocalWindowInfo.current
     return windowInfo.containerSize.height > windowInfo.containerSize.width
+}
+
+/**
+ * Returns the screen width in Dp, accounting for device orientation.
+ * Always returns the smaller dimension (portrait-equivalent width).
+ */
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun screenWidth(): Dp {
+    val containerSize = LocalWindowInfo.current.containerSize
+    val density = LocalDensity.current
+    return with(density) {
+        min(containerSize.width, containerSize.height).toDp()
+    }
+}
+
+/**
+ * Returns the screen height in Dp, accounting for device orientation.
+ * Always returns the larger dimension (portrait-equivalent height).
+ */
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun screenHeight(): Dp {
+    val containerSize = LocalWindowInfo.current.containerSize
+    val density = LocalDensity.current
+    return with(density) {
+        max(containerSize.width, containerSize.height).toDp()
+    }
 }

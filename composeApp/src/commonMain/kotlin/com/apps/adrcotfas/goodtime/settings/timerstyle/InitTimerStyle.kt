@@ -19,7 +19,6 @@ package com.apps.adrcotfas.goodtime.settings.timerstyle
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -38,9 +37,8 @@ fun InitTimerStyle(viewModel: TimerViewModel) {
     if (uiState.isLoading) return
 
     val timerStyle = uiState.timerStyle
-    val configuration = LocalConfiguration.current
 
-    val screenWidth = configuration.screenWidth
+    val screenWidth = screenWidth()
 
     if (timerStyle.fontSize == 0f || abs(screenWidth.value - timerStyle.currentScreenWidth) > 64) {
         val maxContainerWidth = screenWidth * 0.75f

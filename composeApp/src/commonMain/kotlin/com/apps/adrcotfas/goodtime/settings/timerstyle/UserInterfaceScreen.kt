@@ -17,10 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.settings.timerstyle
 
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -52,22 +48,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
-import com.apps.adrcotfas.goodtime.common.findActivity
-import com.apps.adrcotfas.goodtime.common.getAppLanguage
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.main.MainTimerView
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
-import com.apps.adrcotfas.goodtime.settings.updateLauncherName
 import com.apps.adrcotfas.goodtime.ui.ActionCard
-import com.apps.adrcotfas.goodtime.ui.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.ColorSelectRow
 import com.apps.adrcotfas.goodtime.ui.CompactPreferenceGroupTitle
@@ -84,8 +75,6 @@ import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.settings_demo
 import goodtime_productivity.composeapp.generated.resources.settings_general_title
 import goodtime_productivity.composeapp.generated.resources.settings_hide_seconds
-import goodtime_productivity.composeapp.generated.resources.settings_language
-import goodtime_productivity.composeapp.generated.resources.settings_launcher_name
 import goodtime_productivity.composeapp.generated.resources.settings_refresh_demo_label
 import goodtime_productivity.composeapp.generated.resources.settings_show_sessions_long_break_desc
 import goodtime_productivity.composeapp.generated.resources.settings_show_sessions_long_break_title
@@ -94,13 +83,12 @@ import goodtime_productivity.composeapp.generated.resources.settings_show_status
 import goodtime_productivity.composeapp.generated.resources.settings_theme
 import goodtime_productivity.composeapp.generated.resources.settings_theme_options
 import goodtime_productivity.composeapp.generated.resources.settings_timer_style_title
-import goodtime_productivity.composeapp.generated.resources.settings_use_dynamic_color
 import goodtime_productivity.composeapp.generated.resources.settings_user_interface
 import goodtime_productivity.composeapp.generated.resources.unlock_premium
 import goodtime_productivity.composeapp.generated.resources.unlock_timer_style
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.minutes
 
@@ -111,7 +99,6 @@ fun UserInterfaceScreen(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
 ) {
-    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isPro = uiState.settings.isPro
 
@@ -145,18 +132,7 @@ fun UserInterfaceScreen(
 
             CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_general_title))
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val activity = context.findActivity()
-                BetterListItem(
-                    title = stringResource(Res.string.settings_language),
-                    trailing = context.getAppLanguage(),
-                    onClick = {
-                        val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
-                        intent.data = Uri.fromParts("package", activity?.packageName, null)
-                        activity?.startActivity(intent)
-                    },
-                )
-            }
+            LanguageSettingsItem()
 
             DropdownMenuListItem(
                 title = stringResource(Res.string.settings_theme),
@@ -167,25 +143,14 @@ fun UserInterfaceScreen(
                 },
             )
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                CheckboxListItem(
-                    title = stringResource(Res.string.settings_use_dynamic_color),
-                    checked = uiState.settings.uiSettings.useDynamicColor,
-                ) {
-                    viewModel.setUseDynamicColor(it)
-                }
-            }
+            DynamicColorCheckbox(
+                checked = uiState.settings.uiSettings.useDynamicColor,
+                onCheckedChange = { viewModel.setUseDynamicColor(it) },
+            )
 
-            DropdownMenuListItem(
-                title = stringResource(Res.string.settings_launcher_name),
-                value = stringArrayResource(Res.array.settings_launcher_name)[uiState.settings.uiSettings.launcherNameIndex],
-                dropdownMenuOptions = stringArrayResource(Res.array.settings_launcher_name).toList(),
-                onDropdownMenuItemSelected = { index ->
-                    viewModel.setLauncherNameIndex(index)
-                    context.findActivity()?.let { activity ->
-                        updateLauncherName(context.packageManager, activity, index)
-                    }
-                },
+            LauncherNameDropdown(
+                selectedIndex = uiState.settings.uiSettings.launcherNameIndex,
+                onSelectionChange = { viewModel.setLauncherNameIndex(it) },
             )
 
             SubtleHorizontalDivider()
