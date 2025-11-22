@@ -189,7 +189,7 @@ fun NotificationsScreen(
                 rememberTimePickerState(
                     initialHour = reminderTime.hour,
                     initialMinute = reminderTime.minute,
-                    is24Hour = DateFormat.is24HourFormat(context),
+                    is24Hour = uiState.is24HourFormat,
                 )
             TimePicker(
                 onDismiss = { viewModel.setShowTimePicker(false) },

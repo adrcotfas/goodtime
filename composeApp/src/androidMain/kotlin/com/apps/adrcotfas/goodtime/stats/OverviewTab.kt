@@ -45,6 +45,7 @@ import org.jetbrains.compose.resources.stringResource
 fun OverviewTab(
     firstDayOfWeek: DayOfWeek,
     workDayStart: Int,
+    is24HourFormat: Boolean,
     statisticsSettings: StatisticsSettings,
     statisticsData: StatisticsData,
     onChangeOverviewType: (OverviewType) -> Unit,
@@ -86,6 +87,7 @@ fun OverviewTab(
         ProductiveTimeSection(
             statisticsData.productiveHoursOfTheDay,
             workDayStart,
+            is24HourFormat,
         )
 
         HeatmapSection(

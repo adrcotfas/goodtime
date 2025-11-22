@@ -177,6 +177,7 @@ fun SettingsScreen(
                         firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
                         selectedDays = reminderSettings.days.map { DayOfWeek(it) }.toSet(),
                         reminderSecondOfDay = reminderSettings.secondOfDay,
+                        is24HourFormat = uiState.is24HourFormat,
                         onSelectDay = viewModel::onToggleProductivityReminderDay,
                         onReminderTimeClick = { viewModel.setShowTimePicker(true) },
                     )
@@ -219,7 +220,7 @@ fun SettingsScreen(
                 trailing =
                     secondsOfDayToTimerFormat(
                         uiState.settings.workdayStart,
-                        DateFormat.is24HourFormat(context),
+                        uiState.is24HourFormat,
                     ),
                 onClick = {
                     viewModel.setShowWorkdayStartPicker(true)
@@ -352,7 +353,7 @@ fun SettingsScreen(
                 rememberTimePickerState(
                     initialHour = workdayStart.hour,
                     initialMinute = workdayStart.minute,
-                    is24Hour = DateFormat.is24HourFormat(context),
+                    is24Hour = uiState.is24HourFormat,
                 )
             TimePicker(
                 onDismiss = { viewModel.setShowWorkdayStartPicker(false) },
@@ -370,7 +371,7 @@ fun SettingsScreen(
                 rememberTimePickerState(
                     initialHour = reminderTime.hour,
                     initialMinute = reminderTime.minute,
-                    is24Hour = DateFormat.is24HourFormat(context),
+                    is24Hour = uiState.is24HourFormat,
                 )
             TimePicker(
                 onDismiss = { viewModel.setShowTimePicker(false) },

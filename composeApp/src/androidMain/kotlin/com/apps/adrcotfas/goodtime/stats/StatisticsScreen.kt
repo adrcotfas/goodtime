@@ -182,6 +182,7 @@ fun StatisticsScreen(
                             OverviewTab(
                                 firstDayOfWeek = uiState.firstDayOfWeek,
                                 workDayStart = uiState.workDayStart,
+                                is24HourFormat = uiState.is24HourFormat,
                                 statisticsSettings = uiState.statisticsSettings,
                                 statisticsData = uiState.statisticsData,
                                 onChangeOverviewType = {
@@ -331,7 +332,7 @@ fun StatisticsScreen(
                         rememberTimePickerState(
                             initialHour = time.hour,
                             initialMinute = time.minute,
-                            is24Hour = DateFormat.is24HourFormat(context),
+                            is24Hour = uiState.is24HourFormat,
                         )
                     TimePicker(
                         onDismiss = { showTimePicker = false },

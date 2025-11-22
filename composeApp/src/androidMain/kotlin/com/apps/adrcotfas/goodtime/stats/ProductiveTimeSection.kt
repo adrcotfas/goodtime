@@ -17,7 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.stats
 
-import android.text.format.DateFormat
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
@@ -46,9 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -90,11 +87,9 @@ fun <K, V> Map<K, V>.rotate(startKey: K): Map<K, V> {
 fun ProductiveTimeSection(
     productiveHoursOfTheDay: ProductiveHoursOfTheDay,
     workDayStart: Int,
+    is24HourFormat: Boolean,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
-    val context = LocalContext.current
-    val is24HourFormat = remember { DateFormat.is24HourFormat(context) }
-
     val workdayStartHour = LocalTime.fromSecondOfDay(workDayStart).hour
     val sortedData = productiveHoursOfTheDay.rotate(workdayStartHour)
 

@@ -17,7 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.settings.notifications
 
-import android.text.format.DateFormat
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,7 +31,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedDayNamesForStats
@@ -51,11 +49,10 @@ fun ProductivityReminderListItem(
     firstDayOfWeek: DayOfWeek,
     selectedDays: Set<DayOfWeek>,
     reminderSecondOfDay: Int,
+    is24HourFormat: Boolean,
     onSelectDay: (DayOfWeek) -> Unit,
     onReminderTimeClick: () -> Unit,
 ) {
-    val context = LocalContext.current
-
     val iconButtonColors = IconButtonDefaults.filledIconButtonColors()
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -106,7 +103,7 @@ fun ProductivityReminderListItem(
             trailing =
                 secondsOfDayToTimerFormat(
                     reminderSecondOfDay,
-                    DateFormat.is24HourFormat(context),
+                    is24HourFormat,
                 ),
             enabled = selectedDays.isNotEmpty(),
             onClick = { onReminderTimeClick() },
@@ -122,6 +119,7 @@ fun ProductivityReminderSectionPreview() {
             firstDayOfWeek = DayOfWeek.MONDAY,
             selectedDays = setOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
             reminderSecondOfDay = 10 * 60 * 60,
+            is24HourFormat = true,
             onSelectDay = {},
             onReminderTimeClick = {},
         )

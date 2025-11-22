@@ -22,7 +22,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.common.FeedbackHelper
 import com.apps.adrcotfas.goodtime.common.IosFeedbackHelper
+import com.apps.adrcotfas.goodtime.common.IosTimeFormatProvider
 import com.apps.adrcotfas.goodtime.common.IosUrlOpener
+import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
 import com.apps.adrcotfas.goodtime.common.UrlOpener
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
@@ -58,6 +60,7 @@ actual val platformModule: Module =
         }
         single<UrlOpener> { IosUrlOpener() }
         single<FeedbackHelper> { IosFeedbackHelper() }
+        single<TimeFormatProvider> { IosTimeFormatProvider() }
     }
 
 @OptIn(ExperimentalNativeApi::class)

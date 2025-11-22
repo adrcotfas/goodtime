@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
@@ -48,11 +49,13 @@ data class SettingsUiState(
     val showSelectWorkSoundPicker: Boolean = false,
     val showSelectBreakSoundPicker: Boolean = false,
     val notificationSoundCandidate: String? = null,
+    val is24HourFormat: Boolean = true,
 )
 
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
     private val dataRepository: LocalDataRepository,
+    private val timeFormatProvider: TimeFormatProvider,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState =
@@ -75,6 +78,7 @@ class SettingsViewModel(
                             settings = settings,
                             defaultLabel = defaultLabel,
                             lockedTimerStyle = settings.timerStyle,
+                            is24HourFormat = timeFormatProvider.is24HourFormat(),
                         )
                     }
                 }

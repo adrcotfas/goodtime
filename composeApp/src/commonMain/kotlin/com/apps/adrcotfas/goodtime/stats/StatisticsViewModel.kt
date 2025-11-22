@@ -25,6 +25,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
@@ -70,6 +71,7 @@ data class StatisticsUiState(
     val workDayStart: Int = 0,
     val statisticsSettings: StatisticsSettings = StatisticsSettings(),
     val statisticsData: StatisticsData = StatisticsData(),
+    val is24HourFormat: Boolean = true,
 ) {
     val showSelectionUi: Boolean
         get() = selectedSessions.isNotEmpty() || isSelectAllEnabled
@@ -87,6 +89,7 @@ class StatisticsViewModel(
     private val localDataRepo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,
     private val timeProvider: TimeProvider,
+    private val timeFormatProvider: TimeFormatProvider,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(StatisticsUiState())
     val uiState =
@@ -123,6 +126,7 @@ class StatisticsViewModel(
                     isPro = settings.isPro,
                     workDayStart = settings.workdayStart,
                     firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
+                    is24HourFormat = timeFormatProvider.is24HourFormat(),
                 )
             }
 
