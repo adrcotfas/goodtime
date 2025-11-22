@@ -17,10 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.settings
 
-import android.content.Intent
-import android.provider.Settings
-import android.text.format.DateFormat
-import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -37,26 +33,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
-import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
-import com.apps.adrcotfas.goodtime.common.areNotificationsEnabled
-import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
-import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
 import com.apps.adrcotfas.goodtime.settings.notifications.ProductivityReminderListItem
@@ -75,17 +57,16 @@ import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Bell
 import compose.icons.evaicons.outline.ColorPalette
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.ic_status_goodtime
 import goodtime_productivity.composeapp.generated.resources.settings_auto_start_break_desc
 import goodtime_productivity.composeapp.generated.resources.settings_auto_start_break_title
 import goodtime_productivity.composeapp.generated.resources.settings_auto_start_focus_desc
 import goodtime_productivity.composeapp.generated.resources.settings_auto_start_focus_title
-import goodtime_productivity.composeapp.generated.resources.settings_click_to_grant_permission
 import goodtime_productivity.composeapp.generated.resources.settings_custom_start_of_day_desc
 import goodtime_productivity.composeapp.generated.resources.settings_custom_start_of_day_title
 import goodtime_productivity.composeapp.generated.resources.settings_display_and_appearance
 import goodtime_productivity.composeapp.generated.resources.settings_display_over_lock_screen
 import goodtime_productivity.composeapp.generated.resources.settings_display_over_lock_screen_desc
-import goodtime_productivity.composeapp.generated.resources.settings_do_not_disturb_mode
 import goodtime_productivity.composeapp.generated.resources.settings_fullscreen_mode
 import goodtime_productivity.composeapp.generated.resources.settings_keep_the_screen_on
 import goodtime_productivity.composeapp.generated.resources.settings_notifications_title
@@ -104,9 +85,9 @@ import io.github.adrcotfas.datetime.names.getDisplayName
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.isoDayNumber
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -117,35 +98,10 @@ fun SettingsScreen(
     onNavigateToDefaultLabel: () -> Unit,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
-    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val settings = uiState.settings
 
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
-    val notificationManager = koinInject<NotificationArchManager>()
-    var isNotificationPolicyAccessGranted by remember { mutableStateOf(notificationManager.isNotificationPolicyAccessGranted()) }
-    var isNotificationPolicyAccessRequested by remember { mutableStateOf(false) }
-    LaunchedEffect(lifecycleState) {
-        when (lifecycleState) {
-            Lifecycle.State.RESUMED -> {
-                isNotificationPolicyAccessGranted =
-                    notificationManager.isNotificationPolicyAccessGranted()
-                if (isNotificationPolicyAccessRequested && isNotificationPolicyAccessGranted) {
-                    viewModel.setDndDuringWork(true)
-                }
-                if (!isNotificationPolicyAccessGranted) {
-                    viewModel.setDndDuringWork(false)
-                }
-            }
-
-            else -> {
-                // do nothing
-            }
-        }
-    }
-
-    val notificationPermissionState = settings.notificationPermissionState
+    val areNotificationsEnabled = rememberAreNotificationsEnabled()
 
     val listState = rememberScrollState()
 
@@ -167,8 +123,7 @@ fun SettingsScreen(
                     .animateContentSize(),
         ) {
             AnimatedVisibility(
-                notificationPermissionState == NotificationPermissionState.GRANTED ||
-                    context.areNotificationsEnabled(),
+                areNotificationsEnabled,
             ) {
                 Column {
                     CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_productivity_reminder_title))
@@ -193,7 +148,7 @@ fun SettingsScreen(
                     Image(
                         modifier = Modifier.size(24.dp),
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
-                        painter = painterResource(R.drawable.ic_status_goodtime),
+                        painter = painterResource(Res.drawable.ic_status_goodtime),
                         contentDescription = stringResource(Res.string.stats_focus),
                     )
                 },
@@ -334,18 +289,10 @@ fun SettingsScreen(
                 },
                 onClick = onNavigateToNotifications,
             )
-            CheckboxListItem(
-                title = stringResource(Res.string.settings_do_not_disturb_mode),
-                subtitle = if (isNotificationPolicyAccessGranted) null else stringResource(Res.string.settings_click_to_grant_permission),
+            DndCheckbox(
                 checked = uiState.settings.uiSettings.dndDuringWork,
-            ) {
-                if (isNotificationPolicyAccessGranted) {
-                    viewModel.setDndDuringWork(it)
-                } else {
-                    isNotificationPolicyAccessRequested = true
-                    requestDndPolicyAccess(context.findActivity()!!)
-                }
-            }
+                onCheckedChange = viewModel::setDndDuringWork,
+            )
         }
         if (uiState.showWorkdayStartPicker) {
             val workdayStart = LocalTime.fromSecondOfDay(uiState.settings.workdayStart)
@@ -383,9 +330,4 @@ fun SettingsScreen(
             )
         }
     }
-}
-
-private fun requestDndPolicyAccess(activity: ComponentActivity) {
-    val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
-    activity.startActivity(intent)
 }

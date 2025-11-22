@@ -31,12 +31,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedDayNamesForStats
 import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
-import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.BetterListItem
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.settings_days_of_the_week
@@ -107,21 +105,6 @@ fun ProductivityReminderListItem(
                 ),
             enabled = selectedDays.isNotEmpty(),
             onClick = { onReminderTimeClick() },
-        )
-    }
-}
-
-@Preview
-@Composable
-fun ProductivityReminderSectionPreview() {
-    ApplicationTheme {
-        ProductivityReminderListItem(
-            firstDayOfWeek = DayOfWeek.MONDAY,
-            selectedDays = setOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
-            reminderSecondOfDay = 10 * 60 * 60,
-            is24HourFormat = true,
-            onSelectDay = {},
-            onReminderTimeClick = {},
         )
     }
 }
