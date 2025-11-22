@@ -15,27 +15,16 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.settings.about
+package com.apps.adrcotfas.goodtime.common
 
-import android.content.Context
-import android.content.Intent
-import android.widget.Toast
-import androidx.core.net.toUri
+import platform.Foundation.NSURL
+import platform.UIKit.UIApplication
 
-fun openUrl(
-    context: Context,
-    url: String,
-    toastErrorMessage: String,
-) {
-    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-    try {
-        context.startActivity(intent)
-    } catch (_: Exception) {
-        Toast
-            .makeText(
-                context,
-                toastErrorMessage,
-                Toast.LENGTH_SHORT,
-            ).show()
+class IosUrlOpener : UrlOpener {
+    override fun openUrl(url: String) {
+        val nsUrl = NSURL.URLWithString(url) ?: return
+        if (UIApplication.sharedApplication.canOpenURL(nsUrl)) {
+            UIApplication.sharedApplication.openURL(nsUrl)
+        }
     }
 }

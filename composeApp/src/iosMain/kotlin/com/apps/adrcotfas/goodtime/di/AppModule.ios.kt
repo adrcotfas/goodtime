@@ -20,6 +20,10 @@ package com.apps.adrcotfas.goodtime.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
+import com.apps.adrcotfas.goodtime.common.FeedbackHelper
+import com.apps.adrcotfas.goodtime.common.IosFeedbackHelper
+import com.apps.adrcotfas.goodtime.common.IosUrlOpener
+import com.apps.adrcotfas.goodtime.common.UrlOpener
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -52,6 +56,8 @@ actual val platformModule: Module =
                 },
             )
         }
+        single<UrlOpener> { IosUrlOpener() }
+        single<FeedbackHelper> { IosFeedbackHelper() }
     }
 
 @OptIn(ExperimentalNativeApi::class)

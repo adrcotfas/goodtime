@@ -54,8 +54,6 @@ kotlin {
             implementation(libs.androidx.paging.runtime)
             implementation(libs.androidx.paging.compose)
             implementation(libs.androidx.media)
-            implementation(libs.mikepenz.aboutlibraries.core)
-            implementation(libs.mikepenz.aboutlibraries.compose)
             implementation(libs.vico.compose)
             implementation(libs.vico.compose.m3)
             implementation(libs.androidchart)
@@ -78,7 +76,8 @@ kotlin {
             implementation(libs.compottie)
             implementation(libs.compottie.dot)
             implementation(libs.ui.backhandler)
-
+            implementation(libs.mikepenz.aboutlibraries.core)
+            implementation(libs.mikepenz.aboutlibraries.compose)
             implementation(libs.koin.core)
             implementation(libs.koin.androidx.compose)
             api(libs.coroutines.core)

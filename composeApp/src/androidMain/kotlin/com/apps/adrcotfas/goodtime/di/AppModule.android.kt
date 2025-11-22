@@ -28,6 +28,10 @@ import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
 import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_HANDLER
+import com.apps.adrcotfas.goodtime.common.AndroidFeedbackHelper
+import com.apps.adrcotfas.goodtime.common.AndroidUrlOpener
+import com.apps.adrcotfas.goodtime.common.FeedbackHelper
+import com.apps.adrcotfas.goodtime.common.UrlOpener
 import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
@@ -57,6 +61,8 @@ actual val platformModule: Module =
                 get<EventListener>(named(EventListener.DND_MODE_MANAGER)),
             )
         }
+        single<UrlOpener> { AndroidUrlOpener(get()) }
+        single<FeedbackHelper> { AndroidFeedbackHelper(get()) }
     }
 
 actual fun isDebug(): Boolean = BuildConfig.DEBUG

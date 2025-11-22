@@ -32,10 +32,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.ui.IconListItem
 import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
@@ -56,9 +53,7 @@ import goodtime_productivity.composeapp.generated.resources.about_open_source_li
 import goodtime_productivity.composeapp.generated.resources.about_rate_this_app
 import goodtime_productivity.composeapp.generated.resources.about_source_code
 import goodtime_productivity.composeapp.generated.resources.about_translate_this_app
-import goodtime_productivity.composeapp.generated.resources.main_failed_to_open_url
 import goodtime_productivity.composeapp.generated.resources.tutorial_title
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
@@ -71,10 +66,8 @@ fun AboutScreen(
     onNavigateBack: () -> Unit,
     onNavigateToMain: () -> Unit,
 ) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
     val mainViewModel = koinInject<MainViewModel>()
+    val aboutViewModel = koinInject<AboutViewModel>()
     val listState = rememberScrollState()
     Scaffold(
         topBar = {
@@ -93,14 +86,11 @@ fun AboutScreen(
                     .verticalScroll(listState)
                     .background(MaterialTheme.colorScheme.background),
         ) {
-            val openUrlErrorMessage = stringResource(Res.string.main_failed_to_open_url)
             IconListItem(
                 title = stringResource(Res.string.about_source_code),
                 icon = { Icon(EvaIcons.Outline.Github, contentDescription = "GitHub") },
                 onClick = {
-                    scope.launch {
-                        openUrl(context, REPO_URL, openUrlErrorMessage)
-                    }
+                    aboutViewModel.openSourceCode()
                 },
             )
             IconListItem(
@@ -164,9 +154,7 @@ fun AboutScreen(
                     )
                 },
                 onClick = {
-                    scope.launch {
-                        sendFeedback(context)
-                    }
+                    aboutViewModel.sendFeedback()
                 },
             )
             IconListItem(
@@ -178,9 +166,7 @@ fun AboutScreen(
                     )
                 },
                 onClick = {
-                    scope.launch {
-                        openUrl(context, TRANSLATE_URL, openUrlErrorMessage)
-                    }
+                    aboutViewModel.openTranslationPage()
                 },
             )
             IconListItem(
@@ -192,27 +178,9 @@ fun AboutScreen(
                     )
                 },
                 onClick = {
-                    scope.launch {
-                        openUrl(context, GOOGLE_PLAY_URL, openUrlErrorMessage)
-                    }
+                    aboutViewModel.openGooglePlay()
                 },
             )
         }
     }
-}
-
-const val GOOGLE_PLAY_URL =
-    "https://play.google.com/store/apps/details?id=com.apps.adrcotfas.goodtime"
-const val REPO_URL = "https://github.com/adrcotfas/goodtime"
-const val TRANSLATE_URL = "https://crowdin.com/project/goodtime"
-
-@Preview
-@Composable
-fun AboutScreenPreview() {
-    AboutScreen(
-        onNavigateToLicenses = {},
-        onNavigateToAcknowledgements = {},
-        onNavigateBack = { },
-        onNavigateToMain = {},
-    )
 }
