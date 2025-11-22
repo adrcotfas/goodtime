@@ -24,6 +24,7 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -89,14 +90,14 @@ actual fun ActionsContent(
             onNotificationPermissionGranted(granted)
         }
 
-    androidx.compose.animation.AnimatedVisibility(permissionsState.shouldAskForAlarmPermission) {
+    AnimatedVisibility(permissionsState.shouldAskForAlarmPermission) {
         com.apps.adrcotfas.goodtime.ui.ActionCard(
             cta = stringResource(Res.string.settings_allow),
             description = stringResource(Res.string.settings_allow_alarms),
             onClick = { context.askForAlarmPermission() },
         )
     }
-    androidx.compose.animation.AnimatedVisibility(permissionsState.shouldAskForBatteryOptimizationRemoval) {
+    AnimatedVisibility(permissionsState.shouldAskForBatteryOptimizationRemoval) {
         com.apps.adrcotfas.goodtime.ui.ActionCard(
             cta = stringResource(Res.string.settings_allow),
             description = stringResource(Res.string.settings_allow_background),
@@ -104,7 +105,7 @@ actual fun ActionsContent(
         )
     }
 
-    androidx.compose.animation.AnimatedVisibility(permissionsState.shouldAskForNotificationPermission) {
+    AnimatedVisibility(permissionsState.shouldAskForNotificationPermission) {
         com.apps.adrcotfas.goodtime.ui.ActionCard(
             cta = stringResource(Res.string.settings_allow),
             description = stringResource(Res.string.settings_allow_notifications),

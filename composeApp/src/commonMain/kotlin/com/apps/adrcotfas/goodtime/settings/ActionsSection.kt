@@ -44,7 +44,10 @@ fun ActionSection(
     val permissionsState = rememberPermissionsState()
 
     AnimatedVisibility(
-        permissionsState.shouldAskForNotificationPermission || permissionsState.shouldAskForBatteryOptimizationRemoval || isUpdateAvailable,
+        permissionsState.shouldAskForNotificationPermission ||
+            permissionsState.shouldAskForBatteryOptimizationRemoval ||
+            permissionsState.shouldAskForAlarmPermission ||
+            isUpdateAvailable,
     ) {
         Column {
             SubtleHorizontalDivider()
