@@ -75,7 +75,6 @@ import com.apps.adrcotfas.goodtime.BuildConfig
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.getLabelData
 import com.apps.adrcotfas.goodtime.common.askForAlarmPermission
-import com.apps.adrcotfas.goodtime.common.installIsOlderThan10Days
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
@@ -348,7 +347,7 @@ fun MainScreen(
             onNext = { updateWorkTime ->
                 viewModel.next(updateWorkTime)
                 // ask for in app review if the user just started a break session
-                if (context.installIsOlderThan10Days() && !timerUiState.isBreak) {
+                if (viewModel.isInstallOlderThan10Days() && !timerUiState.isBreak) {
                     viewModel.setShouldAskForReview()
                 }
             },

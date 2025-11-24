@@ -25,6 +25,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.common.InstallDateProvider
 import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -90,6 +91,7 @@ class StatisticsViewModel(
     private val settingsRepository: SettingsRepository,
     private val timeProvider: TimeProvider,
     private val timeFormatProvider: TimeFormatProvider,
+    private val installDateProvider: InstallDateProvider,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(StatisticsUiState())
     val uiState =
@@ -335,4 +337,6 @@ class StatisticsViewModel(
             settingsRepository.updateStatisticsSettings { it.copy(showArchived = enabled) }
         }
     }
+
+    fun isInstallOlderThan10Days(): Boolean = installDateProvider.isInstallOlderThan10Days()
 }

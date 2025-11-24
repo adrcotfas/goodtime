@@ -29,9 +29,11 @@ import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
 import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_HANDLER
 import com.apps.adrcotfas.goodtime.common.AndroidFeedbackHelper
+import com.apps.adrcotfas.goodtime.common.AndroidInstallDateProvider
 import com.apps.adrcotfas.goodtime.common.AndroidTimeFormatProvider
 import com.apps.adrcotfas.goodtime.common.AndroidUrlOpener
 import com.apps.adrcotfas.goodtime.common.FeedbackHelper
+import com.apps.adrcotfas.goodtime.common.InstallDateProvider
 import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
 import com.apps.adrcotfas.goodtime.common.UrlOpener
 import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
@@ -66,6 +68,7 @@ actual val platformModule: Module =
         single<UrlOpener> { AndroidUrlOpener(get()) }
         single<FeedbackHelper> { AndroidFeedbackHelper(get()) }
         single<TimeFormatProvider> { AndroidTimeFormatProvider(get()) }
+        single<InstallDateProvider> { AndroidInstallDateProvider(get()) }
     }
 
 actual fun isDebug(): Boolean = BuildConfig.DEBUG

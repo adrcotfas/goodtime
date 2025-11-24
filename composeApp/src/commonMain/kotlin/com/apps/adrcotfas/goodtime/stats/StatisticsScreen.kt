@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.stats
 
-import android.text.format.DateFormat
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
@@ -45,12 +43,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.apps.adrcotfas.goodtime.bl.isDefault
-import com.apps.adrcotfas.goodtime.common.installIsOlderThan10Days
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.ui.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.DatePickerDialog
@@ -80,7 +78,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Clock
 import kotlin.time.Instant
 
@@ -89,15 +87,13 @@ private enum class TabType {
     Timeline,
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun StatisticsScreen(
     onNavigateBack: () -> Unit,
     viewModel: StatisticsViewModel = koinViewModel(),
     historyViewModel: StatisticsHistoryViewModel = koinViewModel(),
 ) {
-    val context = LocalContext.current
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val historyUiState by historyViewModel.uiState.collectAsStateWithLifecycle()
     val isLoadingHistoryChartData = historyUiState.isLoading
@@ -246,7 +242,7 @@ fun StatisticsScreen(
                                 onClick = {
                                     viewModel.saveSession()
                                     // ask for in app review if the user just saved a session
-                                    if (context.installIsOlderThan10Days()) {
+                                    if (viewModel.isInstallOlderThan10Days()) {
                                         viewModel.setShouldAskForReview()
                                     }
                                     hideSheet()

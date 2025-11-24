@@ -31,6 +31,7 @@ import com.apps.adrcotfas.goodtime.bl.getBaseTime
 import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.bl.isPaused
+import com.apps.adrcotfas.goodtime.common.InstallDateProvider
 import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
@@ -98,6 +99,7 @@ class TimerViewModel(
     private val timeProvider: TimeProvider,
     private val settingsRepo: SettingsRepository,
     private val localDataRepo: LocalDataRepository,
+    private val installDateProvider: InstallDateProvider,
 ) : ViewModel() {
     @OptIn(ExperimentalCoroutinesApi::class)
     val timerUiState =
@@ -265,6 +267,8 @@ class TimerViewModel(
             settingsRepo.setShowTutorial(show)
         }
     }
+
+    fun isInstallOlderThan10Days(): Boolean = installDateProvider.isInstallOlderThan10Days()
 
     suspend fun listenForeground() {
         timerUiState

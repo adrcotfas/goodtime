@@ -21,7 +21,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.common.FeedbackHelper
+import com.apps.adrcotfas.goodtime.common.InstallDateProvider
 import com.apps.adrcotfas.goodtime.common.IosFeedbackHelper
+import com.apps.adrcotfas.goodtime.common.IosInstallDateProvider
 import com.apps.adrcotfas.goodtime.common.IosTimeFormatProvider
 import com.apps.adrcotfas.goodtime.common.IosUrlOpener
 import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
@@ -61,6 +63,7 @@ actual val platformModule: Module =
         single<UrlOpener> { IosUrlOpener() }
         single<FeedbackHelper> { IosFeedbackHelper() }
         single<TimeFormatProvider> { IosTimeFormatProvider() }
+        single<InstallDateProvider> { IosInstallDateProvider() }
     }
 
 @OptIn(ExperimentalNativeApi::class)
