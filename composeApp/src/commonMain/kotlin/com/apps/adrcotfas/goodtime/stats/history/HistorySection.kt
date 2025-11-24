@@ -336,7 +336,7 @@ private fun LineHistoryChart(
                                                 Brush.verticalGradient(
                                                     listOf(
                                                         primaryColor.copy(alpha = 0.3f),
-                                                        primaryColor.copy(alpha = 0.05f),
+                                                        primaryColor.copy(alpha = 0.1f),
                                                     ),
                                                 ),
                                             ),
