@@ -65,13 +65,13 @@ import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.minutes
 
 @Composable
-fun PieChartSection(
+actual fun PieChartSection(
     overviewData: SessionOverviewData,
     overviewDurationType: OverviewDurationType,
     onChangeType: (OverviewDurationType) -> Unit,
     typeNames: Map<OverviewDurationType, String>,
     selectedLabels: List<LabelData>,
-    color: Color = MaterialTheme.colorScheme.primary,
+    color: Color,
 ) {
     val context = LocalContext.current
     val backgroundColor = MaterialTheme.colorScheme.background.toArgb()

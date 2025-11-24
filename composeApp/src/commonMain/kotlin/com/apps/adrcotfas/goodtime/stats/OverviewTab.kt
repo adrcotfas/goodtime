@@ -95,16 +95,15 @@ fun OverviewTab(
             data = statisticsData.heatmapData,
         )
 
-        // TODO: find a CMP solution for pie chart
-//        if (uiState.selectedLabels.size > 1) {
-//            PieChartSection(
-//                statisticsData.overviewData,
-//                statisticsSettings.pieChartViewType,
-//                onChangePieChartOverviewType,
-//                typeNames = typeNames,
-//                selectedLabels = uiState.selectedLabels,
-//            )
-//        }
+        if (uiState.selectedLabels.size > 1) {
+            PieChartSection(
+                statisticsData.overviewData,
+                statisticsSettings.pieChartViewType,
+                onChangePieChartOverviewType,
+                typeNames = typeNames,
+                selectedLabels = uiState.selectedLabels,
+            )
+        }
 
         WorkBreakRatioSection(
             statisticsData.overviewData,
