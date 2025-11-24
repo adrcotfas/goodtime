@@ -47,15 +47,11 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.workmanager)
 
-            // Android-specific libraries
             implementation(libs.androidx.documentfile)
             implementation(libs.androidx.lifecycle.runtime.ktx)
             implementation(libs.androidx.navigation.compose)
-            implementation(libs.androidx.paging.runtime)
-            implementation(libs.androidx.paging.compose)
             implementation(libs.androidx.media)
-            implementation(libs.vico.compose)
-            implementation(libs.vico.compose.m3)
+
             implementation(libs.androidchart)
             implementation(libs.acra.mail)
             implementation(libs.acra.notification)
@@ -91,6 +87,10 @@ kotlin {
             implementation(libs.kotlinx.datetime.names)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.touchlab.kermit)
+            implementation(libs.vico.compose)
+            implementation(libs.vico.compose.m3)
+            implementation(libs.androidx.paging.runtime)
+            implementation(libs.androidx.paging.compose)
         }
 
         commonTest.dependencies {

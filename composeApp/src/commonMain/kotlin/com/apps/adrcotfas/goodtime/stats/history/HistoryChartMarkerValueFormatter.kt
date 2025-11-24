@@ -17,16 +17,18 @@
  */
 package com.apps.adrcotfas.goodtime.stats.history
 
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.model.Label
-import com.patrykandpatrick.vico.core.cartesian.CartesianDrawingContext
-import com.patrykandpatrick.vico.core.cartesian.marker.CartesianMarker
-import com.patrykandpatrick.vico.core.cartesian.marker.ColumnCartesianLayerMarkerTarget
-import com.patrykandpatrick.vico.core.cartesian.marker.DefaultCartesianMarker
-import com.patrykandpatrick.vico.core.common.data.ExtraStore
+import com.patrykandpatrick.vico.multiplatform.cartesian.CartesianDrawingContext
+import com.patrykandpatrick.vico.multiplatform.cartesian.marker.CartesianMarker
+import com.patrykandpatrick.vico.multiplatform.cartesian.marker.ColumnCartesianLayerMarkerTarget
+import com.patrykandpatrick.vico.multiplatform.cartesian.marker.DefaultCartesianMarker
+import com.patrykandpatrick.vico.multiplatform.common.data.ExtraStore
 import kotlin.time.Duration.Companion.minutes
 
 val labelsKey = ExtraStore.Key<Set<String>>()
@@ -34,45 +36,26 @@ val labelsKey = ExtraStore.Key<Set<String>>()
 class HistoryBarChartMarkerValueFormatter(
     private val defaultLabelName: String,
     private val othersLabelName: String,
-    private val othersLabelColor: Int,
+    private val othersLabelColor: Color,
     private val isTimeOverviewType: Boolean,
     private val totalLabel: String,
 ) : DefaultCartesianMarker.ValueFormatter {
-    private fun SpannableStringBuilder.append(
-        y: Double,
-        color: Int? = null,
-    ) {
-        val valueFormatted =
-            if (isTimeOverviewType) y.minutes.formatOverview() else y.toInt().toString()
-        if (color != null) {
-            appendCompat2(
-                valueFormatted,
-                ForegroundColorSpan(color),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-            )
-        } else {
-            append(valueFormatted)
+    override fun format(
+        context: CartesianDrawingContext,
+        targets: List<CartesianMarker.Target>,
+    ): CharSequence {
+        val labels = context.model.extraStore[labelsKey]
+        return buildAnnotatedString {
+            targets.forEachIndexed { index, target ->
+                appendTarget(target, labels)
+                if (index != targets.lastIndex) append(", ")
+            }
         }
     }
 
-    private fun SpannableStringBuilder.append(
-        text: String,
-        color: Int? = null,
-    ) {
-        if (color != null) {
-            appendCompat2(
-                text,
-                ForegroundColorSpan(color),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-            )
-        } else {
-            append(text)
-        }
-    }
-
-    private fun SpannableStringBuilder.append(
+    private fun AnnotatedString.Builder.appendTarget(
         target: CartesianMarker.Target,
-        labels: Set<String> = emptySet(),
+        labels: Set<String>,
     ) {
         when (target) {
             is ColumnCartesianLayerMarkerTarget -> {
@@ -80,7 +63,7 @@ class HistoryBarChartMarkerValueFormatter(
                 val includeSum = target.columns.count { it.entry.y > 0 } > 1
                 if (includeSum) {
                     append("$totalLabel: ")
-                    append(target.columns.sumOf { it.entry.y })
+                    appendValue(target.columns.sumOf { it.entry.y })
                     append("\n")
                 }
                 val lastColumn = target.columns.last { it.entry.y > 0 }
@@ -96,28 +79,33 @@ class HistoryBarChartMarkerValueFormatter(
                                     }
                                 "${localizedName.first}: " to localizedName.second
                             } ?: ("" to null)
-                        append(label.first, label.second)
-                        append(" ")
-                        append(column.entry.y, label.second)
+
+                        val labelColor = label.second
+                        if (labelColor != null) {
+                            withStyle(SpanStyle(color = labelColor)) {
+                                append(label.first)
+                                append(" ")
+                                appendValue(column.entry.y)
+                            }
+                        } else {
+                            append(label.first)
+                            append(" ")
+                            appendValue(column.entry.y)
+                        }
+
                         if (column != lastColumn) append("\n")
                     }
                 }
             }
+
             else -> throw IllegalArgumentException("Unexpected `CartesianMarker.Target` implementation.")
         }
     }
 
-    override fun format(
-        context: CartesianDrawingContext,
-        targets: List<CartesianMarker.Target>,
-    ): CharSequence {
-        val labels = context.model.extraStore[labelsKey]
-        return SpannableStringBuilder().apply {
-            targets.forEachIndexed { index, target ->
-                append(target = target, labels = labels)
-                if (index != targets.lastIndex) append(", ")
-            }
-        }
+    private fun AnnotatedString.Builder.appendValue(y: Double) {
+        val valueFormatted =
+            if (isTimeOverviewType) y.minutes.formatOverview() else y.toInt().toString()
+        append(valueFormatted)
     }
 
     override fun equals(other: Any?): Boolean =
@@ -130,14 +118,4 @@ class HistoryBarChartMarkerValueFormatter(
 
     override fun hashCode(): Int =
         defaultLabelName.hashCode() * 31 + othersLabelName.hashCode() + othersLabelColor.hashCode() + totalLabel.hashCode()
-}
-
-internal fun SpannableStringBuilder.appendCompat2(
-    text: CharSequence,
-    what: Any,
-    flags: Int,
-): SpannableStringBuilder {
-    append(text, 0, text.length)
-    setSpan(what, length - text.length, length, flags)
-    return this
 }

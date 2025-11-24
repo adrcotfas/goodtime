@@ -25,7 +25,7 @@ androidx-activity-compose = "1.12.0"
 androidx-compose-bom = "2025.11.01"
 androidx-core-ktx = "1.17.0"
 androidx-navigation-compose = "2.9.6"
-androidx-paging = "3.3.6"
+androidx-paging = "3.4.0-alpha04"
 androidx-datastore = "1.2.0"
 androidx-media = "1.7.1"
 androidx-documentfile = "1.1.0"
@@ -107,8 +107,8 @@ mikepenz-aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", ve
 mikepenz-aboutlibraries-compose = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "mikepenz-aboutlibraries" }
 
 ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "uiBackhandler" }
-vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
-vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+vico-compose = { group = "com.patrykandpatrick.vico", name = "multiplatform", version.ref = "vico" }
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "multiplatform-m3", version.ref = "vico" }
 
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
 

@@ -21,8 +21,8 @@ import com.apps.adrcotfas.goodtime.common.Time.toLocalDateTime
 import com.apps.adrcotfas.goodtime.common.firstDayOfWeekInMonth
 import com.apps.adrcotfas.goodtime.common.quarter
 import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
-import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
-import com.patrykandpatrick.vico.core.common.data.ExtraStore
+import com.patrykandpatrick.vico.multiplatform.cartesian.data.CartesianValueFormatter
+import com.patrykandpatrick.vico.multiplatform.common.data.ExtraStore
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Month
 

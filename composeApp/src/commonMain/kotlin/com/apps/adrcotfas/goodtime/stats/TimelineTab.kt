@@ -43,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
@@ -65,6 +64,7 @@ import goodtime_productivity.composeapp.generated.resources.main_min
 import goodtime_productivity.composeapp.generated.resources.stats_no_items
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TimelineTab(
@@ -235,7 +235,7 @@ fun HistoryListItemPreview() {
             session =
                 Session.default().copy(
                     duration = 25,
-                    timestamp = System.currentTimeMillis(),
+                    timestamp = 1763978735,
                     label = "mathematics",
                     notes = "Today was a good day and I did a lot of work and I am very happy",
                 ),
