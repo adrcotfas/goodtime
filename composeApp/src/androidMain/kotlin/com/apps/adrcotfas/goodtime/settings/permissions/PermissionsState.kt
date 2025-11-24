@@ -31,21 +31,8 @@ import com.apps.adrcotfas.goodtime.common.areNotificationsEnabled
 import com.apps.adrcotfas.goodtime.common.isIgnoringBatteryOptimizations
 import com.apps.adrcotfas.goodtime.common.shouldAskForAlarmPermission
 
-data class PermissionsState(
-    val shouldAskForNotificationPermission: Boolean,
-    val shouldAskForBatteryOptimizationRemoval: Boolean,
-    val shouldAskForAlarmPermission: Boolean,
-) {
-    fun count() =
-        listOf(
-            shouldAskForNotificationPermission,
-            shouldAskForBatteryOptimizationRemoval,
-            shouldAskForAlarmPermission,
-        ).count { it }
-}
-
 @Composable
-fun getPermissionsState(): PermissionsState {
+actual fun getPermissionsState(): PermissionsState {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()

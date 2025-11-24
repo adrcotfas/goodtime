@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
@@ -63,18 +61,14 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.apps.adrcotfas.goodtime.BuildConfig
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.getLabelData
-import com.apps.adrcotfas.goodtime.common.askForAlarmPermission
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
@@ -88,18 +82,11 @@ import com.apps.adrcotfas.goodtime.onboarding.MainUiState
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.tutorial.TutorialScreen
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
+import com.apps.adrcotfas.goodtime.settings.permissions.rememberAlarmPermissionRequester
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
-import com.apps.adrcotfas.goodtime.ui.SnackbarAction
-import com.apps.adrcotfas.goodtime.ui.SnackbarController
-import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
-import goodtime_productivity.composeapp.generated.resources.Res
-import goodtime_productivity.composeapp.generated.resources.settings_allow
-import goodtime_productivity.composeapp.generated.resources.settings_allow_alarms
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.getString
 import kotlin.math.roundToInt
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     navController: NavController,
@@ -116,7 +103,9 @@ fun MainScreen(
     val wasNotificationPermissionDenied = mainUiState.wasNotificationPermissionDenied
 
     if (uiState.isLoading) return
-    val context = LocalContext.current
+
+    val permissionState = getPermissionsState()
+    val requestAlarmPermission = rememberAlarmPermissionRequester(permissionState)
     val coroutineScope = rememberCoroutineScope()
 
     InitTimerStyle(viewModel)
@@ -133,7 +122,6 @@ fun MainScreen(
     val timerStyle = uiState.timerStyle
     val label = timerUiState.label
 
-    val configuration = LocalConfiguration.current
     val haptic = LocalHapticFeedback.current
 
     val dialControlState =
@@ -208,7 +196,6 @@ fun MainScreen(
             rememberUpdatedState(backgroundColor)
         }
 
-    val permissionState = getPermissionsState()
     val actionBadgeItemCount = permissionState.count() + if (updateAvailable) 1 else 0
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -216,6 +203,7 @@ fun MainScreen(
     var showSelectLabelDialog by rememberSaveable { mutableStateOf(false) }
 
     val showTutorial = uiState.showTutorial
+    val isPortrait = isPortrait()
 
     AnimatedVisibility(
         timerUiState.isReady,
@@ -246,7 +234,7 @@ fun MainScreen(
                         if (showTutorial) Modifier.blur(radius = 4.dp) else Modifier
                     val modifier =
                         Modifier.offset {
-                            if (configuration.isPortrait) {
+                            if (isPortrait) {
                                 IntOffset(
                                     0,
                                     yOffset.value.roundToInt(),
@@ -269,22 +257,18 @@ fun MainScreen(
                         domainLabel = label,
                         onStart = {
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            if (permissionState.shouldAskForAlarmPermission) {
-                                coroutineScope.launch {
-                                    showAlarmPermissionSnackbar(context)
+                            coroutineScope.launch {
+                                if (!requestAlarmPermission()) {
+                                    viewModel.startTimer()
                                 }
-                            } else {
-                                viewModel.startTimer()
                             }
                         },
                         onToggle = {
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            if (permissionState.shouldAskForAlarmPermission) {
-                                coroutineScope.launch {
-                                    showAlarmPermissionSnackbar(context)
+                            coroutineScope.launch {
+                                if (!requestAlarmPermission()) {
+                                    viewModel.toggleTimer()
                                 }
-                            } else {
-                                viewModel.toggleTimer()
                             }
                         },
                         onLongClick = { navController.navigate(SettingsDest) },
@@ -327,7 +311,7 @@ fun MainScreen(
             navController = navController,
             onUpdateClicked = onUpdateClicked,
             actionBadgeCount = actionBadgeItemCount,
-            showPro = BuildConfig.IS_FDROID || !uiState.isPro,
+            showPro = isFDroid() || !uiState.isPro,
             isUpdateAvailable = updateAvailable,
             wasNotificationPermissionDenied = wasNotificationPermissionDenied,
             onNotificationPermissionGranted = { granted: Boolean ->
@@ -393,20 +377,4 @@ fun MainScreen(
             },
         )
     }
-}
-
-private suspend fun showAlarmPermissionSnackbar(context: Context) {
-    SnackbarController.sendEvent(
-        event =
-            SnackbarEvent(
-                message = getString(Res.string.settings_allow_alarms),
-                action =
-                    SnackbarAction(
-                        name = getString(Res.string.settings_allow),
-                        action = {
-                            context.askForAlarmPermission()
-                        },
-                    ),
-            ),
-    )
 }
