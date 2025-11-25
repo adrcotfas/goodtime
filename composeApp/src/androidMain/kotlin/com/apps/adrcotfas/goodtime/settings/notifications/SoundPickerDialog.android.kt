@@ -264,97 +264,8 @@ private fun NotificationSoundPickerDialogContent(
                         }
                     }
                 }
-                ButtonsRow(onSave, onDismiss, selectedItem)
+                SoundPickerButtonsRow(onSave, onDismiss, selectedItem)
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun NotificationSoundItem(
-    modifier: Modifier = Modifier,
-    name: String,
-    isSilent: Boolean = false,
-    isCustomSound: Boolean = false,
-    isSelected: Boolean,
-    onRemove: (() -> Unit)? = null,
-    onSelected: () -> Unit,
-) {
-    var dropDownMenuExpanded by remember { mutableStateOf(false) }
-    Row(
-        modifier =
-            modifier
-                .fillMaxWidth()
-                .let {
-                    if (isSelected) {
-                        it.background(
-                            MaterialTheme.colorScheme.inverseSurface.copy(
-                                alpha = 0.1f,
-                            ),
-                        )
-                    } else {
-                        it
-                    }
-                }.combinedClickable(onClick = {
-                    onSelected()
-                }, onLongClick = {
-                    if (onRemove != null) {
-                        dropDownMenuExpanded = true
-                    }
-                })
-                .padding(horizontal = 24.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        if (onRemove != null) {
-            BetterDropdownMenu(
-                expanded = dropDownMenuExpanded,
-                onDismissRequest = { dropDownMenuExpanded = false },
-            ) {
-                val paddingModifier = Modifier.padding(end = 32.dp)
-                DropdownMenuItem(
-                    modifier = firstMenuItemModifier.then(lastMenuItemModifier),
-                    leadingIcon = {
-                        Icon(
-                            EvaIcons.Outline.Trash,
-                            contentDescription = stringResource(Res.string.settings_delete_sound),
-                        )
-                    },
-                    text = { Text(modifier = paddingModifier, text = stringResource(Res.string.settings_remove)) },
-                    onClick = {
-                        onRemove()
-                        dropDownMenuExpanded = false
-                    },
-                )
-            }
-        }
-
-        Icon(
-            imageVector =
-                if (isCustomSound) {
-                    EvaIcons.Fill.Music
-                } else if (isSilent) {
-                    EvaIcons.Outline.BellOff
-                } else {
-                    EvaIcons.Outline.Bell
-                },
-            contentDescription = null,
-            modifier = Modifier.padding(end = 16.dp),
-            tint = MaterialTheme.colorScheme.primary,
-        )
-        Text(
-            text = name,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.weight(1f),
-        )
-
-        if (isSelected) {
-            Icon(
-                imageVector =
-                    EvaIcons.Outline.CheckmarkCircle2,
-                tint = MaterialTheme.colorScheme.primary,
-                contentDescription = null,
-            )
         }
     }
 }
@@ -383,36 +294,6 @@ fun AddCustomSoundButton(
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.weight(1f),
         )
-    }
-}
-
-@Composable
-private fun ButtonsRow(
-    onSave: (SoundData) -> Unit,
-    onDismiss: () -> Unit,
-    selectedItem: SoundData,
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        TextButton(
-            modifier =
-                Modifier
-                    .padding(end = 8.dp, bottom = 4.dp),
-            onClick = onDismiss,
-        ) { Text(stringResource(Res.string.main_cancel)) }
-
-        TextButton(
-            modifier =
-                Modifier
-                    .padding(end = 8.dp, bottom = 4.dp),
-            onClick = {
-                onSave(selectedItem)
-                onDismiss()
-            },
-        ) { Text(stringResource(Res.string.main_ok)) }
     }
 }
 

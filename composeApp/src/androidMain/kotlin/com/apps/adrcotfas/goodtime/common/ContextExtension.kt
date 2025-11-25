@@ -37,7 +37,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.core.net.toUri
 import java.io.File
-import kotlin.time.Duration.Companion.days
 
 tailrec fun Context.findActivity(): ComponentActivity? =
     when (this) {
