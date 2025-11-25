@@ -20,6 +20,9 @@ package com.apps.adrcotfas.goodtime.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
+import com.apps.adrcotfas.goodtime.bl.EventListener
+import com.apps.adrcotfas.goodtime.bl.IosSessionResetHandler
+import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.common.FeedbackHelper
 import com.apps.adrcotfas.goodtime.common.InstallDateProvider
 import com.apps.adrcotfas.goodtime.common.IosFeedbackHelper
@@ -64,6 +67,16 @@ actual val platformModule: Module =
         single<FeedbackHelper> { IosFeedbackHelper() }
         single<TimeFormatProvider> { IosTimeFormatProvider() }
         single<InstallDateProvider> { IosInstallDateProvider() }
+
+        single<EventListener>(named(EventListener.SESSION_RESET_HANDLER)) {
+            IosSessionResetHandler(getWith("SessionResetHandler"))
+        }
+
+        single<List<EventListener>> {
+            listOf(
+                get<EventListener>(named(EventListener.SESSION_RESET_HANDLER)),
+            )
+        }
     }
 
 @OptIn(ExperimentalNativeApi::class)

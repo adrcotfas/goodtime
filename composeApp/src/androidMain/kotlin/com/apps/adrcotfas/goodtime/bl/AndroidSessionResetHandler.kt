@@ -27,20 +27,11 @@ import co.touchlab.kermit.Logger
 import org.koin.java.KoinJavaComponent.inject
 import java.util.concurrent.TimeUnit
 
-class SessionResetHandler(
+class AndroidSessionResetHandler(
     private val context: Context,
-    private val log: Logger,
-) : EventListener {
-    override fun onEvent(event: Event) {
-        when (event) {
-            is Event.Finished -> scheduleReset()
-            is Event.SendToBackground, Event.BringToForeground -> {
-            }
-            else -> cancel()
-        }
-    }
-
-    private fun scheduleReset() {
+    log: Logger,
+) : SessionResetHandler(log) {
+    override fun scheduleReset() {
         log.d { "Resetting the session after delay" }
         val uploadWorkRequest =
             OneTimeWorkRequestBuilder<ResetWorker>()
@@ -53,7 +44,7 @@ class SessionResetHandler(
         )
     }
 
-    fun cancel() {
+    override fun cancel() {
         log.d { "Canceling the reset worker" }
         WorkManager.getInstance(context).cancelUniqueWork(WORK_ID)
     }
