@@ -21,21 +21,11 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
@@ -47,45 +37,26 @@ import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
-import com.apps.adrcotfas.goodtime.ui.ActionCard
-import com.apps.adrcotfas.goodtime.ui.CircularProgressListItem
-import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
-import com.apps.adrcotfas.goodtime.ui.SwitchListItem
-import com.apps.adrcotfas.goodtime.ui.TopBar
-import compose.icons.EvaIcons
-import compose.icons.evaicons.Outline
-import compose.icons.evaicons.outline.Unlock
 import goodtime_productivity.composeapp.generated.resources.Res
-import goodtime_productivity.composeapp.generated.resources.backup_and_restore_title
-import goodtime_productivity.composeapp.generated.resources.backup_auto_backup
 import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
-import goodtime_productivity.composeapp.generated.resources.backup_export_backup
-import goodtime_productivity.composeapp.generated.resources.backup_export_csv
-import goodtime_productivity.composeapp.generated.resources.backup_export_json
 import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
-import goodtime_productivity.composeapp.generated.resources.backup_restore_backup
 import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
-import goodtime_productivity.composeapp.generated.resources.backup_the_file_can_be_imported_back
-import goodtime_productivity.composeapp.generated.resources.unlock_premium
-import goodtime_productivity.composeapp.generated.resources.unlock_premium_to_access_features
 import org.jetbrains.compose.resources.getString
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BackupScreen(
-    viewModel: BackupViewModel = koinInject(),
-    activityResultLauncherManager: ActivityResultLauncherManager = koinInject(),
+actual fun BackupScreen(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
 ) {
+    val viewModel: BackupViewModel = koinInject()
+    val activityResultLauncherManager: ActivityResultLauncherManager = koinInject()
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
-    val enabled = uiState.isPro
     if (uiState.isLoading) return
 
     val importLauncher =
@@ -182,83 +153,23 @@ fun BackupScreen(
         }
     }
 
-    val listState = rememberScrollState()
-    Scaffold(
-        topBar = {
-            TopBar(
-                title = stringResource(Res.string.backup_and_restore_title),
-                onNavigateBack = { onNavigateBack() },
-                showSeparator = listState.canScrollBackward,
-            )
-        },
-    ) { paddingValues ->
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState)
-                    .background(MaterialTheme.colorScheme.background),
-        ) {
-            if (!enabled) {
-                ActionCard(
-                    icon = {
-                        Icon(
-                            imageVector = EvaIcons.Outline.Unlock,
-                            contentDescription = stringResource(Res.string.unlock_premium),
-                        )
-                    },
-                    description = stringResource(Res.string.unlock_premium_to_access_features),
-                ) {
-                    onNavigateToPro()
+    BackupScreenContent(
+        uiState = uiState,
+        onNavigateToPro = onNavigateToPro,
+        onNavigateBack = onNavigateBack,
+        onAutoBackupToggle = {
+            if (uiState.isPro) {
+                if (uiState.backupSettings.autoBackupEnabled) {
+                    context.releasePersistableUriPermission(uiState.backupSettings.path.toUri())
+                    viewModel.setBackupSettings(BackupSettings())
+                } else {
+                    autoExportDirLauncher.launch(Uri.EMPTY)
                 }
             }
-            SwitchListItem(
-                title = stringResource(Res.string.backup_auto_backup),
-                checked = uiState.backupSettings.autoBackupEnabled,
-                enabled = enabled,
-                onCheckedChange = {
-                    if (enabled) {
-                        if (uiState.backupSettings.autoBackupEnabled) {
-                            context.releasePersistableUriPermission(uiState.backupSettings.path.toUri())
-                            viewModel.setBackupSettings(BackupSettings())
-                        } else {
-                            autoExportDirLauncher.launch(Uri.EMPTY)
-                        }
-                    }
-                },
-            )
-            SubtleHorizontalDivider()
-            CircularProgressListItem(
-                title = stringResource(Res.string.backup_export_backup),
-                subtitle = stringResource(Res.string.backup_the_file_can_be_imported_back),
-                enabled = enabled,
-                showProgress = uiState.isBackupInProgress,
-            ) {
-                viewModel.backup()
-            }
-            CircularProgressListItem(
-                title = stringResource(Res.string.backup_restore_backup),
-                enabled = enabled,
-                showProgress = uiState.isRestoreInProgress,
-            ) {
-                viewModel.restore()
-            }
-            SubtleHorizontalDivider()
-            CircularProgressListItem(
-                title = stringResource(Res.string.backup_export_csv),
-                enabled = enabled,
-                showProgress = uiState.isCsvBackupInProgress,
-            ) {
-                viewModel.backupToCsv()
-            }
-            CircularProgressListItem(
-                title = stringResource(Res.string.backup_export_json),
-                enabled = enabled,
-                showProgress = uiState.isJsonBackupInProgress,
-            ) {
-                viewModel.backupToJson()
-            }
-        }
-    }
+        },
+        onBackup = { viewModel.backup() },
+        onRestore = { viewModel.restore() },
+        onBackupToCsv = { viewModel.backupToCsv() },
+        onBackupToJson = { viewModel.backupToJson() },
+    )
 }

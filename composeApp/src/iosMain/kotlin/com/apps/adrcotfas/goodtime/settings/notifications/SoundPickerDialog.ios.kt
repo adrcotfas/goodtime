@@ -47,7 +47,7 @@ fun NotificationSoundPickerDialog(
     onSave: (SoundData) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    //TODO: add the sounds
+    // TODO: add the sounds
     val systemSounds =
         listOf(
             SoundData("Default", "default"),
@@ -104,7 +104,8 @@ private fun NotificationSoundPickerDialogContent(
                 )
 
                 LazyColumn(modifier = Modifier.weight(1f)) {
-                    item(key = "system sounds") { //TODO: rename or remove this
+                    item(key = "system sounds") {
+                        // TODO: rename or remove this
                         PreferenceGroupTitle(
                             modifier = Modifier.animateItem(),
                             text = stringResource(Res.string.settings_system_sounds),
