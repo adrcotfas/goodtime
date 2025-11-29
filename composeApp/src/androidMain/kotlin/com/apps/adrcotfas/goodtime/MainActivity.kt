@@ -143,7 +143,7 @@ class MainActivity : GoodtimeMainActivity() {
                     viewModel.uiState,
                 ) { systemDark, uiState ->
                     ThemeSettings(
-                        darkTheme = uiState.darkThemePreference.isDarkTheme(systemDark) && !uiState.showOnboarding,
+                        darkTheme = uiState.darkThemePreference.isDarkTheme(systemDark),
                         isDynamicTheme = uiState.isDynamicColor,
                     )
                 }.onEach { themeSettings = it }
@@ -160,7 +160,8 @@ class MainActivity : GoodtimeMainActivity() {
                                 SystemBarStyle.auto(
                                     lightScrim = lightScrim,
                                     darkScrim = darkScrim,
-                                ) { darkTheme },
+                                    detectDarkMode = { darkTheme },
+                                ),
                         )
                     }
             }
@@ -314,7 +315,11 @@ class MainActivity : GoodtimeMainActivity() {
                         }
                         composable<SettingsDest> {
                             SettingsScreen(
-                                onNavigateToUserInterface = { navController.navigate(UserInterfaceDest) },
+                                onNavigateToUserInterface = {
+                                    navController.navigate(
+                                        UserInterfaceDest,
+                                    )
+                                },
                                 onNavigateToNotifications = {
                                     navController.navigate(
                                         NotificationSettingsDest,

@@ -57,8 +57,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.onboarding.PageIndicator
-import com.apps.adrcotfas.goodtime.onboarding.darkGray
-import com.apps.adrcotfas.goodtime.onboarding.lightGray
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.tutorial_swipe_down
 import goodtime_productivity.composeapp.generated.resources.tutorial_swipe_right
@@ -173,8 +171,8 @@ fun TutorialScreen(
                     .padding(32.dp),
             pageCount = pages.size,
             currentPage = pagerState.currentPage,
-            color = darkGray,
-            selectionColor = lightGray,
+            color = Color.White.copy(alpha = 0.4f),
+            selectionColor = Color.White,
         )
 
         IconButton(

@@ -69,9 +69,6 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
-val lightGray = Color(0xFFDEDEDE)
-val darkGray = Color(0xFF4C4546)
-
 @OptIn(androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
@@ -90,7 +87,7 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
             modifier =
                 Modifier
                     .fillMaxSize()
-                    .background(Color(0xFFFAFAFA))
+                    .background(MaterialTheme.colorScheme.background)
                     .systemBarsPadding(),
         ) {
             Column(
@@ -126,8 +123,8 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
                         .align(Alignment.BottomEnd)
                         .padding(32.dp)
                         .size(72.dp),
-                containerColor = lightGray,
-                contentColor = darkGray,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 shape = CircleShape,
                 onClick = {
@@ -159,8 +156,8 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
                         .padding(32.dp),
                 pageCount = pages.size,
                 currentPage = pagerState.currentPage,
-                color = lightGray,
-                selectionColor = darkGray,
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                selectionColor = MaterialTheme.colorScheme.onSurface,
             )
 
             IconButton(modifier = Modifier.align(Alignment.TopEnd).padding(end = 16.dp), onClick = {
@@ -169,7 +166,7 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
                 Icon(
                     imageVector = Icons.Outlined.Close,
                     contentDescription = null,
-                    tint = darkGray,
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
@@ -225,19 +222,18 @@ fun OnboardingPageTextSection(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        val textColor = Color(0xFF333333)
-        Text(text = title, style = MaterialTheme.typography.titleLarge, color = textColor)
+        Text(text = title, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onBackground)
         Spacer(modifier = Modifier.padding(8.dp))
         Text(
             text = description1,
             style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
-            color = textColor,
+            color = MaterialTheme.colorScheme.onBackground,
         )
         Spacer(modifier = Modifier.padding(4.dp))
         Text(
             text = description2,
             style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
-            color = textColor,
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }
