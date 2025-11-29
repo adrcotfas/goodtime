@@ -25,9 +25,11 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.toLocal
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.fakes.FakeInstallDateProvider
 import com.apps.adrcotfas.goodtime.fakes.FakeLabelDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSessionDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSettingsRepository
+import com.apps.adrcotfas.goodtime.fakes.FakeTimeFormatProvider
 import com.apps.adrcotfas.goodtime.fakes.FakeTimeProvider
 import com.apps.adrcotfas.goodtime.fakes.FakeTimerProfileDao
 import com.apps.adrcotfas.goodtime.testutil.retryTest
@@ -47,6 +49,8 @@ class StatsViewModelTest {
     private lateinit var localDataRepository: LocalDataRepository
     private lateinit var settingsRepository: SettingsRepository
     private lateinit var timeProvider: FakeTimeProvider
+    private lateinit var timeFormatProvider: FakeTimeFormatProvider
+    private lateinit var installDateProvider: FakeInstallDateProvider
 
     private lateinit var viewModel: StatisticsViewModel
 
@@ -57,6 +61,8 @@ class StatsViewModelTest {
                 fakeSessionDao = FakeSessionDao()
                 fakeLabelDao = FakeLabelDao()
                 timeProvider = FakeTimeProvider()
+                timeFormatProvider = FakeTimeFormatProvider()
+                installDateProvider = FakeInstallDateProvider()
                 fakeTimerProfileDao = FakeTimerProfileDao()
                 settingsRepository = FakeSettingsRepository()
                 localDataRepository =
@@ -67,7 +73,14 @@ class StatsViewModelTest {
                         settingsRepository,
                         this,
                     )
-                viewModel = StatisticsViewModel(localDataRepository, settingsRepository, timeProvider)
+                viewModel =
+                    StatisticsViewModel(
+                        localDataRepository,
+                        settingsRepository,
+                        timeProvider,
+                        timeFormatProvider,
+                        installDateProvider,
+                    )
                 populateRepo()
 
                 viewModel.uiState.test {
