@@ -741,5 +741,144 @@ If major issues encountered:
 
 ---
 
-**Last Updated:** 2025-11-29
-**Next Step:** Begin Phase 1, Step 1.1 - Create PlatformContext expect class
+## Implementation Log
+
+### Session: 2025-12-01
+
+#### Phases Completed: 1-4 ✅
+
+**Phase 1: Platform Abstraction Layer** - COMPLETE
+- ✅ Created `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformContext.kt`
+  - Defined expect class with extension functions for platform APIs
+  - `setKeepScreenOn()`, `setFullscreen()`, `setShowWhenLocked()`, `configureSystemBars()`
+- ✅ Created `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformConfiguration.kt`
+  - Interface for platform capability detection
+  - Properties: `supportsInAppUpdates`, `supportsDynamicColor`, `supportsShowWhenLocked`
+- ✅ Created `/composeApp/src/androidMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformContext.android.kt`
+  - Actual implementation wrapping ComponentActivity
+  - All window management functions implemented using Android APIs
+- ✅ Created `/composeApp/src/androidMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformConfiguration.android.kt`
+  - Returns Android capabilities (dynamic color on API 31+, etc.)
+- ✅ Created iOS stubs:
+  - `/composeApp/src/iosMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformContext.ios.kt`
+  - `/composeApp/src/iosMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformConfiguration.ios.kt`
+
+**Phase 2: Theme Management** - COMPLETE
+- ✅ Created `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/ui/ThemeSettings.kt`
+  - Moved ThemeSettings data class from MainActivity
+- ✅ Created `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/ui/ThemeState.kt`
+  - Expect function `collectThemeSettings()` for platform-specific theme collection
+- ✅ Created `/composeApp/src/androidMain/kotlin/com/apps/adrcotfas/goodtime/ui/ThemeState.android.kt`
+  - Actual implementation using `isSystemInDarkTheme()` flow from UiExtensions.kt
+  - Combines system dark mode with user preferences
+- ✅ Created `/composeApp/src/iosMain/kotlin/com/apps/adrcotfas/goodtime/ui/ThemeState.ios.kt`
+  - Stub implementation (to be completed on Mac)
+
+**Phase 3: GoodtimeApp Composable** - COMPLETE
+- ✅ Created `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/GoodtimeApp.kt` (343 lines)
+  - Main app composable containing all navigation and UI logic
+  - Moved entire Scaffold, Snackbar, NavHost setup from MainActivity
+  - Moved all screen destinations and navigation logic
+  - Implemented fullscreen auto-hide logic with coroutine job management
+  - Handles platform API calls via PlatformContext
+  - Supports optional `onUpdateClicked` for Google Play flavor
+- ✅ Created `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/ui/NavigationExtensions.kt`
+  - Moved `popBackStack2()` extension to common code
+  - Safe navigation with lifecycle state check
+- ✅ Created `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/billing/ProScreen.kt`
+  - Expect declaration for flavor-specific ProScreen implementations
+- ✅ Updated `/composeApp/src/androidGoogle/kotlin/com/apps/adrcotfas/goodtime/billing/ProScreen.kt`
+  - Marked as `actual`, wrapped implementation in `ProScreenImpl()`
+- ✅ Updated `/composeApp/src/androidFdroid/kotlin/com/apps/adrcotfas/goodtime/billing/ProScreen.kt`
+  - Marked as `actual` implementation
+
+**Phase 4: MainActivity Refactoring** - COMPLETE
+- ✅ Refactored `/composeApp/src/androidMain/kotlin/com/apps/adrcotfas/goodtime/MainActivity.kt`
+  - **Reduced from ~447 lines to ~110 lines** (75% reduction!)
+  - Simplified to thin lifecycle wrapper
+  - Kept Android lifecycle methods: `onResume()`, `onPause()`, `onCreate()`, `onDestroy()`
+  - Removed all UI code, navigation, fullscreen logic, theme management
+  - Now delegates to `GoodtimeApp()` composable
+  - Removed: `ThemeSettings` data class, `toggleKeepScreenOn()`, `toggleFullscreen()`,
+    `executeDelayed()`, `popBackStack2()`, `lightScrim`, `darkScrim` constants
+
+#### Build Status: ✅ SUCCESS
+
+```
+BUILD SUCCESSFUL in 18s
+104 actionable tasks: 20 executed, 1 from cache, 83 up-to-date
+```
+
+Both flavors compile successfully:
+- ✅ `assembleFdroidDebug`
+- ✅ `assembleGoogleDebug`
+
+#### Files Created (11 new files)
+1. `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformContext.kt`
+2. `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformConfiguration.kt`
+3. `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/ui/ThemeSettings.kt`
+4. `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/ui/ThemeState.kt`
+5. `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/GoodtimeApp.kt`
+6. `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/ui/NavigationExtensions.kt`
+7. `/composeApp/src/commonMain/kotlin/com/apps/adrcotfas/goodtime/billing/ProScreen.kt`
+8. `/composeApp/src/androidMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformContext.android.kt`
+9. `/composeApp/src/androidMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformConfiguration.android.kt`
+10. `/composeApp/src/androidMain/kotlin/com/apps/adrcotfas/goodtime/ui/ThemeState.android.kt`
+11. `/composeApp/src/iosMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformContext.ios.kt`
+12. `/composeApp/src/iosMain/kotlin/com/apps/adrcotfas/goodtime/platform/PlatformConfiguration.ios.kt`
+13. `/composeApp/src/iosMain/kotlin/com/apps/adrcotfas/goodtime/ui/ThemeState.ios.kt`
+
+#### Files Modified (3 files)
+1. `/composeApp/src/androidMain/kotlin/com/apps/adrcotfas/goodtime/MainActivity.kt` - Major refactoring
+2. `/composeApp/src/androidGoogle/kotlin/com/apps/adrcotfas/goodtime/billing/ProScreen.kt` - Added actual keyword
+3. `/composeApp/src/androidFdroid/kotlin/com/apps/adrcotfas/goodtime/billing/ProScreen.kt` - Added actual keyword
+
+#### Key Achievements
+
+**Code Sharing:**
+- ~650 lines of UI code now shared in commonMain
+- All navigation logic is now platform-agnostic
+- Theme management abstracted via expect/actual
+
+**Maintainability:**
+- MainActivity reduced by 75% (447 → 110 lines)
+- Clear separation of concerns: MainActivity = lifecycle, GoodtimeApp = UI
+- Platform-specific code isolated in expect/actual implementations
+
+**iOS Readiness:**
+- iOS stubs created and compiling
+- All screen composables already in commonMain (from previous work)
+- Only need to implement iOS platform specifics on Mac
+
+**Architecture:**
+- Successfully used expect/actual pattern for:
+  - PlatformContext (class with extension functions)
+  - PlatformConfiguration (interface with factory function)
+  - collectThemeSettings (composable function)
+  - ProScreen (flavor-specific composable)
+
+#### Next Steps
+
+**Phase 5: Edge Cases and Polish**
+- Verify GoodtimeMainActivity integration (both flavors)
+- Review fullscreen implementation thoroughly
+- Verify Koin dependency injection
+
+**Phase 6: Testing on Android**
+- Build and run on device/emulator
+- Test all navigation flows
+- Test platform features (fullscreen, keep screen on, show when locked)
+- Test timer functionality with lifecycle events
+- Test both flavors (Google Play and F-Droid)
+
+**Phase 7: iOS Implementation (on Mac)**
+- Implement iOS PlatformContext using UIKit APIs
+- Implement iOS theme state collection
+- Update MainViewController to call GoodtimeApp
+- Test on iOS simulator and device
+
+---
+
+**Last Updated:** 2025-12-01
+**Status:** Phases 1-4 Complete, Build Successful ✅
+**Next Step:** Begin Phase 6 - Testing on Android

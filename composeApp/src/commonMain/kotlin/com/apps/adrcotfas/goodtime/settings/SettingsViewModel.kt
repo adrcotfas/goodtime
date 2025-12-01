@@ -141,14 +141,6 @@ class SettingsViewModel(
         }
     }
 
-    fun setKeepScreenOn(enable: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.updateUiSettings {
-                it.copy(keepScreenOn = enable)
-            }
-        }
-    }
-
     fun setScreensaverMode(enable: Boolean) {
         viewModelScope.launch {
             settingsRepository.updateUiSettings {

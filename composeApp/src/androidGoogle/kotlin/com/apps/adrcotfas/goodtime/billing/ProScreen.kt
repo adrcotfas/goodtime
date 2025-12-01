@@ -97,8 +97,16 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @Composable
-fun ProScreen(
-    billing: GoogleBilling = koinInject<BillingAbstract>() as GoogleBilling,
+actual fun ProScreen(onNavigateBack: () -> Unit) {
+    ProScreenImpl(
+        billing = koinInject<BillingAbstract>() as GoogleBilling,
+        onNavigateBack = onNavigateBack,
+    )
+}
+
+@Composable
+private fun ProScreenImpl(
+    billing: GoogleBilling,
     onNavigateBack: () -> Unit,
 ) {
     val activity = LocalActivity.current

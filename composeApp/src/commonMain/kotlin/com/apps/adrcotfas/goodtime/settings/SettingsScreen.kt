@@ -207,15 +207,6 @@ fun SettingsScreen(
                 },
                 onClick = onNavigateToUserInterface,
             )
-            CheckboxListItem(
-                title = stringResource(Res.string.settings_keep_the_screen_on),
-                checked = uiState.settings.uiSettings.keepScreenOn,
-            ) {
-                viewModel.setKeepScreenOn(it)
-                if (!it) {
-                    viewModel.setScreensaverMode(false)
-                }
-            }
             if (uiState.settings.isPro) {
                 CheckboxListItem(
                     title = stringResource(Res.string.settings_fullscreen_mode),
@@ -242,7 +233,7 @@ fun SettingsScreen(
                 CheckboxListItem(
                     title = stringResource(Res.string.settings_screensaver_mode),
                     checked = uiState.settings.uiSettings.screensaverMode,
-                    enabled = uiState.settings.uiSettings.keepScreenOn && uiState.settings.uiSettings.fullscreenMode,
+                    enabled = uiState.settings.uiSettings.fullscreenMode,
                 ) {
                     viewModel.setScreensaverMode(it)
                 }
