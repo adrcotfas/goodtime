@@ -19,9 +19,11 @@ package com.apps.adrcotfas.goodtime.data.local
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.driver.NativeSQLiteDriver
 import com.apps.adrcotfas.goodtime.RobolectricTest
 
 actual abstract class RoomDatabaseTest actual constructor() : RobolectricTest() {
     actual fun getInMemoryDatabaseBuilder(): RoomDatabase.Builder<ProductivityDatabase> =
         Room.inMemoryDatabaseBuilder<ProductivityDatabase>()
+            .setDriver(NativeSQLiteDriver())
 }

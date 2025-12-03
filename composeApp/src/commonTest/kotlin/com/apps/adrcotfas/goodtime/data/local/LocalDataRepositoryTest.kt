@@ -42,7 +42,9 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
 
     @AfterTest
     fun after() {
-        db.close()
+        if (::db.isInitialized) {
+            db.close()
+        }
     }
 
     @BeforeTest
