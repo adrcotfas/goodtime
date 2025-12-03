@@ -60,6 +60,7 @@ val coroutineScopeModule =
         single<CoroutineScope>(named(MAIN_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
         single<CoroutineScope>(named(IO_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
     }
+
 expect fun isDebug(): Boolean
 
 expect val platformModule: Module
@@ -125,9 +126,11 @@ const val DB_PATH_KEY = "db_path"
 internal const val FILES_DIR_PATH_KEY = "tmp_path"
 
 internal fun getDataStore(producePath: () -> String): DataStore<Preferences> =
-    PreferenceDataStoreFactory.createWithPath(produceFile = {
-        producePath().toPath()
-    })
+    PreferenceDataStoreFactory.createWithPath(
+        produceFile = {
+            producePath().toPath()
+        },
+    )
 
 inline fun <reified T> Scope.getWith(vararg params: Any?): T = get(parameters = { parametersOf(*params) })
 

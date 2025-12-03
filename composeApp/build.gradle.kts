@@ -243,33 +243,40 @@ java {
 
 // Workaround for androidx.paging alpha version not having full iOS support
 configurations.all {
-    resolutionStrategy {
-        eachDependency {
-            // Replace ktx libraries with their base counterparts for iOS compatibility
-            when {
-                requested.group == "androidx.paging" && requested.name == "paging-common-ktx" -> {
-                    useTarget("${requested.group}:paging-common:${requested.version}")
-                    because("paging-common-ktx doesn't support iOS, using paging-common instead")
-                }
-                requested.group == "org.jetbrains.kotlinx" && requested.name == "kotlinx-coroutines-android" -> {
-                    useTarget("org.jetbrains.kotlinx:kotlinx-coroutines-core:${requested.version}")
-                    because("kotlinx-coroutines-android doesn't support iOS, using core instead")
-                }
-                requested.group == "androidx.lifecycle" && requested.name == "lifecycle-runtime-ktx" -> {
-                    useTarget("${requested.group}:lifecycle-runtime:${requested.version}")
-                    because("lifecycle-runtime-ktx doesn't support iOS, using lifecycle-runtime instead")
-                }
-                requested.group == "androidx.lifecycle" && requested.name == "lifecycle-livedata-ktx" -> {
-                    useTarget("${requested.group}:lifecycle-livedata:${requested.version}")
-                    because("lifecycle-livedata-ktx doesn't support iOS, using lifecycle-livedata instead")
-                }
-                requested.group == "androidx.lifecycle" && requested.name == "lifecycle-livedata-core-ktx" -> {
-                    useTarget("${requested.group}:lifecycle-livedata-core:${requested.version}")
-                    because("lifecycle-livedata-core-ktx doesn't support iOS, using lifecycle-livedata-core instead")
-                }
-                requested.group == "androidx.lifecycle" && requested.name == "lifecycle-viewmodel-ktx" -> {
-                    useTarget("${requested.group}:lifecycle-viewmodel:${requested.version}")
-                    because("lifecycle-viewmodel-ktx doesn't support iOS, using lifecycle-viewmodel instead")
+    if (name.contains("ios", ignoreCase = true)) {
+        resolutionStrategy {
+            eachDependency {
+                // Replace ktx libraries with their base counterparts for iOS compatibility
+                when {
+                    requested.group == "androidx.paging" && requested.name == "paging-common-ktx" -> {
+                        useTarget("${requested.group}:paging-common:${requested.version}")
+                        because("paging-common-ktx doesn't support iOS, using paging-common instead")
+                    }
+
+                    requested.group == "org.jetbrains.kotlinx" && requested.name == "kotlinx-coroutines-android" -> {
+                        useTarget("org.jetbrains.kotlinx:kotlinx-coroutines-core:${requested.version}")
+                        because("kotlinx-coroutines-android doesn't support iOS, using core instead")
+                    }
+
+                    requested.group == "androidx.lifecycle" && requested.name == "lifecycle-runtime-ktx" -> {
+                        useTarget("${requested.group}:lifecycle-runtime:${requested.version}")
+                        because("lifecycle-runtime-ktx doesn't support iOS, using lifecycle-runtime instead")
+                    }
+
+                    requested.group == "androidx.lifecycle" && requested.name == "lifecycle-livedata-ktx" -> {
+                        useTarget("${requested.group}:lifecycle-livedata:${requested.version}")
+                        because("lifecycle-livedata-ktx doesn't support iOS, using lifecycle-livedata instead")
+                    }
+
+                    requested.group == "androidx.lifecycle" && requested.name == "lifecycle-livedata-core-ktx" -> {
+                        useTarget("${requested.group}:lifecycle-livedata-core:${requested.version}")
+                        because("lifecycle-livedata-core-ktx doesn't support iOS, using lifecycle-livedata-core instead")
+                    }
+
+                    requested.group == "androidx.lifecycle" && requested.name == "lifecycle-viewmodel-ktx" -> {
+                        useTarget("${requested.group}:lifecycle-viewmodel:${requested.version}")
+                        because("lifecycle-viewmodel-ktx doesn't support iOS, using lifecycle-viewmodel instead")
+                    }
                 }
             }
         }

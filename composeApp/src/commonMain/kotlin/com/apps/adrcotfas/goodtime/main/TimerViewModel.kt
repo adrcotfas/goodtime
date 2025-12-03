@@ -38,7 +38,9 @@ import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -101,6 +103,8 @@ class TimerViewModel(
     private val localDataRepo: LocalDataRepository,
     private val installDateProvider: InstallDateProvider,
 ) : ViewModel() {
+    private var foregroundJob: Job? = null
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val timerUiState =
         timerManager.timerData.flatMapLatest {
@@ -270,7 +274,21 @@ class TimerViewModel(
 
     fun isInstallOlderThan10Days(): Boolean = installDateProvider.isInstallOlderThan10Days()
 
-    suspend fun listenForeground() {
+    fun onEnterForeground(scope: CoroutineScope) {
+        onBringToForeground()
+        foregroundJob =
+            scope.launch {
+                listenForeground()
+            }
+    }
+
+    fun onExitForeground() {
+        onSendToBackground()
+        foregroundJob?.cancel()
+        foregroundJob = null
+    }
+
+    private suspend fun listenForeground() {
         timerUiState
             .filter { it.isActive }
             .map { it.isCountdown to it.baseTime }

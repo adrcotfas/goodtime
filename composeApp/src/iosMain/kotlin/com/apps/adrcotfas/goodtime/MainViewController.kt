@@ -62,6 +62,7 @@ private fun AppWithKoin() {
     ) {
         val billing: BillingAbstract = koinInject()
         billing.init()
+
         val timerViewModel: TimerViewModel = koinInject()
         val mainViewModel: MainViewModel = koinInject()
 

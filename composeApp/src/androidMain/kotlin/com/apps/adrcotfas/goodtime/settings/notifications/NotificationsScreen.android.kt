@@ -55,8 +55,8 @@ import goodtime_productivity.composeapp.generated.resources.settings_torch_title
 import goodtime_productivity.composeapp.generated.resources.settings_vibration_strength
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

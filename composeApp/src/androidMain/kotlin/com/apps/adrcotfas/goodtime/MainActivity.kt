@@ -45,23 +45,6 @@ import org.koin.core.component.inject
 class MainActivity : GoodtimeMainActivity() {
     private val notificationManager: NotificationArchManager by inject()
     private val timerViewModel: TimerViewModel by viewModel<TimerViewModel>()
-    private var timerStateJob: Job? = null
-
-    override fun onResume() {
-        super.onResume()
-        timerViewModel.onBringToForeground()
-        timerStateJob =
-            lifecycleScope.launch {
-                timerViewModel.listenForeground()
-            }
-    }
-
-    override fun onPause() {
-        timerViewModel.onSendToBackground()
-        timerStateJob?.cancel()
-        timerStateJob = null
-        super.onPause()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
