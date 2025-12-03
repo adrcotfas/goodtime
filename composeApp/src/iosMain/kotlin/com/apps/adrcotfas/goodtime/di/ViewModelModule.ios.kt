@@ -30,23 +30,24 @@ import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 actual val viewModelModule: Module =
     module {
-        singleOf(::MainViewModel)
-        singleOf(::FinishedSessionViewModel)
-        singleOf(::LabelsViewModel)
-        singleOf(::AddEditLabelViewModel)
-        singleOf(::SettingsViewModel)
-        singleOf(::TimerProfileViewModel)
-        single { AboutViewModel(get(), get()) }
-        single { AcknowledgementsViewModel(get()) }
-        singleOf(::StatisticsViewModel)
-        singleOf(::StatisticsHistoryViewModel)
+        viewModelOf(::MainViewModel)
+        viewModelOf(::FinishedSessionViewModel)
+        viewModelOf(::LabelsViewModel)
+        viewModelOf(::AddEditLabelViewModel)
+        viewModelOf(::SettingsViewModel)
+        viewModelOf(::TimerProfileViewModel)
+        viewModelOf(::AboutViewModel)
+        viewModelOf(::AcknowledgementsViewModel)
+        viewModelOf(::StatisticsViewModel)
+        viewModelOf(::StatisticsHistoryViewModel)
     }
 
 actual val mainModule: Module =
     module {
-        singleOf(::TimerViewModel)
+        viewModelOf(::TimerViewModel)
     }
