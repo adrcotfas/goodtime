@@ -66,10 +66,7 @@ actual fun PlatformContext.setShowWhenLocked(enabled: Boolean) {
  * Configures system bars (status bar and navigation bar) appearance.
  * Uses edge-to-edge mode with appropriate scrim colors for light/dark themes.
  */
-actual fun PlatformContext.configureSystemBars(
-    isDarkTheme: Boolean,
-    isFullscreen: Boolean,
-) {
+actual fun PlatformContext.configureSystemBars(isDarkTheme: Boolean) {
     activity.enableEdgeToEdge(
         statusBarStyle =
             SystemBarStyle.auto(

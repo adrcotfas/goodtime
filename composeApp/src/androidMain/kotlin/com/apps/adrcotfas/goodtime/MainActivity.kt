@@ -20,21 +20,13 @@ package com.apps.adrcotfas.goodtime
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.main.GoodtimeMainActivity
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
-import com.apps.adrcotfas.goodtime.platform.configureSystemBars
-import com.apps.adrcotfas.goodtime.ui.collectThemeSettings
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.inject
 
@@ -61,31 +53,12 @@ class MainActivity : GoodtimeMainActivity() {
         splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.loading }
 
         setContent {
-            val mainUiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-            // Collect theme settings using Android-specific implementation
-            val themeSettings by collectThemeSettings(
-                mainUiState = mainUiState,
-                showOnboarding = mainUiState.showOnboarding,
-            )
-
-            // Create platform context for accessing Android APIs
             val platformContext = remember { PlatformContext(this) }
 
-            // Configure system bars when theme changes
-            LaunchedEffect(themeSettings.darkTheme) {
-                platformContext.configureSystemBars(
-                    isDarkTheme = themeSettings.darkTheme,
-                    isFullscreen = false, // Updated dynamically in GoodtimeApp
-                )
-            }
-
-            // Call shared GoodtimeApp composable
             GoodtimeApp(
                 platformContext = platformContext,
                 timerViewModel = timerViewModel,
                 mainViewModel = viewModel,
-                themeSettings = themeSettings,
                 onUpdateClicked = { triggerAppUpdate() },
             )
         }

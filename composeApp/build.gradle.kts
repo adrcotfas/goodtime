@@ -26,7 +26,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            isStatic = true
+            isStatic = false
             export(libs.touchlab.kermit.simple)
         }
     }
@@ -86,7 +86,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.datetime.names)
             implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.touchlab.kermit)
+            api(libs.touchlab.kermit)
             implementation(libs.vico.compose)
             implementation(libs.vico.compose.m3)
             implementation(libs.androidx.paging.runtime)
@@ -106,6 +106,8 @@ kotlin {
         }
 
         iosMain.dependencies {
+            api(libs.touchlab.kermit.simple)
+            api(libs.androidx.sqlite.bundled)
         }
 
         iosTest.dependencies {

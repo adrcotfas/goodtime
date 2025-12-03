@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -37,6 +38,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.apps.adrcotfas.goodtime.billing.ProScreen
+import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
 import com.apps.adrcotfas.goodtime.labels.main.LabelsScreen
@@ -61,6 +63,7 @@ import com.apps.adrcotfas.goodtime.main.route
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
+import com.apps.adrcotfas.goodtime.platform.configureSystemBars
 import com.apps.adrcotfas.goodtime.platform.setFullscreen
 import com.apps.adrcotfas.goodtime.platform.setShowWhenLocked
 import com.apps.adrcotfas.goodtime.settings.SettingsScreen
@@ -98,7 +101,6 @@ fun GoodtimeApp(
     platformContext: PlatformContext,
     timerViewModel: TimerViewModel,
     mainViewModel: MainViewModel,
-    themeSettings: ThemeSettings,
     onUpdateClicked: (() -> Unit)? = null,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -106,7 +108,18 @@ fun GoodtimeApp(
     val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
     val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
-    val isDarkTheme = themeSettings.darkTheme
+    val isDarkTheme =
+        if (uiState.darkThemePreference == ThemePreference.SYSTEM) {
+            isSystemInDarkTheme()
+        } else {
+            uiState.darkThemePreference == ThemePreference.DARK
+        }
+    LaunchedEffect(isDarkTheme) {
+        platformContext.configureSystemBars(
+            isDarkTheme = isDarkTheme,
+        )
+    }
+
     val showWhenLocked = uiState.showWhenLocked
     val isFinished = uiState.isFinished
     var isMainScreen by rememberSaveable { mutableStateOf(true) }
@@ -163,7 +176,7 @@ fun GoodtimeApp(
             }
         }
 
-    ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = themeSettings.isDynamicTheme) {
+    ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = uiState.isDynamicColor) {
         val navController = rememberNavController()
         val snackbarHostState = remember { SnackbarHostState() }
 

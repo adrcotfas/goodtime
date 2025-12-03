@@ -30,6 +30,7 @@ androidx-datastore = "1.2.0"
 androidx-media = "1.7.1"
 androidx-documentfile = "1.1.0"
 androidx-room = "2.8.4"
+sqlite = "2.6.2"
 compottie = "2.0.2"
 navigationCompose = "2.9.1"
 reviewKtx = "2.0.2"
@@ -71,6 +72,7 @@ androidx-documentfile = { group = "androidx.documentfile", name = "documentfile"
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billingKtx" }

@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.ComposeUIViewController
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.billing.BillingAbstract
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
@@ -33,7 +32,6 @@ import com.apps.adrcotfas.goodtime.di.viewModelModule
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
-import com.apps.adrcotfas.goodtime.ui.collectThemeSettings
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import platform.UIKit.UIViewController
@@ -68,18 +66,11 @@ private fun AppWithKoin() {
 
         val platformContext = remember { PlatformContext() }
 
-        val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
-        val themeSettings by collectThemeSettings(
-            mainUiState = mainUiState,
-            showOnboarding = mainUiState.showOnboarding,
-        )
-
         GoodtimeApp(
             platformContext = platformContext,
             timerViewModel = timerViewModel,
             mainViewModel = mainViewModel,
-            themeSettings = themeSettings,
-            onUpdateClicked = null, // iOS doesn't need Google Play update functionality
+            onUpdateClicked = null,
         )
     }
 }
