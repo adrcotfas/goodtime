@@ -20,17 +20,16 @@ package com.apps.adrcotfas.goodtime.common
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.contact_address
 import goodtime_productivity.composeapp.generated.resources.feedback_title
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
 import platform.Foundation.NSBundle
-import platform.Foundation.NSCharacterSet
-import platform.Foundation.NSString
 import platform.Foundation.NSURL
-import platform.Foundation.create
 import platform.UIKit.UIApplication
 import platform.UIKit.UIDevice
 
 class IosFeedbackHelper : FeedbackHelper {
+    @OptIn(ExperimentalForeignApi::class)
     override fun sendFeedback() {
         runBlocking {
             val emailAddress = getString(Res.string.contact_address)
@@ -69,10 +68,16 @@ class IosFeedbackHelper : FeedbackHelper {
         return "$version($build)"
     }
 
+    @OptIn(ExperimentalForeignApi::class)
     private fun String.urlEncode(): String {
-        val nsString = NSString.create(string = this)
-        return nsString.stringByAddingPercentEncodingWithAllowedCharacters(
-            NSCharacterSet.URLQueryAllowedCharacterSet,
-        ) ?: this
+        // Simple URL encoding for email parameters
+        return this
+            .replace("%", "%25")
+            .replace(" ", "%20")
+            .replace("\n", "%0A")
+            .replace("&", "%26")
+            .replace("=", "%3D")
+            .replace("+", "%2B")
+            .replace("#", "%23")
     }
 }

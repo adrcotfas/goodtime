@@ -33,6 +33,7 @@ import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
 import com.apps.adrcotfas.goodtime.platform.configureSystemBars
 import com.apps.adrcotfas.goodtime.ui.collectThemeSettings
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.inject
@@ -44,7 +45,7 @@ import org.koin.core.component.inject
 class MainActivity : GoodtimeMainActivity() {
     private val notificationManager: NotificationArchManager by inject()
     private val timerViewModel: TimerViewModel by viewModel<TimerViewModel>()
-    private var timerStateJob: kotlinx.coroutines.Job? = null
+    private var timerStateJob: Job? = null
 
     override fun onResume() {
         super.onResume()

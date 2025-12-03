@@ -60,25 +60,6 @@ val coroutineScopeModule =
         single<CoroutineScope>(named(MAIN_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
         single<CoroutineScope>(named(IO_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
     }
-
-fun insertKoin(
-    appModule: Module,
-    flavorModule: Module,
-): KoinApplication =
-    startKoin {
-        modules(
-            appModule,
-            flavorModule,
-            coroutineScopeModule,
-            platformModule,
-            coreModule,
-            localDataModule,
-            timerManagerModule,
-            viewModelModule,
-            mainModule,
-        )
-    }
-
 expect fun isDebug(): Boolean
 
 expect val platformModule: Module

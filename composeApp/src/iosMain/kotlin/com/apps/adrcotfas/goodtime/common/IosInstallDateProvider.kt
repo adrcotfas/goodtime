@@ -22,6 +22,7 @@ import platform.Foundation.NSDate
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileCreationDate
 import platform.Foundation.NSFileManager
+import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.timeIntervalSinceNow
 import kotlin.time.Duration.Companion.days
@@ -32,14 +33,16 @@ class IosInstallDateProvider : InstallDateProvider {
     override fun isInstallOlderThan10Days(): Boolean {
         return try {
             val fileManager = NSFileManager.defaultManager
-            val urlToDocumentsFolder =
-                fileManager
-                    .URLsForDirectory(
-                        directory = NSDocumentDirectory,
-                        inDomains = NSUserDomainMask,
-                    ).lastOrNull() ?: return false
+            val urlToDocumentsFolder: NSURL? =
+                fileManager.URLForDirectory(
+                    directory = NSDocumentDirectory,
+                    inDomain = NSUserDomainMask,
+                    appropriateForURL = null,
+                    create = false,
+                    error = null,
+                )
 
-            val path = urlToDocumentsFolder.path ?: return false
+            val path = requireNotNull(urlToDocumentsFolder?.path)
             val attributes = fileManager.attributesOfItemAtPath(path, error = null) ?: return false
             val installDate = attributes[NSFileCreationDate] as? NSDate ?: return false
 
