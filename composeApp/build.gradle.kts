@@ -139,8 +139,8 @@ android {
             libs.versions.android.targetSdk
                 .get()
                 .toInt()
-        versionCode = 348
-        versionName = "3.0.15"
+        versionCode = libs.versions.appVersionCode.get().toInt()
+        versionName = libs.versions.appVersionName.get()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         flavorDimensions += "distribution"
@@ -211,8 +211,6 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation(platform(libs.androidx.compose.bom))
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // for the google flavor
     add("googleImplementation", libs.billing.ktx)
@@ -282,5 +280,36 @@ configurations.all {
                 }
             }
         }
+    }
+}
+
+tasks.register("syncIosVersion") {
+    val configFile = file("${rootDir}/iosApp/Configuration/Config.xcconfig")
+
+    val versionName = libs.versions.appVersionName.get()
+    val versionCode = libs.versions.appVersionCode.get()
+
+    inputs.property("versionName", versionName)
+    inputs.property("versionCode", versionCode)
+    outputs.file(configFile)
+
+    doLast {
+        if (!configFile.exists()) {
+            error("Config.xcconfig not found at: ${configFile.path}")
+        }
+
+        val updatedContent = configFile.readText()
+            .replace(Regex("""CURRENT_PROJECT_VERSION\s*=\s*\S+"""), "CURRENT_PROJECT_VERSION=$versionCode")
+            .replace(Regex("""MARKETING_VERSION\s*=\s*\S+"""), "MARKETING_VERSION=$versionName")
+
+        configFile.writeText(updatedContent)
+
+        println("✓ Updated Config.xcconfig: $versionName ($versionCode)")
+    }
+}
+
+tasks.configureEach {
+    if (name == "checkCanSyncComposeResourcesForIos") {
+        dependsOn("syncIosVersion")
     }
 }

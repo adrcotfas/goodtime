@@ -1,5 +1,8 @@
 [versions]
 
+appVersionName = "3.0.15"
+appVersionCode = "348"
+
 acra = "5.13.1"
 android-minSdk = "26"
 android-compileSdk = "36"
@@ -21,8 +24,7 @@ kotlinx-datetime = "0.7.1"
 desugar_jdk_libs = "2.1.5"
 
 androidx-lifecycle = "2.10.0"
-androidx-activity-compose = "1.12.0"
-androidx-compose-bom = "2025.11.01"
+androidx-activity-compose = "1.12.1"
 androidx-core-ktx = "1.17.0"
 androidx-navigation-compose = "2.9.6"
 androidx-paging = "3.4.0-alpha04"
@@ -62,7 +64,6 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidx-paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidx-paging" }
 androidx-paging-testing = { group = "androidx.paging", name = "paging-testing", version.ref = "androidx-paging" }

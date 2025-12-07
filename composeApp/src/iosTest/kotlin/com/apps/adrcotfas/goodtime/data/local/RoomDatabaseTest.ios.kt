@@ -24,6 +24,7 @@ import com.apps.adrcotfas.goodtime.RobolectricTest
 
 actual abstract class RoomDatabaseTest actual constructor() : RobolectricTest() {
     actual fun getInMemoryDatabaseBuilder(): RoomDatabase.Builder<ProductivityDatabase> =
-        Room.inMemoryDatabaseBuilder<ProductivityDatabase>()
+        Room
+            .inMemoryDatabaseBuilder<ProductivityDatabase>()
             .setDriver(NativeSQLiteDriver())
 }
