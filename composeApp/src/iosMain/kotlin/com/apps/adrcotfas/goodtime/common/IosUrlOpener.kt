@@ -21,10 +21,20 @@ import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 
 class IosUrlOpener : UrlOpener {
-    override fun openUrl(url: String) {
-        val nsUrl = NSURL.URLWithString(url) ?: return
-        if (UIApplication.sharedApplication.canOpenURL(nsUrl)) {
-            UIApplication.sharedApplication.openURL(nsUrl)
+    override fun openUrl(url: String) = Companion.openUrl(url)
+
+    companion object {
+        fun openUrl(url: NSURL) {
+            if (UIApplication.sharedApplication.canOpenURL(url)) {
+                UIApplication.sharedApplication.openURL(
+                    url, mapOf<Any?, Any>(),
+                    null,
+                )
+            }
+        }
+        fun openUrl(url: String) {
+            val nsUrl = NSURL.URLWithString(url) ?: return
+            openUrl(nsUrl)
         }
     }
 }

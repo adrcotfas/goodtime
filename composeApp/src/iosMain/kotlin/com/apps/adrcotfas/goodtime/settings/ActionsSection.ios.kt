@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.apps.adrcotfas.goodtime.common.IosUrlOpener
 import com.apps.adrcotfas.goodtime.ui.ActionCard
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.settings_allow
@@ -34,32 +35,24 @@ import goodtime_productivity.composeapp.generated.resources.settings_allow_notif
 import kotlinx.cinterop.ExperimentalForeignApi
 import org.jetbrains.compose.resources.stringResource
 import platform.Foundation.NSURL
-import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationOpenSettingsURLString
 import platform.UserNotifications.UNAuthorizationOptionAlert
 import platform.UserNotifications.UNAuthorizationOptionBadge
 import platform.UserNotifications.UNAuthorizationOptionSound
-import platform.UserNotifications.UNAuthorizationStatusAuthorized
 import platform.UserNotifications.UNAuthorizationStatusDenied
 import platform.UserNotifications.UNAuthorizationStatusNotDetermined
-import platform.UserNotifications.UNAuthorizationStatusProvisional
 import platform.UserNotifications.UNUserNotificationCenter
 
 @Composable
 actual fun rememberPermissionsState(): PermissionsState {
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
-    var shouldAskForNotificationPermission by remember { mutableStateOf(false) }
+    var shouldAskForNotificationPermission by remember { mutableStateOf(true) }
 
     LaunchedEffect(lifecycleState) {
-        when (lifecycleState) {
-            Lifecycle.State.RESUMED -> {
-                checkNotificationPermissionStatus { shouldAsk ->
-                    shouldAskForNotificationPermission = shouldAsk
-                }
-            }
-            else -> {
-                // do nothing
+        if (lifecycleState == Lifecycle.State.RESUMED) {
+            checkNotificationPermissionStatus { shouldAsk ->
+                shouldAskForNotificationPermission = shouldAsk
             }
         }
     }
@@ -100,14 +93,8 @@ actual fun ActionsContent(
 private fun checkNotificationPermissionStatus(callback: (Boolean) -> Unit) {
     val center = UNUserNotificationCenter.currentNotificationCenter()
     center.getNotificationSettingsWithCompletionHandler { settings ->
-        val shouldAsk =
-            when (settings?.authorizationStatus) {
-                UNAuthorizationStatusNotDetermined -> true
-                UNAuthorizationStatusDenied -> true
-                UNAuthorizationStatusAuthorized -> false
-                UNAuthorizationStatusProvisional -> false
-                else -> false
-            }
+        val status = settings?.authorizationStatus
+        val shouldAsk = status == UNAuthorizationStatusNotDetermined || status == UNAuthorizationStatusDenied
         callback(shouldAsk)
     }
 }
@@ -117,7 +104,7 @@ private fun requestNotificationPermission(callback: (Boolean) -> Unit) {
     val center = UNUserNotificationCenter.currentNotificationCenter()
     val options = UNAuthorizationOptionAlert or UNAuthorizationOptionSound or UNAuthorizationOptionBadge
 
-    center.requestAuthorizationWithOptions(options) { granted, error ->
+    center.requestAuthorizationWithOptions(options) { granted, _ ->
         callback(granted)
     }
 }
@@ -125,9 +112,7 @@ private fun requestNotificationPermission(callback: (Boolean) -> Unit) {
 @OptIn(ExperimentalForeignApi::class)
 private fun openAppSettings() {
     val settingsUrl = NSURL.URLWithString(UIApplicationOpenSettingsURLString)
-    settingsUrl?.let {
-        if (UIApplication.sharedApplication.canOpenURL(it)) {
-            UIApplication.sharedApplication.openURL(it)
-        }
+    if (settingsUrl != null) {
+        IosUrlOpener.openUrl(settingsUrl)
     }
 }
