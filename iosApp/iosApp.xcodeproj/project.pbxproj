@@ -169,6 +169,8 @@
 /* Begin XCBuildConfiguration section */
 		1E54F92017A5D25116AC4A9C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = AC3AD4EB3E6A4FC3071A7A72 /* Configuration */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = appIcon;
@@ -322,6 +324,8 @@
 		};
 		DCA4E23A78D55666DEE3CAAA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = AC3AD4EB3E6A4FC3071A7A72 /* Configuration */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = appIcon;
