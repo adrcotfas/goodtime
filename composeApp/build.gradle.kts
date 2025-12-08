@@ -139,7 +139,10 @@ android {
             libs.versions.android.targetSdk
                 .get()
                 .toInt()
-        versionCode = libs.versions.appVersionCode.get().toInt()
+        versionCode =
+            libs.versions.appVersionCode
+                .get()
+                .toInt()
         versionName = libs.versions.appVersionName.get()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -284,7 +287,7 @@ configurations.all {
 }
 
 tasks.register("syncIosVersion") {
-    val configFile = file("${rootDir}/iosApp/Configuration/Config.xcconfig")
+    val configFile = file("$rootDir/iosApp/Configuration/Config.xcconfig")
 
     val versionName = libs.versions.appVersionName.get()
     val versionCode = libs.versions.appVersionCode.get()
@@ -298,9 +301,11 @@ tasks.register("syncIosVersion") {
             error("Config.xcconfig not found at: ${configFile.path}")
         }
 
-        val updatedContent = configFile.readText()
-            .replace(Regex("""CURRENT_PROJECT_VERSION\s*=\s*\S+"""), "CURRENT_PROJECT_VERSION=$versionCode")
-            .replace(Regex("""MARKETING_VERSION\s*=\s*\S+"""), "MARKETING_VERSION=$versionName")
+        val updatedContent =
+            configFile
+                .readText()
+                .replace(Regex("""CURRENT_PROJECT_VERSION\s*=\s*\S+"""), "CURRENT_PROJECT_VERSION=$versionCode")
+                .replace(Regex("""MARKETING_VERSION\s*=\s*\S+"""), "MARKETING_VERSION=$versionName")
 
         configFile.writeText(updatedContent)
 
