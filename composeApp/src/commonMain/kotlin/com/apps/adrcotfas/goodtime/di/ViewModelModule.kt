@@ -17,8 +17,40 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
+import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
+import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
+import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
+import com.apps.adrcotfas.goodtime.main.TimerViewModel
+import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionViewModel
+import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
+import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
+import com.apps.adrcotfas.goodtime.settings.TimerProfileViewModel
+import com.apps.adrcotfas.goodtime.settings.about.AboutViewModel
+import com.apps.adrcotfas.goodtime.settings.about.AcknowledgementsViewModel
+import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
+import com.apps.adrcotfas.goodtime.stats.StatisticsViewModel
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-expect val viewModelModule: Module
+val viewModelModule: Module =
+    module {
+        viewModelOf(::MainViewModel)
+        viewModelOf(::FinishedSessionViewModel)
+        viewModelOf(::LabelsViewModel)
+        viewModelOf(::AddEditLabelViewModel)
+        viewModelOf(::SettingsViewModel)
+        viewModelOf(::TimerProfileViewModel)
+        viewModelOf(::AboutViewModel)
+        viewModelOf(::AcknowledgementsViewModel)
+        viewModel { BackupViewModel(get(), get(), get(named(IO_SCOPE))) }
+        viewModelOf(::StatisticsViewModel)
+        viewModelOf(::StatisticsHistoryViewModel)
+    }
 
-expect val mainModule: Module
+val mainModule: Module =
+    module {
+        viewModelOf(::TimerViewModel)
+    }

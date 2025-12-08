@@ -31,9 +31,13 @@ import com.apps.adrcotfas.goodtime.common.IosTimeFormatProvider
 import com.apps.adrcotfas.goodtime.common.IosUrlOpener
 import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
 import com.apps.adrcotfas.goodtime.common.UrlOpener
+import com.apps.adrcotfas.goodtime.data.backup.IosBackupPrompter
+import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
+import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
 import kotlinx.cinterop.ExperimentalForeignApi
+import okio.FileSystem
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -47,6 +51,36 @@ import kotlin.experimental.ExperimentalNativeApi
 actual val platformModule: Module =
     module {
         single<RoomDatabase.Builder<ProductivityDatabase>> { getDatabaseBuilder() }
+
+        single<FileSystem> { FileSystem.SYSTEM }
+
+        single<String>(named(DB_PATH_KEY)) {
+            val documentDirectory: NSURL? =
+                NSFileManager.defaultManager.URLForDirectory(
+                    directory = NSDocumentDirectory,
+                    inDomain = NSUserDomainMask,
+                    appropriateForURL = null,
+                    create = false,
+                    error = null,
+                )
+            requireNotNull(documentDirectory).path + "/$DATABASE_NAME"
+        }
+
+        single<String>(named(FILES_DIR_PATH_KEY)) {
+            val documentDirectory: NSURL? =
+                NSFileManager.defaultManager.URLForDirectory(
+                    directory = NSDocumentDirectory,
+                    inDomain = NSUserDomainMask,
+                    appropriateForURL = null,
+                    create = false,
+                    error = null,
+                )
+            requireNotNull(documentDirectory).path + "/tmp"
+        }
+
+        single<BackupPrompter> {
+            IosBackupPrompter(getWith("IosBackupPrompter"))
+        }
 
         single<DataStore<Preferences>>(named(SETTINGS_NAME)) {
             getDataStore(
