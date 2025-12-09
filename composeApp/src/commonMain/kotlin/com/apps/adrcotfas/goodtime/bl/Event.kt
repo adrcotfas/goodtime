@@ -22,6 +22,9 @@ sealed class Event {
         val isFocus: Boolean,
         val autoStarted: Boolean = false,
         val endTime: Long,
+        val labelName: String = "",
+        val isDefaultLabel: Boolean = true,
+        val isBreakEnabled: Boolean = true,
     ) : Event()
 
     data object Pause : Event()

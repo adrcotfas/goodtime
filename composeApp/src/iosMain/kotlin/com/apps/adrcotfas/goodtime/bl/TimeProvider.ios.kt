@@ -27,11 +27,12 @@ import platform.posix.timespec
 
 class IosTimeProvider : TimeProvider {
     @OptIn(ExperimentalForeignApi::class)
-    override fun elapsedRealtime(): Long = memScoped {
-        val time = alloc<timespec>()
-        clock_gettime(CLOCK_MONOTONIC.toUInt(), time.ptr)
-        time.tv_sec * 1000L + time.tv_nsec / 1_000_000L
-    }
+    override fun elapsedRealtime(): Long =
+        memScoped {
+            val time = alloc<timespec>()
+            clock_gettime(CLOCK_MONOTONIC.toUInt(), time.ptr)
+            time.tv_sec * 1000L + time.tv_nsec / 1_000_000L
+        }
 }
 
 actual fun createTimeProvider(): TimeProvider = IosTimeProvider()

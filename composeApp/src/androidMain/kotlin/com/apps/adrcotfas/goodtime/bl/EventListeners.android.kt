@@ -17,5 +17,11 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
-val EventListener.Companion.SESSION_RESET_HANDLER: String
-    get() = "SessionResetHandler"
+val EventListener.Companion.TIMER_SERVICE_HANDLER: String
+    get() = "TimerServiceHandler"
+val EventListener.Companion.ALARM_MANAGER_HANDLER: String
+    get() = "AlarmManagerHandler"
+val EventListener.Companion.SOUND_AND_VIBRATION_PLAYER: String
+    get() = "SoundAndVibrationPlayer"
+val EventListener.Companion.DND_MODE_MANAGER: String
+    get() = "DndModeManager"

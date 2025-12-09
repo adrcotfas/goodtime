@@ -202,6 +202,9 @@ class TimerManager(
                     isFocus = timerData.type.isFocus,
                     autoStarted = autoStarted,
                     endTime = if (isCountdown) timerData.endTime else countUpEndTime,
+                    labelName = timerData.label.label.name,
+                    isDefaultLabel = timerData.label.isDefault(),
+                    isBreakEnabled = timerData.label.profile.isBreakEnabled,
                 ),
             )
         }
@@ -316,6 +319,9 @@ class TimerManager(
                 Event.Start(
                     isFocus = timerData.type.isFocus,
                     endTime = if (isCurrentSessionCountdown) timerData.endTime else countUpEndTime,
+                    labelName = timerData.label.label.name,
+                    isDefaultLabel = timerData.label.isDefault(),
+                    isBreakEnabled = timerData.label.profile.isBreakEnabled,
                 ),
             )
         }

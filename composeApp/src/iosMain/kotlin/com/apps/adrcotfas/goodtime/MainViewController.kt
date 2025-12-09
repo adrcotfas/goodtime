@@ -18,10 +18,14 @@
 package com.apps.adrcotfas.goodtime
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.ComposeUIViewController
 import com.apps.adrcotfas.goodtime.billing.BillingAbstract
+import com.apps.adrcotfas.goodtime.bl.EventListener
+import com.apps.adrcotfas.goodtime.bl.FinishActionType
+import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
+import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
+import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
 import com.apps.adrcotfas.goodtime.di.localDataModule
@@ -34,6 +38,7 @@ import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
+import org.koin.core.qualifier.named
 import platform.UIKit.UIViewController
 
 @Suppress("ktlint:standard:function-naming")
@@ -49,12 +54,12 @@ private fun AppWithKoin() {
             modules(
                 iosFlavorModule,
                 coroutineScopeModule,
-                platformModule,
                 coreModule,
                 localDataModule,
                 timerManagerModule,
-                viewModelModule,
                 mainModule,
+                viewModelModule,
+                platformModule,
             )
         },
     ) {
@@ -64,6 +69,8 @@ private fun AppWithKoin() {
         val timerViewModel: TimerViewModel = koinInject()
         val mainViewModel: MainViewModel = koinInject()
 
+        initNotificationHandler()
+
         val platformContext = remember { PlatformContext() }
 
         GoodtimeApp(
@@ -72,5 +79,14 @@ private fun AppWithKoin() {
             mainViewModel = mainViewModel,
             onUpdateClicked = null,
         )
+    }
+}
+
+@Composable
+private fun initNotificationHandler() {
+    val notificationHandler = koinInject<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)) as IosNotificationHandler
+    val timerManager: TimerManager = koinInject()
+    notificationHandler.init {
+        timerManager.next(finishActionType = FinishActionType.MANUAL_NEXT)
     }
 }

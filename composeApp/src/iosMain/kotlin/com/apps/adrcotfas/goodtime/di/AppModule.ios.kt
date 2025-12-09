@@ -21,8 +21,11 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.bl.EventListener
+import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
+import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
 import com.apps.adrcotfas.goodtime.bl.IosSessionResetHandler
 import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
+import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.common.FeedbackHelper
 import com.apps.adrcotfas.goodtime.common.InstallDateProvider
 import com.apps.adrcotfas.goodtime.common.IosFeedbackHelper
@@ -37,6 +40,7 @@ import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.coroutines.CoroutineScope
 import okio.FileSystem
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
@@ -106,9 +110,18 @@ actual val platformModule: Module =
             IosSessionResetHandler(getWith("SessionResetHandler"))
         }
 
+        single<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)) {
+            IosNotificationHandler(
+                timeProvider = get<TimeProvider>(),
+                coroutineScope = get<CoroutineScope>(named(MAIN_SCOPE)),
+                log = getWith("IosNotificationHandler"),
+            )
+        }
+
         single<List<EventListener>> {
             listOf(
                 get<EventListener>(named(EventListener.SESSION_RESET_HANDLER)),
+                get<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)),
             )
         }
     }

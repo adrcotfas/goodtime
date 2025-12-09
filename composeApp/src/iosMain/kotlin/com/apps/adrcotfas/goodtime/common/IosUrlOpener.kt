@@ -27,11 +27,13 @@ class IosUrlOpener : UrlOpener {
         fun openUrl(url: NSURL) {
             if (UIApplication.sharedApplication.canOpenURL(url)) {
                 UIApplication.sharedApplication.openURL(
-                    url, mapOf<Any?, Any>(),
+                    url,
+                    mapOf<Any?, Any>(),
                     null,
                 )
             }
         }
+
         fun openUrl(url: String) {
             val nsUrl = NSURL.URLWithString(url) ?: return
             openUrl(nsUrl)

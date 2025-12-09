@@ -17,5 +17,5 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
-val EventListener.Companion.SESSION_RESET_HANDLER: String
-    get() = "SessionResetHandler"
+val EventListener.Companion.IOS_NOTIFICATION_HANDLER: String
+    get() = "IosNotificationHandler"
