@@ -11,8 +11,12 @@ struct ComposeView: UIViewControllerRepresentable {
 }
 
 struct ContentView: View {
+    // Observe the status bar manager to react to fullscreen changes
+    @State private var statusBarManager = StatusBarManager.shared
+
     var body: some View {
         ComposeView()
             .ignoresSafeArea()
+            .statusBar(hidden: statusBarManager.isStatusBarHidden)
     }
 }

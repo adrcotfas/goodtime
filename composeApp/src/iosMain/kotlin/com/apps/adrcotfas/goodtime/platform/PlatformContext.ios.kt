@@ -17,13 +17,45 @@
  */
 package com.apps.adrcotfas.goodtime.platform
 
+import kotlin.concurrent.Volatile
+
 actual class PlatformContext
 
 actual fun PlatformContext.setFullscreen(enabled: Boolean) {
+    // Control iOS status bar visibility via the global StatusBarState
+    StatusBarState.isHidden = enabled
 }
 
 actual fun PlatformContext.setShowWhenLocked(enabled: Boolean) {
+    // iOS handles this differently - would need UIKit configuration
+    // Not implemented for iOS yet
 }
 
 actual fun PlatformContext.configureSystemBars(isDarkTheme: Boolean) {
+    // iOS system bars (status bar style) are managed automatically by SwiftUI
+    // based on the color scheme of the app
+}
+
+/**
+ * Global state for iOS status bar visibility.
+ * This is accessed from both Kotlin and Swift (via ObjC interop).
+ */
+object StatusBarState {
+    @Volatile
+    var isHidden: Boolean = false
+        set(value) {
+            field = value
+            // Notify Swift observers
+            statusBarDelegate?.onStatusBarVisibilityChanged(value)
+        }
+
+    var statusBarDelegate: StatusBarDelegate? = null
+}
+
+/**
+ * Delegate interface for status bar visibility changes.
+ * Implemented by Swift code to receive updates.
+ */
+interface StatusBarDelegate {
+    fun onStatusBarVisibilityChanged(isHidden: Boolean)
 }
