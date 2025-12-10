@@ -205,6 +205,7 @@ class TimerManager(
                     labelName = timerData.label.label.name,
                     isDefaultLabel = timerData.label.isDefault(),
                     isBreakEnabled = timerData.label.profile.isBreakEnabled,
+                    isCountdown = isCountdown
                 ),
             )
         }
@@ -322,6 +323,7 @@ class TimerManager(
                     labelName = timerData.label.label.name,
                     isDefaultLabel = timerData.label.isDefault(),
                     isBreakEnabled = timerData.label.profile.isBreakEnabled,
+                    isCountdown = isCurrentSessionCountdown
                 ),
             )
         }

@@ -74,10 +74,12 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
         if isCountdown {
             // Countdown: timer counts down from duration to 0
             endDate = now.addingTimeInterval(duration)
+            print("Goodtime: Starting COUNTDOWN - duration: \(duration)s, end: \(endDate)")
         } else {
             // Count-up: timer counts up from 0
-            // For unbounded count-up, use distant future
-            endDate = Date.distantFuture
+            // Use 8 hours (Apple's recommended Live Activity limit)
+            endDate = now.addingTimeInterval(28800) // 8 hours
+            print("Goodtime: Starting COUNT-UP - start: \(now), end: \(endDate)")
         }
 
         let attributes = GoodtimeActivityAttributes(
@@ -95,6 +97,8 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
             pausedTimeRemaining: nil,
             pausedElapsedTime: nil
         )
+
+        print("Goodtime: Activity attributes - isCountdown: \(isCountdown), timerType: \(timerType)")
 
         let content = ActivityContent(
             state: initialState,
@@ -204,7 +208,8 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
             // COUNT-UP: Adjust start date backwards based on elapsed time
             let elapsed = currentState.pausedElapsedTime ?? 0
             newStartDate = now.addingTimeInterval(-elapsed)
-            newEndDate = Date.distantFuture
+            // Use 8 hours (Apple's recommended Live Activity limit) from adjusted start
+            newEndDate = newStartDate.addingTimeInterval(28800)
         }
 
         let updatedState = GoodtimeActivityAttributes.ContentState(

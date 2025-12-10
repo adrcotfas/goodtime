@@ -33,7 +33,7 @@ class IosLiveActivityListener(
             is Event.Start -> {
                 log.v { "IosLiveActivityListener: Starting Live Activity (isFocus=${event.isFocus}, countdown=${event.endTime != 0L})" }
 
-                val isCountdown = event.endTime != 0L
+                val isCountdown = event.isCountdown
                 // Calculate duration from current time to end time
                 val durationSeconds = if (isCountdown) {
                     val currentTime = timeProvider.elapsedRealtime()

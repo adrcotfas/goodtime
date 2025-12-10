@@ -25,6 +25,7 @@ sealed class Event {
         val labelName: String = "",
         val isDefaultLabel: Boolean = true,
         val isBreakEnabled: Boolean = true,
+        val isCountdown: Boolean = false
     ) : Event()
 
     data object Pause : Event()

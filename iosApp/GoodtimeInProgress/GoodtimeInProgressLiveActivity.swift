@@ -213,80 +213,83 @@ struct GoodtimeLockScreenView: View {
     let context: ActivityViewContext<GoodtimeActivityAttributes>
 
     var body: some View {
-        if context.isStale {
-            // STALE STATE UI
-            VStack(spacing: 12) {
-                HStack(spacing: 16) {
-                    Image(systemName: iconName)
-                        .font(.largeTitle)
-                        .foregroundColor(.white.opacity(0.6))
+        Group {
+            if context.isStale {
+                // STALE STATE UI
+                VStack(spacing: 12) {
+                    HStack(spacing: 16) {
+                        Image(systemName: iconName)
+                            .font(.largeTitle)
+                            .foregroundColor(.white.opacity(0.6))
 
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Session Ended")
-                            .font(.headline)
-                            .foregroundColor(.white)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Session Ended")
+                                .font(.headline)
+                                .foregroundColor(.white)
 
-                        Text("Open app to continue")
-                            .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
-                    }
-
-                    Spacer()
-                }
-            }
-            .padding()
-        } else {
-            // ACTIVE STATE UI
-            VStack(spacing: 12) {
-                HStack(spacing: 16) {
-                    // Left: Timer type icon
-                    Image(systemName: iconName)
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-
-                    // Center: Info
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(timerLabel)
-                            .font(.headline)
-                            .foregroundColor(.white)
-
-                        // Show label name if not default
-                        if !context.attributes.isDefaultLabel {
-                            Text(context.attributes.labelName)
+                            Text("Open app to continue")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.8))
+                                .foregroundColor(.white.opacity(0.7))
                         }
 
-                        HStack(spacing: 8) {
-                            if !context.attributes.isCountdown {
-                                Text("↑")
+                        Spacer()
+                    }
+                }
+                .padding()
+            } else {
+                // ACTIVE STATE UI
+                VStack(spacing: 12) {
+                    HStack(spacing: 16) {
+                        // Left: Timer type icon
+                        Image(systemName: iconName)
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+
+                        // Center: Info
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(timerLabel)
+                                .font(.headline)
+                                .foregroundColor(.white)
+
+                            // Show label name if not default
+                            if !context.attributes.isDefaultLabel {
+                                Text(context.attributes.labelName)
                                     .font(.caption)
-                                    .padding(.horizontal, 4)
-                                    .background(Color.white.opacity(0.2))
-                                    .cornerRadius(4)
+                                    .foregroundColor(.white.opacity(0.8))
                             }
 
-                            if context.state.isPaused {
-                                Text("Paused")
-                                    .font(.caption)
-                                    .foregroundColor(.yellow)
+                            HStack(spacing: 8) {
+                                if !context.attributes.isCountdown {
+                                    Text("↑")
+                                        .font(.caption)
+                                        .padding(.horizontal, 4)
+                                        .background(Color.white.opacity(0.2))
+                                        .cornerRadius(4)
+                                }
+
+                                if context.state.isPaused {
+                                    Text("Paused")
+                                        .font(.caption)
+                                        .foregroundColor(.yellow)
+                                }
                             }
                         }
+
+                        Spacer()
+
+                        // Right: Timer
+                        GoodtimeTimerDisplay(context: context, style: .lockScreen)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
                     }
 
-                    Spacer()
-
-                    // Right: Timer
-                    GoodtimeTimerDisplay(context: context, style: .lockScreen)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+                    // Action buttons at bottom
+                    GoodtimeActionButtons(context: context, style: .lockScreen)
                 }
-
-                // Action buttons at bottom
-                GoodtimeActionButtons(context: context, style: .lockScreen)
+                .padding()
             }
-            .padding()
         }
+        .background(backgroundColor)
     }
 
     private var iconName: String {
@@ -304,6 +307,13 @@ struct GoodtimeLockScreenView: View {
             return isPaused ? "Focus session paused" : "Focus session in progress"
         } else {
             return "Break in progress"
+        }
+    }
+
+    private var backgroundColor: Color {
+        switch context.attributes.timerType {
+        case .focus: return .indigo
+        case .shortBreak, .longBreak: return .green
         }
     }
 }
@@ -369,5 +379,67 @@ struct GoodtimeActionButtons: View {
                 .clipShape(RoundedRectangle(cornerRadius: style == .lockScreen ? 10 : 8))
         }
         .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Previews
+
+struct GoodtimeLiveActivity_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            // Live Activity - Focus Countdown
+            GoodtimeActivityAttributes.previewFocusCountdown
+                .previewContext(
+                    GoodtimeActivityAttributes.ContentState.previewRunning,
+                    viewKind: .content
+                )
+                .previewDisplayName("Live Activity - Focus Running")
+
+            GoodtimeActivityAttributes.previewFocusCountdown
+                .previewContext(
+                    GoodtimeActivityAttributes.ContentState.previewPaused,
+                    viewKind: .content
+                )
+                .previewDisplayName("Live Activity - Focus Paused")
+
+            // Dynamic Island - Compact
+            GoodtimeActivityAttributes.previewFocusCountdown
+                .previewContext(
+                    GoodtimeActivityAttributes.ContentState.previewRunning,
+                    viewKind: .dynamicIsland(.compact)
+                )
+                .previewDisplayName("Dynamic Island - Compact")
+
+            // Dynamic Island - Expanded
+            GoodtimeActivityAttributes.previewFocusCountdown
+                .previewContext(
+                    GoodtimeActivityAttributes.ContentState.previewRunning,
+                    viewKind: .dynamicIsland(.expanded)
+                )
+                .previewDisplayName("Dynamic Island - Expanded")
+
+            GoodtimeActivityAttributes.previewFocusCountdown
+                .previewContext(
+                    GoodtimeActivityAttributes.ContentState.previewPaused,
+                    viewKind: .dynamicIsland(.expanded)
+                )
+                .previewDisplayName("Dynamic Island - Expanded Paused")
+
+            // Live Activity - Break
+            GoodtimeActivityAttributes.previewShortBreak
+                .previewContext(
+                    GoodtimeActivityAttributes.ContentState.previewRunning,
+                    viewKind: .content
+                )
+                .previewDisplayName("Live Activity - Break")
+
+            // Live Activity - Count Up
+            GoodtimeActivityAttributes.previewFocusCountUp
+                .previewContext(
+                    GoodtimeActivityAttributes.ContentState.previewCountUpRunning,
+                    viewKind: .content
+                )
+                .previewDisplayName("Live Activity - Count Up")
+        }
     }
 }

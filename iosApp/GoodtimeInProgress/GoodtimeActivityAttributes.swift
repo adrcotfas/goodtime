@@ -63,3 +63,104 @@ extension GoodtimeActivityAttributes.ContentState {
         return 0
     }
 }
+
+// MARK: - Preview Helpers
+
+extension GoodtimeActivityAttributes {
+    // Preview Attributes
+    static var previewFocusCountdown: GoodtimeActivityAttributes {
+        GoodtimeActivityAttributes(
+            timerType: .focus,
+            isCountdown: true,
+            labelName: "Work",
+            isDefaultLabel: false
+        )
+    }
+
+    static var previewFocusCountUp: GoodtimeActivityAttributes {
+        GoodtimeActivityAttributes(
+            timerType: .focus,
+            isCountdown: false,
+            labelName: "Deep Work",
+            isDefaultLabel: false
+        )
+    }
+
+    static var previewShortBreak: GoodtimeActivityAttributes {
+        GoodtimeActivityAttributes(
+            timerType: .shortBreak,
+            isCountdown: true,
+            labelName: "Break",
+            isDefaultLabel: true
+        )
+    }
+
+    static var previewLongBreak: GoodtimeActivityAttributes {
+        GoodtimeActivityAttributes(
+            timerType: .longBreak,
+            isCountdown: true,
+            labelName: "Long Break",
+            isDefaultLabel: true
+        )
+    }
+}
+
+extension GoodtimeActivityAttributes.ContentState {
+    // Preview Content States
+
+    /// Running countdown timer (25 minutes remaining)
+    static var previewRunning: GoodtimeActivityAttributes.ContentState {
+        let now = Date()
+        let endDate = now.addingTimeInterval(25 * 60) // 25 minutes from now
+        return GoodtimeActivityAttributes.ContentState(
+            timerStartDate: now,
+            timerEndDate: endDate,
+            isPaused: false,
+            isRunning: true,
+            pausedTimeRemaining: nil,
+            pausedElapsedTime: nil
+        )
+    }
+
+    /// Paused countdown timer (15 minutes remaining)
+    static var previewPaused: GoodtimeActivityAttributes.ContentState {
+        let now = Date()
+        let endDate = now.addingTimeInterval(15 * 60) // Arbitrary end date
+        return GoodtimeActivityAttributes.ContentState(
+            timerStartDate: now,
+            timerEndDate: endDate,
+            isPaused: true,
+            isRunning: false,
+            pausedTimeRemaining: 15 * 60, // 15 minutes
+            pausedElapsedTime: nil
+        )
+    }
+
+    /// Running count-up timer (started 10 minutes ago)
+    static var previewCountUpRunning: GoodtimeActivityAttributes.ContentState {
+        let startDate = Date().addingTimeInterval(-10 * 60) // Started 10 minutes ago
+        let endDate = Date().addingTimeInterval(1000 * 60) // Far future (not used for count-up)
+        return GoodtimeActivityAttributes.ContentState(
+            timerStartDate: startDate,
+            timerEndDate: endDate,
+            isPaused: false,
+            isRunning: true,
+            pausedTimeRemaining: nil,
+            pausedElapsedTime: nil
+        )
+    }
+
+    /// Paused count-up timer (5 minutes elapsed)
+    static var previewCountUpPaused: GoodtimeActivityAttributes.ContentState {
+        let startDate = Date().addingTimeInterval(-5 * 60) // Started 5 minutes ago
+        let endDate = Date().addingTimeInterval(1000 * 60)
+        return GoodtimeActivityAttributes.ContentState(
+            timerStartDate: startDate,
+            timerEndDate: endDate,
+            isPaused: true,
+            isRunning: false,
+            pausedTimeRemaining: nil,
+            pausedElapsedTime: 5 * 60 // 5 minutes elapsed
+        )
+    }
+}
