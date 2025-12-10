@@ -6,8 +6,42 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B03582252EE8AF20001F3E0C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B03582242EE8AF20001F3E0C /* WidgetKit.framework */; };
+		B03582272EE8AF20001F3E0C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B03582262EE8AF20001F3E0C /* SwiftUI.framework */; };
+		B03582362EE8AF21001F3E0C /* GoodtimeInProgressExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B03582222EE8AF20001F3E0C /* GoodtimeInProgressExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B03582342EE8AF21001F3E0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 92EC1546E1C2B9DE0A75E965 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B03582212EE8AF20001F3E0C;
+			remoteInfo = GoodtimeInProgressExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B03582372EE8AF21001F3E0C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B03582362EE8AF21001F3E0C /* GoodtimeInProgressExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		58DAC2B127839DEB1DE6CCB4 /* Goodtime: Pomodoro Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Goodtime: Pomodoro Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B03582222EE8AF20001F3E0C /* GoodtimeInProgressExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GoodtimeInProgressExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B03582242EE8AF20001F3E0C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		B03582262EE8AF20001F3E0C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		B035823D2EE8AFB3001F3E0C /* GoodtimeInProgressExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GoodtimeInProgressExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -18,6 +52,20 @@
 			);
 			target = 5D7099CC0E2E85192A701B54 /* iosApp */;
 		};
+		B035823B2EE8AF21001F3E0C /* Exceptions for "GoodtimeInProgress" folder in "GoodtimeInProgressExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B03582212EE8AF20001F3E0C /* GoodtimeInProgressExtension */;
+		};
+		B0EA28F32EE965C200BF5E80 /* Exceptions for "iosApp" folder in "GoodtimeInProgressExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				GoodtimeAppIntents.swift,
+			);
+			target = B03582212EE8AF20001F3E0C /* GoodtimeInProgressExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -26,10 +74,19 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		B03582282EE8AF20001F3E0C /* GoodtimeInProgress */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B035823B2EE8AF21001F3E0C /* Exceptions for "GoodtimeInProgress" folder in "GoodtimeInProgressExtension" target */,
+			);
+			path = GoodtimeInProgress;
+			sourceTree = "<group>";
+		};
 		CDA6EEC5E3D2ABACB2EDA409 /* iosApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				7AD2465F4D1F91770AA78CE8 /* Exceptions for "iosApp" folder in "iosApp" target */,
+				B0EA28F32EE965C200BF5E80 /* Exceptions for "iosApp" folder in "GoodtimeInProgressExtension" target */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -44,6 +101,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B035821F2EE8AF20001F3E0C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B03582272EE8AF20001F3E0C /* SwiftUI.framework in Frameworks */,
+				B03582252EE8AF20001F3E0C /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -51,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				58DAC2B127839DEB1DE6CCB4 /* Goodtime: Pomodoro Timer.app */,
+				B03582222EE8AF20001F3E0C /* GoodtimeInProgressExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,10 +125,22 @@
 		87BDAD7CED6A362CF6FFBEDB = {
 			isa = PBXGroup;
 			children = (
+				B035823D2EE8AFB3001F3E0C /* GoodtimeInProgressExtension.entitlements */,
 				AC3AD4EB3E6A4FC3071A7A72 /* Configuration */,
 				CDA6EEC5E3D2ABACB2EDA409 /* iosApp */,
+				B03582282EE8AF20001F3E0C /* GoodtimeInProgress */,
+				B03582232EE8AF20001F3E0C /* Frameworks */,
 				666F2D8804D1D00B58248C3F /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		B03582232EE8AF20001F3E0C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B03582242EE8AF20001F3E0C /* WidgetKit.framework */,
+				B03582262EE8AF20001F3E0C /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -75,10 +154,12 @@
 				A38AEF07D963C07B8AEFA9EC /* Sources */,
 				99029CF6BAB3F07458F53127 /* Frameworks */,
 				C7861E0A11B595F4400F6C44 /* Resources */,
+				B03582372EE8AF21001F3E0C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B03582352EE8AF21001F3E0C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				CDA6EEC5E3D2ABACB2EDA409 /* iosApp */,
@@ -90,6 +171,28 @@
 			productReference = 58DAC2B127839DEB1DE6CCB4 /* Goodtime: Pomodoro Timer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B03582212EE8AF20001F3E0C /* GoodtimeInProgressExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B035823A2EE8AF21001F3E0C /* Build configuration list for PBXNativeTarget "GoodtimeInProgressExtension" */;
+			buildPhases = (
+				B035821E2EE8AF20001F3E0C /* Sources */,
+				B035821F2EE8AF20001F3E0C /* Frameworks */,
+				B03582202EE8AF20001F3E0C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B03582282EE8AF20001F3E0C /* GoodtimeInProgress */,
+			);
+			name = GoodtimeInProgressExtension;
+			packageProductDependencies = (
+			);
+			productName = GoodtimeInProgressExtension;
+			productReference = B03582222EE8AF20001F3E0C /* GoodtimeInProgressExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -97,11 +200,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					5D7099CC0E2E85192A701B54 = {
 						CreatedOnToolsVersion = 16.2;
+					};
+					B03582212EE8AF20001F3E0C = {
+						CreatedOnToolsVersion = 26.0;
 					};
 				};
 			};
@@ -120,11 +226,19 @@
 			projectRoot = "";
 			targets = (
 				5D7099CC0E2E85192A701B54 /* iosApp */,
+				B03582212EE8AF20001F3E0C /* GoodtimeInProgressExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B03582202EE8AF20001F3E0C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C7861E0A11B595F4400F6C44 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -164,7 +278,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B035821E2EE8AF20001F3E0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B03582352EE8AF21001F3E0C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B03582212EE8AF20001F3E0C /* GoodtimeInProgressExtension */;
+			targetProxy = B03582342EE8AF21001F3E0C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1E54F92017A5D25116AC4A9C /* Debug */ = {
@@ -175,6 +304,7 @@
 				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = appIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
@@ -257,6 +387,74 @@
 			};
 			name = Release;
 		};
+		B03582382EE8AF21001F3E0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = GoodtimeInProgressExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 37QGARZM85;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GoodtimeInProgress/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GoodtimeInProgress;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.goodtime.productivity.GoodtimeInProgress;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B03582392EE8AF21001F3E0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = GoodtimeInProgressExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 37QGARZM85;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GoodtimeInProgress/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GoodtimeInProgress;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.goodtime.productivity.GoodtimeInProgress;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		CE25F29F62A4B91771D76146 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = AC3AD4EB3E6A4FC3071A7A72 /* Configuration */;
@@ -330,6 +528,7 @@
 				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = appIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
@@ -362,6 +561,15 @@
 			buildConfigurations = (
 				1E54F92017A5D25116AC4A9C /* Debug */,
 				DCA4E23A78D55666DEE3CAAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B035823A2EE8AF21001F3E0C /* Build configuration list for PBXNativeTarget "GoodtimeInProgressExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B03582382EE8AF21001F3E0C /* Debug */,
+				B03582392EE8AF21001F3E0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

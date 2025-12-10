@@ -21,9 +21,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.bl.EventListener
+import com.apps.adrcotfas.goodtime.bl.IOS_LIVE_ACTIVITY_LISTENER
 import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
+import com.apps.adrcotfas.goodtime.bl.IosLiveActivityListener
 import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
 import com.apps.adrcotfas.goodtime.bl.IosSessionResetHandler
+import com.apps.adrcotfas.goodtime.bl.LiveActivityBridge
 import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.common.FeedbackHelper
@@ -118,10 +121,21 @@ actual val platformModule: Module =
             )
         }
 
+        single<LiveActivityBridge> { LiveActivityBridge() }
+
+        single<EventListener>(named(EventListener.IOS_LIVE_ACTIVITY_LISTENER)) {
+            IosLiveActivityListener(
+                liveActivityBridge = get<LiveActivityBridge>(),
+                timeProvider = get<TimeProvider>(),
+                log = getWith("IosLiveActivityListener"),
+            )
+        }
+
         single<List<EventListener>> {
             listOf(
                 get<EventListener>(named(EventListener.SESSION_RESET_HANDLER)),
                 get<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)),
+                get<EventListener>(named(EventListener.IOS_LIVE_ACTIVITY_LISTENER)),
             )
         }
     }
