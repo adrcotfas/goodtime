@@ -121,7 +121,7 @@ actual val platformModule: Module =
             )
         }
 
-        single<LiveActivityBridge> { LiveActivityBridge() }
+        single<LiveActivityBridge> { LiveActivityBridge.shared }
 
         single<EventListener>(named(EventListener.IOS_LIVE_ACTIVITY_LISTENER)) {
             IosLiveActivityListener(

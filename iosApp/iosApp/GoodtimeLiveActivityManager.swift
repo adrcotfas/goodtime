@@ -19,26 +19,46 @@
 import Foundation
 import ActivityKit
 import UIKit
+import ComposeApp
 
 @available(iOS 16.1, *)
-class GoodtimeLiveActivityManager: ObservableObject {
+class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDelegate {
 
     static let shared = GoodtimeLiveActivityManager()
 
     @Published private(set) var currentActivity: Activity<GoodtimeActivityAttributes>?
 
-    private init() {
+    private override init() {
+        super.init()
     }
 
     // MARK: - Check Availability
 
-    var areActivitiesEnabled: Bool {
-        ActivityAuthorizationInfo().areActivitiesEnabled
+    func areActivitiesEnabled() -> Bool {
+        return ActivityAuthorizationInfo().areActivitiesEnabled
     }
 
     // MARK: - Start Activity
 
     func startActivity(
+        timerType: Int32,
+        isCountdown: Bool,
+        duration: Double,
+        labelName: String,
+        isDefaultLabel: Bool
+    ) {
+        Task {
+            try? await startActivityAsync(
+                timerType: timerType == 0 ? .focus : .shortBreak,
+                isCountdown: isCountdown,
+                duration: duration,
+                labelName: labelName,
+                isDefaultLabel: isDefaultLabel
+            )
+        }
+    }
+
+    private func startActivityAsync(
         timerType: GoodtimeActivityAttributes.TimerType,
         isCountdown: Bool,
         duration: TimeInterval,
@@ -78,7 +98,7 @@ class GoodtimeLiveActivityManager: ObservableObject {
 
         let content = ActivityContent(
             state: initialState,
-            staleDate: isCountdown ? endDate.addingTimeInterval(60) : nil
+            staleDate: isCountdown ? endDate : nil
         )
 
         do {
@@ -102,7 +122,13 @@ class GoodtimeLiveActivityManager: ObservableObject {
 
     // MARK: - Pause Activity
 
-    func pauseActivity() async {
+    func pauseActivity() {
+        Task {
+            await pauseActivityAsync()
+        }
+    }
+
+    private func pauseActivityAsync() async {
         guard let activity = currentActivity else {
             print("Goodtime: No active Live Activity to pause")
             return
@@ -144,7 +170,13 @@ class GoodtimeLiveActivityManager: ObservableObject {
 
     // MARK: - Resume Activity
 
-    func resumeActivity() async {
+    func resumeActivity() {
+        Task {
+            await resumeActivityAsync()
+        }
+    }
+
+    private func resumeActivityAsync() async {
         guard let activity = currentActivity else {
             print("Goodtime: No active Live Activity to resume")
             return
@@ -185,7 +217,7 @@ class GoodtimeLiveActivityManager: ObservableObject {
         )
 
         let staleDate: Date? = activity.attributes.isCountdown
-            ? newEndDate.addingTimeInterval(60)
+            ? newEndDate
             : nil
 
         let content = ActivityContent(
@@ -200,7 +232,13 @@ class GoodtimeLiveActivityManager: ObservableObject {
 
     // MARK: - Add One Minute (only for countdown)
 
-    func addOneMinute() async {
+    func addOneMinute() {
+        Task {
+            await addOneMinuteAsync()
+        }
+    }
+
+    private func addOneMinuteAsync() async {
         guard let activity = currentActivity else { return }
         guard activity.attributes.isCountdown else {
             print("Goodtime: +1 minute only available for countdown timers")
@@ -226,7 +264,7 @@ class GoodtimeLiveActivityManager: ObservableObject {
             return
         }
 
-        let newEndDate = currentState.timerEndDate.addingTimeInterval(60)
+        let newEndDate = currentState.timerEndDate
 
         let updatedState = GoodtimeActivityAttributes.ContentState(
             timerStartDate: currentState.timerStartDate,
@@ -239,7 +277,7 @@ class GoodtimeLiveActivityManager: ObservableObject {
 
         let content = ActivityContent(
             state: updatedState,
-            staleDate: newEndDate.addingTimeInterval(60)
+            staleDate: newEndDate
         )
 
         await activity.update(content)
@@ -249,7 +287,13 @@ class GoodtimeLiveActivityManager: ObservableObject {
 
     // MARK: - End Activity
 
-    func endActivity() async {
+    func endActivity() {
+        Task {
+            await endActivityAsync()
+        }
+    }
+
+    private func endActivityAsync() async {
         guard let activity = currentActivity else { return }
 
         await activity.end(nil, dismissalPolicy: .immediate)

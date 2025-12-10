@@ -184,13 +184,13 @@ class IosNotificationHandler(
 
         val content =
             UNMutableNotificationContent().apply {
-                setTitle(titleText)
-                setBody(getString(Res.string.main_continue))
+                //setTitle(titleText)
+                //setBody(getString(Res.string.main_continue))
                 // TODO: Replace with actual sound from settings when sound resources are added
                 // For now, use default system sound
                 setSound(UNNotificationSound.defaultSound())
                 // Attach category to enable action button
-                setCategoryIdentifier(CATEGORY_TIMER_FINISHED)
+                //setCategoryIdentifier(CATEGORY_TIMER_FINISHED)
             }
 
         val trigger = UNTimeIntervalNotificationTrigger.triggerWithTimeInterval(timeUntilFinish, false)

@@ -17,31 +17,19 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
-/**
- * Delegate interface that will be implemented by Swift code
- * to handle  Live Activity operations.
- */
-interface LiveActivityDelegate {
-    fun start(
-        isFocus: Boolean,
-        isCountdown: Boolean,
-        durationSeconds: Double,
-        labelName: String,
-        isDefaultLabel: Boolean,
-    )
-
-    fun pause()
-    fun resume()
-    fun addOneMinute()
-    fun end()
-    fun isSupported(): Boolean
-}
+import co.touchlab.kermit.Logger
 
 /**
- * iOS implementation of LiveActivityBridge that delegates to Swift code.
- * The Swift layer should call LiveActivityBridge.setDelegate() to provide the implementation.
+ * iOS implementation that calls a delegate (Swift GoodtimeLiveActivityManager)
+ * to manage ActivityKit Live Activities.
  */
 class LiveActivityBridge {
+
+    private var delegate: LiveActivityDelegate? = null
+
+    fun setDelegate(delegate: LiveActivityDelegate) {
+        this.delegate = delegate
+    }
 
     fun start(
         isFocus: Boolean,
@@ -50,41 +38,65 @@ class LiveActivityBridge {
         labelName: String,
         isDefaultLabel: Boolean,
     ) {
-        println("[LiveActivityBridge] START called: isFocus=$isFocus, countdown=$isCountdown, duration=$durationSeconds secs")
-        delegate?.start(isFocus, isCountdown, durationSeconds.toDouble(), labelName, isDefaultLabel)
-            ?: println("[LiveActivityBridge] WARNING: No delegate set!")
+        Logger.v(TAG) { "START: isFocus=$isFocus, countdown=$isCountdown, duration=$durationSeconds secs" }
+
+        val timerType = if (isFocus) 0 else 1 // 0=focus, 1=shortBreak
+
+        delegate?.startActivity(
+            timerType = timerType,
+            isCountdown = isCountdown,
+            duration = durationSeconds.toDouble(),
+            labelName = labelName,
+            isDefaultLabel = isDefaultLabel,
+        )
     }
 
     fun pause() {
-        println("[LiveActivityBridge] PAUSE called")
-        delegate?.pause()
+        Logger.v(TAG) { "[LiveActivityBridge] PAUSE" }
+        delegate?.pauseActivity()
     }
 
     fun resume() {
-        println("[LiveActivityBridge] RESUME called")
-        delegate?.resume()
+        Logger.v(TAG) { "[LiveActivityBridge] RESUME" }
+        delegate?.resumeActivity()
     }
 
     fun addOneMinute() {
-        println("[LiveActivityBridge] ADD_ONE_MINUTE called")
+        Logger.v(TAG) { "[LiveActivityBridge] ADD ONE MINUTE" }
         delegate?.addOneMinute()
     }
 
     fun end() {
-        println("[LiveActivityBridge] END called")
-        delegate?.end()
+        Logger.v(TAG) { "[LiveActivityBridge] END" }
+        delegate?.endActivity()
     }
 
     fun isSupported(): Boolean {
-        return delegate?.isSupported() ?: false
+        return delegate?.areActivitiesEnabled() ?: false
     }
 
     companion object {
-        private var delegate: LiveActivityDelegate? = null
-
-        fun setDelegate(del: LiveActivityDelegate) {
-            println("[LiveActivityBridge] Delegate set: $del")
-            delegate = del
-        }
+        val shared = LiveActivityBridge()
+        private const val TAG = "LiveActivityBridge"
     }
+}
+
+/**
+ * Protocol that Swift GoodtimeLiveActivityManager implements directly.
+ * No separate delegate class needed.
+ */
+interface LiveActivityDelegate {
+    fun startActivity(
+        timerType: Int,
+        isCountdown: Boolean,
+        duration: Double,
+        labelName: String,
+        isDefaultLabel: Boolean,
+    )
+
+    fun pauseActivity()
+    fun resumeActivity()
+    fun addOneMinute()
+    fun endActivity()
+    fun areActivitiesEnabled(): Boolean
 }

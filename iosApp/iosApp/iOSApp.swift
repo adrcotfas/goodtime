@@ -5,9 +5,11 @@ import ComposeApp
 struct iOSApp: App {
 
     init() {
-        // Set up the Live Activity delegate
-        LiveActivityBridge.companion.setDelegate(del: LiveActivityDelegateImpl())
-        print("[iOSApp] Live Activity delegate registered")
+        // Register Live Activity delegate
+        if #available(iOS 16.1, *) {
+            LiveActivityBridge.companion.shared.setDelegate(delegate: GoodtimeLiveActivityManager.shared)
+            print("[iOSApp] Live Activity delegate registered")
+        }
 
         // Initialize the intent handler (it will get TimerManager lazily when needed)
         _ = LiveActivityIntentHandler.shared
