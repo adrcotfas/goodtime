@@ -205,7 +205,7 @@ class TimerManager(
                     labelName = timerData.label.label.name,
                     isDefaultLabel = timerData.label.isDefault(),
                     isBreakEnabled = timerData.label.profile.isBreakEnabled,
-                    isCountdown = isCountdown
+                    isCountdown = isCountdown,
                 ),
             )
         }
@@ -296,15 +296,16 @@ class TimerManager(
         updateBreakBudgetIfNeeded()
         updatePausedTime()
         val isCountdown = timerData.value.label.profile.isCountdown
+        val newEndTime =
+            if (isCountdown) {
+                timerData.value.timeAtPause + elapsedRealTime
+            } else {
+                timerData.value.endTime
+            }
         _timerData.update {
             it.copy(
                 lastStartTime = elapsedRealTime,
-                endTime =
-                    if (isCountdown) {
-                        it.timeAtPause + elapsedRealTime
-                    } else {
-                        it.endTime
-                    },
+                endTime = newEndTime,
                 state = TimerState.RUNNING,
                 timeAtPause = 0,
             )
@@ -323,7 +324,7 @@ class TimerManager(
                     labelName = timerData.label.label.name,
                     isDefaultLabel = timerData.label.isDefault(),
                     isBreakEnabled = timerData.label.profile.isBreakEnabled,
-                    isCountdown = isCurrentSessionCountdown
+                    isCountdown = isCurrentSessionCountdown,
                 ),
             )
         }
@@ -419,7 +420,7 @@ class TimerManager(
      * Called when the time is up for countdown timers.
      * A finished [Session] is created and sent to the listeners.
      */
-    fun finish() {
+    fun finish(actionType: FinishActionType = FinishActionType.AUTO) {
         val data = timerData.value
         if (!data.isReady) {
             log.e { "timer data not ready" }
@@ -435,12 +436,16 @@ class TimerManager(
             return
         }
 
-        val endTimeInMillis = timeProvider.elapsedRealtime()
-        _timerData.update { it.copy(state = TimerState.FINISHED, endTime = endTimeInMillis) }
+        _timerData.update {
+            it.copy(
+                state = TimerState.FINISHED,
+                endTime = if (actionType == FinishActionType.AUTO) timeProvider.elapsedRealtime() else data.endTime,
+            )
+        }
         log.i { "Finish: $data" }
 
         updateBreakBudgetIfNeeded()
-        handleFinishedSession(finishActionType = FinishActionType.AUTO)
+        handleFinishedSession(finishActionType = actionType)
 
         val autoStart =
             settings.autoStartFocus &&
@@ -536,7 +541,8 @@ class TimerManager(
         val data = timerData.value
         val isFOCUS = data.type == TimerType.FOCUS
 
-        val totalDuration = timeProvider.elapsedRealtime() - data.startTime
+        val endTime = data.endTime
+        val totalDuration = endTime - data.startTime
         val interruptions = data.timeSpentPaused
 
         val durationToSave =
@@ -662,9 +668,10 @@ class TimerManager(
 }
 
 enum class FinishActionType {
-    MANUAL_RESET,
-    MANUAL_SKIP, // increment streak even if session is shorter than 1 minute
-    MANUAL_NEXT,
-    MANUAL_DO_NOTHING,
-    AUTO,
+    FORCE_FINISH, // app was in foreground and finish was triggered by observing the current time, not the result of a scheduled alarm
+    MANUAL_RESET, // the user manually reset a session
+    MANUAL_SKIP, // the user manually skipped a session, increment streak even if session is shorter than 1 minute
+    MANUAL_NEXT, // at the end of a session, the user continues
+    MANUAL_DO_NOTHING, // used when updating an existing finished session with extra idle time, notes etc
+    AUTO, // without user interaction as the result of a trigger (AlarmReceiver), also relevant for "auto-start" sessions
 }

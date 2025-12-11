@@ -258,7 +258,7 @@ class TimerViewModel(
         }
     }
 
-    fun forceFinish() = timerManager.finish()
+    fun forceFinish() = timerManager.finish(actionType = FinishActionType.FORCE_FINISH)
 
     fun onSendToBackground() = timerManager.onSendToBackground()
 

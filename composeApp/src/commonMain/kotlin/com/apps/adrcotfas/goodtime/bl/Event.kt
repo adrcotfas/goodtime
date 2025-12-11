@@ -19,13 +19,13 @@ package com.apps.adrcotfas.goodtime.bl
 
 sealed class Event {
     data class Start(
-        val isFocus: Boolean,
+        val isFocus: Boolean = true,
         val autoStarted: Boolean = false,
-        val endTime: Long,
+        val endTime: Long = 0,
         val labelName: String = "",
         val isDefaultLabel: Boolean = true,
         val isBreakEnabled: Boolean = true,
-        val isCountdown: Boolean = false
+        val isCountdown: Boolean = true,
     ) : Event()
 
     data object Pause : Event()
