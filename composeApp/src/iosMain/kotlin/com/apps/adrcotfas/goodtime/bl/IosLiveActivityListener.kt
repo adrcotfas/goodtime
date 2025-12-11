@@ -35,13 +35,14 @@ class IosLiveActivityListener(
 
                 val isCountdown = event.isCountdown
                 // Calculate duration from current time to end time
-                val durationSeconds = if (isCountdown) {
-                    val currentTime = timeProvider.elapsedRealtime()
-                    val durationMillis = event.endTime - currentTime
-                    durationMillis / 1000 // Convert to seconds
-                } else {
-                    0L // For count-up, duration doesn't matter
-                }
+                val durationSeconds =
+                    if (isCountdown) {
+                        val currentTime = timeProvider.elapsedRealtime()
+                        val durationMillis = event.endTime - currentTime
+                        durationMillis / 1000 // Convert to seconds
+                    } else {
+                        0L // For count-up, duration doesn't matter
+                    }
 
                 liveActivityBridge.start(
                     isFocus = event.isFocus,

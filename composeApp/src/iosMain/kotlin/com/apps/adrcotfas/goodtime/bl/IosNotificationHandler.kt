@@ -68,19 +68,21 @@ class IosNotificationHandler(
 
     @OptIn(ExperimentalForeignApi::class)
     private fun registerNotificationCategories() {
-        val startNextAction = UNNotificationAction.actionWithIdentifier(
-            identifier = ACTION_START_NEXT,
-            title = "Start Next", // Will be dynamically set based on session type
-            options = 0u // Foreground action - opens the app
-        )
+        val startNextAction =
+            UNNotificationAction.actionWithIdentifier(
+                identifier = ACTION_START_NEXT,
+                title = "Start Next", // Will be dynamically set based on session type
+                options = 0u, // Foreground action - opens the app
+            )
 
         // Create category with action
-        val category = UNNotificationCategory.categoryWithIdentifier(
-            identifier = CATEGORY_TIMER_FINISHED,
-            actions = listOf<Any?>(startNextAction),
-            intentIdentifiers = listOf<Any?>(),
-            options = 0u
-        )
+        val category =
+            UNNotificationCategory.categoryWithIdentifier(
+                identifier = CATEGORY_TIMER_FINISHED,
+                actions = listOf<Any?>(startNextAction),
+                intentIdentifiers = listOf<Any?>(),
+                options = 0u,
+            )
 
         // Register categories
         notificationCenter.setNotificationCategories(setOf<Any?>(category))
@@ -208,18 +210,20 @@ class IosNotificationHandler(
     @OptIn(ExperimentalForeignApi::class)
     private fun updateNotificationAction(actionTitle: String) {
         // Re-register category with updated action title
-        val startNextAction = UNNotificationAction.actionWithIdentifier(
-            identifier = ACTION_START_NEXT,
-            title = actionTitle,
-            options = 0u
-        )
+        val startNextAction =
+            UNNotificationAction.actionWithIdentifier(
+                identifier = ACTION_START_NEXT,
+                title = actionTitle,
+                options = 0u,
+            )
 
-        val category = UNNotificationCategory.categoryWithIdentifier(
-            identifier = CATEGORY_TIMER_FINISHED,
-            actions = listOf<Any?>(startNextAction),
-            intentIdentifiers = listOf<Any?>(),
-            options = 0u
-        )
+        val category =
+            UNNotificationCategory.categoryWithIdentifier(
+                identifier = CATEGORY_TIMER_FINISHED,
+                actions = listOf<Any?>(startNextAction),
+                intentIdentifiers = listOf<Any?>(),
+                options = 0u,
+            )
 
         notificationCenter.setNotificationCategories(setOf<Any?>(category))
     }

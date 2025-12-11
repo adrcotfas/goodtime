@@ -24,7 +24,6 @@ import co.touchlab.kermit.Logger
  * to manage ActivityKit Live Activities.
  */
 class LiveActivityBridge {
-
     private var delegate: LiveActivityDelegate? = null
 
     fun setDelegate(delegate: LiveActivityDelegate) {
@@ -71,9 +70,7 @@ class LiveActivityBridge {
         delegate?.endActivity()
     }
 
-    fun isSupported(): Boolean {
-        return delegate?.areActivitiesEnabled() ?: false
-    }
+    fun isSupported(): Boolean = delegate?.areActivitiesEnabled() ?: false
 
     companion object {
         val shared = LiveActivityBridge()
@@ -95,8 +92,12 @@ interface LiveActivityDelegate {
     )
 
     fun pauseActivity()
+
     fun resumeActivity()
+
     fun addOneMinute()
+
     fun endActivity()
+
     fun areActivitiesEnabled(): Boolean
 }

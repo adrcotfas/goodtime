@@ -24,8 +24,5 @@ import org.koin.core.component.get
  * Bridge object that allows Swift code to access the TimerManager from Koin DI
  */
 object LiveActivityIntentBridge : KoinComponent {
-
-    fun getTimerManager(): TimerManager {
-        return get()
-    }
+    fun getTimerManager(): TimerManager = get()
 }

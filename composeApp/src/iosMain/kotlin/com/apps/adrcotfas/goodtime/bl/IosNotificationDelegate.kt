@@ -30,7 +30,8 @@ import platform.darwin.NSObject
 class IosNotificationDelegate(
     private val log: Logger,
     private val onActionTapped: (actionId: String) -> Unit,
-) : NSObject(), UNUserNotificationCenterDelegateProtocol {
+) : NSObject(),
+    UNUserNotificationCenterDelegateProtocol {
     override fun userNotificationCenter(
         center: UNUserNotificationCenter,
         willPresentNotification: UNNotification,
