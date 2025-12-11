@@ -267,7 +267,7 @@ class TimerManagerTest {
             assertEquals(
                 fakeEventListener.events,
                 listOf(
-                    Event.Start(isFocus = true, endTime = startTime + DEFAULT_DURATION),
+                    Event.Start(isFocus = true, endTime = startTime + DEFAULT_DURATION, labelName = Label.DEFAULT_LABEL_NAME),
                     Event.Pause,
                     Event.AddOneMinute(endTime = startTime + DEFAULT_DURATION + oneMinute),
                     Event.Finished(type = TimerType.FOCUS),
