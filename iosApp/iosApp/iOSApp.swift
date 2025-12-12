@@ -1,8 +1,10 @@
 import SwiftUI
 import ComposeApp
+import UserNotifications
 
 @main
 struct iOSApp: App {
+    @Environment(\.scenePhase) private var scenePhase
 
     init() {
         // Register Live Activity delegate
@@ -23,6 +25,11 @@ struct iOSApp: App {
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
-		}
-	}
+        }.onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .active {
+                // Clear notifications when app becomes active
+                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+            }
+        }
+    }
 }
