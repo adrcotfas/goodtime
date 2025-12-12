@@ -19,9 +19,9 @@ package com.apps.adrcotfas.goodtime.bl
 
 import co.touchlab.kermit.Logger
 import goodtime_productivity.composeapp.generated.resources.Res
-import goodtime_productivity.composeapp.generated.resources.main_break_finished
+import goodtime_productivity.composeapp.generated.resources.main_break_complete
 import goodtime_productivity.composeapp.generated.resources.main_continue
-import goodtime_productivity.composeapp.generated.resources.main_focus_session_finished
+import goodtime_productivity.composeapp.generated.resources.main_focus_complete
 import goodtime_productivity.composeapp.generated.resources.main_start_break
 import goodtime_productivity.composeapp.generated.resources.main_start_focus
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -165,12 +165,12 @@ class IosNotificationHandler(
 
         val mainStateText =
             if (startEvent.isFocus) {
-                getString(Res.string.main_focus_session_finished)
+                getString(Res.string.main_focus_complete)
             } else {
-                getString(Res.string.main_break_finished)
+                getString(Res.string.main_break_complete)
             }
 
-        val labelText = if (startEvent.isDefaultLabel) "" else "${startEvent.labelName} - "
+        val labelText = if (startEvent.isDefaultLabel) "" else "${startEvent.labelName} • "
         val titleText = "$labelText$mainStateText"
 
         // Determine action title based on next session type

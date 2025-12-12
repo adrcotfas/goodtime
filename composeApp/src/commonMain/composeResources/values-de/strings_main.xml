@@ -27,7 +27,7 @@
     <string name="main_start_focus">Fokus starten</string>
     <string name="main_start_break">Pause beginnen</string>
     <string name="main_break_complete">Pause abgeschlossen</string>
-    <string name="main_session_complete">Sitzung abgeschlossen</string>
+    <string name="main_focus_complete">Sitzung abgeschlossen</string>
     <string name="main_this_session">Diese Sitzung</string>
     <string name="main_interruptions">Unterbrechungen</string>
     <string name="main_consider_idle_time_as_extra_focus">Leerlaufzeit als zusätzlicher Fokus betrachten</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">Weiter</string>
     <string name="main_skip">Überspringen</string>
     <string name="main_stop">Stoppen</string>
-    <string name="main_focus_session_finished">Fokussitzung beendet</string>
-    <string name="main_break_finished">Pause beendet</string>
     <string name="main_continue">Fortfahren?</string>
     <string name="main_idle">Leerlauf</string>
     <string name="main_productivity_reminder_desc">Es ist an der Zeit, produktiv zu sein!</string>

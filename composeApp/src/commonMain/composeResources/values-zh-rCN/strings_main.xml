@@ -27,7 +27,7 @@
     <string name="main_start_focus">开始专注</string>
     <string name="main_start_break">开始休息</string>
     <string name="main_break_complete">休息完成</string>
-    <string name="main_session_complete">专注完成</string>
+    <string name="main_focus_complete">专注完成</string>
     <string name="main_this_session">本轮周期</string>
     <string name="main_interruptions">中断</string>
     <string name="main_consider_idle_time_as_extra_focus">将空闲时间看作额外的专注</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">继续</string>
     <string name="main_skip">跳过</string>
     <string name="main_stop">停止</string>
-    <string name="main_focus_session_finished">专注结束</string>
-    <string name="main_break_finished">休息结束</string>
     <string name="main_continue">继续？</string>
     <string name="main_idle">空闲的</string>
     <string name="main_productivity_reminder_desc">是时候提高效率了！</string>

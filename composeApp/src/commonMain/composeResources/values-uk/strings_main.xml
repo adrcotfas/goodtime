@@ -27,7 +27,7 @@
     <string name="main_start_focus">Почати фокус</string>
     <string name="main_start_break">Почати перерву</string>
     <string name="main_break_complete">Перерву завершено</string>
-    <string name="main_session_complete">Сесія завершена</string>
+    <string name="main_focus_complete">Сесія завершена</string>
     <string name="main_this_session">Поточна сесія</string>
     <string name="main_interruptions">Переривання</string>
     <string name="main_consider_idle_time_as_extra_focus">Розгляньте час бездіяльності як додатковий фокус</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">Відновити</string>
     <string name="main_skip">Пропустити</string>
     <string name="main_stop">Зупинити</string>
-    <string name="main_focus_session_finished">Фокусування сеансу завершено</string>
-    <string name="main_break_finished">Перерва завершена</string>
     <string name="main_continue">Продовжити?</string>
     <string name="main_idle">В очікуванні</string>
     <string name="main_productivity_reminder_desc">Час бути продуктивним!</string>

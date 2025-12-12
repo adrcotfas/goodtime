@@ -27,7 +27,7 @@
     <string name="main_start_focus">Начать фокус</string>
     <string name="main_start_break">Начать перерыв</string>
     <string name="main_break_complete">Перерыв завершен</string>
-    <string name="main_session_complete">Сеанс завершен</string>
+    <string name="main_focus_complete">Сеанс завершен</string>
     <string name="main_this_session">Эта сессия</string>
     <string name="main_interruptions">Прерывания</string>
     <string name="main_consider_idle_time_as_extra_focus">Рассматривать время простоя как дополнительный фокус</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">Продолжить</string>
     <string name="main_skip">Пропустить</string>
     <string name="main_stop">Стоп</string>
-    <string name="main_focus_session_finished">Завершена фокус-сессия</string>
-    <string name="main_break_finished">Перерыв закончен</string>
     <string name="main_continue">Продолжить?</string>
     <string name="main_idle">Простой</string>
     <string name="main_productivity_reminder_desc">Пришло время быть продуктивным!</string>

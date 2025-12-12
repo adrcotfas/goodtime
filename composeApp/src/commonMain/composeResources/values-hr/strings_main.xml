@@ -27,7 +27,7 @@
     <string name="main_start_focus">Započni fokusiranje</string>
     <string name="main_start_break">Početak pauze</string>
     <string name="main_break_complete">Pauza završena</string>
-    <string name="main_session_complete">Završeno</string>
+    <string name="main_focus_complete">Završeno</string>
     <string name="main_this_session">Ova sesija</string>
     <string name="main_interruptions">Prekidi</string>
     <string name="main_consider_idle_time_as_extra_focus">Smatrajte vrijeme neaktivnosti kao dodatno fokusiranje</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">Nastavak</string>
     <string name="main_skip">Skip</string>
     <string name="main_stop">Stop</string>
-    <string name="main_focus_session_finished">Sesija fokusiranja pauzirana</string>
-    <string name="main_break_finished">Pauza je završena</string>
     <string name="main_continue">Nastavi?</string>
     <string name="main_idle">Idle</string>
     <string name="main_productivity_reminder_desc">Vrijeme je za produktivnost!</string>

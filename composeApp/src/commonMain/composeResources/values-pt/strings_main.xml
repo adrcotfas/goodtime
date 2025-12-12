@@ -27,7 +27,7 @@
     <string name="main_start_focus">Iniciar foco</string>
     <string name="main_start_break">Começar pausa</string>
     <string name="main_break_complete">Interrupção completa</string>
-    <string name="main_session_complete">Sessão completa</string>
+    <string name="main_focus_complete">Sessão completa</string>
     <string name="main_this_session">Esta sessão</string>
     <string name="main_interruptions">Interrupções</string>
     <string name="main_consider_idle_time_as_extra_focus">Considere o tempo ocioso como foco extra</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">Retomar</string>
     <string name="main_skip">Ignorar</string>
     <string name="main_stop">Parar</string>
-    <string name="main_focus_session_finished">Sessão Foco concluída</string>
-    <string name="main_break_finished">Pausa concluída</string>
     <string name="main_continue">Continuar?</string>
     <string name="main_idle">Inativo</string>
     <string name="main_productivity_reminder_desc">É hora de ser produtivo!</string>

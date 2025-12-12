@@ -27,7 +27,7 @@
     <string name="main_start_focus">Începe sesiune de focus</string>
     <string name="main_start_break">Începeți pauza</string>
     <string name="main_break_complete">Pauza terminată</string>
-    <string name="main_session_complete">Sesiune terminată</string>
+    <string name="main_focus_complete">Sesiune terminată</string>
     <string name="main_this_session">Această sesiune</string>
     <string name="main_interruptions">Întreruperi</string>
     <string name="main_consider_idle_time_as_extra_focus">Consideră timpul inactiv ca timp de focus suplimentar</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">Continuă</string>
     <string name="main_skip">Omitere</string>
     <string name="main_stop">Oprește</string>
-    <string name="main_focus_session_finished">Sesiune de focus finalizată</string>
-    <string name="main_break_finished">Pauza s-a terminat</string>
     <string name="main_continue">Continuați?</string>
     <string name="main_idle">Inactiv</string>
     <string name="main_productivity_reminder_desc">Este timpul să fii productiv!</string>

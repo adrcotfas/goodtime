@@ -34,10 +34,10 @@ import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isFocus
 import com.apps.adrcotfas.goodtime.common.formatMillisToTime
 import goodtime_productivity.composeapp.generated.resources.Res
-import goodtime_productivity.composeapp.generated.resources.main_break_finished
+import goodtime_productivity.composeapp.generated.resources.main_break_complete
 import goodtime_productivity.composeapp.generated.resources.main_break_in_progress
 import goodtime_productivity.composeapp.generated.resources.main_continue
-import goodtime_productivity.composeapp.generated.resources.main_focus_session_finished
+import goodtime_productivity.composeapp.generated.resources.main_focus_complete
 import goodtime_productivity.composeapp.generated.resources.main_focus_session_in_progress
 import goodtime_productivity.composeapp.generated.resources.main_focus_session_paused
 import goodtime_productivity.composeapp.generated.resources.main_notifications_channel_name
@@ -201,11 +201,11 @@ class NotificationArchManager(
 
         val mainStateText =
             if (timerType == TimerType.FOCUS) {
-                getString(Res.string.main_focus_session_finished)
+                getString(Res.string.main_focus_complete)
             } else {
-                getString(Res.string.main_break_finished)
+                getString(Res.string.main_break_complete)
             }
-        val labelText = if (data.isDefaultLabel()) "" else "$labelName - "
+        val labelText = if (data.isDefaultLabel()) "" else "$labelName • "
         val stateText = "$labelText$mainStateText"
 
         val builder =

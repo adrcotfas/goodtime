@@ -27,7 +27,7 @@
     <string name="main_start_focus">Έναρξη εστίασης</string>
     <string name="main_start_break">Έναρξη διάλειμμα</string>
     <string name="main_break_complete">Το διάλειμμα ολοκληρώθηκε</string>
-    <string name="main_session_complete">Η συνεδρία ολοκληρώθηκε</string>
+    <string name="main_focus_complete">Η συνεδρία ολοκληρώθηκε</string>
     <string name="main_this_session">Αυτή η συνεδρία</string>
     <string name="main_interruptions">Διακοπές</string>
     <string name="main_consider_idle_time_as_extra_focus">Θεωρήστε το χρόνο αδράνειας ως επιπλέον εστίαση</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">Συνέχεια</string>
     <string name="main_skip">Παράλειψη</string>
     <string name="main_stop">Σταμάτα</string>
-    <string name="main_focus_session_finished">Η συνεδρία εστίασης ολοκληρώθηκε</string>
-    <string name="main_break_finished">Διάλειμμα τελείωσε</string>
     <string name="main_continue">Να συνεχίσω;</string>
     <string name="main_idle">Αδρανής</string>
     <string name="main_productivity_reminder_desc">Είναι ώρα να γίνουμε παραγωγικοί!</string>

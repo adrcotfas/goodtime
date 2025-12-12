@@ -27,7 +27,7 @@
     <string name="main_start_focus">Bắt đầu tập trung</string>
     <string name="main_start_break">Bắt đầu nghỉ</string>
     <string name="main_break_complete">Nghỉ hoàn thành</string>
-    <string name="main_session_complete">Hoàn tất Phiên</string>
+    <string name="main_focus_complete">Hoàn tất Phiên</string>
     <string name="main_this_session">Thời gian lần này</string>
     <string name="main_interruptions">Gián đoạn</string>
     <string name="main_consider_idle_time_as_extra_focus">Hãy coi thời gian nhàn rỗi là sự tập trung thêm</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">Tiếp tục</string>
     <string name="main_skip">Skip</string>
     <string name="main_stop">Kết thúc</string>
-    <string name="main_focus_session_finished">Phiên tập trung đã bị tạm dừng</string>
-    <string name="main_break_finished">Nghỉ xong</string>
     <string name="main_continue">Tiếp tục?</string>
     <string name="main_idle">Idle</string>
     <string name="main_productivity_reminder_desc">Đã đến lúc cần phải làm việc năng suất hơn!</string>

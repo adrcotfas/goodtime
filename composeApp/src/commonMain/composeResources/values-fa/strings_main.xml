@@ -27,7 +27,7 @@
     <string name="main_start_focus">شروع تمرکز</string>
     <string name="main_start_break">شروع استراحت</string>
     <string name="main_break_complete">استراحت تکمیل شد</string>
-    <string name="main_session_complete">دوره تکمیل شد</string>
+    <string name="main_focus_complete">دوره تکمیل شد</string>
     <string name="main_this_session">این دوره</string>
     <string name="main_interruptions">وقفه‌ها</string>
     <string name="main_consider_idle_time_as_extra_focus">زمان غیرفعال را به عنوان تمرکز مضاعف در نظر بگیر</string>
@@ -41,8 +41,6 @@
     <string name="main_resume">ادامه</string>
     <string name="main_skip">رد کردن</string>
     <string name="main_stop">اتمام</string>
-    <string name="main_focus_session_finished">دوره تمرکز تمام شده است</string>
-    <string name="main_break_finished">استراحت تمام شد</string>
     <string name="main_continue">ادامه؟</string>
     <string name="main_idle">Idle</string>
     <string name="main_productivity_reminder_desc">زمان کارآمد بودن فرا رسیده!</string>

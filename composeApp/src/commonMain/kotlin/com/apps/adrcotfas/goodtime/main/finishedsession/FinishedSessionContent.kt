@@ -72,7 +72,7 @@ import goodtime_productivity.composeapp.generated.resources.main_break_complete
 import goodtime_productivity.composeapp.generated.resources.main_consider_idle_time_as_extra_focus
 import goodtime_productivity.composeapp.generated.resources.main_idle
 import goodtime_productivity.composeapp.generated.resources.main_interruptions
-import goodtime_productivity.composeapp.generated.resources.main_session_complete
+import goodtime_productivity.composeapp.generated.resources.main_focus_complete
 import goodtime_productivity.composeapp.generated.resources.main_start_break
 import goodtime_productivity.composeapp.generated.resources.main_start_focus
 import goodtime_productivity.composeapp.generated.resources.main_this_session
@@ -210,7 +210,7 @@ private fun FinishedSessionContent(
     ) {
         val isBreak = timerUiState.timerType.isBreak
         Text(
-            text = if (isBreak) stringResource(Res.string.main_break_complete) else stringResource(Res.string.main_session_complete),
+            text = if (isBreak) stringResource(Res.string.main_break_complete) else stringResource(Res.string.main_focus_complete),
             style = MaterialTheme.typography.titleLarge,
         )
         CurrentSessionCard(
