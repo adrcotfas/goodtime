@@ -39,6 +39,8 @@ struct GoodtimeActivityAttributes: ActivityAttributes {
     let strFocusInProgress: String
     let strFocusPaused: String
     let strBreakInProgress: String
+    let strFocusComplete: String
+    let strBreakComplete: String
 
     // ContentState contains DYNAMIC properties (change during activity)
     struct ContentState: Codable, Hashable {
@@ -120,7 +122,9 @@ extension GoodtimeActivityAttributes {
             strPlusOneMin: "+1 Min",
             strFocusInProgress: "Focus in progress",
             strFocusPaused: "Focus paused",
-            strBreakInProgress: "Break in progress"
+            strBreakInProgress: "Break in progress",
+            strFocusComplete: "Session complete",
+            strBreakComplete: "Break complete"
         )
     }
 
@@ -139,7 +143,9 @@ extension GoodtimeActivityAttributes {
             strPlusOneMin: "+1 Min",
             strFocusInProgress: "Focus in progress",
             strFocusPaused: "Focus paused",
-            strBreakInProgress: "Break in progress"
+            strBreakInProgress: "Break in progress",
+            strFocusComplete: "Session complete",
+            strBreakComplete: "Break complete"
         )
     }
 
@@ -158,7 +164,9 @@ extension GoodtimeActivityAttributes {
             strPlusOneMin: "+1 Min",
             strFocusInProgress: "Focus in progress",
             strFocusPaused: "Focus paused",
-            strBreakInProgress: "Break in progress"
+            strBreakInProgress: "Break in progress",
+            strFocusComplete: "Session complete",
+            strBreakComplete: "Break complete"
         )
     }
 
@@ -177,7 +185,9 @@ extension GoodtimeActivityAttributes {
             strPlusOneMin: "+1 Min",
             strFocusInProgress: "Focus in progress",
             strFocusPaused: "Focus paused",
-            strBreakInProgress: "Break in progress"
+            strBreakInProgress: "Break in progress",
+            strFocusComplete: "Session complete",
+            strBreakComplete: "Break complete"
         )
     }
 }

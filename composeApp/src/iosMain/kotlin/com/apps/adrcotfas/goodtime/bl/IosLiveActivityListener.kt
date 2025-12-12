@@ -20,12 +20,14 @@ package com.apps.adrcotfas.goodtime.bl
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.ui.palette
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_break_complete
 import goodtime_productivity.composeapp.generated.resources.main_break_in_progress
 import goodtime_productivity.composeapp.generated.resources.main_focus_session_in_progress
 import goodtime_productivity.composeapp.generated.resources.main_focus_session_paused
 import goodtime_productivity.composeapp.generated.resources.main_pause
 import goodtime_productivity.composeapp.generated.resources.main_plus_1_min
 import goodtime_productivity.composeapp.generated.resources.main_resume
+import goodtime_productivity.composeapp.generated.resources.main_session_complete
 import goodtime_productivity.composeapp.generated.resources.main_start_break
 import goodtime_productivity.composeapp.generated.resources.main_start_focus
 import goodtime_productivity.composeapp.generated.resources.main_stop
@@ -78,6 +80,8 @@ class IosLiveActivityListener(
                             "focus_in_progress" to getString(Res.string.main_focus_session_in_progress),
                             "focus_paused" to getString(Res.string.main_focus_session_paused),
                             "break_in_progress" to getString(Res.string.main_break_in_progress),
+                            "session_complete" to getString(Res.string.main_session_complete),
+                            "break_complete" to getString(Res.string.main_break_complete),
                         )
                     }
 

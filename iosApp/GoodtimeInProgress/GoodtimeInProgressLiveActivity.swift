@@ -31,17 +31,6 @@ struct GoodtimeLiveActivity: Widget {
 
         } dynamicIsland: { context in
             DynamicIsland {
-                var timerLabel: String {
-                    let type = context.attributes.timerType
-                    let isPaused = context.state.isPaused
-
-                    if type == .focus {
-                        return isPaused ? context.attributes.strFocusPaused : context.attributes.strFocusInProgress
-                    } else {
-                        return context.attributes.strBreakInProgress
-                    }
-                }
-                
                 // EXPANDED VIEW (long-press) - Similar to lock screen layout
                 DynamicIslandExpandedRegion(.leading) {
                     Image("product_icon")
@@ -61,18 +50,21 @@ struct GoodtimeLiveActivity: Widget {
                         if context.isStale {
                             // STALE STATE UI
                             VStack(alignment: .leading, spacing: 4) {
-                                //TODO: use the "Session complete" string from KMP
-                                Text("Session Ended")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
+                                GoodtimeStatusText(
+                                    context: context,
+                                    font: .headline,
+                                    foregroundColor: .white
+                                )
                             }
                             .padding()
                         } else {
                             // ACTIVE STATE UI
                             VStack(alignment: .leading) {
-                                Text(timerLabel)
-                                    .font(.body)
-                                    .foregroundColor(.white)
+                                GoodtimeStatusText(
+                                    context: context,
+                                    font: .body,
+                                    foregroundColor: .white
+                                )
                                 if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
                                     GoodtimeLabelBadge(
                                         labelName: context.attributes.labelName,
@@ -174,9 +166,7 @@ struct GoodtimeTimerDisplay: View {
     var body: some View {
         Group {
             if context.isStale {
-                // STALE: Show placeholder
-                Text("--:--")
-                    .foregroundColor(.gray)
+                
             } else if context.state.isPaused {
                 pausedTimeText
                     .opacity(0.35)
@@ -232,6 +222,37 @@ struct GoodtimeTimerDisplay: View {
     }
 }
 
+// MARK: - Status Text Component (Reusable)
+
+struct GoodtimeStatusText: View {
+    let context: ActivityViewContext<GoodtimeActivityAttributes>
+    var font: Font = .body
+    var foregroundColor: Color = .white
+
+    var body: some View {
+        Text(statusText)
+            .font(font)
+            .foregroundColor(foregroundColor)
+    }
+
+    private var statusText: String {
+        if context.isStale {
+            return context.attributes.timerType == .focus
+                ? context.attributes.strFocusComplete
+                : context.attributes.strBreakComplete
+        }
+
+        let type = context.attributes.timerType
+        let isPaused = context.state.isPaused
+
+        if type == .focus {
+            return isPaused ? context.attributes.strFocusPaused : context.attributes.strFocusInProgress
+        } else {
+            return context.attributes.strBreakInProgress
+        }
+    }
+}
+
 // MARK: - Label Badge Component (Reusable)
 
 struct GoodtimeLabelBadge: View {
@@ -262,8 +283,7 @@ struct GoodtimeLockScreenView: View {
 
     var body: some View {
         Group {
-            VStack() {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(spacing: 12) {
                 HStack() {
                     HStack(spacing: 6) {
                         Image("product_icon")
@@ -283,10 +303,11 @@ struct GoodtimeLockScreenView: View {
                     VStack(spacing: 12) {
                         HStack(spacing: 16) {
                             VStack(alignment: .leading, spacing: 4) {
-                                //TODO: use the "Session complete" string from KMP
-                                Text("Session Ended")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
+                                GoodtimeStatusText(
+                                    context: context,
+                                    font: .headline,
+                                    foregroundColor: .white
+                                )
                             }
                         }
                     }
@@ -294,10 +315,12 @@ struct GoodtimeLockScreenView: View {
                 } else {
                     // ACTIVE STATE UI
                     VStack(alignment: .leading) {
-                        Text(timerLabel)
-                            .font(.body)
-                            .lineLimit(1)
-                            .foregroundColor(.white)
+                        GoodtimeStatusText(
+                            context: context,
+                            font: .body,
+                            foregroundColor: .white
+                        )
+                        .lineLimit(1)
                         if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
                             GoodtimeLabelBadge(
                                 labelName: context.attributes.labelName,
@@ -306,32 +329,13 @@ struct GoodtimeLockScreenView: View {
                                 foregroundColor: .white
                             )
                         }
+                        GoodtimeActionButtons(context: context, style: .dynamicIsland).padding(.top, 16)
                     }
                 }
             }
-                GoodtimeActionButtons(context: context, style: .dynamicIsland).padding(.top, 16)
-        }
             .padding()
         }
         .background(Color.black)  // Always black background for lock screen
-    }
-
-    private var iconName: String {
-        switch context.attributes.timerType {
-        case .focus: return "brain.head.profile"
-        case .shortBreak, .longBreak: return "cup.and.saucer.fill"
-        }
-    }
-
-    private var timerLabel: String {
-        let type = context.attributes.timerType
-        let isPaused = context.state.isPaused
-
-        if type == .focus {
-            return isPaused ? context.attributes.strFocusPaused : context.attributes.strFocusInProgress
-        } else {
-            return context.attributes.strBreakInProgress
-        }
     }
 }
 

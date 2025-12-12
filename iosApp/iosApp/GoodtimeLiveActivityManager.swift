@@ -98,6 +98,8 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
         let strFocusInProgress = localizedStrings["focus_in_progress"] ?? "Focus in progress"
         let strFocusPaused = localizedStrings["focus_paused"] ?? "Focus paused"
         let strBreakInProgress = localizedStrings["break_in_progress"] ?? "Break in progress"
+        let strFocusComplete = localizedStrings["session_complete"] ?? "Session complete"
+        let strBreakComplete = localizedStrings["break_complete"] ?? "Break complete"
 
         let attributes = GoodtimeActivityAttributes(
             timerType: timerType,
@@ -113,7 +115,9 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
             strPlusOneMin: strPlusOneMin,
             strFocusInProgress: strFocusInProgress,
             strFocusPaused: strFocusPaused,
-            strBreakInProgress: strBreakInProgress
+            strBreakInProgress: strBreakInProgress,
+            strFocusComplete: strFocusComplete,
+            strBreakComplete: strBreakComplete
         )
 
         let initialState = GoodtimeActivityAttributes.ContentState(
