@@ -48,7 +48,6 @@ struct GoodtimeLiveActivity: Widget {
                 DynamicIslandExpandedRegion(.center) {
                     VStack(alignment: .leading) {
                         if context.isStale {
-                            // STALE STATE UI
                             VStack(alignment: .leading, spacing: 4) {
                                 GoodtimeStatusText(
                                     context: context,
@@ -58,13 +57,7 @@ struct GoodtimeLiveActivity: Widget {
                             }
                             .padding()
                         } else {
-                            // ACTIVE STATE UI
-                            VStack(alignment: .leading) {
-                                GoodtimeStatusText(
-                                    context: context,
-                                    font: .body,
-                                    foregroundColor: .white
-                                )
+                            VStack() {
                                 if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
                                     GoodtimeLabelBadge(
                                         labelName: context.attributes.labelName,
@@ -73,6 +66,11 @@ struct GoodtimeLiveActivity: Widget {
                                         foregroundColor: .white
                                     )
                                 }
+                                GoodtimeStatusText(
+                                    context: context,
+                                    font: .body,
+                                    foregroundColor: .white
+                                )
                             }
                         }
                     }
@@ -84,12 +82,9 @@ struct GoodtimeLiveActivity: Widget {
                 }
 
             } compactLeading: {
-                // COMPACT LEFT
                 timerTypeIcon(context.attributes.timerType)
-                    
 
             } compactTrailing: {
-                // COMPACT RIGHT - Timer display
                 GoodtimeTimerDisplay(context: context, style: .compact)
                     .frame(width: 50)
 
@@ -168,7 +163,6 @@ struct GoodtimeTimerDisplay: View {
                 pausedTimeText
                     .opacity(0.35)
             } else {
-                // RUNNING: Auto-updating timer
                 Text(
                     timerInterval: context.state.timerStartDate...context.state.timerEndDate,
                     countsDown: context.attributes.isCountdown
@@ -178,6 +172,7 @@ struct GoodtimeTimerDisplay: View {
         .monospacedDigit()
         .multilineTextAlignment(textAlignment)
         .font(fontForStyle)
+        .lineLimit(1)
         .foregroundColor(.white)
     }
 
@@ -223,13 +218,14 @@ struct GoodtimeTimerDisplay: View {
 
 struct GoodtimeStatusText: View {
     let context: ActivityViewContext<GoodtimeActivityAttributes>
-    var font: Font = .body
+    var font: Font = .title
     var foregroundColor: Color = .white
 
     var body: some View {
         Text(statusText)
             .font(font)
             .foregroundColor(foregroundColor)
+            .lineLimit(1)
     }
 
     private var statusText: String {
@@ -269,6 +265,7 @@ struct GoodtimeLabelBadge: View {
             Text(labelName)
                 .font(fontSize)
                 .foregroundColor(foregroundColor)
+                .lineLimit(1)
         }
     }
 }
@@ -296,7 +293,6 @@ struct GoodtimeLockScreenView: View {
                     GoodtimeTimerDisplay(context: context, style: .expanded)
                 }
                 if context.isStale {
-                    // STALE STATE UI
                     VStack(spacing: 12) {
                         HStack(spacing: 16) {
                             VStack(alignment: .leading, spacing: 4) {
@@ -310,29 +306,31 @@ struct GoodtimeLockScreenView: View {
                     }
                     .padding()
                 } else {
-                    // ACTIVE STATE UI
-                    VStack(alignment: .leading) {
-                        GoodtimeStatusText(
-                            context: context,
-                            font: .body,
-                            foregroundColor: .white
-                        )
-                        .lineLimit(1)
-                        if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
-                            GoodtimeLabelBadge(
-                                labelName: context.attributes.labelName,
-                                labelColorHex: context.attributes.labelColorHex,
-                                fontSize: .caption,
+                    VStack(alignment: .leading, spacing: 16) {
+                        HStack() {
+                            GoodtimeStatusText(
+                                context: context,
+                                font: .body,
                                 foregroundColor: .white
                             )
-                        }
-                        GoodtimeActionButtons(context: context, style: .dynamicIsland).padding(.top, 16)
+                            .lineLimit(1)
+                            Spacer()
+                            if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
+                                GoodtimeLabelBadge(
+                                    labelName: context.attributes.labelName,
+                                    labelColorHex: context.attributes.labelColorHex,
+                                    fontSize: .caption,
+                                    foregroundColor: .white
+                                )
+                            }
+                        }.padding(.vertical, 4)
                     }
+                    GoodtimeActionButtons(context: context, style: .dynamicIsland)
                 }
             }
             .padding()
         }
-        .background(Color.black)  // Always black background for lock screen
+        .background(Color.black)
     }
 }
 
@@ -354,37 +352,28 @@ struct GoodtimeActionButtons: View {
 
         HStack(spacing: style == .lockScreen ? 8 : 6) {
             if context.isStale {
-                // STALE STATE: Show "Start Next Session" button
                 if timerType == .focus {
-                    // Focus session ended, offer to start break
                     textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
                 } else {
-                    // Break session ended, offer to start focus
                     textButton(context.attributes.strStartFocus, intent: GoodtimeStartFocusIntent())
                 }
             } else if isCountdown {
-                // COUNTDOWN MODE
                 if timerType == .focus {
-                    // FOCUS SESSION
                     if isPaused {
-                        // Paused Focus: Resume, Stop, Start Break
                         textButton(context.attributes.strResume, intent: GoodtimeTogglePauseIntent())
                         textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
                         textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
                     } else {
-                        // Running Focus: Pause, +1 Min, Start Break
                         textButton(context.attributes.strPause, intent: GoodtimeTogglePauseIntent())
                         textButton(context.attributes.strPlusOneMin, intent: GoodtimeAddMinuteIntent())
                         textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
                     }
                 } else {
-                    // BREAK SESSION: Stop, +1 Min, Start Focus
                     textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
                     textButton(context.attributes.strPlusOneMin, intent: GoodtimeAddMinuteIntent())
                     textButton(context.attributes.strStartFocus, intent: GoodtimeStartFocusIntent())
                 }
             } else {
-                // COUNT-UP MODE: Just Stop
                 textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
             }
         }
