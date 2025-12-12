@@ -18,6 +18,7 @@
 
 import AppIntents
 import Foundation
+import UserNotifications
 
 // MARK: - Pause/Resume Intent (Toggle)
 
@@ -27,6 +28,10 @@ struct GoodtimeTogglePauseIntent: LiveActivityIntent {
 
     func perform() async throws -> some IntentResult {
         print("[Intent] Toggle Pause/Resume")
+
+        // Clear all delivered notifications
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+
         // Post notification to trigger toggle in the app
         NotificationCenter.default.post(
             name: NSNotification.Name("GoodtimeTogglePauseFromLiveActivity"),
@@ -44,6 +49,10 @@ struct GoodtimeStopIntent: LiveActivityIntent {
 
     func perform() async throws -> some IntentResult {
         print("[Intent] Stop timer")
+
+        // Clear all delivered notifications
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+
         NotificationCenter.default.post(
             name: NSNotification.Name("GoodtimeStopFromLiveActivity"),
             object: nil
@@ -60,6 +69,10 @@ struct GoodtimeAddMinuteIntent: LiveActivityIntent {
 
     func perform() async throws -> some IntentResult {
         print("[Intent] Add one minute")
+
+        // Clear all delivered notifications
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+
         NotificationCenter.default.post(
             name: NSNotification.Name("GoodtimeAddMinuteFromLiveActivity"),
             object: nil
@@ -76,6 +89,10 @@ struct GoodtimeStartBreakIntent: LiveActivityIntent {
 
     func perform() async throws -> some IntentResult {
         print("[Intent] Start break")
+
+        // Clear all delivered notifications
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+
         NotificationCenter.default.post(
             name: NSNotification.Name("GoodtimeStartBreakFromLiveActivity"),
             object: nil
@@ -92,6 +109,10 @@ struct GoodtimeStartFocusIntent: LiveActivityIntent {
 
     func perform() async throws -> some IntentResult {
         print("[Intent] Start focus")
+
+        // Clear all delivered notifications
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+
         NotificationCenter.default.post(
             name: NSNotification.Name("GoodtimeStartFocusFromLiveActivity"),
             object: nil
