@@ -79,11 +79,8 @@ struct GoodtimeLiveActivity: Widget {
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    if !context.isStale {
-                        // Action buttons
-                        GoodtimeActionButtons(context: context)
-                            .padding(.top, 4)
-                    }
+                    GoodtimeActionButtons(context: context)
+                        .padding(.top, 4)
                 }
 
             } compactLeading: {
@@ -351,41 +348,44 @@ struct GoodtimeActionButtons: View {
     }
 
     var body: some View {
-        // Hide buttons when stale
-        if context.isStale {
-            EmptyView()
-        } else {
-            let timerType = context.attributes.timerType
-            let isPaused = context.state.isPaused
-            let isCountdown = context.attributes.isCountdown
+        let timerType = context.attributes.timerType
+        let isPaused = context.state.isPaused
+        let isCountdown = context.attributes.isCountdown
 
-            HStack(spacing: style == .lockScreen ? 8 : 6) {
-                //TODO: add isStale branch with options equivalent to NotificationArchManager.buildFinishedNotification actions
-                if isCountdown {
-                    // COUNTDOWN MODE
-                    if timerType == .focus {
-                        // FOCUS SESSION
-                        if isPaused {
-                            // Paused Focus: Resume, Stop, Start Break
-                            textButton(context.attributes.strResume, intent: GoodtimeTogglePauseIntent())
-                            textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
-                            textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
-                        } else {
-                            // Running Focus: Pause, +1 Min, Start Break
-                            textButton(context.attributes.strPause, intent: GoodtimeTogglePauseIntent())
-                            textButton(context.attributes.strPlusOneMin, intent: GoodtimeAddMinuteIntent())
-                            textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
-                        }
-                    } else {
-                        // BREAK SESSION: Stop, +1 Min, Start Focus
+        HStack(spacing: style == .lockScreen ? 8 : 6) {
+            if context.isStale {
+                // STALE STATE: Show "Start Next Session" button
+                if timerType == .focus {
+                    // Focus session ended, offer to start break
+                    textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
+                } else {
+                    // Break session ended, offer to start focus
+                    textButton(context.attributes.strStartFocus, intent: GoodtimeStartFocusIntent())
+                }
+            } else if isCountdown {
+                // COUNTDOWN MODE
+                if timerType == .focus {
+                    // FOCUS SESSION
+                    if isPaused {
+                        // Paused Focus: Resume, Stop, Start Break
+                        textButton(context.attributes.strResume, intent: GoodtimeTogglePauseIntent())
                         textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
+                        textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
+                    } else {
+                        // Running Focus: Pause, +1 Min, Start Break
+                        textButton(context.attributes.strPause, intent: GoodtimeTogglePauseIntent())
                         textButton(context.attributes.strPlusOneMin, intent: GoodtimeAddMinuteIntent())
-                        textButton(context.attributes.strStartFocus, intent: GoodtimeStartFocusIntent())
+                        textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
                     }
                 } else {
-                    // COUNT-UP MODE: Just Stop
+                    // BREAK SESSION: Stop, +1 Min, Start Focus
                     textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
+                    textButton(context.attributes.strPlusOneMin, intent: GoodtimeAddMinuteIntent())
+                    textButton(context.attributes.strStartFocus, intent: GoodtimeStartFocusIntent())
                 }
+            } else {
+                // COUNT-UP MODE: Just Stop
+                textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
             }
         }
     }
