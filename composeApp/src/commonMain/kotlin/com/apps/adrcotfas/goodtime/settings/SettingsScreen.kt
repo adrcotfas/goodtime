@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
+import com.apps.adrcotfas.goodtime.platform.getPlatformConfiguration
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
 import com.apps.adrcotfas.goodtime.settings.notifications.ProductivityReminderListItem
 import com.apps.adrcotfas.goodtime.ui.BetterListItem
@@ -68,7 +69,6 @@ import goodtime_productivity.composeapp.generated.resources.settings_display_and
 import goodtime_productivity.composeapp.generated.resources.settings_display_over_lock_screen
 import goodtime_productivity.composeapp.generated.resources.settings_display_over_lock_screen_desc
 import goodtime_productivity.composeapp.generated.resources.settings_fullscreen_mode
-import goodtime_productivity.composeapp.generated.resources.settings_keep_the_screen_on
 import goodtime_productivity.composeapp.generated.resources.settings_notifications_title
 import goodtime_productivity.composeapp.generated.resources.settings_productivity_reminder_title
 import goodtime_productivity.composeapp.generated.resources.settings_screensaver_mode
@@ -102,6 +102,7 @@ fun SettingsScreen(
     val settings = uiState.settings
 
     val areNotificationsEnabled = rememberAreNotificationsEnabled()
+    val platformConfig = getPlatformConfiguration()
 
     val listState = rememberScrollState()
 
@@ -259,12 +260,14 @@ fun SettingsScreen(
                     viewModel.setTrueBlackMode(it)
                 }
             }
-            CheckboxListItem(
-                title = stringResource(Res.string.settings_display_over_lock_screen),
-                subtitle = stringResource(Res.string.settings_display_over_lock_screen_desc),
-                checked = uiState.settings.uiSettings.showWhenLocked,
-            ) {
-                viewModel.setShowWhenLocked(it)
+            if (platformConfig.supportsShowWhenLocked) {
+                CheckboxListItem(
+                    title = stringResource(Res.string.settings_display_over_lock_screen),
+                    subtitle = stringResource(Res.string.settings_display_over_lock_screen_desc),
+                    checked = uiState.settings.uiSettings.showWhenLocked,
+                ) {
+                    viewModel.setShowWhenLocked(it)
+                }
             }
 
             SubtleHorizontalDivider()
