@@ -24,6 +24,7 @@ sealed class Event {
         val endTime: Long = 0,
         val labelName: String = "",
         val isDefaultLabel: Boolean = true,
+        val labelColorIndex: Long = 0,
         val isBreakEnabled: Boolean = true,
         val isCountdown: Boolean = true,
     ) : Event()

@@ -31,38 +31,56 @@ struct GoodtimeLiveActivity: Widget {
 
         } dynamicIsland: { context in
             DynamicIsland {
-                // EXPANDED VIEW (long-press)
+                var timerLabel: String {
+                    let type = context.attributes.timerType
+                    let isPaused = context.state.isPaused
+
+                    if type == .focus {
+                        return isPaused ? context.attributes.strFocusPaused : context.attributes.strFocusInProgress
+                    } else {
+                        return context.attributes.strBreakInProgress
+                    }
+                }
+                
+                // EXPANDED VIEW (long-press) - Similar to lock screen layout
                 DynamicIslandExpandedRegion(.leading) {
-                    timerTypeIcon(context.attributes.timerType)
-                        .font(.title2)
-                        .opacity(context.isStale ? 0.5 : 1.0)
+                    Image("product_icon")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 24, height: 24)
+                        .cornerRadius(4).padding(4)
                 }
 
                 DynamicIslandExpandedRegion(.trailing) {
                     GoodtimeTimerDisplay(context: context, style: .expanded)
+                        .padding(4)
                 }
 
                 DynamicIslandExpandedRegion(.center) {
-                    if context.isStale {
-                        VStack(spacing: 2) {
-                            Text("Session Ended")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-
-                            Text("Open app")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                        }
-                    } else {
-                        VStack(spacing: 2) {
-                            Text(timerTypeLabel(context.attributes.timerType))
-                                .font(.headline)
-                                .fontWeight(.semibold)
-
-                            if !context.attributes.isCountdown {
-                                Text("Count Up")
-                                    .font(.caption2)
-                                    .foregroundColor(.secondary)
+                    VStack(alignment: .leading) {
+                        if context.isStale {
+                            // STALE STATE UI
+                            VStack(alignment: .leading, spacing: 4) {
+                                //TODO: use the "Session complete" string from KMP
+                                Text("Session Ended")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                            }
+                            .padding()
+                        } else {
+                            // ACTIVE STATE UI
+                            VStack(alignment: .leading) {
+                                Text(timerLabel)
+                                    .font(.body)
+                                    .foregroundColor(.white)
+                                if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
+                                    GoodtimeLabelBadge(
+                                        labelName: context.attributes.labelName,
+                                        labelColorHex: context.attributes.labelColorHex,
+                                        fontSize: .caption,
+                                        foregroundColor: .white
+                                    )
+                                }
                             }
                         }
                     }
@@ -70,21 +88,16 @@ struct GoodtimeLiveActivity: Widget {
 
                 DynamicIslandExpandedRegion(.bottom) {
                     if !context.isStale {
-                        VStack(spacing: 8) {
-                            Text(stateText(for: context))
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-
-                            // Action buttons
-                            GoodtimeActionButtons(context: context)
-                        }
+                        // Action buttons
+                        GoodtimeActionButtons(context: context)
+                            .padding(.top, 4)
                     }
                 }
 
             } compactLeading: {
                 // COMPACT LEFT
                 timerTypeIcon(context.attributes.timerType)
-                    .font(.caption)
+                    
 
             } compactTrailing: {
                 // COMPACT RIGHT - Timer display
@@ -92,9 +105,8 @@ struct GoodtimeLiveActivity: Widget {
                     .frame(width: 50)
 
             } minimal: {
-                // MINIMAL (when multiple activities)
                 timerTypeIcon(context.attributes.timerType)
-                    .font(.caption2)
+                    
             }
             .keylineTint(keylineTint(for: context.attributes.timerType))
         }
@@ -103,13 +115,17 @@ struct GoodtimeLiveActivity: Widget {
     // MARK: - Helper Functions
 
     private func timerTypeIcon(_ type: GoodtimeActivityAttributes.TimerType) -> some View {
-        Image(systemName: iconName(for: type))
+        Image(iconName(for: type))
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 20, height: 20)
+            .foregroundColor(.white)
     }
 
     private func iconName(for type: GoodtimeActivityAttributes.TimerType) -> String {
         switch type {
-        case .focus: return "brain.head.profile"
-        case .shortBreak, .longBreak: return "cup.and.saucer.fill"
+        case .focus: return "ic_focus"
+        case .shortBreak, .longBreak: return "ic_break"
         }
     }
 
@@ -126,9 +142,9 @@ struct GoodtimeLiveActivity: Widget {
         let isPaused = context.state.isPaused
 
         if type == .focus {
-            return isPaused ? "Focus session paused" : "Focus session in progress"
+            return isPaused ? context.attributes.strFocusPaused : context.attributes.strFocusInProgress
         } else {
-            return "Break in progress"
+            return context.attributes.strBreakInProgress
         }
     }
 
@@ -153,7 +169,6 @@ struct GoodtimeTimerDisplay: View {
     enum DisplayStyle {
         case compact
         case expanded
-        case lockScreen
     }
 
     var body: some View {
@@ -163,9 +178,8 @@ struct GoodtimeTimerDisplay: View {
                 Text("--:--")
                     .foregroundColor(.gray)
             } else if context.state.isPaused {
-                // PAUSED: Show static time
                 pausedTimeText
-                    .foregroundColor(.yellow)
+                    .opacity(0.35)
             } else {
                 // RUNNING: Auto-updating timer
                 Text(
@@ -175,8 +189,9 @@ struct GoodtimeTimerDisplay: View {
             }
         }
         .monospacedDigit()
-        .multilineTextAlignment(.trailing)
+        .multilineTextAlignment(textAlignment)
         .font(fontForStyle)
+        .foregroundColor(.white)
     }
 
     @ViewBuilder
@@ -187,9 +202,19 @@ struct GoodtimeTimerDisplay: View {
 
     private var fontForStyle: Font {
         switch style {
-        case .compact: return .caption2
-        case .expanded: return .title2
-        case .lockScreen: return .title
+        case .compact:
+            return .caption2
+        case .expanded:
+            // Use caption2 if duration is longer than 60 minutes (shows hours)
+            let duration = context.state.timerEndDate.timeIntervalSince(context.state.timerStartDate)
+            return abs(duration) > 3600 ? .caption2 : .title3
+        }
+    }
+
+    private var textAlignment: TextAlignment {
+        switch style {
+        case .compact: return .trailing
+        case .expanded: return .trailing
         }
     }
 
@@ -202,7 +227,30 @@ struct GoodtimeTimerDisplay: View {
         if hours > 0 {
             return String(format: "%d:%02d:%02d", hours, minutes, secs)
         } else {
-            return String(format: "%02d:%02d", minutes, secs)
+            return String(format: "%d:%02d", minutes, secs)
+        }
+    }
+}
+
+// MARK: - Label Badge Component (Reusable)
+
+struct GoodtimeLabelBadge: View {
+    let labelName: String
+    let labelColorHex: String
+    var fontSize: Font = .caption
+    var foregroundColor: Color = .white
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Image("ic_label")
+                .resizable()
+                .renderingMode(.template)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 12, height: 12)
+                .foregroundColor(Color(hex: labelColorHex))
+            Text(labelName)
+                .font(fontSize)
+                .foregroundColor(foregroundColor)
         }
     }
 }
@@ -214,82 +262,58 @@ struct GoodtimeLockScreenView: View {
 
     var body: some View {
         Group {
-            if context.isStale {
-                // STALE STATE UI
-                VStack(spacing: 12) {
-                    HStack(spacing: 16) {
-                        Image(systemName: iconName)
-                            .font(.largeTitle)
-                            .foregroundColor(.white.opacity(0.6))
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Session Ended")
-                                .font(.headline)
-                                .foregroundColor(.white)
-
-                            Text("Open app to continue")
-                                .font(.caption)
-                                .foregroundColor(.white.opacity(0.7))
-                        }
-
-                        Spacer()
-                    }
-                }
-                .padding()
-            } else {
-                // ACTIVE STATE UI
-                VStack(spacing: 12) {
-                    HStack(spacing: 16) {
-                        // Left: Timer type icon
-                        Image(systemName: iconName)
-                            .font(.largeTitle)
-                            .foregroundColor(.white)
-
-                        // Center: Info
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(timerLabel)
-                                .font(.headline)
-                                .foregroundColor(.white)
-
-                            // Show label name if not default
-                            if !context.attributes.isDefaultLabel {
-                                Text(context.attributes.labelName)
-                                    .font(.caption)
-                                    .foregroundColor(.white.opacity(0.8))
-                            }
-
-                            HStack(spacing: 8) {
-                                if !context.attributes.isCountdown {
-                                    Text("↑")
-                                        .font(.caption)
-                                        .padding(.horizontal, 4)
-                                        .background(Color.white.opacity(0.2))
-                                        .cornerRadius(4)
-                                }
-
-                                if context.state.isPaused {
-                                    Text("Paused")
-                                        .font(.caption)
-                                        .foregroundColor(.yellow)
-                                }
-                            }
-                        }
-
-                        Spacer()
-
-                        // Right: Timer
-                        GoodtimeTimerDisplay(context: context, style: .lockScreen)
-                            .fontWeight(.bold)
+            VStack() {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack() {
+                    HStack(spacing: 6) {
+                        Image("product_icon")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 24, height: 24)
+                            .cornerRadius(4)
+                        Text("Goodtime")
+                            .font(.caption)
                             .foregroundColor(.white)
                     }
-
-                    // Action buttons at bottom
-                    GoodtimeActionButtons(context: context, style: .lockScreen)
+                    Spacer()
+                    GoodtimeTimerDisplay(context: context, style: .expanded)
                 }
-                .padding()
+                if context.isStale {
+                    // STALE STATE UI
+                    VStack(spacing: 12) {
+                        HStack(spacing: 16) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                //TODO: use the "Session complete" string from KMP
+                                Text("Session Ended")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }
+                    .padding()
+                } else {
+                    // ACTIVE STATE UI
+                    VStack(alignment: .leading) {
+                        Text(timerLabel)
+                            .font(.body)
+                            .lineLimit(1)
+                            .foregroundColor(.white)
+                        if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
+                            GoodtimeLabelBadge(
+                                labelName: context.attributes.labelName,
+                                labelColorHex: context.attributes.labelColorHex,
+                                fontSize: .caption,
+                                foregroundColor: .white
+                            )
+                        }
+                    }
+                }
             }
+                GoodtimeActionButtons(context: context, style: .dynamicIsland).padding(.top, 16)
         }
-        .background(backgroundColor)
+            .padding()
+        }
+        .background(Color.black)  // Always black background for lock screen
     }
 
     private var iconName: String {
@@ -304,16 +328,9 @@ struct GoodtimeLockScreenView: View {
         let isPaused = context.state.isPaused
 
         if type == .focus {
-            return isPaused ? "Focus session paused" : "Focus session in progress"
+            return isPaused ? context.attributes.strFocusPaused : context.attributes.strFocusInProgress
         } else {
-            return "Break in progress"
-        }
-    }
-
-    private var backgroundColor: Color {
-        switch context.attributes.timerType {
-        case .focus: return .indigo
-        case .shortBreak, .longBreak: return .green
+            return context.attributes.strBreakInProgress
         }
     }
 }
@@ -339,42 +356,45 @@ struct GoodtimeActionButtons: View {
             let isCountdown = context.attributes.isCountdown
 
             HStack(spacing: style == .lockScreen ? 8 : 6) {
+                //TODO: add isStale branch with options equivalent to NotificationArchManager.buildFinishedNotification actions
                 if isCountdown {
                     // COUNTDOWN MODE
                     if timerType == .focus {
                         // FOCUS SESSION
                         if isPaused {
                             // Paused Focus: Resume, Stop, Start Break
-                            actionButton("play.fill", intent: GoodtimeTogglePauseIntent())
-                            actionButton("stop.fill", intent: GoodtimeStopIntent())
-                            actionButton("cup.and.saucer.fill", intent: GoodtimeStartBreakIntent())
+                            textButton(context.attributes.strResume, intent: GoodtimeTogglePauseIntent())
+                            textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
+                            textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
                         } else {
                             // Running Focus: Pause, +1 Min, Start Break
-                            actionButton("pause.fill", intent: GoodtimeTogglePauseIntent())
-                            actionButton("plus", intent: GoodtimeAddMinuteIntent())
-                            actionButton("cup.and.saucer.fill", intent: GoodtimeStartBreakIntent())
+                            textButton(context.attributes.strPause, intent: GoodtimeTogglePauseIntent())
+                            textButton(context.attributes.strPlusOneMin, intent: GoodtimeAddMinuteIntent())
+                            textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
                         }
                     } else {
                         // BREAK SESSION: Stop, +1 Min, Start Focus
-                        actionButton("stop.fill", intent: GoodtimeStopIntent())
-                        actionButton("plus", intent: GoodtimeAddMinuteIntent())
-                        actionButton("brain.head.profile", intent: GoodtimeStartFocusIntent())
+                        textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
+                        textButton(context.attributes.strPlusOneMin, intent: GoodtimeAddMinuteIntent())
+                        textButton(context.attributes.strStartFocus, intent: GoodtimeStartFocusIntent())
                     }
                 } else {
                     // COUNT-UP MODE: Just Stop
-                    actionButton("stop.fill", intent: GoodtimeStopIntent())
+                    textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
                 }
             }
         }
     }
 
     @ViewBuilder
-    private func actionButton<Intent: AppIntent>(_ systemImage: String, intent: Intent) -> some View {
+    private func textButton<Intent: AppIntent>(_ title: String, intent: Intent) -> some View {
         Button(intent: intent) {
-            Image(systemName: systemImage)
-                .font(style == .lockScreen ? .body : .caption)
+            Text(title)
+                .font(style == .lockScreen ? .caption : .caption)
+                .fontWeight(.medium)
                 .foregroundColor(.white)
-                .frame(width: style == .lockScreen ? 50 : 36, height: style == .lockScreen ? 36 : 28)
+                .padding(.horizontal, style == .lockScreen ? 16 : 12)
+                .padding(.vertical, style == .lockScreen ? 10 : 6)
                 .background(Color.white.opacity(0.2))
                 .clipShape(RoundedRectangle(cornerRadius: style == .lockScreen ? 10 : 8))
         }

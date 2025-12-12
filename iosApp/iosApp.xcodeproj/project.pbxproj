@@ -59,9 +59,17 @@
 			);
 			target = B03582212EE8AF20001F3E0C /* GoodtimeInProgressExtension */;
 		};
+		B0C87F192EEAC4F700C09414 /* Exceptions for "GoodtimeInProgress" folder in "iosApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				GoodtimeActivityAttributes.swift,
+			);
+			target = 5D7099CC0E2E85192A701B54 /* iosApp */;
+		};
 		B0EA28F32EE965C200BF5E80 /* Exceptions for "iosApp" folder in "GoodtimeInProgressExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				appIcon.icon,
 				GoodtimeAppIntents.swift,
 			);
 			target = B03582212EE8AF20001F3E0C /* GoodtimeInProgressExtension */;
@@ -77,6 +85,7 @@
 		B03582282EE8AF20001F3E0C /* GoodtimeInProgress */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				B0C87F192EEAC4F700C09414 /* Exceptions for "GoodtimeInProgress" folder in "iosApp" target */,
 				B035823B2EE8AF21001F3E0C /* Exceptions for "GoodtimeInProgress" folder in "GoodtimeInProgressExtension" target */,
 			);
 			path = GoodtimeInProgress;

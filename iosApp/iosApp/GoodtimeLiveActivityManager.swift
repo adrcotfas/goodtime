@@ -45,7 +45,9 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
         isCountdown: Bool,
         duration: Double,
         labelName: String,
-        isDefaultLabel: Bool
+        isDefaultLabel: Bool,
+        labelColorHex: String,
+        localizedStrings: [String: String]
     ) {
         Task {
             try? await startActivityAsync(
@@ -53,7 +55,9 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
                 isCountdown: isCountdown,
                 duration: duration,
                 labelName: labelName,
-                isDefaultLabel: isDefaultLabel
+                isDefaultLabel: isDefaultLabel,
+                labelColorHex: labelColorHex,
+                localizedStrings: localizedStrings
             )
         }
     }
@@ -63,7 +67,9 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
         isCountdown: Bool,
         duration: TimeInterval,
         labelName: String,
-        isDefaultLabel: Bool
+        isDefaultLabel: Bool,
+        labelColorHex: String,
+        localizedStrings: [String: String]
     ) async throws {
 
         await endAllActivities()
@@ -82,11 +88,32 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
             print("Goodtime: Starting COUNT-UP - start: \(now), end: \(endDate)")
         }
 
+        // Extract localized strings from dictionary with fallbacks
+        let strPause = localizedStrings["pause"] ?? "Pause"
+        let strResume = localizedStrings["resume"] ?? "Resume"
+        let strStop = localizedStrings["stop"] ?? "Stop"
+        let strStartFocus = localizedStrings["start_focus"] ?? "Start Focus"
+        let strStartBreak = localizedStrings["start_break"] ?? "Start Break"
+        let strPlusOneMin = localizedStrings["plus_one_min"] ?? "+1 Min"
+        let strFocusInProgress = localizedStrings["focus_in_progress"] ?? "Focus in progress"
+        let strFocusPaused = localizedStrings["focus_paused"] ?? "Focus paused"
+        let strBreakInProgress = localizedStrings["break_in_progress"] ?? "Break in progress"
+
         let attributes = GoodtimeActivityAttributes(
             timerType: timerType,
             isCountdown: isCountdown,
             labelName: labelName,
-            isDefaultLabel: isDefaultLabel
+            isDefaultLabel: isDefaultLabel,
+            labelColorHex: labelColorHex,
+            strPause: strPause,
+            strResume: strResume,
+            strStop: strStop,
+            strStartFocus: strStartFocus,
+            strStartBreak: strStartBreak,
+            strPlusOneMin: strPlusOneMin,
+            strFocusInProgress: strFocusInProgress,
+            strFocusPaused: strFocusPaused,
+            strBreakInProgress: strBreakInProgress
         )
 
         let initialState = GoodtimeActivityAttributes.ContentState(

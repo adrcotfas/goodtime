@@ -18,6 +18,7 @@
 
 import Foundation
 import ActivityKit
+import SwiftUI
 
 struct GoodtimeActivityAttributes: ActivityAttributes {
 
@@ -26,6 +27,18 @@ struct GoodtimeActivityAttributes: ActivityAttributes {
     let isCountdown: Bool
     let labelName: String
     let isDefaultLabel: Bool
+    let labelColorHex: String
+
+    // Localized strings (stored once, used everywhere)
+    let strPause: String
+    let strResume: String
+    let strStop: String
+    let strStartFocus: String
+    let strStartBreak: String
+    let strPlusOneMin: String
+    let strFocusInProgress: String
+    let strFocusPaused: String
+    let strBreakInProgress: String
 
     // ContentState contains DYNAMIC properties (change during activity)
     struct ContentState: Codable, Hashable {
@@ -64,6 +77,30 @@ extension GoodtimeActivityAttributes.ContentState {
     }
 }
 
+// MARK: - Color Extension
+
+extension Color {
+    /// Initialize a Color from a hex string (e.g., "#FF5733" or "FF5733")
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+
+        let r, g, b: UInt64
+        r = (int >> 16) & 0xFF
+        g = (int >> 8) & 0xFF
+        b = int & 0xFF
+
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue: Double(b) / 255,
+            opacity: 1
+        )
+    }
+}
+
 // MARK: - Preview Helpers
 
 extension GoodtimeActivityAttributes {
@@ -72,8 +109,18 @@ extension GoodtimeActivityAttributes {
         GoodtimeActivityAttributes(
             timerType: .focus,
             isCountdown: true,
-            labelName: "Work",
-            isDefaultLabel: false
+            labelName: "SomeLongLabelNameHere",
+            isDefaultLabel: false,
+            labelColorHex: "#5399d0",
+            strPause: "Pause",
+            strResume: "Resume",
+            strStop: "Stop",
+            strStartFocus: "Start Focus",
+            strStartBreak: "Start Break",
+            strPlusOneMin: "+1 Min",
+            strFocusInProgress: "Focus in progress",
+            strFocusPaused: "Focus paused",
+            strBreakInProgress: "Break in progress"
         )
     }
 
@@ -82,7 +129,17 @@ extension GoodtimeActivityAttributes {
             timerType: .focus,
             isCountdown: false,
             labelName: "Deep Work",
-            isDefaultLabel: false
+            isDefaultLabel: false,
+            labelColorHex: "#4e9364",
+            strPause: "Pause",
+            strResume: "Resume",
+            strStop: "Stop",
+            strStartFocus: "Start Focus",
+            strStartBreak: "Start Break",
+            strPlusOneMin: "+1 Min",
+            strFocusInProgress: "Focus in progress",
+            strFocusPaused: "Focus paused",
+            strBreakInProgress: "Break in progress"
         )
     }
 
@@ -91,7 +148,17 @@ extension GoodtimeActivityAttributes {
             timerType: .shortBreak,
             isCountdown: true,
             labelName: "Break",
-            isDefaultLabel: true
+            isDefaultLabel: true,
+            labelColorHex: "",
+            strPause: "Pause",
+            strResume: "Resume",
+            strStop: "Stop",
+            strStartFocus: "Start Focus",
+            strStartBreak: "Start Break",
+            strPlusOneMin: "+1 Min",
+            strFocusInProgress: "Focus in progress",
+            strFocusPaused: "Focus paused",
+            strBreakInProgress: "Break in progress"
         )
     }
 
@@ -100,7 +167,17 @@ extension GoodtimeActivityAttributes {
             timerType: .longBreak,
             isCountdown: true,
             labelName: "Long Break",
-            isDefaultLabel: true
+            isDefaultLabel: true,
+            labelColorHex: "",
+            strPause: "Pause",
+            strResume: "Resume",
+            strStop: "Stop",
+            strStartFocus: "Start Focus",
+            strStartBreak: "Start Break",
+            strPlusOneMin: "+1 Min",
+            strFocusInProgress: "Focus in progress",
+            strFocusPaused: "Focus paused",
+            strBreakInProgress: "Break in progress"
         )
     }
 }

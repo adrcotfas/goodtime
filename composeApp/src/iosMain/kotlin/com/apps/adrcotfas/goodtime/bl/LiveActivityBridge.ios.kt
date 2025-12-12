@@ -36,8 +36,10 @@ class LiveActivityBridge {
         durationSeconds: Long,
         labelName: String,
         isDefaultLabel: Boolean,
+        labelColorHex: String,
+        localizedStrings: Map<String, String>,
     ) {
-        Logger.v(TAG) { "START: isFocus=$isFocus, countdown=$isCountdown, duration=$durationSeconds secs" }
+        Logger.v(TAG) { "START: isFocus=$isFocus, countdown=$isCountdown, duration=$durationSeconds secs, color=$labelColorHex" }
 
         val timerType = if (isFocus) 0 else 1 // 0=focus, 1=shortBreak
 
@@ -47,6 +49,8 @@ class LiveActivityBridge {
             duration = durationSeconds.toDouble(),
             labelName = labelName,
             isDefaultLabel = isDefaultLabel,
+            labelColorHex = labelColorHex,
+            localizedStrings = localizedStrings,
         )
     }
 
@@ -89,6 +93,8 @@ interface LiveActivityDelegate {
         duration: Double,
         labelName: String,
         isDefaultLabel: Boolean,
+        labelColorHex: String,
+        localizedStrings: Map<String, String>,
     )
 
     fun pauseActivity()

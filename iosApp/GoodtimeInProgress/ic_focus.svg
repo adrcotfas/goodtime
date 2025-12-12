@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="128"
+     height="128"
+     viewBox="0 0 128 128">
+  <path d="M70.2,64 L101.8,32.4 C104,30.1 104.7,26.8 103.4,23.8 C102.2,20.9 99.4,19 96.2,19 L31.1,19 C27.9,19 25.1,20.9 23.9,23.8 C22.6,26.7 23.3,30.1 25.5,32.4 L57.1,64 L25.5,95.5 C23.3,97.8 22.6,101.1 23.9,104 C25.1,106.9 27.9,108.8 31.1,108.8 L96.3,108.8 C99.5,108.8 102.3,106.9 103.5,104 C104.8,101.1 104.1,97.7 101.9,95.5 Z M93.3,28.1 L63.7,57.7 L34.1,28.1 Z M34,99.9 L63.7,70.2 L93.3,99.9 Z"
+        fill="#ffffff"/>
+</svg>
