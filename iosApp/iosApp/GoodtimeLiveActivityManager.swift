@@ -284,7 +284,6 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
         let currentState = activity.content.state
 
         if currentState.isPaused {
-            // If paused, add to the remaining time
             let newRemaining = (currentState.pausedTimeRemaining ?? 0) + 60
 
             let updatedState = GoodtimeActivityAttributes.ContentState(
@@ -300,7 +299,7 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
             return
         }
 
-        let newEndDate = currentState.timerEndDate
+        let newEndDate = currentState.timerEndDate.addingTimeInterval(60)
 
         let updatedState = GoodtimeActivityAttributes.ContentState(
             timerStartDate: currentState.timerStartDate,
