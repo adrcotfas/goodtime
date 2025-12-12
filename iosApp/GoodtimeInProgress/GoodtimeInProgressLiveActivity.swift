@@ -21,12 +21,28 @@ import WidgetKit
 import SwiftUI
 import AppIntents
 
+// MARK: - Constants
+
+private enum UIConstants {
+    static let productIconSize: CGFloat = 24
+    static let productIconCornerRadius: CGFloat = 4
+    static let timerTypeIconSize: CGFloat = 20
+    static let labelIconSize: CGFloat = 12
+    static let compactTimerWidth: CGFloat = 50
+    static let hourInSeconds: TimeInterval = 3600
+    static let buttonHorizontalPadding: CGFloat = 12
+    static let buttonVerticalPadding: CGFloat = 6
+    static let buttonCornerRadius: CGFloat = 8
+    static let buttonSpacing: CGFloat = 6
+    static let buttonBackgroundOpacity: Double = 0.2
+    static let pausedTimerOpacity: Double = 0.35
+}
+
 struct GoodtimeLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: GoodtimeActivityAttributes.self) { context in
             // LOCK SCREEN / BANNER VIEW
             GoodtimeLockScreenView(context: context)
-                .activityBackgroundTint(backgroundTint(for: context.attributes.timerType))
                 .activitySystemActionForegroundColor(.white)
 
         } dynamicIsland: { context in
@@ -36,8 +52,8 @@ struct GoodtimeLiveActivity: Widget {
                     Image("product_icon")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 24, height: 24)
-                        .cornerRadius(4).padding(4)
+                        .frame(width: UIConstants.productIconSize, height: UIConstants.productIconSize)
+                        .cornerRadius(UIConstants.productIconCornerRadius).padding(4)
                 }
 
                 DynamicIslandExpandedRegion(.trailing) {
@@ -46,33 +62,20 @@ struct GoodtimeLiveActivity: Widget {
                 }
 
                 DynamicIslandExpandedRegion(.center) {
-                    VStack(alignment: .leading) {
-                        if context.isStale {
-                            VStack(alignment: .leading, spacing: 4) {
-                                GoodtimeStatusText(
-                                    context: context,
-                                    font: .headline,
-                                    foregroundColor: .white
-                                )
-                            }
-                            .padding()
-                        } else {
-                            VStack() {
-                                if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
-                                    GoodtimeLabelBadge(
-                                        labelName: context.attributes.labelName,
-                                        labelColorHex: context.attributes.labelColorHex,
-                                        fontSize: .caption,
-                                        foregroundColor: .white
-                                    )
-                                }
-                                GoodtimeStatusText(
-                                    context: context,
-                                    font: .body,
-                                    foregroundColor: .white
-                                )
-                            }
+                    VStack() {
+                        if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
+                            GoodtimeLabelBadge(
+                                labelName: context.attributes.labelName,
+                                labelColorHex: context.attributes.labelColorHex,
+                                fontSize: .caption,
+                                foregroundColor: .white
+                            )
                         }
+                        GoodtimeStatusText(
+                            context: context,
+                            font: .body,
+                            foregroundColor: .white
+                        )
                     }
                 }
 
@@ -86,13 +89,12 @@ struct GoodtimeLiveActivity: Widget {
 
             } compactTrailing: {
                 GoodtimeTimerDisplay(context: context, style: .compact)
-                    .frame(width: 50)
+                    .frame(width: UIConstants.compactTimerWidth)
 
             } minimal: {
                 timerTypeIcon(context.attributes.timerType)
-                    
+
             }
-            .keylineTint(keylineTint(for: context.attributes.timerType))
         }
     }
 
@@ -102,7 +104,7 @@ struct GoodtimeLiveActivity: Widget {
         Image(iconName(for: type))
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: 20, height: 20)
+            .frame(width: UIConstants.timerTypeIconSize, height: UIConstants.timerTypeIconSize)
             .foregroundColor(.white)
     }
 
@@ -113,35 +115,6 @@ struct GoodtimeLiveActivity: Widget {
         }
     }
 
-    private func timerTypeLabel(_ type: GoodtimeActivityAttributes.TimerType) -> String {
-        switch type {
-        case .focus: return "Focus"
-        case .shortBreak: return "Short Break"
-        case .longBreak: return "Long Break"
-        }
-    }
-
-    private func stateText(for context: ActivityViewContext<GoodtimeActivityAttributes>) -> String {
-        let type = context.attributes.timerType
-        let isPaused = context.state.isPaused
-
-        if type == .focus {
-            return isPaused ? context.attributes.strFocusPaused : context.attributes.strFocusInProgress
-        } else {
-            return context.attributes.strBreakInProgress
-        }
-    }
-
-    private func backgroundTint(for type: GoodtimeActivityAttributes.TimerType) -> Color {
-        switch type {
-        case .focus: return .indigo
-        case .shortBreak, .longBreak: return .green
-        }
-    }
-
-    private func keylineTint(for type: GoodtimeActivityAttributes.TimerType) -> Color {
-        backgroundTint(for: type)
-    }
 }
 
 // MARK: - Timer Display Component (Handles Countdown AND Count-Up)
@@ -153,15 +126,16 @@ struct GoodtimeTimerDisplay: View {
     enum DisplayStyle {
         case compact
         case expanded
+        case lockscreen
     }
 
     var body: some View {
         Group {
             if context.isStale {
-                
+                // Intentionally empty - no timer display when activity is stale
             } else if context.state.isPaused {
                 pausedTimeText
-                    .opacity(0.35)
+                    .opacity(UIConstants.pausedTimerOpacity)
             } else {
                 Text(
                     timerInterval: context.state.timerStartDate...context.state.timerEndDate,
@@ -170,10 +144,25 @@ struct GoodtimeTimerDisplay: View {
             }
         }
         .monospacedDigit()
-        .multilineTextAlignment(textAlignment)
+        .multilineTextAlignment(.trailing)
         .font(fontForStyle)
         .lineLimit(1)
         .foregroundColor(.white)
+        .accessibilityLabel(accessibilityLabelText)
+    }
+
+    private var accessibilityLabelText: String {
+        if context.isStale {
+            return "Timer completed"
+        } else if context.state.isPaused {
+            let time = context.state.displayTime
+            return "Timer paused at \(formatTime(time))"
+        } else {
+            let remaining = context.state.timerEndDate.timeIntervalSince(Date())
+            return context.attributes.isCountdown ?
+                "Time remaining: \(formatTime(remaining))" :
+                "Timer running: \(formatTime(-remaining))"
+        }
     }
 
     @ViewBuilder
@@ -189,14 +178,10 @@ struct GoodtimeTimerDisplay: View {
         case .expanded:
             // Use caption2 if duration is longer than 60 minutes (shows hours)
             let duration = context.state.timerEndDate.timeIntervalSince(context.state.timerStartDate)
-            return abs(duration) > 3600 ? .caption2 : .title3
-        }
-    }
-
-    private var textAlignment: TextAlignment {
-        switch style {
-        case .compact: return .trailing
-        case .expanded: return .trailing
+            return abs(duration) > UIConstants.hourInSeconds ? .caption2 : .title3
+        case .lockscreen:
+            let duration = context.state.timerEndDate.timeIntervalSince(context.state.timerStartDate)
+            return abs(duration) > UIConstants.hourInSeconds ? .caption2 : .title
         }
     }
 
@@ -226,6 +211,7 @@ struct GoodtimeStatusText: View {
             .font(font)
             .foregroundColor(foregroundColor)
             .lineLimit(1)
+            .accessibilityLabel("Timer status: \(statusText)")
     }
 
     private var statusText: String {
@@ -255,18 +241,20 @@ struct GoodtimeLabelBadge: View {
     var foregroundColor: Color = .white
 
     var body: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: UIConstants.buttonSpacing) {
             Image("ic_label")
                 .resizable()
                 .renderingMode(.template)
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 12, height: 12)
+                .frame(width: UIConstants.labelIconSize, height: UIConstants.labelIconSize)
                 .foregroundColor(Color(hex: labelColorHex))
             Text(labelName)
                 .font(fontSize)
                 .foregroundColor(foregroundColor)
                 .lineLimit(1)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Label: \(labelName)")
     }
 }
 
@@ -277,55 +265,40 @@ struct GoodtimeLockScreenView: View {
 
     var body: some View {
         Group {
-            VStack(spacing: 12) {
+            VStack(spacing: 8) {
                 HStack() {
-                    HStack(spacing: 6) {
+                    HStack(spacing: UIConstants.buttonSpacing) {
                         Image("product_icon")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 24, height: 24)
-                            .cornerRadius(4)
+                            .frame(width: UIConstants.productIconSize, height: UIConstants.productIconSize)
+                            .cornerRadius(UIConstants.productIconCornerRadius)
                         Text("Goodtime")
                             .font(.caption)
                             .foregroundColor(.white)
                     }
                     Spacer()
-                    GoodtimeTimerDisplay(context: context, style: .expanded)
+                    GoodtimeTimerDisplay(context: context, style: .lockscreen)
                 }
-                if context.isStale {
-                    VStack(spacing: 12) {
-                        HStack(spacing: 16) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                GoodtimeStatusText(
-                                    context: context,
-                                    font: .headline,
-                                    foregroundColor: .white
-                                )
-                            }
-                        }
-                    }
-                    .padding()
-                } else {
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack() {
-                            GoodtimeStatusText(
-                                context: context,
-                                font: .body,
+                VStack(spacing: 16) {
+                    HStack() {
+                        GoodtimeStatusText(
+                            context: context,
+                            font: .body,
+                            foregroundColor: .white
+                        )
+                        .lineLimit(1)
+                        Spacer()
+                        if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
+                            GoodtimeLabelBadge(
+                                labelName: context.attributes.labelName,
+                                labelColorHex: context.attributes.labelColorHex,
+                                fontSize: .caption,
                                 foregroundColor: .white
                             )
-                            .lineLimit(1)
-                            Spacer()
-                            if !context.attributes.isDefaultLabel && !context.attributes.labelColorHex.isEmpty {
-                                GoodtimeLabelBadge(
-                                    labelName: context.attributes.labelName,
-                                    labelColorHex: context.attributes.labelColorHex,
-                                    fontSize: .caption,
-                                    foregroundColor: .white
-                                )
-                            }
-                        }.padding(.vertical, 4)
-                    }
-                    GoodtimeActionButtons(context: context, style: .dynamicIsland)
+                        }
+                    }.padding(.vertical, 4)
+                    GoodtimeActionButtons(context: context)
                 }
             }
             .padding()
@@ -338,19 +311,13 @@ struct GoodtimeLockScreenView: View {
 
 struct GoodtimeActionButtons: View {
     let context: ActivityViewContext<GoodtimeActivityAttributes>
-    var style: ButtonStyle = .dynamicIsland
-
-    enum ButtonStyle {
-        case dynamicIsland
-        case lockScreen
-    }
 
     var body: some View {
         let timerType = context.attributes.timerType
         let isPaused = context.state.isPaused
         let isCountdown = context.attributes.isCountdown
 
-        HStack(spacing: style == .lockScreen ? 8 : 6) {
+        HStack(spacing: UIConstants.buttonSpacing) {
             if context.isStale {
                 if timerType == .focus {
                     textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
@@ -383,15 +350,34 @@ struct GoodtimeActionButtons: View {
     private func textButton<Intent: AppIntent>(_ title: String, intent: Intent) -> some View {
         Button(intent: intent) {
             Text(title)
-                .font(style == .lockScreen ? .caption : .caption)
+                .font(.caption)
                 .fontWeight(.medium)
                 .foregroundColor(.white)
-                .padding(.horizontal, style == .lockScreen ? 16 : 12)
-                .padding(.vertical, style == .lockScreen ? 10 : 6)
-                .background(Color.white.opacity(0.2))
-                .clipShape(RoundedRectangle(cornerRadius: style == .lockScreen ? 10 : 8))
+                .padding(.horizontal, UIConstants.buttonHorizontalPadding)
+                .padding(.vertical, UIConstants.buttonVerticalPadding)
+                .background(Color.white.opacity(UIConstants.buttonBackgroundOpacity))
+                .clipShape(RoundedRectangle(cornerRadius: UIConstants.buttonCornerRadius))
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(title)
+        .accessibilityHint(accessibilityHint(for: title))
+    }
+
+    private func accessibilityHint(for buttonTitle: String) -> String {
+        if buttonTitle == context.attributes.strPause {
+            return "Pause the timer"
+        } else if buttonTitle == context.attributes.strResume {
+            return "Resume the timer"
+        } else if buttonTitle == context.attributes.strStop {
+            return "Stop the timer"
+        } else if buttonTitle == context.attributes.strPlusOneMin {
+            return "Add one minute to the timer"
+        } else if buttonTitle == context.attributes.strStartBreak {
+            return "Start break session"
+        } else if buttonTitle == context.attributes.strStartFocus {
+            return "Start focus session"
+        }
+        return ""
     }
 }
 
