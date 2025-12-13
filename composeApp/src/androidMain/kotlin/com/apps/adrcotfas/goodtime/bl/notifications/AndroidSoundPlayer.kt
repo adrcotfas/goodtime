@@ -41,27 +41,14 @@ import kotlinx.coroutines.sync.withLock
 import java.io.Closeable
 import java.lang.reflect.Method
 
-/**
- * Represents the configuration state of the sound player.
- */
-private data class SoundPlayerState(
-    /** Sound configuration for work/focus timer completion */
-    val workRingTone: SoundData = SoundData(),
-    /** Sound configuration for break timer completion */
-    val breakRingTone: SoundData = SoundData(),
-    /** Whether sounds should loop until manually stopped */
-    val loop: Boolean = false,
-    /** Whether to override system sound profile settings */
-    val overrideSoundProfile: Boolean = false,
-)
-
-class SoundPlayer(
+class AndroidSoundPlayer(
     private val context: Context,
     ioScope: CoroutineScope,
     private val playerScope: CoroutineScope,
     private val settingsRepo: SettingsRepository,
     private val logger: Logger,
-) : Closeable {
+) : SoundPlayer,
+    Closeable {
     companion object {
         private const val SET_LOOPING_METHOD_NAME = "setLooping"
     }
@@ -112,7 +99,7 @@ class SoundPlayer(
      *
      * @param timerType The type of timer that finished (FOCUS, BREAK, or LONG_BREAK)
      */
-    fun play(timerType: TimerType) {
+    override fun play(timerType: TimerType) {
         val soundData =
             when (timerType) {
                 TimerType.FOCUS -> state.workRingTone
@@ -128,10 +115,10 @@ class SoundPlayer(
      * @param loop Whether the sound should loop until manually stopped
      * @param forceSound Whether to force sound playback regardless of system sound profile
      */
-    fun play(
+    override fun play(
         soundData: SoundData,
-        loop: Boolean = false,
-        forceSound: Boolean = false,
+        loop: Boolean,
+        forceSound: Boolean,
     ) {
         playerScope.launch {
             job?.cancelAndJoin()
@@ -229,7 +216,7 @@ class SoundPlayer(
      * Stops any currently playing sound.
      * This method is safe to call even if no sound is currently playing.
      */
-    fun stop() {
+    override fun stop() {
         playerScope.launch {
             job?.cancelAndJoin()
             job =

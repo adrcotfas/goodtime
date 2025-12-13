@@ -20,22 +20,15 @@ package com.apps.adrcotfas.goodtime.settings.notifications
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -46,7 +39,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
 import com.apps.adrcotfas.goodtime.common.findActivity
@@ -58,8 +50,6 @@ import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Plus
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.settings_add_custom_sound
-import goodtime_productivity.composeapp.generated.resources.settings_silent
-import goodtime_productivity.composeapp.generated.resources.settings_system_sounds
 import goodtime_productivity.composeapp.generated.resources.settings_your_sounds
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -67,14 +57,14 @@ import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun NotificationSoundPickerDialog(
-    viewModel: SoundsViewModel = koinViewModel(),
+actual fun NotificationSoundPickerDialog(
     title: String,
     selectedItem: SoundData,
     onSelected: (SoundData) -> Unit,
     onSave: (SoundData) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    val viewModel: SoundsViewModel = koinViewModel()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val activity = context.findActivity()
@@ -121,16 +111,6 @@ fun NotificationSoundPickerDialog(
         title = title,
         selectedItem = selectedItem,
         items = items,
-        userItems = userItems,
-        onAddSoundClick = {
-            coroutineScope.launch {
-                soundPlayer.stop()
-            }
-            pickSoundLauncher.launch(arrayOf("audio/*"))
-        },
-        onRemoveUserSound = {
-            viewModel.removeUserSound(it)
-        },
         onSelected = {
             onSelected(it)
             coroutineScope.launch {
@@ -144,110 +124,38 @@ fun NotificationSoundPickerDialog(
             }
             onDismiss()
         },
-    )
-}
-
-@Composable
-private fun NotificationSoundPickerDialogContent(
-    title: String,
-    selectedItem: SoundData,
-    items: Set<SoundData>,
-    userItems: Set<SoundData>,
-    onSelected: (SoundData) -> Unit,
-    onSave: (SoundData) -> Unit,
-    onDismiss: () -> Unit,
-    onAddSoundClick: () -> Unit,
-    onRemoveUserSound: (SoundData) -> Unit,
-) {
-    Dialog(onDismissRequest = onDismiss) {
-        Surface(
-            shape = MaterialTheme.shapes.extraLarge,
-            tonalElevation = 6.dp,
-            modifier =
-                Modifier
-                    .background(
-                        shape = MaterialTheme.shapes.extraLarge,
-                        color = MaterialTheme.colorScheme.surface,
-                    ),
-        ) {
-            Column(
-                modifier =
-                    Modifier
-                        .padding(top = 24.dp)
-                        .fillMaxHeight(0.75f),
-                verticalArrangement = Arrangement.Top,
-            ) {
-                Text(
-                    modifier =
-                        Modifier
-                            .padding(start = 24.dp)
-                            .fillMaxWidth(),
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
+        platformSpecificContent = {
+            item(key = "user sounds") {
+                PreferenceGroupTitle(
+                    modifier = Modifier.animateItem(),
+                    text = stringResource(Res.string.settings_your_sounds),
                 )
-
-                LazyColumn(modifier = Modifier.weight(1f)) {
-                    item(key = "user sounds") {
-                        PreferenceGroupTitle(
-                            modifier = Modifier.animateItem(),
-                            text =
-                                stringResource(
-                                    Res.string.settings_your_sounds,
-                                ),
-                        )
-                    }
-                    items(userItems.toList(), key = { "user" + it.uriString }) { item ->
-                        val isSelected = selectedItem == item
-                        NotificationSoundItem(
-                            modifier = Modifier.animateItem(),
-                            name = item.name,
-                            isSelected = isSelected,
-                            isCustomSound = true,
-                            onRemove = { onRemoveUserSound(item) },
-                        ) {
-                            onSelected(item)
-                        }
-                    }
-                    item(key = "add custom sound") {
-                        AddCustomSoundButton(
-                            modifier = Modifier.animateItem(),
-                            onAddUserSound = onAddSoundClick,
-                        )
-                    }
-                    item(key = "system sounds") {
-                        PreferenceGroupTitle(
-                            modifier = Modifier.animateItem(),
-                            text =
-                                stringResource(
-                                    Res.string.settings_system_sounds,
-                                ),
-                        )
-                    }
-                    item(key = "silent") {
-                        NotificationSoundItem(
-                            modifier = Modifier.animateItem(),
-                            name = stringResource(Res.string.settings_silent),
-                            isSilent = true,
-                            isSelected = selectedItem.uriString == Uri.EMPTY.toString(),
-                        ) {
-                            onSelected(SoundData(isSilent = true))
-                        }
-                    }
-                    items(items.toList(), key = { it.uriString }) { item ->
-                        val isSelected = selectedItem == item
-                        NotificationSoundItem(
-                            modifier = Modifier.animateItem(),
-                            name = item.name,
-                            isSelected = isSelected,
-                        ) {
-                            onSelected(item)
-                        }
-                    }
-                }
-                SoundPickerButtonsRow(onSave, onDismiss, selectedItem)
             }
-        }
-    }
+            items(userItems.toList(), key = { "user" + it.uriString }) { item ->
+                val isSelected = selectedItem == item
+                NotificationSoundItem(
+                    modifier = Modifier.animateItem(),
+                    name = item.name,
+                    isSelected = isSelected,
+                    isCustomSound = true,
+                    onRemove = { viewModel.removeUserSound(item) },
+                ) {
+                    onSelected(item)
+                }
+            }
+            item(key = "add custom sound") {
+                AddCustomSoundButton(
+                    modifier = Modifier.animateItem(),
+                    onAddUserSound = {
+                        coroutineScope.launch {
+                            soundPlayer.stop()
+                        }
+                        pickSoundLauncher.launch(arrayOf("audio/*"))
+                    },
+                )
+            }
+        },
+    )
 }
 
 @Composable
@@ -286,19 +194,12 @@ fun NotificationSoundPickerDialogPreview() {
         onSelected = {},
         onSave = {},
         onDismiss = {},
-        onAddSoundClick = { },
-        userItems =
-            setOf(
-                SoundData("Custom 1", "Custom 1"),
-                SoundData("Custom 2", "Custom 2"),
-                SoundData("Custom 3", "Custom 3"),
-            ),
         items =
             setOf(
                 SoundData("Coconuts", "Coconuts"),
                 SoundData("Mallet", "Mallet"),
                 SoundData("Music Box", "Music Box"),
             ),
-        onRemoveUserSound = {},
+        platformSpecificContent = null,
     )
 }

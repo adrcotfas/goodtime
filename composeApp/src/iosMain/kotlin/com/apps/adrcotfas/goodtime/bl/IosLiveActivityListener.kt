@@ -22,12 +22,12 @@ import com.apps.adrcotfas.goodtime.ui.palette
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.main_break_complete
 import goodtime_productivity.composeapp.generated.resources.main_break_in_progress
+import goodtime_productivity.composeapp.generated.resources.main_focus_complete
 import goodtime_productivity.composeapp.generated.resources.main_focus_session_in_progress
 import goodtime_productivity.composeapp.generated.resources.main_focus_session_paused
 import goodtime_productivity.composeapp.generated.resources.main_pause
 import goodtime_productivity.composeapp.generated.resources.main_plus_1_min
 import goodtime_productivity.composeapp.generated.resources.main_resume
-import goodtime_productivity.composeapp.generated.resources.main_focus_complete
 import goodtime_productivity.composeapp.generated.resources.main_start_break
 import goodtime_productivity.composeapp.generated.resources.main_start_focus
 import goodtime_productivity.composeapp.generated.resources.main_stop

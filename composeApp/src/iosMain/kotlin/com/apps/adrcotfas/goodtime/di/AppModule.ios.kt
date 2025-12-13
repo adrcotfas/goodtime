@@ -28,7 +28,15 @@ import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
 import com.apps.adrcotfas.goodtime.bl.IosSessionResetHandler
 import com.apps.adrcotfas.goodtime.bl.LiveActivityBridge
 import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
+import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.bl.notifications.IosSoundPlayer
+import com.apps.adrcotfas.goodtime.bl.notifications.IosTorchManager
+import com.apps.adrcotfas.goodtime.bl.notifications.IosVibrationPlayer
+import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
+import com.apps.adrcotfas.goodtime.bl.notifications.SoundVibrationAndTorchPlayer
+import com.apps.adrcotfas.goodtime.bl.notifications.TorchManager
+import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
 import com.apps.adrcotfas.goodtime.common.FeedbackHelper
 import com.apps.adrcotfas.goodtime.common.InstallDateProvider
 import com.apps.adrcotfas.goodtime.common.IosFeedbackHelper
@@ -131,11 +139,47 @@ actual val platformModule: Module =
             )
         }
 
+        single<SoundPlayer> {
+            IosSoundPlayer(
+                ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
+                settingsRepo = get(),
+                logger = getWith("SoundPlayer"),
+            )
+        }
+
+        single<VibrationPlayer> {
+            IosVibrationPlayer(
+                playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
+                ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                settingsRepo = get(),
+                logger = getWith("VibrationPlayer"),
+            )
+        }
+
+        single<TorchManager> {
+            IosTorchManager(
+                ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
+                settingsRepo = get(),
+                logger = getWith("TorchManager"),
+            )
+        }
+
+        single<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)) {
+            SoundVibrationAndTorchPlayer(
+                soundPlayer = get(),
+                vibrationPlayer = get(),
+                torchManager = get(),
+            )
+        }
+
         single<List<EventListener>> {
             listOf(
                 get<EventListener>(named(EventListener.SESSION_RESET_HANDLER)),
                 get<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)),
                 get<EventListener>(named(EventListener.IOS_LIVE_ACTIVITY_LISTENER)),
+                get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
             )
         }
     }

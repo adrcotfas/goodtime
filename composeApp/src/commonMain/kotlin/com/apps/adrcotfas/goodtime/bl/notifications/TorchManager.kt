@@ -15,10 +15,26 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.bl
+package com.apps.adrcotfas.goodtime.bl.notifications
 
-val EventListener.Companion.IOS_NOTIFICATION_HANDLER: String
-    get() = "IosNotificationHandler"
+data class TorchManagerData(
+    val enabled: Boolean = false,
+    val loop: Boolean = false,
+)
 
-val EventListener.Companion.SOUND_AND_VIBRATION_PLAYER: String
-    get() = "SoundAndVibrationPlayer"
+interface TorchManager {
+    /**
+     * Checks if the torch/flash is available on this device.
+     */
+    fun isTorchAvailable(): Boolean
+
+    /**
+     * Starts the torch flash pattern.
+     */
+    fun start()
+
+    /**
+     * Stops the torch flash.
+     */
+    fun stop()
+}

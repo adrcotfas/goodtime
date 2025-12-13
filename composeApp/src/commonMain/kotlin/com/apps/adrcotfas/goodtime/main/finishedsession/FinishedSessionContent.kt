@@ -70,9 +70,9 @@ import com.apps.adrcotfas.goodtime.ui.TextBox
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.main_break_complete
 import goodtime_productivity.composeapp.generated.resources.main_consider_idle_time_as_extra_focus
+import goodtime_productivity.composeapp.generated.resources.main_focus_complete
 import goodtime_productivity.composeapp.generated.resources.main_idle
 import goodtime_productivity.composeapp.generated.resources.main_interruptions
-import goodtime_productivity.composeapp.generated.resources.main_focus_complete
 import goodtime_productivity.composeapp.generated.resources.main_start_break
 import goodtime_productivity.composeapp.generated.resources.main_start_focus
 import goodtime_productivity.composeapp.generated.resources.main_this_session

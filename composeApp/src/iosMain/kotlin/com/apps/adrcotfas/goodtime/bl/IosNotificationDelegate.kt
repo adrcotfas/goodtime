@@ -19,8 +19,6 @@ package com.apps.adrcotfas.goodtime.bl
 
 import co.touchlab.kermit.Logger
 import kotlinx.cinterop.ExperimentalForeignApi
-import platform.UserNotifications.UNNotification
-import platform.UserNotifications.UNNotificationPresentationOptions
 import platform.UserNotifications.UNNotificationResponse
 import platform.UserNotifications.UNUserNotificationCenter
 import platform.UserNotifications.UNUserNotificationCenterDelegateProtocol
@@ -32,18 +30,6 @@ class IosNotificationDelegate(
     private val onActionTapped: (actionId: String) -> Unit,
 ) : NSObject(),
     UNUserNotificationCenterDelegateProtocol {
-    override fun userNotificationCenter(
-        center: UNUserNotificationCenter,
-        willPresentNotification: UNNotification,
-        withCompletionHandler: (UNNotificationPresentationOptions) -> Unit,
-    ) {
-        log.v { "Presenting notification in foreground" }
-
-        // Show banner and play sound even when app is in foreground
-        // Using numeric values: 1 (banner) | 2 (sound) = 3
-        withCompletionHandler(3u)
-    }
-
     override fun userNotificationCenter(
         center: UNUserNotificationCenter,
         didReceiveNotificationResponse: UNNotificationResponse,

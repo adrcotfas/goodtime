@@ -28,6 +28,13 @@ import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
 import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_HANDLER
+import com.apps.adrcotfas.goodtime.bl.notifications.AndroidSoundPlayer
+import com.apps.adrcotfas.goodtime.bl.notifications.AndroidTorchManager
+import com.apps.adrcotfas.goodtime.bl.notifications.AndroidVibrationPlayer
+import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
+import com.apps.adrcotfas.goodtime.bl.notifications.SoundVibrationAndTorchPlayer
+import com.apps.adrcotfas.goodtime.bl.notifications.TorchManager
+import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
 import com.apps.adrcotfas.goodtime.common.AndroidFeedbackHelper
 import com.apps.adrcotfas.goodtime.common.AndroidInstallDateProvider
 import com.apps.adrcotfas.goodtime.common.AndroidTimeFormatProvider
@@ -39,6 +46,7 @@ import com.apps.adrcotfas.goodtime.common.UrlOpener
 import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
+import kotlinx.coroutines.CoroutineScope
 import okio.FileSystem
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
@@ -54,6 +62,39 @@ actual val platformModule: Module =
         single<DataStore<Preferences>>(named(SETTINGS_NAME)) {
             getDataStore(
                 producePath = { get<Context>().filesDir.resolve(SETTINGS_FILE_NAME).absolutePath },
+            )
+        }
+        single<SoundPlayer> {
+            AndroidSoundPlayer(
+                context = get(),
+                ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
+                settingsRepo = get(),
+                logger = getWith("SoundPlayer"),
+            )
+        }
+        single<VibrationPlayer> {
+            AndroidVibrationPlayer(
+                context = get(),
+                playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
+                ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                settingsRepo = get(),
+            )
+        }
+        single<TorchManager> {
+            AndroidTorchManager(
+                context = get(),
+                ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
+                settingsRepo = get(),
+                logger = getWith("TorchManager"),
+            )
+        }
+        single<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)) {
+            SoundVibrationAndTorchPlayer(
+                soundPlayer = get(),
+                vibrationPlayer = get(),
+                torchManager = get(),
             )
         }
         single<List<EventListener>> {

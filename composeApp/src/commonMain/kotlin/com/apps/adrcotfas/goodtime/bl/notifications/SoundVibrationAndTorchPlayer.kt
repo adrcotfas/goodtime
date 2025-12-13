@@ -19,13 +19,27 @@ package com.apps.adrcotfas.goodtime.bl.notifications
 
 import com.apps.adrcotfas.goodtime.bl.Event
 import com.apps.adrcotfas.goodtime.bl.EventListener
+import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import kotlin.math.abs
 
 class SoundVibrationAndTorchPlayer(
     private val soundPlayer: SoundPlayer,
     private val vibrationPlayer: VibrationPlayer,
     private val torchManager: TorchManager,
 ) : EventListener {
+    // Using this expected endTime logic because on iOS, if the app is in the foreground while the timer finishes,
+    // the finish event is not triggered in the background but when the user brings the app to foreground.
+    // In this case, we don't want sound and vibration to play because the user already received a notification.
+
+    // On Android this is not an issue because the finish event is executed while the app is in the background.
+    // We have a foreground service there keeping the app alive.
+    private var endTime = 0L
+
     override fun onEvent(event: Event) {
+        if (event !is Event.Finished && event !is Event.BringToForeground) {
+            reset()
+        }
+
         when (event) {
             is Event.Start -> {
                 if (!event.autoStarted) {
@@ -36,9 +50,15 @@ class SoundVibrationAndTorchPlayer(
             }
 
             is Event.Finished -> {
-                soundPlayer.play(event.type)
-                vibrationPlayer.start()
-                torchManager.start()
+                val now = TimeProvider.now()
+                // if the app stayed in the foreground during the session OR
+                // there's less than 1 second difference between the expected end time and now, play the orchestra
+                // this condition is not true if the user brings the app to foreground 1 second after receiving the notification
+                if (endTime == 0L || abs(now - endTime) < 1000L) {
+                    soundPlayer.play(event.type)
+                    vibrationPlayer.start()
+                    torchManager.start()
+                }
             }
 
             Event.Reset -> {
@@ -47,9 +67,17 @@ class SoundVibrationAndTorchPlayer(
                 torchManager.stop()
             }
 
+            is Event.SendToBackground -> {
+                endTime = event.endTime
+            }
+
             else -> {
                 // do nothing
             }
         }
+    }
+
+    private fun reset() {
+        endTime = 0L
     }
 }

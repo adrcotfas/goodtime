@@ -30,21 +30,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-data class TorchManagerData(
-    val enabled: Boolean = false,
-    val loop: Boolean = false,
-)
-
 /**
  * Uses the camera flash, if available, to notify the user.
  */
-class TorchManager(
+class AndroidTorchManager(
     context: Context,
     ioScope: CoroutineScope,
     private val playerScope: CoroutineScope,
     private val settingsRepo: SettingsRepository,
     private val logger: Logger,
-) {
+) : TorchManager {
     private val cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
     private var cameraId: String? = null
     private var data: TorchManagerData = TorchManagerData()
@@ -73,9 +68,9 @@ class TorchManager(
         }
     }
 
-    fun isTorchAvailable() = cameraId != null
+    override fun isTorchAvailable() = cameraId != null
 
-    fun start() {
+    override fun start() {
         if (!data.enabled) return
         job =
             playerScope.launch {
@@ -97,7 +92,7 @@ class TorchManager(
             }
     }
 
-    fun stop() {
+    override fun stop() {
         if (!data.enabled) return
         job?.cancel()
         cameraId?.let {

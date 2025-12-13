@@ -30,22 +30,16 @@ import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.DndModeManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
-import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
 import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_HANDLER
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
-import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
-import com.apps.adrcotfas.goodtime.bl.notifications.SoundVibrationAndTorchPlayer
-import com.apps.adrcotfas.goodtime.bl.notifications.TorchManager
-import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.backup.AndroidBackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.di.DB_PATH_KEY
 import com.apps.adrcotfas.goodtime.di.IO_SCOPE
-import com.apps.adrcotfas.goodtime.di.WORKER_SCOPE
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
 import com.apps.adrcotfas.goodtime.di.getWith
@@ -127,39 +121,7 @@ class GoodtimeApplication :
                             settingsRepository = get(),
                         )
                     }
-                    single {
-                        SoundPlayer(
-                            context = get(),
-                            ioScope = get<CoroutineScope>(named(IO_SCOPE)),
-                            playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
-                            settingsRepo = get(),
-                            logger = getWith("SoundPlayer"),
-                        )
-                    }
-                    single {
-                        VibrationPlayer(
-                            context = get(),
-                            playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
-                            ioScope = get<CoroutineScope>(named(IO_SCOPE)),
-                            settingsRepo = get(),
-                        )
-                    }
-                    single {
-                        TorchManager(
-                            context = get(),
-                            ioScope = get<CoroutineScope>(named(IO_SCOPE)),
-                            playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
-                            settingsRepo = get(),
-                            logger = getWith("TorchManager"),
-                        )
-                    }
-                    single<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)) {
-                        SoundVibrationAndTorchPlayer(
-                            soundPlayer = get(),
-                            vibrationPlayer = get(),
-                            torchManager = get(),
-                        )
-                    }
+
                     single<EventListener>(named(EventListener.SESSION_RESET_HANDLER)) {
                         AndroidSessionResetHandler(get(), getWith("SessionResetHandler"))
                     }

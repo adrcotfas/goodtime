@@ -17,123 +17,54 @@
  */
 package com.apps.adrcotfas.goodtime.settings.notifications
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import co.touchlab.kermit.Logger
+import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
-import com.apps.adrcotfas.goodtime.ui.PreferenceGroupTitle
-import goodtime_productivity.composeapp.generated.resources.Res
-import goodtime_productivity.composeapp.generated.resources.settings_silent
-import goodtime_productivity.composeapp.generated.resources.settings_system_sounds
-import org.jetbrains.compose.resources.stringResource
+import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 
 @Composable
-fun NotificationSoundPickerDialog(
+actual fun NotificationSoundPickerDialog(
     title: String,
     selectedItem: SoundData,
     onSelected: (SoundData) -> Unit,
     onSave: (SoundData) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    // TODO: add the sounds
+    val soundPlayer = koinInject<SoundPlayer>()
+    val coroutineScope = rememberCoroutineScope()
+    val logger = remember { Logger.withTag("SoundPickerDialog") }
+
+    // TODO: add the actual iOS sounds
+    // For now, just use the default sound
     val systemSounds =
-        listOf(
-            SoundData("Default", "default"),
-            SoundData("Alert", "alert"),
-            SoundData("Bell", "bell"),
-            SoundData("Chime", "chime"),
-            SoundData("Note", "note"),
+        setOf(
+            SoundData("Default", "default.mp3"),
         )
 
     NotificationSoundPickerDialogContent(
         title = title,
         selectedItem = selectedItem,
-        items = systemSounds.toSet(),
-        onSelected = onSelected,
-        onSave = onSave,
-        onDismiss = onDismiss,
-    )
-}
-
-@Composable
-private fun NotificationSoundPickerDialogContent(
-    title: String,
-    selectedItem: SoundData,
-    items: Set<SoundData>,
-    onSelected: (SoundData) -> Unit,
-    onSave: (SoundData) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    Dialog(onDismissRequest = onDismiss) {
-        Surface(
-            shape = MaterialTheme.shapes.extraLarge,
-            tonalElevation = 6.dp,
-            modifier =
-                Modifier
-                    .background(
-                        shape = MaterialTheme.shapes.extraLarge,
-                        color = MaterialTheme.colorScheme.surface,
-                    ),
-        ) {
-            Column(
-                modifier =
-                    Modifier
-                        .padding(top = 24.dp)
-                        .fillMaxHeight(0.75f),
-                verticalArrangement = Arrangement.Top,
-            ) {
-                Text(
-                    modifier =
-                        Modifier
-                            .padding(start = 24.dp)
-                            .fillMaxWidth(),
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-
-                LazyColumn(modifier = Modifier.weight(1f)) {
-                    item(key = "system sounds") {
-                        // TODO: rename or remove this
-                        PreferenceGroupTitle(
-                            modifier = Modifier.animateItem(),
-                            text = stringResource(Res.string.settings_system_sounds),
-                        )
-                    }
-                    item(key = "silent") {
-                        NotificationSoundItem(
-                            modifier = Modifier.animateItem(),
-                            name = stringResource(Res.string.settings_silent),
-                            isSilent = true,
-                            isSelected = selectedItem.isSilent,
-                        ) {
-                            onSelected(SoundData(isSilent = true))
-                        }
-                    }
-                    items(items.toList(), key = { it.uriString }) { item ->
-                        val isSelected = selectedItem == item
-                        NotificationSoundItem(
-                            modifier = Modifier.animateItem(),
-                            name = item.name,
-                            isSelected = isSelected,
-                        ) {
-                            onSelected(item)
-                        }
-                    }
-                }
-                SoundPickerButtonsRow(onSave, onDismiss, selectedItem)
+        items = systemSounds,
+        onSelected = {
+            logger.i { "Sound selected: name=${it.name}, uri=${it.uriString}" }
+            onSelected(it)
+            coroutineScope.launch {
+                logger.i { "Playing sound: ${it.uriString}" }
+                soundPlayer.play(it, loop = false, forceSound = true)
             }
-        }
-    }
+        },
+        onSave = onSave,
+        onDismiss = {
+            logger.i { "Dismissing dialog, stopping sound" }
+            coroutineScope.launch {
+                soundPlayer.stop()
+            }
+            onDismiss()
+        },
+        platformSpecificContent = null,
+    )
 }

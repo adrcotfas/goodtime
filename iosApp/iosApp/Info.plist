@@ -8,6 +8,8 @@
 	<true/>
 	<key>NSSupportsLiveActivitiesFrequentUpdates</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Goodtime needs access to the camera to use the flashlight for timer notifications.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIBackgroundModes</key>

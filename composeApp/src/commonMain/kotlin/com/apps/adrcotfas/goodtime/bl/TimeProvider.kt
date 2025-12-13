@@ -23,12 +23,16 @@ interface TimeProvider {
     /**
      * Returns the current time in milliseconds since Unix Epoch.
      */
-    fun now(): Long = Clock.System.now().toEpochMilliseconds()
+    fun now(): Long = TimeProvider.now()
 
     /**
      * Returns the current time in milliseconds since boot, including time spent in sleep.
      */
     fun elapsedRealtime(): Long
+
+    companion object {
+        fun now() = Clock.System.now().toEpochMilliseconds()
+    }
 }
 
 expect fun createTimeProvider(): TimeProvider

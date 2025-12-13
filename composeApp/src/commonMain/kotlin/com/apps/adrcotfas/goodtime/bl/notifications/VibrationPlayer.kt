@@ -15,10 +15,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.bl
+package com.apps.adrcotfas.goodtime.bl.notifications
 
-val EventListener.Companion.IOS_NOTIFICATION_HANDLER: String
-    get() = "IosNotificationHandler"
+data class VibrationData(
+    val strength: Int,
+    val loop: Boolean,
+)
 
-val EventListener.Companion.SOUND_AND_VIBRATION_PLAYER: String
-    get() = "SoundAndVibrationPlayer"
+interface VibrationPlayer {
+    /**
+     * Starts vibration with the configured strength from settings.
+     */
+    fun start()
+
+    /**
+     * Starts vibration with a specific strength.
+     * @param strength Vibration intensity (0-5)
+     */
+    fun start(strength: Int)
+
+    /**
+     * Stops any ongoing vibration.
+     */
+    fun stop()
+}

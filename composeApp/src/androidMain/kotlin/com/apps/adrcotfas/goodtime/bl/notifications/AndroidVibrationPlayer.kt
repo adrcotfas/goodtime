@@ -33,17 +33,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-data class VibrationData(
-    val strength: Int,
-    val loop: Boolean,
-)
-
-class VibrationPlayer(
+class AndroidVibrationPlayer(
     context: Context,
     private val settingsRepo: SettingsRepository,
     private val playerScope: CoroutineScope,
     ioScope: CoroutineScope,
-) {
+) : VibrationPlayer {
     private var data: VibrationData = VibrationData(3, false)
     private var job: Job? = null
 
@@ -71,11 +66,11 @@ class VibrationPlayer(
             context.getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
 
-    fun start() {
+    override fun start() {
         start(data)
     }
 
-    fun stop() {
+    override fun stop() {
         playerScope.launch {
             job?.cancelAndJoin()
             job =
@@ -85,7 +80,7 @@ class VibrationPlayer(
         }
     }
 
-    fun start(strength: Int) {
+    override fun start(strength: Int) {
         start(VibrationData(strength, false))
     }
 
