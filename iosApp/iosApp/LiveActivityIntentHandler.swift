@@ -47,6 +47,7 @@ class LiveActivityIntentHandler {
             if GoodtimeLiveActivityManager.shared.isActivityExpired() {
                 print("[LiveActivityIntentHandler] Timer expired - updating to stale state")
                 GoodtimeLiveActivityManager.shared.updateExpiredActivityToStale()
+                self?.getTimerManager()?.finish()
                 return
             }
 
@@ -74,6 +75,7 @@ class LiveActivityIntentHandler {
             if GoodtimeLiveActivityManager.shared.isActivityExpired() {
                 print("[LiveActivityIntentHandler] Timer expired - updating to stale state")
                 GoodtimeLiveActivityManager.shared.updateExpiredActivityToStale()
+                self?.getTimerManager()?.finish()
                 return
             }
 
@@ -87,7 +89,12 @@ class LiveActivityIntentHandler {
             queue: .main
         ) { [weak self] _ in
             print("[LiveActivityIntentHandler] Skip to break")
-            self?.getTimerManager()?.skip()
+            if GoodtimeLiveActivityManager.shared.isActivityExpired() {
+                self?.getTimerManager()?.finish()
+                self?.getTimerManager()?.next()
+            } else {
+                self?.getTimerManager()?.skip()
+            }
         }
 
         // Start Focus (skip to next session)
@@ -97,7 +104,12 @@ class LiveActivityIntentHandler {
             queue: .main
         ) { [weak self] _ in
             print("[LiveActivityIntentHandler] Skip to focus")
-            self?.getTimerManager()?.skip()
+            if GoodtimeLiveActivityManager.shared.isActivityExpired() {
+                self?.getTimerManager()?.finish()
+                self?.getTimerManager()?.next()
+            } else {
+                self?.getTimerManager()?.skip()
+            }
         }
 
         print("[LiveActivityIntentHandler] All observers registered")
