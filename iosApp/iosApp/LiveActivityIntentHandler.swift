@@ -56,7 +56,6 @@ final class LiveActivityIntentHandler {
     private func handleExpiredActivity() {
         print("[LiveActivityIntentHandler] Timer expired - updating to stale state")
         liveActivityManager.updateExpiredActivityToStale()
-        timerManager?.finish(actionType: .forceFinish)
     }
 
     // MARK: - Action Handlers
