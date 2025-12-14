@@ -193,25 +193,26 @@ class NotificationArchManager(
     }
 
     suspend fun notifyFinished(
+        finishedType: TimerType,
         data: DomainTimerData,
         withActions: Boolean,
     ) {
-        val timerType = data.type
         val labelName = data.getLabelName()
 
-        val mainStateText =
-            if (timerType == TimerType.FOCUS) {
+        val stateText =
+            if (finishedType == TimerType.FOCUS) {
                 getString(Res.string.main_focus_complete)
             } else {
                 getString(Res.string.main_break_complete)
             }
-        val labelText = if (data.isDefaultLabel()) "" else "$labelName • "
-        val stateText = "$labelText$mainStateText"
 
         val builder =
             NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
                 setSmallIcon(R.drawable.ic_status_goodtime)
                 setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                if (!data.isDefaultLabel()) {
+                    setSubText(labelName)
+                }
                 setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 setContentIntent(createOpenActivityIntent(activityClass))
                 setOngoing(false)
@@ -224,7 +225,7 @@ class NotificationArchManager(
         if (withActions) {
             builder.setContentText(getString(Res.string.main_continue))
             val nextActionTitle =
-                if (timerType == TimerType.FOCUS && data.label.profile.isBreakEnabled) {
+                if (finishedType == TimerType.FOCUS && data.label.profile.isBreakEnabled) {
                     getString(Res.string.main_start_break)
                 } else {
                     getString(Res.string.main_start_focus)

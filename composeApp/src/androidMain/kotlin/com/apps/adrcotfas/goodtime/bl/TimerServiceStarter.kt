@@ -27,7 +27,7 @@ class TimerServiceStarter(
         when (event) {
             is Event.Start, is Event.Pause, is Event.AddOneMinute, is Event.UpdateActiveLabel -> startService()
             is Event.Reset -> startService(Action.Reset)
-            is Event.Finished -> startServiceWithFinished(event.autostartNextSession)
+            is Event.Finished -> startServiceWithFinished(event.autostartNextSession, event.type)
             else -> {}
         }
     }
@@ -41,11 +41,15 @@ class TimerServiceStarter(
         )
     }
 
-    private fun startServiceWithFinished(autoStart: Boolean) {
+    private fun startServiceWithFinished(
+        autoStart: Boolean,
+        type: TimerType,
+    ) {
         context.startService(
             TimerService.createFinishEvent(
                 context,
                 autoStart,
+                type,
             ),
         )
     }

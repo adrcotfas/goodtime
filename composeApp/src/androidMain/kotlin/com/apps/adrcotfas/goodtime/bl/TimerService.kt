@@ -73,12 +73,14 @@ class TimerService :
 
             Action.Finished.name -> {
                 val autoStart = intent.getBooleanExtra(EXTRA_FINISHED_AUTOSTART, false)
+                val typeName = intent.getStringExtra(EXTRA_FINISHED_TYPE) ?: TimerType.FOCUS.name
+                val type = TimerType.valueOf(typeName)
                 if (!autoStart) {
                     stopForeground(STOP_FOREGROUND_REMOVE)
                     stopSelf()
                 }
                 coroutineScope.launch {
-                    notificationManager.notifyFinished(data, withActions = !autoStart)
+                    notificationManager.notifyFinished(type, data, withActions = !autoStart)
                 }
                 return START_NOT_STICKY
             }
@@ -109,6 +111,7 @@ class TimerService :
         }
 
         private const val EXTRA_FINISHED_AUTOSTART = "EXTRA_FINISHED_AUTOSTART"
+        private const val EXTRA_FINISHED_TYPE = "EXTRA_FINISHED_TYPE"
 
         fun createIntentWithAction(
             context: Context,
@@ -118,10 +121,12 @@ class TimerService :
         fun createFinishEvent(
             context: Context,
             autostart: Boolean = false,
+            type: TimerType,
         ): Intent =
             Intent(context, TimerService::class.java).apply {
                 action = Action.Finished.name
                 putExtra(EXTRA_FINISHED_AUTOSTART, autostart)
+                putExtra(EXTRA_FINISHED_TYPE, type.name)
             }
     }
 }
