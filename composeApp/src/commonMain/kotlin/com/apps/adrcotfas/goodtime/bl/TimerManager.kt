@@ -489,6 +489,11 @@ class TimerManager(
         updateBreakBudgetIfNeeded()
 
         if (actionType != FinishActionType.MANUAL_DO_NOTHING) {
+            // Update endTime to current time before saving session
+            // This ensures we save the actual time spent, not the expected duration
+            _timerData.update {
+                it.copy(endTime = timeProvider.elapsedRealtime())
+            }
             handleFinishedSession(updateWorkTime, finishActionType = actionType)
         }
 
