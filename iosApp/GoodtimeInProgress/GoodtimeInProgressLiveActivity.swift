@@ -131,8 +131,8 @@ struct GoodtimeTimerDisplay: View {
 
     var body: some View {
         Group {
-            if context.isStale {
-                // Intentionally empty - no timer display when activity is stale
+            if shouldShowAsFinished() {
+                // Intentionally empty
             } else if context.state.isPaused {
                 pausedTimeText
                     .opacity(UIConstants.pausedTimerOpacity)
@@ -152,7 +152,7 @@ struct GoodtimeTimerDisplay: View {
     }
 
     private var accessibilityLabelText: String {
-        if context.isStale {
+        if shouldShowAsFinished() {
             return "Timer completed"
         } else if context.state.isPaused {
             let time = context.state.displayTime
@@ -163,6 +163,23 @@ struct GoodtimeTimerDisplay: View {
                 "Time remaining: \(formatTime(remaining))" :
                 "Timer running: \(formatTime(-remaining))"
         }
+    }
+
+    /// Check if timer has actually expired based on real time
+    private func isTimerExpired() -> Bool {
+        // Only countdown timers can expire
+        guard context.attributes.isCountdown else { return false }
+
+        // Don't check paused timers (they use stored pausedTimeRemaining)
+        guard !context.state.isPaused else { return false }
+
+        // Check if current time has passed the end time
+        return Date() >= context.state.timerEndDate
+    }
+
+    /// Combined check - true if stale OR time expired
+    private func shouldShowAsFinished() -> Bool {
+        return context.isStale || isTimerExpired()
     }
 
     @ViewBuilder
@@ -215,7 +232,7 @@ struct GoodtimeStatusText: View {
     }
 
     private var statusText: String {
-        if context.isStale {
+        if shouldShowAsFinished() {
             return context.attributes.timerType == .focus
                 ? context.attributes.strFocusComplete
                 : context.attributes.strBreakComplete
@@ -229,6 +246,23 @@ struct GoodtimeStatusText: View {
         } else {
             return context.attributes.strBreakInProgress
         }
+    }
+
+    /// Check if timer has actually expired based on real time
+    private func isTimerExpired() -> Bool {
+        // Only countdown timers can expire
+        guard context.attributes.isCountdown else { return false }
+
+        // Don't check paused timers (they use stored pausedTimeRemaining)
+        guard !context.state.isPaused else { return false }
+
+        // Check if current time has passed the end time
+        return Date() >= context.state.timerEndDate
+    }
+
+    /// Combined check - true if stale OR time expired
+    private func shouldShowAsFinished() -> Bool {
+        return context.isStale || isTimerExpired()
     }
 }
 
@@ -316,9 +350,10 @@ struct GoodtimeActionButtons: View {
         let timerType = context.attributes.timerType
         let isPaused = context.state.isPaused
         let isCountdown = context.attributes.isCountdown
+        let isFinished = shouldShowAsFinished()
 
         HStack(spacing: UIConstants.buttonSpacing) {
-            if context.isStale {
+            if isFinished {
                 if timerType == .focus {
                     textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
                 } else {
@@ -378,6 +413,23 @@ struct GoodtimeActionButtons: View {
             return "Start focus session"
         }
         return ""
+    }
+
+    /// Check if timer has actually expired based on real time
+    private func isTimerExpired() -> Bool {
+        // Only countdown timers can expire
+        guard context.attributes.isCountdown else { return false }
+
+        // Don't check paused timers (they use stored pausedTimeRemaining)
+        guard !context.state.isPaused else { return false }
+
+        // Check if current time has passed the end time
+        return Date() >= context.state.timerEndDate
+    }
+
+    /// Combined check - true if stale OR time expired
+    private func shouldShowAsFinished() -> Bool {
+        return context.isStale || isTimerExpired()
     }
 }
 

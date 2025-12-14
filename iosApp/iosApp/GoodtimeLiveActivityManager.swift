@@ -155,6 +155,53 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
         }
     }
 
+    // MARK: - Check if Activity Has Expired
+
+    /// Checks if the current activity has expired based on actual time
+    func isActivityExpired() -> Bool {
+        guard let activity = currentActivity else {
+            return true
+        }
+
+        // Only countdown timers can expire
+        guard activity.attributes.isCountdown else {
+            return false
+        }
+
+        // Check if current time has passed the end time
+        let currentState = activity.content.state
+        return Date() >= currentState.timerEndDate
+    }
+
+    /// Updates the activity to stale state when timer has expired but iOS hasn't marked it stale yet
+    func updateExpiredActivityToStale() {
+        Task {
+            await updateExpiredActivityToStaleAsync()
+        }
+    }
+
+    private func updateExpiredActivityToStaleAsync() async {
+        guard let activity = currentActivity else { return }
+
+        let finalState = GoodtimeActivityAttributes.ContentState(
+            timerStartDate: activity.content.state.timerStartDate,
+            timerEndDate: activity.content.state.timerEndDate,
+            isPaused: false,
+            isRunning: false,
+            pausedTimeRemaining: 0,
+            pausedElapsedTime: nil
+        )
+
+        let content = ActivityContent(
+            state: finalState,
+            staleDate: Date()
+        )
+
+        await activity.update(content)
+
+        print("Goodtime: Activity updated to stale state")
+    }
+
     // MARK: - Pause Activity
 
     func pauseActivity() {
@@ -166,6 +213,12 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
     private func pauseActivityAsync() async {
         guard let activity = currentActivity else {
             print("Goodtime: No active Live Activity to pause")
+            return
+        }
+
+        if isActivityExpired() {
+            print("Goodtime: Cannot pause - timer has expired")
+            await updateExpiredActivityToStaleAsync()
             return
         }
 
@@ -278,6 +331,12 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
         guard let activity = currentActivity else { return }
         guard activity.attributes.isCountdown else {
             print("Goodtime: +1 minute only available for countdown timers")
+            return
+        }
+
+        if isActivityExpired() {
+            print("Goodtime: Cannot add minute - timer has expired")
+            await updateExpiredActivityToStaleAsync()
             return
         }
 

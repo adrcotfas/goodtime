@@ -43,6 +43,13 @@ class LiveActivityIntentHandler {
             queue: .main
         ) { [weak self] _ in
             print("[LiveActivityIntentHandler] Toggle pause/resume")
+
+            if GoodtimeLiveActivityManager.shared.isActivityExpired() {
+                print("[LiveActivityIntentHandler] Timer expired - updating to stale state")
+                GoodtimeLiveActivityManager.shared.updateExpiredActivityToStale()
+                return
+            }
+
             self?.getTimerManager()?.toggle()
         }
 
@@ -63,6 +70,13 @@ class LiveActivityIntentHandler {
             queue: .main
         ) { [weak self] _ in
             print("[LiveActivityIntentHandler] Add one minute")
+
+            if GoodtimeLiveActivityManager.shared.isActivityExpired() {
+                print("[LiveActivityIntentHandler] Timer expired - updating to stale state")
+                GoodtimeLiveActivityManager.shared.updateExpiredActivityToStale()
+                return
+            }
+
             self?.getTimerManager()?.addOneMinute()
         }
 
