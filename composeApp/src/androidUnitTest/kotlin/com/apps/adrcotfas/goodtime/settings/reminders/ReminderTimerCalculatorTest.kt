@@ -17,7 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.settings.reminders
 
-import com.apps.adrcotfas.goodtime.settings.reminders.ReminderHelper.Companion.calculateNextReminderTime
+import com.apps.adrcotfas.goodtime.settings.reminders.ReminderTimeCalculator.calculateNextReminderTime
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -28,7 +28,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Instant
 
-class ReminderHelperTest {
+class ReminderTimerCalculatorTest {
     private val timeZone = TimeZone.UTC
 
     private fun createDateTime(

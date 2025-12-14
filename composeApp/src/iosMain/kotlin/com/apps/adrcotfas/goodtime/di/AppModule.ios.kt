@@ -50,6 +50,7 @@ import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
+import com.apps.adrcotfas.goodtime.settings.reminders.ReminderScheduler
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.CoroutineScope
 import okio.FileSystem
@@ -180,6 +181,12 @@ actual val platformModule: Module =
                 get<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)),
                 get<EventListener>(named(EventListener.IOS_LIVE_ACTIVITY_LISTENER)),
                 get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
+            )
+        }
+
+        single<ReminderScheduler> {
+            ReminderScheduler(
+                logger = getWith("ReminderScheduler"),
             )
         }
     }

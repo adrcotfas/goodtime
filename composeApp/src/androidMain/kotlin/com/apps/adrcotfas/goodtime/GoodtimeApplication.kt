@@ -49,7 +49,7 @@ import com.apps.adrcotfas.goodtime.di.platformModule
 import com.apps.adrcotfas.goodtime.di.timerManagerModule
 import com.apps.adrcotfas.goodtime.di.viewModelModule
 import com.apps.adrcotfas.goodtime.settings.notifications.SoundsViewModel
-import com.apps.adrcotfas.goodtime.settings.reminders.ReminderHelper
+import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -108,14 +108,6 @@ class GoodtimeApplication :
                             getWith("AlarmManagerHandler"),
                         )
                     }
-                    single<ReminderHelper> {
-                        ReminderHelper(
-                            get(),
-                            get(),
-                            get<TimeProvider>(),
-                            getWith("ReminderHelper"),
-                        )
-                    }
                     viewModel<SoundsViewModel> {
                         SoundsViewModel(
                             settingsRepository = get(),
@@ -163,9 +155,9 @@ class GoodtimeApplication :
             workManagerFactory()
         }
 
-        val reminderHelper = get<ReminderHelper>()
+        val reminderManager = get<ReminderManager>()
         applicationScope.launch {
-            reminderHelper.init()
+            reminderManager.init()
         }
         val billing = get<BillingAbstract>()
         billing.init()

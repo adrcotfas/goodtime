@@ -78,7 +78,6 @@ import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.ObserveAsEvents
 import com.apps.adrcotfas.goodtime.ui.SnackbarController
-import com.apps.adrcotfas.goodtime.ui.ThemeSettings
 import com.apps.adrcotfas.goodtime.ui.popBackStack2
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope

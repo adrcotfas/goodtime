@@ -34,16 +34,16 @@ import com.apps.adrcotfas.goodtime.data.local.backup.BackupManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepositoryImpl
+import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager
+import com.apps.adrcotfas.goodtime.settings.reminders.ReminderScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import okio.FileSystem
 import okio.Path.Companion.toPath
-import org.koin.core.KoinApplication
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
@@ -116,6 +116,14 @@ val coreModule =
                 get<BackupPrompter>(),
                 get<LocalDataRepository>(),
                 getWith("BackupManager"),
+            )
+        }
+
+        single<ReminderManager> {
+            ReminderManager(
+                get<ReminderScheduler>(),
+                get<SettingsRepository>(),
+                getWith("ReminderManager"),
             )
         }
     }

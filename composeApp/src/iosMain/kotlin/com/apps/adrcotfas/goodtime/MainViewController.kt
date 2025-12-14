@@ -26,6 +26,7 @@ import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
 import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
 import com.apps.adrcotfas.goodtime.bl.TimerManager
+import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
 import com.apps.adrcotfas.goodtime.di.localDataModule
@@ -36,6 +37,9 @@ import com.apps.adrcotfas.goodtime.di.viewModelModule
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
+import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.qualifier.named
@@ -70,6 +74,7 @@ private fun AppWithKoin() {
         val mainViewModel: MainViewModel = koinInject()
 
         initNotificationHandler()
+        initReminderManager()
 
         val platformContext = remember { PlatformContext() }
 
@@ -88,5 +93,14 @@ private fun initNotificationHandler() {
     val timerManager: TimerManager = koinInject()
     notificationHandler.init {
         timerManager.next(finishActionType = FinishActionType.MANUAL_NEXT)
+    }
+}
+
+@Composable
+private fun initReminderManager() {
+    val reminderManager: ReminderManager = koinInject()
+    val scope: CoroutineScope = koinInject(named(MAIN_SCOPE))
+    scope.launch {
+        reminderManager.init()
     }
 }

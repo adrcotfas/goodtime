@@ -46,6 +46,7 @@ import com.apps.adrcotfas.goodtime.common.UrlOpener
 import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
+import com.apps.adrcotfas.goodtime.settings.reminders.ReminderScheduler
 import kotlinx.coroutines.CoroutineScope
 import okio.FileSystem
 import org.koin.core.module.Module
@@ -110,6 +111,14 @@ actual val platformModule: Module =
         single<FeedbackHelper> { AndroidFeedbackHelper(get()) }
         single<TimeFormatProvider> { AndroidTimeFormatProvider(get()) }
         single<InstallDateProvider> { AndroidInstallDateProvider(get()) }
+
+        single<ReminderScheduler> {
+            ReminderScheduler(
+                context = get(),
+                timeProvider = get(),
+                logger = getWith("ReminderScheduler"),
+            )
+        }
     }
 
 actual fun isDebug(): Boolean = BuildConfig.DEBUG

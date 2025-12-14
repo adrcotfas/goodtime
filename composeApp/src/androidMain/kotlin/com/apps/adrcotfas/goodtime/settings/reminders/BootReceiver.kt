@@ -23,7 +23,10 @@ import android.content.Intent
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.bl.SessionResetHandler
+import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.injectLogger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
@@ -32,8 +35,9 @@ import java.lang.RuntimeException
 class BootReceiver :
     BroadcastReceiver(),
     KoinComponent {
-    private val reminderHelper: ReminderHelper by inject()
+    private val reminderManager: ReminderManager by inject()
     private val sessionResetHandler: EventListener by inject(named(EventListener.SESSION_RESET_HANDLER))
+    private val scope: CoroutineScope by inject(named(MAIN_SCOPE))
     private val logger by injectLogger(TAG)
 
     override fun onReceive(
@@ -44,7 +48,9 @@ class BootReceiver :
         try {
             if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
                 logger.d("onBootComplete")
-                reminderHelper.scheduleNotifications()
+                scope.launch {
+                    reminderManager.rescheduleAllReminders()
+                }
 
                 // Reset the session reset handler
                 (sessionResetHandler as SessionResetHandler).cancel()
