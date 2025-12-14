@@ -25,11 +25,9 @@ import com.apps.adrcotfas.goodtime.backup.AutoBackupWorker
 import com.apps.adrcotfas.goodtime.billing.BillingAbstract
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
-import com.apps.adrcotfas.goodtime.bl.AndroidSessionResetHandler
 import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.DndModeManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
-import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_HANDLER
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
@@ -112,10 +110,6 @@ class GoodtimeApplication :
                         SoundsViewModel(
                             settingsRepository = get(),
                         )
-                    }
-
-                    single<EventListener>(named(EventListener.SESSION_RESET_HANDLER)) {
-                        AndroidSessionResetHandler(get(), getWith("SessionResetHandler"))
                     }
 
                     single<EventListener>(named(EventListener.DND_MODE_MANAGER)) {

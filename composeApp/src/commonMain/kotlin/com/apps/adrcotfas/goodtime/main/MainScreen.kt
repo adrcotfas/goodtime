@@ -46,6 +46,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -320,8 +321,16 @@ fun MainScreen(
         )
     }
 
-    var showFinishedSessionSheet by remember(timerUiState.isFinished) {
-        mutableStateOf(timerUiState.isFinished)
+    var showFinishedSessionSheet by remember(timerUiState.isFinished, timerUiState.endTime) {
+        mutableStateOf(timerUiState.isFinished && viewModel.isWithinInactivityTimeout())
+    }
+
+    // Auto-reset if finished but past the inactivity timeout (don't show sheet)
+    LaunchedEffect(timerUiState.isFinished, timerUiState.isWithinInactivityTimeout) {
+        if (timerUiState.isFinished && !timerUiState.isWithinInactivityTimeout) {
+            showFinishedSessionSheet = false
+            viewModel.resetTimer(actionType = FinishActionType.MANUAL_DO_NOTHING)
+        }
     }
 
     if (showFinishedSessionSheet) {

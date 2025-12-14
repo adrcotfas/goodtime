@@ -68,6 +68,7 @@ data class TimerUiState(
     val completedMinutes: Long = 0,
     val timeSpentPaused: Long = 0,
     val endTime: Long = 0,
+    val elapsedRealtime: Long = 0,
     val sessionsBeforeLongBreak: Int = 0,
     val longBreakData: LongBreakData = LongBreakData(),
     val breakBudgetMinutes: Long = 0,
@@ -78,6 +79,14 @@ data class TimerUiState(
     val isActive = timerState.isActive
     val isBreak = timerType.isBreak
     val isFinished = timerState == TimerState.FINISHED
+
+    /** Time elapsed since the session finished (only valid when isFinished) */
+    val idleTime: Long
+        get() = if (isFinished) elapsedRealtime - endTime else 0
+
+    /** Whether we're within the 30-minute window after session finished */
+    val isWithinInactivityTimeout: Boolean
+        get() = isFinished && idleTime < TimerManager.AUTOSTART_TIMEOUT
 }
 
 data class TimerMainUiState(
@@ -109,7 +118,7 @@ class TimerViewModel(
     val timerUiState =
         timerManager.timerData.flatMapLatest {
             when (it.state) {
-                TimerState.RUNNING, TimerState.PAUSED ->
+                TimerState.RUNNING, TimerState.PAUSED, TimerState.FINISHED ->
                     flow {
                         while (true) {
                             emitUiState(it)
@@ -193,6 +202,7 @@ class TimerViewModel(
     }
 
     private suspend fun FlowCollector<TimerUiState>.emitUiState(it: DomainTimerData) {
+        val elapsedRealtime = timeProvider.elapsedRealtime()
         emit(
             TimerUiState(
                 isReady = it.isReady,
@@ -204,9 +214,10 @@ class TimerViewModel(
                 completedMinutes = it.completedMinutes,
                 timeSpentPaused = it.timeSpentPaused,
                 endTime = it.endTime,
+                elapsedRealtime = elapsedRealtime,
                 sessionsBeforeLongBreak = it.inUseSessionsBeforeLongBreak(),
                 longBreakData = it.longBreakData,
-                breakBudgetMinutes = it.getBreakBudget(timeProvider.elapsedRealtime()).inWholeMinutes,
+                breakBudgetMinutes = it.getBreakBudget(elapsedRealtime).inWholeMinutes,
             ),
         )
     }
@@ -259,6 +270,17 @@ class TimerViewModel(
     }
 
     fun forceFinish() = timerManager.finish(actionType = FinishActionType.FORCE_FINISH)
+
+    /**
+     * Check if we're within the inactivity timeout using CURRENT time.
+     * This is needed for initial render after foregrounding when cached timerUiState may be stale.
+     */
+    fun isWithinInactivityTimeout(): Boolean {
+        val timerData = timerManager.timerData.value
+        if (timerData.state != TimerState.FINISHED) return false
+        val idleTime = timeProvider.elapsedRealtime() - timerData.endTime
+        return idleTime < TimerManager.AUTOSTART_TIMEOUT
+    }
 
     fun onSendToBackground() = timerManager.onSendToBackground()
 

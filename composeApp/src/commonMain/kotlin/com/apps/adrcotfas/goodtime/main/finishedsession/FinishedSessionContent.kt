@@ -47,9 +47,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -58,7 +56,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isBreak
@@ -80,15 +77,12 @@ import goodtime_productivity.composeapp.generated.resources.stats_add_notes
 import goodtime_productivity.composeapp.generated.resources.stats_break
 import goodtime_productivity.composeapp.generated.resources.stats_focus
 import goodtime_productivity.composeapp.generated.resources.stats_today
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -115,6 +109,14 @@ fun FinishedSessionSheet(
     var addIdleTime by rememberSaveable { mutableStateOf(false) }
     var notes by rememberSaveable { mutableStateOf("") }
     val isFullscreen = uiState.isFullscreen
+
+    // Auto-dismiss after 30 minutes since session ended (ViewModel updates elapsedRealtime)
+    LaunchedEffect(timerUiState.isWithinInactivityTimeout) {
+        if (!timerUiState.isWithinInactivityTimeout) {
+            onReset()
+            onHideSheet()
+        }
+    }
 
     val handleSheetClose = {
         // Unified update logic - no race conditions!
@@ -188,38 +190,9 @@ fun FinishedSessionSheet(
 }
 
 @Composable
-fun FinishedSessionContent(
-    timerUiState: TimerUiState,
-    finishedSessionUiState: FinishedSessionUiState,
-    addIdleMinutes: Boolean,
-    onChangeAddIdleMinutes: (Boolean) -> Unit,
-    notes: String,
-    onNotesChanged: (String) -> Unit,
-) {
-    val timeProvider = koinInject<TimeProvider>()
-    var elapsedRealtime by remember { mutableLongStateOf(timeProvider.elapsedRealtime()) }
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(1.seconds)
-            elapsedRealtime = timeProvider.elapsedRealtime()
-        }
-    }
-    FinishedSessionContent(
-        timerUiState,
-        finishedSessionUiState,
-        elapsedRealtime,
-        addIdleMinutes,
-        onChangeAddIdleMinutes,
-        notes,
-        onNotesChanged,
-    )
-}
-
-@Composable
 private fun FinishedSessionContent(
     timerUiState: TimerUiState,
     finishedSessionUiState: FinishedSessionUiState,
-    elapsedRealtime: Long,
     addIdleMinutes: Boolean,
     onChangeAddIdleMinutes: (Boolean) -> Unit,
     notes: String,
@@ -235,12 +208,18 @@ private fun FinishedSessionContent(
     ) {
         val isBreak = timerUiState.timerType.isBreak
         Text(
-            text = if (isBreak) stringResource(Res.string.main_break_complete) else stringResource(Res.string.main_focus_complete),
+            text =
+                if (isBreak) {
+                    stringResource(Res.string.main_break_complete)
+                } else {
+                    stringResource(
+                        Res.string.main_focus_complete,
+                    )
+                },
             style = MaterialTheme.typography.titleLarge,
         )
         CurrentSessionCard(
             timerUiState,
-            elapsedRealtime,
             addIdleMinutes,
             onChangeAddIdleMinutes,
             finishedSessionUiState.isPro,
@@ -254,7 +233,6 @@ private fun FinishedSessionContent(
 @Composable
 private fun CurrentSessionCard(
     timerUiState: TimerUiState,
-    elapsedRealtime: Long,
     addIdleMinutes: Boolean,
     onAddIdleMinutesChanged: (Boolean) -> Unit,
     enabled: Boolean,
@@ -262,7 +240,7 @@ private fun CurrentSessionCard(
     onNotesChanged: (String) -> Unit,
 ) {
     val isBreak = timerUiState.isBreak
-    val idleMillis = (elapsedRealtime - timerUiState.endTime)
+    val idleMillis = timerUiState.idleTime
 
     val duration =
         timerUiState.completedMinutes.minutes.inWholeMilliseconds
@@ -463,6 +441,8 @@ fun FinishedSessionContentPreview() {
                 timerType = TimerType.FOCUS,
                 completedMinutes = 25,
                 timeSpentPaused = 2.minutes.inWholeMilliseconds,
+                endTime = 0,
+                elapsedRealtime = 3.minutes.inWholeMilliseconds,
             ),
         finishedSessionUiState =
             FinishedSessionUiState(
@@ -471,7 +451,6 @@ fun FinishedSessionContentPreview() {
                 todayInterruptedMinutes = 2,
                 isPro = false,
             ),
-        elapsedRealtime = 3.minutes.inWholeMilliseconds,
         addIdleMinutes = true,
         onChangeAddIdleMinutes = {},
         notes = "Some notes",

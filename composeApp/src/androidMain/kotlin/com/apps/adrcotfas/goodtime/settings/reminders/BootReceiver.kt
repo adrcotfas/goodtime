@@ -20,9 +20,6 @@ package com.apps.adrcotfas.goodtime.settings.reminders
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.apps.adrcotfas.goodtime.bl.EventListener
-import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
-import com.apps.adrcotfas.goodtime.bl.SessionResetHandler
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.injectLogger
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +33,6 @@ class BootReceiver :
     BroadcastReceiver(),
     KoinComponent {
     private val reminderManager: ReminderManager by inject()
-    private val sessionResetHandler: EventListener by inject(named(EventListener.SESSION_RESET_HANDLER))
     private val scope: CoroutineScope by inject(named(MAIN_SCOPE))
     private val logger by injectLogger(TAG)
 
@@ -51,9 +47,6 @@ class BootReceiver :
                 scope.launch {
                     reminderManager.rescheduleAllReminders()
                 }
-
-                // Reset the session reset handler
-                (sessionResetHandler as SessionResetHandler).cancel()
             }
         } catch (e: RuntimeException) {
             logger.e("Could not process intent")

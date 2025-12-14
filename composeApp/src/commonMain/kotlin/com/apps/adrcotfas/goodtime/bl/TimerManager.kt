@@ -25,6 +25,7 @@ import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.streakInUse
+import com.apps.adrcotfas.goodtime.di.isDebug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -474,13 +475,20 @@ class TimerManager(
         updateBreakBudgetIfNeeded()
         handleFinishedSession(finishActionType = actionType)
 
+        // Skip autostart if too much time has passed since the timer was supposed to end.
+        // This handles the iOS case where finish is called when the app returns to foreground
+        // after being backgrounded for a long time.
+        val timeSinceExpectedEnd = timeProvider.elapsedRealtime() - data.endTime
+        val withinAutoStartWindow = timeSinceExpectedEnd < AUTOSTART_TIMEOUT
+
         val autoStart =
-            settings.autoStartFocus &&
-                (type.isBreak || !timerProfile.profile.isBreakEnabled) ||
-                settings.autoStartBreak &&
-                type.isFocus &&
-                timerProfile.profile.isBreakEnabled
-        log.i { "AutoStart: $autoStart" }
+            withinAutoStartWindow &&
+                (
+                    settings.autoStartFocus && (type.isBreak || !timerProfile.profile.isBreakEnabled) ||
+                        settings.autoStartBreak && type.isFocus && timerProfile.profile.isBreakEnabled
+                )
+
+        log.i { "AutoStart: $autoStart (timeSinceExpectedEnd: ${timeSinceExpectedEnd.milliseconds}, withinWindow: $withinAutoStartWindow)" }
         listeners.forEach {
             it.onEvent(
                 Event.Finished(
@@ -690,6 +698,9 @@ class TimerManager(
         // some extra time to be used when converting millis to minutes and avoid rounding issues
         const val WIGGLE_ROOM_MILLIS = 10000L
         val COUNT_UP_HARD_LIMIT = 900.minutes.inWholeMilliseconds
+
+        // Skip autostart if user returns more than 30 minutes after the timer was supposed to end
+        val AUTOSTART_TIMEOUT = if (!isDebug()) 30.minutes.inWholeMilliseconds else 1.minutes.inWholeMilliseconds
     }
 }
 
