@@ -92,7 +92,7 @@ private fun initNotificationHandler() {
     val notificationHandler = koinInject<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)) as IosNotificationHandler
     val timerManager: TimerManager = koinInject()
     notificationHandler.init {
-        timerManager.next(finishActionType = FinishActionType.MANUAL_NEXT)
+        timerManager.next(actionType = FinishActionType.MANUAL_NEXT)
     }
 }
 

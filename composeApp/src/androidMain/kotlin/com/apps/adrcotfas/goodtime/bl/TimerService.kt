@@ -88,8 +88,8 @@ class TimerService :
             // actions triggered from the notification itself
             Action.Toggle.name -> timerManager.toggle()
             Action.AddOneMinute.name -> timerManager.addOneMinute()
-            Action.Skip.name -> timerManager.next(finishActionType = FinishActionType.MANUAL_SKIP)
-            Action.Next.name -> timerManager.next(finishActionType = FinishActionType.MANUAL_NEXT)
+            Action.Skip.name -> timerManager.next(actionType = FinishActionType.MANUAL_SKIP)
+            Action.Next.name -> timerManager.next(actionType = FinishActionType.MANUAL_NEXT)
             Action.DoReset.name -> timerManager.reset()
         }
 

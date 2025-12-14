@@ -352,8 +352,8 @@ class TimerManager(
         nextInternal(finishActionType = FinishActionType.MANUAL_SKIP)
     }
 
-    fun next(finishActionType: FinishActionType = FinishActionType.MANUAL_NEXT) {
-        nextInternal(finishActionType)
+    fun next(actionType: FinishActionType = FinishActionType.MANUAL_NEXT) {
+        nextInternal(actionType)
     }
 
     /**
@@ -490,7 +490,7 @@ class TimerManager(
             )
         }
         if (autoStart) {
-            next(finishActionType = FinishActionType.AUTO)
+            next(actionType = FinishActionType.AUTO)
         }
     }
 
@@ -694,7 +694,9 @@ class TimerManager(
 }
 
 enum class FinishActionType {
-    FORCE_FINISH, // app was in foreground and finish was triggered by observing the current time, not the result of a scheduled alarm
+    // app was in foreground and finish was triggered by observing the current time, not the result of a scheduled alarm,
+    // or the app was in the background on iOS when the timer expired and we need to update the state according to the expected end time
+    FORCE_FINISH,
     MANUAL_RESET, // the user manually reset a session
     MANUAL_SKIP, // the user manually skipped a session, increment streak even if session is shorter than 1 minute
     MANUAL_NEXT, // at the end of a session, the user continues
