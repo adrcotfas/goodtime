@@ -50,7 +50,7 @@ data class LocalLabel(
     @PrimaryKey
     val name: String,
     @ColumnInfo(defaultValue = "$DEFAULT_LABEL_COLOR_INDEX")
-    val colorIndex: Long,
+    val colorIndex: Int,
     @ColumnInfo(defaultValue = "${Long.MAX_VALUE}")
     val orderIndex: Long,
     @ColumnInfo(defaultValue = "1")

@@ -99,7 +99,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
         uiState.selectedLabels
             .map {
                 MaterialTheme.getLabelColor(it.colorIndex)
-            }.plus(MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX.toLong()))
+            }.plus(MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX))
 
     val x = remember(data) { data.x }
     val y = remember(data) { data.y }

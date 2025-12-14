@@ -109,7 +109,7 @@ actual fun PieChartSection(
             .map {
                 when (it) {
                     Label.OTHERS_LABEL_NAME -> {
-                        MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX.toLong())
+                        MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX)
                     }
 
                     else -> {

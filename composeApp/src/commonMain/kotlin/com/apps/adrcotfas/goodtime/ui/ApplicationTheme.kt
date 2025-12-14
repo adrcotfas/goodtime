@@ -63,14 +63,14 @@ fun ApplicationTheme(
 }
 
 @Composable
-fun MaterialTheme.getLabelColor(colorIndex: Long): Color {
+fun MaterialTheme.getLabelColor(colorIndex: Int): Color {
     val colors = localColorsPalette.colors
     return if (colorIndex in colors.indices) {
-        colors[colorIndex.toInt()]
+        colors[colorIndex]
     } else {
         colors[DEFAULT_LABEL_COLOR_INDEX]
     }
 }
 
 @Composable
-fun MaterialTheme.breakColor(): Color = MaterialTheme.getLabelColor(BREAK_COLOR_INDEX.toLong())
+fun MaterialTheme.breakColor(): Color = MaterialTheme.getLabelColor(BREAK_COLOR_INDEX)

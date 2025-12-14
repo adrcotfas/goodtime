@@ -36,7 +36,7 @@ class FakeLabelDao : LabelDao {
 
     override suspend fun updateLabel(
         newName: String,
-        newColorIndex: Long,
+        newColorIndex: Int,
         newUseDefaultTimeProfile: Boolean,
         newTimerProfileName: String?,
         newIsCountdown: Boolean,

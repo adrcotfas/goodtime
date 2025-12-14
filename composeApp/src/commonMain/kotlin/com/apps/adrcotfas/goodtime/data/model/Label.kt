@@ -22,7 +22,7 @@ import kotlin.random.Random
 
 data class Label(
     val name: String,
-    val colorIndex: Long = DEFAULT_LABEL_COLOR_INDEX.toLong(),
+    val colorIndex: Int = DEFAULT_LABEL_COLOR_INDEX,
     val orderIndex: Long = Long.MAX_VALUE,
     val useDefaultTimeProfile: Boolean = true,
     val timerProfile: TimerProfile = TimerProfile(),
@@ -42,12 +42,12 @@ data class Label(
         fun defaultLabel() =
             Label(
                 name = DEFAULT_LABEL_NAME,
-                colorIndex = DEFAULT_LABEL_COLOR_INDEX.toLong(),
+                colorIndex = DEFAULT_LABEL_COLOR_INDEX,
                 orderIndex = 0,
                 timerProfile = TimerProfile.default(),
             )
 
-        fun newLabelWithRandomColorIndex(lastIndex: Int) = Label(name = "", colorIndex = Random.nextInt(lastIndex).toLong())
+        fun newLabelWithRandomColorIndex(lastIndex: Int) = Label(name = "", colorIndex = Random.nextInt(lastIndex))
     }
 }
 

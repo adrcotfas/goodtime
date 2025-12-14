@@ -17,14 +17,16 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
+import com.apps.adrcotfas.goodtime.data.model.Label
+
 sealed class Event {
     data class Start(
         val isFocus: Boolean = true,
         val autoStarted: Boolean = false,
         val endTime: Long = 0,
-        val labelName: String = "",
+        val labelName: String = Label.DEFAULT_LABEL_NAME,
         val isDefaultLabel: Boolean = true,
-        val labelColorIndex: Long = 0,
+        val labelColorIndex: Int = Label.DEFAULT_LABEL_COLOR_INDEX,
         val isBreakEnabled: Boolean = true,
         val isCountdown: Boolean = true,
     ) : Event()

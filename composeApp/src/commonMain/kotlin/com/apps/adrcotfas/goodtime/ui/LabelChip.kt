@@ -49,7 +49,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun LabelChip(
     name: String,
-    colorIndex: Long,
+    colorIndex: Int,
     selected: Boolean = true,
     showIcon: Boolean = false,
     onClick: () -> Unit,
@@ -101,7 +101,7 @@ fun LabelChip(
 @Composable
 fun SmallLabelChip(
     name: String,
-    colorIndex: Long,
+    colorIndex: Int,
 ) {
     val color = MaterialTheme.getLabelColor(colorIndex)
     SmallLabelChip(name, color)

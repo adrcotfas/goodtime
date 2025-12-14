@@ -140,9 +140,9 @@ fun AddEditLabelScreen(
                     .imePadding(),
         ) {
             ColorSelectRow(
-                selectedIndex = label.colorIndex.toInt(),
+                selectedIndex = label.colorIndex,
             ) {
-                viewModel.updateTmpLabel(label.copy(colorIndex = it.toLong()), resetProfile = false)
+                viewModel.updateTmpLabel(label.copy(colorIndex = it), resetProfile = false)
             }
             Spacer(modifier = Modifier.height(16.dp))
             ListItem(

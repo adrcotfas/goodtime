@@ -105,7 +105,7 @@ fun UserInterfaceScreen(
     if (uiState.isLoading) return
 
     val timerStyle = if (isPro) uiState.settings.timerStyle else uiState.lockedTimerStyle
-    val colorIndex = if (isPro) uiState.defaultLabel.colorIndex.toInt() else uiState.lockedTimerStyle.colorIndex
+    val colorIndex = if (isPro) uiState.defaultLabel.colorIndex else uiState.lockedTimerStyle.colorIndex
     val listState = rememberScrollState()
 
     Scaffold(
@@ -184,9 +184,7 @@ fun UserInterfaceScreen(
             ColorSelectRow(
                 selectedIndex = colorIndex,
             ) {
-                viewModel.setDefaultLabelColor(
-                    it.toLong(),
-                )
+                viewModel.setDefaultLabelColor(it)
             }
             Box(
                 modifier =
@@ -252,10 +250,7 @@ fun UserInterfaceScreen(
                     timerUiState = timerUiState,
                     timerStyle = timerStyle,
                     domainLabel =
-                        DomainLabel(
-                            label =
-                                uiState.defaultLabel.copy(colorIndex = colorIndex.toLong()),
-                        ),
+                        DomainLabel(label = uiState.defaultLabel.copy(colorIndex = colorIndex)),
                     onStart = {},
                     onToggle = null,
                 )

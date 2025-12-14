@@ -305,6 +305,72 @@ val MIGRATION_8_9: Migration =
         }
     }
 
+val MIGRATION_9_10: Migration =
+    object : Migration(9, 10) {
+        override fun migrate(connection: SQLiteConnection) {
+            connection.execSQL("PRAGMA foreign_keys=off;")
+
+            // Create new table with colorIndex as INTEGER instead of LONG
+            connection.execSQL(
+                """
+                CREATE TABLE localLabel_new (
+                    name TEXT PRIMARY KEY NOT NULL,
+                    colorIndex INTEGER NOT NULL DEFAULT 24,
+                    orderIndex INTEGER NOT NULL DEFAULT ${Long.MAX_VALUE},
+                    useDefaultTimeProfile INTEGER NOT NULL DEFAULT 1,
+                    timerProfileName TEXT DEFAULT '${LocalTimerProfile.DEFAULT_PROFILE_NAME}',
+                    isCountdown INTEGER NOT NULL DEFAULT 1,
+                    workDuration INTEGER NOT NULL DEFAULT 25,
+                    isBreakEnabled INTEGER NOT NULL DEFAULT 1,
+                    breakDuration INTEGER NOT NULL DEFAULT 5,
+                    isLongBreakEnabled INTEGER NOT NULL DEFAULT 0,
+                    longBreakDuration INTEGER NOT NULL DEFAULT 15,
+                    sessionsBeforeLongBreak INTEGER NOT NULL DEFAULT 4,
+                    workBreakRatio INTEGER NOT NULL DEFAULT 3,
+                    isArchived INTEGER NOT NULL DEFAULT 0,
+                    FOREIGN KEY (timerProfileName) REFERENCES localTimerProfile(name)
+                    ON UPDATE CASCADE ON DELETE SET NULL
+                );
+                """.trimIndent(),
+            )
+
+            // Migrate data, converting colorIndex from Long to Int
+            // If colorIndex exceeds Int.MAX_VALUE, set it to the default (24)
+            connection.execSQL(
+                """
+                INSERT INTO localLabel_new (
+                    name, colorIndex, orderIndex, useDefaultTimeProfile, timerProfileName,
+                    isCountdown, workDuration, isBreakEnabled, breakDuration,
+                    isLongBreakEnabled, longBreakDuration, sessionsBeforeLongBreak,
+                    workBreakRatio, isArchived
+                )
+                SELECT
+                    name,
+                    CASE
+                        WHEN colorIndex > ${Int.MAX_VALUE} THEN 24
+                        ELSE colorIndex
+                    END,
+                    orderIndex, useDefaultTimeProfile, timerProfileName,
+                    isCountdown, workDuration, isBreakEnabled, breakDuration,
+                    isLongBreakEnabled, longBreakDuration, sessionsBeforeLongBreak,
+                    workBreakRatio, isArchived
+                FROM localLabel;
+                """.trimIndent(),
+            )
+
+            // Drop old table
+            connection.execSQL("DROP TABLE localLabel;")
+
+            // Rename new table
+            connection.execSQL("ALTER TABLE localLabel_new RENAME TO localLabel;")
+
+            // Recreate indexes
+            connection.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_localLabel_name_isArchived ON localLabel(name, isArchived);")
+            connection.execSQL("CREATE INDEX IF NOT EXISTS index_localLabel_timerProfileName ON localLabel(timerProfileName);")
+
+            connection.execSQL("PRAGMA foreign_keys=on;")
+        }
+    }
 val MIGRATIONS =
     arrayOf(
         MIGRATION_1_2,
@@ -315,4 +381,5 @@ val MIGRATIONS =
         MIGRATION_6_7,
         MIGRATION_7_8,
         MIGRATION_8_9,
+        MIGRATION_9_10,
     )

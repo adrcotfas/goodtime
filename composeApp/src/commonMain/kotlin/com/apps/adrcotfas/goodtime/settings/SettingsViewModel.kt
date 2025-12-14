@@ -282,7 +282,7 @@ class SettingsViewModel(
 
     // Timer style settings bellow
 
-    fun setDefaultLabelColor(colorIndex: Long) {
+    fun setDefaultLabelColor(colorIndex: Int) {
         viewModelScope.launch {
             if (uiState.value.settings.isPro) {
                 dataRepository.updateDefaultLabel(uiState.value.defaultLabel.copy(colorIndex = colorIndex))

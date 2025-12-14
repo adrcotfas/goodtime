@@ -31,7 +31,7 @@ import kotlin.time.Duration.Companion.minutes
 
 data class LabelData(
     val name: String,
-    val colorIndex: Long,
+    val colorIndex: Int,
 )
 
 fun LabelData.isDefault(): Boolean = name == Label.DEFAULT_LABEL_NAME

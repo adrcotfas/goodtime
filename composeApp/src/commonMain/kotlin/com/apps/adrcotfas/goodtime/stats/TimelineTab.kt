@@ -152,7 +152,7 @@ fun TimelineListItem(
     modifier: Modifier = Modifier,
     session: Session,
     isSelected: Boolean = false,
-    colorIndex: Long,
+    colorIndex: Int,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {

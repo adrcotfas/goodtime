@@ -178,7 +178,7 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
     @Test
     fun updateLabelProperties() =
         runTest {
-            val expectedColorIndex = 9L
+            val expectedColorIndex = 9
             val expectedOrderIndex = 10L
             val expectedFollowDefaultTimeProfile = false
             repo.updateLabel(
