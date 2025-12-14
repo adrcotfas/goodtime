@@ -120,7 +120,7 @@ class IosNotificationHandler(
                 // Store current session info for later use
                 currentStartEvent = event
 
-                if (event.endTime != 0L) {
+                if (event.endTime != 0L && event.isCountdown) {
                     coroutineScope.launch {
                         scheduleNotification(event.endTime, event)
                     }
