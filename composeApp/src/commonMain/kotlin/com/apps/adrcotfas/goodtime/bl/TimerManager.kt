@@ -570,10 +570,14 @@ class TimerManager(
             it.copy(completedMinutes = durationToSaveMinutes)
         }
 
+        // Calculate timestamp based on when the session actually ended (endTime)
+        // endTime is in elapsedRealtime (millis since boot), convert to wall-clock time
         val now = timeProvider.now()
+        val elapsedRealtime = timeProvider.elapsedRealtime()
+        val timestampAtEnd = now - elapsedRealtime + endTime
 
         return Session.create(
-            timestamp = now,
+            timestamp = timestampAtEnd,
             duration = durationToSaveMinutes,
             interruptions = if (isFOCUS) interruptions.milliseconds.inWholeMinutes else 0,
             label = data.getLabelName(),
