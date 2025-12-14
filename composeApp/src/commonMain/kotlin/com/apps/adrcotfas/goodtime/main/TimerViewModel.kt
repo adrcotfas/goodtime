@@ -184,11 +184,8 @@ class TimerViewModel(
         timerManager.toggle()
     }
 
-    fun resetTimer(
-        updateWorkTime: Boolean = false,
-        actionType: FinishActionType = FinishActionType.MANUAL_RESET,
-    ) {
-        timerManager.reset(updateWorkTime, actionType)
+    fun resetTimer(actionType: FinishActionType = FinishActionType.MANUAL_RESET) {
+        timerManager.reset(actionType)
     }
 
     fun addOneMinute() {
@@ -218,12 +215,15 @@ class TimerViewModel(
         timerManager.skip()
     }
 
-    fun next(updateWorkTime: Boolean = false) {
-        timerManager.next(updateWorkTime)
+    fun next() {
+        timerManager.next()
     }
 
-    fun updateNotesForLastCompletedSession(notes: String) {
-        timerManager.updateNotesForLastCompletedSession(notes = notes)
+    fun updateFinishedSession(
+        updateDuration: Boolean,
+        notes: String,
+    ) {
+        timerManager.updateFinishedSession(updateDuration, notes)
     }
 
     fun initTimerStyle(

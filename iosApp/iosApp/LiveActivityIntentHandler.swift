@@ -60,7 +60,7 @@ class LiveActivityIntentHandler {
             queue: .main
         ) { [weak self] _ in
             print("[LiveActivityIntentHandler] Stop")
-            self?.getTimerManager()?.reset(updateWorkTime: false, actionType: FinishActionType.manualDoNothing)
+            self?.getTimerManager()?.reset(actionType: FinishActionType.manualDoNothing)
         }
 
         // Add One Minute

@@ -95,9 +95,9 @@ import kotlin.time.Duration.Companion.seconds
 fun FinishedSessionSheet(
     viewModel: FinishedSessionViewModel = koinViewModel(),
     timerUiState: TimerUiState,
-    onNext: (Boolean) -> Unit,
-    onReset: (Boolean) -> Unit,
-    onUpdateNotes: (String) -> Unit,
+    onNext: () -> Unit,
+    onReset: () -> Unit,
+    onUpdateFinishedSession: (updateDuration: Boolean, notes: String) -> Unit,
     onHideSheet: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -112,14 +112,41 @@ fun FinishedSessionSheet(
     }
 
     val isBreak = rememberSaveable { timerUiState.timerType.isBreak }
-    var updateWorkTime by rememberSaveable { mutableStateOf(false) }
+    var addIdleTime by rememberSaveable { mutableStateOf(false) }
     var notes by rememberSaveable { mutableStateOf("") }
     val isFullscreen = uiState.isFullscreen
 
+    val handleSheetClose = {
+        // Unified update logic - no race conditions!
+        val notesModified = notes.isNotEmpty()
+        if (addIdleTime) {
+            // Update duration, timestamp, AND notes (even if empty)
+            onUpdateFinishedSession(true, notes)
+        } else if (notesModified) {
+            // Only update notes
+            onUpdateFinishedSession(false, notes)
+        }
+        // If addIdleTime=false and notes empty: do nothing, just reset
+        onReset()
+    }
+
+    val handleNext = {
+        // Unified update logic - no race conditions!
+        val notesModified = notes.isNotEmpty()
+        if (addIdleTime) {
+            // Update duration, timestamp, AND notes (even if empty)
+            onUpdateFinishedSession(true, notes)
+        } else if (notesModified) {
+            // Only update notes
+            onUpdateFinishedSession(false, notes)
+        }
+        // If addIdleTime=false and notes empty: do nothing, just proceed with next
+        onNext()
+    }
+
     ModalBottomSheet(
         onDismissRequest = {
-            onUpdateNotes(notes)
-            onReset(updateWorkTime)
+            handleSheetClose()
             onHideSheet()
         },
         dragHandle = {
@@ -133,13 +160,11 @@ fun FinishedSessionSheet(
                         )
                     },
                 onClose = {
-                    onUpdateNotes(notes)
-                    onReset(updateWorkTime)
+                    handleSheetClose()
                     hideFinishedSessionSheet()
                 },
                 onClick = {
-                    onUpdateNotes(notes)
-                    onNext(updateWorkTime)
+                    handleNext()
                     hideFinishedSessionSheet()
                 },
                 isEnabled = true,
@@ -154,8 +179,8 @@ fun FinishedSessionSheet(
         FinishedSessionContent(
             timerUiState = timerUiState,
             finishedSessionUiState = uiState,
-            addIdleMinutes = updateWorkTime,
-            onChangeAddIdleMinutes = { updateWorkTime = it },
+            addIdleMinutes = addIdleTime,
+            onChangeAddIdleMinutes = { addIdleTime = it },
             notes = notes,
             onNotesChanged = { notes = it },
         )

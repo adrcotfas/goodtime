@@ -328,21 +328,19 @@ fun MainScreen(
         FinishedSessionSheet(
             timerUiState = timerUiState,
             onHideSheet = { showFinishedSessionSheet = false },
-            onNext = { updateWorkTime ->
-                viewModel.next(updateWorkTime)
+            onNext = {
+                viewModel.next()
                 // ask for in app review if the user just started a break session
                 if (viewModel.isInstallOlderThan10Days() && !timerUiState.isBreak) {
                     viewModel.setShouldAskForReview()
                 }
             },
-            onReset = { updateWorkTime ->
-                if (updateWorkTime) {
-                    viewModel.resetTimer(updateWorkTime = true)
-                } else {
-                    viewModel.resetTimer(false, actionType = FinishActionType.MANUAL_DO_NOTHING)
-                }
+            onReset = {
+                viewModel.resetTimer(actionType = FinishActionType.MANUAL_DO_NOTHING)
             },
-            onUpdateNotes = viewModel::updateNotesForLastCompletedSession,
+            onUpdateFinishedSession = { updateDuration, notes ->
+                viewModel.updateFinishedSession(updateDuration, notes)
+            },
         )
     }
 

@@ -267,7 +267,7 @@ class TimerManagerTest {
             assertEquals(
                 fakeEventListener.events,
                 listOf(
-                    Event.Start(isFocus = true, endTime = startTime + DEFAULT_DURATION, labelName = Label.DEFAULT_LABEL_NAME),
+                    Event.Start(isFocus = true, endTime = startTime + DEFAULT_DURATION),
                     Event.Pause,
                     Event.AddOneMinute(endTime = startTime + DEFAULT_DURATION + oneMinute),
                     Event.Finished(type = TimerType.FOCUS),
@@ -743,8 +743,22 @@ class TimerManagerTest {
             )
             assertEquals(
                 listOf(
-                    Event.Start(isFocus = true, endTime = COUNT_UP_HARD_LIMIT),
-                    Event.Start(isFocus = false, endTime = 10.minutes.inWholeMilliseconds),
+                    Event.Start(
+                        isFocus = true,
+                        endTime = COUNT_UP_HARD_LIMIT,
+                        labelName = countUpLabel.name,
+                        isDefaultLabel = false,
+                        labelColorIndex = countUpLabel.colorIndex,
+                        isCountdown = false,
+                    ),
+                    Event.Start(
+                        isFocus = false,
+                        endTime = 10.minutes.inWholeMilliseconds,
+                        labelName = countUpLabel.name,
+                        isDefaultLabel = false,
+                        labelColorIndex = countUpLabel.colorIndex,
+                        isCountdown = true,
+                    ),
                 ),
                 fakeEventListener.events,
             )
@@ -770,10 +784,32 @@ class TimerManagerTest {
             assertEquals(
                 expected =
                     listOf(
-                        Event.Start(isFocus = true, endTime = COUNT_UP_HARD_LIMIT),
-                        Event.Start(isFocus = false, endTime = breakBudgetMillis),
+                        Event.Start(
+                            isFocus = true,
+                            endTime = COUNT_UP_HARD_LIMIT,
+                            labelName = countUpLabel.name,
+                            isDefaultLabel = false,
+                            labelColorIndex = countUpLabel.colorIndex,
+                            isCountdown = false,
+                        ),
+                        Event.Start(
+                            isFocus = false,
+                            endTime = breakBudgetMillis,
+                            labelName = countUpLabel.name,
+                            isDefaultLabel = false,
+                            labelColorIndex = countUpLabel.colorIndex,
+                            isCountdown = true,
+                        ),
                         Event.Finished(type = TimerType.BREAK, autostartNextSession = true),
-                        Event.Start(isFocus = true, endTime = COUNT_UP_HARD_LIMIT + breakBudgetMillis, autoStarted = true),
+                        Event.Start(
+                            isFocus = true,
+                            endTime = COUNT_UP_HARD_LIMIT + breakBudgetMillis,
+                            autoStarted = true,
+                            labelName = countUpLabel.name,
+                            isDefaultLabel = false,
+                            labelColorIndex = countUpLabel.colorIndex,
+                            isCountdown = false,
+                        ),
                     ),
                 actual = fakeEventListener.events,
             )

@@ -36,13 +36,14 @@ data class Session(
             interruptions: Long,
             label: String,
             isWork: Boolean,
+            notes: String = "",
         ) = Session(
             id = 0,
             timestamp = timestamp,
             duration = duration,
             interruptions = interruptions,
             label = label,
-            notes = "",
+            notes = notes,
             isWork = isWork,
             isArchived = false,
         )

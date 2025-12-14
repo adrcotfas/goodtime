@@ -349,18 +349,41 @@ class TimerManager(
      * This is called manually by the user before a session is finished, interrupting the current session.
      */
     fun skip() {
-        nextInternal(updateWorkTime = false, finishActionType = FinishActionType.MANUAL_SKIP)
+        nextInternal(finishActionType = FinishActionType.MANUAL_SKIP)
     }
 
-    fun next(
-        updateWorkTime: Boolean = false,
-        finishActionType: FinishActionType = FinishActionType.MANUAL_NEXT,
+    fun next(finishActionType: FinishActionType = FinishActionType.MANUAL_NEXT) {
+        nextInternal(finishActionType)
+    }
+
+    /**
+     * Updates a finished session with new duration/timestamp and/or notes.
+     * This ensures atomic updates without race conditions.
+     * @param updateDuration if true, update duration and timestamp (for idle time inclusion)
+     * @param notes notes to save (can be empty)
+     */
+    fun updateFinishedSession(
+        updateDuration: Boolean,
+        notes: String,
     ) {
-        nextInternal(updateWorkTime, finishActionType)
-    }
+        val data = timerData.value
+        if (data.state != TimerState.FINISHED) {
+            log.w { "Trying to update a session that is not in FINISHED state" }
+            return
+        }
 
-    fun updateNotesForLastCompletedSession(notes: String) {
-        if (notes.isNotEmpty()) {
+        if (updateDuration) {
+            // Update endTime to include idle time
+            _timerData.update {
+                it.copy(endTime = timeProvider.elapsedRealtime())
+            }
+            // Create session with new duration, timestamp, and notes
+            val session = createFinishedSession(notes = notes)
+            session?.let {
+                finishedSessionsHandler.updateSession(it)
+            }
+        } else {
+            // Only update notes
             finishedSessionsHandler.updateLastFinishedSessionNotes(notes.trim())
         }
     }
@@ -368,10 +391,7 @@ class TimerManager(
     /**
      * Called automatically when autoStart is enabled and the time is up or manually at the end of a session.
      */
-    private fun nextInternal(
-        updateWorkTime: Boolean = false,
-        finishActionType: FinishActionType,
-    ) {
+    private fun nextInternal(finishActionType: FinishActionType) {
         val data = timerData.value
         if (!data.isReady) {
             log.e { "timer data not ready" }
@@ -397,7 +417,12 @@ class TimerManager(
         }
 
         if (finishActionType != FinishActionType.AUTO) {
-            handleFinishedSession(updateWorkTime, finishActionType = finishActionType)
+            // Update endTime to current time before saving session
+            // This ensures we save the actual time spent, not the expected duration
+            _timerData.update {
+                it.copy(endTime = timeProvider.elapsedRealtime())
+            }
+            handleFinishedSession(finishActionType = finishActionType)
         }
 
         _timerData.update { it.reset() }
@@ -472,14 +497,9 @@ class TimerManager(
     /**
      * Resets(stops) the timer.
      * This is also part of the flow after [finish] when the user has the option of starting a new session.
-     * @param updateWorkTime if true, the duration of the already saved session will be updated.
-     *                       This is useful when the user missed the notification and continued working.
      * @see [finish]
      */
-    fun reset(
-        updateWorkTime: Boolean = false,
-        actionType: FinishActionType = FinishActionType.MANUAL_RESET,
-    ) {
+    fun reset(actionType: FinishActionType = FinishActionType.MANUAL_RESET) {
         val data = timerData.value
         if (data.state == TimerState.RESET) {
             log.w { "Trying to reset the timer when it is already reset" }
@@ -494,7 +514,7 @@ class TimerManager(
             _timerData.update {
                 it.copy(endTime = timeProvider.elapsedRealtime())
             }
-            handleFinishedSession(updateWorkTime, finishActionType = actionType)
+            handleFinishedSession(finishActionType = actionType)
         }
 
         listeners.forEach { it.onEvent(Event.Reset) }
@@ -509,10 +529,7 @@ class TimerManager(
         }
     }
 
-    private fun handleFinishedSession(
-        updateWorkTime: Boolean = false,
-        finishActionType: FinishActionType,
-    ) {
+    private fun handleFinishedSession(finishActionType: FinishActionType) {
         val data = timerData.value
         val isWork = data.type.isFocus
         val isFinished = data.state.isFinished
@@ -521,10 +538,7 @@ class TimerManager(
 
         val session = createFinishedSession()
         session?.let {
-            if (isFinished && updateWorkTime) {
-                finishedSessionsHandler.updateSession(it)
-                return
-            } else if (!isFinished ||
+            if (!isFinished ||
                 (isFinished && (finishActionType != FinishActionType.MANUAL_NEXT))
             ) {
                 finishedSessionsHandler.saveSession(it)
@@ -543,7 +557,7 @@ class TimerManager(
         }
     }
 
-    private fun createFinishedSession(): Session? {
+    private fun createFinishedSession(notes: String = ""): Session? {
         updatePausedTime()
         val data = timerData.value
         val isFOCUS = data.type == TimerType.FOCUS
@@ -582,6 +596,7 @@ class TimerManager(
             interruptions = if (isFOCUS) interruptions.milliseconds.inWholeMinutes else 0,
             label = data.getLabelName(),
             isWork = isFOCUS,
+            notes = notes,
         )
     }
 
