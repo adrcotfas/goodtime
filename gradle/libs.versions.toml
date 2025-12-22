@@ -10,7 +10,7 @@ android-targetSdk = "36"
 
 agp = "8.13.2"
 appUpdateKtx = "2.1.0"
-billingKtx = "8.2.1"
+revenuecat-purchases-kmp = "2.2.14+17.24.0"
 composeMultiplatform = "1.9.3"
 coreSplashscreen = "1.2.0"
 kotlin = "2.3.0"
@@ -76,7 +76,6 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
-billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billingKtx" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-datetime-names = { module = "io.github.adrcotfas:kotlinx-datetime-names", version.ref = "kotlinxDatetimeNames" }
 compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
@@ -108,6 +107,9 @@ touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 touchlab-kermit-simple = { module = "co.touchlab:kermit-simple", version.ref = "kermit" }
 mikepenz-aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "mikepenz-aboutlibraries" }
 mikepenz-aboutlibraries-compose = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "mikepenz-aboutlibraries" }
+
+purchases-core = { module = "com.revenuecat.purchases:purchases-kmp-core", version.ref = "revenuecat-purchases-kmp" }
+purchases-ui = { module = "com.revenuecat.purchases:purchases-kmp-ui", version.ref = "revenuecat-purchases-kmp" }
 
 ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "uiBackhandler" }
 vico-compose = { group = "com.patrykandpatrick.vico", name = "multiplatform", version.ref = "vico" }

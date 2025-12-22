@@ -18,15 +18,17 @@
 package com.apps.adrcotfas.goodtime
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.ComposeUIViewController
-import com.apps.adrcotfas.goodtime.billing.BillingAbstract
+import com.apps.adrcotfas.goodtime.billing.RevenueCatManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
 import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
+import com.apps.adrcotfas.goodtime.di.billingModule
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
 import com.apps.adrcotfas.goodtime.di.localDataModule
@@ -56,8 +58,8 @@ private fun AppWithKoin() {
     KoinApplication(
         application = {
             modules(
-                iosFlavorModule,
                 coroutineScopeModule,
+                billingModule,
                 coreModule,
                 localDataModule,
                 timerManagerModule,
@@ -67,14 +69,16 @@ private fun AppWithKoin() {
             )
         },
     ) {
-        val billing: BillingAbstract = koinInject()
-        billing.init()
-
         val timerViewModel: TimerViewModel = koinInject()
         val mainViewModel: MainViewModel = koinInject()
+        val revenueCatManager: RevenueCatManager = koinInject()
 
         initNotificationHandler()
         initReminderManager()
+
+        LaunchedEffect(Unit) {
+            revenueCatManager.start()
+        }
 
         val platformContext = remember { PlatformContext() }
 

@@ -17,21 +17,15 @@
  */
 package com.apps.adrcotfas.goodtime.billing
 
-import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import platform.Foundation.NSBundle
+import kotlin.experimental.ExperimentalNativeApi
 
-class FdroidBilling(
-    private val settingsRepository: SettingsRepository,
-    private val ioScope: CoroutineScope,
-) : BillingAbstract {
-    override fun init() {
-        ioScope.launch {
-            settingsRepository.setPro(true)
-        }
-    }
+actual fun revenueCatEnabled(): Boolean = true
 
-    override fun terminate() {
-        // no-op
-    }
+@OptIn(ExperimentalNativeApi::class)
+actual fun revenueCatApiKey(): String? {
+    val info = NSBundle.mainBundle.infoDictionary ?: return null
+    val keyName = if (Platform.isDebugBinary) "RevenueCatApiKeyDebug" else "RevenueCatApiKeyRelease"
+    val value = info[keyName] as? String
+    return value?.takeIf { it.isNotBlank() }
 }

@@ -289,7 +289,7 @@ class SettingsViewModel(
             } else {
                 _uiState.update {
                     it.copy(
-                        lockedTimerStyle = it.lockedTimerStyle.copy(colorIndex = colorIndex.toInt()),
+                        lockedTimerStyle = it.lockedTimerStyle.copy(colorIndex = colorIndex),
                     )
                 }
             }

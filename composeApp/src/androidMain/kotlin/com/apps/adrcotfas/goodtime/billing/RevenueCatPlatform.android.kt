@@ -15,23 +15,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime
+package com.apps.adrcotfas.goodtime.billing
 
-import com.apps.adrcotfas.goodtime.billing.BillingAbstract
-import com.apps.adrcotfas.goodtime.billing.GoogleBilling
-import com.apps.adrcotfas.goodtime.di.IO_SCOPE
-import com.apps.adrcotfas.goodtime.di.getWith
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
+import com.apps.adrcotfas.goodtime.BuildConfig
 
-val flavorModule =
-    module {
-        single<BillingAbstract> {
-            GoogleBilling(
-                context = get(),
-                settingsRepository = get(),
-                coroutineScope = get(named(IO_SCOPE)),
-                log = getWith("GoogleBilling"),
-            )
+actual fun revenueCatEnabled(): Boolean = !BuildConfig.IS_FDROID
+
+actual fun revenueCatApiKey(): String? {
+    val key =
+        if (BuildConfig.DEBUG) {
+            BuildConfig.REVENUECAT_API_KEY_DEBUG
+        } else {
+            BuildConfig.REVENUECAT_API_KEY_RELEASE
         }
-    }
+    return key.takeIf { it.isNotBlank() }
+}

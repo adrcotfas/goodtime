@@ -20,5 +20,9 @@
 	<array>
 		<string>com.apps.adrcotfas.goodtime.sessionreset</string>
 	</array>
+	<key>RevenueCatApiKeyDebug</key>
+	<string>test_VlLUlzzJxnkIPYshXeHYUSoyLEj</string>
+	<key>RevenueCatApiKeyRelease</key>
+	<string>test_VlLUlzzJxnkIPYshXeHYUSoyLEj</string>
 </dict>
 </plist>

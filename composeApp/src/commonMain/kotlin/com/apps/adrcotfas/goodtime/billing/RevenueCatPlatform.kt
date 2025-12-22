@@ -15,17 +15,24 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime
+package com.apps.adrcotfas.goodtime.billing
 
-import com.apps.adrcotfas.goodtime.billing.BillingAbstract
-import com.apps.adrcotfas.goodtime.billing.FdroidBilling
-import com.apps.adrcotfas.goodtime.di.IO_SCOPE
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
+/**
+ * Platform/flavor specific switch (e.g. disabled on F-Droid).
+ */
+expect fun revenueCatEnabled(): Boolean
 
-val flavorModule =
-    module {
-        single<BillingAbstract> {
-            FdroidBilling(get(), get(named(IO_SCOPE)))
-        }
-    }
+/**
+ * Platform/build-type specific API key (debug/test vs release/prod).
+ */
+expect fun revenueCatApiKey(): String?
+
+/**
+ * Convenience for "configure as early as possible" without duplicating API key passing.
+ */
+fun configureRevenueCatFromPlatform() {
+    configureRevenueCat(
+        enabled = revenueCatEnabled(),
+        apiKey = revenueCatApiKey(),
+    )
+}

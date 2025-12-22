@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B009D39C2EF9AFA5000E5EFA /* PurchasesHybridCommon in Frameworks */ = {isa = PBXBuildFile; productRef = B009D39B2EF9AFA5000E5EFA /* PurchasesHybridCommon */; };
+		B009D39E2EF9AFA5000E5EFA /* PurchasesHybridCommonUI in Frameworks */ = {isa = PBXBuildFile; productRef = B009D39D2EF9AFA5000E5EFA /* PurchasesHybridCommonUI */; };
 		B03582252EE8AF20001F3E0C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B03582242EE8AF20001F3E0C /* WidgetKit.framework */; };
 		B03582272EE8AF20001F3E0C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B03582262EE8AF20001F3E0C /* SwiftUI.framework */; };
 		B03582362EE8AF21001F3E0C /* GoodtimeInProgressExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B03582222EE8AF20001F3E0C /* GoodtimeInProgressExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -107,6 +109,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B009D39E2EF9AFA5000E5EFA /* PurchasesHybridCommonUI in Frameworks */,
+				B009D39C2EF9AFA5000E5EFA /* PurchasesHybridCommon in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +179,8 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
+				B009D39B2EF9AFA5000E5EFA /* PurchasesHybridCommon */,
+				B009D39D2EF9AFA5000E5EFA /* PurchasesHybridCommonUI */,
 			);
 			productName = iosApp;
 			productReference = 58DAC2B127839DEB1DE6CCB4 /* Goodtime: Pomodoro Timer.app */;
@@ -229,6 +235,9 @@
 			);
 			mainGroup = 87BDAD7CED6A362CF6FFBEDB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B009D39A2EF9AFA5000E5EFA /* XCRemoteSwiftPackageReference "purchases-hybrid-common" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 666F2D8804D1D00B58248C3F /* Products */;
 			projectDirPath = "";
@@ -593,6 +602,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B009D39A2EF9AFA5000E5EFA /* XCRemoteSwiftPackageReference "purchases-hybrid-common" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-hybrid-common";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 17.24.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B009D39B2EF9AFA5000E5EFA /* PurchasesHybridCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B009D39A2EF9AFA5000E5EFA /* XCRemoteSwiftPackageReference "purchases-hybrid-common" */;
+			productName = PurchasesHybridCommon;
+		};
+		B009D39D2EF9AFA5000E5EFA /* PurchasesHybridCommonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B009D39A2EF9AFA5000E5EFA /* XCRemoteSwiftPackageReference "purchases-hybrid-common" */;
+			productName = PurchasesHybridCommonUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 92EC1546E1C2B9DE0A75E965 /* Project object */;
 }

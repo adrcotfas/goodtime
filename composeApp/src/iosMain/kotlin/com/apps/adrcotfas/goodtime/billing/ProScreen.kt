@@ -34,12 +34,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.common.UrlOpener
 import com.apps.adrcotfas.goodtime.ui.TopBar
+import com.revenuecat.purchases.kmp.ui.revenuecatui.Paywall
+import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallOptions
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.product_name_long
 import goodtime_productivity.composeapp.generated.resources.support_development
@@ -52,33 +55,39 @@ import org.koin.compose.koinInject
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 actual fun ProScreen(onNavigateBack: () -> Unit) {
-    val listState = rememberScrollState()
-    Scaffold(
-        topBar = {
-            TopBar(
-                title = stringResource(Res.string.support_development),
-                icon = Icons.Default.Close,
-                onNavigateBack = { onNavigateBack() },
-                showSeparator = listState.canScrollBackward,
-            )
-        },
-    ) { paddingValues ->
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState),
-        ) {
-            val productName = stringResource(Res.string.product_name_long)
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text =
-                    stringResource(Res.string.unlock_premium_desc1, productName) + "\n" + "\n" +
-                        stringResource(Res.string.support_donate_desc) + "\n" +
-                        stringResource(Res.string.unlock_premium_desc3),
-                style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
-            )
+    val options =
+        remember {
+            PaywallOptions(dismissRequest = onNavigateBack)
         }
-    }
+
+    Paywall(options)
+//    val listState = rememberScrollState()
+//    Scaffold(
+//        topBar = {
+//            TopBar(
+//                title = stringResource(Res.string.support_development),
+//                icon = Icons.Default.Close,
+//                onNavigateBack = { onNavigateBack() },
+//                showSeparator = listState.canScrollBackward,
+//            )
+//        },
+//    ) { paddingValues ->
+//        Column(
+//            modifier =
+//                Modifier
+//                    .fillMaxSize()
+//                    .padding(paddingValues)
+//                    .verticalScroll(listState),
+//        ) {
+//            val productName = stringResource(Res.string.product_name_long)
+//            Text(
+//                modifier = Modifier.padding(16.dp),
+//                text =
+//                    stringResource(Res.string.unlock_premium_desc1, productName) + "\n" + "\n" +
+//                        stringResource(Res.string.support_donate_desc) + "\n" +
+//                        stringResource(Res.string.unlock_premium_desc3),
+//                style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
+//            )
+//        }
+//    }
 }

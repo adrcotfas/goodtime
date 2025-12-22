@@ -15,10 +15,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.billing
+package com.apps.adrcotfas.goodtime.di
 
-interface BillingAbstract {
-    fun init()
+import com.apps.adrcotfas.goodtime.billing.RevenueCatConfig
+import com.apps.adrcotfas.goodtime.billing.RevenueCatManager
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-    fun terminate()
-}
+val billingModule =
+    module {
+        // RevenueCatConfig is provided by platform-specific modules (Android/iOS).
+        single {
+            RevenueCatManager(
+                config = get<RevenueCatConfig>(),
+                settingsRepository = get(),
+                dataRepository = get(),
+                ioScope = get(named(IO_SCOPE)),
+                log = getWith("RevenueCatManager"),
+            )
+        }
+    }

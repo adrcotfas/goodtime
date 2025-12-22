@@ -6,8 +6,6 @@
 The developer of Goodtime Productivity values your privacy and does not collect, store nor sell any of your data.
 The developer does not use analytics, does not track you nor serves ads in Goodtime Productivity.
 
-Goodtime Productivity does not have permission to access the Internet.
-
 If you have activated the Backup functionality in your phone's settings, a copy of your data will be stored in Google's servers.
 The developer of Goodtime Productivity does not have access to this data but you can use it to restore the app's preferences, statistics, and labels.
 

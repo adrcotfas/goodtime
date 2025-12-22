@@ -91,6 +91,9 @@ kotlin {
             implementation(libs.vico.compose.m3)
             implementation(libs.androidx.paging.runtime)
             implementation(libs.androidx.paging.compose)
+
+            implementation(libs.purchases.core)
+            implementation(libs.purchases.ui)
         }
 
         commonTest.dependencies {
@@ -112,6 +115,12 @@ kotlin {
 
         iosTest.dependencies {
             implementation(libs.androidx.room.testing)
+        }
+
+        named { it.lowercase().startsWith("ios") }.configureEach {
+            languageSettings {
+                optIn("kotlinx.cinterop.ExperimentalForeignApi")
+            }
         }
     }
 
@@ -151,10 +160,15 @@ android {
             create("google") {
                 dimension = "distribution"
                 buildConfigField("boolean", "IS_FDROID", "false")
+                // Debug/test vs release/prod keys (same for now; replace as needed).
+                buildConfigField("String", "REVENUECAT_API_KEY_DEBUG", "\"test_mIjxZUKugfUbtAZNjpvxaWynKcD\"")
+                buildConfigField("String", "REVENUECAT_API_KEY_RELEASE", "\"goog_WJACaArOgxIPytSUVHDOgwjTZjN\"")
             }
             create("fdroid") {
                 dimension = "distribution"
                 buildConfigField("boolean", "IS_FDROID", "true")
+                buildConfigField("String", "REVENUECAT_API_KEY_DEBUG", "\"\"")
+                buildConfigField("String", "REVENUECAT_API_KEY_RELEASE", "\"\"")
             }
         }
     }
@@ -216,7 +230,6 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // for the google flavor
-    add("googleImplementation", libs.billing.ktx)
     add("googleImplementation", libs.app.update.ktx)
     add("googleImplementation", libs.review.ktx)
 }

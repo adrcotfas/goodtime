@@ -22,6 +22,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.BuildConfig
+import com.apps.adrcotfas.goodtime.billing.RevenueCatConfig
+import com.apps.adrcotfas.goodtime.billing.revenueCatApiKey
+import com.apps.adrcotfas.goodtime.billing.revenueCatEnabled
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.EventListener
@@ -54,6 +57,13 @@ import org.koin.dsl.module
 
 actual val platformModule: Module =
     module {
+        single<RevenueCatConfig> {
+            RevenueCatConfig(
+                enabled = revenueCatEnabled(),
+                apiKey = revenueCatApiKey(),
+            )
+        }
+
         single<RoomDatabase.Builder<ProductivityDatabase>> { getDatabaseBuilder(get<Context>()) }
         single<FileSystem> { FileSystem.SYSTEM }
         single<String>(named(DB_PATH_KEY)) { getDbPath { get<Context>().getDatabasePath(DATABASE_NAME).absolutePath } }

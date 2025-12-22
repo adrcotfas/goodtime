@@ -22,7 +22,8 @@ import android.content.Context
 import androidx.work.Configuration
 import com.apps.adrcotfas.goodtime.backup.AutoBackupManager
 import com.apps.adrcotfas.goodtime.backup.AutoBackupWorker
-import com.apps.adrcotfas.goodtime.billing.BillingAbstract
+import com.apps.adrcotfas.goodtime.billing.RevenueCatManager
+import com.apps.adrcotfas.goodtime.billing.configureRevenueCatFromPlatform
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
 import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
@@ -38,6 +39,7 @@ import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.di.DB_PATH_KEY
 import com.apps.adrcotfas.goodtime.di.IO_SCOPE
+import com.apps.adrcotfas.goodtime.di.billingModule
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
 import com.apps.adrcotfas.goodtime.di.getWith
@@ -74,7 +76,7 @@ class GoodtimeApplication :
     override fun onCreate() {
         super.onCreate()
         if (ACRA.isACRASenderServiceProcess()) return
-
+        configureRevenueCatFromPlatform()
         startKoin {
             modules(
                 module {
@@ -137,8 +139,8 @@ class GoodtimeApplication :
                         )
                     }
                 },
-                flavorModule,
                 coroutineScopeModule,
+                billingModule,
                 platformModule,
                 coreModule,
                 localDataModule,
@@ -149,12 +151,13 @@ class GoodtimeApplication :
             workManagerFactory()
         }
 
+        // Keep SettingsRepository.isPro in sync with RevenueCat entitlements (no-op for F-Droid).
+        get<RevenueCatManager>().start()
+
         val reminderManager = get<ReminderManager>()
         applicationScope.launch {
             reminderManager.init()
         }
-        val billing = get<BillingAbstract>()
-        billing.init()
     }
 
     override fun attachBaseContext(context: Context) {
