@@ -28,7 +28,5 @@ actual fun ProScreen(onNavigateBack: () -> Unit) {
         remember {
             PaywallOptions(dismissRequest = onNavigateBack)
         }
-
-    // TODO: translate paywall and remove related strings from this project
     Paywall(options)
 }
