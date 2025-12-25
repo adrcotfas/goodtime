@@ -23,7 +23,7 @@
     <string name="main_delete">Elimina</string>
     <string name="main_edit">Modifica</string>
     <string name="main_duplicate">Duplicate</string>
-    <string name="main_failed_to_open_url">Impossibile aprire l\'URL</string>
+    <string name="main_failed_to_open_url">Impossibile aprire l'URL</string>
     <string name="main_start_focus">Inizia focus</string>
     <string name="main_start_break">Inizia pausa</string>
     <string name="main_break_complete">Interruzione completata</string>
@@ -48,5 +48,5 @@
     <string name="main_reminder_channel_name">Notifiche Promemoria</string>
     <string name="main_crash_channel_name">Segnalazioni di crash</string>
     <string name="main_crash_notification_title">App bloccata</string>
-    <string name="main_crash_notification_desc">Siamo spiacenti per l\'inconveniente. Si prega di inviare una segnalazione allo sviluppatore.</string>
+    <string name="main_crash_notification_desc">Siamo spiacenti per l'inconveniente. Si prega di inviare una segnalazione allo sviluppatore.</string>
 </resources>

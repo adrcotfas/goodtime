@@ -50,9 +50,9 @@
     <string name="stats_add_notes">Thêm ghi chú</string>
     <string name="stats_select_all">Chọn tất cả</string>
     <string name="stats_no_items">Không có dữ liệu</string>
-    <string name="stats_show_label_breakdown_title">Show label breakdown</string>
-    <string name="stats_show_label_breakdown_desc">Visualize data as stacked bars separated by label</string>
-    <string name="stats_more_options">More options</string>
-    <string name="stats_show_breaks">Show breaks</string>
-    <string name="stats_show_archived">Show archived</string>
+    <string name="stats_show_label_breakdown_title">Phân loại theo nhãn</string>
+    <string name="stats_show_label_breakdown_desc">Hiển thị dữ liệu thành các cột phân tách bởi nhãn</string>
+    <string name="stats_more_options">Tuỳ chọn khác</string>
+    <string name="stats_show_breaks">Hiện phiên nghỉ</string>
+    <string name="stats_show_archived">Hiện các nhãn đã lưu trữ</string>
 </resources>

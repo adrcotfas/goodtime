@@ -45,7 +45,7 @@
     <string name="settings_true_black_mode_desc">Arkaplan için hakiki siyah kullan</string>
     <string name="settings_keep_the_screen_on">Ekranı açık tut</string>
     <string name="settings_screensaver_mode">Ekran koruyucu modu</string>
-    <string name="settings_do_not_disturb_mode">Rahatsız etmeyin\'i etkinleştir</string>
+    <string name="settings_do_not_disturb_mode">Rahatsız etmeyin'i etkinleştir</string>
     <string name="settings_click_to_grant_permission">İzin vermek için tıklayın</string>
     <string name="settings_demo">demo</string>
     <string name="settings_refresh_demo_label">Demo etiketini yenile</string>

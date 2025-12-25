@@ -17,9 +17,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="unlock_premium">Premium\'un kilidini aç</string>
-    <string name="unlock_premium_to_access_features">Özelliklere erişmek için Premium\'un kilidini aç</string>
-    <string name="unlock_timer_style">Zamanlayıcı kişiselleştirmesi kaydetmek için Premium\'un kilidini aç</string>
+    <string name="unlock_premium">Premium'un kilidini aç</string>
+    <string name="unlock_premium_to_access_features">Özelliklere erişmek için Premium'un kilidini aç</string>
+    <string name="unlock_timer_style">Zamanlayıcı kişiselleştirmesi kaydetmek için Premium'un kilidini aç</string>
     <string name="unlock_premium_tagline">Tek seferlik satın alım. Abonelik yok. Yalnızca daha iyi verimlilik.</string>
     <string name="unlock_premium_desc1">%1$s basitlik ve harika bir kullanıcı deneyimi için tasarlanmış olan, bağımsız, açık kaynaklı bir zaman yönetimi aracıdır – reklam, takip ya da veri toplaması olmadan.</string>
     <string name="unlock_premium_desc2">Eğer kullanışlı bulduysanız, daha fazla özelliğe erişmek için premium versiyona yükseltmeyi gözden geçirin.</string>

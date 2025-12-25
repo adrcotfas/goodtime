@@ -25,7 +25,7 @@
     <string name="backup_export_json">Exporta a format JSON</string>
     <string name="backup_completed_successfully">Còpia de seguretat completada correctament</string>
     <string name="backup_failed_please_try_again">Ha fallat la còpia de seguretat, torneu a provar-ho</string>
-    <string name="backup_restore_completed_successfully">La restauració s\'ha completat correctament</string>
+    <string name="backup_restore_completed_successfully">La restauració s'ha completat correctament</string>
     <string name="backup_restore_failed_please_try_again">Ha fallat la còpia de seguretat, torneu a provar-ho</string>
     <string name="backup_auto_backup">Còpia de seguretat automàtica</string>
 </resources>

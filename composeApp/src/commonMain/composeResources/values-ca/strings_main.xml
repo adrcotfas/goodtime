@@ -31,11 +31,11 @@
     <string name="main_this_session">Aquesta sessió</string>
     <string name="main_interruptions">Interrupcions</string>
     <string name="main_consider_idle_time_as_extra_focus">Considereu el temps inactiu com un focus addicional</string>
-    <string name="main_open_app_menu">Obre el menú de l\'aplicació</string>
+    <string name="main_open_app_menu">Obre el menú de l'aplicació</string>
     <string name="main_reset_to_default">Restableix els valors per defecte</string>
     <string name="main_save">Guarda</string>
     <string name="main_focus_session_in_progress">Sessió de treball en curs</string>
-    <string name="main_focus_session_paused">La sessió de focus s\'ha aturat</string>
+    <string name="main_focus_session_paused">La sessió de focus s'ha aturat</string>
     <string name="main_break_in_progress">Descans en curs</string>
     <string name="main_pause">Pausa</string>
     <string name="main_resume">Reprendre</string>
@@ -46,7 +46,7 @@
     <string name="main_productivity_reminder_desc">És hora de ser productiu!</string>
     <string name="main_notifications_channel_name">Notificacions del temporitzador</string>
     <string name="main_reminder_channel_name">Notificacions de recordatoris</string>
-    <string name="main_crash_channel_name">Informe d\'errors</string>
-    <string name="main_crash_notification_title">L\'aplicació ha fallat</string>
+    <string name="main_crash_channel_name">Informe d'errors</string>
+    <string name="main_crash_notification_title">L'aplicació ha fallat</string>
     <string name="main_crash_notification_desc">Disculpeu les molèsties. Envieu un informe al desenvolupador.</string>
 </resources>

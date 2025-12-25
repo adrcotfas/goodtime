@@ -77,7 +77,7 @@
     <string name="settings_auto_start_break_title">Auto start pause</string>
     <string name="settings_auto_start_break_desc">Start pausesessionen efter en arbejdssession uden brugerinteraktion</string>
     <string name="settings_display_over_lock_screen">Vis over låseskærmen</string>
-    <string name="settings_display_over_lock_screen_desc">Hold app\'en synlig over låseskærmen</string>
+    <string name="settings_display_over_lock_screen_desc">Hold app'en synlig over låseskærmen</string>
     <string name="settings_timer_durations_title">Timer profil</string>
     <string name="settings_timer_durations_desc">Indstil varigheden for arbejde og pauser</string>
     <string name="settings_create_profile">Opret profil</string>

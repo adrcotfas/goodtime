@@ -18,7 +18,7 @@
 -->
 <resources>
     <string name="main_navigate_back">Перейти назад</string>
-    <string name="main_ok">OK</string>
+    <string name="main_ok">Гаразд</string>
     <string name="main_cancel">Скасувати</string>
     <string name="main_delete">Видалити</string>
     <string name="main_edit">Редагувати</string>

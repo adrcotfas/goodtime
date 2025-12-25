@@ -19,7 +19,7 @@
 <resources>
     <string name="settings_title">Configuració</string>
     <string name="settings_action_required">Acció necessària</string>
-    <string name="settings_allow_background">Permet que l\'aplicació s\'executi en segon pla</string>
+    <string name="settings_allow_background">Permet que l'aplicació s'executi en segon pla</string>
     <string name="settings_allow_notifications">Permet les notificacions</string>
     <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
     <string name="settings_allow">Permet</string>
@@ -44,12 +44,12 @@
     <string name="settings_true_black_mode_title">Veritable mode negre</string>
     <string name="settings_true_black_mode_desc">Utilitzeu el negre real per al fons</string>
     <string name="settings_keep_the_screen_on">Deixar la pantalla encesa</string>
-    <string name="settings_screensaver_mode">Mode d\'estalvi de pantalla</string>
+    <string name="settings_screensaver_mode">Mode d'estalvi de pantalla</string>
     <string name="settings_do_not_disturb_mode">Mode no molesteu</string>
     <string name="settings_click_to_grant_permission">Polsa per donar el permís</string>
     <string name="settings_demo">demo</string>
-    <string name="settings_refresh_demo_label">Actualitza l\'etiqueta de demostració</string>
-    <string name="settings_show_status_title">Mostra l\'estat</string>
+    <string name="settings_refresh_demo_label">Actualitza l'etiqueta de demostració</string>
+    <string name="settings_show_status_title">Mostra l'estat</string>
     <string name="settings_show_status_desc">Una icona que indica treball o descans</string>
     <string name="settings_show_sessions_long_break_title">Mostra sessions fins a una llarga pausa</string>
     <string name="settings_show_sessions_long_break_desc">Mostra sessions fins a una llarga pausa</string>
@@ -71,13 +71,13 @@
     <string name="settings_screen_flash_title">Screen flash</string>
     <string name="settings_torch_desc">Una notificació visual per a entorns silenciosos</string>
     <string name="settings_insistent_notification_title">Notificació insistent</string>
-    <string name="settings_insistent_notification_desc">Repetiu la notificació fins que no s\'hagi cancel·lat</string>
+    <string name="settings_insistent_notification_desc">Repetiu la notificació fins que no s'hagi cancel·lat</string>
     <string name="settings_auto_start_focus_title">Auto començar a treballar</string>
-    <string name="settings_auto_start_focus_desc">Inici de la sessió de treball després del descans sense interacció d\'usuari</string>
+    <string name="settings_auto_start_focus_desc">Inici de la sessió de treball després del descans sense interacció d'usuari</string>
     <string name="settings_auto_start_break_title">Pausa de començament auto</string>
-    <string name="settings_auto_start_break_desc">Iniciar el descans després d\'una sessió de treball sense interacció d\'usuari</string>
+    <string name="settings_auto_start_break_desc">Iniciar el descans després d'una sessió de treball sense interacció d'usuari</string>
     <string name="settings_display_over_lock_screen">Mostra sobre la pantalla de bloqueig</string>
-    <string name="settings_display_over_lock_screen_desc">Manteniu l\'aplicació visible a la pantalla de bloqueig</string>
+    <string name="settings_display_over_lock_screen_desc">Manteniu l'aplicació visible a la pantalla de bloqueig</string>
     <string name="settings_timer_durations_title">Timer profile</string>
     <string name="settings_timer_durations_desc">Estableix la durada per a les sessions de feina i de descans</string>
     <string name="settings_create_profile">Create profile</string>

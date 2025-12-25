@@ -46,7 +46,7 @@
     <string name="stats_time">Temps</string>
     <string name="stats_label">Etiqueta</string>
     <string name="stats_delete_selected_sessions">Eliminar les sessions seleccionades?</string>
-    <string name="stats_change_label_of_selected_sessions">Vols canviar l\'etiqueta de les sessions seleccionades?</string>
+    <string name="stats_change_label_of_selected_sessions">Vols canviar l'etiqueta de les sessions seleccionades?</string>
     <string name="stats_add_notes">Afegir notes</string>
     <string name="stats_select_all">Seleccionar tot</string>
     <string name="stats_no_items">Sense articles</string>

@@ -45,7 +45,7 @@
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">Ne dovoli da se ekran zatemni</string>
     <string name="settings_screensaver_mode">Način ohranjevalnika zaslona</string>
-    <string name="settings_do_not_disturb_mode">Način \'ne moti\'</string>
+    <string name="settings_do_not_disturb_mode">Način 'ne moti'</string>
     <string name="settings_click_to_grant_permission">Kliknite za odobritev</string>
     <string name="settings_demo">demo</string>
     <string name="settings_refresh_demo_label">Refresh demo label</string>

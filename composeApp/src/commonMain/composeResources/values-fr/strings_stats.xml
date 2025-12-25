@@ -20,7 +20,7 @@
     <string name="stats_title">Statistiques</string>
     <string name="stats_overview">Aperçu</string>
     <string name="stats_timeline">Chronologie</string>
-    <string name="stats_today">Aujourd\'hui</string>
+    <string name="stats_today">Aujourd'hui</string>
     <string name="stats_week">Semaine %1$s</string>
     <string name="stats_total">Total</string>
     <string-array name="stats_overview_type_options">
@@ -52,7 +52,7 @@
     <string name="stats_no_items">Aucun élément</string>
     <string name="stats_show_label_breakdown_title">Afficher la répartition des libellés</string>
     <string name="stats_show_label_breakdown_desc">Visualiser les données comme des barres empilées séparées par des libellés</string>
-    <string name="stats_more_options">Plus d\'options</string>
+    <string name="stats_more_options">Plus d'options</string>
     <string name="stats_show_breaks">Afficher les pauses</string>
     <string name="stats_show_archived">Afficher les archives</string>
 </resources>

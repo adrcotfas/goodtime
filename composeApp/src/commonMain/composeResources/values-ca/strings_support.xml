@@ -21,7 +21,7 @@
     <string name="unlock_premium_to_access_features">Desbloqueja Premium per accedir a les funcions</string>
     <string name="unlock_timer_style">Desbloqueja Premium per estalviar la personalització del temporitzador</string>
     <string name="unlock_premium_tagline">Compra única. Sense subscripcions. Només una millor productivitat.</string>
-    <string name="unlock_premium_desc1">%1$s és una eina independent de gestió del temps de codi obert, dissenyada per a la simplicitat i una gran experiència d\'usuari, sense anuncis, seguiment ni recollida de dades.</string>
+    <string name="unlock_premium_desc1">%1$s és una eina independent de gestió del temps de codi obert, dissenyada per a la simplicitat i una gran experiència d'usuari, sense anuncis, seguiment ni recollida de dades.</string>
     <string name="unlock_premium_desc2">Si ho trobeu útil, penseu a actualitzar a la versió premium per desbloquejar més funcions.</string>
     <string name="unlock_premium_desc3">El vostre suport ajuda a millores futures!</string>
     <string name="support_development">Dóna suport al desenvolupament</string>
@@ -36,11 +36,11 @@
     <string name="feature_notifications_title">Notificacions de recordatoris</string>
     <string name="feature_notifications_desc1">Activa les alertes de torxa i persistents</string>
     <string name="feature_stats_title">Estadístiques millorades</string>
-    <string name="feature_stats_desc1">Visualitza les dades a partir d\'etiquetes</string>
+    <string name="feature_stats_desc1">Visualitza les dades a partir d'etiquetes</string>
     <string name="feature_stats_desc2">Afegiu o editeu manualment sessions completades</string>
     <string name="feature_stats_desc3">Afegeix notes a les sessions finalitzades</string>
     <string name="feature_backup_title"><![CDATA[Còpia de seguretat i exportació]]></string>
-    <string name="feature_backup_desc1">Exporta i importa còpies de seguretat d\'etiquetes i estadístiques</string>
+    <string name="feature_backup_desc1">Exporta i importa còpies de seguretat d'etiquetes i estadístiques</string>
     <string name="feature_backup_desc2">Exporta les estadístiques com a CSV o JSON</string>
     <string name="feature_support_title">Dóna suport al desenvolupament</string>
     <string name="feature_support_desc1">Tot futur ofereix de franc</string>

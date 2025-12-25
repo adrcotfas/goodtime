@@ -41,7 +41,7 @@
     <string name="labels_label_name_already_exists">Nome etichetta già esistente</string>
     <string name="labels_archived_labels_title">Etichette archiviate</string>
     <string name="labels_delete">Eliminare %1$s?</string>
-    <string name="labels_delete_desc">L\'eliminazione di questa etichetta la rimuoverà dalle sessioni completate associate.</string>
+    <string name="labels_delete_desc">L'eliminazione di questa etichetta la rimuoverà dalle sessioni completate associate.</string>
     <string name="labels_more_about">Maggiori informazioni su %1$s</string>
     <string name="labels_archived">Archiviato</string>
     <string name="labels_unarchive">Disarchivia</string>

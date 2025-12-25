@@ -46,11 +46,11 @@
     <string name="settings_keep_the_screen_on">Mantieni lo schermo acceso</string>
     <string name="settings_screensaver_mode">Modalità salvaschermo</string>
     <string name="settings_do_not_disturb_mode">Modalità non disturbare</string>
-    <string name="settings_click_to_grant_permission">Premi per concedere l\'autorizzazione</string>
+    <string name="settings_click_to_grant_permission">Premi per concedere l'autorizzazione</string>
     <string name="settings_demo">demo</string>
     <string name="settings_refresh_demo_label">Aggiorna etichetta demo</string>
     <string name="settings_show_status_title">Mostra stato</string>
-    <string name="settings_show_status_desc">Un\'icona che indica lavoro o interruzione</string>
+    <string name="settings_show_status_desc">Un'icona che indica lavoro o interruzione</string>
     <string name="settings_show_sessions_long_break_title">Mostra sessioni fino alla pausa prolungata</string>
     <string name="settings_show_sessions_long_break_desc">Per i timer di conto alla rovescia con interruzioni lunghe abilitati</string>
     <string name="settings_show_label">Mostra etichetta</string>
@@ -73,11 +73,11 @@
     <string name="settings_insistent_notification_title">Notifica insistente</string>
     <string name="settings_insistent_notification_desc">Ripeti la notifica fino a quando non viene annullata</string>
     <string name="settings_auto_start_focus_title">Avvia automaticamente la sessione di focus</string>
-    <string name="settings_auto_start_focus_desc">Inizia la sessione di lavoro dopo una pausa senza interazione dell\'utente</string>
+    <string name="settings_auto_start_focus_desc">Inizia la sessione di lavoro dopo una pausa senza interazione dell'utente</string>
     <string name="settings_auto_start_break_title">Inizia automaticamente la pausa</string>
     <string name="settings_auto_start_break_desc">Avvia la sessione di pausa dopo una sessione di lavoro senza interazione utente</string>
     <string name="settings_display_over_lock_screen">Visualizza sopra la schermata di blocco</string>
-    <string name="settings_display_over_lock_screen_desc">Mantieni l\'applicazione visibile sulla schermata di blocco</string>
+    <string name="settings_display_over_lock_screen_desc">Mantieni l'applicazione visibile sulla schermata di blocco</string>
     <string name="settings_timer_durations_title">Profilo timer</string>
     <string name="settings_timer_durations_desc">Imposta la durata delle sessioni di lavoro e di pausa</string>
     <string name="settings_create_profile">Crea profilo</string>

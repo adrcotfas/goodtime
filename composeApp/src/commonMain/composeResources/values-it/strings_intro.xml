@@ -29,7 +29,7 @@
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_tap">👆 Premi il timer per iniziare o per fermarti.</string>
     <string name="tutorial_swipe_right">👉 Scorri verso sinistra o destra per saltare la sessione corrente.</string>
-    <string name="tutorial_swipe_up">☝️ Scorri verso l\'alto per aggiungere un altro minuto.</string>
+    <string name="tutorial_swipe_up">☝️ Scorri verso l'alto per aggiungere un altro minuto.</string>
     <string name="tutorial_swipe_down">👇 Scorri verso il basso per fermare la sessione corrente.</string>
-    <string name="tutorial_time_profiles">Per modificare il profilo temporale, modifica l\'etichetta associata</string>
+    <string name="tutorial_time_profiles">Per modificare il profilo temporale, modifica l'etichetta associata</string>
 </resources>

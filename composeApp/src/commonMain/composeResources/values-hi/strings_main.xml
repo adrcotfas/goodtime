@@ -27,7 +27,7 @@
     <string name="main_start_focus">Start focus</string>
     <string name="main_start_break">विश्राम आरंभ करें</string>
     <string name="main_break_complete">Break complete</string>
-    <string name="main_focus_complete">Session complete</string>
+    <string name="main_focus_complete">Focus complete</string>
     <string name="main_this_session">This session</string>
     <string name="main_interruptions">Interruptions</string>
     <string name="main_consider_idle_time_as_extra_focus">Consider idle time as extra focus</string>

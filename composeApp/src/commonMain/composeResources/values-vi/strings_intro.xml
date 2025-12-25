@@ -30,6 +30,6 @@
     <string name="tutorial_tap">👆 Nhấn vào bộ hẹn giờ để bắt đầu và tạm dừng.</string>
     <string name="tutorial_swipe_right">👉 Vuốt sang trái hoặc phải để bỏ qua phiên hiện tại.</string>
     <string name="tutorial_swipe_up">☝️ Vuốt lên để thêm một phút nữa.</string>
-    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
-    <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
+    <string name="tutorial_swipe_down">👇Vuốt xuống để kết thúc.</string>
+    <string name="tutorial_time_profiles">Để sửa cấu hình thời gian hoặc sửa nhãn tương ứng</string>
 </resources>

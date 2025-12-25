@@ -31,5 +31,5 @@
     <string name="tutorial_swipe_right">👉 Glisser vers la gauche ou la droite pour sauter la session en cours.</string>
     <string name="tutorial_swipe_up">☝️ Glisser vers le haut pour ajouter une minute de plus.</string>
     <string name="tutorial_swipe_down">👇 Glissez vers le bas pour vous arrêter.</string>
-    <string name="tutorial_time_profiles">Pour modifier le profil de temps, modifiez l\'étiquette associée</string>
+    <string name="tutorial_time_profiles">Pour modifier le profil de temps, modifiez l'étiquette associée</string>
 </resources>

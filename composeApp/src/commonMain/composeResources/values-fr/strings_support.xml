@@ -20,7 +20,7 @@
     <string name="unlock_premium">Débloquer Premium</string>
     <string name="unlock_premium_to_access_features">Débloquez Premium pour accéder aux fonctionnalités</string>
     <string name="unlock_timer_style">Débloquez Premium pour économiser la personnalisation du minuteur</string>
-    <string name="unlock_premium_tagline">Achat unique. Pas d\'abonnement. Une meilleure productivité.</string>
+    <string name="unlock_premium_tagline">Achat unique. Pas d'abonnement. Une meilleure productivité.</string>
     <string name="unlock_premium_desc1">%1$s est un outil de gestion de temps open-source indépendant, conçu pour la simplicité et une grande expérience utilisateur — sans publicité, suivi ou collecte de données.</string>
     <string name="unlock_premium_desc2">Si vous le trouvez utile, envisagez de passer à la version premium pour débloquer plus de fonctionnalités.</string>
     <string name="unlock_premium_desc3">Votre soutien aide les améliorations futures !</string>

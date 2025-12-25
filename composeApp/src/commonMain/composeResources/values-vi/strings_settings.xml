@@ -27,7 +27,7 @@
     <string name="settings_days_of_the_week">Ngày trong tuần</string>
     <string name="settings_reminder_time">Thời gian nhắc</string>
     <string name="settings_timer_style_title">Tùy chỉnh hẹn giờ</string>
-    <string name="settings_user_interface">User interface</string>
+    <string name="settings_user_interface">Giao diện</string>
     <string name="settings_notifications_title">Thông báo</string>
     <string name="settings_custom_start_of_day_title">Tùy chỉnh bắt đầu ngày</string>
     <string name="settings_custom_start_of_day_desc">Xác định thời điểm bắt đầu ngày để thống kê</string>
@@ -47,7 +47,7 @@
     <string name="settings_screensaver_mode">Chế độ bảo vệ màn hình</string>
     <string name="settings_do_not_disturb_mode">Chế độ không làm phiền</string>
     <string name="settings_click_to_grant_permission">Nhấn vào để chọn cho phép ứng dụng</string>
-    <string name="settings_demo">thử nghiệm</string>
+    <string name="settings_demo">mẫu thử</string>
     <string name="settings_refresh_demo_label">Làm mới nhãn demo</string>
     <string name="settings_show_status_title">Hiển Thị Trạng Thái</string>
     <string name="settings_show_status_desc">Biểu tượng cho biết công việc hoặc nghỉ ngơi</string>
@@ -68,7 +68,7 @@
     <string name="settings_override_sound_profile_desc">Sử dụng âm thanh thông báo của hệ thống</string>
     <string name="settings_vibration_strength">Độ rung</string>
     <string name="settings_torch_title">Đèn pin</string>
-    <string name="settings_screen_flash_title">Screen flash</string>
+    <string name="settings_screen_flash_title">Nhấp nháy màn hình</string>
     <string name="settings_torch_desc">Thông báo cho môi trường cần sự yên tĩnh</string>
     <string name="settings_insistent_notification_title">Luôn hiển thị thông báo</string>
     <string name="settings_insistent_notification_desc">Lặp lại thông báo cho đến khi nó bị hủy</string>
@@ -78,13 +78,13 @@
     <string name="settings_auto_start_break_desc">Tự khởi động phiên nghỉ sau khi phiên làm việc kết thúc</string>
     <string name="settings_display_over_lock_screen">Hiển thị trên màn hình khóa</string>
     <string name="settings_display_over_lock_screen_desc">Giữ ứng dụng hiển thị trên màn hình khóa</string>
-    <string name="settings_timer_durations_title">Timer profile</string>
+    <string name="settings_timer_durations_title">Cấu hình thời gian</string>
     <string name="settings_timer_durations_desc">Cài đặt thời lượng cho phiên làm việc và phiên nghỉ</string>
-    <string name="settings_create_profile">Create profile</string>
-    <string name="settings_delete_profile">Delete profile</string>
-    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
-    <string name="settings_launcher_name">Launcher name</string>
-    <string name="settings_language">Language</string>
+    <string name="settings_create_profile">Tạo cấu hình</string>
+    <string name="settings_delete_profile">Xóa cấu hình</string>
+    <string name="settings_delete_profile_confirmation">Bạn có chắc chắn muốn xóa %1$s không?</string>
+    <string name="settings_launcher_name">Tên ứng dụng</string>
+    <string name="settings_language">Ngôn ngữ</string>
     <string name="settings_update">Cập nhật</string>
     <string name="settings_update_available">Bản cập nhật mới đã sẵn sàng</string>
     <string name="settings_general_title">Chung</string>

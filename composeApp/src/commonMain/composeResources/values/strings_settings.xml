@@ -71,7 +71,7 @@
     <string name="settings_screen_flash_title">Screen flash</string>
     <string name="settings_torch_desc">A visual notification for silent environments</string>
     <string name="settings_insistent_notification_title">Insistent notification</string>
-    <string name="settings_insistent_notification_desc">Repeat the notification until it\'s cancelled</string>
+    <string name="settings_insistent_notification_desc">Repeat the notification until it's cancelled</string>
     <string name="settings_auto_start_focus_title">Auto start focus</string>
     <string name="settings_auto_start_focus_desc">Start the work session after a break without user interaction</string>
     <string name="settings_auto_start_break_title">Auto start break</string>

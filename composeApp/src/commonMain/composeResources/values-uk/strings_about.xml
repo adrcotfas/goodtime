@@ -22,7 +22,7 @@
     <string name="about_open_source_licenses">Ліцензії з відкритим кодом</string>
     <string name="about_acknowledgements">Подяки</string>
     <string name="about_app_intro">Вступ до програми</string>
-    <string name="about_feedback">Зворотній зв\'язок</string>
+    <string name="about_feedback">Зворотній зв'язок</string>
     <string name="about_rate_this_app">Проголосувати за додаток</string>
     <string name="about_translate_this_app">Перекласти додаток</string>
 </resources>

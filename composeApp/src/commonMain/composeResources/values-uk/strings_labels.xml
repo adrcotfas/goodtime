@@ -21,7 +21,7 @@
     <string name="labels_default_label_name">за замовчуванням</string>
     <string name="labels_others">інші</string>
     <string name="labels_countdown">Зворотний відлік</string>
-    <string name="labels_count_up">Зворотний зв\'язок</string>
+    <string name="labels_count_up">Зворотний зв'язок</string>
     <string name="labels_focus_time">Час фокусу</string>
     <string name="labels_break_time">Перерва</string>
     <string name="labels_long_break">Довга перерва</string>
@@ -41,7 +41,7 @@
     <string name="labels_label_name_already_exists">Така назва мітки вже існує</string>
     <string name="labels_archived_labels_title">Архівовані мітки</string>
     <string name="labels_delete">Видалити %1$s?</string>
-    <string name="labels_delete_desc">Видалення цієї мітки прибере її з пов\'язаних сесій.</string>
+    <string name="labels_delete_desc">Видалення цієї мітки прибере її з пов'язаних сесій.</string>
     <string name="labels_more_about">Детальніше про %1$s</string>
     <string name="labels_archived">Архівовано</string>
     <string name="labels_unarchive">Видобути з архіву</string>

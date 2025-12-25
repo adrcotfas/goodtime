@@ -20,9 +20,9 @@
     <string name="about_and_feedback_title">Trợ giúp và phản hồi</string>
     <string name="about_source_code">Mã nguồn</string>
     <string name="about_open_source_licenses">Giấy phép mã nguồn mở</string>
-    <string name="about_acknowledgements">Acknowledgements</string>
+    <string name="about_acknowledgements">Ghi nhận</string>
     <string name="about_app_intro">Giới thiệu ứng dụng</string>
     <string name="about_feedback">Phản hồi</string>
     <string name="about_rate_this_app">Đánh giá ứng dụng</string>
-    <string name="about_translate_this_app">Translate this app</string>
+    <string name="about_translate_this_app">Tham gia dịch thuật</string>
 </resources>

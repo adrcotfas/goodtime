@@ -83,7 +83,7 @@
     <string name="settings_create_profile">Створити профіль</string>
     <string name="settings_delete_profile">Видалити профіль</string>
     <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
-    <string name="settings_launcher_name">Ім\'я лаунчера</string>
+    <string name="settings_launcher_name">Ім'я лаунчера</string>
     <string name="settings_language">Мова</string>
     <string name="settings_update">Оновити</string>
     <string name="settings_update_available">Доступне нове оновлення</string>
