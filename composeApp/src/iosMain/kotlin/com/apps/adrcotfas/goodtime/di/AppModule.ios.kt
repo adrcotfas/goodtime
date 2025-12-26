@@ -20,8 +20,6 @@ package com.apps.adrcotfas.goodtime.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
-import com.apps.adrcotfas.goodtime.billing.RevenueCatConfig
-import com.apps.adrcotfas.goodtime.billing.revenueCatApiKey
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.IOS_LIVE_ACTIVITY_LISTENER
 import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
@@ -66,12 +64,6 @@ import kotlin.experimental.ExperimentalNativeApi
 @OptIn(ExperimentalForeignApi::class)
 actual val platformModule: Module =
     module {
-        single<RevenueCatConfig> {
-            RevenueCatConfig(
-                apiKey = revenueCatApiKey(),
-            )
-        }
-
         single<RoomDatabase.Builder<ProductivityDatabase>> { getDatabaseBuilder() }
 
         single<FileSystem> { FileSystem.SYSTEM }

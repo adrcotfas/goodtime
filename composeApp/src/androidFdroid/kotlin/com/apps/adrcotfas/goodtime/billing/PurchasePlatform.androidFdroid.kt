@@ -15,20 +15,8 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.di
+package com.apps.adrcotfas.goodtime.billing
 
-import com.apps.adrcotfas.goodtime.billing.PurchaseManager
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
-
-val billingModule =
-    module {
-        single {
-            PurchaseManager(
-                settingsRepository = get(),
-                dataRepository = get(),
-                ioScope = get(named(IO_SCOPE)),
-                log = getWith("PurchaseManager"),
-            )
-        }
-    }
+actual fun configurePurchasesFromPlatform() {
+    // F-Droid builds do not include billing/RevenueCat.
+}

@@ -91,9 +91,6 @@ kotlin {
             implementation(libs.vico.compose.m3)
             implementation(libs.androidx.paging.runtime)
             implementation(libs.androidx.paging.compose)
-
-            implementation(libs.purchases.core)
-            implementation(libs.purchases.ui)
         }
 
         commonTest.dependencies {
@@ -111,6 +108,8 @@ kotlin {
         iosMain.dependencies {
             api(libs.touchlab.kermit.simple)
             api(libs.androidx.sqlite.bundled)
+            implementation(libs.purchases.core)
+            implementation(libs.purchases.ui)
         }
 
         iosTest.dependencies {
@@ -232,6 +231,8 @@ dependencies {
     // for the google flavor
     add("googleImplementation", libs.app.update.ktx)
     add("googleImplementation", libs.review.ktx)
+    add("googleImplementation", libs.purchases.core)
+    add("googleImplementation", libs.purchases.ui)
 }
 
 room {

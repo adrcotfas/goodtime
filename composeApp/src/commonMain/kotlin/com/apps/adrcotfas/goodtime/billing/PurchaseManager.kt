@@ -17,14 +17,23 @@
  */
 package com.apps.adrcotfas.goodtime.billing
 
-import com.apps.adrcotfas.goodtime.BuildConfig
+import co.touchlab.kermit.Logger
+import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import kotlinx.coroutines.CoroutineScope
 
-actual fun revenueCatApiKey(): String? {
-    val key =
-        if (BuildConfig.DEBUG) {
-            BuildConfig.REVENUECAT_API_KEY_DEBUG
-        } else {
-            BuildConfig.REVENUECAT_API_KEY_RELEASE
-        }
-    return key.takeIf { it.isNotBlank() }
+/**
+ * Cross-platform purchase/billing manager.
+ *
+ * - `androidGoogle`: backed by RevenueCat
+ * - `iosMain`: backed by RevenueCat
+ * - `androidFdroid`: no-op (or always-pro)
+ */
+expect class PurchaseManager(
+    settingsRepository: SettingsRepository,
+    dataRepository: LocalDataRepository,
+    ioScope: CoroutineScope,
+    log: Logger,
+) {
+    fun start()
 }

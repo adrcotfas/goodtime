@@ -7,7 +7,7 @@ struct iOSApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
-        RevenueCatPlatformKt.configureRevenueCatFromPlatform()
+        PurchasePlatformKt.configurePurchasesFromPlatform()
         // Register Live Activity delegate
         if #available(iOS 16.1, *) {
             LiveActivityBridge.companion.shared.setDelegate(delegate: GoodtimeLiveActivityManager.shared)

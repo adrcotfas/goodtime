@@ -17,13 +17,18 @@
  */
 package com.apps.adrcotfas.goodtime.billing
 
-import platform.Foundation.NSBundle
-import kotlin.experimental.ExperimentalNativeApi
+import com.apps.adrcotfas.goodtime.BuildConfig
+import com.revenuecat.purchases.kmp.Purchases
+import com.revenuecat.purchases.kmp.configure
 
-@OptIn(ExperimentalNativeApi::class)
-actual fun revenueCatApiKey(): String? {
-    val info = NSBundle.mainBundle.infoDictionary ?: return null
-    val keyName = if (Platform.isDebugBinary) "RevenueCatApiKeyDebug" else "RevenueCatApiKeyRelease"
-    val value = info[keyName] as? String
-    return value?.takeIf { it.isNotBlank() }
+actual fun configurePurchasesFromPlatform() {
+    val apiKey =
+        if (BuildConfig.DEBUG) {
+            BuildConfig.REVENUECAT_API_KEY_DEBUG
+        } else {
+            BuildConfig.REVENUECAT_API_KEY_RELEASE
+        }.takeIf { it.isNotBlank() } ?: return
+
+    if (Purchases.isConfigured) return
+    Purchases.configure(apiKey = apiKey)
 }

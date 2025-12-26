@@ -22,8 +22,8 @@ import android.content.Context
 import androidx.work.Configuration
 import com.apps.adrcotfas.goodtime.backup.AutoBackupManager
 import com.apps.adrcotfas.goodtime.backup.AutoBackupWorker
-import com.apps.adrcotfas.goodtime.billing.RevenueCatManager
-import com.apps.adrcotfas.goodtime.billing.configureRevenueCatFromPlatform
+import com.apps.adrcotfas.goodtime.billing.PurchaseManager
+import com.apps.adrcotfas.goodtime.billing.configurePurchasesFromPlatform
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
 import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
@@ -48,7 +48,6 @@ import com.apps.adrcotfas.goodtime.di.mainModule
 import com.apps.adrcotfas.goodtime.di.platformModule
 import com.apps.adrcotfas.goodtime.di.timerManagerModule
 import com.apps.adrcotfas.goodtime.di.viewModelModule
-import com.apps.adrcotfas.goodtime.platform.isFDroid
 import com.apps.adrcotfas.goodtime.settings.notifications.SoundsViewModel
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager
 import kotlinx.coroutines.CoroutineScope
@@ -77,7 +76,7 @@ class GoodtimeApplication :
     override fun onCreate() {
         super.onCreate()
         if (ACRA.isACRASenderServiceProcess()) return
-        configureRevenueCatFromPlatform()
+        configurePurchasesFromPlatform()
         startKoin {
             modules(
                 module {
@@ -201,11 +200,6 @@ class GoodtimeApplication :
             }
 
     private fun initBilling() {
-        if (!isFDroid()) {
-            get<RevenueCatManager>().start()
-        } else {
-            val settingsRepo = get<SettingsRepository>()
-            applicationScope.launch { settingsRepo.setPro(true) }
-        }
+        get<PurchaseManager>().start()
     }
 }

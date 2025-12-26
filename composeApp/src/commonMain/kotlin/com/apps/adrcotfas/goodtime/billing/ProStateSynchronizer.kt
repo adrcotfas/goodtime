@@ -21,87 +21,25 @@ import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
-import com.revenuecat.purchases.kmp.Purchases
-import com.revenuecat.purchases.kmp.PurchasesDelegate
-import com.revenuecat.purchases.kmp.configure
-import com.revenuecat.purchases.kmp.models.CacheFetchPolicy
-import com.revenuecat.purchases.kmp.models.CustomerInfo
-import com.revenuecat.purchases.kmp.models.PurchasesError
-import com.revenuecat.purchases.kmp.models.StoreProduct
-import com.revenuecat.purchases.kmp.models.StoreTransaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.math.floor
 
-const val DEFAULT_PRO_ENTITLEMENT_ID: String = "PREMIUM"
+internal const val DEFAULT_PRO_ENTITLEMENT_ID: String = "PREMIUM"
 
 /**
- * Call as early as possible (Android: right after `super.onCreate()`, iOS: in `App.init()`).
+ * Shared "pro entitlement changed" logic.
  *
- * This is a thin wrapper around `Purchases.configure(...)` so that platform code doesn't need to
- * depend on RevenueCat directly (and to keep configuration idempotent).
+ * The entitlement check itself is platform-specific; callers simply feed `hasPro`.
  */
-fun configureRevenueCat(apiKey: String?) {
-    val key = apiKey?.takeIf { it.isNotBlank() } ?: return
-    if (Purchases.isConfigured) return
-    Purchases.configure(apiKey = key)
-}
-
-data class RevenueCatConfig(
-    val apiKey: String? = null,
-    val proEntitlementId: String = DEFAULT_PRO_ENTITLEMENT_ID,
-)
-
-class RevenueCatManager(
-    private val config: RevenueCatConfig,
+internal class ProStateSynchronizer(
     private val settingsRepository: SettingsRepository,
     private val dataRepository: LocalDataRepository,
     private val ioScope: CoroutineScope,
     private val log: Logger,
-) : PurchasesDelegate {
-    private var started = false
-
-    fun start() {
-        if (started) return
-        started = true
-
-        if (!Purchases.isConfigured) {
-            val apiKey = requireNotNull(config.apiKey) { "RevenueCat enabled but not configured and apiKey is null" }
-            log.i { "Configuring RevenueCat" }
-            Purchases.configure(apiKey = apiKey)
-        }
-
-        Purchases.sharedInstance.delegate = this
-
-        // Reconcile on app start (e.g. refund happened while app wasn't running).
-        Purchases.sharedInstance.getCustomerInfo(
-            fetchPolicy = CacheFetchPolicy.FETCH_CURRENT,
-            onError = { error ->
-                log.w { "Failed to fetch customer info: ${error.message}" }
-            },
-            onSuccess = { handleCustomerInfo(it) },
-        )
-    }
-
-    override fun onCustomerInfoUpdated(customerInfo: CustomerInfo) {
-        handleCustomerInfo(customerInfo)
-    }
-
-    override fun onPurchasePromoProduct(
-        product: StoreProduct,
-        startPurchase: (
-            onError: (error: PurchasesError, userCancelled: Boolean) -> Unit,
-            onSuccess: (storeTransaction: StoreTransaction, customerInfo: CustomerInfo) -> Unit,
-        ) -> Unit,
-    ) {
-        // no promos for now
-    }
-
-    private fun handleCustomerInfo(customerInfo: CustomerInfo) {
-        val hasPro = customerInfo.entitlements.active.containsKey(config.proEntitlementId)
-        log.i { "handleCustomerInfo: hasPro=$hasPro" }
-
+) {
+    fun onHasProChanged(hasPro: Boolean) {
         ioScope.launch {
             val wasPro = settingsRepository.settings.first().isPro
             if (wasPro && !hasPro) {

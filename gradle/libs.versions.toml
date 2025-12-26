@@ -1,7 +1,7 @@
 [versions]
 
 appVersionName = "3.1.0"
-appVersionCode = "351"
+appVersionCode = "352"
 
 acra = "5.13.1"
 android-minSdk = "26"
@@ -16,7 +16,7 @@ coreSplashscreen = "1.2.0"
 kotlin = "2.3.0"
 kotlinxCollectionsImmutable = "0.4.0"
 kotlinxDatetimeNames = "0.1.1"
-ksp = "2.3.1"
+ksp = "2.3.4"
 
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"

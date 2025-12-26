@@ -17,16 +17,17 @@
  */
 package com.apps.adrcotfas.goodtime.billing
 
-/**
- * Platform/build-type specific API key (debug/test vs release/prod).
- */
-expect fun revenueCatApiKey(): String?
+import com.revenuecat.purchases.kmp.Purchases
+import com.revenuecat.purchases.kmp.configure
+import platform.Foundation.NSBundle
+import kotlin.experimental.ExperimentalNativeApi
 
-/**
- * Convenience for "configure as early as possible" without duplicating API key passing.
- */
-fun configureRevenueCatFromPlatform() {
-    configureRevenueCat(
-        apiKey = revenueCatApiKey(),
-    )
+@OptIn(ExperimentalNativeApi::class)
+actual fun configurePurchasesFromPlatform() {
+    val info = NSBundle.mainBundle.infoDictionary ?: return
+    val keyName = if (Platform.isDebugBinary) "RevenueCatApiKeyDebug" else "RevenueCatApiKeyRelease"
+    val apiKey = (info[keyName] as? String)?.takeIf { it.isNotBlank() } ?: return
+
+    if (Purchases.isConfigured) return
+    Purchases.configure(apiKey = apiKey)
 }
