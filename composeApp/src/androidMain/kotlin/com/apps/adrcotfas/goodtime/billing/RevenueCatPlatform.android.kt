@@ -19,8 +19,6 @@ package com.apps.adrcotfas.goodtime.billing
 
 import com.apps.adrcotfas.goodtime.BuildConfig
 
-actual fun revenueCatEnabled(): Boolean = !BuildConfig.IS_FDROID
-
 actual fun revenueCatApiKey(): String? {
     val key =
         if (BuildConfig.DEBUG) {

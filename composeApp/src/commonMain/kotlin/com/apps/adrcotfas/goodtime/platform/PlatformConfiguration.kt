@@ -51,3 +51,5 @@ interface PlatformConfiguration {
  * This is an expect function that will have different implementations on each platform.
  */
 expect fun getPlatformConfiguration(): PlatformConfiguration
+
+expect fun isFDroid(): Boolean

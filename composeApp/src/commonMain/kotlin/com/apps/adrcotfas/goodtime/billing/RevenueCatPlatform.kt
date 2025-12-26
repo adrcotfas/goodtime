@@ -18,11 +18,6 @@
 package com.apps.adrcotfas.goodtime.billing
 
 /**
- * Platform/flavor specific switch (e.g. disabled on F-Droid).
- */
-expect fun revenueCatEnabled(): Boolean
-
-/**
  * Platform/build-type specific API key (debug/test vs release/prod).
  */
 expect fun revenueCatApiKey(): String?
@@ -32,7 +27,6 @@ expect fun revenueCatApiKey(): String?
  */
 fun configureRevenueCatFromPlatform() {
     configureRevenueCat(
-        enabled = revenueCatEnabled(),
         apiKey = revenueCatApiKey(),
     )
 }

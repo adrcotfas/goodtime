@@ -22,7 +22,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.billing.RevenueCatConfig
 import com.apps.adrcotfas.goodtime.billing.revenueCatApiKey
-import com.apps.adrcotfas.goodtime.billing.revenueCatEnabled
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.IOS_LIVE_ACTIVITY_LISTENER
 import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
@@ -69,7 +68,6 @@ actual val platformModule: Module =
     module {
         single<RevenueCatConfig> {
             RevenueCatConfig(
-                enabled = revenueCatEnabled(),
                 apiKey = revenueCatApiKey(),
             )
         }

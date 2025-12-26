@@ -257,6 +257,12 @@ java {
     }
 }
 
+// remove unused RevenueCat modules
+configurations.configureEach {
+    exclude(group = "com.revenuecat.purchases", module = "purchases-store-amazon")
+    exclude(group = "com.amazon.device", module = "amazon-appstore-sdk")
+}
+
 // Workaround for androidx.paging alpha version not having full iOS support
 configurations.all {
     if (name.contains("ios", ignoreCase = true)) {

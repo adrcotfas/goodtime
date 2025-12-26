@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.main
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import com.apps.adrcotfas.goodtime.platform.isFDroid
 import com.apps.adrcotfas.goodtime.ui.IconTextButton
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -28,8 +29,6 @@ import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.support_development
 import goodtime_productivity.composeapp.generated.resources.unlock_premium
 import org.jetbrains.compose.resources.stringResource
-
-expect fun isFDroid(): Boolean
 
 @Composable
 fun ProListItem(

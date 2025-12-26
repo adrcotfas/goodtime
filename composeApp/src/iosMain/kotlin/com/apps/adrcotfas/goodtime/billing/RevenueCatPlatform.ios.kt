@@ -20,8 +20,6 @@ package com.apps.adrcotfas.goodtime.billing
 import platform.Foundation.NSBundle
 import kotlin.experimental.ExperimentalNativeApi
 
-actual fun revenueCatEnabled(): Boolean = true
-
 @OptIn(ExperimentalNativeApi::class)
 actual fun revenueCatApiKey(): String? {
     val info = NSBundle.mainBundle.infoDictionary ?: return null

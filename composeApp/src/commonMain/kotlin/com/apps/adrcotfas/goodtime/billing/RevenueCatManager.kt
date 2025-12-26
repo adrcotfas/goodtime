@@ -42,18 +42,13 @@ const val DEFAULT_PRO_ENTITLEMENT_ID: String = "PREMIUM"
  * This is a thin wrapper around `Purchases.configure(...)` so that platform code doesn't need to
  * depend on RevenueCat directly (and to keep configuration idempotent).
  */
-fun configureRevenueCat(
-    enabled: Boolean,
-    apiKey: String?,
-) {
-    if (!enabled) return
+fun configureRevenueCat(apiKey: String?) {
     val key = apiKey?.takeIf { it.isNotBlank() } ?: return
     if (Purchases.isConfigured) return
     Purchases.configure(apiKey = key)
 }
 
 data class RevenueCatConfig(
-    val enabled: Boolean,
     val apiKey: String? = null,
     val proEntitlementId: String = DEFAULT_PRO_ENTITLEMENT_ID,
 )
@@ -70,12 +65,6 @@ class RevenueCatManager(
     fun start() {
         if (started) return
         started = true
-
-        if (!config.enabled) {
-            log.i { "RevenueCat disabled; forcing isPro=true" }
-            ioScope.launch { settingsRepository.setPro(true) }
-            return
-        }
 
         if (!Purchases.isConfigured) {
             val apiKey = requireNotNull(config.apiKey) { "RevenueCat enabled but not configured and apiKey is null" }

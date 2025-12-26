@@ -48,6 +48,7 @@ import com.apps.adrcotfas.goodtime.di.mainModule
 import com.apps.adrcotfas.goodtime.di.platformModule
 import com.apps.adrcotfas.goodtime.di.timerManagerModule
 import com.apps.adrcotfas.goodtime.di.viewModelModule
+import com.apps.adrcotfas.goodtime.platform.isFDroid
 import com.apps.adrcotfas.goodtime.settings.notifications.SoundsViewModel
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager
 import kotlinx.coroutines.CoroutineScope
@@ -151,8 +152,7 @@ class GoodtimeApplication :
             workManagerFactory()
         }
 
-        // Keep SettingsRepository.isPro in sync with RevenueCat entitlements (no-op for F-Droid).
-        get<RevenueCatManager>().start()
+        initBilling()
 
         val reminderManager = get<ReminderManager>()
         applicationScope.launch {
@@ -199,4 +199,13 @@ class GoodtimeApplication :
                     .setMinimumLoggingLevel(android.util.Log.ERROR)
                     .build()
             }
+
+    private fun initBilling() {
+        if (!isFDroid()) {
+            get<RevenueCatManager>().start()
+        } else {
+            val settingsRepo = get<SettingsRepository>()
+            applicationScope.launch { settingsRepo.setPro(true) }
+        }
+    }
 }

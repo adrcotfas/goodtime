@@ -43,3 +43,5 @@ private class IosPlatformConfiguration : PlatformConfiguration {
  * Returns the iOS platform configuration.
  */
 actual fun getPlatformConfiguration(): PlatformConfiguration = IosPlatformConfiguration()
+
+actual fun isFDroid(): Boolean = false
