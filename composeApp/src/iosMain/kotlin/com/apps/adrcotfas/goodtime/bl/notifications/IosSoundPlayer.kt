@@ -142,7 +142,7 @@ class IosSoundPlayer(
         // iOS Note: We cannot access system ringtones by path.
         // We assume `uriString` is a filename in the main bundle (e.g. "bell.mp3").
         // If empty, we try to find a default file named "default_sound".
-        val fileName = soundData.uriString.ifEmpty { "default.mp3" }
+        val fileName = soundData.uriString.ifEmpty { "positive_chime.wav" }
         logger.d { "Resolved fileName: $fileName" }
 
         // Helper to split "sound.mp3" into "sound" and "mp3"
