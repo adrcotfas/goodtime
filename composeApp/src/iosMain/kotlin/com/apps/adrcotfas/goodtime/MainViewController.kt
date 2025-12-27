@@ -36,7 +36,6 @@ import com.apps.adrcotfas.goodtime.di.mainModule
 import com.apps.adrcotfas.goodtime.di.platformModule
 import com.apps.adrcotfas.goodtime.di.timerManagerModule
 import com.apps.adrcotfas.goodtime.di.viewModelModule
-import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager
@@ -69,7 +68,6 @@ private fun AppWithKoin() {
             )
         },
     ) {
-        val timerViewModel: TimerViewModel = koinInject()
         val mainViewModel: MainViewModel = koinInject()
         val purchaseManager: PurchaseManager = koinInject()
 
@@ -84,7 +82,6 @@ private fun AppWithKoin() {
 
         GoodtimeApp(
             platformContext = platformContext,
-            timerViewModel = timerViewModel,
             mainViewModel = mainViewModel,
             onUpdateClicked = null,
         )

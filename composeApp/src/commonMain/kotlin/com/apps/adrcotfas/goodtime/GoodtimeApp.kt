@@ -83,6 +83,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
 
 /**
  * Main composable for the Goodtime app.
@@ -98,7 +99,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun GoodtimeApp(
     platformContext: PlatformContext,
-    timerViewModel: TimerViewModel,
+    timerViewModel: TimerViewModel = koinViewModel(),
     mainViewModel: MainViewModel,
     onUpdateClicked: (() -> Unit)? = null,
 ) {

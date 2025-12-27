@@ -36,7 +36,6 @@ import org.koin.core.component.inject
  */
 class MainActivity : GoodtimeMainActivity() {
     private val notificationManager: NotificationArchManager by inject()
-    private val timerViewModel: TimerViewModel by viewModel<TimerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -57,7 +56,6 @@ class MainActivity : GoodtimeMainActivity() {
 
             GoodtimeApp(
                 platformContext = platformContext,
-                timerViewModel = timerViewModel,
                 mainViewModel = viewModel,
                 onUpdateClicked = { triggerAppUpdate() },
             )
