@@ -18,6 +18,9 @@
 package com.apps.adrcotfas.goodtime.bl
 
 import co.touchlab.kermit.Logger
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.SoundData
+import com.apps.adrcotfas.goodtime.settings.notifications.toSoundData
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.main_break_complete
 import goodtime_productivity.composeapp.generated.resources.main_continue
@@ -28,6 +31,8 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
+import platform.Foundation.NSBundle
+import platform.Foundation.NSURL
 import platform.UserNotifications.UNMutableNotificationContent
 import platform.UserNotifications.UNNotificationAction
 import platform.UserNotifications.UNNotificationCategory
@@ -35,18 +40,28 @@ import platform.UserNotifications.UNNotificationRequest
 import platform.UserNotifications.UNNotificationSound
 import platform.UserNotifications.UNTimeIntervalNotificationTrigger
 import platform.UserNotifications.UNUserNotificationCenter
+import kotlin.concurrent.Volatile
 
 private const val NOTIFICATION_ID = "goodtime_timer_finished"
 private const val CATEGORY_TIMER_FINISHED = "TIMER_FINISHED"
 private const val ACTION_START_NEXT = "START_NEXT"
 
+private const val IOS_NOTIFICATION_SOUNDS_SUBDIR = "Sounds"
+
 class IosNotificationHandler(
     private val timeProvider: TimeProvider,
+    private val settingsRepo: SettingsRepository,
     private val coroutineScope: CoroutineScope,
     private val log: Logger,
 ) : EventListener {
     private val notificationCenter = UNUserNotificationCenter.currentNotificationCenter()
     private val delegate = IosNotificationDelegate(log, ::handleNotificationAction)
+
+    @Volatile
+    private var workRingTone: SoundData = SoundData()
+
+    @Volatile
+    private var breakRingTone: SoundData = SoundData()
 
     // Store current session info to use when rescheduling notifications
     private var currentStartEvent: Event.Start? = null
@@ -60,6 +75,13 @@ class IosNotificationHandler(
 
         // Register notification categories with actions
         registerNotificationCategories()
+
+        coroutineScope.launch {
+            settingsRepo.settings.collect { settings ->
+                workRingTone = toSoundData(settings.workFinishedSound)
+                breakRingTone = toSoundData(settings.breakFinishedSound)
+            }
+        }
     }
 
     fun init(onStartNextSession: () -> Unit) {
@@ -184,13 +206,14 @@ class IosNotificationHandler(
         // Update action with dynamic title
         updateNotificationAction(actionTitle)
 
+        val soundData = if (startEvent.isFocus) workRingTone else breakRingTone
+        val notificationSound = resolveNotificationSound(soundData)
+
         val content =
             UNMutableNotificationContent().apply {
                 setTitle(titleText)
                 setBody(getString(Res.string.main_continue))
-                // TODO: Replace with actual sound from settings when sound resources are added
-                // For now, use default system sound
-                setSound(UNNotificationSound.defaultSound())
+                setSound(notificationSound)
                 // Attach category to enable action button
                 setCategoryIdentifier(CATEGORY_TIMER_FINISHED)
             }
@@ -232,5 +255,29 @@ class IosNotificationHandler(
     private fun cancelNotification() {
         log.v { "Cancelling notification, if any" }
         notificationCenter.removePendingNotificationRequestsWithIdentifiers(listOf(NOTIFICATION_ID))
+    }
+
+    private fun resolveNotificationSound(soundData: SoundData): UNNotificationSound? {
+        if (soundData.isSilent) return null
+
+        val fileName = soundData.uriString.substringAfterLast("/").trim()
+        if (fileName.isBlank()) return UNNotificationSound.defaultSound()
+
+        val name = fileName.substringBeforeLast(".")
+        val ext = if (fileName.contains(".")) fileName.substringAfterLast(".") else "wav"
+
+        // Try bundle root first, then Sounds/ (folder reference case)
+        val url: NSURL? =
+            NSBundle.mainBundle.URLForResource(name, withExtension = ext)
+                ?: NSBundle.mainBundle.URLForResource(name, withExtension = ext, subdirectory = IOS_NOTIFICATION_SOUNDS_SUBDIR)
+
+        if (url == null) {
+            log.w { "Notification sound not found in bundle: $fileName. Falling back to default sound." }
+            return UNNotificationSound.defaultSound()
+        }
+
+        // Note: soundNamed() expects a file available to the notification system (bundle root or Library/Sounds).
+        // We still do the URL existence check above to detect stale/invalid URIs and fall back safely.
+        return UNNotificationSound.soundNamed(fileName)
     }
 }

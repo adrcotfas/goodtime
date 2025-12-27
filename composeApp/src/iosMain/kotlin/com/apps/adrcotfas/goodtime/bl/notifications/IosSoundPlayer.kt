@@ -142,7 +142,10 @@ class IosSoundPlayer(
         // iOS Note: We cannot access system ringtones by path.
         // We assume `uriString` is a filename in the main bundle (e.g. "bell.mp3").
         // If empty, we try to find a default file named "default_sound".
-        val fileName = soundData.uriString.ifEmpty { "positive_chime.wav" }
+        val fileName =
+            soundData.uriString
+                .takeUnless { it.isBlank() }
+                ?: "positive_chime.wav"
         logger.d { "Resolved fileName: $fileName" }
 
         // Helper to split "sound.mp3" into "sound" and "mp3"
@@ -150,13 +153,39 @@ class IosSoundPlayer(
         val ext = if (fileName.contains(".")) fileName.substringAfterLast(".") else "mp3"
         logger.d { "Looking for resource: name=$name, ext=$ext" }
 
-        val soundUrl: NSURL? = NSBundle.mainBundle.URLForResource(name, withExtension = ext)
+        val soundUrl: NSURL? =
+            if (fileName.contains("/")) {
+                val subdirectory = fileName.substringBeforeLast("/")
+                val leafFileName = fileName.substringAfterLast("/")
+                val leafName = leafFileName.substringBeforeLast(".")
+                val leafExt =
+                    if (leafFileName.contains(".")) {
+                        leafFileName.substringAfterLast(".")
+                    } else {
+                        ext
+                    }
+                NSBundle.mainBundle.URLForResource(leafName, withExtension = leafExt, subdirectory = subdirectory)
+            } else {
+                NSBundle.mainBundle.URLForResource(name, withExtension = ext)
+                    ?: NSBundle.mainBundle.URLForResource(name, withExtension = ext, subdirectory = "Sounds")
+            }
 
-        if (soundUrl == null) {
-            logger.e(Exception("File not found")) { "Could not find sound file: $fileName in bundle" }
+        val resolvedSoundUrl =
+            soundUrl
+                ?: run {
+                    // Stale/invalid uriString: fall back to bundled default.
+                    val fallbackName = "positive_chime"
+                    val fallbackExt = "wav"
+                    logger.w { "Could not find sound file: $fileName in bundle. Falling back to $fallbackName.$fallbackExt" }
+                    NSBundle.mainBundle.URLForResource(fallbackName, withExtension = fallbackExt)
+                        ?: NSBundle.mainBundle.URLForResource(fallbackName, withExtension = fallbackExt, subdirectory = "Sounds")
+                }
+
+        if (resolvedSoundUrl == null) {
+            logger.e(Exception("File not found")) { "Could not find fallback sound in bundle either" }
             return@withLock
         }
-        logger.d { "Sound file found at: ${soundUrl.path}" }
+        logger.d { "Sound file found at: ${resolvedSoundUrl.path}" }
 
         // 2. Configure Audio Session (Audio Focus & Routing)
         val session = AVAudioSession.sharedInstance()
@@ -194,8 +223,8 @@ class IosSoundPlayer(
 
         // 3. Prepare and Play
         try {
-            logger.d { "Creating AVAudioPlayer with URL: ${soundUrl.path}" }
-            val player = AVAudioPlayer(contentsOfURL = soundUrl, error = null)
+            logger.d { "Creating AVAudioPlayer with URL: ${resolvedSoundUrl.path}" }
+            val player = AVAudioPlayer(contentsOfURL = resolvedSoundUrl, error = null)
             logger.d { "Preparing to play..." }
             player.prepareToPlay()
 

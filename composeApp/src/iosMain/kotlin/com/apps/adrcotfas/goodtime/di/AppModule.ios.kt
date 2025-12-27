@@ -48,6 +48,7 @@ import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderScheduler
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.CoroutineScope
@@ -119,6 +120,7 @@ actual val platformModule: Module =
         single<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)) {
             IosNotificationHandler(
                 timeProvider = get<TimeProvider>(),
+                settingsRepo = get<SettingsRepository>(),
                 coroutineScope = get<CoroutineScope>(named(MAIN_SCOPE)),
                 log = getWith("IosNotificationHandler"),
             )
@@ -138,7 +140,7 @@ actual val platformModule: Module =
             IosSoundPlayer(
                 ioScope = get<CoroutineScope>(named(IO_SCOPE)),
                 playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
-                settingsRepo = get(),
+                settingsRepo = get<SettingsRepository>(),
                 logger = getWith("SoundPlayer"),
             )
         }
@@ -147,7 +149,7 @@ actual val platformModule: Module =
             IosVibrationPlayer(
                 playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
                 ioScope = get<CoroutineScope>(named(IO_SCOPE)),
-                settingsRepo = get(),
+                settingsRepo = get<SettingsRepository>(),
                 logger = getWith("VibrationPlayer"),
             )
         }
@@ -156,7 +158,7 @@ actual val platformModule: Module =
             IosTorchManager(
                 ioScope = get<CoroutineScope>(named(IO_SCOPE)),
                 playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
-                settingsRepo = get(),
+                settingsRepo = get<SettingsRepository>(),
                 logger = getWith("TorchManager"),
             )
         }

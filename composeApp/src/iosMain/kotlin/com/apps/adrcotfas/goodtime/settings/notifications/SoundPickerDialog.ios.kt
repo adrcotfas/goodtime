@@ -38,11 +38,14 @@ actual fun NotificationSoundPickerDialog(
     val coroutineScope = rememberCoroutineScope()
     val logger = remember { Logger.withTag("SoundPickerDialog") }
 
-    // TODO: add the actual iOS sounds
-    // For now, just use the default sound
     val systemSounds =
-        setOf(
-            SoundData("Default", "default.mp3"),
+        linkedSetOf(
+            SoundData("Positive chime", "positive_chime.wav"),
+            SoundData("Marimba", "marimba.wav"),
+            SoundData("Harp chime", "harp_chime.wav"),
+            SoundData("Doorbell", "doorbell.wav"),
+            SoundData("Digital tone", "digital_tone.wav"),
+            SoundData("Bubble pop", "bubble_pop.wav"),
         )
 
     NotificationSoundPickerDialogContent(
