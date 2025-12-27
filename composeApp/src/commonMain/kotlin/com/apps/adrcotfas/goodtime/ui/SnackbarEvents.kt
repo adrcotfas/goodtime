@@ -17,12 +17,14 @@
  */
 package com.apps.adrcotfas.goodtime.ui
 
+import androidx.compose.material3.SnackbarDuration
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
 data class SnackbarEvent(
     val message: String,
     val action: SnackbarAction? = null,
+    val duration: SnackbarDuration = SnackbarDuration.Long,
 )
 
 data class SnackbarAction(

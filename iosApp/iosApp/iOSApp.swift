@@ -21,6 +21,10 @@ struct iOSApp: App {
         // Initialize status bar manager to enable fullscreen mode support
         _ = StatusBarManager.shared
         print("[iOSApp] Status bar manager initialized")
+
+        // Initialize backup UI bridge (share sheet + document picker)
+        _ = BackupUiManager.shared
+        print("[iOSApp] Backup UI manager initialized")
     }
 
 	var body: some Scene {

@@ -25,15 +25,21 @@ enum class BackupType {
     CSV,
 }
 
+enum class BackupPromptResult {
+    SUCCESS,
+    CANCELLED,
+    FAILED,
+}
+
 interface BackupPrompter {
     suspend fun promptUserForBackup(
         backupType: BackupType,
         fileToSharePath: Path,
-        callback: suspend (Boolean) -> Unit,
+        callback: suspend (BackupPromptResult) -> Unit,
     )
 
     suspend fun promptUserForRestore(
         importedFilePath: String,
-        callback: suspend (Boolean) -> Unit,
+        callback: suspend (BackupPromptResult) -> Unit,
     )
 }

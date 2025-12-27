@@ -18,36 +18,59 @@
 package com.apps.adrcotfas.goodtime.data.backup
 
 import co.touchlab.kermit.Logger
+import com.apps.adrcotfas.goodtime.data.local.backup.BackupPromptResult
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import okio.Path
+import platform.Foundation.NSUUID
 
 class IosBackupPrompter(
     private val logger: Logger,
+    private val mainScope: CoroutineScope,
 ) : BackupPrompter {
     override suspend fun promptUserForBackup(
         backupType: BackupType,
         fileToSharePath: Path,
-        callback: suspend (Boolean) -> Unit,
+        callback: suspend (BackupPromptResult) -> Unit,
     ) {
-        // TODO: Implement iCloud backup for iOS
-        // For iOS, backup should use iCloud Drive or share sheet for seamless sync
-        // - Use FileManager to save backups to iCloud container
-        // - Access via FileManager.default.url(forUbiquityContainerIdentifier:)
-        // - Enable iCloud capability in Xcode project settings
-        // - Or use UIActivityViewController for sharing
-        logger.w { "Backup is not yet implemented for iOS" }
-        callback(false)
+        val ui = BackupUiBridge.delegate
+        if (ui == null) {
+            logger.w { "Backup UI delegate is not set (iOS export not available)" }
+            callback(BackupPromptResult.FAILED)
+            return
+        }
+
+        val token = NSUUID().UUIDString()
+        BackupUiBridge.registerCallback(token) { result ->
+            mainScope.launch { callback(result) }
+        }
+
+        val mimeType =
+            when (backupType) {
+                BackupType.DB -> "application/octet-stream"
+                BackupType.JSON -> "application/json"
+                BackupType.CSV -> "text/csv"
+            }
+        ui.startExport(token = token, filePath = fileToSharePath.toString(), mimeType = mimeType)
     }
 
     override suspend fun promptUserForRestore(
         importedFilePath: String,
-        callback: suspend (Boolean) -> Unit,
+        callback: suspend (BackupPromptResult) -> Unit,
     ) {
-        // TODO: Implement iCloud restore for iOS
-        // - Use UIDocumentPickerViewController to let user pick a backup file
-        // - Or restore from iCloud Drive if auto-backup is enabled
-        logger.w { "Restore is not yet implemented for iOS" }
-        callback(false)
+        val ui = BackupUiBridge.delegate
+        if (ui == null) {
+            logger.w { "Backup UI delegate is not set (iOS restore not available)" }
+            callback(BackupPromptResult.FAILED)
+            return
+        }
+
+        val token = NSUUID().UUIDString()
+        BackupUiBridge.registerCallback(token) { result ->
+            mainScope.launch { callback(result) }
+        }
+        ui.startImport(token = token, destinationPath = importedFilePath)
     }
 }

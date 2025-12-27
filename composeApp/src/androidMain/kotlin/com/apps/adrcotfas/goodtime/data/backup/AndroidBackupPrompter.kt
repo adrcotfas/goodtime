@@ -22,6 +22,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.ActivityResult
+import com.apps.adrcotfas.goodtime.data.local.backup.BackupPromptResult
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupType
 import kotlinx.coroutines.CoroutineScope
@@ -41,8 +42,8 @@ class ActivityResultLauncherManager(
     private var backupActivityResultLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>? = null
     private var importedFilePath: String? = null
     private var exportedFilePath: okio.Path? = null
-    private var importCallback: (suspend (Boolean) -> Unit)? = null
-    private var exportCallback: (suspend (Boolean) -> Unit)? = null
+    private var importCallback: (suspend (BackupPromptResult) -> Unit)? = null
+    private var exportCallback: (suspend (BackupPromptResult) -> Unit)? = null
 
     fun setup(
         importActivityResultLauncher: ManagedActivityResultLauncher<String, Uri?>,
@@ -54,7 +55,7 @@ class ActivityResultLauncherManager(
 
     fun launchImport(
         importedFilePath: String,
-        callback: suspend (Boolean) -> Unit,
+        callback: suspend (BackupPromptResult) -> Unit,
     ) {
         this.importedFilePath = importedFilePath
         this.importCallback = callback
@@ -65,7 +66,7 @@ class ActivityResultLauncherManager(
     fun launchExport(
         intent: Intent,
         exportedFilePath: okio.Path,
-        callback: suspend (Boolean) -> Unit,
+        callback: suspend (BackupPromptResult) -> Unit,
     ) {
         backupActivityResultLauncher?.launch(intent)
         this.exportedFilePath = exportedFilePath
@@ -73,35 +74,39 @@ class ActivityResultLauncherManager(
     }
 
     fun importCallback(uri: Uri?) {
-        uri?.let {
-            coroutineScope.launch {
-                withContext(Dispatchers.IO) {
-                    context.contentResolver.openInputStream(it)?.let { input ->
-                        Files.copy(
-                            input,
-                            Paths.get(importedFilePath!!),
-                            StandardCopyOption.REPLACE_EXISTING,
-                        )
-                        input.close()
-                        importCallback!!.invoke(true)
-                    } ?: importCallback!!.invoke(false)
-                }
+        if (uri == null) {
+            coroutineScope.launch { importCallback?.invoke(BackupPromptResult.CANCELLED) }
+            return
+        }
+        coroutineScope.launch {
+            withContext(Dispatchers.IO) {
+                context.contentResolver.openInputStream(uri)?.let { input ->
+                    Files.copy(
+                        input,
+                        Paths.get(importedFilePath!!),
+                        StandardCopyOption.REPLACE_EXISTING,
+                    )
+                    input.close()
+                    importCallback?.invoke(BackupPromptResult.SUCCESS)
+                } ?: importCallback?.invoke(BackupPromptResult.FAILED)
             }
         }
     }
 
     fun exportCallback(uri: Uri?) {
-        uri?.let {
-            coroutineScope.launch {
-                withContext(Dispatchers.IO) {
-                    context.contentResolver.openOutputStream(it)?.let { output ->
-                        Files.newInputStream(exportedFilePath!!.toNioPath()).use { input ->
-                            input.copyTo(output)
-                        }
-                        output.close()
-                        exportCallback!!.invoke(true)
-                    } ?: exportCallback!!.invoke(false)
-                }
+        if (uri == null) {
+            coroutineScope.launch { exportCallback?.invoke(BackupPromptResult.CANCELLED) }
+            return
+        }
+        coroutineScope.launch {
+            withContext(Dispatchers.IO) {
+                context.contentResolver.openOutputStream(uri)?.let { output ->
+                    Files.newInputStream(exportedFilePath!!.toNioPath()).use { input ->
+                        input.copyTo(output)
+                    }
+                    output.close()
+                    exportCallback?.invoke(BackupPromptResult.SUCCESS)
+                } ?: exportCallback?.invoke(BackupPromptResult.FAILED)
             }
         }
     }
@@ -113,7 +118,7 @@ class AndroidBackupPrompter(
     override suspend fun promptUserForBackup(
         backupType: BackupType,
         fileToSharePath: okio.Path,
-        callback: suspend (Boolean) -> Unit,
+        callback: suspend (BackupPromptResult) -> Unit,
     ) {
         delay(100)
         val intent =
@@ -133,7 +138,7 @@ class AndroidBackupPrompter(
 
     override suspend fun promptUserForRestore(
         importedFilePath: String,
-        callback: suspend (Boolean) -> Unit,
+        callback: suspend (BackupPromptResult) -> Unit,
     ) {
         activityResultLauncherManager.launchImport(importedFilePath, callback)
     }

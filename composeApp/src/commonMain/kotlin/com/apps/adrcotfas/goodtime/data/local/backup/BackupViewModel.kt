@@ -37,10 +37,17 @@ data class BackupUiState(
     val isCsvBackupInProgress: Boolean = false,
     val isJsonBackupInProgress: Boolean = false,
     val isRestoreInProgress: Boolean = false,
-    val backupResult: Boolean? = null,
-    val restoreResult: Boolean? = null,
+    val backupResult: BackupPromptResult? = null,
+    val restoreResult: BackupPromptResult? = null,
     val backupSettings: BackupSettings = BackupSettings(),
 )
+
+val BackupUiState.isBusy: Boolean
+    get() =
+        isBackupInProgress ||
+            isRestoreInProgress ||
+            isCsvBackupInProgress ||
+            isJsonBackupInProgress
 
 class BackupViewModel(
     private val backupManager: BackupManager,
@@ -73,11 +80,16 @@ class BackupViewModel(
     fun backup() {
         coroutineScope.launch {
             _uiState.update { it.copy(isBackupInProgress = true) }
-            backupManager.backup { success ->
+            backupManager.backup { result ->
                 _uiState.update {
-                    it.copy(
-                        backupResult = success,
-                    )
+                    if (result == BackupPromptResult.CANCELLED) {
+                        it.copy(isBackupInProgress = false)
+                    } else {
+                        it.copy(
+                            isBackupInProgress = false,
+                            backupResult = result,
+                        )
+                    }
                 }
             }
         }
@@ -86,11 +98,16 @@ class BackupViewModel(
     fun backupToCsv() {
         coroutineScope.launch {
             _uiState.update { it.copy(isCsvBackupInProgress = true) }
-            backupManager.backupToCsv { success ->
+            backupManager.backupToCsv { result ->
                 _uiState.update {
-                    it.copy(
-                        backupResult = success,
-                    )
+                    if (result == BackupPromptResult.CANCELLED) {
+                        it.copy(isCsvBackupInProgress = false)
+                    } else {
+                        it.copy(
+                            isCsvBackupInProgress = false,
+                            backupResult = result,
+                        )
+                    }
                 }
             }
         }
@@ -99,11 +116,16 @@ class BackupViewModel(
     fun backupToJson() {
         coroutineScope.launch {
             _uiState.update { it.copy(isJsonBackupInProgress = true) }
-            backupManager.backupToJson { success ->
+            backupManager.backupToJson { result ->
                 _uiState.update {
-                    it.copy(
-                        backupResult = success,
-                    )
+                    if (result == BackupPromptResult.CANCELLED) {
+                        it.copy(isJsonBackupInProgress = false)
+                    } else {
+                        it.copy(
+                            isJsonBackupInProgress = false,
+                            backupResult = result,
+                        )
+                    }
                 }
             }
         }
@@ -112,12 +134,16 @@ class BackupViewModel(
     fun restore() {
         coroutineScope.launch {
             _uiState.update { it.copy(isRestoreInProgress = true) }
-            backupManager.restore { success ->
+            backupManager.restore { result ->
                 _uiState.update {
-                    it.copy(
-                        isRestoreInProgress = false,
-                        restoreResult = success,
-                    )
+                    if (result == BackupPromptResult.CANCELLED) {
+                        it.copy(isRestoreInProgress = false)
+                    } else {
+                        it.copy(
+                            isRestoreInProgress = false,
+                            restoreResult = result,
+                        )
+                    }
                 }
             }
         }

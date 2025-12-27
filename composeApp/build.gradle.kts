@@ -306,8 +306,8 @@ configurations.all {
     }
 }
 
-//TODO: re-enable after we're out of TestFlight
-//tasks.register("syncIosVersion") {
+// TODO: re-enable after we're out of TestFlight
+// tasks.register("syncIosVersion") {
 //    val configFile = file("$rootDir/iosApp/Configuration/Config.xcconfig")
 //
 //    val versionName = libs.versions.appVersionName.get()
@@ -332,10 +332,10 @@ configurations.all {
 //
 //        println("✓ Updated Config.xcconfig: $versionName ($versionCode)")
 //    }
-//}
+// }
 //
-//tasks.configureEach {
+// tasks.configureEach {
 //    if (name == "checkCanSyncComposeResourcesForIos") {
 //        dependsOn("syncIosVersion")
 //    }
-//}
+// }

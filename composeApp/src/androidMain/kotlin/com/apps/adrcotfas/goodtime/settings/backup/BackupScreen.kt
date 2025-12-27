@@ -35,6 +35,7 @@ import com.apps.adrcotfas.goodtime.common.isUriPersisted
 import com.apps.adrcotfas.goodtime.common.releasePersistableUriPermission
 import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
+import com.apps.adrcotfas.goodtime.data.local.backup.BackupPromptResult
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
 import goodtime_productivity.composeapp.generated.resources.Res
@@ -63,9 +64,7 @@ actual fun BackupScreen(
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.GetContent(),
             onResult = { uri ->
-                uri?.let {
-                    activityResultLauncherManager.importCallback(it)
-                }
+                activityResultLauncherManager.importCallback(uri)
             },
         )
     val exportLauncher =
@@ -74,9 +73,7 @@ actual fun BackupScreen(
         ) { result ->
             val data = result.data
             val uri = data?.data
-            uri?.let {
-                activityResultLauncherManager.exportCallback(it)
-            }
+            activityResultLauncherManager.exportCallback(uri)
         }
 
     val autoExportDirLauncher =
@@ -113,36 +110,40 @@ actual fun BackupScreen(
 
     LaunchedEffect(uiState.backupResult) {
         uiState.backupResult?.let {
-            Toast
-                .makeText(
-                    context,
-                    if (it) {
-                        getString(Res.string.backup_completed_successfully)
-                    } else {
-                        getString(
-                            Res.string.backup_failed_please_try_again,
-                        )
-                    },
-                    Toast.LENGTH_SHORT,
-                ).show()
+            if (it != BackupPromptResult.CANCELLED) {
+                Toast
+                    .makeText(
+                        context,
+                        if (it == BackupPromptResult.SUCCESS) {
+                            getString(Res.string.backup_completed_successfully)
+                        } else {
+                            getString(
+                                Res.string.backup_failed_please_try_again,
+                            )
+                        },
+                        Toast.LENGTH_SHORT,
+                    ).show()
+            }
             viewModel.clearBackupError()
         }
     }
 
     LaunchedEffect(uiState.restoreResult) {
         uiState.restoreResult?.let {
-            Toast
-                .makeText(
-                    context,
-                    if (it) {
-                        getString(Res.string.backup_restore_completed_successfully)
-                    } else {
-                        getString(
-                            Res.string.backup_restore_failed_please_try_again,
-                        )
-                    },
-                    Toast.LENGTH_SHORT,
-                ).show()
+            if (it != BackupPromptResult.CANCELLED) {
+                Toast
+                    .makeText(
+                        context,
+                        if (it == BackupPromptResult.SUCCESS) {
+                            getString(Res.string.backup_restore_completed_successfully)
+                        } else {
+                            getString(
+                                Res.string.backup_restore_failed_please_try_again,
+                            )
+                        },
+                        Toast.LENGTH_SHORT,
+                    ).show()
+            }
             viewModel.clearRestoreError()
         }
     }

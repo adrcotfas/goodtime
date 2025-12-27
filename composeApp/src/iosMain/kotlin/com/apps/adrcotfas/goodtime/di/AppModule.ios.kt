@@ -94,7 +94,10 @@ actual val platformModule: Module =
         }
 
         single<BackupPrompter> {
-            IosBackupPrompter(getWith("IosBackupPrompter"))
+            IosBackupPrompter(
+                logger = getWith("IosBackupPrompter"),
+                mainScope = get<CoroutineScope>(named(MAIN_SCOPE)),
+            )
         }
 
         single<DataStore<Preferences>>(named(SETTINGS_NAME)) {

@@ -17,12 +17,22 @@
  */
 package com.apps.adrcotfas.goodtime.settings.backup
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.data.local.backup.BackupPromptResult
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
+import com.apps.adrcotfas.goodtime.ui.SnackbarController
+import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
+import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
+import org.jetbrains.compose.resources.getString
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -38,12 +48,37 @@ actual fun BackupScreen(
 
     LaunchedEffect(uiState.backupResult) {
         uiState.backupResult?.let {
+            if (it != BackupPromptResult.CANCELLED) {
+                SnackbarController.sendEvent(
+                    SnackbarEvent(
+                        message =
+                            if (it == BackupPromptResult.SUCCESS) {
+                                getString(Res.string.backup_completed_successfully)
+                            } else {
+                                getString(Res.string.backup_failed_please_try_again)
+                            },
+                    ),
+                )
+            }
             viewModel.clearBackupError()
         }
     }
 
     LaunchedEffect(uiState.restoreResult) {
         uiState.restoreResult?.let {
+            if (it != BackupPromptResult.CANCELLED) {
+                SnackbarController.sendEvent(
+                    SnackbarEvent(
+                        message =
+                            if (it == BackupPromptResult.SUCCESS) {
+                                getString(Res.string.backup_restore_completed_successfully)
+                            } else {
+                                getString(Res.string.backup_restore_failed_please_try_again)
+                            },
+                        duration = SnackbarDuration.Short,
+                    ),
+                )
+            }
             viewModel.clearRestoreError()
         }
     }

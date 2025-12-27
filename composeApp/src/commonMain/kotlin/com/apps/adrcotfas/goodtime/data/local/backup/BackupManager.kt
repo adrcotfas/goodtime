@@ -25,7 +25,6 @@ import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseDriver
-import com.apps.adrcotfas.goodtime.data.local.getRoomDatabase
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.di.reinitModulesAtBackupAndRestore
 import kotlinx.coroutines.CoroutineDispatcher
@@ -46,7 +45,7 @@ class BackupManager(
     private val fileSystem: FileSystem,
     private val dbPath: String,
     private val filesDirPath: String,
-    private val database: ProductivityDatabase,
+    private var database: ProductivityDatabase,
     private val timeProvider: TimeProvider,
     private val backupPrompter: BackupPrompter,
     private val localDataRepository: LocalDataRepository,
@@ -59,7 +58,7 @@ class BackupManager(
         fileSystem.createDirectory(filesDirPath.toPath())
     }
 
-    suspend fun backup(onComplete: (Boolean) -> Unit) {
+    suspend fun backup(onComplete: (BackupPromptResult) -> Unit) {
         try {
             val tmpFilePath = "$filesDirPath/${generateBackupFileName()}"
             createBackup(tmpFilePath)
@@ -68,11 +67,11 @@ class BackupManager(
             }
         } catch (e: Exception) {
             logger.e(e) { "Backup failed" }
-            onComplete(false)
+            onComplete(BackupPromptResult.FAILED)
         }
     }
 
-    suspend fun backupToCsv(onComplete: (Boolean) -> Unit) {
+    suspend fun backupToCsv(onComplete: (BackupPromptResult) -> Unit) {
         try {
             val tmpFilePath = "$filesDirPath/${generateBackupFileName(PREFIX)}.csv"
             createCsvBackup(tmpFilePath)
@@ -81,11 +80,11 @@ class BackupManager(
             }
         } catch (e: Exception) {
             logger.e(e) { "Backup failed" }
-            onComplete(false)
+            onComplete(BackupPromptResult.FAILED)
         }
     }
 
-    suspend fun backupToJson(onComplete: (Boolean) -> Unit) {
+    suspend fun backupToJson(onComplete: (BackupPromptResult) -> Unit) {
         try {
             val tmpFilePath = "$filesDirPath/${generateBackupFileName(PREFIX)}.json"
             createJsonBackup(tmpFilePath)
@@ -94,24 +93,39 @@ class BackupManager(
             }
         } catch (e: Exception) {
             logger.e(e) { "Backup failed" }
-            onComplete(false)
+            onComplete(BackupPromptResult.FAILED)
         }
     }
 
-    suspend fun restore(onComplete: (Boolean) -> Unit) {
+    suspend fun restore(onComplete: (BackupPromptResult) -> Unit) {
         try {
-            backupPrompter.promptUserForRestore(importedTemporaryFileName) {
-                if (!isSQLite3File(importedTemporaryFileName.toPath())) {
-                    logger.e { "Invalid backup file" }
-                    onComplete(false)
-                } else {
-                    restoreBackup()
-                    onComplete(true)
+            backupPrompter.promptUserForRestore(importedTemporaryFileName) { importResult ->
+                try {
+                    if (importResult != BackupPromptResult.SUCCESS) {
+                        if (importResult == BackupPromptResult.CANCELLED) {
+                            logger.i { "Restore cancelled by user" }
+                        } else {
+                            logger.w { "Restore import failed" }
+                        }
+                        onComplete(importResult)
+                        return@promptUserForRestore
+                    }
+
+                    if (!isSQLite3File(importedTemporaryFileName.toPath())) {
+                        logger.e { "Invalid backup file" }
+                        onComplete(BackupPromptResult.FAILED)
+                    } else {
+                        restoreBackup()
+                        onComplete(BackupPromptResult.SUCCESS)
+                    }
+                } catch (e: Exception) {
+                    logger.e(e) { "Restore backup failed (post-import)" }
+                    onComplete(BackupPromptResult.FAILED)
                 }
             }
         } catch (e: Exception) {
             logger.e(e) { "Restore backup failed" }
-            onComplete(false)
+            onComplete(BackupPromptResult.FAILED)
         }
     }
 
@@ -181,8 +195,31 @@ class BackupManager(
     private suspend fun restoreBackup() {
         withContext(defaultDispatcher) {
             try {
+                // Ensure we don't leave stale WAL/SHM around. If we replace only the main DB file
+                // while SQLite is in WAL mode, the old -wal file can get replayed on next app start,
+                // effectively "bringing back" the old state.
                 checkpointDatabase()
-                fileSystem.copy(importedTemporaryFileName.toPath(), dbPath.toPath())
+
+                // Close the current DB connection before replacing the file on disk.
+                database.close()
+
+                val dbMain = dbPath.toPath()
+                val dbWal = ("$dbPath-wal").toPath()
+                val dbShm = ("$dbPath-shm").toPath()
+                val dbJournal = ("$dbPath-journal").toPath()
+
+                fun deleteIfExists(path: Path) {
+                    if (fileSystem.exists(path)) {
+                        fileSystem.delete(path)
+                    }
+                }
+
+                deleteIfExists(dbWal)
+                deleteIfExists(dbShm)
+                deleteIfExists(dbJournal)
+                deleteIfExists(dbMain)
+
+                fileSystem.copy(importedTemporaryFileName.toPath(), dbMain)
             } finally {
                 afterOperation()
             }
@@ -191,7 +228,11 @@ class BackupManager(
 
     private fun afterOperation() {
         reinitModulesAtBackupAndRestore()
-        get<LocalDataRepository>().reinitDatabase(getRoomDatabase(get(), getDatabaseDriver()))
+        // localDataModule is reloaded, so Koin now has a fresh ProductivityDatabase singleton.
+        // Keep BackupManager in sync, otherwise subsequent operations may use a closed DB instance.
+        val newDatabase: ProductivityDatabase = get()
+        database = newDatabase
+        get<LocalDataRepository>().reinitDatabase(newDatabase)
         get<TimerManager>().restart()
     }
 
