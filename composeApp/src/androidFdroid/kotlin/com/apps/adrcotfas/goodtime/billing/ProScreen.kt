@@ -86,7 +86,6 @@ actual fun ProScreen(onNavigateBack: () -> Unit) {
             val productName = stringResource(Res.string.product_name_long)
             Text(
                 modifier = Modifier.padding(16.dp),
-                // TODO: compose does not not know about placeholders?
                 text =
                     stringResource(Res.string.unlock_premium_desc1, productName) + "\n" + "\n" +
                         stringResource(Res.string.support_donate_desc) + "\n" +
