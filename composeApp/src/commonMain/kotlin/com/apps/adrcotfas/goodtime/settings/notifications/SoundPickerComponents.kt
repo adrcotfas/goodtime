@@ -58,13 +58,12 @@ import goodtime_productivity.composeapp.generated.resources.settings_remove
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun NotificationSoundItem(
+private fun NotificationSoundItemBase(
     modifier: Modifier = Modifier,
     name: String,
     isSilent: Boolean = false,
     isCustomSound: Boolean = false,
     isSelected: Boolean,
-    onSelected: () -> Unit,
     content: @Composable () -> Unit = {},
 ) {
     Row(
@@ -81,7 +80,7 @@ fun NotificationSoundItem(
                     } else {
                         it
                     }
-                }.clickable { onSelected() }
+                }
                 .padding(horizontal = 24.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -116,6 +115,26 @@ fun NotificationSoundItem(
     }
 }
 
+@Composable
+fun NotificationSoundItem(
+    modifier: Modifier = Modifier,
+    name: String,
+    isSilent: Boolean = false,
+    isCustomSound: Boolean = false,
+    isSelected: Boolean,
+    onSelected: () -> Unit,
+    content: @Composable () -> Unit = {},
+) {
+    NotificationSoundItemBase(
+        modifier = modifier.clickable { onSelected() },
+        name = name,
+        isSilent = isSilent,
+        isCustomSound = isCustomSound,
+        isSelected = isSelected,
+        content = content,
+    )
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NotificationSoundItem(
@@ -128,7 +147,7 @@ fun NotificationSoundItem(
     onSelected: () -> Unit,
 ) {
     var dropDownMenuExpanded by remember { mutableStateOf(false) }
-    NotificationSoundItem(
+    NotificationSoundItemBase(
         modifier =
             modifier.combinedClickable(
                 onClick = { onSelected() },
@@ -142,7 +161,6 @@ fun NotificationSoundItem(
         isSilent = isSilent,
         isCustomSound = isCustomSound,
         isSelected = isSelected,
-        onSelected = {},
     ) {
         if (onRemove != null) {
             BetterDropdownMenu(
