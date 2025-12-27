@@ -33,13 +33,13 @@ import goodtime_productivity.composeapp.generated.resources.backup_failed_please
 import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
 import org.jetbrains.compose.resources.getString
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 actual fun BackupScreen(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
+    onNavigateToMainAndReset: () -> Unit,
 ) {
     val viewModel: BackupViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -78,6 +78,9 @@ actual fun BackupScreen(
                         duration = SnackbarDuration.Short,
                     ),
                 )
+            }
+            if (it == BackupPromptResult.SUCCESS) {
+                onNavigateToMainAndReset()
             }
             viewModel.clearRestoreError()
         }

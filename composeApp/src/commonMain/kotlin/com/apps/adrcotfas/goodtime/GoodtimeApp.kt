@@ -38,6 +38,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.apps.adrcotfas.goodtime.billing.ProScreen
+import com.apps.adrcotfas.goodtime.bl.TimerForegroundMonitor
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
@@ -57,7 +58,6 @@ import com.apps.adrcotfas.goodtime.main.ProDest
 import com.apps.adrcotfas.goodtime.main.SettingsDest
 import com.apps.adrcotfas.goodtime.main.StatsDest
 import com.apps.adrcotfas.goodtime.main.TimerDurationsDest
-import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.UserInterfaceDest
 import com.apps.adrcotfas.goodtime.main.route
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
@@ -83,6 +83,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 /**
@@ -91,7 +92,6 @@ import org.koin.compose.viewmodel.koinViewModel
  * Platform-agnostic and shared between Android and iOS.
  *
  * @param platformContext Platform-specific context for accessing platform APIs
- * @param timerViewModel ViewModel for timer functionality
  * @param mainViewModel ViewModel for main app state
  * @param themeSettings Current theme settings (resolved from system + user preferences)
  * @param onUpdateClicked Callback for when user clicks update button (null on iOS, Google Play only)
@@ -99,11 +99,11 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun GoodtimeApp(
     platformContext: PlatformContext,
-    timerViewModel: TimerViewModel = koinViewModel(),
     mainViewModel: MainViewModel,
     onUpdateClicked: (() -> Unit)? = null,
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val timerForegroundMonitor: TimerForegroundMonitor = koinInject()
 
     val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
     val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()
@@ -141,9 +141,9 @@ fun GoodtimeApp(
     }
 
     LifecycleResumeEffect(Unit) {
-        timerViewModel.onEnterForeground(coroutineScope)
+        timerForegroundMonitor.onEnterForeground(coroutineScope)
         onPauseOrDispose {
-            timerViewModel.onExitForeground()
+            timerForegroundMonitor.onExitForeground()
         }
     }
 
@@ -238,7 +238,6 @@ fun GoodtimeApp(
                         onSurfaceClick = onSurfaceClick,
                         hideBottomBar = hideBottomBar,
                         navController = navController,
-                        viewModel = timerViewModel,
                         mainViewModel = mainViewModel,
                         onUpdateClicked = onUpdateClicked ?: {},
                     )
@@ -310,6 +309,12 @@ fun GoodtimeApp(
                     BackupScreen(
                         onNavigateToPro = { navController.navigate(ProDest) },
                         onNavigateBack = navController::popBackStack2,
+                        onNavigateToMainAndReset = {
+                            navController.navigate(MainDest) {
+                                popUpTo(MainDest) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        },
                     )
                 }
                 composable<AboutDest> {

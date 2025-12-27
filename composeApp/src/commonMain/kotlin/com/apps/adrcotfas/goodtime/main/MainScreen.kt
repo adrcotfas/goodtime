@@ -87,6 +87,7 @@ import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.permissions.rememberAlarmPermissionRequester
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 
 @Composable
@@ -94,7 +95,7 @@ fun MainScreen(
     navController: NavController,
     onSurfaceClick: () -> Unit,
     hideBottomBar: Boolean,
-    viewModel: TimerViewModel,
+    viewModel: TimerViewModel = koinViewModel(),
     mainViewModel: MainViewModel,
     onUpdateClicked: () -> Unit,
 ) {

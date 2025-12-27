@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.di
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.FinishedSessionsHandler
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.bl.TimerForegroundMonitor
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
@@ -37,6 +38,13 @@ val timerManagerModule =
                 get<FinishedSessionsHandler>(),
                 getWith("TimerManager"),
                 coroutineScope = get(named(IO_SCOPE)),
+            )
+        }
+
+        single {
+            TimerForegroundMonitor(
+                timerManager = get(),
+                timeProvider = get(),
             )
         }
     }

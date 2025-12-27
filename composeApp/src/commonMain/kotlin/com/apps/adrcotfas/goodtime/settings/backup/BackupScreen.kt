@@ -23,4 +23,5 @@ import androidx.compose.runtime.Composable
 expect fun BackupScreen(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
+    onNavigateToMainAndReset: () -> Unit,
 )

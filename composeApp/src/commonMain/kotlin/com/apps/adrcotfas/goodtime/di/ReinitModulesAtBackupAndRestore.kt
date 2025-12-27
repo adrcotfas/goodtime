@@ -21,6 +21,6 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 
 fun reinitModulesAtBackupAndRestore() {
-    unloadKoinModules(listOf(localDataModule, mainModule))
-    loadKoinModules(listOf(localDataModule, mainModule))
+    unloadKoinModules(listOf(localDataModule))
+    loadKoinModules(listOf(localDataModule))
 }

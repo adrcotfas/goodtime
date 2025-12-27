@@ -51,6 +51,7 @@ import org.koin.compose.koinInject
 actual fun BackupScreen(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
+    onNavigateToMainAndReset: () -> Unit,
 ) {
     val viewModel: BackupViewModel = koinInject()
     val activityResultLauncherManager: ActivityResultLauncherManager = koinInject()
@@ -143,6 +144,9 @@ actual fun BackupScreen(
                         },
                         Toast.LENGTH_SHORT,
                     ).show()
+            }
+            if (it == BackupPromptResult.SUCCESS) {
+                onNavigateToMainAndReset()
             }
             viewModel.clearRestoreError()
         }

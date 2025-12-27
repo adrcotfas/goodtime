@@ -228,8 +228,6 @@ class BackupManager(
 
     private fun afterOperation() {
         reinitModulesAtBackupAndRestore()
-        // localDataModule is reloaded, so Koin now has a fresh ProductivityDatabase singleton.
-        // Keep BackupManager in sync, otherwise subsequent operations may use a closed DB instance.
         val newDatabase: ProductivityDatabase = get()
         database = newDatabase
         get<LocalDataRepository>().reinitDatabase(newDatabase)
