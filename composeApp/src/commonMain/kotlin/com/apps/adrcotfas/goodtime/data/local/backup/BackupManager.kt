@@ -24,7 +24,6 @@ import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToIso8601
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
-import com.apps.adrcotfas.goodtime.data.local.getDatabaseDriver
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.di.reinitModulesAtBackupAndRestore
 import kotlinx.coroutines.CoroutineDispatcher

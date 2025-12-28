@@ -210,6 +210,7 @@ fun GoodtimeApp(
                     snackbarHostState.showSnackbar(
                         message = event.message,
                         actionLabel = event.action?.name,
+                        withDismissAction = true,
                         duration = event.duration,
                     )
 
