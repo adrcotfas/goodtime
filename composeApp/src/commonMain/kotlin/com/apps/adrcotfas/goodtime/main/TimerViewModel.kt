@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -169,6 +170,7 @@ class TimerViewModel(
         viewModelScope.launch {
             uiState
                 .map { it.startOfToday }
+                .filter { it != 0L }
                 .flatMapLatest { startOfToday ->
                     localDataRepo.selectNumberOfSessionsAfter(startOfToday)
                 }.distinctUntilChanged()
