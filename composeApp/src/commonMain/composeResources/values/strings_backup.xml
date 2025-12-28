@@ -28,4 +28,12 @@
     <string name="backup_restore_completed_successfully">Restore completed successfully</string>
     <string name="backup_restore_failed_please_try_again">Restore failed. Please try again</string>
     <string name="backup_auto_backup">Auto backup</string>
+    <string name="backup_local_storage">Local Storage</string>
+    <string name="backup_last_backup">Last backup</string>
+    <string name="backup_connect_to_cloud">Connect to %1$s</string>
+    <string name="backup_cloud_subtitle">Automatically back up your data to the cloud</string>
+    <string name="backup_cloud_backup_title">%s Backup</string>
+    <string name="backup_connected">Connected</string>
+    <string name="backup_on">On</string>
+    <string name="backup_export_data">Export Data</string>
 </resources>

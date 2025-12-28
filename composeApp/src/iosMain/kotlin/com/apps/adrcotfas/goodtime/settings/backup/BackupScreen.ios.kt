@@ -109,5 +109,6 @@ actual fun BackupScreen(
         onRestore = { viewModel.restore() },
         onBackupToCsv = { viewModel.backupToCsv() },
         onBackupToJson = { viewModel.backupToJson() },
+        onToggleExportSection = { viewModel.toggleExportSection() },
     )
 }

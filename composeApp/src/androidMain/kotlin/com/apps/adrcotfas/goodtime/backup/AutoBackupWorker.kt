@@ -90,6 +90,13 @@ class AutoBackupWorker(
                 .drop(7)
                 .forEach { it.delete() }
 
+            // Update last backup timestamp
+            settingsRepository.setBackupSettings(
+                settings.backupSettings.copy(
+                    lastBackupTimestamp = System.currentTimeMillis(),
+                ),
+            )
+
             logger.i { "Auto backup completed successfully" }
             return Result.success()
         } catch (e: Exception) {

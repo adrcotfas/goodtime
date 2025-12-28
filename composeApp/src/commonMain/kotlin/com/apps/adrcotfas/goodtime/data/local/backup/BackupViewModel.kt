@@ -40,7 +40,18 @@ data class BackupUiState(
     val backupResult: BackupPromptResult? = null,
     val restoreResult: BackupPromptResult? = null,
     val backupSettings: BackupSettings = BackupSettings(),
+    // Cloud backup state (for future cloud integration)
+    val isCloudConnected: Boolean = false,
+    val cloudProvider: CloudProvider = CloudProvider.GOOGLE_DRIVE,
+    val cloudAccountEmail: String? = null,
+    // UI state
+    val showExportSection: Boolean = false,
 )
+
+enum class CloudProvider {
+    GOOGLE_DRIVE,
+    ICLOUD,
+}
 
 val BackupUiState.isBusy: Boolean
     get() =
@@ -71,6 +82,9 @@ class BackupViewModel(
                             isLoading = false,
                             isPro = settings.isPro,
                             backupSettings = settings.backupSettings,
+                            cloudProvider =
+                                com.apps.adrcotfas.goodtime.settings.backup
+                                    .getCloudProvider(),
                         )
                     }
                 }
@@ -167,5 +181,9 @@ class BackupViewModel(
         coroutineScope.launch {
             settingsRepository.setBackupSettings(settings)
         }
+    }
+
+    fun toggleExportSection() {
+        _uiState.update { it.copy(showExportSection = !it.showExportSection) }
     }
 }

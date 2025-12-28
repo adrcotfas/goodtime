@@ -64,7 +64,10 @@ class AutoBackupManager(
     }
 
     private fun handleBackupSettingsChange(backupSettings: BackupSettings) {
-        logger.i { "Backup settings changed: autoBackupEnabled=${backupSettings.autoBackupEnabled}, path=${backupSettings.path}" }
+        logger.i {
+            "Backup settings changed: autoBackupEnabled=${backupSettings.autoBackupEnabled}, " +
+                "path=${backupSettings.path}"
+        }
 
         if (backupSettings.autoBackupEnabled && backupSettings.path.isNotBlank()) {
             scheduleBackup()
@@ -84,16 +87,17 @@ class AutoBackupManager(
 
         val backupWorkRequest =
             PeriodicWorkRequestBuilder<AutoBackupWorker>(
-                repeatInterval = 1,
+                repeatInterval = 1L,
                 repeatIntervalTimeUnit = TimeUnit.DAYS,
-            ).setInitialDelay(5, TimeUnit.MINUTES)
+            ).setInitialDelay(10L, TimeUnit.SECONDS)
                 .setConstraints(constraints)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 1, TimeUnit.HOURS)
                 .build()
 
+        // Use UPDATE policy to reschedule when settings change
         workManager.enqueueUniquePeriodicWork(
             AutoBackupWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.UPDATE,
             backupWorkRequest,
         )
     }

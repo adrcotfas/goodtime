@@ -125,4 +125,5 @@ data class SoundData(
 data class BackupSettings(
     val autoBackupEnabled: Boolean = false,
     val path: String = "",
+    val lastBackupTimestamp: Long = 0L, // Timestamp in milliseconds
 )
