@@ -24,14 +24,15 @@ import co.touchlab.kermit.Logger
 import co.touchlab.kermit.Severity
 import co.touchlab.kermit.StaticConfig
 import co.touchlab.kermit.platformLogWriter
+import com.apps.adrcotfas.goodtime.backup.BackupManager
+import com.apps.adrcotfas.goodtime.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.backup.LocalBackupService
 import com.apps.adrcotfas.goodtime.bl.FinishedSessionsHandler
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.createTimeProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepositoryImpl
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupManager
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepositoryImpl
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager
@@ -110,7 +111,7 @@ val coreModule =
             BackupManager(
                 get<FileSystem>(),
                 get<String>(named(DB_PATH_KEY)),
-                get<String>(named(FILES_DIR_PATH_KEY)),
+                get<String>(named(CACHE_DIR_PATH_KEY)),
                 get<ProductivityDatabase>(),
                 get<TimeProvider>(),
                 get<BackupPrompter>(),
@@ -118,6 +119,8 @@ val coreModule =
                 getWith("BackupManager"),
             )
         }
+
+        single<LocalBackupService> { LocalBackupService(backupManager = get<BackupManager>()) }
 
         single<ReminderManager> {
             ReminderManager(
@@ -131,7 +134,7 @@ val coreModule =
 internal const val SETTINGS_NAME = "productivity_settings.preferences"
 internal const val SETTINGS_FILE_NAME = SETTINGS_NAME + "_pb"
 const val DB_PATH_KEY = "db_path"
-internal const val FILES_DIR_PATH_KEY = "tmp_path"
+internal const val CACHE_DIR_PATH_KEY = "tmp_path"
 
 internal fun getDataStore(producePath: () -> String): DataStore<Preferences> =
     PreferenceDataStoreFactory.createWithPath(

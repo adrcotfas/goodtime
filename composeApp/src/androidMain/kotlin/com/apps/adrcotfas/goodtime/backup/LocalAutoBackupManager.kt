@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit
  * It observes the BackupSettings from SettingsRepository and schedules or cancels
  * the backup work accordingly.
  */
-class AutoBackupManager(
+class LocalAutoBackupManager(
     context: Context,
     private val settingsRepository: SettingsRepository,
     private val logger: Logger,
@@ -86,7 +86,7 @@ class AutoBackupManager(
                 .build()
 
         val backupWorkRequest =
-            PeriodicWorkRequestBuilder<AutoBackupWorker>(
+            PeriodicWorkRequestBuilder<LocalAutoBackupWorker>(
                 repeatInterval = 1L,
                 repeatIntervalTimeUnit = TimeUnit.DAYS,
             ).setInitialDelay(10L, TimeUnit.SECONDS)
@@ -96,7 +96,7 @@ class AutoBackupManager(
 
         // Use UPDATE policy to reschedule when settings change
         workManager.enqueueUniquePeriodicWork(
-            AutoBackupWorker.WORK_NAME,
+            LocalAutoBackupWorker.WORK_NAME,
             ExistingPeriodicWorkPolicy.UPDATE,
             backupWorkRequest,
         )
@@ -104,6 +104,6 @@ class AutoBackupManager(
 
     private fun cancelBackup() {
         logger.i { "Auto backup canceled" }
-        workManager.cancelUniqueWork(AutoBackupWorker.WORK_NAME)
+        workManager.cancelUniqueWork(LocalAutoBackupWorker.WORK_NAME)
     }
 }

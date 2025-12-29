@@ -22,14 +22,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPromptResult
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
-import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
+import com.apps.adrcotfas.goodtime.backup.BackupPromptResult
+import com.apps.adrcotfas.goodtime.backup.BackupResultKind
+import com.apps.adrcotfas.goodtime.backup.BackupViewModel
+import com.apps.adrcotfas.goodtime.backup.CloudAutoBackupIssue
 import com.apps.adrcotfas.goodtime.ui.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_export_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_export_failed_please_try_again
 import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
+import goodtime_productivity.composeapp.generated.resources.backup_icloud_full
+import goodtime_productivity.composeapp.generated.resources.backup_icloud_unavailable
+import goodtime_productivity.composeapp.generated.resources.backup_icloud_unknown_error
 import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
 import org.jetbrains.compose.resources.getString
@@ -49,13 +55,22 @@ actual fun BackupScreen(
     LaunchedEffect(uiState.backupResult) {
         uiState.backupResult?.let {
             if (it != BackupPromptResult.CANCELLED) {
+                val isExport = uiState.backupResultKind == BackupResultKind.EXPORT
                 SnackbarController.sendEvent(
                     SnackbarEvent(
                         message =
                             if (it == BackupPromptResult.SUCCESS) {
-                                getString(Res.string.backup_completed_successfully)
+                                if (isExport) {
+                                    getString(Res.string.backup_export_completed_successfully)
+                                } else {
+                                    getString(Res.string.backup_completed_successfully)
+                                }
                             } else {
-                                getString(Res.string.backup_failed_please_try_again)
+                                if (isExport) {
+                                    getString(Res.string.backup_export_failed_please_try_again)
+                                } else {
+                                    getString(Res.string.backup_failed_please_try_again)
+                                }
                             },
                     ),
                 )
@@ -86,29 +101,37 @@ actual fun BackupScreen(
         }
     }
 
+    LaunchedEffect(uiState.cloudIssue) {
+        uiState.cloudIssue?.let { issue ->
+            val msg =
+                when (issue) {
+                    CloudAutoBackupIssue.ICLOUD_UNAVAILABLE -> getString(Res.string.backup_icloud_unavailable)
+                    CloudAutoBackupIssue.ICLOUD_FULL -> getString(Res.string.backup_icloud_full)
+                    CloudAutoBackupIssue.UNKNOWN -> getString(Res.string.backup_icloud_unknown_error)
+                }
+            SnackbarController.sendEvent(SnackbarEvent(message = msg, duration = SnackbarDuration.Short))
+            viewModel.clearCloudIssue()
+        }
+    }
+
     BackupScreenContent(
         uiState = uiState,
         onNavigateToPro = onNavigateToPro,
         onNavigateBack = onNavigateBack,
         onAutoBackupToggle = { isEnabled ->
             if (uiState.isPro) {
-                // TODO: Implement iCloud backup for iOS
-                // For iOS, auto backup should use iCloud Drive for seamless sync
-                // - Use FileManager to save backups to iCloud container
-                // - Access via FileManager.default.url(forUbiquityContainerIdentifier:)
-                // - Enable iCloud capability in Xcode project settings
-                viewModel.setBackupSettings(
-                    BackupSettings(
-                        autoBackupEnabled = isEnabled,
-                        path = "icloud", // Placeholder for iCloud path
-                    ),
-                )
+                // iOS: only turn ON the switch after confirming iCloud is available and an initial backup succeeds.
+                viewModel.toggleCloudAutoBackup(isEnabled)
             }
         },
-        onBackup = { viewModel.backup() },
-        onRestore = { viewModel.restore() },
-        onBackupToCsv = { viewModel.backupToCsv() },
-        onBackupToJson = { viewModel.backupToJson() },
+        onCloudBackup = { viewModel.performCloudBackup() },
+        onCloudRestore = { viewModel.performCloudRestore() },
+        onCloudRestoreDismiss = { viewModel.dismissCloudRestoreDialog() },
+        onCloudBackupSelected = { fileName -> viewModel.restoreSelectedCloudBackup(fileName) },
+        onLocalBackup = { viewModel.backup() },
+        onLocalRestore = { viewModel.restore() },
+        onExportCsv = { viewModel.backupToCsv() },
+        onExportJson = { viewModel.backupToJson() },
         onToggleExportSection = { viewModel.toggleExportSection() },
     )
 }

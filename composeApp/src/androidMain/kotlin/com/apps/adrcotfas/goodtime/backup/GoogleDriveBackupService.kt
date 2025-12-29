@@ -15,31 +15,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.data.local.backup
+package com.apps.adrcotfas.goodtime.backup
 
-import okio.Path
+/**
+ * Placeholder for future Google Drive backup implementation.
+ */
+class GoogleDriveBackupService : CloudBackupService {
+    override suspend fun preflightBackup(): CloudAutoBackupIssue? = CloudAutoBackupIssue.UNKNOWN
 
-enum class BackupType {
-    DB,
-    JSON,
-    CSV,
-}
+    override fun setAutoBackupEnabled(enabled: Boolean) {
+        // no-op until Google Drive integration exists
+    }
 
-enum class BackupPromptResult {
-    SUCCESS,
-    CANCELLED,
-    FAILED,
-}
+    override suspend fun backupNow(): BackupPromptResult = BackupPromptResult.FAILED
 
-interface BackupPrompter {
-    suspend fun promptUserForBackup(
-        backupType: BackupType,
-        fileToSharePath: Path,
-        callback: suspend (BackupPromptResult) -> Unit,
-    )
+    override suspend fun listAvailableBackups(): List<String> = emptyList()
 
-    suspend fun promptUserForRestore(
-        importedFilePath: String,
-        callback: suspend (BackupPromptResult) -> Unit,
-    )
+    override suspend fun restoreFromBackup(fileName: String): BackupPromptResult = BackupPromptResult.FAILED
+
+    override suspend fun attemptEnableAutoBackup(): CloudAutoBackupIssue? = CloudAutoBackupIssue.UNKNOWN
 }

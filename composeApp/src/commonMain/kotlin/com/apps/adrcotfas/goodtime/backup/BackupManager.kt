@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.data.local.backup
+package com.apps.adrcotfas.goodtime.backup
 
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
@@ -54,12 +54,15 @@ class BackupManager(
     private val importedTemporaryFileName = "$filesDirPath/last-import"
 
     init {
-        fileSystem.createDirectory(filesDirPath.toPath())
+        val dir = filesDirPath.toPath()
+        if (!fileSystem.exists(dir)) {
+            fileSystem.createDirectory(dir)
+        }
     }
 
     suspend fun backup(onComplete: (BackupPromptResult) -> Unit) {
         try {
-            val tmpFilePath = "$filesDirPath/${generateBackupFileName()}"
+            val tmpFilePath = "$filesDirPath/${generateDbBackupFileName()}"
             createBackup(tmpFilePath)
             backupPrompter.promptUserForBackup(BackupType.DB, tmpFilePath.toPath()) {
                 onComplete(it)
@@ -70,10 +73,10 @@ class BackupManager(
         }
     }
 
-    suspend fun backupToCsv(onComplete: (BackupPromptResult) -> Unit) {
+    suspend fun exportCsv(onComplete: (BackupPromptResult) -> Unit) {
         try {
-            val tmpFilePath = "$filesDirPath/${generateBackupFileName(PREFIX)}.csv"
-            createCsvBackup(tmpFilePath)
+            val tmpFilePath = "$filesDirPath/${generateBackupFileName()}.csv"
+            createCsvExport(tmpFilePath)
             backupPrompter.promptUserForBackup(BackupType.CSV, tmpFilePath.toPath()) {
                 onComplete(it)
             }
@@ -83,10 +86,10 @@ class BackupManager(
         }
     }
 
-    suspend fun backupToJson(onComplete: (BackupPromptResult) -> Unit) {
+    suspend fun exportJson(onComplete: (BackupPromptResult) -> Unit) {
         try {
-            val tmpFilePath = "$filesDirPath/${generateBackupFileName(PREFIX)}.json"
-            createJsonBackup(tmpFilePath)
+            val tmpFilePath = "$filesDirPath/${generateBackupFileName()}.json"
+            createJsonExport(tmpFilePath)
             backupPrompter.promptUserForBackup(BackupType.JSON, tmpFilePath.toPath()) {
                 onComplete(it)
             }
@@ -110,13 +113,7 @@ class BackupManager(
                         return@promptUserForRestore
                     }
 
-                    if (!isSQLite3File(importedTemporaryFileName.toPath())) {
-                        logger.e { "Invalid backup file" }
-                        onComplete(BackupPromptResult.FAILED)
-                    } else {
-                        restoreBackup()
-                        onComplete(BackupPromptResult.SUCCESS)
-                    }
+                    onComplete(restoreFromImportedTemp(sourceLabel = "user_import"))
                 } catch (e: Exception) {
                     logger.e(e) { "Restore backup failed (post-import)" }
                     onComplete(BackupPromptResult.FAILED)
@@ -128,11 +125,54 @@ class BackupManager(
         }
     }
 
+    /**
+     * Restore from a file that's already been copied to a specific location.
+     * Used for cloud backup restore where file selection happens outside the normal UI flow.
+     */
+    suspend fun restoreFromFile(filePath: String): BackupPromptResult =
+        try {
+            withContext(defaultDispatcher) {
+                val sourcePath = filePath.toPath()
+                val destPath = importedTemporaryFileName.toPath()
+
+                // Delete existing temp file if present
+                if (fileSystem.exists(destPath)) {
+                    fileSystem.delete(destPath)
+                }
+
+                fileSystem.copy(sourcePath, destPath)
+            }
+
+            restoreFromImportedTemp(sourceLabel = "file:$filePath")
+        } catch (e: Exception) {
+            logger.e(e) { "Failed to restore from file: $filePath" }
+            BackupPromptResult.FAILED
+        }
+
+    private suspend fun restoreFromImportedTemp(sourceLabel: String): BackupPromptResult =
+        withContext(defaultDispatcher) {
+            val imported = importedTemporaryFileName.toPath()
+            if (!isSQLite3File(imported)) {
+                logger.e { "Invalid backup file (source=$sourceLabel)" }
+                return@withContext BackupPromptResult.FAILED
+            }
+            BackupPromptResult.SUCCESS
+        }.also { result ->
+            if (result == BackupPromptResult.SUCCESS) {
+                restoreBackup()
+                logger.i { "Restore completed successfully (source=$sourceLabel)" }
+            }
+        }
+
     suspend fun checkpointDatabase() {
         database.sessionsDao().checkpoint()
     }
 
-    fun generateBackupFileName(prefix: String = DB_BACKUP_PREFIX): String = "${prefix}${timeProvider.now().formatForBackupFileName()}"
+    fun generateBackupFileName(prefix: String = BackupConstants.DB_BACKUP_PREFIX): String =
+        "${prefix}${timeProvider.now().formatForBackupFileName()}"
+
+    fun generateDbBackupFileName(prefix: String = BackupConstants.DB_BACKUP_PREFIX): String =
+        generateBackupFileName(prefix) + BackupConstants.DB_BACKUP_EXTENSION
 
     private suspend fun createBackup(tmpFilePath: String) {
         withContext(defaultDispatcher) {
@@ -141,7 +181,7 @@ class BackupManager(
         }
     }
 
-    private suspend fun createCsvBackup(tmpFilePath: String) {
+    private suspend fun createCsvExport(tmpFilePath: String) {
         withContext(defaultDispatcher) {
             fileSystem.sink(tmpFilePath.toPath()).buffer().use { sink ->
                 sink.writeUtf8("end,duration,interruptions,label,notes,is_break,is_archived\n")
@@ -162,7 +202,7 @@ class BackupManager(
         }
     }
 
-    private suspend fun createJsonBackup(tmpFilePath: String) {
+    private suspend fun createJsonExport(tmpFilePath: String) {
         withContext(defaultDispatcher) {
             fileSystem.sink(tmpFilePath.toPath()).buffer().use { sink ->
                 sink.writeUtf8("[\n")
@@ -240,10 +280,5 @@ class BackupManager(
             val count = source.read(buffer)
             return if (count < header.size) false else buffer.contentEquals(header)
         }
-    }
-
-    companion object {
-        private const val PREFIX = "GT"
-        private const val DB_BACKUP_PREFIX = "$PREFIX-Backup-"
     }
 }

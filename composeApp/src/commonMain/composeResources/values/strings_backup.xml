@@ -25,15 +25,28 @@
     <string name="backup_export_json">Export JSON</string>
     <string name="backup_completed_successfully">Backup completed successfully</string>
     <string name="backup_failed_please_try_again">Backup failed. Please try again</string>
+    <string name="backup_export_completed_successfully">Export completed successfully</string>
+    <string name="backup_export_failed_please_try_again">Export failed. Please try again</string>
     <string name="backup_restore_completed_successfully">Restore completed successfully</string>
     <string name="backup_restore_failed_please_try_again">Restore failed. Please try again</string>
     <string name="backup_auto_backup">Auto backup</string>
     <string name="backup_local_storage">Local Storage</string>
     <string name="backup_last_backup">Last backup</string>
+    <string name="backup_icloud_unavailable">iCloud Drive is unavailable. Sign in to iCloud and enable iCloud Drive, then try again.</string>
+    <string name="backup_icloud_full">iCloud storage is full. Free up space in iCloud Drive, then try again.</string>
+    <string name="backup_icloud_unknown_error">Could not enable iCloud auto backup. Please try again.</string>
     <string name="backup_connect_to_cloud">Connect to %1$s</string>
     <string name="backup_cloud_subtitle">Automatically back up your data to the cloud</string>
     <string name="backup_cloud_backup_title">%s Backup</string>
     <string name="backup_connected">Connected</string>
     <string name="backup_on">On</string>
     <string name="backup_export_data">Export Data</string>
+
+    <string name="backup_actions_provider_google_drive">Google Drive</string>
+    <string name="backup_actions_provider_icloud">iCloud</string>
+    <string name="backup_actions_icloud_drive">iCloud Drive</string>
+    <string name="backup_actions_cloud_backup_now">Backup now</string>
+    <string name="backup_actions_cloud_restore">Restore</string>
+    <string name="backup_dialog_cloud_restore_picker_title">Select backup to restore</string>
+    <string name="backup_dialog_cloud_restore_picker_subtitle">Choose a backup from %1$s to restore:</string>
 </resources>

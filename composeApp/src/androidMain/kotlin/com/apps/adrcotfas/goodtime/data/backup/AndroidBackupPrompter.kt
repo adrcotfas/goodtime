@@ -22,9 +22,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.ActivityResult
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPromptResult
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupType
+import com.apps.adrcotfas.goodtime.backup.BackupPromptResult
+import com.apps.adrcotfas.goodtime.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.backup.BackupType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -126,7 +126,7 @@ class AndroidBackupPrompter(
                 action = Intent.ACTION_CREATE_DOCUMENT
                 type =
                     when (backupType) {
-                        BackupType.DB -> "application/*"
+                        BackupType.DB -> "application/x-sqlite3"
                         BackupType.JSON -> "application/json"
                         BackupType.CSV -> "text/csv"
                     }

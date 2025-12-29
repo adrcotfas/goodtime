@@ -20,6 +20,11 @@ package com.apps.adrcotfas.goodtime.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
+import com.apps.adrcotfas.goodtime.backup.BackupManager
+import com.apps.adrcotfas.goodtime.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.backup.CloudBackupManager
+import com.apps.adrcotfas.goodtime.backup.CloudBackupService
+import com.apps.adrcotfas.goodtime.backup.ICloudBackupService
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.IOS_LIVE_ACTIVITY_LISTENER
 import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
@@ -46,7 +51,6 @@ import com.apps.adrcotfas.goodtime.common.UrlOpener
 import com.apps.adrcotfas.goodtime.data.backup.IosBackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderScheduler
@@ -56,6 +60,7 @@ import okio.FileSystem
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import platform.Foundation.NSCachesDirectory
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
@@ -81,16 +86,16 @@ actual val platformModule: Module =
             requireNotNull(documentDirectory).path + "/$DATABASE_NAME"
         }
 
-        single<String>(named(FILES_DIR_PATH_KEY)) {
-            val documentDirectory: NSURL? =
+        single<String>(named(CACHE_DIR_PATH_KEY)) {
+            val cachesDirectory: NSURL? =
                 NSFileManager.defaultManager.URLForDirectory(
-                    directory = NSDocumentDirectory,
+                    directory = NSCachesDirectory,
                     inDomain = NSUserDomainMask,
                     appropriateForURL = null,
                     create = false,
                     error = null,
                 )
-            requireNotNull(documentDirectory).path + "/tmp"
+            requireNotNull(cachesDirectory?.path)
         }
 
         single<BackupPrompter> {
@@ -187,6 +192,23 @@ actual val platformModule: Module =
         single<ReminderScheduler> {
             ReminderScheduler(
                 logger = getWith("ReminderScheduler"),
+            )
+        }
+
+        single<CloudBackupManager>(createdAtStart = true) {
+            CloudBackupManager(
+                backupManager = get<BackupManager>(),
+                settingsRepository = get<SettingsRepository>(),
+                fileSystem = get<FileSystem>(),
+                dbPath = get<String>(named(DB_PATH_KEY)),
+                logger = getWith("CloudBackupManager"),
+            )
+        }
+
+        single<CloudBackupService> {
+            ICloudBackupService(
+                cloudBackupManager = get<CloudBackupManager>(),
+                backupManager = get<BackupManager>(),
             )
         }
     }

@@ -18,9 +18,9 @@
 package com.apps.adrcotfas.goodtime.data.backup
 
 import co.touchlab.kermit.Logger
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPromptResult
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupType
+import com.apps.adrcotfas.goodtime.backup.BackupPromptResult
+import com.apps.adrcotfas.goodtime.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.backup.BackupType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okio.Path
@@ -49,7 +49,7 @@ class IosBackupPrompter(
 
         val mimeType =
             when (backupType) {
-                BackupType.DB -> "application/octet-stream"
+                BackupType.DB -> "application/x-sqlite3"
                 BackupType.JSON -> "application/json"
                 BackupType.CSV -> "text/csv"
             }

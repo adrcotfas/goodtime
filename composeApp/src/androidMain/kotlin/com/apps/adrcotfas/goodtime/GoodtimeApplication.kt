@@ -20,8 +20,9 @@ package com.apps.adrcotfas.goodtime
 import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
-import com.apps.adrcotfas.goodtime.backup.AutoBackupManager
-import com.apps.adrcotfas.goodtime.backup.AutoBackupWorker
+import com.apps.adrcotfas.goodtime.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupManager
+import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupWorker
 import com.apps.adrcotfas.goodtime.billing.PurchaseManager
 import com.apps.adrcotfas.goodtime.billing.configurePurchasesFromPlatform
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
@@ -35,7 +36,6 @@ import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.backup.AndroidBackupPrompter
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.di.DB_PATH_KEY
 import com.apps.adrcotfas.goodtime.di.IO_SCOPE
@@ -122,14 +122,14 @@ class GoodtimeApplication :
                         )
                     }
                     single(createdAtStart = true) {
-                        AutoBackupManager(
+                        LocalAutoBackupManager(
                             context = get(),
                             settingsRepository = get<SettingsRepository>(),
                             logger = getWith("AutoBackupManager"),
                         )
                     }
                     worker {
-                        AutoBackupWorker(
+                        LocalAutoBackupWorker(
                             get(),
                             get(),
                             get(),

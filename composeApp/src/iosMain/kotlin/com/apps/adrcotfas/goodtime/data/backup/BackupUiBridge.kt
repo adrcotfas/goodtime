@@ -17,7 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.data.backup
 
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPromptResult
+import com.apps.adrcotfas.goodtime.backup.BackupPromptResult
 import kotlin.concurrent.Volatile
 
 /**

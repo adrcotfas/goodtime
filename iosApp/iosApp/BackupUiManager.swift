@@ -25,6 +25,33 @@ final class BackupUiManager: NSObject, BackupUiDelegate {
     static let shared = BackupUiManager()
 
     private var importDelegate: DocumentPickerDelegate?
+    private final class BackupActivityItemSource: NSObject, UIActivityItemSource {
+        private let url: URL
+        private let mimeType: String
+
+        init(url: URL, mimeType: String) {
+            self.url = url
+            self.mimeType = mimeType
+        }
+
+        func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+            url
+        }
+
+        func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+            url
+        }
+
+        func activityViewController(_ activityViewController: UIActivityViewController, dataTypeIdentifierForActivityType activityType: UIActivity.ActivityType?) -> String {
+            if let ut = UTType(mimeType: mimeType) {
+                return ut.identifier
+            }
+            if let ut = UTType(filenameExtension: url.pathExtension) {
+                return ut.identifier
+            }
+            return UTType.data.identifier
+        }
+    }
 
     private override init() {
         super.init()
@@ -41,7 +68,9 @@ final class BackupUiManager: NSObject, BackupUiDelegate {
             }
 
             let url = URL(fileURLWithPath: filePath)
-            let controller = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            //TODO: try with different mime types to find the root cause of slow UI on local export
+            let itemSource = BackupActivityItemSource(url: url, mimeType: mimeType)
+            let controller = UIActivityViewController(activityItems: [itemSource], applicationActivities: nil)
             controller.completionWithItemsHandler = { _, completed, _, error in
                 if completed && (error == nil) {
                     BackupUiBridge.shared.complete(token: token, result: BackupPromptResult.success)

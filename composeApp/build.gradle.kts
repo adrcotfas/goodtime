@@ -160,7 +160,7 @@ android {
                 dimension = "distribution"
                 buildConfigField("boolean", "IS_FDROID", "false")
                 // Debug/test vs release/prod keys (same for now; replace as needed).
-                buildConfigField("String", "REVENUECAT_API_KEY_DEBUG", "\"test_mIjxZUKugfUbtAZNjpvxaWynKcD\"")
+                buildConfigField("String", "REVENUECAT_API_KEY_DEBUG", "\"goog_WJACaArOgxIPytSUVHDOgwjTZjN\"")
                 buildConfigField("String", "REVENUECAT_API_KEY_RELEASE", "\"goog_WJACaArOgxIPytSUVHDOgwjTZjN\"")
             }
             create("fdroid") {

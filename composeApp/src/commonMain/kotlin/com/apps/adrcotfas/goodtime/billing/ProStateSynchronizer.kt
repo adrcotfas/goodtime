@@ -38,6 +38,8 @@ internal class ProStateSynchronizer(
     private val dataRepository: LocalDataRepository,
     private val ioScope: CoroutineScope,
     private val log: Logger,
+    private val onProRevoked: suspend () -> Unit = {},
+    private val onProGranted: suspend () -> Unit = {},
 ) {
     fun onHasProChanged(hasPro: Boolean) {
         ioScope.launch {
@@ -47,6 +49,9 @@ internal class ProStateSynchronizer(
                 resetPreferencesOnProRevoked()
             }
             settingsRepository.setPro(hasPro)
+            if (!wasPro && hasPro) {
+                onProGranted()
+            }
         }
     }
 
@@ -61,6 +66,17 @@ internal class ProStateSynchronizer(
             setInsistentNotification(false)
             activateDefaultLabel()
         }
+        // Cancel auto-backups on refunds/revokes.
+        val backupSettings = settingsRepository.settings.first().backupSettings
+        if (backupSettings.autoBackupEnabled || backupSettings.cloudAutoBackupEnabled) {
+            settingsRepository.setBackupSettings(
+                backupSettings.copy(
+                    autoBackupEnabled = false,
+                    cloudAutoBackupEnabled = false,
+                ),
+            )
+        }
+        onProRevoked()
         dataRepository.archiveAllButDefault()
     }
 

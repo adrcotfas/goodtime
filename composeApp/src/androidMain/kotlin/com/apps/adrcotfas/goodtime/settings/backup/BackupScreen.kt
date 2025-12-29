@@ -31,15 +31,18 @@ import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.backup.BackupPromptResult
+import com.apps.adrcotfas.goodtime.backup.BackupResultKind
+import com.apps.adrcotfas.goodtime.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.common.isUriPersisted
 import com.apps.adrcotfas.goodtime.common.releasePersistableUriPermission
 import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupPromptResult
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_export_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_export_failed_please_try_again
 import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
 import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
@@ -112,14 +115,23 @@ actual fun BackupScreen(
     LaunchedEffect(uiState.backupResult) {
         uiState.backupResult?.let {
             if (it != BackupPromptResult.CANCELLED) {
+                val isExport = uiState.backupResultKind == BackupResultKind.EXPORT
                 Toast
                     .makeText(
                         context,
                         if (it == BackupPromptResult.SUCCESS) {
-                            getString(Res.string.backup_completed_successfully)
+                            if (isExport) {
+                                getString(Res.string.backup_export_completed_successfully)
+                            } else {
+                                getString(Res.string.backup_completed_successfully)
+                            }
                         } else {
                             getString(
-                                Res.string.backup_failed_please_try_again,
+                                if (isExport) {
+                                    Res.string.backup_export_failed_please_try_again
+                                } else {
+                                    Res.string.backup_failed_please_try_again
+                                },
                             )
                         },
                         Toast.LENGTH_SHORT,
@@ -172,10 +184,10 @@ actual fun BackupScreen(
                 }
             }
         },
-        onBackup = { viewModel.backup() },
-        onRestore = { viewModel.restore() },
-        onBackupToCsv = { viewModel.backupToCsv() },
-        onBackupToJson = { viewModel.backupToJson() },
+        onLocalBackup = { viewModel.backup() },
+        onLocalRestore = { viewModel.restore() },
+        onExportCsv = { viewModel.backupToCsv() },
+        onExportJson = { viewModel.backupToJson() },
         onToggleExportSection = { viewModel.toggleExportSection() },
     )
 }

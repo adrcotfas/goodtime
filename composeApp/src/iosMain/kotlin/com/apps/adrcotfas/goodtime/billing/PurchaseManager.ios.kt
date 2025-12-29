@@ -18,6 +18,8 @@
 package com.apps.adrcotfas.goodtime.billing
 
 import co.touchlab.kermit.Logger
+import com.apps.adrcotfas.goodtime.backup.CloudBackupManager
+import com.apps.adrcotfas.goodtime.backup.cancelCloudBackupTask
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.revenuecat.purchases.kmp.Purchases
@@ -28,14 +30,27 @@ import com.revenuecat.purchases.kmp.models.PurchasesError
 import com.revenuecat.purchases.kmp.models.StoreProduct
 import com.revenuecat.purchases.kmp.models.StoreTransaction
 import kotlinx.coroutines.CoroutineScope
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 actual class PurchaseManager actual constructor(
-    settingsRepository: SettingsRepository,
+    private val settingsRepository: SettingsRepository,
     dataRepository: LocalDataRepository,
     ioScope: CoroutineScope,
     private val log: Logger,
-) : PurchasesDelegate {
-    private val proSync = ProStateSynchronizer(settingsRepository, dataRepository, ioScope, log)
+) : PurchasesDelegate,
+    KoinComponent {
+    private val cloudBackupManager: CloudBackupManager by inject()
+
+    private val proSync =
+        ProStateSynchronizer(
+            settingsRepository,
+            dataRepository,
+            ioScope,
+            log,
+            onProRevoked = { cancelCloudBackupTask() },
+            onProGranted = { cloudBackupManager.autoEnableCloudAutoBackupIfEligible() },
+        )
     private var started = false
 
     actual fun start() {

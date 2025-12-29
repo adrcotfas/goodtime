@@ -15,8 +15,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.settings.backup
+package com.apps.adrcotfas.goodtime.backup
 
-import com.apps.adrcotfas.goodtime.data.local.backup.CloudProvider
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-actual fun getCloudProvider(): CloudProvider = CloudProvider.ICLOUD
+class BackupRetentionTest {
+    @Test
+    fun `itemsToDeleteForRetention returns items after keep`() {
+        val items = listOf(5, 4, 3, 2, 1) // newest-first
+        assertEquals(listOf(2, 1), itemsToDeleteForRetention(items, keep = 3))
+    }
+
+    @Test
+    fun `itemsToDeleteForRetention returns empty when size is less or equal to keep`() {
+        val items = listOf(3, 2, 1)
+        assertEquals(emptyList(), itemsToDeleteForRetention(items, keep = 3))
+    }
+}

@@ -19,11 +19,16 @@ package com.apps.adrcotfas.goodtime.platform
 
 import android.os.Build
 import com.apps.adrcotfas.goodtime.BuildConfig.IS_FDROID
+import com.apps.adrcotfas.goodtime.backup.CloudProvider
 
 /**
  * Android implementation of PlatformConfiguration.
  */
 private class AndroidPlatformConfiguration : PlatformConfiguration {
+    override val isAndroid: Boolean = true
+
+    override val cloudProvider: CloudProvider = CloudProvider.GOOGLE_DRIVE
+
     /**
      * In-app updates are supported on Android (Google Play flavor).
      * The actual availability is controlled by passing onUpdateClicked callback in GoodtimeApp.

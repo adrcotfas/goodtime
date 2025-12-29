@@ -22,6 +22,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.BuildConfig
+import com.apps.adrcotfas.goodtime.backup.CloudBackupService
+import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupService
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.EventListener
@@ -57,7 +59,7 @@ actual val platformModule: Module =
         single<RoomDatabase.Builder<ProductivityDatabase>> { getDatabaseBuilder(get<Context>()) }
         single<FileSystem> { FileSystem.SYSTEM }
         single<String>(named(DB_PATH_KEY)) { getDbPath { get<Context>().getDatabasePath(DATABASE_NAME).absolutePath } }
-        single<String>(named(FILES_DIR_PATH_KEY)) { getTmpPath { get<Context>().filesDir.absolutePath + "/tmp" } }
+        single<String>(named(CACHE_DIR_PATH_KEY)) { getTmpPath { get<Context>().cacheDir.absolutePath } }
 
         single<DataStore<Preferences>>(named(SETTINGS_NAME)) {
             getDataStore(
@@ -119,6 +121,8 @@ actual val platformModule: Module =
                 logger = getWith("ReminderScheduler"),
             )
         }
+
+        single<CloudBackupService> { GoogleDriveBackupService() }
     }
 
 actual fun isDebug(): Boolean = BuildConfig.DEBUG

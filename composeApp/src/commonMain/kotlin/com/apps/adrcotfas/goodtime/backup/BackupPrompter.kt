@@ -15,11 +15,31 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.settings.backup
+package com.apps.adrcotfas.goodtime.backup
 
-import com.apps.adrcotfas.goodtime.data.local.backup.CloudProvider
+import okio.Path
 
-/**
- * Returns the cloud provider for the current platform
- */
-expect fun getCloudProvider(): CloudProvider
+enum class BackupType {
+    DB,
+    JSON,
+    CSV,
+}
+
+enum class BackupPromptResult {
+    SUCCESS,
+    CANCELLED,
+    FAILED,
+}
+
+interface BackupPrompter {
+    suspend fun promptUserForBackup(
+        backupType: BackupType,
+        fileToSharePath: Path,
+        callback: suspend (BackupPromptResult) -> Unit,
+    )
+
+    suspend fun promptUserForRestore(
+        importedFilePath: String,
+        callback: suspend (BackupPromptResult) -> Unit,
+    )
+}

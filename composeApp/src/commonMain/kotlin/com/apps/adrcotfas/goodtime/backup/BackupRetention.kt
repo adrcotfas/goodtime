@@ -15,8 +15,17 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.settings.backup
+package com.apps.adrcotfas.goodtime.backup
 
-import com.apps.adrcotfas.goodtime.data.local.backup.CloudProvider
-
-actual fun getCloudProvider(): CloudProvider = CloudProvider.GOOGLE_DRIVE
+/**
+ * Retention policy helper.
+ *
+ * Input must be sorted with newest first.
+ */
+fun <T> itemsToDeleteForRetention(
+    sortedNewestFirst: List<T>,
+    keep: Int = BackupConstants.MAX_BACKUPS_TO_KEEP,
+): List<T> {
+    if (keep <= 0) return sortedNewestFirst
+    return sortedNewestFirst.drop(keep)
+}

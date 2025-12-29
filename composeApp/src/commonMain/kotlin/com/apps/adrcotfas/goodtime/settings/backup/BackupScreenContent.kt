@@ -27,23 +27,37 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.backup.BackupUiState
+import com.apps.adrcotfas.goodtime.backup.CloudProvider
+import com.apps.adrcotfas.goodtime.backup.isBusy
 import com.apps.adrcotfas.goodtime.bl.TimeUtils
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupUiState
-import com.apps.adrcotfas.goodtime.data.local.backup.CloudProvider
-import com.apps.adrcotfas.goodtime.data.local.backup.isBusy
 import com.apps.adrcotfas.goodtime.platform.getPlatformConfiguration
 import com.apps.adrcotfas.goodtime.ui.ActionCard
 import com.apps.adrcotfas.goodtime.ui.BetterListItem
@@ -56,21 +70,24 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Unlock
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_backup_now
+import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_restore
+import goodtime_productivity.composeapp.generated.resources.backup_actions_icloud_drive
+import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_google_drive
+import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_icloud
 import goodtime_productivity.composeapp.generated.resources.backup_and_restore_title
 import goodtime_productivity.composeapp.generated.resources.backup_auto_backup
-import goodtime_productivity.composeapp.generated.resources.backup_cloud_backup_title
-import goodtime_productivity.composeapp.generated.resources.backup_cloud_subtitle
-import goodtime_productivity.composeapp.generated.resources.backup_connect_to_cloud
-import goodtime_productivity.composeapp.generated.resources.backup_connected
+import goodtime_productivity.composeapp.generated.resources.backup_dialog_cloud_restore_picker_subtitle
+import goodtime_productivity.composeapp.generated.resources.backup_dialog_cloud_restore_picker_title
 import goodtime_productivity.composeapp.generated.resources.backup_export_backup
 import goodtime_productivity.composeapp.generated.resources.backup_export_csv
 import goodtime_productivity.composeapp.generated.resources.backup_export_data
 import goodtime_productivity.composeapp.generated.resources.backup_export_json
 import goodtime_productivity.composeapp.generated.resources.backup_last_backup
 import goodtime_productivity.composeapp.generated.resources.backup_local_storage
-import goodtime_productivity.composeapp.generated.resources.backup_on
 import goodtime_productivity.composeapp.generated.resources.backup_restore_backup
 import goodtime_productivity.composeapp.generated.resources.backup_the_file_can_be_imported_back
+import goodtime_productivity.composeapp.generated.resources.main_cancel
 import goodtime_productivity.composeapp.generated.resources.unlock_premium
 import goodtime_productivity.composeapp.generated.resources.unlock_premium_to_access_features
 import org.jetbrains.compose.resources.stringResource
@@ -88,21 +105,24 @@ fun BackupScreenContent(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
     onAutoBackupToggle: (Boolean) -> Unit,
-    onBackup: () -> Unit,
-    onRestore: () -> Unit,
-    onBackupToCsv: () -> Unit,
-    onBackupToJson: () -> Unit,
-    onToggleExportSection: () -> Unit = {},
+    onCloudBackup: () -> Unit = {},
+    onCloudRestore: () -> Unit = {},
+    onCloudRestoreDismiss: () -> Unit = {},
+    onCloudBackupSelected: (String) -> Unit = {},
+    onLocalBackup: () -> Unit,
+    onLocalRestore: () -> Unit,
+    onExportCsv: () -> Unit,
+    onExportJson: () -> Unit,
+    onToggleExportSection: () -> Unit,
 ) {
     val listState = rememberScrollState()
     val enabled = uiState.isPro
-    val platformConfig = getPlatformConfiguration()
-    val isAndroid = platformConfig.supportsShowWhenLocked // Using this as Android indicator
+    val isAndroid = getPlatformConfiguration().isAndroid
 
     val cloudProviderName =
         when (uiState.cloudProvider) {
-            CloudProvider.GOOGLE_DRIVE -> "Google Drive"
-            CloudProvider.ICLOUD -> "iCloud"
+            CloudProvider.GOOGLE_DRIVE -> stringResource(Res.string.backup_actions_provider_google_drive)
+            CloudProvider.ICLOUD -> stringResource(Res.string.backup_actions_provider_icloud)
         }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -123,7 +143,6 @@ fun BackupScreenContent(
                         .verticalScroll(listState)
                         .background(MaterialTheme.colorScheme.background),
             ) {
-                // === CLOUD BACKUP SECTION ===
                 if (!enabled) {
                     ActionCard(
                         icon = {
@@ -138,33 +157,78 @@ fun BackupScreenContent(
                     }
                 }
 
+                // === CLOUD BACKUP SECTION ===
                 CompactPreferenceGroupTitle(text = cloudProviderName)
 
-                if (enabled && !uiState.isCloudConnected) {
-                    // TODO: Show "Connect to Cloud" button when implementing cloud backup
-                    BetterListItem(
-                        title = stringResource(Res.string.backup_connect_to_cloud, cloudProviderName),
-                        subtitle = stringResource(Res.string.backup_cloud_subtitle),
-                        enabled = false,
-                        onClick = {
-                            // TODO: Implement cloud connection
-                        },
+                if (isAndroid) {
+                    // TODO: Implement Google Drive auto backup (separate from local auto backup)
+                    SwitchListItem(
+                        title = stringResource(Res.string.backup_auto_backup),
+                        subtitle = null, // TODO: Show "Google Drive" when enabled
+                        checked = false, // TODO: Replace with Google Drive auto backup enabled state
+                        enabled = enabled,
+                        onCheckedChange = { /* TODO: Implement Google Drive auto backup toggle */ },
                     )
-                } else if (enabled && uiState.isCloudConnected) {
-                    // TODO: Cloud connected state - show status, last backup etc
-                    BetterListItem(
-                        title = stringResource(Res.string.backup_cloud_backup_title, cloudProviderName),
-                        subtitle = stringResource(Res.string.backup_connected),
-                        trailing = stringResource(Res.string.backup_on),
-                        enabled = false,
+
+                    // TODO: Show last Google Drive backup timestamp (separate from local)
+                    if (false) { // TODO: Check Google Drive backup timestamp > 0
+                        val lastBackupTime = "" // TODO: Format Google Drive backup timestamp
+                        BetterListItem(
+                            title = stringResource(Res.string.backup_last_backup),
+                            trailing = lastBackupTime,
+                            enabled = false,
+                        )
+                    }
+                } else {
+                    // iOS: iCloud auto backup (already implemented via CloudBackupManager)
+                    SwitchListItem(
+                        title = stringResource(Res.string.backup_auto_backup),
+                        subtitle =
+                            if (uiState.backupSettings.cloudAutoBackupEnabled) {
+                                stringResource(Res.string.backup_actions_icloud_drive)
+                            } else {
+                                null
+                            },
+                        checked = uiState.backupSettings.cloudAutoBackupEnabled,
+                        enabled = enabled && !uiState.isCloudAutoBackupToggleInProgress,
+                        onCheckedChange = { onAutoBackupToggle(it) },
                     )
+
+                    // Show last backup time if available
+                    if (uiState.backupSettings.cloudAutoBackupEnabled && uiState.backupSettings.lastBackupTimestamp > 0) {
+                        val lastBackupTime =
+                            TimeUtils.formatDateTime(uiState.backupSettings.lastBackupTimestamp)
+                        BetterListItem(
+                            title = stringResource(Res.string.backup_last_backup),
+                            trailing = lastBackupTime,
+                            enabled = false,
+                        )
+                    }
+                }
+
+                // Cloud backup now button
+                CircularProgressListItem(
+                    title = stringResource(Res.string.backup_actions_cloud_backup_now),
+                    enabled = enabled,
+                    showProgress = uiState.isCloudBackupInProgress,
+                ) {
+                    onCloudBackup()
+                }
+
+                // Cloud restore button
+                CircularProgressListItem(
+                    title = stringResource(Res.string.backup_actions_cloud_restore),
+                    enabled = enabled,
+                    showProgress = uiState.isCloudRestoreInProgress,
+                ) {
+                    onCloudRestore()
                 }
 
                 // === LOCAL STORAGE SECTION ===
                 SubtleHorizontalDivider()
                 CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_local_storage))
 
-                // Android: Auto-backup with toggle, folder path, frequency, and last backup
+                // Android only: local auto backup
                 if (isAndroid) {
                     SwitchListItem(
                         title = stringResource(Res.string.backup_auto_backup),
@@ -178,6 +242,7 @@ fun BackupScreenContent(
                         enabled = enabled,
                         onCheckedChange = { onAutoBackupToggle(it) },
                     )
+
                     // Show last backup time if available
                     if (uiState.backupSettings.lastBackupTimestamp > 0) {
                         val lastBackupTime =
@@ -190,21 +255,21 @@ fun BackupScreenContent(
                     }
                 }
 
-                // Manual backup/restore (available on all platforms)
+                // Manual local backup and restore (both platforms)
                 CircularProgressListItem(
                     title = stringResource(Res.string.backup_export_backup),
                     subtitle = stringResource(Res.string.backup_the_file_can_be_imported_back),
                     enabled = enabled,
                     showProgress = uiState.isBackupInProgress,
                 ) {
-                    onBackup()
+                    onLocalBackup()
                 }
                 CircularProgressListItem(
                     title = stringResource(Res.string.backup_restore_backup),
                     enabled = enabled,
                     showProgress = uiState.isRestoreInProgress,
                 ) {
-                    onRestore()
+                    onLocalRestore()
                 }
 
                 // === EXPORT DATA SECTION ===
@@ -216,14 +281,14 @@ fun BackupScreenContent(
                     enabled = enabled,
                     showProgress = uiState.isCsvBackupInProgress,
                 ) {
-                    onBackupToCsv()
+                    onExportCsv()
                 }
                 CircularProgressListItem(
                     title = stringResource(Res.string.backup_export_json),
                     enabled = enabled,
                     showProgress = uiState.isJsonBackupInProgress,
                 ) {
-                    onBackupToJson()
+                    onExportJson()
                 }
             }
         }
@@ -246,5 +311,80 @@ fun BackupScreenContent(
                         ),
             )
         }
+
+        // Cloud restore picker dialog
+        if (uiState.showCloudRestoreDialog && uiState.availableCloudBackups.isNotEmpty()) {
+            CloudRestorePickerDialog(
+                cloudProviderName = cloudProviderName,
+                backups = uiState.availableCloudBackups,
+                onDismiss = onCloudRestoreDismiss,
+                onBackupSelected = onCloudBackupSelected,
+            )
+        }
     }
+}
+
+@Composable
+private fun CloudRestorePickerDialog(
+    cloudProviderName: String,
+    backups: List<String>,
+    onDismiss: () -> Unit,
+    onBackupSelected: (String) -> Unit,
+) {
+    var selectedBackup by remember(backups) { mutableStateOf(backups.firstOrNull() ?: "") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.backup_dialog_cloud_restore_picker_title)) },
+        text = {
+            Column {
+                Text(
+                    stringResource(Res.string.backup_dialog_cloud_restore_picker_subtitle, cloudProviderName),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(bottom = 16.dp),
+                )
+                LazyColumn(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                ) {
+                    items(backups.size) { index ->
+                        val backup = backups[index]
+                        Row(
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clickable { selectedBackup = backup }
+                                    .padding(vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            RadioButton(
+                                selected = selectedBackup == backup,
+                                onClick = { selectedBackup = backup },
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = backup,
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    if (selectedBackup.isNotBlank()) {
+                        onBackupSelected(selectedBackup)
+                    }
+                },
+            ) {
+                Text(stringResource(Res.string.backup_actions_cloud_restore))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(Res.string.main_cancel))
+            }
+        },
+    )
 }

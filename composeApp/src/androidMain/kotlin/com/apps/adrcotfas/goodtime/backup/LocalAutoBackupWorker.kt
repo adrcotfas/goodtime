@@ -23,7 +23,6 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import co.touchlab.kermit.Logger
-import com.apps.adrcotfas.goodtime.data.local.backup.BackupManager
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.flow.first
@@ -34,7 +33,7 @@ import java.io.FileInputStream
  * WorkManager worker that performs the auto backup operation.
  * It retrieves the backup path from settings and calls BackupManager to perform the backup.
  */
-class AutoBackupWorker(
+class LocalAutoBackupWorker(
     private val context: Context,
     private val backupManager: BackupManager,
     private val settingsRepository: SettingsRepository,
@@ -56,7 +55,7 @@ class AutoBackupWorker(
             }
 
             backupManager.checkpointDatabase()
-            val fileName = backupManager.generateBackupFileName(DB_AUTO_BACKUP_PREFIX)
+            val fileName = backupManager.generateDbBackupFileName(BackupConstants.DB_BACKUP_PREFIX)
 
             val backupDirUri = backupPath.toUri()
             val backupDir = DocumentFile.fromTreeUri(context, backupDirUri)
@@ -85,9 +84,9 @@ class AutoBackupWorker(
 
             backupDir
                 .listFiles()
-                .filter { it.isFile && it.name?.startsWith(DB_AUTO_BACKUP_PREFIX) == true }
+                .filter { it.isFile && it.name?.startsWith(BackupConstants.DB_BACKUP_PREFIX) == true }
                 .sortedByDescending { it.lastModified() }
-                .drop(7)
+                .let { itemsToDeleteForRetention(it) }
                 .forEach { it.delete() }
 
             // Update last backup timestamp
@@ -105,8 +104,7 @@ class AutoBackupWorker(
         }
     }
 
-    companion object {
+    companion object Companion {
         const val WORK_NAME = "auto_backup_work"
-        private const val DB_AUTO_BACKUP_PREFIX = "GT-AutoBackup-"
     }
 }

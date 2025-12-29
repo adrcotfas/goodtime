@@ -123,7 +123,15 @@ data class SoundData(
 
 @Serializable
 data class BackupSettings(
+    val cloudAutoBackupEnabled: Boolean = false,
+    /**
+     * Android-only: local auto-backups to a user-selected folder (tree URI) using WorkManager.
+     */
     val autoBackupEnabled: Boolean = false,
+    /**
+     * Android-only: persisted folder URI (tree URI) used for the *local* auto-backup worker.
+     */
     val path: String = "",
-    val lastBackupTimestamp: Long = 0L, // Timestamp in milliseconds
+    /** Timestamp in milliseconds */
+    val lastBackupTimestamp: Long = 0L,
 )
