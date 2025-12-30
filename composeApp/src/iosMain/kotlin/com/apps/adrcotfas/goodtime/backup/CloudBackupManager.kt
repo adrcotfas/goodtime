@@ -134,6 +134,13 @@ class CloudBackupManager(
         logger.i { "Auto-enabling iCloud auto-backup for Pro user" }
         settingsRepository.setBackupSettings(backupSettings.copy(cloudAutoBackupEnabled = true))
         setAutoBackupSchedulingEnabled(true)
+
+        try {
+            performBackup()
+            logger.i { "Initial iCloud backup completed successfully" }
+        } catch (e: Exception) {
+            logger.e(e) { "Initial iCloud backup failed" }
+        }
     }
 
     /**
