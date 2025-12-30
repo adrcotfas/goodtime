@@ -29,6 +29,7 @@
     <string name="backup_export_failed_please_try_again">Export failed. Please try again</string>
     <string name="backup_restore_completed_successfully">Restore completed successfully</string>
     <string name="backup_restore_failed_please_try_again">Restore failed. Please try again</string>
+    <string name="backup_no_backups_found">No backups found</string>
     <string name="backup_auto_backup">Auto backup</string>
     <string name="backup_local_storage">Local Storage</string>
     <string name="backup_last_backup">Last backup</string>

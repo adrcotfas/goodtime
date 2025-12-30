@@ -27,12 +27,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import okio.FileSystem
 import okio.Path.Companion.toPath
-import okio.buffer
 import platform.Foundation.NSDate
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
-import platform.Foundation.NSUUID
 import platform.Foundation.timeIntervalSince1970
+import kotlin.time.Duration.Companion.days
 
 /**
  * Manager for iOS cloud backup to iCloud Drive.
@@ -45,6 +44,8 @@ class CloudBackupManager(
     private val dbPath: String,
     private val logger: Logger,
 ) {
+    private val metadataQuery = CloudBackupMetadataQuery(logger)
+
     init {
         logger.i { "iOS CloudBackupManager initialized" }
     }
@@ -69,48 +70,19 @@ class CloudBackupManager(
 
     /**
      * Fast availability check for iCloud Drive.
-     * This intentionally does not validate free space; it only checks that the container is accessible.
+     * Returns false if user is signed out of iCloud or has disabled iCloud Drive for this app.
      */
     @OptIn(ExperimentalForeignApi::class)
     suspend fun isICloudAvailable(): Boolean =
         withContext(Dispatchers.IO) {
+            logger.d { "isICloudAvailable() - checking token..." }
             val fileManager = NSFileManager.defaultManager
-            val hasIdentity = fileManager.ubiquityIdentityToken != null
-            val containerUrl =
-                fileManager.URLForUbiquityContainerIdentifier(null)
-                    ?: fileManager.URLForUbiquityContainerIdentifier("iCloud.app.goodtime.productivity")
-            hasIdentity && containerUrl != null
+            val hasToken = fileManager.ubiquityIdentityToken != null
+            logger.d { "isICloudAvailable() - hasToken=$hasToken, checking container URL..." }
+            val containerUrl = fileManager.URLForUbiquityContainerIdentifier(null)
+            logger.d { "isICloudAvailable() - containerUrl=${containerUrl?.path}" }
+            hasToken && containerUrl != null
         }
-
-    /**
-     * Validates that we can write *something* to iCloud Drive without creating a real backup.
-     * This is used to detect "iCloud full" (or similar write failures) when enabling auto-backup.
-     *
-     * It creates and immediately deletes a tiny marker file in `Documents/Goodtime/Backups`.
-     */
-    @OptIn(ExperimentalForeignApi::class)
-    suspend fun testICloudWriteAccess() {
-        // TODO: is there no other way of interrogating iCloud for space?
-        withContext(Dispatchers.IO) {
-            val fileManager = NSFileManager.defaultManager
-            val backupsUrl = getBackupsDirUrl(fileManager, createIfMissing = true)
-
-            val markerName = ".Goodtime-write-test-${NSUUID.UUID().UUIDString}.tmp"
-            val markerUrl =
-                backupsUrl.URLByAppendingPathComponent(markerName)
-                    ?: throw Exception("Failed to create marker file path")
-            val markerPath = markerUrl.path ?: throw Exception("Failed to get marker file path string")
-
-            // Write a tiny file, then delete it. If iCloud is out of space, this is expected to throw.
-            val sink = fileSystem.sink(markerPath.toPath(), mustCreate = true).buffer()
-            try {
-                sink.writeUtf8("1")
-            } finally {
-                sink.close()
-            }
-            fileSystem.delete(markerPath.toPath())
-        }
-    }
 
     /**
      * Check if backup is needed and perform it if necessary.
@@ -132,9 +104,8 @@ class CloudBackupManager(
 
         val lastBackupTime = backupSettings.lastBackupTimestamp
         val currentTime = TimeProvider.now()
-        val dayInMillis = 24 * 60 * 60 * 1000L
 
-        if (lastBackupTime > 0 && (currentTime - lastBackupTime) < dayInMillis) {
+        if (lastBackupTime > 0 && (currentTime - lastBackupTime) < 1.days.inWholeMilliseconds) {
             logger.d { "Last backup was less than 24 hours ago, skipping" }
             return
         }
@@ -187,7 +158,8 @@ class CloudBackupManager(
     }
 
     /**
-     * List available iCloud backups.
+     * List available iCloud backups using NSMetadataQuery.
+     * This finds backups even on a new device where files exist in iCloud but aren't downloaded yet.
      * Returns a list of backup file names sorted by date (newest first).
      */
     @OptIn(ExperimentalForeignApi::class)
@@ -196,31 +168,8 @@ class CloudBackupManager(
             try {
                 val fileManager = NSFileManager.defaultManager
                 val backupsUrl = getBackupsDirUrl(fileManager, createIfMissing = false)
-                if (!fileManager.fileExistsAtPath(backupsUrl.path ?: "")) {
-                    return@withContext emptyList()
-                }
-
-                val contents =
-                    fileManager.contentsOfDirectoryAtURL(
-                        backupsUrl,
-                        includingPropertiesForKeys = null,
-                        options = 0u,
-                        error = null,
-                    ) as List<*>? ?: return@withContext emptyList()
-
-                val backupFiles =
-                    contents
-                        .filterIsInstance<NSURL>()
-                        .filter { url ->
-                            val fileName = url.lastPathComponent ?: ""
-                            fileName.startsWith(BackupConstants.DB_BACKUP_PREFIX)
-                        }.sortedByDescending { url ->
-                            val attributes = fileManager.attributesOfItemAtPath(url.path ?: "", error = null)
-                            (attributes?.get("NSFileModificationDate") as? NSDate)?.timeIntervalSince1970 ?: 0.0
-                        }.mapNotNull { it.lastPathComponent }
-
-                logger.i { "Found ${backupFiles.size} iCloud backups" }
-                backupFiles
+                val backups = metadataQuery.queryAllBackups(backupsUrl)
+                backups.map { it.fileName }
             } catch (e: Exception) {
                 logger.e(e) { "Failed to list iCloud backups" }
                 emptyList()
@@ -229,6 +178,7 @@ class CloudBackupManager(
 
     /**
      * Restore from a specific iCloud backup file.
+     * Handles both downloaded and cloud-only files by downloading if needed.
      * Returns the temporary file path where the backup was copied, ready for BackupManager to restore.
      */
     @OptIn(ExperimentalForeignApi::class)
@@ -239,14 +189,19 @@ class CloudBackupManager(
             val fileManager = NSFileManager.defaultManager
             val backupsUrl = getBackupsDirUrl(fileManager, createIfMissing = false)
 
-            val backupFileUrl =
-                backupsUrl.URLByAppendingPathComponent(fileName)
+            // Query for the backup file to check if it needs to be downloaded
+            val backupMetadata = metadataQuery.queryBackupFile(backupsUrl, fileName)
+
+            val backupFilePath: String = if (backupMetadata != null) {
+                metadataQuery.ensureBackupDownloaded(backupMetadata)
+            } else {
+                // Fallback to direct file access if metadata query fails
+                val backupFileUrl = backupsUrl.URLByAppendingPathComponent(fileName)
                     ?: throw Exception("Failed to get backup file path")
+                backupFileUrl.path ?: throw Exception("Failed to get backup file path string")
+            }
 
-            val backupFilePath =
-                backupFileUrl.path
-                    ?: throw Exception("Failed to get backup file path string")
-
+            // Verify the file exists locally after download
             if (!fileManager.fileExistsAtPath(backupFilePath)) {
                 logger.e { "Backup file does not exist at: $backupFilePath" }
                 throw Exception("Backup file does not exist: $fileName")
@@ -287,23 +242,29 @@ class CloudBackupManager(
             val backupsUrl = getBackupsDirUrl(fileManager, createIfMissing = true)
 
             // Generate backup filename with formatted date time
+            logger.d { "performBackup() - generating filename..." }
             val fileName = backupManager.generateDbBackupFileName(BackupConstants.DB_BACKUP_PREFIX)
             val backupFileUrl =
                 backupsUrl.URLByAppendingPathComponent(fileName)
                     ?: throw Exception("Failed to create backup file path")
 
             // Checkpoint database and copy to iCloud
+            logger.d { "performBackup() - checkpointing database..." }
             backupManager.checkpointDatabase()
             val backupFilePath =
                 backupFileUrl.path ?: throw Exception("Failed to get backup file path string")
 
+            logger.d { "performBackup() - copying file to $backupFilePath..." }
             fileSystem.copy(dbPath.toPath(), backupFilePath.toPath())
 
             // Clean up old backups - keep only the most recent
+            logger.d { "performBackup() - cleaning up old backups..." }
             cleanupOldBackups(backupsUrl, fileManager)
 
             // Update last backup timestamp
+            logger.d { "performBackup() - getting current settings..." }
             val currentSettings = settingsRepository.settings.first().backupSettings
+            logger.d { "performBackup() - updating backup timestamp..." }
             settingsRepository.setBackupSettings(
                 currentSettings.copy(
                     lastBackupTimestamp = TimeProvider.now(),
@@ -319,13 +280,10 @@ class CloudBackupManager(
         fileManager: NSFileManager,
         createIfMissing: Boolean,
     ): NSURL {
-        val iCloudUrl =
-            fileManager.URLForUbiquityContainerIdentifier(null)
-                ?: fileManager.URLForUbiquityContainerIdentifier("iCloud.app.goodtime.productivity")
+        val iCloudUrl = fileManager.URLForUbiquityContainerIdentifier(null)
+            ?: throw Exception("iCloud not available")
 
-        if (iCloudUrl == null) {
-            throw Exception("iCloud not available")
-        }
+        logger.d { "iCloud container URL: ${iCloudUrl.path}" }
 
         val documentsUrl =
             iCloudUrl.URLByAppendingPathComponent("Documents")
@@ -335,7 +293,15 @@ class CloudBackupManager(
             documentsUrl.URLByAppendingPathComponent(BackupConstants.IOS_ICLOUD_BACKUP_SUBPATH)
                 ?: throw Exception("Failed to create ${BackupConstants.IOS_ICLOUD_BACKUP_SUBPATH} path")
 
-        if (createIfMissing && !fileManager.fileExistsAtPath(backupsUrl.path ?: "")) {
+        logger.d { "Backups directory URL: ${backupsUrl.path}" }
+        logger.d { "getBackupsDirUrl() - checking if directory exists at: ${backupsUrl.path}" }
+        val pathToCheck = backupsUrl.path ?: ""
+        logger.d { "getBackupsDirUrl() - calling fileExistsAtPath..." }
+        val exists = fileManager.fileExistsAtPath(pathToCheck)
+        logger.d { "getBackupsDirUrl() - fileExistsAtPath returned: $exists" }
+
+        if (createIfMissing && !exists) {
+            logger.d { "getBackupsDirUrl() - creating directory..." }
             val success =
                 fileManager.createDirectoryAtURL(
                     backupsUrl,
@@ -343,11 +309,15 @@ class CloudBackupManager(
                     attributes = null,
                     error = null,
                 )
+            logger.d { "getBackupsDirUrl() - directory creation result: $success" }
             if (!success) {
                 throw Exception("Failed to create backups directory")
             }
+        } else {
+            logger.d { "getBackupsDirUrl() - directory already exists or createIfMissing=false" }
         }
 
+        logger.d { "getBackupsDirUrl() - returning" }
         return backupsUrl
     }
 
@@ -363,7 +333,7 @@ class CloudBackupManager(
                     includingPropertiesForKeys = null,
                     options = 0u,
                     error = null,
-                ) as List<*>? ?: return
+                ) ?: return
 
             val backupFiles =
                 contents
@@ -386,6 +356,4 @@ class CloudBackupManager(
             logger.e(e) { "Failed to cleanup old backups" }
         }
     }
-
-    companion object
 }

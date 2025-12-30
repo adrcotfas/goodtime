@@ -347,26 +347,42 @@ fun SwitchListItem(
     subtitle: String? = null,
     checked: Boolean,
     enabled: Boolean = true,
+    showProgress: Boolean = false,
     onCheckedChange: (Boolean) -> Unit,
 ) {
+    val isEnabled = enabled && !showProgress
     BetterListItem(
         modifier =
-            modifier.toggleable(
-                value = checked,
-                onValueChange = { onCheckedChange(!checked) },
-                role = Role.Switch,
-            ),
+            if (isEnabled) {
+                modifier.toggleable(
+                    value = checked,
+                    onValueChange = { onCheckedChange(!checked) },
+                    role = Role.Switch,
+                )
+            } else {
+                modifier
+            },
         title = title,
         subtitle = subtitle,
         trailing = {
-            Switch(
-                checked = checked,
-                enabled = enabled,
-                onCheckedChange = null,
-            )
+            if (showProgress) {
+                Box(modifier = Modifier.size(32.dp)) {
+                    CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+                }
+            } else {
+                Switch(
+                    checked = checked,
+                    enabled = enabled,
+                    onCheckedChange = null,
+                )
+            }
         },
-        enabled = enabled,
-        onClick = { onCheckedChange(!checked) },
+        enabled = isEnabled,
+        onClick = if (isEnabled) {
+            { onCheckedChange(!checked) }
+        } else {
+            null
+        },
     )
 }
 

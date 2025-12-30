@@ -17,20 +17,21 @@
  */
 package com.apps.adrcotfas.goodtime.backup
 
+import co.touchlab.kermit.Logger
+
 class ICloudBackupService(
     private val cloudBackupManager: CloudBackupManager,
     private val backupManager: BackupManager,
+    private val logger: Logger,
 ) : CloudBackupService {
     override suspend fun preflightBackup(): CloudAutoBackupIssue? {
-        if (!cloudBackupManager.isICloudAvailable()) {
+        logger.d { "preflightBackup() - checking availability..." }
+        val available = cloudBackupManager.isICloudAvailable()
+        logger.d { "preflightBackup() - available=$available" }
+        if (!available) {
             return CloudAutoBackupIssue.ICLOUD_UNAVAILABLE
         }
-        return try {
-            cloudBackupManager.testICloudWriteAccess()
-            null
-        } catch (e: Exception) {
-            e.toCloudAutoBackupIssue()
-        }
+        return null
     }
 
     override fun setAutoBackupEnabled(enabled: Boolean) {
@@ -61,13 +62,20 @@ class ICloudBackupService(
         }
 
     override suspend fun attemptEnableAutoBackup(): CloudAutoBackupIssue? {
+        logger.d { "attemptEnableAutoBackup() - starting..." }
         val preflight = preflightBackup()
-        if (preflight != null) return preflight
+        if (preflight != null) {
+            logger.d { "attemptEnableAutoBackup() - preflight failed: $preflight" }
+            return preflight
+        }
 
         return try {
+            logger.d { "attemptEnableAutoBackup() - calling performManualBackup..." }
             cloudBackupManager.performManualBackup()
+            logger.d { "attemptEnableAutoBackup() - backup completed!" }
             null
         } catch (e: Exception) {
+            logger.e(e) { "attemptEnableAutoBackup() - backup failed" }
             e.toCloudAutoBackupIssue()
         }
     }

@@ -180,7 +180,6 @@ fun BackupScreenContent(
                         )
                     }
                 } else {
-                    // iOS: iCloud auto backup (already implemented via CloudBackupManager)
                     SwitchListItem(
                         title = stringResource(Res.string.backup_auto_backup),
                         subtitle =
@@ -190,7 +189,8 @@ fun BackupScreenContent(
                                 null
                             },
                         checked = uiState.backupSettings.cloudAutoBackupEnabled,
-                        enabled = enabled && !uiState.isCloudAutoBackupToggleInProgress,
+                        enabled = enabled,
+                        showProgress = uiState.isCloudAutoBackupToggleInProgress,
                         onCheckedChange = { onAutoBackupToggle(it) },
                     )
 

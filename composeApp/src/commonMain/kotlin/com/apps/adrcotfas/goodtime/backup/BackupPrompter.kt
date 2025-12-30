@@ -29,6 +29,7 @@ enum class BackupPromptResult {
     SUCCESS,
     CANCELLED,
     FAILED,
+    NO_BACKUPS_FOUND,
 }
 
 interface BackupPrompter {

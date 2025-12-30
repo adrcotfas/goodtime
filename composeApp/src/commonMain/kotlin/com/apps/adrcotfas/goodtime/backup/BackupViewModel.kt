@@ -100,11 +100,24 @@ class BackupViewModel(
                 .distinctUntilChanged { old, new ->
                     old.isPro == new.isPro && old.backupSettings == new.backupSettings
                 }.collect { settings ->
+                    var backupSettings = settings.backupSettings
+
+                    // If cloud auto-backup is enabled, verify iCloud is still available
+                    if (backupSettings.cloudAutoBackupEnabled) {
+                        val preflight = cloudBackupService.preflightBackup()
+                        if (preflight != null) {
+                            // iCloud is unavailable - disable auto-backup
+                            backupSettings = backupSettings.copy(cloudAutoBackupEnabled = false)
+                            settingsRepository.setBackupSettings(backupSettings)
+                            cloudBackupService.setAutoBackupEnabled(false)
+                        }
+                    }
+
                     _uiState.update {
                         it.copy(
                             isLoading = false,
                             isPro = settings.isPro,
-                            backupSettings = settings.backupSettings,
+                            backupSettings = backupSettings,
                             cloudProvider = getPlatformConfiguration().cloudProvider,
                         )
                     }
@@ -251,6 +264,18 @@ class BackupViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isCloudRestoreInProgress = true) }
 
+            // Check if cloud is available first
+            val preflight = cloudBackupService.preflightBackup()
+            if (preflight != null) {
+                _uiState.update {
+                    it.copy(
+                        isCloudRestoreInProgress = false,
+                        cloudIssue = preflight,
+                    )
+                }
+                return@launch
+            }
+
             // Fetch available backups
             val backups = cloudBackupService.listAvailableBackups()
 
@@ -258,7 +283,7 @@ class BackupViewModel(
                 _uiState.update {
                     it.copy(
                         isCloudRestoreInProgress = false,
-                        restoreResult = BackupPromptResult.FAILED,
+                        restoreResult = BackupPromptResult.NO_BACKUPS_FOUND,
                     )
                 }
                 return@launch
