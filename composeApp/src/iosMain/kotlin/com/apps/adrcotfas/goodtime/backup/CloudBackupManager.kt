@@ -199,14 +199,16 @@ class CloudBackupManager(
             // Query for the backup file to check if it needs to be downloaded
             val backupMetadata = metadataQuery.queryBackupFile(backupsUrl, fileName)
 
-            val backupFilePath: String = if (backupMetadata != null) {
-                metadataQuery.ensureBackupDownloaded(backupMetadata)
-            } else {
-                // Fallback to direct file access if metadata query fails
-                val backupFileUrl = backupsUrl.URLByAppendingPathComponent(fileName)
-                    ?: throw Exception("Failed to get backup file path")
-                backupFileUrl.path ?: throw Exception("Failed to get backup file path string")
-            }
+            val backupFilePath: String =
+                if (backupMetadata != null) {
+                    metadataQuery.ensureBackupDownloaded(backupMetadata)
+                } else {
+                    // Fallback to direct file access if metadata query fails
+                    val backupFileUrl =
+                        backupsUrl.URLByAppendingPathComponent(fileName)
+                            ?: throw Exception("Failed to get backup file path")
+                    backupFileUrl.path ?: throw Exception("Failed to get backup file path string")
+                }
 
             // Verify the file exists locally after download
             if (!fileManager.fileExistsAtPath(backupFilePath)) {
@@ -287,8 +289,9 @@ class CloudBackupManager(
         fileManager: NSFileManager,
         createIfMissing: Boolean,
     ): NSURL {
-        val iCloudUrl = fileManager.URLForUbiquityContainerIdentifier(null)
-            ?: throw Exception("iCloud not available")
+        val iCloudUrl =
+            fileManager.URLForUbiquityContainerIdentifier(null)
+                ?: throw Exception("iCloud not available")
 
         logger.d { "iCloud container URL: ${iCloudUrl.path}" }
 

@@ -145,11 +145,12 @@ actual fun BackupScreen(
     LaunchedEffect(uiState.restoreResult) {
         uiState.restoreResult?.let {
             if (it != BackupPromptResult.CANCELLED) {
-                val message = when (it) {
-                    BackupPromptResult.SUCCESS -> getString(Res.string.backup_restore_completed_successfully)
-                    BackupPromptResult.NO_BACKUPS_FOUND -> getString(Res.string.backup_no_backups_found)
-                    else -> getString(Res.string.backup_restore_failed_please_try_again)
-                }
+                val message =
+                    when (it) {
+                        BackupPromptResult.SUCCESS -> getString(Res.string.backup_restore_completed_successfully)
+                        BackupPromptResult.NO_BACKUPS_FOUND -> getString(Res.string.backup_no_backups_found)
+                        else -> getString(Res.string.backup_restore_failed_please_try_again)
+                    }
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
             if (it == BackupPromptResult.SUCCESS) {
