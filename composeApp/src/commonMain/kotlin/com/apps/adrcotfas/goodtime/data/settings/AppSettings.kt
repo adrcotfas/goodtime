@@ -132,6 +132,8 @@ data class BackupSettings(
      * Android-only: persisted folder URI (tree URI) used for the *local* auto-backup worker.
      */
     val path: String = "",
-    /** Timestamp in milliseconds */
-    val lastBackupTimestamp: Long = 0L,
+    /** Timestamp in milliseconds for cloud backups (iCloud on iOS, Google Drive on Android) */
+    val cloudLastBackupTimestamp: Long = 0L,
+    /** Timestamp in milliseconds for Android local folder backups */
+    val localLastBackupTimestamp: Long = 0L,
 )

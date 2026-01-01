@@ -106,7 +106,7 @@ actual fun BackupScreen(
                 when (issue) {
                     CloudAutoBackupIssue.ICLOUD_UNAVAILABLE -> getString(Res.string.backup_icloud_unavailable)
                     CloudAutoBackupIssue.ICLOUD_FULL -> getString(Res.string.backup_icloud_full)
-                    CloudAutoBackupIssue.UNKNOWN -> getString(Res.string.backup_icloud_unknown_error)
+                    else -> getString(Res.string.backup_icloud_unknown_error)
                 }
             SnackbarController.sendEvent(SnackbarEvent(message = msg, duration = SnackbarDuration.Short))
             viewModel.clearCloudIssue()
@@ -117,7 +117,7 @@ actual fun BackupScreen(
         uiState = uiState,
         onNavigateToPro = onNavigateToPro,
         onNavigateBack = onNavigateBack,
-        onAutoBackupToggle = { isEnabled ->
+        onCloudAutoBackupToggle = { isEnabled ->
             if (uiState.isPro) {
                 // iOS: only turn ON the switch after confirming iCloud is available and an initial backup succeeds.
                 viewModel.toggleCloudAutoBackup(isEnabled)

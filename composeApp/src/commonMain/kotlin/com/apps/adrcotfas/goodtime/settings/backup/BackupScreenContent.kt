@@ -71,6 +71,7 @@ import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Unlock
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_backup_now
+import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_disconnect
 import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_restore
 import goodtime_productivity.composeapp.generated.resources.backup_actions_icloud_drive
 import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_google_drive
@@ -104,9 +105,11 @@ fun BackupScreenContent(
     uiState: BackupUiState,
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
-    onAutoBackupToggle: (Boolean) -> Unit,
+    onCloudAutoBackupToggle: (Boolean) -> Unit = {},
+    onLocalAutoBackupToggle: (Boolean) -> Unit = {},
     onCloudBackup: () -> Unit = {},
     onCloudRestore: () -> Unit = {},
+    onCloudDisconnect: () -> Unit = {},
     onCloudRestoreDismiss: () -> Unit = {},
     onCloudBackupSelected: (String) -> Unit = {},
     onLocalBackup: () -> Unit,
@@ -161,18 +164,24 @@ fun BackupScreenContent(
                 CompactPreferenceGroupTitle(text = cloudProviderName)
 
                 if (isAndroid) {
-                    // TODO: Implement Google Drive auto backup (separate from local auto backup)
                     SwitchListItem(
                         title = stringResource(Res.string.backup_auto_backup),
-                        subtitle = null, // TODO: Show "Google Drive" when enabled
-                        checked = false, // TODO: Replace with Google Drive auto backup enabled state
+                        subtitle =
+                            if (uiState.backupSettings.cloudAutoBackupEnabled) {
+                                stringResource(Res.string.backup_actions_provider_google_drive)
+                            } else {
+                                null
+                            },
+                        checked = uiState.backupSettings.cloudAutoBackupEnabled,
                         enabled = enabled,
-                        onCheckedChange = { /* TODO: Implement Google Drive auto backup toggle */ },
+                        showProgress = uiState.isCloudAutoBackupToggleInProgress,
+                        onCheckedChange = { onCloudAutoBackupToggle(it) },
                     )
 
-                    // TODO: Show last Google Drive backup timestamp (separate from local)
-                    if (false) { // TODO: Check Google Drive backup timestamp > 0
-                        val lastBackupTime = "" // TODO: Format Google Drive backup timestamp
+                    // Show last Google Drive backup time if available
+                    if (uiState.backupSettings.cloudAutoBackupEnabled && uiState.backupSettings.cloudLastBackupTimestamp > 0) {
+                        val lastBackupTime =
+                            TimeUtils.formatDateTime(uiState.backupSettings.cloudLastBackupTimestamp)
                         BetterListItem(
                             title = stringResource(Res.string.backup_last_backup),
                             trailing = lastBackupTime,
@@ -191,13 +200,13 @@ fun BackupScreenContent(
                         checked = uiState.backupSettings.cloudAutoBackupEnabled,
                         enabled = enabled,
                         showProgress = uiState.isCloudAutoBackupToggleInProgress,
-                        onCheckedChange = { onAutoBackupToggle(it) },
+                        onCheckedChange = { onCloudAutoBackupToggle(it) },
                     )
 
                     // Show last backup time if available
-                    if (uiState.backupSettings.cloudAutoBackupEnabled && uiState.backupSettings.lastBackupTimestamp > 0) {
+                    if (uiState.backupSettings.cloudAutoBackupEnabled && uiState.backupSettings.cloudLastBackupTimestamp > 0) {
                         val lastBackupTime =
-                            TimeUtils.formatDateTime(uiState.backupSettings.lastBackupTimestamp)
+                            TimeUtils.formatDateTime(uiState.backupSettings.cloudLastBackupTimestamp)
                         BetterListItem(
                             title = stringResource(Res.string.backup_last_backup),
                             trailing = lastBackupTime,
@@ -224,6 +233,15 @@ fun BackupScreenContent(
                     onCloudRestore()
                 }
 
+                // Android only: disconnect from Google Drive
+                if (isAndroid) {
+                    BetterListItem(
+                        title = stringResource(Res.string.backup_actions_cloud_disconnect),
+                        enabled = enabled,
+                        onClick = { onCloudDisconnect() },
+                    )
+                }
+
                 // === LOCAL STORAGE SECTION ===
                 SubtleHorizontalDivider()
                 CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_local_storage))
@@ -240,13 +258,13 @@ fun BackupScreenContent(
                             },
                         checked = uiState.backupSettings.autoBackupEnabled,
                         enabled = enabled,
-                        onCheckedChange = { onAutoBackupToggle(it) },
+                        onCheckedChange = { onLocalAutoBackupToggle(it) },
                     )
 
                     // Show last backup time if available
-                    if (uiState.backupSettings.lastBackupTimestamp > 0) {
+                    if (uiState.backupSettings.localLastBackupTimestamp > 0) {
                         val lastBackupTime =
-                            TimeUtils.formatDateTime(uiState.backupSettings.lastBackupTimestamp)
+                            TimeUtils.formatDateTime(uiState.backupSettings.localLastBackupTimestamp)
                         BetterListItem(
                             title = stringResource(Res.string.backup_last_backup),
                             trailing = lastBackupTime,

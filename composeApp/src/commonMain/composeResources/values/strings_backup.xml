@@ -36,6 +36,8 @@
     <string name="backup_icloud_unavailable">iCloud Drive is unavailable. Sign in to iCloud and enable iCloud Drive, then try again.</string>
     <string name="backup_icloud_full">iCloud storage is full. Free up space in iCloud Drive, then try again.</string>
     <string name="backup_icloud_unknown_error">Could not enable iCloud auto backup. Please try again.</string>
+    <string name="backup_google_drive_auth_failed">Google Drive authorization failed. Please try again to reconnect.</string>
+    <string name="backup_google_drive_unavailable">Google Drive is unavailable. Check your internet connection and try again.</string>
     <string name="backup_connect_to_cloud">Connect to %1$s</string>
     <string name="backup_cloud_subtitle">Automatically back up your data to the cloud</string>
     <string name="backup_cloud_backup_title">%s Backup</string>
@@ -48,6 +50,8 @@
     <string name="backup_actions_icloud_drive">iCloud Drive</string>
     <string name="backup_actions_cloud_backup_now">Backup now</string>
     <string name="backup_actions_cloud_restore">Restore</string>
+    <string name="backup_actions_cloud_disconnect">Disconnect</string>
+    <string name="backup_google_drive_auth_cancelled">Google Drive authorization cancelled</string>
     <string name="backup_dialog_cloud_restore_picker_title">Select backup to restore</string>
     <string name="backup_dialog_cloud_restore_picker_subtitle">Choose a backup from %1$s to restore:</string>
 </resources>

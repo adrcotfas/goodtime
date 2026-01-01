@@ -75,8 +75,7 @@ fun ListItemDefaults.disabledColors(): ListItemColors {
 }
 
 @Composable
-fun ListItemDefaults.selectedColors(): ListItemColors =
-    colors(containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
+fun ListItemDefaults.selectedColors(): ListItemColors = colors(containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
 
 @Composable
 fun BetterListItem(
@@ -379,11 +378,12 @@ fun SwitchListItem(
             }
         },
         enabled = isEnabled,
-        onClick = if (isEnabled) {
-            { onCheckedChange(!checked) }
-        } else {
-            null
-        },
+        onClick =
+            if (isEnabled) {
+                { onCheckedChange(!checked) }
+            } else {
+                null
+            },
     )
 }
 

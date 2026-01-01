@@ -102,7 +102,7 @@ class CloudBackupManager(
             return
         }
 
-        val lastBackupTime = backupSettings.lastBackupTimestamp
+        val lastBackupTime = backupSettings.cloudLastBackupTimestamp
         val currentTime = TimeProvider.now()
 
         if (lastBackupTime > 0 && (currentTime - lastBackupTime) < 1.days.inWholeMilliseconds) {
@@ -276,7 +276,7 @@ class CloudBackupManager(
             logger.d { "performBackup() - updating backup timestamp..." }
             settingsRepository.setBackupSettings(
                 currentSettings.copy(
-                    lastBackupTimestamp = TimeProvider.now(),
+                    cloudLastBackupTimestamp = TimeProvider.now(),
                 ),
             )
 

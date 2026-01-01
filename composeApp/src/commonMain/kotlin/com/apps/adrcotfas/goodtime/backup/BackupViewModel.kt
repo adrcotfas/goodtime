@@ -70,6 +70,9 @@ enum class CloudProvider {
 enum class CloudAutoBackupIssue {
     ICLOUD_UNAVAILABLE,
     ICLOUD_FULL,
+    GOOGLE_DRIVE_AUTH_REQUIRED,
+    GOOGLE_DRIVE_AUTH_FAILED,
+    GOOGLE_DRIVE_UNAVAILABLE,
     UNKNOWN,
 }
 

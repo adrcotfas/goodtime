@@ -92,7 +92,7 @@ class LocalAutoBackupWorker(
             // Update last backup timestamp
             settingsRepository.setBackupSettings(
                 settings.backupSettings.copy(
-                    lastBackupTimestamp = System.currentTimeMillis(),
+                    localLastBackupTimestamp = System.currentTimeMillis(),
                 ),
             )
 

@@ -180,6 +180,9 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            // Google Drive API dependencies have conflicting META-INF files
+            excludes += "/META-INF/INDEX.LIST"
+            excludes += "/META-INF/DEPENDENCIES"
         }
     }
 
@@ -233,6 +236,11 @@ dependencies {
     add("googleImplementation", libs.review.ktx)
     add("googleImplementation", libs.purchases.core)
     add("googleImplementation", libs.purchases.ui)
+    add("googleImplementation", libs.google.play.auth)
+    add("googleImplementation", libs.google.play.auth.credentials)
+    add("googleImplementation", libs.google.api.client)
+    add("googleImplementation", libs.google.drive)
+    add("googleImplementation", libs.google.id)
 }
 
 room {

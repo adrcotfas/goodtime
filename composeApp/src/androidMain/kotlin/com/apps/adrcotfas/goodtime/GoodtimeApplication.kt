@@ -21,6 +21,9 @@ import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
 import com.apps.adrcotfas.goodtime.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.backup.GoogleDriveAuthManager
+import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupWorker
+import com.apps.adrcotfas.goodtime.backup.GoogleDriveManager
 import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupManager
 import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupWorker
 import com.apps.adrcotfas.goodtime.billing.PurchaseManager
@@ -136,6 +139,16 @@ class GoodtimeApplication :
                             getWith("AutoBackupWorker"),
                             get<String>(named(DB_PATH_KEY)),
                             get(),
+                        )
+                    }
+                    worker {
+                        GoogleDriveBackupWorker(
+                            context = get(),
+                            googleDriveAuthManager = get<GoogleDriveAuthManager>(),
+                            googleDriveManager = get<GoogleDriveManager>(),
+                            settingsRepository = get<SettingsRepository>(),
+                            logger = getWith("GoogleDriveBackupWorker"),
+                            params = get(),
                         )
                     }
                 },

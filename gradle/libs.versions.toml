@@ -55,6 +55,12 @@ androidchart = "3.1.0.25"
 
 work = "2.11.0"
 
+google-play-auth = "21.4.0"
+google-play-auth-credentials = "1.5.0"
+google-api-client = "2.8.1"
+google-drive = "v3-rev20250717-2.0.0"
+google-id = "1.1.1"
+
 [libraries]
 acra-mail = { module = "ch.acra:acra-mail", version.ref = "acra" }
 acra-notification = { module = "ch.acra:acra-notification", version.ref = "acra" }
@@ -82,6 +88,12 @@ compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "comp
 compottie-dot = { module = "io.github.alexzhirkevich:compottie-dot", version.ref = "compottie" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
+
+google-play-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-auth" }
+google-play-auth-credentials = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "google-play-auth-credentials"}
+google-api-client = { module = "com.google.api-client:google-api-client-android", version.ref ="google-api-client" }
+google-drive = {module = "com.google.apis:google-api-services-drive", version.ref = "google-drive"}
+google-id = {module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "google-id"}
 
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
