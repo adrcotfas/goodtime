@@ -44,8 +44,6 @@ data class BackupUiState(
     val backupSettings: BackupSettings = BackupSettings(),
     // Cloud backup state
     val isCloudConnected: Boolean = false,
-    val cloudProvider: CloudProvider = CloudProvider.GOOGLE_DRIVE,
-    val cloudAccountEmail: String? = null,
     val isCloudBackupInProgress: Boolean = false,
     val isCloudRestoreInProgress: Boolean = false,
     val isCloudAutoBackupToggleInProgress: Boolean = false,
@@ -53,18 +51,14 @@ data class BackupUiState(
     // Cloud restore picker
     val showCloudRestoreDialog: Boolean = false,
     val availableCloudBackups: List<String> = emptyList(),
-    // UI state
-    val showExportSection: Boolean = false,
+    // Platform-specific UI visibility
+    val showLocalAutoBackup: Boolean = false,
+    val showCloudBackup: Boolean = true,
 )
 
 enum class BackupResultKind {
     BACKUP,
     EXPORT,
-}
-
-enum class CloudProvider {
-    GOOGLE_DRIVE,
-    ICLOUD,
 }
 
 enum class CloudAutoBackupIssue {
@@ -88,7 +82,7 @@ val BackupUiState.isBusy: Boolean
 
 class BackupViewModel(
     private val localBackupService: LocalBackupService,
-    private val cloudBackupService: CloudBackupService,
+    private val cloudBackupService: CloudBackupService?,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(BackupUiState())
@@ -105,11 +99,11 @@ class BackupViewModel(
                 }.collect { settings ->
                     var backupSettings = settings.backupSettings
 
-                    // If cloud auto-backup is enabled, verify iCloud is still available
-                    if (backupSettings.cloudAutoBackupEnabled) {
+                    // If cloud auto-backup is enabled, verify cloud is still available
+                    if (backupSettings.cloudAutoBackupEnabled && cloudBackupService != null) {
                         val preflight = cloudBackupService.preflightBackup()
                         if (preflight != null) {
-                            // iCloud is unavailable - disable auto-backup
+                            // Cloud is unavailable - disable auto-backup
                             backupSettings = backupSettings.copy(cloudAutoBackupEnabled = false)
                             settingsRepository.setBackupSettings(backupSettings)
                             cloudBackupService.setAutoBackupEnabled(false)
@@ -121,7 +115,8 @@ class BackupViewModel(
                             isLoading = false,
                             isPro = settings.isPro,
                             backupSettings = backupSettings,
-                            cloudProvider = getPlatformConfiguration().cloudProvider,
+                            showLocalAutoBackup = getPlatformConfiguration().isAndroid,
+                            showCloudBackup = cloudBackupService != null,
                         )
                     }
                 }
@@ -190,6 +185,10 @@ class BackupViewModel(
 
     fun clearCloudIssue() = _uiState.update { it.copy(cloudIssue = null) }
 
+    fun setCloudConnected(connected: Boolean) {
+        _uiState.update { it.copy(isCloudConnected = connected) }
+    }
+
     fun clearProgress() =
         _uiState.update {
             it.copy(
@@ -210,44 +209,42 @@ class BackupViewModel(
     }
 
     /**
-     * iOS: only enable cloud auto backup when iCloud is available and an initial backup succeeds.
+     * Enable cloud auto backup when cloud is available and an initial backup succeeds.
      * When enabling fails, we keep the switch OFF and expose [cloudIssue] for the UI.
      */
     fun toggleCloudAutoBackup(enabled: Boolean) {
+        val service = cloudBackupService ?: return
         viewModelScope.launch {
             val before = settingsRepository.settings.first().backupSettings
 
             if (!enabled) {
                 settingsRepository.setBackupSettings(before.copy(cloudAutoBackupEnabled = false))
-                cloudBackupService.setAutoBackupEnabled(false)
+                service.setAutoBackupEnabled(false)
                 return@launch
             }
 
             _uiState.update { it.copy(isCloudAutoBackupToggleInProgress = true) }
-            val issue = cloudBackupService.attemptEnableAutoBackup()
+            val issue = service.attemptEnableAutoBackup()
 
             val after = settingsRepository.settings.first().backupSettings
             if (issue == null) {
                 settingsRepository.setBackupSettings(after.copy(cloudAutoBackupEnabled = true))
-                cloudBackupService.setAutoBackupEnabled(true)
+                service.setAutoBackupEnabled(true)
             } else {
                 settingsRepository.setBackupSettings(after.copy(cloudAutoBackupEnabled = false))
                 _uiState.update { it.copy(cloudIssue = issue) }
-                cloudBackupService.setAutoBackupEnabled(false)
+                service.setAutoBackupEnabled(false)
             }
 
             _uiState.update { it.copy(isCloudAutoBackupToggleInProgress = false) }
         }
     }
 
-    fun toggleExportSection() {
-        _uiState.update { it.copy(showExportSection = !it.showExportSection) }
-    }
-
     fun performCloudBackup() {
+        val service = cloudBackupService ?: return
         viewModelScope.launch {
             _uiState.update { it.copy(isCloudBackupInProgress = true) }
-            val preflight = cloudBackupService.preflightBackup()
+            val preflight = service.preflightBackup()
             if (preflight != null) {
                 _uiState.update {
                     it.copy(
@@ -258,17 +255,18 @@ class BackupViewModel(
                 return@launch
             }
 
-            val result = cloudBackupService.backupNow()
+            val result = service.backupNow()
             _uiState.update { it.copy(isCloudBackupInProgress = false, backupResult = result) }
         }
     }
 
     fun performCloudRestore() {
+        val service = cloudBackupService ?: return
         viewModelScope.launch {
             _uiState.update { it.copy(isCloudRestoreInProgress = true) }
 
             // Check if cloud is available first
-            val preflight = cloudBackupService.preflightBackup()
+            val preflight = service.preflightBackup()
             if (preflight != null) {
                 _uiState.update {
                     it.copy(
@@ -280,7 +278,7 @@ class BackupViewModel(
             }
 
             // Fetch available backups
-            val backups = cloudBackupService.listAvailableBackups()
+            val backups = service.listAvailableBackups()
 
             if (backups.isEmpty()) {
                 _uiState.update {
@@ -313,6 +311,7 @@ class BackupViewModel(
     }
 
     fun restoreSelectedCloudBackup(fileName: String) {
+        val service = cloudBackupService ?: return
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
@@ -321,7 +320,7 @@ class BackupViewModel(
                 )
             }
 
-            val result = cloudBackupService.restoreFromBackup(fileName)
+            val result = service.restoreFromBackup(fileName)
             _uiState.update {
                 it.copy(
                     isCloudRestoreInProgress = false,

@@ -89,8 +89,7 @@ class LocalAutoBackupManager(
             PeriodicWorkRequestBuilder<LocalAutoBackupWorker>(
                 repeatInterval = 1L,
                 repeatIntervalTimeUnit = TimeUnit.DAYS,
-            ).setInitialDelay(10L, TimeUnit.SECONDS)
-                .setConstraints(constraints)
+            ).setConstraints(constraints)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 1, TimeUnit.HOURS)
                 .build()
 

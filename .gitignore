@@ -9,6 +9,7 @@ captures
 local.properties
 xcuserdata
 .kotlin
+.firebender
 composeApp/build
 composeApp/google
 composeApp/fdroid

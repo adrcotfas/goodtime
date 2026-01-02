@@ -29,6 +29,7 @@ import com.apps.adrcotfas.goodtime.backup.CloudAutoBackupIssue
 import com.apps.adrcotfas.goodtime.ui.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_icloud
 import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_export_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_export_failed_please_try_again
@@ -40,6 +41,7 @@ import goodtime_productivity.composeapp.generated.resources.backup_no_backups_fo
 import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
 import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -52,6 +54,12 @@ actual fun BackupScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     if (uiState.isLoading) return
+
+    // iOS is always "connected" to iCloud (no explicit auth step)
+    // The cloudIssue field indicates if iCloud is unavailable
+    LaunchedEffect(Unit) {
+        viewModel.setCloudConnected(true)
+    }
 
     LaunchedEffect(uiState.backupResult) {
         uiState.backupResult?.let {
@@ -113,24 +121,31 @@ actual fun BackupScreen(
         }
     }
 
+    val cloudProviderName = stringResource(Res.string.backup_actions_provider_icloud)
+
     BackupScreenContent(
         uiState = uiState,
         onNavigateToPro = onNavigateToPro,
         onNavigateBack = onNavigateBack,
-        onCloudAutoBackupToggle = { isEnabled ->
-            if (uiState.isPro) {
-                // iOS: only turn ON the switch after confirming iCloud is available and an initial backup succeeds.
-                viewModel.toggleCloudAutoBackup(isEnabled)
-            }
+        cloudBackupSection = {
+            CloudBackupSection(
+                uiState = uiState,
+                enabled = uiState.isPro,
+                onAutoBackupToggle = { isEnabled ->
+                    if (uiState.isPro) {
+                        viewModel.toggleCloudAutoBackup(isEnabled)
+                    }
+                },
+                onBackup = { viewModel.performCloudBackup() },
+                onRestore = { viewModel.performCloudRestore() },
+            )
         },
-        onCloudBackup = { viewModel.performCloudBackup() },
-        onCloudRestore = { viewModel.performCloudRestore() },
-        onCloudRestoreDismiss = { viewModel.dismissCloudRestoreDialog() },
-        onCloudBackupSelected = { fileName -> viewModel.restoreSelectedCloudBackup(fileName) },
         onLocalBackup = { viewModel.backup() },
         onLocalRestore = { viewModel.restore() },
         onExportCsv = { viewModel.backupToCsv() },
         onExportJson = { viewModel.backupToJson() },
-        onToggleExportSection = { viewModel.toggleExportSection() },
+        cloudProviderName = cloudProviderName,
+        onCloudRestoreDismiss = { viewModel.dismissCloudRestoreDialog() },
+        onCloudBackupSelected = { fileName -> viewModel.restoreSelectedCloudBackup(fileName) },
     )
 }

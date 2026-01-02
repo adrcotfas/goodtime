@@ -44,21 +44,22 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun ActionCard(
     icon: (@Composable () -> Unit)? = null,
     useSecondaryColor: Boolean = false,
+    enabled: Boolean = true,
     cta: String? = null,
     description: String,
     onClick: () -> Unit,
 ) {
+    val alpha = if (enabled) 0.38f else 0.18f
+    val contentAlpha = if (enabled) 1f else 0.5f
     val colors =
         CardDefaults.cardColors().copy(
             containerColor =
                 if (useSecondaryColor) {
-                    MaterialTheme.colorScheme.secondary.copy(alpha = 0.38f)
+                    MaterialTheme.colorScheme.secondary.copy(alpha = alpha)
                 } else {
-                    MaterialTheme.colorScheme.primary.copy(
-                        alpha = 0.38f,
-                    )
+                    MaterialTheme.colorScheme.primary.copy(alpha = alpha)
                 },
-            contentColor = MaterialTheme.colorScheme.onSurface,
+            contentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = contentAlpha),
         )
     Card(
         colors = colors,
@@ -67,9 +68,13 @@ fun ActionCard(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 8.dp)
                 .clip(MaterialTheme.shapes.medium)
-                .clickable {
-                    onClick()
-                },
+                .then(
+                    if (enabled) {
+                        Modifier.clickable { onClick() }
+                    } else {
+                        Modifier
+                    },
+                ),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

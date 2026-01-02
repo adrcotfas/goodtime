@@ -20,12 +20,6 @@ package com.apps.adrcotfas.goodtime
 import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
-import com.apps.adrcotfas.goodtime.backup.BackupPrompter
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveAuthManager
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupWorker
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveManager
-import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupManager
-import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupWorker
 import com.apps.adrcotfas.goodtime.billing.PurchaseManager
 import com.apps.adrcotfas.goodtime.billing.configurePurchasesFromPlatform
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
@@ -37,17 +31,16 @@ import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_HANDLER
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
-import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
-import com.apps.adrcotfas.goodtime.data.backup.AndroidBackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
-import com.apps.adrcotfas.goodtime.di.DB_PATH_KEY
 import com.apps.adrcotfas.goodtime.di.IO_SCOPE
 import com.apps.adrcotfas.goodtime.di.billingModule
+import com.apps.adrcotfas.goodtime.di.coreBackupModule
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
 import com.apps.adrcotfas.goodtime.di.getWith
 import com.apps.adrcotfas.goodtime.di.localDataModule
 import com.apps.adrcotfas.goodtime.di.mainModule
+import com.apps.adrcotfas.goodtime.di.platformBackupModule
 import com.apps.adrcotfas.goodtime.di.platformModule
 import com.apps.adrcotfas.goodtime.di.timerManagerModule
 import com.apps.adrcotfas.goodtime.di.viewModelModule
@@ -62,7 +55,6 @@ import org.acra.config.notification
 import org.acra.data.StringFormat
 import org.acra.ktx.initAcra
 import org.koin.android.ext.android.get
-import org.koin.androidx.workmanager.dsl.worker
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
@@ -84,16 +76,6 @@ class GoodtimeApplication :
             modules(
                 module {
                     single<Context> { this@GoodtimeApplication }
-                    single<ActivityResultLauncherManager> {
-                        ActivityResultLauncherManager(
-                            get(),
-                            coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
-                        )
-                    }
-
-                    single<BackupPrompter> {
-                        AndroidBackupPrompter(get())
-                    }
                     single<NotificationArchManager> {
                         NotificationArchManager(
                             get<Context>(),
@@ -124,39 +106,14 @@ class GoodtimeApplication :
                             coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
                         )
                     }
-                    single(createdAtStart = true) {
-                        LocalAutoBackupManager(
-                            context = get(),
-                            settingsRepository = get<SettingsRepository>(),
-                            logger = getWith("AutoBackupManager"),
-                        )
-                    }
-                    worker {
-                        LocalAutoBackupWorker(
-                            get(),
-                            get(),
-                            get(),
-                            getWith("AutoBackupWorker"),
-                            get<String>(named(DB_PATH_KEY)),
-                            get(),
-                        )
-                    }
-                    worker {
-                        GoogleDriveBackupWorker(
-                            context = get(),
-                            googleDriveAuthManager = get<GoogleDriveAuthManager>(),
-                            googleDriveManager = get<GoogleDriveManager>(),
-                            settingsRepository = get<SettingsRepository>(),
-                            logger = getWith("GoogleDriveBackupWorker"),
-                            params = get(),
-                        )
-                    }
                 },
                 coroutineScopeModule,
                 billingModule,
                 platformModule,
                 coreModule,
                 localDataModule,
+                coreBackupModule,
+                platformBackupModule,
                 timerManagerModule,
                 viewModelModule,
                 mainModule,

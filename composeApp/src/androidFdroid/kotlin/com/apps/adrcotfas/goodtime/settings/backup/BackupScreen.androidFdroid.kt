@@ -17,21 +17,15 @@
  */
 package com.apps.adrcotfas.goodtime.settings.backup
 
-import android.app.Activity
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
@@ -40,9 +34,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.backup.BackupPromptResult
 import com.apps.adrcotfas.goodtime.backup.BackupResultKind
 import com.apps.adrcotfas.goodtime.backup.BackupViewModel
-import com.apps.adrcotfas.goodtime.backup.CloudAutoBackupIssue
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveAuthState
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupService
 import com.apps.adrcotfas.goodtime.common.isUriPersisted
 import com.apps.adrcotfas.goodtime.common.releasePersistableUriPermission
 import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
@@ -52,16 +43,16 @@ import goodtime_productivity.composeapp.generated.resources.backup_completed_suc
 import goodtime_productivity.composeapp.generated.resources.backup_export_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_export_failed_please_try_again
 import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
-import goodtime_productivity.composeapp.generated.resources.backup_google_drive_auth_cancelled
-import goodtime_productivity.composeapp.generated.resources.backup_google_drive_auth_failed
-import goodtime_productivity.composeapp.generated.resources.backup_google_drive_unavailable
 import goodtime_productivity.composeapp.generated.resources.backup_no_backups_found
 import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.koin.compose.koinInject
 
+/**
+ * F-Droid version of BackupScreen.
+ * Does not include cloud backup functionality (requires Google Play Services).
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 actual fun BackupScreen(
@@ -70,17 +61,11 @@ actual fun BackupScreen(
     onNavigateToMainAndReset: () -> Unit,
 ) {
     val viewModel: BackupViewModel = koinInject()
-    val googleDriveBackupService: GoogleDriveBackupService = koinInject()
     val activityResultLauncherManager: ActivityResultLauncherManager = koinInject()
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
-    val googleDriveAuthState by googleDriveBackupService.authState.collectAsStateWithLifecycle()
-    val scope = rememberCoroutineScope()
-
-    // Track pending operation to retry after auth
-    var pendingCloudOperation by remember { mutableStateOf<CloudOperation?>(null) }
 
     if (uiState.isLoading) return
 
@@ -115,53 +100,6 @@ actual fun BackupScreen(
                 }
             },
         )
-
-    // Google Drive authorization launcher
-    val googleAuthLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.StartIntentSenderForResult(),
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                scope.launch {
-                    val success = googleDriveBackupService.handleAuthResult(result.data)
-                    if (success) {
-                        // Retry the pending operation
-                        when (pendingCloudOperation) {
-                            CloudOperation.ENABLE_AUTO_BACKUP -> {
-                                viewModel.toggleCloudAutoBackup(true)
-                            }
-                            CloudOperation.BACKUP_NOW -> {
-                                viewModel.performCloudBackup()
-                            }
-                            CloudOperation.RESTORE -> {
-                                viewModel.performCloudRestore()
-                            }
-                            null -> {}
-                        }
-                    } else {
-                        Toast.makeText(context, getString(Res.string.backup_google_drive_auth_failed), Toast.LENGTH_SHORT).show()
-                    }
-                    pendingCloudOperation = null
-                    googleDriveBackupService.resetAuthState()
-                }
-            } else {
-                scope.launch {
-                    Toast.makeText(context, getString(Res.string.backup_google_drive_auth_cancelled), Toast.LENGTH_SHORT).show()
-                }
-                pendingCloudOperation = null
-                googleDriveBackupService.resetAuthState()
-            }
-        }
-
-    // Launch auth when needed
-    LaunchedEffect(googleDriveAuthState) {
-        if (googleDriveAuthState is GoogleDriveAuthState.NeedsConsent) {
-            val pendingIntent = googleDriveBackupService.getPendingIntentForConsent()
-            pendingIntent?.let {
-                googleAuthLauncher.launch(IntentSenderRequest.Builder(it.intentSender).build())
-            }
-        }
-    }
 
     LaunchedEffect(Unit) {
         activityResultLauncherManager.setup(importLauncher, exportLauncher)
@@ -226,26 +164,6 @@ actual fun BackupScreen(
         }
     }
 
-    // Handle cloud backup issues
-    LaunchedEffect(uiState.cloudIssue) {
-        uiState.cloudIssue?.let { issue ->
-            // AUTH_REQUIRED is handled via authState, don't show toast for it
-            if (issue != CloudAutoBackupIssue.GOOGLE_DRIVE_AUTH_REQUIRED) {
-                val msg =
-                    when (issue) {
-                        CloudAutoBackupIssue.GOOGLE_DRIVE_AUTH_FAILED ->
-                            getString(Res.string.backup_google_drive_auth_failed)
-                        CloudAutoBackupIssue.GOOGLE_DRIVE_UNAVAILABLE ->
-                            getString(Res.string.backup_google_drive_unavailable)
-                        else ->
-                            getString(Res.string.backup_failed_please_try_again)
-                    }
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                viewModel.clearCloudIssue()
-            }
-        }
-    }
-
     LaunchedEffect(Unit) {
         if (uiState.backupSettings.autoBackupEnabled && !context.isUriPersisted(uiState.backupSettings.path.toUri())) {
             viewModel.setBackupSettings(uiState.backupSettings.copy(autoBackupEnabled = false, path = ""))
@@ -256,23 +174,8 @@ actual fun BackupScreen(
         uiState = uiState,
         onNavigateToPro = onNavigateToPro,
         onNavigateBack = onNavigateBack,
-        onCloudAutoBackupToggle = { isEnabled ->
-            if (uiState.isPro) {
-                if (isEnabled) {
-                    pendingCloudOperation = CloudOperation.ENABLE_AUTO_BACKUP
-                    scope.launch {
-                        val issue = googleDriveBackupService.reconnect()
-                        if (issue == null) {
-                            // Already authorized, proceed with enabling
-                            viewModel.toggleCloudAutoBackup(true)
-                        } else if (issue == CloudAutoBackupIssue.GOOGLE_DRIVE_AUTH_REQUIRED) {
-                            // Consent UI will be launched via authState, operation will retry after auth
-                        }
-                    }
-                } else {
-                    viewModel.toggleCloudAutoBackup(false)
-                }
-            }
+        cloudBackupSection = {
+            // Empty - cloud backup not available on F-Droid
         },
         onLocalAutoBackupToggle = {
             if (uiState.isPro) {
@@ -284,37 +187,12 @@ actual fun BackupScreen(
                 }
             }
         },
-        onCloudBackup = {
-            pendingCloudOperation = CloudOperation.BACKUP_NOW
-            viewModel.performCloudBackup()
-        },
-        onCloudRestore = {
-            pendingCloudOperation = CloudOperation.RESTORE
-            viewModel.performCloudRestore()
-        },
-        onCloudDisconnect = {
-            // Clear local state
-            googleDriveBackupService.disconnect()
-            // Disable auto backup if it was enabled
-            if (uiState.backupSettings.cloudAutoBackupEnabled) {
-                viewModel.toggleCloudAutoBackup(false)
-            }
-        },
-        onCloudRestoreDismiss = { viewModel.dismissCloudRestoreDialog() },
-        onCloudBackupSelected = { fileName -> viewModel.restoreSelectedCloudBackup(fileName) },
         onLocalBackup = { viewModel.backup() },
         onLocalRestore = { viewModel.restore() },
         onExportCsv = { viewModel.backupToCsv() },
         onExportJson = { viewModel.backupToJson() },
-        onToggleExportSection = { viewModel.toggleExportSection() },
+        cloudProviderName = "", // Not used on F-Droid
+        onCloudRestoreDismiss = {},
+        onCloudBackupSelected = {},
     )
-}
-
-/**
- * Tracks which cloud operation is pending auth completion.
- */
-private enum class CloudOperation {
-    ENABLE_AUTO_BACKUP,
-    BACKUP_NOW,
-    RESTORE,
 }

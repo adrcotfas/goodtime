@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.platform
 
-import com.apps.adrcotfas.goodtime.backup.CloudProvider
-
 /**
  * Platform-specific configuration and capability detection.
  * Different platforms support different features.
@@ -30,11 +28,6 @@ interface PlatformConfiguration {
      * Keep this here (instead of ad-hoc expect/actual helpers) so we have a single source of truth.
      */
     val isAndroid: Boolean
-
-    /**
-     * Cloud backup provider for this platform.
-     */
-    val cloudProvider: CloudProvider
 
     /**
      * Whether the platform supports in-app updates.

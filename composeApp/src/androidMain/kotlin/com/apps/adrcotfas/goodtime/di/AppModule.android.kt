@@ -22,11 +22,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.BuildConfig
-import com.apps.adrcotfas.goodtime.backup.BackupManager
-import com.apps.adrcotfas.goodtime.backup.CloudBackupService
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveAuthManager
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupService
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveManager
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.EventListener
@@ -125,37 +120,6 @@ actual val platformModule: Module =
                 logger = getWith("ReminderScheduler"),
             )
         }
-
-        // Google Drive backup infrastructure
-        single<GoogleDriveAuthManager> {
-            GoogleDriveAuthManager(
-                context = get(),
-                logger = getWith("GoogleDriveAuthManager"),
-            )
-        }
-
-        single<GoogleDriveManager> {
-            GoogleDriveManager(
-                context = get(),
-                backupManager = get<BackupManager>(),
-                dbPath = get<String>(named(DB_PATH_KEY)),
-                cacheDir = get<String>(named(CACHE_DIR_PATH_KEY)),
-                logger = getWith("GoogleDriveManager"),
-            )
-        }
-
-        single<GoogleDriveBackupService> {
-            GoogleDriveBackupService(
-                context = get(),
-                googleDriveAuthManager = get(),
-                googleDriveManager = get(),
-                backupManager = get<BackupManager>(),
-                settingsRepository = get<SettingsRepository>(),
-                logger = getWith("GoogleDriveBackupService"),
-            )
-        }
-
-        single<CloudBackupService> { get<GoogleDriveBackupService>() }
     }
 
 actual fun isDebug(): Boolean = BuildConfig.DEBUG

@@ -20,11 +20,6 @@ package com.apps.adrcotfas.goodtime.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
-import com.apps.adrcotfas.goodtime.backup.BackupManager
-import com.apps.adrcotfas.goodtime.backup.BackupPrompter
-import com.apps.adrcotfas.goodtime.backup.CloudBackupManager
-import com.apps.adrcotfas.goodtime.backup.CloudBackupService
-import com.apps.adrcotfas.goodtime.backup.ICloudBackupService
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.IOS_LIVE_ACTIVITY_LISTENER
 import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
@@ -48,7 +43,6 @@ import com.apps.adrcotfas.goodtime.common.IosTimeFormatProvider
 import com.apps.adrcotfas.goodtime.common.IosUrlOpener
 import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
 import com.apps.adrcotfas.goodtime.common.UrlOpener
-import com.apps.adrcotfas.goodtime.data.backup.IosBackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
@@ -96,13 +90,6 @@ actual val platformModule: Module =
                     error = null,
                 )
             requireNotNull(cachesDirectory?.path)
-        }
-
-        single<BackupPrompter> {
-            IosBackupPrompter(
-                logger = getWith("IosBackupPrompter"),
-                mainScope = get<CoroutineScope>(named(MAIN_SCOPE)),
-            )
         }
 
         single<DataStore<Preferences>>(named(SETTINGS_NAME)) {
@@ -192,24 +179,6 @@ actual val platformModule: Module =
         single<ReminderScheduler> {
             ReminderScheduler(
                 logger = getWith("ReminderScheduler"),
-            )
-        }
-
-        single<CloudBackupManager>(createdAtStart = true) {
-            CloudBackupManager(
-                backupManager = get<BackupManager>(),
-                settingsRepository = get<SettingsRepository>(),
-                fileSystem = get<FileSystem>(),
-                dbPath = get<String>(named(DB_PATH_KEY)),
-                logger = getWith("CloudBackupManager"),
-            )
-        }
-
-        single<CloudBackupService> {
-            ICloudBackupService(
-                cloudBackupManager = get<CloudBackupManager>(),
-                backupManager = get<BackupManager>(),
-                logger = getWith("ICloudBackupService"),
             )
         }
     }

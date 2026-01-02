@@ -17,7 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
-import com.apps.adrcotfas.goodtime.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
@@ -30,7 +29,6 @@ import com.apps.adrcotfas.goodtime.settings.about.AcknowledgementsViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsViewModel
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -44,7 +42,6 @@ val viewModelModule: Module =
         viewModelOf(::TimerProfileViewModel)
         viewModelOf(::AboutViewModel)
         viewModelOf(::AcknowledgementsViewModel)
-        viewModel { BackupViewModel(get(), get(), get()) }
         viewModelOf(::StatisticsViewModel)
         viewModelOf(::StatisticsHistoryViewModel)
     }

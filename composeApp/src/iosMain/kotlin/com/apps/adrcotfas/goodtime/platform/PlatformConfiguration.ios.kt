@@ -17,15 +17,11 @@
  */
 package com.apps.adrcotfas.goodtime.platform
 
-import com.apps.adrcotfas.goodtime.backup.CloudProvider
-
 /**
  * iOS implementation of PlatformConfiguration.
  */
 private class IosPlatformConfiguration : PlatformConfiguration {
     override val isAndroid: Boolean = false
-
-    override val cloudProvider: CloudProvider = CloudProvider.ICLOUD
 
     /**
      * In-app updates are not supported on iOS App Store.
