@@ -144,6 +144,29 @@ class GoogleDriveAuthManager(
     }
 
     /**
+     * Clear cached authorization state.
+     * This forces the next authorize() call to potentially show consent UI.
+     *
+     * Uses SignInClient.signOut() which clears the shared credential cache
+     * that AuthorizationClient uses internally.
+     */
+    suspend fun clearCachedAuthorization() {
+        logger.d { "clearCachedAuthorization() - clearing cached state" }
+        suspendCancellableCoroutine { continuation ->
+            Identity
+                .getSignInClient(context)
+                .signOut()
+                .addOnSuccessListener {
+                    logger.d { "clearCachedAuthorization() - success" }
+                    continuation.resume(Unit)
+                }.addOnFailureListener { e ->
+                    logger.w(e) { "clearCachedAuthorization() - failed (may be okay)" }
+                    continuation.resume(Unit)
+                }
+        }
+    }
+
+    /**
      * Process the result from the authorization consent UI.
      *
      * Call this from your activity's onActivityResult when the user completes

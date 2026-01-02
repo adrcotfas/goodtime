@@ -149,6 +149,12 @@ class GoogleDriveBackupService(
                 logger.e { "backupNow() - upload returned null" }
                 BackupPromptResult.FAILED
             }
+        } catch (e: TokenRevokedException) {
+            logger.e(e) { "backupNow() - token revoked" }
+            currentAccessToken = null
+            isDisconnected = true
+            _authState.value = GoogleDriveAuthState.Failed("Access was revoked. Please reconnect.")
+            BackupPromptResult.FAILED
         } catch (e: Exception) {
             logger.e(e) { "backupNow() - failed" }
             BackupPromptResult.FAILED
@@ -165,6 +171,12 @@ class GoogleDriveBackupService(
 
         return try {
             googleDriveManager.listBackups(token)
+        } catch (e: TokenRevokedException) {
+            logger.e(e) { "listAvailableBackups() - token revoked" }
+            currentAccessToken = null
+            isDisconnected = true
+            _authState.value = GoogleDriveAuthState.Failed("Access was revoked. Please reconnect.")
+            emptyList()
         } catch (e: Exception) {
             logger.e(e) { "listAvailableBackups() - failed" }
             emptyList()
@@ -187,6 +199,12 @@ class GoogleDriveBackupService(
                 logger.e { "restoreFromBackup() - download returned null" }
                 BackupPromptResult.FAILED
             }
+        } catch (e: TokenRevokedException) {
+            logger.e(e) { "restoreFromBackup() - token revoked" }
+            currentAccessToken = null
+            isDisconnected = true
+            _authState.value = GoogleDriveAuthState.Failed("Access was revoked. Please reconnect.")
+            BackupPromptResult.FAILED
         } catch (e: Exception) {
             logger.e(e) { "restoreFromBackup() - failed" }
             BackupPromptResult.FAILED
@@ -235,6 +253,13 @@ class GoogleDriveBackupService(
                 logger.e { "attemptEnableAutoBackup() - initial backup failed" }
                 CloudAutoBackupIssue.GOOGLE_DRIVE_UNAVAILABLE
             }
+        } catch (e: TokenRevokedException) {
+            logger.e(e) { "attemptEnableAutoBackup() - initial backup failed" }
+            // Token was revoked - clear state and require re-auth
+            currentAccessToken = null
+            isDisconnected = true
+            _authState.value = GoogleDriveAuthState.Failed("Access was revoked. Please reconnect.")
+            CloudAutoBackupIssue.GOOGLE_DRIVE_AUTH_FAILED
         } catch (e: Exception) {
             logger.e(e) { "attemptEnableAutoBackup() - failed" }
             e.toCloudAutoBackupIssue()
@@ -245,11 +270,13 @@ class GoogleDriveBackupService(
      * Process the result from the consent UI.
      * Call this after the user completes the Google authorization consent flow.
      *
-     * After consent, we call authorize() again to get a fresh token rather than
-     * using the token from the intent, which may not be suitable for Drive API calls.
+     * This validates the token by making an actual API call to ensure it works.
+     * If the token is invalid (e.g., user revoked permissions server-side but
+     * Google skipped the permission screen), this returns false and sets an
+     * appropriate error state.
      *
      * @param data The Intent data from the activity result
-     * @return true if authorization was successful
+     * @return true if authorization was successful AND token is valid
      */
     suspend fun handleAuthResult(data: Intent?): Boolean {
         // Get the token from the consent result
@@ -260,12 +287,29 @@ class GoogleDriveBackupService(
             return false
         }
 
-        // Use the token directly from the consent flow
-        currentAccessToken = token
-        isDisconnected = false
-        _authState.value = GoogleDriveAuthState.Authorized
-        logger.d { "handleAuthResult() - got token from consent (length=${token.length})" }
-        return true
+        logger.d { "handleAuthResult() - got token from consent (length=${token.length}), validating..." }
+
+        // Validate the token actually works before accepting it.
+        // Google may return a token that appears valid but is actually revoked server-side
+        // (e.g., user revoked access at myaccount.google.com, Google skipped permission screen)
+        return try {
+            googleDriveManager.validateToken(token)
+            currentAccessToken = token
+            isDisconnected = false
+            _authState.value = GoogleDriveAuthState.Authorized
+            logger.d { "handleAuthResult() - token validated successfully" }
+            true
+        } catch (e: TokenRevokedException) {
+            logger.e { "handleAuthResult() - token is invalid/revoked" }
+            currentAccessToken = null
+            isDisconnected = true
+            _authState.value = GoogleDriveAuthState.Failed("Authorization failed. Please try again.")
+            false
+        } catch (e: Exception) {
+            logger.e(e) { "handleAuthResult() - token validation failed" }
+            _authState.value = GoogleDriveAuthState.Failed("Failed to validate access: ${e.message}")
+            false
+        }
     }
 
     /**
@@ -293,19 +337,37 @@ class GoogleDriveBackupService(
      * Reconnect to Google Drive after being disconnected.
      * Initiates the authorization flow.
      * Returns null on success, or an issue if authorization failed/needs consent.
+     *
+     * This clears cached authorization first, then attempts to authorize.
+     * If the token appears valid locally but is invalid server-side (revoked),
+     * it will clear cache and require user consent.
      */
     suspend fun reconnect(): CloudAutoBackupIssue? {
         logger.d { "reconnect() - starting authorization flow" }
 
         // Clear disconnected state first so tryAuthorize() doesn't block
         isDisconnected = false
+        currentAccessToken = null
+
+        // Clear cached authorization to force fresh auth check
+        googleDriveAuthManager.clearCachedAuthorization()
 
         return when (val authResult = googleDriveAuthManager.authorize()) {
             is GoogleDriveAuthResult.Success -> {
-                currentAccessToken = authResult.accessToken
-                _authState.value = GoogleDriveAuthState.Authorized
-                logger.d { "reconnect() - authorized" }
-                null
+                // Validate the token actually works (detects server-side revocation)
+                try {
+                    googleDriveManager.validateToken(authResult.accessToken)
+                    currentAccessToken = authResult.accessToken
+                    _authState.value = GoogleDriveAuthState.Authorized
+                    logger.d { "reconnect() - authorized and validated" }
+                    null
+                } catch (e: TokenRevokedException) {
+                    // Token looks valid locally but is revoked server-side
+                    // Clear cache again and force consent
+                    logger.w { "reconnect() - token revoked server-side, forcing consent" }
+                    googleDriveAuthManager.clearCachedAuthorization()
+                    handleTokenRevocation()
+                }
             }
             is GoogleDriveAuthResult.NeedsUserConsent -> {
                 logger.d { "reconnect() - needs user consent" }
@@ -317,6 +379,49 @@ class GoogleDriveBackupService(
                 isDisconnected = true
                 logger.e(authResult.exception) { "reconnect() - authorization failed" }
                 _authState.value = GoogleDriveAuthState.Failed(authResult.exception.message ?: "Unknown error")
+                CloudAutoBackupIssue.GOOGLE_DRIVE_AUTH_FAILED
+            }
+        }
+    }
+
+    /**
+     * Handle token revocation by attempting to get fresh consent.
+     * Called when a token that looked valid locally is actually revoked server-side.
+     */
+    private suspend fun handleTokenRevocation(): CloudAutoBackupIssue {
+        logger.d { "handleTokenRevocation() - attempting to get fresh consent" }
+
+        // Try authorize again after clearing cache - should now require consent
+        return when (val authResult = googleDriveAuthManager.authorize()) {
+            is GoogleDriveAuthResult.NeedsUserConsent -> {
+                logger.d { "handleTokenRevocation() - needs user consent (expected)" }
+                _authState.value = GoogleDriveAuthState.NeedsConsent(authResult.pendingIntent)
+                CloudAutoBackupIssue.GOOGLE_DRIVE_AUTH_REQUIRED
+            }
+            is GoogleDriveAuthResult.Success -> {
+                // Still getting a token - this shouldn't happen after clearing cache
+                // but let's validate it
+                try {
+                    googleDriveManager.validateToken(authResult.accessToken)
+                    currentAccessToken = authResult.accessToken
+                    _authState.value = GoogleDriveAuthState.Authorized
+                    logger.d { "handleTokenRevocation() - somehow got valid token" }
+                    return CloudAutoBackupIssue.GOOGLE_DRIVE_AUTH_FAILED // Still return error to be safe
+                } catch (e: TokenRevokedException) {
+                    // Still invalid - user needs to manually fix in Google account settings
+                    logger.e { "handleTokenRevocation() - still getting invalid tokens, user may need to reauthorize in Google account" }
+                    _authState.value =
+                        GoogleDriveAuthState.Failed(
+                            "Authorization failed. Please try again.",
+                        )
+                    isDisconnected = true
+                    CloudAutoBackupIssue.GOOGLE_DRIVE_AUTH_FAILED
+                }
+            }
+            is GoogleDriveAuthResult.Error -> {
+                logger.e(authResult.exception) { "handleTokenRevocation() - authorization failed" }
+                _authState.value = GoogleDriveAuthState.Failed(authResult.exception.message ?: "Unknown error")
+                isDisconnected = true
                 CloudAutoBackupIssue.GOOGLE_DRIVE_AUTH_FAILED
             }
         }

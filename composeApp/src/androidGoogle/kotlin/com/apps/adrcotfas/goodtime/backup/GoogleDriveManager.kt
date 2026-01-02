@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.backup
 
 import android.content.Context
 import co.touchlab.kermit.Logger
+import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.FileContent
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
@@ -27,6 +28,15 @@ import com.google.api.services.drive.model.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.FileOutputStream
+
+/**
+ * Exception thrown when the OAuth token has been revoked or is invalid.
+ * This typically happens when the user revokes app permissions from their Google account.
+ */
+class TokenRevokedException(
+    message: String,
+    cause: Throwable? = null,
+) : Exception(message, cause)
 
 /**
  * Manages Google Drive operations for backup and restore.
@@ -42,10 +52,48 @@ class GoogleDriveManager(
     private val logger: Logger,
 ) {
     /**
+     * Validate that the access token is still valid by making a lightweight API call.
+     * This detects tokens that have been revoked server-side but are still cached locally.
+     *
+     * @param accessToken OAuth access token to validate
+     * @return true if the token is valid, false otherwise
+     * @throws TokenRevokedException if the token has been revoked (401/403)
+     */
+    suspend fun validateToken(accessToken: String): Boolean =
+        withContext(Dispatchers.IO) {
+            logger.d { "validateToken() - checking token validity" }
+            try {
+                val driveService = createDriveService(accessToken)
+                // Make a minimal API call to verify the token works
+                driveService
+                    .files()
+                    .list()
+                    .setSpaces("appDataFolder")
+                    .setPageSize(1)
+                    .setFields("files(id)")
+                    .execute()
+                logger.d { "validateToken() - token is valid" }
+                true
+            } catch (e: GoogleJsonResponseException) {
+                if (e.statusCode == 401 || e.statusCode == 403) {
+                    logger.w { "validateToken() - token is invalid: ${e.statusCode}" }
+                    throw TokenRevokedException("Token has been revoked or is invalid", e)
+                }
+                // Other errors (network, etc.) - don't treat as token revocation
+                logger.e(e) { "validateToken() - API error: ${e.statusCode}" }
+                false
+            } catch (e: Exception) {
+                logger.e(e) { "validateToken() - unexpected error" }
+                false
+            }
+        }
+
+    /**
      * Upload the current database to Google Drive.
      *
      * @param accessToken OAuth access token with Drive appDataFolder scope
      * @return The uploaded file's ID, or null if upload failed
+     * @throws TokenRevokedException if the token has been revoked
      */
     suspend fun uploadBackup(accessToken: String): String? =
         withContext(Dispatchers.IO) {
@@ -93,6 +141,12 @@ class GoogleDriveManager(
                 cleanupOldBackups(driveService)
 
                 uploadedFile.id
+            } catch (e: GoogleJsonResponseException) {
+                logger.e(e) { "uploadBackup() - failed" }
+                if (e.statusCode == 401 || e.statusCode == 403) {
+                    throw TokenRevokedException("Token has been revoked or is invalid", e)
+                }
+                null
             } catch (e: Exception) {
                 logger.e(e) { "uploadBackup() - failed" }
                 null
@@ -130,6 +184,12 @@ class GoogleDriveManager(
 
                 logger.d { "listBackups() - found ${backups.size} backups" }
                 backups
+            } catch (e: GoogleJsonResponseException) {
+                logger.e(e) { "listBackups() - failed" }
+                if (e.statusCode == 401 || e.statusCode == 403) {
+                    throw TokenRevokedException("Token has been revoked or is invalid", e)
+                }
+                emptyList()
             } catch (e: Exception) {
                 logger.e(e) { "listBackups() - failed" }
                 emptyList()
@@ -184,6 +244,12 @@ class GoogleDriveManager(
 
                 logger.i { "downloadBackup() - downloaded to ${tempFile.absolutePath}" }
                 tempFile.absolutePath
+            } catch (e: GoogleJsonResponseException) {
+                logger.e(e) { "downloadBackup() - failed" }
+                if (e.statusCode == 401 || e.statusCode == 403) {
+                    throw TokenRevokedException("Token has been revoked or is invalid", e)
+                }
+                null
             } catch (e: Exception) {
                 logger.e(e) { "downloadBackup() - failed" }
                 null

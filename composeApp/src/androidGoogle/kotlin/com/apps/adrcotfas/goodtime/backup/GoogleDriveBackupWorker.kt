@@ -88,9 +88,30 @@ class GoogleDriveBackupWorker(
                     }
                 }
 
+            // Validate the token before attempting backup (detects server-side revocation)
+            try {
+                googleDriveManager.validateToken(accessToken)
+            } catch (e: TokenRevokedException) {
+                logger.w { "GoogleDriveBackupWorker - token revoked, disabling auto-backup" }
+                // Disable auto-backup so user sees the issue when they open the app
+                settingsRepository.setBackupSettings(
+                    settings.backupSettings.copy(cloudAutoBackupEnabled = false),
+                )
+                return Result.failure()
+            }
+
             // Perform the backup
             logger.d { "GoogleDriveBackupWorker - uploading backup" }
-            val fileId = googleDriveManager.uploadBackup(accessToken)
+            val fileId =
+                try {
+                    googleDriveManager.uploadBackup(accessToken)
+                } catch (e: TokenRevokedException) {
+                    logger.w { "GoogleDriveBackupWorker - token revoked during upload, disabling auto-backup" }
+                    settingsRepository.setBackupSettings(
+                        settings.backupSettings.copy(cloudAutoBackupEnabled = false),
+                    )
+                    return Result.failure()
+                }
 
             if (fileId == null) {
                 logger.e { "GoogleDriveBackupWorker - backup upload failed" }

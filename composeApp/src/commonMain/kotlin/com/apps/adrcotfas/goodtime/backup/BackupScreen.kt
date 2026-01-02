@@ -15,10 +15,13 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.settings.backup
+package com.apps.adrcotfas.goodtime.backup
 
-/**
- * iOS implementation of formatFolderPath.
- * iOS doesn't use this feature (no local auto-backup), so just return the path as-is.
- */
-actual fun formatFolderPath(uriPath: String): String = uriPath
+import androidx.compose.runtime.Composable
+
+@Composable
+expect fun BackupScreen(
+    onNavigateToPro: () -> Unit,
+    onNavigateBack: () -> Boolean,
+    onNavigateToMainAndReset: () -> Unit,
+)

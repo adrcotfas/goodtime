@@ -15,17 +15,13 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.settings.backup
+package com.apps.adrcotfas.goodtime.backup
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.backup.BackupPromptResult
-import com.apps.adrcotfas.goodtime.backup.BackupResultKind
-import com.apps.adrcotfas.goodtime.backup.BackupViewModel
-import com.apps.adrcotfas.goodtime.backup.CloudAutoBackupIssue
 import com.apps.adrcotfas.goodtime.ui.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
 import goodtime_productivity.composeapp.generated.resources.Res

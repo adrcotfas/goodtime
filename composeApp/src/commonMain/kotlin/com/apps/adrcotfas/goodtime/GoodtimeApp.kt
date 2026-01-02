@@ -36,6 +36,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.apps.adrcotfas.goodtime.backup.BackupScreen
 import com.apps.adrcotfas.goodtime.billing.ProScreen
 import com.apps.adrcotfas.goodtime.bl.TimerForegroundMonitor
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
@@ -69,7 +70,6 @@ import com.apps.adrcotfas.goodtime.settings.SettingsScreen
 import com.apps.adrcotfas.goodtime.settings.about.AboutScreen
 import com.apps.adrcotfas.goodtime.settings.about.AcknowledgementsScreen
 import com.apps.adrcotfas.goodtime.settings.about.LicensesScreen
-import com.apps.adrcotfas.goodtime.settings.backup.BackupScreen
 import com.apps.adrcotfas.goodtime.settings.notifications.NotificationsScreen
 import com.apps.adrcotfas.goodtime.settings.timerdurations.TimerProfileScreen
 import com.apps.adrcotfas.goodtime.settings.timerstyle.UserInterfaceScreen

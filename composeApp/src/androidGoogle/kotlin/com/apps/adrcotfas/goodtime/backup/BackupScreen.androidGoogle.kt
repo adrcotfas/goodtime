@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.settings.backup
+package com.apps.adrcotfas.goodtime.backup
 
 import android.app.Activity
 import android.net.Uri
@@ -37,13 +37,6 @@ import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.backup.BackupPromptResult
-import com.apps.adrcotfas.goodtime.backup.BackupResultKind
-import com.apps.adrcotfas.goodtime.backup.BackupViewModel
-import com.apps.adrcotfas.goodtime.backup.CloudAutoBackupIssue
-import com.apps.adrcotfas.goodtime.backup.CloudBackupService
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveAuthState
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupService
 import com.apps.adrcotfas.goodtime.common.isUriPersisted
 import com.apps.adrcotfas.goodtime.common.releasePersistableUriPermission
 import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
@@ -108,7 +101,8 @@ actual fun BackupScreen(
 
     val autoExportDirLauncher =
         rememberLauncherForActivityResult(
-            contract = OpenDocumentTreeContract(),
+            contract =
+                OpenDocumentTreeContract(),
             onResult = { uri ->
                 uri?.let {
                     context.takePersistableUriPermission(uri)
@@ -146,7 +140,11 @@ actual fun BackupScreen(
                             null -> {}
                         }
                     } else {
-                        Toast.makeText(context, getString(Res.string.backup_google_drive_auth_failed), Toast.LENGTH_SHORT).show()
+                        // Show the specific error message from auth state if available
+                        val errorMessage =
+                            (googleDriveBackupService.authState.value as? GoogleDriveAuthState.Failed)?.message
+                                ?: getString(Res.string.backup_google_drive_auth_failed)
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
                     }
                     pendingCloudOperation = null
                     googleDriveBackupService.resetAuthState()
@@ -317,7 +315,12 @@ actual fun BackupScreen(
             if (uiState.isPro) {
                 if (uiState.backupSettings.autoBackupEnabled) {
                     context.releasePersistableUriPermission(uiState.backupSettings.path.toUri())
-                    viewModel.setBackupSettings(uiState.backupSettings.copy(autoBackupEnabled = false, path = ""))
+                    viewModel.setBackupSettings(
+                        uiState.backupSettings.copy(
+                            autoBackupEnabled = false,
+                            path = "",
+                        ),
+                    )
                 } else {
                     autoExportDirLauncher.launch(Uri.EMPTY)
                 }
