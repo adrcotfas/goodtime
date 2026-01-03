@@ -11,14 +11,16 @@ jobs:
 
     steps:
       - checkout
-      - android/restore-gradle-cache
+      - android/restore_build_cache
+      - android/restore_gradle_cache
       - run:
           name: Check Android
           command: ./gradlew :composeApp:check
       - run:
           name: Check Spotless
           command: ./gradlew spotlessCheck
-      - android/save-gradle-cache
+      - android/save_build_cache
+      - android/save_gradle_cache
 
 workflows:
   build-all:
