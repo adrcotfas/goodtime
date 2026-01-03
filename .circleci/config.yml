@@ -1,13 +1,13 @@
 version: 2.1
 
 orbs:
-  android: circleci/android@2.4.0
+  android: circleci/android@3.2.0
 
 jobs:
   build-android:
     executor:
       name: android/android-docker
-      tag: 2024.01.1
+      tag: 2025.12.1
 
     steps:
       - checkout
