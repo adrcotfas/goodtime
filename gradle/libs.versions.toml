@@ -10,7 +10,7 @@ android-targetSdk = "36"
 
 agp = "8.13.2"
 appUpdateKtx = "2.1.0"
-revenuecat-purchases-kmp = "2.2.14+17.24.0"
+revenuecat-purchases-kmp = "2.2.15+17.25.0"
 composeMultiplatform = "1.9.3"
 coreSplashscreen = "1.2.0"
 kotlin = "2.3.0"
