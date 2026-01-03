@@ -198,22 +198,22 @@ fun TutorialPage(
     val white = Color.White
 
     val isPortraitOrientation = isPortrait()
-    val composition by rememberLottieComposition {
+    val composition by rememberLottieComposition(animationPath) {
         LottieCompositionSpec.DotLottie(Res.readBytes(animationPath))
     }
-    val lottieModifier = if (isPortraitOrientation) Modifier.fillMaxSize(0.5f) else Modifier
 
     val lottieAnimation: @Composable () -> Unit = {
-        Image(
-            modifier = lottieModifier,
-            painter =
-                rememberLottiePainter(
-                    composition = composition,
-                    iterations = Compottie.IterateForever,
-                ),
-            contentScale = ContentScale.FillHeight,
-            contentDescription = null,
-        )
+        composition?.let { comp ->
+            Image(
+                painter =
+                    rememberLottiePainter(
+                        composition = comp,
+                        iterations = Compottie.IterateForever,
+                    ),
+                contentScale = ContentScale.FillHeight,
+                contentDescription = null,
+            )
+        }
     }
 
     if (isPortraitOrientation) {

@@ -45,6 +45,7 @@ val timerManagerModule =
             TimerForegroundMonitor(
                 timerManager = get(),
                 timeProvider = get(),
+                getWith("TimerForegroundMonitor"),
             )
         }
     }

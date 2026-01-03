@@ -19,7 +19,6 @@ package com.apps.adrcotfas.goodtime
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -84,7 +83,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
-import org.koin.compose.viewmodel.koinViewModel
 
 /**
  * Main composable for the Goodtime app.
@@ -141,9 +139,9 @@ fun GoodtimeApp(
     }
 
     LifecycleResumeEffect(Unit) {
-        timerForegroundMonitor.onEnterForeground(coroutineScope)
+        timerForegroundMonitor.onBringToForeground(coroutineScope)
         onPauseOrDispose {
-            timerForegroundMonitor.onExitForeground()
+            timerForegroundMonitor.onSendToBackground()
         }
     }
 

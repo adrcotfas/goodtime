@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.currentCoroutineContext
@@ -34,10 +35,12 @@ import kotlinx.coroutines.launch
 class TimerForegroundMonitor(
     private val timerManager: TimerManager,
     private val timeProvider: TimeProvider,
+    private val logger: Logger,
 ) {
     private var foregroundJob: Job? = null
 
-    fun onEnterForeground(scope: CoroutineScope) {
+    fun onBringToForeground(scope: CoroutineScope) {
+        logger.v { "onBringToForeground" }
         timerManager.onBringToForeground()
         foregroundJob?.cancel()
         foregroundJob =
@@ -46,13 +49,15 @@ class TimerForegroundMonitor(
             }
     }
 
-    fun onExitForeground() {
+    fun onSendToBackground() {
+        logger.v { "onSendToBackground" }
         timerManager.onSendToBackground()
         foregroundJob?.cancel()
         foregroundJob = null
     }
 
     private suspend fun listenForeground() {
+        logger.v { "listenForeground" }
         timerManager.timerData
             .filter { it.state.isActive }
             .collectLatest { activeTimerData ->
@@ -61,9 +66,11 @@ class TimerForegroundMonitor(
                     val baseTime = activeTimerData.getBaseTime(timeProvider)
 
                     if (isCountdown && baseTime < 500) {
+                        logger.v { "force finish" }
                         timerManager.finish(actionType = FinishActionType.FORCE_FINISH)
                         return@collectLatest
                     } else if (!isCountdown && baseTime > TimerManager.COUNT_UP_HARD_LIMIT) {
+                        logger.v { "manual reset after hard limit" }
                         timerManager.reset(actionType = FinishActionType.MANUAL_RESET)
                         return@collectLatest
                     }

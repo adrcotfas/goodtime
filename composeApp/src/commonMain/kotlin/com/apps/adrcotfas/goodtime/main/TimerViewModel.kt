@@ -266,8 +266,6 @@ class TimerViewModel(
         }
     }
 
-    fun forceFinish() = timerManager.finish(actionType = FinishActionType.FORCE_FINISH)
-
     /**
      * Check if we're within the inactivity timeout using CURRENT time.
      * This is needed for initial render after foregrounding when cached timerUiState may be stale.
@@ -278,10 +276,6 @@ class TimerViewModel(
         val idleTime = timeProvider.elapsedRealtime() - timerData.endTime
         return idleTime < TimerManager.AUTOSTART_TIMEOUT
     }
-
-    fun onSendToBackground() = timerManager.onSendToBackground()
-
-    fun onBringToForeground() = timerManager.onBringToForeground()
 
     fun setShouldAskForReview() = viewModelScope.launch { settingsRepo.setShouldAskForReview(true) }
 

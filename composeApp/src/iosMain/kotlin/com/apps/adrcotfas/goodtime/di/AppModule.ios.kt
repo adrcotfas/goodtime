@@ -171,6 +171,8 @@ actual val platformModule: Module =
                 soundPlayer = get(),
                 vibrationPlayer = get(),
                 torchManager = get(),
+                timeProvider = get(),
+                logger = getWith("SoundVibrationAndTorchPlayer"),
             )
         }
 

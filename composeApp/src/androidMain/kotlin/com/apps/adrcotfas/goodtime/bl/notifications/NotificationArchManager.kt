@@ -26,6 +26,7 @@ import android.content.Intent
 import android.os.SystemClock
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
+import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.TimerService
@@ -33,6 +34,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isFocus
 import com.apps.adrcotfas.goodtime.common.formatMillisToTime
+import com.apps.adrcotfas.goodtime.di.injectLogger
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.main_break_complete
 import goodtime_productivity.composeapp.generated.resources.main_break_in_progress
