@@ -1,7 +1,7 @@
 [versions]
 
-appVersionName = "3.1.0"
-appVersionCode = "352"
+appVersionName = "3.1.1"
+appVersionCode = "353"
 
 acra = "5.13.1"
 android-minSdk = "26"
