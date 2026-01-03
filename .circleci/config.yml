@@ -6,7 +6,8 @@ orbs:
 jobs:
   build-android:
     executor:
-      name: android/android-docker
+      name: android/android_docker
+      resource_class: large
       tag: 2025.12.1
 
     steps:
