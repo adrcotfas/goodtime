@@ -51,10 +51,9 @@ fun ColorSelectRow(
     LazyRow(
         modifier =
             Modifier
-                .wrapContentWidth()
-                .height(48.dp),
+                .wrapContentWidth(),
         state = listState,
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

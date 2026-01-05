@@ -61,10 +61,9 @@ import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.ui.ActionCard
 import com.apps.adrcotfas.goodtime.ui.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.ColorSelectRow
-import com.apps.adrcotfas.goodtime.ui.CompactPreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.DropdownMenuListItem
+import com.apps.adrcotfas.goodtime.ui.GroupedListItemContainer
 import com.apps.adrcotfas.goodtime.ui.SliderListItem
-import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.TopBar
 import com.apps.adrcotfas.goodtime.ui.dashedBorder
 import com.apps.adrcotfas.goodtime.ui.timerFontWeights
@@ -105,7 +104,8 @@ fun UserInterfaceScreen(
     if (uiState.isLoading) return
 
     val timerStyle = if (isPro) uiState.settings.timerStyle else uiState.lockedTimerStyle
-    val colorIndex = if (isPro) uiState.defaultLabel.colorIndex else uiState.lockedTimerStyle.colorIndex
+    val colorIndex =
+        if (isPro) uiState.defaultLabel.colorIndex else uiState.lockedTimerStyle.colorIndex
     val listState = rememberScrollState()
 
     Scaffold(
@@ -121,71 +121,84 @@ fun UserInterfaceScreen(
             modifier =
                 Modifier
                     .fillMaxSize()
+                    .padding(16.dp)
                     .padding(paddingValues)
                     .verticalScroll(listState)
                     .background(MaterialTheme.colorScheme.background),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             var baseTime by rememberSaveable { mutableLongStateOf(25.minutes.inWholeMilliseconds) }
             var sessionsBeforeLongBreak by rememberSaveable { mutableIntStateOf(4) }
             var streak by rememberSaveable { mutableIntStateOf(1) }
             var timerType by rememberSaveable { mutableStateOf(TimerType.FOCUS) }
 
-            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_general_title))
-
-            LanguageSettingsItem()
-
-            DropdownMenuListItem(
-                title = stringResource(Res.string.settings_theme),
-                value = stringArrayResource(Res.array.settings_theme_options)[uiState.settings.uiSettings.themePreference.ordinal],
-                dropdownMenuOptions = stringArrayResource(Res.array.settings_theme_options).toList(),
-                onDropdownMenuItemSelected = {
-                    viewModel.setThemeOption(ThemePreference.entries[it])
-                },
-            )
-
-            DynamicColorCheckbox(
-                checked = uiState.settings.uiSettings.useDynamicColor,
-                onCheckedChange = { viewModel.setUseDynamicColor(it) },
-            )
-
-            LauncherNameDropdown(
-                selectedIndex = uiState.settings.uiSettings.launcherNameIndex,
-                onSelectionChange = { viewModel.setLauncherNameIndex(it) },
-            )
-
-            SubtleHorizontalDivider()
-            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_timer_style_title))
-
-            Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                SliderListItem(
-                    modifier = Modifier.weight(0.5f),
-                    icon = { Icon(Icons.Default.FormatSize, contentDescription = null) },
-                    min = timerStyle.minSize.toInt(),
-                    max = timerStyle.maxSize.toInt(),
-                    value = timerStyle.fontSize.toInt(),
-                    onValueChange = {
-                        viewModel.setTimerSize(it.toFloat())
-                    },
-                    showValue = false,
-                )
-                SliderListItem(
-                    modifier = Modifier.weight(0.5f),
-                    icon = { Icon(Icons.Default.FormatBold, contentDescription = null) },
-                    min = timerFontWeights.first(),
-                    max = timerFontWeights.last(),
-                    steps = timerFontWeights.size - 2,
-                    value = timerStyle.fontWeight,
-                    onValueChange = {
-                        viewModel.setTimerWeight(it)
-                    },
-                    showValue = false,
-                )
+            GroupedListItemContainer {
+                title(stringResource(Res.string.settings_general_title))
+                item {
+                    LanguageSettingsItem()
+                }
+                item {
+                    DropdownMenuListItem(
+                        title = stringResource(Res.string.settings_theme),
+                        value = stringArrayResource(Res.array.settings_theme_options)[uiState.settings.uiSettings.themePreference.ordinal],
+                        dropdownMenuOptions = stringArrayResource(Res.array.settings_theme_options).toList(),
+                        onDropdownMenuItemSelected = {
+                            viewModel.setThemeOption(ThemePreference.entries[it])
+                        },
+                    )
+                }
+                item {
+                    DynamicColorCheckbox(
+                        checked = uiState.settings.uiSettings.useDynamicColor,
+                        onCheckedChange = { viewModel.setUseDynamicColor(it) },
+                    )
+                }
+                item {
+                    LauncherNameDropdown(
+                        selectedIndex = uiState.settings.uiSettings.launcherNameIndex,
+                        onSelectionChange = { viewModel.setLauncherNameIndex(it) },
+                    )
+                }
             }
-            ColorSelectRow(
-                selectedIndex = colorIndex,
-            ) {
-                viewModel.setDefaultLabelColor(it)
+
+            GroupedListItemContainer {
+                title(stringResource(Res.string.settings_timer_style_title))
+                item {
+                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                        SliderListItem(
+                            modifier = Modifier.weight(0.5f),
+                            icon = { Icon(Icons.Default.FormatSize, contentDescription = null) },
+                            min = timerStyle.minSize.toInt(),
+                            max = timerStyle.maxSize.toInt(),
+                            value = timerStyle.fontSize.toInt(),
+                            onValueChange = {
+                                viewModel.setTimerSize(it.toFloat())
+                            },
+                            showValue = false,
+                        )
+                        SliderListItem(
+                            modifier = Modifier.weight(0.5f),
+                            icon = { Icon(Icons.Default.FormatBold, contentDescription = null) },
+                            min = timerFontWeights.first(),
+                            max = timerFontWeights.last(),
+                            steps = timerFontWeights.size - 2,
+                            value = timerStyle.fontWeight,
+                            onValueChange = {
+                                viewModel.setTimerWeight(it)
+                            },
+                            showValue = false,
+                        )
+                    }
+                }
+                item {
+                    ColorSelectRow(
+                        selectedIndex = colorIndex,
+                    ) {
+                        viewModel.setDefaultLabelColor(it)
+                    }
+                }
             }
+
             Box(
                 modifier =
                     Modifier
@@ -214,16 +227,19 @@ fun UserInterfaceScreen(
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary,
                     )
-                    IconButton(onClick = {
-                        baseTime =
-                            Random.nextLong(
-                                1.minutes.inWholeMilliseconds,
-                                30.minutes.inWholeMilliseconds,
-                            )
-                        sessionsBeforeLongBreak = Random.nextInt(2, 8)
-                        streak = Random.nextInt(1, sessionsBeforeLongBreak)
-                        timerType = if (Random.nextBoolean()) TimerType.FOCUS else TimerType.BREAK
-                    }) {
+                    IconButton(
+                        onClick = {
+                            baseTime =
+                                Random.nextLong(
+                                    1.minutes.inWholeMilliseconds,
+                                    30.minutes.inWholeMilliseconds,
+                                )
+                            sessionsBeforeLongBreak = Random.nextInt(2, 8)
+                            streak = Random.nextInt(1, sessionsBeforeLongBreak)
+                            timerType =
+                                if (Random.nextBoolean()) TimerType.FOCUS else TimerType.BREAK
+                        },
+                    ) {
                         Icon(
                             Icons.Default.Refresh,
                             contentDescription = stringResource(Res.string.settings_refresh_demo_label),
@@ -255,39 +271,49 @@ fun UserInterfaceScreen(
                     onToggle = null,
                 )
             }
-            Column {
-                CheckboxListItem(
-                    title = stringResource(Res.string.settings_show_status_title),
-                    subtitle = stringResource(Res.string.settings_show_status_desc),
-                    checked = timerStyle.showStatus,
-                    onCheckedChange = {
-                        viewModel.setShowStatus(it)
-                    },
-                )
-                CheckboxListItem(
-                    title = stringResource(Res.string.settings_show_sessions_long_break_title),
-                    subtitle = stringResource(Res.string.settings_show_sessions_long_break_desc),
-                    checked = timerStyle.showStreak,
-                    onCheckedChange = {
-                        viewModel.setShowStreak(it)
-                    },
-                )
-                CheckboxListItem(
-                    title = stringResource(Res.string.settings_hide_seconds),
-                    checked = timerStyle.minutesOnly,
-                    onCheckedChange = {
-                        viewModel.setTimerMinutesOnly(it)
-                    },
-                )
-                if (!isPro) {
-                    ActionCard(icon = {
+
+            GroupedListItemContainer {
+                item {
+                    CheckboxListItem(
+                        title = stringResource(Res.string.settings_show_status_title),
+                        subtitle = stringResource(Res.string.settings_show_status_desc),
+                        checked = timerStyle.showStatus,
+                        onCheckedChange = {
+                            viewModel.setShowStatus(it)
+                        },
+                    )
+                }
+                item {
+                    CheckboxListItem(
+                        title = stringResource(Res.string.settings_show_sessions_long_break_title),
+                        subtitle = stringResource(Res.string.settings_show_sessions_long_break_desc),
+                        checked = timerStyle.showStreak,
+                        onCheckedChange = {
+                            viewModel.setShowStreak(it)
+                        },
+                    )
+                }
+                item {
+                    CheckboxListItem(
+                        title = stringResource(Res.string.settings_hide_seconds),
+                        checked = timerStyle.minutesOnly,
+                        onCheckedChange = {
+                            viewModel.setTimerMinutesOnly(it)
+                        },
+                    )
+                }
+            }
+            if (!isPro) {
+                ActionCard(
+                    icon = {
                         Icon(
                             imageVector = EvaIcons.Outline.Unlock,
                             contentDescription = stringResource(Res.string.unlock_premium),
                         )
-                    }, description = stringResource(Res.string.unlock_timer_style)) {
-                        onNavigateToPro()
-                    }
+                    },
+                    description = stringResource(Res.string.unlock_timer_style),
+                ) {
+                    onNavigateToPro()
                 }
             }
         }

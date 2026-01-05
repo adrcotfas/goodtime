@@ -17,24 +17,26 @@
  */
 package com.apps.adrcotfas.goodtime.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LargeFlexibleTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +51,14 @@ fun TopBar(
 ) {
     TopBar(
         isVisible = isVisible,
-        title = { Text(text = title, maxLines = 1) },
+        title = {
+            Text(
+                text = title,
+                modifier = Modifier.padding(horizontal = 8.dp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
         onNavigateBack = onNavigateBack,
         icon = icon,
         actions = actions,
@@ -58,7 +67,7 @@ fun TopBar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TopBar(
     isVisible: Boolean = true,
@@ -70,31 +79,33 @@ fun TopBar(
     showSeparator: Boolean = false,
 ) {
     Column {
-        CenterAlignedTopAppBar(
-            modifier =
-                Modifier
-                    .background(MaterialTheme.colorScheme.background)
-                    .alpha(if (isVisible) 1f else 0f),
+        LargeFlexibleTopAppBar(
+            colors =
+                TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                ),
             title = title,
             navigationIcon = {
                 if (onNavigateBack != null) {
-                    IconButton(onClick = onNavigateBack) {
+                    FilledTonalIconButton(
+                        modifier = Modifier.padding(start = 16.dp),
+                        colors =
+                            IconButtonDefaults
+                                .filledTonalIconButtonColors()
+                                .copy(
+                                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                ),
+                        onClick = { onNavigateBack() },
+                    ) {
                         Icon(
-                            icon,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Navigate back",
                         )
                     }
                 }
             },
-            colors =
-                TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                ),
-            actions = actions,
             scrollBehavior = scrollBehavior,
         )
-        if (showSeparator) {
-            SubtleHorizontalDivider()
-        }
     }
 }

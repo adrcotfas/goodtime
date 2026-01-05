@@ -20,38 +20,54 @@ package com.apps.adrcotfas.goodtime.settings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LargeFlexibleTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.ToggleButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedDayNamesNarrow
+import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.platform.getPlatformConfiguration
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
-import com.apps.adrcotfas.goodtime.settings.notifications.ProductivityReminderListItem
 import com.apps.adrcotfas.goodtime.ui.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.CheckboxListItem
-import com.apps.adrcotfas.goodtime.ui.CompactPreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.DropdownMenuListItem
+import com.apps.adrcotfas.goodtime.ui.GroupedListItemContainer
 import com.apps.adrcotfas.goodtime.ui.IconListItem
 import com.apps.adrcotfas.goodtime.ui.LockedCheckboxListItem
-import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.TimePicker
-import com.apps.adrcotfas.goodtime.ui.TopBar
 import com.apps.adrcotfas.goodtime.ui.toSecondOfDay
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -65,12 +81,14 @@ import goodtime_productivity.composeapp.generated.resources.settings_auto_start_
 import goodtime_productivity.composeapp.generated.resources.settings_auto_start_focus_title
 import goodtime_productivity.composeapp.generated.resources.settings_custom_start_of_day_desc
 import goodtime_productivity.composeapp.generated.resources.settings_custom_start_of_day_title
+import goodtime_productivity.composeapp.generated.resources.settings_days_of_the_week
 import goodtime_productivity.composeapp.generated.resources.settings_display_and_appearance
 import goodtime_productivity.composeapp.generated.resources.settings_display_over_lock_screen
 import goodtime_productivity.composeapp.generated.resources.settings_display_over_lock_screen_desc
 import goodtime_productivity.composeapp.generated.resources.settings_fullscreen_mode
 import goodtime_productivity.composeapp.generated.resources.settings_notifications_title
 import goodtime_productivity.composeapp.generated.resources.settings_productivity_reminder_title
+import goodtime_productivity.composeapp.generated.resources.settings_reminder_time
 import goodtime_productivity.composeapp.generated.resources.settings_screensaver_mode
 import goodtime_productivity.composeapp.generated.resources.settings_start_of_the_week
 import goodtime_productivity.composeapp.generated.resources.settings_timer_and_sessions
@@ -89,7 +107,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit,
@@ -106,187 +124,296 @@ fun SettingsScreen(
 
     val listState = rememberScrollState()
 
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
     Scaffold(
+        modifier =
+            Modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopBar(
-                title = stringResource(Res.string.settings_title),
-                onNavigateBack = { onNavigateBack() },
-                showSeparator = listState.canScrollBackward,
+            LargeFlexibleTopAppBar(
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    ),
+                title = {
+                    Text(
+                        text = stringResource(Res.string.settings_title),
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+                // expandedHeight = 184.dp,
+                navigationIcon = {
+                    FilledTonalIconButton(
+                        modifier = Modifier.padding(start = 16.dp),
+                        colors =
+                            IconButtonDefaults
+                                .filledTonalIconButtonColors()
+                                .copy(
+                                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                ),
+                        onClick = { onNavigateBack() },
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior,
             )
         },
     ) { paddingValues ->
+        if (uiState.isLoading) return@Scaffold
+        val pro = uiState.settings.isPro
         Column(
             modifier =
                 Modifier
                     .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .padding(horizontal = 16.dp)
                     .padding(paddingValues)
                     .verticalScroll(listState)
                     .animateContentSize(),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             AnimatedVisibility(
                 areNotificationsEnabled,
             ) {
-                Column {
-                    CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_productivity_reminder_title))
+                GroupedListItemContainer {
+                    title(stringResource(Res.string.settings_productivity_reminder_title))
                     val reminderSettings = settings.productivityReminderSettings
-                    ProductivityReminderListItem(
-                        firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
-                        selectedDays = reminderSettings.days.map { DayOfWeek(it) }.toSet(),
-                        reminderSecondOfDay = reminderSettings.secondOfDay,
-                        is24HourFormat = uiState.is24HourFormat,
-                        onSelectDay = viewModel::onToggleProductivityReminderDay,
-                        onReminderTimeClick = { viewModel.setShowTimePicker(true) },
-                    )
-                    SubtleHorizontalDivider()
-                }
-            }
-            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_timer_and_sessions))
-
-            IconListItem(
-                title = stringResource(Res.string.settings_timer_durations_title),
-                subtitle = stringResource(Res.string.settings_timer_durations_desc),
-                icon = {
-                    Image(
-                        modifier = Modifier.size(24.dp),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
-                        painter = painterResource(Res.drawable.ic_status_goodtime),
-                        contentDescription = stringResource(Res.string.stats_focus),
-                    )
-                },
-                onClick = onNavigateToDefaultLabel,
-            )
-            CheckboxListItem(
-                title = stringResource(Res.string.settings_auto_start_focus_title),
-                subtitle = stringResource(Res.string.settings_auto_start_focus_desc),
-                checked = settings.autoStartFocus,
-            ) {
-                viewModel.setAutoStartWork(it)
-            }
-            CheckboxListItem(
-                title = stringResource(Res.string.settings_auto_start_break_title),
-                subtitle = stringResource(Res.string.settings_auto_start_break_desc),
-                checked = settings.autoStartBreak,
-            ) {
-                viewModel.setAutoStartBreak(it)
-            }
-
-            BetterListItem(
-                title = stringResource(Res.string.settings_custom_start_of_day_title),
-                subtitle = stringResource(Res.string.settings_custom_start_of_day_desc),
-                trailing =
-                    secondsOfDayToTimerFormat(
-                        uiState.settings.workdayStart,
-                        uiState.is24HourFormat,
-                    ),
-                onClick = {
-                    viewModel.setShowWorkdayStartPicker(true)
-                },
-            )
-
-            val days = DayOfWeek.entries.map { it.getDisplayName() }
-            DropdownMenuListItem(
-                title = stringResource(Res.string.settings_start_of_the_week),
-                value = days[DayOfWeek(uiState.settings.firstDayOfWeek).ordinal],
-                dropdownMenuOptions = days,
-                onDropdownMenuItemSelected = {
-                    viewModel.setFirstDayOfWeek(firstDayOfWeekOptions[it].isoDayNumber)
-                },
-            )
-
-            SubtleHorizontalDivider()
-
-            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_display_and_appearance))
-
-            IconListItem(
-                title = stringResource(Res.string.settings_user_interface),
-                icon = {
-                    Icon(
-                        modifier = Modifier.padding(vertical = 12.dp),
-                        imageVector = EvaIcons.Outline.ColorPalette,
-                        contentDescription = stringResource(Res.string.settings_user_interface),
-                    )
-                },
-                onClick = onNavigateToUserInterface,
-            )
-            if (uiState.settings.isPro) {
-                CheckboxListItem(
-                    title = stringResource(Res.string.settings_fullscreen_mode),
-                    checked = uiState.settings.uiSettings.fullscreenMode,
-                ) {
-                    viewModel.setFullscreenMode(it)
-                    if (!it) {
-                        viewModel.setScreensaverMode(false)
+                    val firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek)
+                    val selectedDays = reminderSettings.days.map { DayOfWeek(it) }.toSet()
+                    val reminderSecondOfDay = reminderSettings.secondOfDay
+                    val is24HourFormat = uiState.is24HourFormat
+                    val dayNames = getLocalizedDayNamesNarrow()
+                    item {
+                        BetterListItem(
+                            title = stringResource(Res.string.settings_days_of_the_week),
+                            supporting = {
+                                Row(
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .horizontalScroll(rememberScrollState())
+                                            .padding(top = 8.dp),
+                                    horizontalArrangement =
+                                        Arrangement.spacedBy(
+                                            2.dp,
+                                            Alignment.Start,
+                                        ),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    val daysInOrder = firstDayOfWeek.entriesStartingWithThis()
+                                    for (day in daysInOrder) {
+                                        ToggleButton(
+                                            checked = selectedDays.contains(day),
+                                            onCheckedChange = {
+                                                viewModel.onToggleProductivityReminderDay(
+                                                    day,
+                                                )
+                                            },
+                                        ) {
+                                            Text(
+                                                text = dayNames[day.ordinal],
+                                                maxLines = 1,
+                                            )
+                                        }
+                                    }
+                                }
+                            },
+                        )
                     }
-                }
-            } else {
-                LockedCheckboxListItem(
-                    title = stringResource(Res.string.settings_fullscreen_mode),
-                    checked = false,
-                    enabled = false,
-                ) {
-                    viewModel.setFullscreenMode(it)
-                    if (!it) {
-                        viewModel.setScreensaverMode(false)
+                    item {
+                        BetterListItem(
+                            title = stringResource(Res.string.settings_reminder_time),
+                            trailing =
+                                secondsOfDayToTimerFormat(
+                                    reminderSecondOfDay,
+                                    is24HourFormat,
+                                ),
+                            enabled = selectedDays.isNotEmpty(),
+                            onClick = { viewModel.setShowTimePicker(true) },
+                        )
                     }
                 }
             }
-            if (uiState.settings.isPro) {
-                CheckboxListItem(
-                    title = stringResource(Res.string.settings_screensaver_mode),
-                    checked = uiState.settings.uiSettings.screensaverMode,
-                    enabled = uiState.settings.uiSettings.fullscreenMode,
-                ) {
-                    viewModel.setScreensaverMode(it)
+
+            GroupedListItemContainer {
+                title(stringResource(Res.string.settings_timer_and_sessions))
+                item {
+                    IconListItem(
+                        title = stringResource(Res.string.settings_timer_durations_title),
+                        subtitle = stringResource(Res.string.settings_timer_durations_desc),
+                        icon = {
+                            Image(
+                                modifier = Modifier.size(24.dp),
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
+                                painter = painterResource(Res.drawable.ic_status_goodtime),
+                                contentDescription = stringResource(Res.string.stats_focus),
+                            )
+                        },
+                        onClick = onNavigateToDefaultLabel,
+                    )
                 }
-            } else {
-                LockedCheckboxListItem(
-                    title = stringResource(Res.string.settings_screensaver_mode),
-                    checked = false,
-                    enabled = false,
-                ) {
+                item {
+                    CheckboxListItem(
+                        title = stringResource(Res.string.settings_auto_start_focus_title),
+                        subtitle = stringResource(Res.string.settings_auto_start_focus_desc),
+                        checked = settings.autoStartFocus,
+                    ) {
+                        viewModel.setAutoStartWork(it)
+                    }
+                }
+
+                item {
+                    CheckboxListItem(
+                        title = stringResource(Res.string.settings_auto_start_break_title),
+                        subtitle = stringResource(Res.string.settings_auto_start_break_desc),
+                        checked = settings.autoStartBreak,
+                    ) {
+                        viewModel.setAutoStartBreak(it)
+                    }
+                }
+
+                item {
+                    BetterListItem(
+                        title = stringResource(Res.string.settings_custom_start_of_day_title),
+                        subtitle = stringResource(Res.string.settings_custom_start_of_day_desc),
+                        trailing =
+                            secondsOfDayToTimerFormat(
+                                uiState.settings.workdayStart,
+                                uiState.is24HourFormat,
+                            ),
+                        onClick = {
+                            viewModel.setShowWorkdayStartPicker(true)
+                        },
+                    )
+                }
+
+                item {
+                    val days = DayOfWeek.entries.map { it.getDisplayName() }
+                    DropdownMenuListItem(
+                        title = stringResource(Res.string.settings_start_of_the_week),
+                        value = days[DayOfWeek(uiState.settings.firstDayOfWeek).ordinal],
+                        dropdownMenuOptions = days,
+                        onDropdownMenuItemSelected = {
+                            viewModel.setFirstDayOfWeek(firstDayOfWeekOptions[it].isoDayNumber)
+                        },
+                    )
                 }
             }
-            AnimatedVisibility(
-                uiState.settings.uiSettings.useDynamicColor &&
+
+            GroupedListItemContainer {
+                title(stringResource(Res.string.settings_display_and_appearance))
+                item {
+                    IconListItem(
+                        title = stringResource(Res.string.settings_user_interface),
+                        icon = {
+                            Icon(
+                                modifier = Modifier.padding(vertical = 12.dp),
+                                imageVector = EvaIcons.Outline.ColorPalette,
+                                contentDescription = stringResource(Res.string.settings_user_interface),
+                            )
+                        },
+                        onClick = onNavigateToUserInterface,
+                    )
+                }
+
+                if (pro) {
+                    item {
+                        CheckboxListItem(
+                            title = stringResource(Res.string.settings_fullscreen_mode),
+                            checked = uiState.settings.uiSettings.fullscreenMode,
+                        ) {
+                            viewModel.setFullscreenMode(it)
+                            if (!it) {
+                                viewModel.setScreensaverMode(false)
+                            }
+                        }
+                    }
+                } else {
+                    item {
+                        LockedCheckboxListItem(
+                            title = stringResource(Res.string.settings_fullscreen_mode),
+                            checked = false,
+                            enabled = false,
+                        )
+                    }
+                }
+                if (pro) {
+                    item {
+                        CheckboxListItem(
+                            title = stringResource(Res.string.settings_screensaver_mode),
+                            checked = uiState.settings.uiSettings.screensaverMode,
+                            enabled = uiState.settings.uiSettings.fullscreenMode,
+                        ) {
+                            viewModel.setScreensaverMode(it)
+                        }
+                    }
+                } else {
+                    item {
+                        LockedCheckboxListItem(
+                            title = stringResource(Res.string.settings_screensaver_mode),
+                            checked = false,
+                            enabled = false,
+                        )
+                    }
+                }
+                if (
+                    uiState.settings.uiSettings.useDynamicColor &&
                     uiState.settings.uiSettings.themePreference.isDarkTheme(
                         isSystemInDarkTheme(),
-                    ),
-            ) {
-                CheckboxListItem(
-                    title = stringResource(Res.string.settings_true_black_mode_title),
-                    subtitle = stringResource(Res.string.settings_true_black_mode_desc),
-                    checked = uiState.settings.uiSettings.trueBlackMode,
-                ) {
-                    viewModel.setTrueBlackMode(it)
-                }
-            }
-            if (platformConfig.supportsShowWhenLocked) {
-                CheckboxListItem(
-                    title = stringResource(Res.string.settings_display_over_lock_screen),
-                    subtitle = stringResource(Res.string.settings_display_over_lock_screen_desc),
-                    checked = uiState.settings.uiSettings.showWhenLocked,
-                ) {
-                    viewModel.setShowWhenLocked(it)
-                }
-            }
-
-            SubtleHorizontalDivider()
-            CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_notifications_title))
-            IconListItem(
-                title = stringResource(Res.string.settings_notifications_title),
-                icon = {
-                    Icon(
-                        modifier = Modifier.padding(vertical = 12.dp),
-                        imageVector = EvaIcons.Outline.Bell,
-                        contentDescription = stringResource(Res.string.settings_notifications_title),
                     )
-                },
-                onClick = onNavigateToNotifications,
-            )
-            DndCheckbox(
-                checked = uiState.settings.uiSettings.dndDuringWork,
-                onCheckedChange = viewModel::setDndDuringWork,
-            )
+                ) {
+                    item {
+                        CheckboxListItem(
+                            title = stringResource(Res.string.settings_true_black_mode_title),
+                            subtitle = stringResource(Res.string.settings_true_black_mode_desc),
+                            checked = uiState.settings.uiSettings.trueBlackMode,
+                        ) {
+                            viewModel.setTrueBlackMode(it)
+                        }
+                    }
+                }
+                if (platformConfig.supportsShowWhenLocked) {
+                    item {
+                        CheckboxListItem(
+                            title = stringResource(Res.string.settings_display_over_lock_screen),
+                            subtitle = stringResource(Res.string.settings_display_over_lock_screen_desc),
+                            checked = uiState.settings.uiSettings.showWhenLocked,
+                        ) {
+                            viewModel.setShowWhenLocked(it)
+                        }
+                    }
+                }
+            }
+            GroupedListItemContainer {
+                title(stringResource(Res.string.settings_notifications_title))
+                item {
+                    IconListItem(
+                        title = stringResource(Res.string.settings_notifications_title),
+                        icon = {
+                            Icon(
+                                modifier = Modifier.padding(vertical = 12.dp),
+                                imageVector = EvaIcons.Outline.Bell,
+                                contentDescription = stringResource(Res.string.settings_notifications_title),
+                            )
+                        },
+                        onClick = onNavigateToNotifications,
+                    )
+                }
+                item {
+                    DndCheckbox(
+                        checked = uiState.settings.uiSettings.dndDuringWork,
+                        onCheckedChange = viewModel::setDndDuringWork,
+                    )
+                }
+            }
         }
         if (uiState.showWorkdayStartPicker) {
             val workdayStart = LocalTime.fromSecondOfDay(uiState.settings.workdayStart)

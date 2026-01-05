@@ -73,13 +73,13 @@
     <string name="settings_insistent_notification_title">Insistent notification</string>
     <string name="settings_insistent_notification_desc">Repeat the notification until it's cancelled</string>
     <string name="settings_auto_start_focus_title">Auto start focus</string>
-    <string name="settings_auto_start_focus_desc">Start the work session after a break without user interaction</string>
+    <string name="settings_auto_start_focus_desc">Auto-resume after breaks</string>
     <string name="settings_auto_start_break_title">Auto start break</string>
-    <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
+    <string name="settings_auto_start_break_desc">Auto-resume after focus sessions</string>
     <string name="settings_display_over_lock_screen">Display over lock screen</string>
     <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
     <string name="settings_timer_durations_title">Timer profile</string>
-    <string name="settings_timer_durations_desc">Set the duration for work and break sessions</string>
+    <string name="settings_timer_durations_desc">Focus and break durations</string>
     <string name="settings_create_profile">Create profile</string>
     <string name="settings_delete_profile">Delete profile</string>
     <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>

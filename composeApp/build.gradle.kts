@@ -48,7 +48,6 @@ kotlin {
 
             implementation(libs.androidx.documentfile)
             implementation(libs.androidx.lifecycle.runtime.ktx)
-            implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.media)
 
             implementation(libs.androidchart)
@@ -68,6 +67,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.devsrsouza.compose.icons.eva)
             implementation(libs.navigation.compose)
+            implementation(libs.compose.material3)
             implementation(libs.compottie)
             implementation(libs.compottie.dot)
             implementation(libs.ui.backhandler)

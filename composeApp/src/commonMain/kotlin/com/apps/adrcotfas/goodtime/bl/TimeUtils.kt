@@ -109,6 +109,8 @@ object TimeUtils {
         }
     }
 
+    fun getLocalizedDayNamesNarrow(): List<String> = DayOfWeek.entries.map { it.getDisplayName(textStyle = TextStyle.NARROW_STANDALONE) }
+
     fun getLocalizedMonthNamesForStats(): List<String> {
         val localizedMonthNamesShort =
             Month.entries.map { it.getDisplayName(textStyle = TextStyle.SHORT_STANDALONE) }

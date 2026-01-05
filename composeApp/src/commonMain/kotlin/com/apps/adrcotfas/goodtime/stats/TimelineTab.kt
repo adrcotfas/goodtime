@@ -32,6 +32,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -53,7 +54,6 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.ui.SmallLabelChip
 import com.apps.adrcotfas.goodtime.ui.enabledColors
-import com.apps.adrcotfas.goodtime.ui.selectedColors
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.List
@@ -145,6 +145,9 @@ fun TimelineTab(
         }
     }
 }
+
+@Composable
+fun ListItemDefaults.selectedColors(): ListItemColors = colors(containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

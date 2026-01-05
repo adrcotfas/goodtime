@@ -29,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.notifications.TorchManager
 import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
@@ -36,6 +37,7 @@ import com.apps.adrcotfas.goodtime.data.settings.SoundData
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.ui.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.CheckboxListItem
+import com.apps.adrcotfas.goodtime.ui.GroupedListItemContainer
 import com.apps.adrcotfas.goodtime.ui.LockedCheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.TopBar
@@ -82,78 +84,93 @@ fun NotificationsScreen(onNavigateBack: () -> Boolean) {
             )
         },
     ) { paddingValues ->
-        Column(
+
+        GroupedListItemContainer(
             modifier =
                 Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
+                    .padding(16.dp)
                     .verticalScroll(listState)
                     .background(MaterialTheme.colorScheme.background),
         ) {
-            BetterListItem(
-                title = stringResource(Res.string.settings_focus_complete_sound),
-                subtitle = notificationSoundName(workRingTone),
-                onClick = { viewModel.setShowSelectWorkSoundPicker(true) },
-            )
-
-            BetterListItem(
-                title = stringResource(Res.string.settings_break_complete_sound),
-                subtitle = notificationSoundName(breakRingTone),
-                onClick = { viewModel.setShowSelectBreakSoundPicker(true) },
-            )
-
-            CheckboxListItem(
-                title = stringResource(Res.string.settings_override_sound_profile_title),
-                subtitle = stringResource(Res.string.settings_override_sound_profile_desc),
-                checked = settings.overrideSoundProfile,
-            ) {
-                viewModel.setOverrideSoundProfile(it)
+            item {
+                BetterListItem(
+                    title = stringResource(Res.string.settings_focus_complete_sound),
+                    subtitle = notificationSoundName(workRingTone),
+                    onClick = { viewModel.setShowSelectWorkSoundPicker(true) },
+                )
             }
 
-            var selectedStrength = settings.vibrationStrength
-            SliderListItem(
-                title = stringResource(Res.string.settings_vibration_strength),
-                value = settings.vibrationStrength,
-                min = 0,
-                max = 5,
-                onValueChange = {
-                    selectedStrength = it
-                    viewModel.setVibrationStrength(it)
-                },
-                onValueChangeFinished = { vibrationPlayer.start(selectedStrength) },
-            )
+            item {
+                BetterListItem(
+                    title = stringResource(Res.string.settings_break_complete_sound),
+                    subtitle = notificationSoundName(breakRingTone),
+                    onClick = { viewModel.setShowSelectBreakSoundPicker(true) },
+                )
+            }
 
-            if (isTorchAvailable) {
-                LockedCheckboxListItem(
-                    title = stringResource(Res.string.settings_torch_title),
-                    enabled = settings.isPro,
-                    subtitle = stringResource(Res.string.settings_torch_desc),
-                    checked = settings.enableTorch,
+            item {
+                CheckboxListItem(
+                    title = stringResource(Res.string.settings_override_sound_profile_title),
+                    subtitle = stringResource(Res.string.settings_override_sound_profile_desc),
+                    checked = settings.overrideSoundProfile,
                 ) {
-                    viewModel.setEnableTorch(it)
-                    if (it) {
-                        torchManager.start()
+                    viewModel.setOverrideSoundProfile(it)
+                }
+            }
+
+            item {
+                var selectedStrength = settings.vibrationStrength
+                SliderListItem(
+                    title = stringResource(Res.string.settings_vibration_strength),
+                    value = settings.vibrationStrength,
+                    min = 0,
+                    max = 5,
+                    onValueChange = {
+                        selectedStrength = it
+                        viewModel.setVibrationStrength(it)
+                    },
+                    onValueChangeFinished = { vibrationPlayer.start(selectedStrength) },
+                )
+            }
+
+            item {
+                if (isTorchAvailable) {
+                    LockedCheckboxListItem(
+                        title = stringResource(Res.string.settings_torch_title),
+                        enabled = settings.isPro,
+                        subtitle = stringResource(Res.string.settings_torch_desc),
+                        checked = settings.enableTorch,
+                    ) {
+                        viewModel.setEnableTorch(it)
+                        if (it) {
+                            torchManager.start()
+                        }
                     }
                 }
             }
-            LockedCheckboxListItem(
-                title = stringResource(Res.string.settings_screen_flash_title),
-                enabled = settings.isPro,
-                subtitle = stringResource(Res.string.settings_torch_desc),
-                checked = settings.flashScreen,
-            ) {
-                viewModel.setEnableFlashScreen(it)
+            item {
+                LockedCheckboxListItem(
+                    title = stringResource(Res.string.settings_screen_flash_title),
+                    enabled = settings.isPro,
+                    subtitle = stringResource(Res.string.settings_torch_desc),
+                    checked = settings.flashScreen,
+                ) {
+                    viewModel.setEnableFlashScreen(it)
+                }
             }
-            LockedCheckboxListItem(
-                title = stringResource(Res.string.settings_insistent_notification_title),
-                enabled = settings.isPro,
-                subtitle = stringResource(Res.string.settings_insistent_notification_desc),
-                checked = settings.insistentNotification,
-            ) {
-                viewModel.setInsistentNotification(it)
+            item {
+                LockedCheckboxListItem(
+                    title = stringResource(Res.string.settings_insistent_notification_title),
+                    enabled = settings.isPro,
+                    subtitle = stringResource(Res.string.settings_insistent_notification_desc),
+                    checked = settings.insistentNotification,
+                ) {
+                    viewModel.setInsistentNotification(it)
+                }
             }
         }
-
         if (uiState.showSelectWorkSoundPicker) {
             NotificationSoundPickerDialog(
                 title = stringResource(Res.string.settings_focus_complete_sound),

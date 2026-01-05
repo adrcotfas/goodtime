@@ -26,7 +26,6 @@ desugar_jdk_libs = "2.1.5"
 androidx-lifecycle = "2.10.0"
 androidx-activity-compose = "1.12.2"
 androidx-core-ktx = "1.17.0"
-androidx-navigation-compose = "2.9.6"
 androidx-paging = "3.4.0-beta01"
 androidx-datastore = "1.2.0"
 androidx-media = "1.7.1"
@@ -35,6 +34,8 @@ androidx-room = "2.8.4"
 sqlite = "2.6.2"
 compottie = "2.0.2"
 navigationCompose = "2.9.1"
+#TODO: follow new releases and update to expressive lists
+composeMaterial3 = "1.11.0-alpha01"
 reviewKtx = "2.0.2"
 
 compose-icons-eva = "1.1.1"
@@ -73,7 +74,6 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidx-paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidx-paging" }
 androidx-paging-testing = { group = "androidx.paging", name = "paging-testing", version.ref = "androidx-paging" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation-compose" }
 androidx-media = { group = "androidx.media", name = "media", version.ref = "androidx-media" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "androidx-documentfile" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
@@ -87,6 +87,7 @@ kotlinx-datetime-names = { module = "io.github.adrcotfas:kotlinx-datetime-names"
 compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 compottie-dot = { module = "io.github.alexzhirkevich:compottie-dot", version.ref = "compottie" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+compose-material3 = { module= "org.jetbrains.compose.material3:material3", version.ref = "composeMaterial3"}
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 
 google-play-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-auth" }

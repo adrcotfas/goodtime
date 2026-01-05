@@ -25,32 +25,38 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import goodtime_productivity.composeapp.generated.resources.Res
-import goodtime_productivity.composeapp.generated.resources.open_sans
+import goodtime_productivity.composeapp.generated.resources.google_sans_medium
+import goodtime_productivity.composeapp.generated.resources.google_sans_regular
 import goodtime_productivity.composeapp.generated.resources.roboto_mono
 import org.jetbrains.compose.resources.Font
 
 @Composable
-fun bodyFontFamily() = FontFamily(Font(Res.font.open_sans))
+fun bodyFontFamily() =
+    FontFamily(
+        Font(Res.font.google_sans_regular, FontWeight.Normal),
+        Font(Res.font.google_sans_medium, FontWeight.Medium),
+    )
 
 val baseline = Typography()
 
 @Composable
 fun appTypography(): Typography {
-    val bodyFont = bodyFontFamily()
+    val appFont = bodyFontFamily()
     return Typography(
-        displayLarge = baseline.displayLarge,
-        displayMedium = baseline.displayMedium,
-        displaySmall = baseline.displaySmall,
-        headlineLarge = baseline.headlineLarge,
-        headlineMedium = baseline.headlineMedium,
-        headlineSmall = baseline.headlineSmall,
-        titleLarge = baseline.titleLarge.copy(fontFamily = bodyFont),
-        titleMedium = baseline.titleMedium.copy(fontFamily = bodyFont),
-        titleSmall = baseline.titleSmall.copy(fontFamily = bodyFont),
-        bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFont),
-        bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFont),
-        bodySmall = baseline.bodySmall.copy(fontFamily = bodyFont),
+        displayLarge = baseline.displayLarge.copy(fontFamily = appFont),
+        displayMedium = baseline.displayMedium.copy(fontFamily = appFont),
+        displaySmall = baseline.displaySmall.copy(fontFamily = appFont, letterSpacing = 0.1.sp),
+        headlineLarge = baseline.headlineLarge.copy(fontFamily = appFont),
+        headlineMedium = baseline.headlineMedium.copy(fontFamily = appFont),
+        headlineSmall = baseline.headlineSmall.copy(fontFamily = appFont),
+        titleLarge = baseline.titleLarge.copy(fontFamily = appFont),
+        titleMedium = baseline.titleMedium.copy(fontFamily = appFont),
+        titleSmall = baseline.titleSmall.copy(fontFamily = appFont),
+        bodyLarge = baseline.bodyLarge.copy(fontFamily = appFont),
+        bodyMedium = baseline.bodyMedium.copy(fontFamily = appFont, letterSpacing = 0.6.sp),
+        bodySmall = baseline.bodySmall.copy(fontFamily = appFont),
         labelLarge = baseline.labelLarge,
         labelMedium = baseline.labelMedium,
         labelSmall = baseline.labelSmall,

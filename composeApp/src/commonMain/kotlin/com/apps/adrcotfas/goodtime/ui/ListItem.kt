@@ -24,7 +24,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
@@ -47,6 +47,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import compose.icons.EvaIcons
@@ -55,27 +56,28 @@ import compose.icons.evaicons.outline.Lock
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.roundToInt
 
+private val minHeight = 72.dp
+
 @Composable
-fun ListItemDefaults.enabledColors(): ListItemColors {
-    val secondaryColor = colors().headlineColor.copy(alpha = 0.75f)
-    return colors(
-        supportingColor = secondaryColor,
-        trailingIconColor = secondaryColor,
+fun ListItemDefaults.enabledColors(): ListItemColors =
+    colors(
+        containerColor = Color.Transparent,
+        headlineColor = MaterialTheme.colorScheme.onSurface,
+        leadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        supportingColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        trailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
     )
-}
 
 @Composable
 fun ListItemDefaults.disabledColors(): ListItemColors {
     val disabledColor = colors().disabledHeadlineColor
     return colors(
+        containerColor = Color.Transparent,
         headlineColor = disabledColor,
         supportingColor = disabledColor,
         trailingIconColor = disabledColor,
     )
 }
-
-@Composable
-fun ListItemDefaults.selectedColors(): ListItemColors = colors(containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
 
 @Composable
 fun BetterListItem(
@@ -111,24 +113,23 @@ fun BetterListItem(
     onClick: (() -> Unit)? = null,
     enabled: Boolean = true,
 ) {
-    val internalModifier = modifier.padding(vertical = 4.dp)
+    val internalModifier = modifier.heightIn(min = minHeight)
     ListItem(
         modifier =
             if (enabled && onClick != null) {
-                Modifier
+                internalModifier
                     .clickable(onClick = onClick)
-                    .then(internalModifier)
             } else {
                 internalModifier
             },
         colors = if (enabled) ListItemDefaults.enabledColors() else ListItemDefaults.disabledColors(),
         leadingContent = leading,
-        headlineContent = { Text(text = title) },
+        headlineContent = { Text(text = title, style = MaterialTheme.typography.titleMedium) },
         supportingContent = {
             subtitle?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
         },
@@ -143,7 +144,7 @@ fun BetterListItem(
     onClick: (() -> Unit)? = null,
     enabled: Boolean = true,
 ) {
-    val modifier = Modifier.padding(vertical = 4.dp)
+    val modifier = Modifier.heightIn(min = minHeight)
     ListItem(
         modifier =
             if (enabled && onClick != null) {
@@ -154,7 +155,7 @@ fun BetterListItem(
                 modifier
             },
         colors = if (enabled) ListItemDefaults.enabledColors() else ListItemDefaults.disabledColors(),
-        headlineContent = { Text(text = title) },
+        headlineContent = { Text(text = title, style = MaterialTheme.typography.titleMedium) },
         supportingContent = supporting,
     )
 }
@@ -167,13 +168,8 @@ fun IconListItem(
     isSelected: Boolean = false,
     onClick: () -> Unit,
 ) {
-    val modifier = Modifier.padding(vertical = 4.dp)
-    val colors =
-        if (isSelected) {
-            ListItemDefaults.selectedColors()
-        } else {
-            ListItemDefaults.enabledColors()
-        }
+    val modifier = Modifier.heightIn(min = minHeight)
+    val colors = ListItemDefaults.enabledColors()
 
     ListItem(
         modifier =
@@ -181,12 +177,12 @@ fun IconListItem(
                 .clickable(onClick = onClick)
                 .then(modifier),
         colors = colors,
-        headlineContent = { Text(text = title) },
+        headlineContent = { Text(text = title, style = MaterialTheme.typography.titleMedium) },
         supportingContent = {
             subtitle?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
         },
@@ -293,7 +289,7 @@ fun LockedCheckboxListItem(
     subtitle: String? = null,
     checked: Boolean,
     enabled: Boolean = true,
-    onCheckedChange: (Boolean) -> Unit,
+    onCheckedChange: (Boolean) -> Unit = {},
 ) {
     val toggleableModifier =
         if (enabled) {
@@ -404,7 +400,10 @@ fun DropdownMenuListItem(
         subtitle = subtitle,
         trailing = {
             Box {
-                Text(text = value, style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = value,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
                 BetterDropdownMenu(
                     expanded = dropdownMenuExpanded,
                     value = value,
