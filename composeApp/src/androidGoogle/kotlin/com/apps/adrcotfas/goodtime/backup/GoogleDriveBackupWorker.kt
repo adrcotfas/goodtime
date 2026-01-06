@@ -56,7 +56,7 @@ class GoogleDriveBackupWorker(
                 )
             }
 
-            when (val result = backupService.auth()) {
+            when (val result = backupService.authorize()) {
                 is GoogleDriveAuthResult.Success -> {
                     val authResult = result.authResult
                     val hasDrivePermission =

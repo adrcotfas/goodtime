@@ -47,7 +47,6 @@ private enum class PendingOperation {
 
 class CloudBackupViewModel(
     private val googleDriveBackupService: GoogleDriveBackupService,
-    private val googleDriveAuthManager: GoogleDriveAuthManager,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CloudBackupUiState())
@@ -72,7 +71,7 @@ class CloudBackupViewModel(
     fun connect() {
         viewModelScope.launch {
             pendingOperation = PendingOperation.CONNECT
-            when (val result = googleDriveAuthManager.authorize()) {
+            when (val result = googleDriveBackupService.authorize()) {
                 is GoogleDriveAuthResult.Success -> {
                     _uiState.update { it.copy(isConnected = true) }
                     pendingOperation = null
@@ -105,7 +104,7 @@ class CloudBackupViewModel(
 
             if (enabled) {
                 pendingOperation = PendingOperation.TOGGLE_AUTO_BACKUP
-                when (val result = googleDriveAuthManager.authorize()) {
+                when (val result = googleDriveBackupService.authorize()) {
                     is GoogleDriveAuthResult.Success -> {
                         googleDriveBackupService.setAutoBackupEnabled(true)
                         val currentSettings = settingsRepository.settings.first()
@@ -140,7 +139,7 @@ class CloudBackupViewModel(
             _uiState.update { it.copy(isBackupInProgress = true) }
 
             pendingOperation = PendingOperation.BACKUP
-            when (val result = googleDriveAuthManager.authorize()) {
+            when (val result = googleDriveBackupService.authorize()) {
                 is GoogleDriveAuthResult.Success -> {
                     googleDriveBackupService.backup()
                     _uiState.update { it.copy(isBackupInProgress = false) }
@@ -169,7 +168,7 @@ class CloudBackupViewModel(
             _uiState.update { it.copy(isRestoreInProgress = true) }
 
             pendingOperation = PendingOperation.RESTORE
-            when (val result = googleDriveAuthManager.authorize()) {
+            when (val result = googleDriveBackupService.authorize()) {
                 is GoogleDriveAuthResult.Success -> {
                     val backups = googleDriveBackupService.listAvailableBackups()
                     if (backups.isEmpty()) {
@@ -228,7 +227,7 @@ class CloudBackupViewModel(
     }
 
     fun handleAuthResult(data: Intent?) {
-        val token = googleDriveAuthManager.getAuthorizationResultFromIntent(data)
+        val token = googleDriveBackupService.getAuthorizationResultFromIntent(data)
         _pendingAuthIntent.value = null
 
         if (token != null) {

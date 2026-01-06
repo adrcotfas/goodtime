@@ -17,7 +17,9 @@
  */
 package com.apps.adrcotfas.goodtime.backup
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -28,12 +30,27 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import co.touchlab.kermit.Logger
 import com.google.android.gms.auth.api.identity.AuthorizationRequest
+import com.google.android.gms.auth.api.identity.AuthorizationResult
 import com.google.android.gms.auth.api.identity.ClearTokenRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.api.Scope
 import com.google.api.services.drive.DriveScopes
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.TimeUnit
+
+sealed class GoogleDriveAuthResult {
+    data class Success(
+        val authResult: AuthorizationResult,
+    ) : GoogleDriveAuthResult()
+
+    data class NeedsUserConsent(
+        val pendingIntent: PendingIntent,
+    ) : GoogleDriveAuthResult()
+
+    data class Error(
+        val exception: Exception,
+    ) : GoogleDriveAuthResult()
+}
 
 class GoogleDriveBackupService(
     private val googleDriveManager: GoogleDriveManager,
@@ -44,22 +61,46 @@ class GoogleDriveBackupService(
     private val authorizationClient = Identity.getAuthorizationClient(context)
     private val workManager = WorkManager.getInstance(context)
 
-    suspend fun auth(): GoogleDriveAuthResult {
+    suspend fun authorize(): GoogleDriveAuthResult {
         val request =
             AuthorizationRequest
                 .builder()
                 .setRequestedScopes(listOf(Scope(DriveScopes.DRIVE_APPDATA)))
                 .build()
 
-        val result = authorizationClient.authorize(request).await()
+        return try {
+            val result = authorizationClient.authorize(request).await()
 
-        if (result.hasResolution()) {
-            val pendingIntent =
-                result.pendingIntent
-                    ?: return GoogleDriveAuthResult.Error(Exception("No pending intent"))
-            return GoogleDriveAuthResult.NeedsUserConsent(pendingIntent)
-        } else {
-            return GoogleDriveAuthResult.Success(result)
+            if (result.hasResolution()) {
+                val pendingIntent = result.pendingIntent
+                if (pendingIntent != null) {
+                    GoogleDriveAuthResult.NeedsUserConsent(pendingIntent)
+                } else {
+                    GoogleDriveAuthResult.Error(Exception("No pending intent"))
+                }
+            } else {
+                val token = result.accessToken
+                if (token != null) {
+                    GoogleDriveAuthResult.Success(result)
+                } else {
+                    GoogleDriveAuthResult.Error(Exception("No access token"))
+                }
+            }
+        } catch (e: Exception) {
+            logger.e(e) { "authorize() - failed" }
+            GoogleDriveAuthResult.Error(e)
+        }
+    }
+
+    fun getAuthorizationResultFromIntent(data: Intent?): String? {
+        if (data == null) return null
+
+        return try {
+            val result: AuthorizationResult = authorizationClient.getAuthorizationResultFromIntent(data)
+            result.accessToken
+        } catch (e: Exception) {
+            logger.e(e) { "getAuthorizationResultFromIntent() - failed" }
+            null
         }
     }
 
@@ -169,13 +210,8 @@ class GoogleDriveBackupService(
     }
 
     suspend fun getAuthTokenOrNull(): String? =
-        when (val authResult = auth()) {
-            is GoogleDriveAuthResult.Success -> {
-                authResult.authResult.accessToken
-            }
-
-            else -> {
-                null
-            }
+        when (val authResult = authorize()) {
+            is GoogleDriveAuthResult.Success -> authResult.authResult.accessToken
+            else -> null
         }
 }

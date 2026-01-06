@@ -20,7 +20,6 @@ package com.apps.adrcotfas.goodtime.di
 import android.content.Context
 import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.CloudBackupViewModel
-import com.apps.adrcotfas.goodtime.backup.GoogleDriveAuthManager
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupService
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupWorker
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveManager
@@ -34,13 +33,6 @@ import org.koin.dsl.module
 actual val platformBackupModule: Module =
     module {
         includes(androidCommonBackupModule)
-
-        single<GoogleDriveAuthManager> {
-            GoogleDriveAuthManager(
-                context = get<Context>(),
-                logger = getWith("GoogleDriveAuthManager"),
-            )
-        }
 
         single<GoogleDriveManager> {
             GoogleDriveManager(
