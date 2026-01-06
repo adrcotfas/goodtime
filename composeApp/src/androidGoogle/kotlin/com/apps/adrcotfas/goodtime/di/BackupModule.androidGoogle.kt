@@ -18,8 +18,7 @@
 package com.apps.adrcotfas.goodtime.di
 
 import android.content.Context
-import com.apps.adrcotfas.goodtime.backup.BackupManager
-import com.apps.adrcotfas.goodtime.backup.CloudBackupService
+import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveAuthManager
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupService
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupWorker
@@ -44,7 +43,7 @@ actual val platformBackupModule: Module =
         single<GoogleDriveManager> {
             GoogleDriveManager(
                 context = get<Context>(),
-                backupManager = get<BackupManager>(),
+                backupManager = get<BackupFileManager>(),
                 dbPath = get<String>(named(DB_PATH_KEY)),
                 cacheDir = get<String>(named(CACHE_DIR_PATH_KEY)),
                 logger = getWith("GoogleDriveManager"),
@@ -54,10 +53,8 @@ actual val platformBackupModule: Module =
         single<GoogleDriveBackupService> {
             GoogleDriveBackupService(
                 context = get<Context>(),
-                googleDriveAuthManager = get<GoogleDriveAuthManager>(),
                 googleDriveManager = get<GoogleDriveManager>(),
-                backupManager = get<BackupManager>(),
-                settingsRepository = get<SettingsRepository>(),
+                backupManager = get<BackupFileManager>(),
                 logger = getWith("GoogleDriveBackupService"),
             )
         }
@@ -67,7 +64,7 @@ actual val platformBackupModule: Module =
         worker {
             GoogleDriveBackupWorker(
                 context = get<Context>(),
-                googleDriveAuthManager = get<GoogleDriveAuthManager>(),
+                backupService = get<GoogleDriveBackupService>(),
                 googleDriveManager = get<GoogleDriveManager>(),
                 settingsRepository = get<SettingsRepository>(),
                 logger = getWith("GoogleDriveBackupWorker"),

@@ -38,7 +38,7 @@ import kotlin.time.Duration.Companion.days
  * Performs backups when the app becomes active if more than 24 hours have passed since last backup.
  */
 class CloudBackupManager(
-    private val backupManager: BackupManager,
+    private val backupManager: BackupFileManager,
     private val settingsRepository: SettingsRepository,
     private val fileSystem: FileSystem,
     private val dbPath: String,

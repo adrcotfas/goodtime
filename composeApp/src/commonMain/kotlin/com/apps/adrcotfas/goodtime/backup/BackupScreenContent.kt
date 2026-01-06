@@ -55,6 +55,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.bl.TimeUtils
+import com.apps.adrcotfas.goodtime.common.UnlockFeaturesActionCard
 import com.apps.adrcotfas.goodtime.ui.ActionCard
 import com.apps.adrcotfas.goodtime.ui.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.CircularProgressListItem
@@ -64,14 +65,19 @@ import com.apps.adrcotfas.goodtime.ui.SwitchListItem
 import com.apps.adrcotfas.goodtime.ui.TopBar
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.CloudUpload
 import compose.icons.evaicons.outline.Unlock
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_backup_now
+import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_disconnect
 import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_restore
+import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_google_drive
 import goodtime_productivity.composeapp.generated.resources.backup_and_restore_title
 import goodtime_productivity.composeapp.generated.resources.backup_auto_backup
 import goodtime_productivity.composeapp.generated.resources.backup_cloud
 import goodtime_productivity.composeapp.generated.resources.backup_dialog_cloud_restore_picker_subtitle
 import goodtime_productivity.composeapp.generated.resources.backup_dialog_cloud_restore_picker_title
+import goodtime_productivity.composeapp.generated.resources.backup_enable_cloud_sync
 import goodtime_productivity.composeapp.generated.resources.backup_export_backup
 import goodtime_productivity.composeapp.generated.resources.backup_export_csv
 import goodtime_productivity.composeapp.generated.resources.backup_export_data
@@ -91,225 +97,165 @@ import org.jetbrains.compose.resources.stringResource
  */
 expect fun formatFolderPath(uriPath: String): String
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BackupScreenContent(
-    uiState: BackupUiState,
-    onNavigateToPro: () -> Unit,
-    onNavigateBack: () -> Boolean,
-    cloudBackupSection: @Composable () -> Unit,
-    onLocalAutoBackupToggle: (Boolean) -> Unit = {},
-    onLocalBackup: () -> Unit,
-    onLocalRestore: () -> Unit,
-    onExportCsv: () -> Unit,
-    onExportJson: () -> Unit,
-    // Cloud restore picker
-    cloudProviderName: String,
-    onCloudRestoreDismiss: () -> Unit = {},
-    onCloudBackupSelected: (String) -> Unit = {},
-) {
-    val listState = rememberScrollState()
-    val enabled = uiState.isPro
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            topBar = {
-                TopBar(
-                    title = stringResource(Res.string.backup_and_restore_title),
-                    onNavigateBack = { onNavigateBack() },
-                    showSeparator = listState.canScrollBackward,
+@Composable
+fun CloudBackupSection(
+    enabled: Boolean,
+    isConnected: Boolean,
+    onConnect: () -> Unit,
+    cloudAutoBackupEnabled: Boolean,
+    onAutoBackupToggle: (Boolean) -> Unit,
+    isAutoBackupInProgress: Boolean,
+    lastBackupTimestamp: Long,
+    onBackup: () -> Unit,
+    isBackupInProgress: Boolean,
+    onRestore: () -> Unit,
+    isRestoreInProgress: Boolean,
+    onDisconnect: () -> Unit,
+) {
+    CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_cloud))
+
+    if (isConnected) {
+        Column {
+            SwitchListItem(
+                title = stringResource(Res.string.backup_auto_backup),
+                subtitle =
+                    if (cloudAutoBackupEnabled) {
+                        stringResource(Res.string.backup_actions_provider_google_drive)
+                    } else {
+                        null
+                    },
+                checked = cloudAutoBackupEnabled,
+                enabled = enabled,
+                showProgress = isAutoBackupInProgress,
+                onCheckedChange = onAutoBackupToggle,
+            )
+
+            if (cloudAutoBackupEnabled &&
+                lastBackupTimestamp > 0
+            ) {
+                val lastBackupTime =
+                    TimeUtils.formatDateTime(lastBackupTimestamp)
+                BetterListItem(
+                    title = stringResource(Res.string.backup_last_backup),
+                    trailing = lastBackupTime,
+                    enabled = false,
+                )
+            }
+
+            CircularProgressListItem(
+                title = stringResource(Res.string.backup_actions_cloud_backup_now),
+                enabled = enabled,
+                showProgress = isBackupInProgress,
+            ) {
+                onBackup()
+            }
+
+            CircularProgressListItem(
+                title = stringResource(Res.string.backup_actions_cloud_restore),
+                enabled = enabled,
+                showProgress = isRestoreInProgress,
+            ) {
+                onRestore()
+            }
+
+            BetterListItem(
+                title = stringResource(Res.string.backup_actions_cloud_disconnect),
+                enabled = enabled,
+                onClick = onDisconnect,
+            )
+        }
+    } else {
+        ActionCard(
+            icon = {
+                Icon(
+                    imageVector = EvaIcons.Outline.CloudUpload,
+                    contentDescription = null,
                 )
             },
-        ) { paddingValues ->
-            Column(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                        .verticalScroll(listState)
-                        .background(MaterialTheme.colorScheme.background),
-            ) {
-                if (!enabled) {
-                    ActionCard(
-                        icon = {
-                            Icon(
-                                imageVector = EvaIcons.Outline.Unlock,
-                                contentDescription = stringResource(Res.string.unlock_premium),
-                            )
-                        },
-                        description = stringResource(Res.string.unlock_premium_to_access_features),
-                    ) {
-                        onNavigateToPro()
-                    }
-                }
-
-                // === CLOUD BACKUP SECTION ===
-                if (uiState.showCloudBackup) {
-                    CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_cloud))
-                    cloudBackupSection()
-                    SubtleHorizontalDivider()
-                }
-
-                // === LOCAL STORAGE SECTION ===
-                CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_local_storage))
-
-                // Local auto backup (Android only - controlled by showLocalAutoBackup)
-                if (uiState.showLocalAutoBackup) {
-                    SwitchListItem(
-                        title = stringResource(Res.string.backup_auto_backup),
-                        subtitle =
-                            if (uiState.backupSettings.autoBackupEnabled && uiState.backupSettings.path.isNotBlank()) {
-                                formatFolderPath(uiState.backupSettings.path)
-                            } else {
-                                null
-                            },
-                        checked = uiState.backupSettings.autoBackupEnabled,
-                        enabled = enabled,
-                        onCheckedChange = { onLocalAutoBackupToggle(it) },
-                    )
-
-                    // Show last backup time if available
-                    if (uiState.backupSettings.localLastBackupTimestamp > 0) {
-                        val lastBackupTime =
-                            TimeUtils.formatDateTime(uiState.backupSettings.localLastBackupTimestamp)
-                        BetterListItem(
-                            title = stringResource(Res.string.backup_last_backup),
-                            trailing = lastBackupTime,
-                            enabled = false,
-                        )
-                    }
-                }
-
-                // Manual local backup and restore (both platforms)
-                CircularProgressListItem(
-                    title = stringResource(Res.string.backup_export_backup),
-                    subtitle = stringResource(Res.string.backup_the_file_can_be_imported_back),
-                    enabled = enabled,
-                    showProgress = uiState.isBackupInProgress,
-                ) {
-                    onLocalBackup()
-                }
-                CircularProgressListItem(
-                    title = stringResource(Res.string.backup_restore_backup),
-                    enabled = enabled,
-                    showProgress = uiState.isRestoreInProgress,
-                ) {
-                    onLocalRestore()
-                }
-
-                // === EXPORT DATA SECTION ===
-                SubtleHorizontalDivider()
-                CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_export_data))
-
-                CircularProgressListItem(
-                    title = stringResource(Res.string.backup_export_csv),
-                    enabled = enabled,
-                    showProgress = uiState.isCsvBackupInProgress,
-                ) {
-                    onExportCsv()
-                }
-                CircularProgressListItem(
-                    title = stringResource(Res.string.backup_export_json),
-                    enabled = enabled,
-                    showProgress = uiState.isJsonBackupInProgress,
-                ) {
-                    onExportJson()
-                }
-            }
-        }
-
-        AnimatedVisibility(
-            visible = uiState.isBusy,
-            enter = fadeIn(animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)),
-            exit = fadeOut(animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)),
-        ) {
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.28f))
-                        .clearAndSetSemantics { }
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null,
-                            onClick = { /* consume taps */ },
-                        ),
-            )
-        }
-
-        // Cloud restore picker dialog
-        if (uiState.showCloudRestoreDialog && uiState.availableCloudBackups.isNotEmpty()) {
-            CloudRestorePickerDialog(
-                cloudProviderName = cloudProviderName,
-                backups = uiState.availableCloudBackups,
-                onDismiss = onCloudRestoreDismiss,
-                onBackupSelected = onCloudBackupSelected,
-            )
-        }
+            enabled = enabled,
+            description = stringResource(Res.string.backup_enable_cloud_sync),
+            onClick = onConnect,
+        )
     }
 }
 
 @Composable
-private fun CloudRestorePickerDialog(
-    cloudProviderName: String,
-    backups: List<String>,
-    onDismiss: () -> Unit,
-    onBackupSelected: (String) -> Unit,
+fun LocalBackupSection(
+    enabled: Boolean,
+    localAutoBackupEnabled: Boolean,
+    localAutoBackupPath: String,
+    onLocalAutoBackupToggle: (Boolean) -> Unit,
+    lastLocalAutoBackupTimestamp: Long,
+    backupInProgress: Boolean,
+    restoreInProgress: Boolean,
+    onLocalBackup: () -> Unit,
+    onLocalRestore: () -> Unit,
 ) {
-    var selectedBackup by remember(backups) { mutableStateOf(backups.firstOrNull() ?: "") }
+    CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_local_storage))
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(stringResource(Res.string.backup_dialog_cloud_restore_picker_title)) },
-        text = {
-            Column {
-                Text(
-                    stringResource(Res.string.backup_dialog_cloud_restore_picker_subtitle, cloudProviderName),
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = 16.dp),
-                )
-                LazyColumn(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                ) {
-                    items(backups.size) { index ->
-                        val backup = backups[index]
-                        Row(
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .clickable { selectedBackup = backup }
-                                    .padding(vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            RadioButton(
-                                selected = selectedBackup == backup,
-                                onClick = { selectedBackup = backup },
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = backup,
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-                        }
-                    }
-                }
-            }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    if (selectedBackup.isNotBlank()) {
-                        onBackupSelected(selectedBackup)
-                    }
-                },
-            ) {
-                Text(stringResource(Res.string.backup_actions_cloud_restore))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.main_cancel))
-            }
-        },
+    SwitchListItem(
+        title = stringResource(Res.string.backup_auto_backup),
+        subtitle =
+            if (localAutoBackupEnabled && localAutoBackupPath.isNotBlank()) {
+                formatFolderPath(localAutoBackupPath)
+            } else {
+                null
+            },
+        checked = localAutoBackupEnabled,
+        enabled = enabled,
+        onCheckedChange = { onLocalAutoBackupToggle(it) },
     )
+
+    if (lastLocalAutoBackupTimestamp > 0) {
+        val lastBackupTime =
+            TimeUtils.formatDateTime(lastLocalAutoBackupTimestamp)
+        BetterListItem(
+            title = stringResource(Res.string.backup_last_backup),
+            trailing = lastBackupTime,
+            enabled = false,
+        )
+    }
+
+    CircularProgressListItem(
+        title = stringResource(Res.string.backup_export_backup),
+        subtitle = stringResource(Res.string.backup_the_file_can_be_imported_back),
+        enabled = enabled,
+        showProgress = backupInProgress,
+    ) {
+        onLocalBackup()
+    }
+    CircularProgressListItem(
+        title = stringResource(Res.string.backup_restore_backup),
+        enabled = enabled,
+        showProgress = restoreInProgress,
+    ) {
+        onLocalRestore()
+    }
+}
+
+@Composable
+fun ExportCsvJsonSection(
+    enabled: Boolean,
+    isCsvBackupInProgress: Boolean,
+    isJsonBackupInProgress: Boolean,
+    onExportCsv: () -> Unit,
+    onExportJson: () -> Unit,
+) {
+    CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_export_data))
+
+    CircularProgressListItem(
+        title = stringResource(Res.string.backup_export_csv),
+        enabled = enabled,
+        showProgress = isCsvBackupInProgress,
+    ) {
+        onExportCsv()
+    }
+    CircularProgressListItem(
+        title = stringResource(Res.string.backup_export_json),
+        enabled = enabled,
+        showProgress = isJsonBackupInProgress,
+    ) {
+        onExportJson()
+    }
 }

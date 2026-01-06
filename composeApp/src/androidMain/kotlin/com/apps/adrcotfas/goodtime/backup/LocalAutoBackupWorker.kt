@@ -35,7 +35,7 @@ import java.io.FileInputStream
  */
 class LocalAutoBackupWorker(
     private val context: Context,
-    private val backupManager: BackupManager,
+    private val backupManager: BackupFileManager,
     private val settingsRepository: SettingsRepository,
     private val logger: Logger,
     private val dbPath: String,

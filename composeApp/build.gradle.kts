@@ -241,6 +241,7 @@ dependencies {
     add("googleImplementation", libs.google.api.client)
     add("googleImplementation", libs.google.drive)
     add("googleImplementation", libs.google.id)
+    add("googleImplementation", libs.coroutines.play.services)
 }
 
 room {

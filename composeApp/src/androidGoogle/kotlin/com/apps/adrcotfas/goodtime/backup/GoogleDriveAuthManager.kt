@@ -33,17 +33,14 @@ import kotlin.coroutines.resume
  * Result of an authorization attempt.
  */
 sealed class GoogleDriveAuthResult {
-    /** Authorization succeeded, access token is available */
     data class Success(
-        val accessToken: String,
+        val authResult: AuthorizationResult,
     ) : GoogleDriveAuthResult()
 
-    /** User needs to grant permission via UI, launch this PendingIntent */
     data class NeedsUserConsent(
         val pendingIntent: PendingIntent,
     ) : GoogleDriveAuthResult()
 
-    /** Authorization failed */
     data class Error(
         val exception: Exception,
     ) : GoogleDriveAuthResult()
@@ -118,7 +115,11 @@ class GoogleDriveAuthManager(
                                 logger.w { "authorize() - token missing Drive scope, needs user consent" }
                                 val pendingIntent = result.pendingIntent
                                 if (pendingIntent != null) {
-                                    continuation.resume(GoogleDriveAuthResult.NeedsUserConsent(pendingIntent))
+                                    continuation.resume(
+                                        GoogleDriveAuthResult.NeedsUserConsent(
+                                            pendingIntent,
+                                        ),
+                                    )
                                 } else {
                                     continuation.resume(
                                         GoogleDriveAuthResult.Error(
@@ -182,7 +183,8 @@ class GoogleDriveAuthManager(
         }
 
         return try {
-            val result: AuthorizationResult = authorizationClient.getAuthorizationResultFromIntent(data)
+            val result: AuthorizationResult =
+                authorizationClient.getAuthorizationResultFromIntent(data)
             val token = result.accessToken
             val grantedScopes = result.grantedScopes
 

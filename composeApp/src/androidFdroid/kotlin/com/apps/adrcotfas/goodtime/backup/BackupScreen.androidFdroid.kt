@@ -48,11 +48,6 @@ import goodtime_productivity.composeapp.generated.resources.backup_restore_compl
 import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
 import org.jetbrains.compose.resources.getString
 import org.koin.compose.koinInject
-
-/**
- * F-Droid version of BackupScreen.
- * Does not include cloud backup functionality (requires Google Play Services).
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 actual fun BackupScreen(

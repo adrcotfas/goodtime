@@ -17,18 +17,13 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
-import com.apps.adrcotfas.goodtime.backup.BackupManager
+import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.BackupPrompter
-import com.apps.adrcotfas.goodtime.backup.BackupViewModel
-import com.apps.adrcotfas.goodtime.backup.CloudBackupService
-import com.apps.adrcotfas.goodtime.backup.LocalBackupService
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
-import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import okio.FileSystem
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -36,8 +31,8 @@ expect val platformBackupModule: Module
 
 val coreBackupModule: Module =
     module {
-        single<BackupManager> {
-            BackupManager(
+        single<BackupFileManager> {
+            BackupFileManager(
                 get<FileSystem>(),
                 get<String>(named(DB_PATH_KEY)),
                 get<String>(named(CACHE_DIR_PATH_KEY)),
@@ -46,16 +41,6 @@ val coreBackupModule: Module =
                 get<BackupPrompter>(),
                 get<LocalDataRepository>(),
                 getWith("BackupManager"),
-            )
-        }
-
-        single<LocalBackupService> { LocalBackupService(backupManager = get<BackupManager>()) }
-
-        viewModel {
-            BackupViewModel(
-                localBackupService = get<LocalBackupService>(),
-                cloudBackupService = getOrNull<CloudBackupService>(),
-                settingsRepository = get<SettingsRepository>(),
             )
         }
     }

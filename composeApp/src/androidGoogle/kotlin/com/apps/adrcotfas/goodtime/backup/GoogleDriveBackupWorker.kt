@@ -23,8 +23,8 @@ import androidx.work.WorkerParameters
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.google.api.services.drive.DriveScopes
 import kotlinx.coroutines.flow.first
-import kotlin.time.Duration.Companion.days
 
 /**
  * WorkManager worker that performs scheduled Google Drive backups.
@@ -38,7 +38,7 @@ import kotlin.time.Duration.Companion.days
  */
 class GoogleDriveBackupWorker(
     context: Context,
-    private val googleDriveAuthManager: GoogleDriveAuthManager,
+    private val backupService: GoogleDriveBackupService,
     private val googleDriveManager: GoogleDriveManager,
     private val settingsRepository: SettingsRepository,
     private val logger: Logger,
@@ -47,93 +47,57 @@ class GoogleDriveBackupWorker(
     override suspend fun doWork(): Result {
         logger.i { "GoogleDriveBackupWorker - starting" }
 
-        try {
+        return try {
             val settings = settingsRepository.settings.first()
 
-            // Check if user is Pro
-            if (!settings.isPro) {
-                logger.w { "GoogleDriveBackupWorker - user is not Pro, skipping" }
-                return Result.failure()
-            }
-
-            // Check if cloud auto-backup is enabled
-            if (!settings.backupSettings.cloudAutoBackupEnabled) {
-                logger.w { "GoogleDriveBackupWorker - cloud auto-backup disabled, skipping" }
-                return Result.failure()
-            }
-
-            // Check if enough time has passed since last backup (24h minimum)
-            val lastBackupTime = settings.backupSettings.cloudLastBackupTimestamp
-            val currentTime = TimeProvider.now()
-            if (lastBackupTime > 0 && (currentTime - lastBackupTime) < 1.days.inWholeMilliseconds) {
-                logger.d { "GoogleDriveBackupWorker - last backup was less than 24h ago, skipping" }
-                return Result.success()
-            }
-
-            // Get fresh access token (re-authorization is silent after initial consent)
-            logger.d { "GoogleDriveBackupWorker - authorizing" }
-            val authResult = googleDriveAuthManager.authorize()
-
-            val accessToken =
-                when (authResult) {
-                    is GoogleDriveAuthResult.Success -> authResult.accessToken
-                    is GoogleDriveAuthResult.NeedsUserConsent -> {
-                        // Cannot show UI from worker - user needs to open app
-                        logger.w { "GoogleDriveBackupWorker - needs user consent, cannot proceed in background" }
-                        return Result.retry()
-                    }
-                    is GoogleDriveAuthResult.Error -> {
-                        logger.e(authResult.exception) { "GoogleDriveBackupWorker - authorization failed" }
-                        return Result.retry()
-                    }
-                }
-
-            // Validate the token before attempting backup (detects server-side revocation)
-            try {
-                googleDriveManager.validateToken(accessToken)
-            } catch (e: TokenRevokedException) {
-                logger.w { "GoogleDriveBackupWorker - token revoked, disabling auto-backup" }
-                // Disable auto-backup so user sees the issue when they open the app
+            val disableAutoBackup: suspend () -> Unit = {
                 settingsRepository.setBackupSettings(
                     settings.backupSettings.copy(cloudAutoBackupEnabled = false),
                 )
-                return Result.failure()
             }
 
-            // Perform the backup
-            logger.d { "GoogleDriveBackupWorker - uploading backup" }
-            val fileId =
-                try {
-                    googleDriveManager.uploadBackup(accessToken)
-                } catch (e: TokenRevokedException) {
-                    logger.w { "GoogleDriveBackupWorker - token revoked during upload, disabling auto-backup" }
+            when (val result = backupService.auth()) {
+                is GoogleDriveAuthResult.Success -> {
+                    val authResult = result.authResult
+                    val hasDrivePermission =
+                        authResult.grantedScopes.any { scope ->
+                            scope.toString().contains(DriveScopes.DRIVE_APPDATA)
+                        }
+                    if (!hasDrivePermission) {
+                        disableAutoBackup()
+                        logger.e { "missing Drive permission, disabling auto-backup" }
+                        Result.failure()
+                    }
+                    if (authResult.accessToken == null) {
+                        disableAutoBackup()
+                        logger.e { "access token is null, re-auth required" }
+                        Result.failure()
+                    }
+
+                    googleDriveManager.uploadBackup(authResult.accessToken!!)
+
                     settingsRepository.setBackupSettings(
-                        settings.backupSettings.copy(cloudAutoBackupEnabled = false),
+                        settings.backupSettings.copy(
+                            cloudLastBackupTimestamp = TimeProvider.now(),
+                        ),
                     )
-                    return Result.failure()
+
+                    logger.i { "GoogleDriveBackupWorker - backup completed successfully" }
+                    Result.success()
                 }
 
-            if (fileId == null) {
-                logger.e { "GoogleDriveBackupWorker - backup upload failed" }
-                return Result.retry()
+                else -> {
+                    Result.failure()
+                }
             }
-
-            // Update last backup timestamp
-            settingsRepository.setBackupSettings(
-                settings.backupSettings.copy(
-                    cloudLastBackupTimestamp = TimeProvider.now(),
-                ),
-            )
-
-            logger.i { "GoogleDriveBackupWorker - backup completed successfully" }
-            return Result.success()
         } catch (e: Exception) {
-            logger.e(e) { "GoogleDriveBackupWorker - failed with exception" }
-            return Result.retry()
+            logger.e(e) { "failed" }
+            Result.failure()
         }
     }
 
     companion object {
-        const val WORK_NAME = "google_drive_backup_work"
+        const val AUTO_BACKUP = "auto_google_drive_backup_work"
+        const val MANUAL_BACKUP = "manual_google_drive_backup_work"
     }
 }

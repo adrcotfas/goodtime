@@ -18,7 +18,7 @@
 package com.apps.adrcotfas.goodtime.di
 
 import android.content.Context
-import com.apps.adrcotfas.goodtime.backup.BackupManager
+import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupManager
 import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupWorker
@@ -57,7 +57,7 @@ val androidCommonBackupModule: Module =
         worker {
             LocalAutoBackupWorker(
                 context = get<Context>(),
-                backupManager = get<BackupManager>(),
+                backupManager = get<BackupFileManager>(),
                 settingsRepository = get<SettingsRepository>(),
                 logger = getWith("LocalAutoBackupWorker"),
                 dbPath = get<String>(named(DB_PATH_KEY)),

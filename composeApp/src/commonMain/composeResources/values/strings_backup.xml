@@ -55,6 +55,6 @@
     <string name="backup_dialog_cloud_restore_picker_title">Select backup to restore</string>
     <string name="backup_dialog_cloud_restore_picker_subtitle">Choose a backup from %1$s to restore:</string>
     <string name="backup_cloud">Cloud</string>
-    <string name="backup_enable_cloud_sync">Enable cloud sync to automatically back up your data</string>
+    <string name="backup_enable_cloud_sync">Enable cloud sync</string>
     <string name="backup_icloud_enable_in_settings">Enable iCloud for Goodtime in Settings to use cloud backup</string>
 </resources>

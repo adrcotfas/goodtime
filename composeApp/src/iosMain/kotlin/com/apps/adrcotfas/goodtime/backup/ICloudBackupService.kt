@@ -21,7 +21,7 @@ import co.touchlab.kermit.Logger
 
 class ICloudBackupService(
     private val cloudBackupManager: CloudBackupManager,
-    private val backupManager: BackupManager,
+    private val backupManager: BackupFileManager,
     private val logger: Logger,
 ) : CloudBackupService {
     override suspend fun preflightBackup(): CloudAutoBackupIssue? {

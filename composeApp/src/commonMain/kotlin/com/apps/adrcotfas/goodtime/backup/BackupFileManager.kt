@@ -40,7 +40,7 @@ import okio.use
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-class BackupManager(
+class BackupFileManager(
     private val fileSystem: FileSystem,
     private val dbPath: String,
     private val filesDirPath: String,

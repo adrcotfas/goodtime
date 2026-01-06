@@ -46,48 +46,11 @@ class TokenRevokedException(
  */
 class GoogleDriveManager(
     private val context: Context,
-    private val backupManager: BackupManager,
+    private val backupManager: BackupFileManager,
     private val dbPath: String,
     private val cacheDir: String,
     private val logger: Logger,
 ) {
-    /**
-     * Validate that the access token is still valid by making a lightweight API call.
-     * This detects tokens that have been revoked server-side but are still cached locally.
-     *
-     * @param accessToken OAuth access token to validate
-     * @return true if the token is valid, false otherwise
-     * @throws TokenRevokedException if the token has been revoked (401/403)
-     */
-    suspend fun validateToken(accessToken: String): Boolean =
-        withContext(Dispatchers.IO) {
-            logger.d { "validateToken() - checking token validity" }
-            try {
-                val driveService = createDriveService(accessToken)
-                // Make a minimal API call to verify the token works
-                driveService
-                    .files()
-                    .list()
-                    .setSpaces("appDataFolder")
-                    .setPageSize(1)
-                    .setFields("files(id)")
-                    .execute()
-                logger.d { "validateToken() - token is valid" }
-                true
-            } catch (e: GoogleJsonResponseException) {
-                if (e.statusCode == 401 || e.statusCode == 403) {
-                    logger.w { "validateToken() - token is invalid: ${e.statusCode}" }
-                    throw TokenRevokedException("Token has been revoked or is invalid", e)
-                }
-                // Other errors (network, etc.) - don't treat as token revocation
-                logger.e(e) { "validateToken() - API error: ${e.statusCode}" }
-                false
-            } catch (e: Exception) {
-                logger.e(e) { "validateToken() - unexpected error" }
-                false
-            }
-        }
-
     /**
      * Upload the current database to Google Drive.
      *
@@ -326,7 +289,7 @@ class GoogleDriveManager(
         return Drive
             .Builder(httpTransport, jsonFactory) { request ->
                 request.headers["Authorization"] = "Bearer $accessToken"
-            }.setApplicationName("Goodtime Productivity")
+            }.setApplicationName("Goodtime")
             .build()
     }
 }

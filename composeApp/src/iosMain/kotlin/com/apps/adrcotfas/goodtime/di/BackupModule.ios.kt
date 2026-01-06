@@ -17,10 +17,9 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
-import com.apps.adrcotfas.goodtime.backup.BackupManager
+import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.backup.CloudBackupManager
-import com.apps.adrcotfas.goodtime.backup.CloudBackupService
 import com.apps.adrcotfas.goodtime.backup.ICloudBackupService
 import com.apps.adrcotfas.goodtime.data.backup.IosBackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
@@ -41,7 +40,7 @@ actual val platformBackupModule: Module =
 
         single<CloudBackupManager>(createdAtStart = true) {
             CloudBackupManager(
-                backupManager = get<BackupManager>(),
+                backupManager = get<BackupFileManager>(),
                 settingsRepository = get<SettingsRepository>(),
                 fileSystem = get<FileSystem>(),
                 dbPath = get<String>(named(DB_PATH_KEY)),
@@ -52,7 +51,7 @@ actual val platformBackupModule: Module =
         single<CloudBackupService> {
             ICloudBackupService(
                 cloudBackupManager = get<CloudBackupManager>(),
-                backupManager = get<BackupManager>(),
+                backupManager = get<BackupFileManager>(),
                 logger = getWith("ICloudBackupService"),
             )
         }
