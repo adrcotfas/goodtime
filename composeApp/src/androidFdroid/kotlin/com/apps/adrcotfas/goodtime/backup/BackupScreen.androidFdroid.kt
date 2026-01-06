@@ -15,39 +15,49 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.settings.backup
+package com.apps.adrcotfas.goodtime.backup
 
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.backup.BackupPromptResult
-import com.apps.adrcotfas.goodtime.backup.BackupResultKind
-import com.apps.adrcotfas.goodtime.backup.BackupViewModel
+import com.apps.adrcotfas.goodtime.common.UnlockFeaturesActionCard
 import com.apps.adrcotfas.goodtime.common.isUriPersisted
 import com.apps.adrcotfas.goodtime.common.releasePersistableUriPermission
 import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
+import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.TopBar
 import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.backup_and_restore_title
 import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
-import goodtime_productivity.composeapp.generated.resources.backup_export_completed_successfully
-import goodtime_productivity.composeapp.generated.resources.backup_export_failed_please_try_again
 import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
 import goodtime_productivity.composeapp.generated.resources.backup_no_backups_found
 import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
 import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
 import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 actual fun BackupScreen(
@@ -55,94 +65,82 @@ actual fun BackupScreen(
     onNavigateBack: () -> Boolean,
     onNavigateToMainAndReset: () -> Unit,
 ) {
-    val viewModel: BackupViewModel = koinInject()
+    // region ViewModels and State
+    val backupViewModel: BackupViewModel = koinInject()
     val activityResultLauncherManager: ActivityResultLauncherManager = koinInject()
     val context = LocalContext.current
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val backupUiState by backupViewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
 
-    if (uiState.isLoading) return
+    if (backupUiState.isLoading) return
 
+    val backupSettings = backupUiState.backupSettings
+    // endregion
+
+    // region Launchers
     val importLauncher =
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.GetContent(),
-            onResult = { uri ->
-                activityResultLauncherManager.importCallback(uri)
-            },
+            onResult = { uri -> activityResultLauncherManager.importCallback(uri) },
         )
     val exportLauncher =
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.StartActivityForResult(),
         ) { result ->
-            val data = result.data
-            val uri = data?.data
-            activityResultLauncherManager.exportCallback(uri)
+            activityResultLauncherManager.exportCallback(result.data?.data)
         }
-
     val autoExportDirLauncher =
         rememberLauncherForActivityResult(
             contract = OpenDocumentTreeContract(),
             onResult = { uri ->
                 uri?.let {
                     context.takePersistableUriPermission(uri)
-                    viewModel.setBackupSettings(
-                        uiState.backupSettings.copy(
-                            autoBackupEnabled = true,
-                            path = uri.toString(),
-                        ),
+                    backupViewModel.setBackupSettings(
+                        backupSettings.copy(autoBackupEnabled = true, path = uri.toString()),
                     )
                 }
             },
         )
+    // endregion
 
+    // region LaunchedEffects
     LaunchedEffect(Unit) {
         activityResultLauncherManager.setup(importLauncher, exportLauncher)
     }
 
     LaunchedEffect(lifecycleState) {
-        when (lifecycleState) {
-            Lifecycle.State.RESUMED, Lifecycle.State.CREATED -> {
-                viewModel.clearProgress()
-            }
-
-            else -> {
-                // do nothing
-            }
+        if (lifecycleState == Lifecycle.State.RESUMED || lifecycleState == Lifecycle.State.CREATED) {
+            backupViewModel.clearProgress()
         }
     }
 
-    LaunchedEffect(uiState.backupResult) {
-        uiState.backupResult?.let {
+    LaunchedEffect(Unit) {
+        if (backupSettings.autoBackupEnabled && !context.isUriPersisted(backupSettings.path.toUri())) {
+            backupViewModel.setBackupSettings(
+                backupSettings.copy(autoBackupEnabled = false, path = ""),
+            )
+        }
+    }
+
+    LaunchedEffect(backupUiState.backupResult) {
+        backupUiState.backupResult?.let {
             if (it != BackupPromptResult.CANCELLED) {
-                val isExport = uiState.backupResultKind == BackupResultKind.EXPORT
-                Toast
-                    .makeText(
-                        context,
-                        if (it == BackupPromptResult.SUCCESS) {
-                            if (isExport) {
-                                getString(Res.string.backup_export_completed_successfully)
-                            } else {
-                                getString(Res.string.backup_completed_successfully)
-                            }
-                        } else {
-                            getString(
-                                if (isExport) {
-                                    Res.string.backup_export_failed_please_try_again
-                                } else {
-                                    Res.string.backup_failed_please_try_again
-                                },
-                            )
-                        },
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                val message =
+                    if (it == BackupPromptResult.SUCCESS) {
+                        getString(Res.string.backup_completed_successfully)
+                    } else {
+                        getString(Res.string.backup_failed_please_try_again)
+                    }
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
-            viewModel.clearBackupError()
+            backupViewModel.clearBackupError()
         }
     }
 
-    LaunchedEffect(uiState.restoreResult) {
-        uiState.restoreResult?.let {
+    LaunchedEffect(backupUiState.restoreResult) {
+        backupUiState.restoreResult?.let {
             if (it != BackupPromptResult.CANCELLED) {
                 val message =
                     when (it) {
@@ -155,39 +153,67 @@ actual fun BackupScreen(
             if (it == BackupPromptResult.SUCCESS) {
                 onNavigateToMainAndReset()
             }
-            viewModel.clearRestoreError()
+            backupViewModel.clearRestoreError()
         }
     }
+    // endregion
 
-    LaunchedEffect(Unit) {
-        if (uiState.backupSettings.autoBackupEnabled && !context.isUriPersisted(uiState.backupSettings.path.toUri())) {
-            viewModel.setBackupSettings(uiState.backupSettings.copy(autoBackupEnabled = false, path = ""))
+    // region UI
+    val listState = rememberScrollState()
+    Scaffold(
+        topBar = {
+            TopBar(
+                title = stringResource(Res.string.backup_and_restore_title),
+                onNavigateBack = { onNavigateBack() },
+                showSeparator = listState.canScrollBackward,
+            )
+        },
+    ) { paddingValues ->
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(listState)
+                    .background(MaterialTheme.colorScheme.background),
+        ) {
+            UnlockFeaturesActionCard(backupUiState.isPro, onNavigateToPro = onNavigateToPro)
+
+            // [Google only] CloudBackupSection + SubtleHorizontalDivider
+
+            LocalBackupSection(
+                enabled = backupUiState.isPro,
+                localAutoBackupEnabled = backupSettings.autoBackupEnabled,
+                localAutoBackupPath = backupSettings.path,
+                onLocalAutoBackupToggle = {
+                    if (backupSettings.autoBackupEnabled) {
+                        context.releasePersistableUriPermission(backupSettings.path.toUri())
+                        backupViewModel.setBackupSettings(
+                            backupSettings.copy(autoBackupEnabled = false, path = ""),
+                        )
+                    } else {
+                        autoExportDirLauncher.launch(Uri.EMPTY)
+                    }
+                },
+                lastLocalAutoBackupTimestamp = backupSettings.localLastBackupTimestamp,
+                backupInProgress = backupUiState.isBackupInProgress,
+                restoreInProgress = backupUiState.isRestoreInProgress,
+                onLocalBackup = { backupViewModel.backup() },
+                onLocalRestore = { backupViewModel.restore() },
+            )
+
+            SubtleHorizontalDivider()
+
+            ExportCsvJsonSection(
+                enabled = backupUiState.isPro,
+                isCsvBackupInProgress = backupUiState.isCsvBackupInProgress,
+                isJsonBackupInProgress = backupUiState.isJsonBackupInProgress,
+                onExportCsv = { backupViewModel.exportCsv() },
+                onExportJson = { backupViewModel.exportJson() },
+            )
         }
     }
+    // endregion
 
-    BackupScreenContent(
-        uiState = uiState,
-        onNavigateToPro = onNavigateToPro,
-        onNavigateBack = onNavigateBack,
-        cloudBackupSection = {
-            // Empty - cloud backup not available on F-Droid
-        },
-        onLocalAutoBackupToggle = {
-            if (uiState.isPro) {
-                if (uiState.backupSettings.autoBackupEnabled) {
-                    context.releasePersistableUriPermission(uiState.backupSettings.path.toUri())
-                    viewModel.setBackupSettings(uiState.backupSettings.copy(autoBackupEnabled = false, path = ""))
-                } else {
-                    autoExportDirLauncher.launch(Uri.EMPTY)
-                }
-            }
-        },
-        onLocalBackup = { viewModel.backup() },
-        onLocalRestore = { viewModel.restore() },
-        onExportCsv = { viewModel.backupToCsv() },
-        onExportJson = { viewModel.backupToJson() },
-        cloudProviderName = "", // Not used on F-Droid
-        onCloudRestoreDismiss = {},
-        onCloudBackupSelected = {},
-    )
+    // [Google only] CloudRestorePickerDialog
 }

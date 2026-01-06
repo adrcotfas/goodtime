@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.di
 
 import android.content.Context
 import com.apps.adrcotfas.goodtime.backup.BackupFileManager
+import com.apps.adrcotfas.goodtime.backup.CloudBackupViewModel
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveAuthManager
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupService
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupWorker
@@ -26,6 +27,7 @@ import com.apps.adrcotfas.goodtime.backup.GoogleDriveManager
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -59,7 +61,7 @@ actual val platformBackupModule: Module =
             )
         }
 
-        single<CloudBackupService> { get<GoogleDriveBackupService>() }
+        viewModelOf(::CloudBackupViewModel)
 
         worker {
             GoogleDriveBackupWorker(

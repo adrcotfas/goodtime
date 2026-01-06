@@ -19,14 +19,25 @@ package com.apps.adrcotfas.goodtime.backup
 
 import co.touchlab.kermit.Logger
 
+/**
+ * Issues that can occur with iCloud auto backup.
+ */
+enum class CloudAutoBackupIssue {
+    ICLOUD_UNAVAILABLE,
+    ICLOUD_FULL,
+    UNKNOWN,
+}
+
 class ICloudBackupService(
     private val cloudBackupManager: CloudBackupManager,
     private val backupManager: BackupFileManager,
     private val logger: Logger,
-) : CloudBackupService {
-    override suspend fun preflightBackup(): CloudAutoBackupIssue? {
+) {
+    suspend fun isICloudAvailable(): Boolean = cloudBackupManager.isICloudAvailable()
+
+    suspend fun preflightBackup(): CloudAutoBackupIssue? {
         logger.d { "preflightBackup() - checking availability..." }
-        val available = cloudBackupManager.isICloudAvailable()
+        val available = isICloudAvailable()
         logger.d { "preflightBackup() - available=$available" }
         if (!available) {
             return CloudAutoBackupIssue.ICLOUD_UNAVAILABLE
@@ -34,11 +45,11 @@ class ICloudBackupService(
         return null
     }
 
-    override fun setAutoBackupEnabled(enabled: Boolean) {
+    fun setAutoBackupEnabled(enabled: Boolean) {
         cloudBackupManager.setAutoBackupSchedulingEnabled(enabled)
     }
 
-    override suspend fun backupNow(): BackupPromptResult =
+    suspend fun backupNow(): BackupPromptResult =
         try {
             cloudBackupManager.performManualBackup()
             BackupPromptResult.SUCCESS
@@ -46,14 +57,14 @@ class ICloudBackupService(
             BackupPromptResult.FAILED
         }
 
-    override suspend fun listAvailableBackups(): List<String> =
+    suspend fun listAvailableBackups(): List<String> =
         try {
             cloudBackupManager.listAvailableBackups()
         } catch (_: Exception) {
             emptyList()
         }
 
-    override suspend fun restoreFromBackup(fileName: String): BackupPromptResult =
+    suspend fun restoreFromBackup(fileName: String): BackupPromptResult =
         try {
             val tempFilePath = cloudBackupManager.getBackupFileForRestore(fileName)
             backupManager.restoreFromFile(tempFilePath)
@@ -61,7 +72,7 @@ class ICloudBackupService(
             BackupPromptResult.FAILED
         }
 
-    override suspend fun attemptEnableAutoBackup(): CloudAutoBackupIssue? {
+    suspend fun attemptEnableAutoBackup(): CloudAutoBackupIssue? {
         logger.d { "attemptEnableAutoBackup() - starting..." }
         val preflight = preflightBackup()
         if (preflight != null) {

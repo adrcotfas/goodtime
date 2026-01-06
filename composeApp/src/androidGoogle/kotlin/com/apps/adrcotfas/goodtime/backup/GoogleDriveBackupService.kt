@@ -40,7 +40,7 @@ class GoogleDriveBackupService(
     private val backupManager: BackupFileManager,
     private val context: Context,
     private val logger: Logger,
-)  {
+) {
     private val authorizationClient = Identity.getAuthorizationClient(context)
     private val workManager = WorkManager.getInstance(context)
 

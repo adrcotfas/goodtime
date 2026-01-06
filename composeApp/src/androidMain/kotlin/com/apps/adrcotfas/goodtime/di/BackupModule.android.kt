@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.di
 import android.content.Context
 import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupManager
 import com.apps.adrcotfas.goodtime.backup.LocalAutoBackupWorker
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
@@ -28,6 +29,7 @@ import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -62,6 +64,14 @@ val androidCommonBackupModule: Module =
                 logger = getWith("LocalAutoBackupWorker"),
                 dbPath = get<String>(named(DB_PATH_KEY)),
                 params = get(),
+            )
+        }
+
+        viewModel {
+            BackupViewModel(
+                backupManager = get<BackupFileManager>(),
+                settingsRepository = get<SettingsRepository>(),
+                coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
             )
         }
     }

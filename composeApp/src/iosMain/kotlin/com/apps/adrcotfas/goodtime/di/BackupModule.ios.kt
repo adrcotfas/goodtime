@@ -19,13 +19,17 @@ package com.apps.adrcotfas.goodtime.di
 
 import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.backup.CloudBackupManager
+import com.apps.adrcotfas.goodtime.backup.CloudBackupViewModel
 import com.apps.adrcotfas.goodtime.backup.ICloudBackupService
 import com.apps.adrcotfas.goodtime.data.backup.IosBackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import okio.FileSystem
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -48,11 +52,20 @@ actual val platformBackupModule: Module =
             )
         }
 
-        single<CloudBackupService> {
+        single<ICloudBackupService> {
             ICloudBackupService(
                 cloudBackupManager = get<CloudBackupManager>(),
                 backupManager = get<BackupFileManager>(),
                 logger = getWith("ICloudBackupService"),
             )
         }
+
+        viewModel {
+            BackupViewModel(
+                backupManager = get<BackupFileManager>(),
+                settingsRepository = get<SettingsRepository>(),
+                coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
+            )
+        }
+        viewModelOf(::CloudBackupViewModel)
     }

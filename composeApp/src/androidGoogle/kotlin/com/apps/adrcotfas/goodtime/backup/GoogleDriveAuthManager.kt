@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.api.Scope
 import com.google.api.services.drive.DriveScopes
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.resume
 
 /**
@@ -109,7 +110,7 @@ class GoogleDriveAuthManager(
                             logger.d { "authorize() - hasDriveScope: $hasDriveScope" }
                             if (hasDriveScope) {
                                 logger.d { "authorize() - success, got access token with Drive scope" }
-                                continuation.resume(GoogleDriveAuthResult.Success(token))
+                                continuation.resume(GoogleDriveAuthResult.Success(result))
                             } else {
                                 // Token doesn't have Drive scope - treat as needing consent
                                 logger.w { "authorize() - token missing Drive scope, needs user consent" }
@@ -140,29 +141,6 @@ class GoogleDriveAuthManager(
                 }.addOnFailureListener { exception ->
                     logger.e(exception) { "authorize() - failed" }
                     continuation.resume(GoogleDriveAuthResult.Error(exception))
-                }
-        }
-    }
-
-    /**
-     * Clear cached authorization state.
-     * This forces the next authorize() call to potentially show consent UI.
-     *
-     * Uses SignInClient.signOut() which clears the shared credential cache
-     * that AuthorizationClient uses internally.
-     */
-    suspend fun clearCachedAuthorization() {
-        logger.d { "clearCachedAuthorization() - clearing cached state" }
-        suspendCancellableCoroutine { continuation ->
-            Identity
-                .getSignInClient(context)
-                .signOut()
-                .addOnSuccessListener {
-                    logger.d { "clearCachedAuthorization() - success" }
-                    continuation.resume(Unit)
-                }.addOnFailureListener { e ->
-                    logger.w(e) { "clearCachedAuthorization() - failed (may be okay)" }
-                    continuation.resume(Unit)
                 }
         }
     }
