@@ -20,7 +20,6 @@ package com.apps.adrcotfas.goodtime.backup
 // [Google only] imports: Activity, IntentSenderRequest, backup_actions_provider_google_drive
 import android.app.Activity
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -53,12 +52,6 @@ import com.apps.adrcotfas.goodtime.ui.TopBar
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_google_drive
 import goodtime_productivity.composeapp.generated.resources.backup_and_restore_title
-import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
-import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
-import goodtime_productivity.composeapp.generated.resources.backup_no_backups_found
-import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
-import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
-import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
@@ -156,70 +149,6 @@ actual fun BackupScreen(
             )
         }
     }
-
-    LaunchedEffect(backupUiState.backupResult) {
-        backupUiState.backupResult?.let {
-            if (it != BackupPromptResult.CANCELLED) {
-                val message =
-                    if (it == BackupPromptResult.SUCCESS) {
-                        getString(Res.string.backup_completed_successfully)
-                    } else {
-                        getString(Res.string.backup_failed_please_try_again)
-                    }
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            }
-            backupViewModel.clearBackupError()
-        }
-    }
-
-    LaunchedEffect(backupUiState.restoreResult) {
-        backupUiState.restoreResult?.let {
-            if (it != BackupPromptResult.CANCELLED) {
-                val message =
-                    when (it) {
-                        BackupPromptResult.SUCCESS -> getString(Res.string.backup_restore_completed_successfully)
-                        BackupPromptResult.NO_BACKUPS_FOUND -> getString(Res.string.backup_no_backups_found)
-                        else -> getString(Res.string.backup_restore_failed_please_try_again)
-                    }
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            }
-            if (it == BackupPromptResult.SUCCESS) {
-                onNavigateToMainAndReset()
-            }
-            backupViewModel.clearRestoreError()
-        }
-    }
-
-    // region [Google only] cloud backup/restore results
-    LaunchedEffect(cloudUiState.backupResult) {
-        cloudUiState.backupResult?.let {
-            val message =
-                if (it == BackupPromptResult.SUCCESS) {
-                    getString(Res.string.backup_completed_successfully)
-                } else {
-                    getString(Res.string.backup_failed_please_try_again)
-                }
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            cloudBackupViewModel.clearBackupResult()
-        }
-    }
-
-    LaunchedEffect(cloudUiState.restoreResult) {
-        cloudUiState.restoreResult?.let {
-            val message =
-                when (it) {
-                    BackupPromptResult.SUCCESS -> getString(Res.string.backup_restore_completed_successfully)
-                    BackupPromptResult.NO_BACKUPS_FOUND -> getString(Res.string.backup_no_backups_found)
-                    else -> getString(Res.string.backup_restore_failed_please_try_again)
-                }
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            if (it == BackupPromptResult.SUCCESS) {
-                onNavigateToMainAndReset()
-            }
-            cloudBackupViewModel.clearRestoreResult()
-        }
-    }
-    // endregion
     // endregion
 
     // region [Google only] cloud provider name

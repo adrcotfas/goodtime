@@ -26,26 +26,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.common.UnlockFeaturesActionCard
-import com.apps.adrcotfas.goodtime.ui.SnackbarController
-import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
 import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.TopBar
 import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.backup_actions_icloud_drive
 import goodtime_productivity.composeapp.generated.resources.backup_and_restore_title
-import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
-import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
-import goodtime_productivity.composeapp.generated.resources.backup_no_backups_found
-import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
-import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
-import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -63,78 +53,6 @@ actual fun BackupScreen(
     val cloudUiState by cloudBackupViewModel.uiState.collectAsStateWithLifecycle()
 
     if (backupUiState.isLoading) return
-
-    // Handle local backup results
-    LaunchedEffect(backupUiState.backupResult) {
-        backupUiState.backupResult?.let {
-            if (it != BackupPromptResult.CANCELLED) {
-                val message =
-                    if (it == BackupPromptResult.SUCCESS) {
-                        getString(Res.string.backup_completed_successfully)
-                    } else {
-                        getString(Res.string.backup_failed_please_try_again)
-                    }
-                SnackbarController.sendEvent(SnackbarEvent(message = message))
-            }
-            backupViewModel.clearBackupError()
-        }
-    }
-
-    // Handle local restore results
-    LaunchedEffect(backupUiState.restoreResult) {
-        backupUiState.restoreResult?.let {
-            if (it != BackupPromptResult.CANCELLED) {
-                val message =
-                    when (it) {
-                        BackupPromptResult.SUCCESS -> getString(Res.string.backup_restore_completed_successfully)
-                        BackupPromptResult.NO_BACKUPS_FOUND -> getString(Res.string.backup_no_backups_found)
-                        else -> getString(Res.string.backup_restore_failed_please_try_again)
-                    }
-                SnackbarController.sendEvent(
-                    SnackbarEvent(message = message, duration = SnackbarDuration.Short),
-                )
-            }
-            if (it == BackupPromptResult.SUCCESS) {
-                onNavigateToMainAndReset()
-            }
-            backupViewModel.clearRestoreError()
-        }
-    }
-
-    // Handle cloud backup results
-    LaunchedEffect(cloudUiState.backupResult) {
-        cloudUiState.backupResult?.let {
-            val message =
-                if (it == BackupPromptResult.SUCCESS) {
-                    getString(Res.string.backup_completed_successfully)
-                } else {
-                    getString(Res.string.backup_failed_please_try_again)
-                }
-            SnackbarController.sendEvent(SnackbarEvent(message = message))
-            cloudBackupViewModel.clearBackupResult()
-        }
-    }
-
-    // Handle cloud restore results
-    //TODO# can we remove the restoreResult and just fire a snackbarevent from the viewmodel instead? valid for android too and valid for all the above snackbar events sent from this screen and the android ones
-    LaunchedEffect(cloudUiState.restoreResult) {
-        cloudUiState.restoreResult?.let {
-            val message =
-                when (it) {
-                    BackupPromptResult.SUCCESS -> getString(Res.string.backup_restore_completed_successfully)
-                    BackupPromptResult.NO_BACKUPS_FOUND -> getString(Res.string.backup_no_backups_found)
-                    else -> getString(Res.string.backup_restore_failed_please_try_again)
-                }
-            SnackbarController.sendEvent(
-                SnackbarEvent(message = message, duration = SnackbarDuration.Short),
-            )
-            if (it == BackupPromptResult.SUCCESS) {
-                //TODO# remove this functionality. Restoring a backup should not make the app leave the backup screen(here and on the android side too)
-                onNavigateToMainAndReset()
-            }
-            cloudBackupViewModel.clearRestoreResult()
-        }
-    }
 
     val cloudProviderName = stringResource(Res.string.backup_actions_icloud_drive)
 

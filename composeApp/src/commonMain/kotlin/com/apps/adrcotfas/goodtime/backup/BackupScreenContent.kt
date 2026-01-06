@@ -99,8 +99,7 @@ fun CloudBackupSection(
                     onCheckedChange = onAutoBackupToggle,
                 )
 
-                //TODO#: have this visible at all times if lastBackupTimestamp > 0; If auto backup is disabled I still want to see the last backup time
-                if (cloudAutoBackupEnabled && lastBackupTimestamp > 0) {
+                if (lastBackupTimestamp > 0) {
                     val lastBackupTime = TimeUtils.formatDateTime(lastBackupTimestamp)
                     BetterListItem(
                         title = stringResource(Res.string.backup_last_backup),
@@ -109,7 +108,6 @@ fun CloudBackupSection(
                     )
                 }
 
-                //TODO#: since
                 CircularProgressListItem(
                     title = stringResource(Res.string.backup_actions_cloud_backup_now),
                     enabled = enabled,

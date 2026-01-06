@@ -25,6 +25,4 @@ data class CloudBackupUiState(
     val isRestoreInProgress: Boolean = false,
     val showRestoreDialog: Boolean = false,
     val availableBackups: List<String> = emptyList(),
-    val backupResult: BackupPromptResult? = null,
-    val restoreResult: BackupPromptResult? = null,
 )

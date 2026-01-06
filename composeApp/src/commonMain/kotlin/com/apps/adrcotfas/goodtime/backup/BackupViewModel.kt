@@ -21,6 +21,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.ui.SnackbarController
+import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
+import goodtime_productivity.composeapp.generated.resources.backup_no_backups_found
+import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -29,6 +37,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 
 data class BackupUiState(
     val isLoading: Boolean = true,
@@ -37,8 +46,6 @@ data class BackupUiState(
     val isCsvBackupInProgress: Boolean = false,
     val isJsonBackupInProgress: Boolean = false,
     val isRestoreInProgress: Boolean = false,
-    val backupResult: BackupPromptResult? = null,
-    val restoreResult: BackupPromptResult? = null,
     val backupSettings: BackupSettings = BackupSettings(),
 )
 
@@ -74,14 +81,16 @@ class BackupViewModel(
         coroutineScope.launch {
             _uiState.update { it.copy(isBackupInProgress = true) }
             backupManager.backup { result ->
-                _uiState.update {
-                    if (result == BackupPromptResult.CANCELLED) {
-                        it.copy(isBackupInProgress = false)
-                    } else {
-                        it.copy(
-                            isBackupInProgress = false,
-                            backupResult = result,
-                        )
+                _uiState.update { it.copy(isBackupInProgress = false) }
+                if (result != BackupPromptResult.CANCELLED) {
+                    coroutineScope.launch {
+                        val message =
+                            if (result == BackupPromptResult.SUCCESS) {
+                                getString(Res.string.backup_completed_successfully)
+                            } else {
+                                getString(Res.string.backup_failed_please_try_again)
+                            }
+                        SnackbarController.sendEvent(SnackbarEvent(message = message))
                     }
                 }
             }
@@ -92,14 +101,16 @@ class BackupViewModel(
         coroutineScope.launch {
             _uiState.update { it.copy(isCsvBackupInProgress = true) }
             backupManager.exportCsv { result ->
-                _uiState.update {
-                    if (result == BackupPromptResult.CANCELLED) {
-                        it.copy(isCsvBackupInProgress = false)
-                    } else {
-                        it.copy(
-                            isCsvBackupInProgress = false,
-                            backupResult = result,
-                        )
+                _uiState.update { it.copy(isCsvBackupInProgress = false) }
+                if (result != BackupPromptResult.CANCELLED) {
+                    coroutineScope.launch {
+                        val message =
+                            if (result == BackupPromptResult.SUCCESS) {
+                                getString(Res.string.backup_completed_successfully)
+                            } else {
+                                getString(Res.string.backup_failed_please_try_again)
+                            }
+                        SnackbarController.sendEvent(SnackbarEvent(message = message))
                     }
                 }
             }
@@ -110,14 +121,16 @@ class BackupViewModel(
         coroutineScope.launch {
             _uiState.update { it.copy(isJsonBackupInProgress = true) }
             backupManager.exportJson { result ->
-                _uiState.update {
-                    if (result == BackupPromptResult.CANCELLED) {
-                        it.copy(isJsonBackupInProgress = false)
-                    } else {
-                        it.copy(
-                            isJsonBackupInProgress = false,
-                            backupResult = result,
-                        )
+                _uiState.update { it.copy(isJsonBackupInProgress = false) }
+                if (result != BackupPromptResult.CANCELLED) {
+                    coroutineScope.launch {
+                        val message =
+                            if (result == BackupPromptResult.SUCCESS) {
+                                getString(Res.string.backup_completed_successfully)
+                            } else {
+                                getString(Res.string.backup_failed_please_try_again)
+                            }
+                        SnackbarController.sendEvent(SnackbarEvent(message = message))
                     }
                 }
             }
@@ -128,23 +141,21 @@ class BackupViewModel(
         coroutineScope.launch {
             _uiState.update { it.copy(isRestoreInProgress = true) }
             backupManager.restore { result ->
-                _uiState.update {
-                    if (result == BackupPromptResult.CANCELLED) {
-                        it.copy(isRestoreInProgress = false)
-                    } else {
-                        it.copy(
-                            isRestoreInProgress = false,
-                            restoreResult = result,
-                        )
+                _uiState.update { it.copy(isRestoreInProgress = false) }
+                if (result != BackupPromptResult.CANCELLED) {
+                    coroutineScope.launch {
+                        val message =
+                            when (result) {
+                                BackupPromptResult.SUCCESS -> getString(Res.string.backup_restore_completed_successfully)
+                                BackupPromptResult.NO_BACKUPS_FOUND -> getString(Res.string.backup_no_backups_found)
+                                else -> getString(Res.string.backup_restore_failed_please_try_again)
+                            }
+                        SnackbarController.sendEvent(SnackbarEvent(message = message))
                     }
                 }
             }
         }
     }
-
-    fun clearBackupError() = _uiState.update { it.copy(backupResult = null) }
-
-    fun clearRestoreError() = _uiState.update { it.copy(restoreResult = null) }
 
     fun clearProgress() =
         _uiState.update {

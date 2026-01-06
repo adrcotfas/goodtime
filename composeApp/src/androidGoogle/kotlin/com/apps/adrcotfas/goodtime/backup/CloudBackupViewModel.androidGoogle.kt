@@ -22,12 +22,21 @@ import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.ui.SnackbarController
+import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.backup_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_failed_please_try_again
+import goodtime_productivity.composeapp.generated.resources.backup_no_backups_found
+import goodtime_productivity.composeapp.generated.resources.backup_restore_completed_successfully
+import goodtime_productivity.composeapp.generated.resources.backup_restore_failed_please_try_again
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 
 private enum class PendingOperation {
     CONNECT,
@@ -134,12 +143,10 @@ class CloudBackupViewModel(
             when (val result = googleDriveAuthManager.authorize()) {
                 is GoogleDriveAuthResult.Success -> {
                     googleDriveBackupService.backup()
-                    _uiState.update {
-                        it.copy(
-                            isBackupInProgress = false,
-                            backupResult = BackupPromptResult.SUCCESS,
-                        )
-                    }
+                    _uiState.update { it.copy(isBackupInProgress = false) }
+                    SnackbarController.sendEvent(
+                        SnackbarEvent(message = getString(Res.string.backup_completed_successfully)),
+                    )
                     pendingOperation = null
                 }
                 is GoogleDriveAuthResult.NeedsUserConsent -> {
@@ -147,12 +154,10 @@ class CloudBackupViewModel(
                     _pendingAuthIntent.value = result.pendingIntent
                 }
                 is GoogleDriveAuthResult.Error -> {
-                    _uiState.update {
-                        it.copy(
-                            isBackupInProgress = false,
-                            backupResult = BackupPromptResult.FAILED,
-                        )
-                    }
+                    _uiState.update { it.copy(isBackupInProgress = false) }
+                    SnackbarController.sendEvent(
+                        SnackbarEvent(message = getString(Res.string.backup_failed_please_try_again)),
+                    )
                     pendingOperation = null
                 }
             }
@@ -168,12 +173,10 @@ class CloudBackupViewModel(
                 is GoogleDriveAuthResult.Success -> {
                     val backups = googleDriveBackupService.listAvailableBackups()
                     if (backups.isEmpty()) {
-                        _uiState.update {
-                            it.copy(
-                                isRestoreInProgress = false,
-                                restoreResult = BackupPromptResult.NO_BACKUPS_FOUND,
-                            )
-                        }
+                        _uiState.update { it.copy(isRestoreInProgress = false) }
+                        SnackbarController.sendEvent(
+                            SnackbarEvent(message = getString(Res.string.backup_no_backups_found)),
+                        )
                     } else {
                         _uiState.update {
                             it.copy(
@@ -190,12 +193,10 @@ class CloudBackupViewModel(
                     _pendingAuthIntent.value = result.pendingIntent
                 }
                 is GoogleDriveAuthResult.Error -> {
-                    _uiState.update {
-                        it.copy(
-                            isRestoreInProgress = false,
-                            restoreResult = BackupPromptResult.FAILED,
-                        )
-                    }
+                    _uiState.update { it.copy(isRestoreInProgress = false) }
+                    SnackbarController.sendEvent(
+                        SnackbarEvent(message = getString(Res.string.backup_restore_failed_please_try_again)),
+                    )
                     pendingOperation = null
                 }
             }
@@ -211,12 +212,14 @@ class CloudBackupViewModel(
                 )
             }
             val result = googleDriveBackupService.restoreFromBackup(fileName)
-            _uiState.update {
-                it.copy(
-                    isRestoreInProgress = false,
-                    restoreResult = result,
-                )
-            }
+            _uiState.update { it.copy(isRestoreInProgress = false) }
+            val message =
+                when (result) {
+                    BackupPromptResult.SUCCESS -> getString(Res.string.backup_restore_completed_successfully)
+                    BackupPromptResult.NO_BACKUPS_FOUND -> getString(Res.string.backup_no_backups_found)
+                    else -> getString(Res.string.backup_restore_failed_please_try_again)
+                }
+            SnackbarController.sendEvent(SnackbarEvent(message = message))
         }
     }
 
@@ -244,13 +247,5 @@ class CloudBackupViewModel(
     fun handleAuthCancelled() {
         _pendingAuthIntent.value = null
         pendingOperation = null
-    }
-
-    fun clearBackupResult() {
-        _uiState.update { it.copy(backupResult = null) }
-    }
-
-    fun clearRestoreResult() {
-        _uiState.update { it.copy(restoreResult = null) }
     }
 }
