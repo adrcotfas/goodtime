@@ -22,6 +22,7 @@ import io.github.adrcotfas.datetime.names.TextStyle
 import io.github.adrcotfas.datetime.names.format
 import io.github.adrcotfas.datetime.names.getDisplayName
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
@@ -60,10 +61,16 @@ object TimeUtils {
 
     fun Long.formatToIso8601(): String {
         val instant = Instant.fromEpochMilliseconds(this)
-
         val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
 
-        val format = LocalDateTime.Formats.ISO
+        val format =
+            LocalDateTime.Format {
+                date(LocalDate.Formats.ISO)
+                char('T')
+                hour()
+                char(':')
+                minute()
+            }
         return format.format(dateTime)
     }
 
