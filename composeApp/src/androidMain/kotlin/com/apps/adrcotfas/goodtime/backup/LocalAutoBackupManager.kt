@@ -56,8 +56,10 @@ class LocalAutoBackupManager(
         scope.launch {
             settingsRepository.settings
                 .map { it.backupSettings }
-                .distinctUntilChanged()
-                .collect { backupSettings ->
+                .distinctUntilChanged { oldValue, newValue ->
+                    oldValue.autoBackupEnabled == newValue.autoBackupEnabled &&
+                        oldValue.path == newValue.path
+                }.collect { backupSettings ->
                     handleBackupSettingsChange(backupSettings)
                 }
         }
