@@ -18,39 +18,176 @@
 package com.apps.adrcotfas.goodtime.backup
 
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.common.UnlockFeaturesActionCard
+import com.apps.adrcotfas.goodtime.common.isUriPersisted
+import com.apps.adrcotfas.goodtime.common.releasePersistableUriPermission
+import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
+import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
+import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.TopBar
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.backup_and_restore_title
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 /**
- * Formats a content URI path to a human-readable folder path.
- * Example: content://...tree/primary%3ADocuments%2FGoodtime -> Documents/Goodtime
- *
- * This implementation properly handles Android's document tree URIs by:
- * - Using Android's Uri.decode() for proper URL decoding
- * - Extracting the document ID from the tree URI structure
- * - Removing storage volume prefixes (primary:, home:, etc.)
+ * Android implementation of formatFolderPath.
+ * Decodes a content URI path to a human-readable folder path.
  */
 actual fun formatFolderPath(uriPath: String): String {
     return try {
         val uri = uriPath.toUri()
-
-        // Extract the document ID from the tree URI
-        // Tree URIs have the format: content://authority/tree/documentId
-        val documentId = uri.lastPathSegment ?: return uriPath
-
-        // Decode the document ID
-        val decoded = Uri.decode(documentId)
-
-        // Remove storage volume prefix (e.g., "primary:", "home:", etc.)
-        // The prefix format is always "{volume}:{path}"
-        val colonIndex = decoded.indexOf(':')
-        if (colonIndex != -1 && colonIndex < decoded.length - 1) {
-            decoded.substring(colonIndex + 1)
+        // Extract the document path from the URI
+        val docId = uri.lastPathSegment ?: return uriPath
+        // Format: "primary:Documents/Goodtime" -> "Documents/Goodtime"
+        val parts = docId.split(":")
+        if (parts.size >= 2) {
+            parts[1]
         } else {
-            // Fallback if no colon found
-            decoded
+            docId
         }
     } catch (e: Exception) {
-        // If anything fails, return the original path
         uriPath
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AndroidBackupScreenContent(
+    onNavigateToPro: () -> Unit,
+    onNavigateBack: () -> Boolean,
+    isCloudLoading: Boolean = false,
+    cloudSection: @Composable ColumnScope.(BackupUiState) -> Unit = {},
+) {
+    val backupViewModel: BackupViewModel = koinInject()
+    val activityResultLauncherManager: ActivityResultLauncherManager = koinInject()
+    val context = LocalContext.current
+
+    val backupUiState by backupViewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
+
+    val isLoading = backupUiState.isLoading || isCloudLoading
+    if (isLoading) return
+
+    val backupSettings = backupUiState.backupSettings
+
+    val importLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri -> activityResultLauncherManager.importCallback(uri) },
+        )
+    val exportLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult(),
+        ) { result ->
+            activityResultLauncherManager.exportCallback(result.data?.data)
+        }
+    val autoExportDirLauncher =
+        rememberLauncherForActivityResult(
+            contract = OpenDocumentTreeContract(),
+            onResult = { uri ->
+                uri?.let {
+                    context.takePersistableUriPermission(uri)
+                    backupViewModel.setBackupSettings(
+                        backupSettings.copy(autoBackupEnabled = true, path = uri.toString()),
+                    )
+                }
+            },
+        )
+
+    LaunchedEffect(Unit) {
+        activityResultLauncherManager.setup(importLauncher, exportLauncher)
+    }
+
+    LaunchedEffect(lifecycleState) {
+        if (lifecycleState == Lifecycle.State.RESUMED || lifecycleState == Lifecycle.State.CREATED) {
+            backupViewModel.clearProgress()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (backupSettings.autoBackupEnabled && !context.isUriPersisted(backupSettings.path.toUri())) {
+            backupViewModel.setBackupSettings(
+                backupSettings.copy(autoBackupEnabled = false, path = ""),
+            )
+        }
+    }
+
+    val listState = rememberScrollState()
+    Scaffold(
+        topBar = {
+            TopBar(
+                title = stringResource(Res.string.backup_and_restore_title),
+                onNavigateBack = { onNavigateBack() },
+                showSeparator = listState.canScrollBackward,
+            )
+        },
+    ) { paddingValues ->
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(listState)
+                    .background(MaterialTheme.colorScheme.background),
+        ) {
+            UnlockFeaturesActionCard(backupUiState.isPro, onNavigateToPro = onNavigateToPro)
+
+            cloudSection(backupUiState)
+
+            LocalBackupSection(
+                enabled = backupUiState.isPro,
+                localAutoBackupEnabled = backupSettings.autoBackupEnabled,
+                localAutoBackupPath = backupSettings.path,
+                onLocalAutoBackupToggle = {
+                    if (backupSettings.autoBackupEnabled) {
+                        context.releasePersistableUriPermission(backupSettings.path.toUri())
+                        backupViewModel.setBackupSettings(
+                            backupSettings.copy(autoBackupEnabled = false, path = ""),
+                        )
+                    } else {
+                        autoExportDirLauncher.launch(Uri.EMPTY)
+                    }
+                },
+                lastLocalAutoBackupTimestamp = backupSettings.localLastBackupTimestamp,
+                backupInProgress = backupUiState.isBackupInProgress,
+                restoreInProgress = backupUiState.isRestoreInProgress,
+                onLocalBackup = { backupViewModel.backup() },
+                onLocalRestore = { backupViewModel.restore() },
+            )
+
+            SubtleHorizontalDivider()
+
+            ExportCsvJsonSection(
+                enabled = backupUiState.isPro,
+                isCsvBackupInProgress = backupUiState.isCsvBackupInProgress,
+                isJsonBackupInProgress = backupUiState.isJsonBackupInProgress,
+                onExportCsv = { backupViewModel.exportCsv() },
+                onExportJson = { backupViewModel.exportJson() },
+            )
+        }
     }
 }

@@ -57,11 +57,15 @@ class ICloudBackupService(
             BackupPromptResult.FAILED
         }
 
-    suspend fun listAvailableBackups(): List<String> =
+    /**
+     * Lists available backups from iCloud.
+     * @return list of backup file names, or null if the operation failed (network error, etc.)
+     */
+    suspend fun listAvailableBackups(): List<String>? =
         try {
             cloudBackupManager.listAvailableBackups()
         } catch (_: Exception) {
-            emptyList()
+            null
         }
 
     suspend fun restoreFromBackup(fileName: String): BackupPromptResult =

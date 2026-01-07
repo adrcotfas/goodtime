@@ -18,6 +18,7 @@
 package com.apps.adrcotfas.goodtime.backup
 
 data class CloudBackupUiState(
+    val isLoading: Boolean = true,
     val isConnected: Boolean = false,
     val isCloudUnavailable: Boolean = false,
     val isAutoBackupToggleInProgress: Boolean = false,

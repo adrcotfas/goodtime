@@ -52,6 +52,7 @@ class CloudBackupViewModel(
             val available = iCloudBackupService.isICloudAvailable()
             _uiState.update {
                 it.copy(
+                    isLoading = false,
                     isConnected = available,
                     isCloudUnavailable = !available,
                 )
@@ -113,18 +114,25 @@ class CloudBackupViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isRestoreInProgress = true) }
             val backups = iCloudBackupService.listAvailableBackups()
-            if (backups.isEmpty()) {
-                _uiState.update { it.copy(isRestoreInProgress = false) }
-                SnackbarController.sendEvent(
-                    SnackbarEvent(message = getString(Res.string.backup_no_backups_found)),
-                )
-            } else {
-                _uiState.update {
-                    it.copy(
-                        isRestoreInProgress = false,
-                        showRestoreDialog = true,
-                        availableBackups = backups,
+            _uiState.update { it.copy(isRestoreInProgress = false) }
+            when {
+                backups == null -> {
+                    SnackbarController.sendEvent(
+                        SnackbarEvent(message = getString(Res.string.backup_restore_failed_please_try_again)),
                     )
+                }
+                backups.isEmpty() -> {
+                    SnackbarController.sendEvent(
+                        SnackbarEvent(message = getString(Res.string.backup_no_backups_found)),
+                    )
+                }
+                else -> {
+                    _uiState.update {
+                        it.copy(
+                            showRestoreDialog = true,
+                            availableBackups = backups,
+                        )
+                    }
                 }
             }
         }

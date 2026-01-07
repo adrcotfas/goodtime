@@ -98,6 +98,5 @@ class GoogleDriveBackupWorker(
 
     companion object {
         const val AUTO_BACKUP = "auto_google_drive_backup_work"
-        const val MANUAL_BACKUP = "manual_google_drive_backup_work"
     }
 }

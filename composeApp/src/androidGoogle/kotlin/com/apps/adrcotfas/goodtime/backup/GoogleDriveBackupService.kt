@@ -23,9 +23,7 @@ import android.content.Intent
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import co.touchlab.kermit.Logger
@@ -112,19 +110,41 @@ class GoogleDriveBackupService(
         }
     }
 
-    fun backup() {
-        scheduleOneTimeBackup()
-    }
-
-    suspend fun listAvailableBackups(): List<String> {
-        val token = getAuthTokenOrNull()
-        return if (token != null) {
-            googleDriveManager.listBackups(token)
-        } else {
-            logger.e { " Cannot list backups without being connected" }
-            emptyList()
+    /**
+     * Performs a backup synchronously and returns the result.
+     * Use this for manual "Backup now" actions.
+     */
+    suspend fun backupNow(accessToken: String): BackupPromptResult =
+        try {
+            val result = googleDriveManager.uploadBackup(accessToken)
+            if (result != null) {
+                BackupPromptResult.SUCCESS
+            } else {
+                BackupPromptResult.FAILED
+            }
+        } catch (e: Exception) {
+            logger.e(e) { "backupNow() - failed" }
+            BackupPromptResult.FAILED
         }
-    }
+
+
+    /**
+     * Lists available backups from Google Drive.
+     * @return list of backup file names, or null if the operation failed (network error, etc.)
+     */
+    suspend fun listAvailableBackups(): List<String>? =
+        try {
+            val token = getAuthTokenOrNull()
+            if (token != null) {
+                googleDriveManager.listBackups(token)
+            } else {
+                logger.e { "Cannot list backups without being connected" }
+                null
+            }
+        } catch (e: Exception) {
+            logger.e(e) { "listAvailableBackups() - failed" }
+            null
+        }
 
     suspend fun restoreFromBackup(fileName: String): BackupPromptResult {
         logger.i { "restoreFromBackup() - $fileName" }
@@ -188,25 +208,8 @@ class GoogleDriveBackupService(
         )
     }
 
-    private fun scheduleOneTimeBackup() {
-        val constraints = buildNetworkConstraints()
-
-        val workRequest =
-            OneTimeWorkRequestBuilder<GoogleDriveBackupWorker>()
-                .setConstraints(constraints)
-                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 1, TimeUnit.HOURS)
-                .build()
-
-        workManager.enqueueUniqueWork(
-            GoogleDriveBackupWorker.MANUAL_BACKUP,
-            ExistingWorkPolicy.REPLACE,
-            workRequest,
-        )
-    }
-
     fun cancelAllBackupWork() {
         workManager.cancelUniqueWork(GoogleDriveBackupWorker.AUTO_BACKUP)
-        workManager.cancelUniqueWork(GoogleDriveBackupWorker.MANUAL_BACKUP)
     }
 
     suspend fun getAuthTokenOrNull(): String? =

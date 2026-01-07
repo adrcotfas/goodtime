@@ -122,7 +122,7 @@ class GoogleDriveManager(
      * @param accessToken OAuth access token with Drive appDataFolder scope
      * @return List of backup file names, sorted newest first
      */
-    suspend fun listBackups(accessToken: String): List<String> =
+    suspend fun listBackups(accessToken: String): List<String>? =
         withContext(Dispatchers.IO) {
             logger.d { "listBackups() - fetching" }
 
@@ -152,10 +152,10 @@ class GoogleDriveManager(
                 if (e.statusCode == 401 || e.statusCode == 403) {
                     throw TokenRevokedException("Token has been revoked or is invalid", e)
                 }
-                emptyList()
+                null
             } catch (e: Exception) {
                 logger.e(e) { "listBackups() - failed" }
-                emptyList()
+                null
             }
         }
 

@@ -64,7 +64,12 @@ class CloudBackupViewModel(
     private fun checkConnectionStatus() {
         viewModelScope.launch {
             val token = googleDriveBackupService.getAuthTokenOrNull()
-            _uiState.update { it.copy(isConnected = token != null) }
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    isConnected = token != null,
+                )
+            }
         }
     }
 
@@ -80,6 +85,9 @@ class CloudBackupViewModel(
                     _pendingAuthIntent.value = result.pendingIntent
                 }
                 is GoogleDriveAuthResult.Error -> {
+                    SnackbarController.sendEvent(
+                        SnackbarEvent(message = getString(Res.string.backup_failed_please_try_again)),
+                    )
                     pendingOperation = null
                 }
             }
@@ -141,11 +149,23 @@ class CloudBackupViewModel(
             pendingOperation = PendingOperation.BACKUP
             when (val result = googleDriveBackupService.authorize()) {
                 is GoogleDriveAuthResult.Success -> {
-                    googleDriveBackupService.backup()
-                    _uiState.update { it.copy(isBackupInProgress = false) }
-                    SnackbarController.sendEvent(
-                        SnackbarEvent(message = getString(Res.string.backup_completed_successfully)),
-                    )
+                    val token = result.authResult.accessToken
+                    if (token != null) {
+                        val backupResult = googleDriveBackupService.backupNow(token)
+                        _uiState.update { it.copy(isBackupInProgress = false) }
+                        val message =
+                            if (backupResult == BackupPromptResult.SUCCESS) {
+                                getString(Res.string.backup_completed_successfully)
+                            } else {
+                                getString(Res.string.backup_failed_please_try_again)
+                            }
+                        SnackbarController.sendEvent(SnackbarEvent(message = message))
+                    } else {
+                        _uiState.update { it.copy(isBackupInProgress = false) }
+                        SnackbarController.sendEvent(
+                            SnackbarEvent(message = getString(Res.string.backup_failed_please_try_again)),
+                        )
+                    }
                     pendingOperation = null
                 }
                 is GoogleDriveAuthResult.NeedsUserConsent -> {
@@ -171,18 +191,25 @@ class CloudBackupViewModel(
             when (val result = googleDriveBackupService.authorize()) {
                 is GoogleDriveAuthResult.Success -> {
                     val backups = googleDriveBackupService.listAvailableBackups()
-                    if (backups.isEmpty()) {
-                        _uiState.update { it.copy(isRestoreInProgress = false) }
-                        SnackbarController.sendEvent(
-                            SnackbarEvent(message = getString(Res.string.backup_no_backups_found)),
-                        )
-                    } else {
-                        _uiState.update {
-                            it.copy(
-                                isRestoreInProgress = false,
-                                showRestoreDialog = true,
-                                availableBackups = backups,
+                    _uiState.update { it.copy(isRestoreInProgress = false) }
+                    when {
+                        backups == null -> {
+                            SnackbarController.sendEvent(
+                                SnackbarEvent(message = getString(Res.string.backup_restore_failed_please_try_again)),
                             )
+                        }
+                        backups.isEmpty() -> {
+                            SnackbarController.sendEvent(
+                                SnackbarEvent(message = getString(Res.string.backup_no_backups_found)),
+                            )
+                        }
+                        else -> {
+                            _uiState.update {
+                                it.copy(
+                                    showRestoreDialog = true,
+                                    availableBackups = backups,
+                                )
+                            }
                         }
                     }
                     pendingOperation = null

@@ -52,7 +52,8 @@ actual fun BackupScreen(
     val backupUiState by backupViewModel.uiState.collectAsStateWithLifecycle()
     val cloudUiState by cloudBackupViewModel.uiState.collectAsStateWithLifecycle()
 
-    if (backupUiState.isLoading) return
+    //TODO: replace with loading indicator
+    if (backupUiState.isLoading || cloudUiState.isLoading) return
 
     val cloudProviderName = stringResource(Res.string.backup_actions_icloud_drive)
 
