@@ -66,12 +66,12 @@ class GoogleDriveBackupWorker(
                     if (!hasDrivePermission) {
                         disableAutoBackup()
                         logger.e { "missing Drive permission, disabling auto-backup" }
-                        Result.failure()
+                        return Result.failure()
                     }
                     if (authResult.accessToken == null) {
                         disableAutoBackup()
                         logger.e { "access token is null, re-auth required" }
-                        Result.failure()
+                        return Result.failure()
                     }
 
                     googleDriveManager.uploadBackup(authResult.accessToken!!)

@@ -127,7 +127,6 @@ class GoogleDriveBackupService(
             BackupPromptResult.FAILED
         }
 
-
     /**
      * Lists available backups from Google Drive.
      * @return list of backup file names, or null if the operation failed (network error, etc.)

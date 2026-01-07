@@ -38,13 +38,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 
-private enum class PendingOperation {
-    CONNECT,
-    TOGGLE_AUTO_BACKUP,
-    BACKUP,
-    RESTORE,
-}
-
 class CloudBackupViewModel(
     private val googleDriveBackupService: GoogleDriveBackupService,
     private val settingsRepository: SettingsRepository,
@@ -54,8 +47,6 @@ class CloudBackupViewModel(
 
     private val _pendingAuthIntent = MutableStateFlow<PendingIntent?>(null)
     val pendingAuthIntent: StateFlow<PendingIntent?> = _pendingAuthIntent.asStateFlow()
-
-    private var pendingOperation: PendingOperation? = null
 
     init {
         checkConnectionStatus()
@@ -75,11 +66,10 @@ class CloudBackupViewModel(
 
     fun connect() {
         viewModelScope.launch {
-            pendingOperation = PendingOperation.CONNECT
             when (val result = googleDriveBackupService.authorize()) {
                 is GoogleDriveAuthResult.Success -> {
                     _uiState.update { it.copy(isConnected = true) }
-                    pendingOperation = null
+                    executeToggleAutoBackup(true)
                 }
                 is GoogleDriveAuthResult.NeedsUserConsent -> {
                     _pendingAuthIntent.value = result.pendingIntent
@@ -88,7 +78,6 @@ class CloudBackupViewModel(
                     SnackbarController.sendEvent(
                         SnackbarEvent(message = getString(Res.string.backup_failed_please_try_again)),
                     )
-                    pendingOperation = null
                 }
             }
         }
@@ -111,119 +100,94 @@ class CloudBackupViewModel(
             _uiState.update { it.copy(isAutoBackupToggleInProgress = true) }
 
             if (enabled) {
-                pendingOperation = PendingOperation.TOGGLE_AUTO_BACKUP
-                when (val result = googleDriveBackupService.authorize()) {
-                    is GoogleDriveAuthResult.Success -> {
-                        googleDriveBackupService.setAutoBackupEnabled(true)
-                        val currentSettings = settingsRepository.settings.first()
-                        settingsRepository.setBackupSettings(
-                            currentSettings.backupSettings.copy(cloudAutoBackupEnabled = true),
-                        )
-                        _uiState.update { it.copy(isAutoBackupToggleInProgress = false) }
-                        pendingOperation = null
+                val token = googleDriveBackupService.getAuthTokenOrNull()
+                if (token == null) {
+                    _uiState.update {
+                        it.copy(isAutoBackupToggleInProgress = false, isConnected = false)
                     }
-                    is GoogleDriveAuthResult.NeedsUserConsent -> {
-                        _uiState.update { it.copy(isAutoBackupToggleInProgress = false) }
-                        _pendingAuthIntent.value = result.pendingIntent
-                    }
-                    is GoogleDriveAuthResult.Error -> {
-                        _uiState.update { it.copy(isAutoBackupToggleInProgress = false) }
-                        pendingOperation = null
-                    }
+                    return@launch
                 }
-            } else {
-                googleDriveBackupService.setAutoBackupEnabled(false)
-                val currentSettings = settingsRepository.settings.first()
-                settingsRepository.setBackupSettings(
-                    currentSettings.backupSettings.copy(cloudAutoBackupEnabled = false),
-                )
-                _uiState.update { it.copy(isAutoBackupToggleInProgress = false) }
             }
+
+            executeToggleAutoBackup(enabled)
         }
+    }
+
+    private suspend fun executeToggleAutoBackup(enabled: Boolean) {
+        googleDriveBackupService.setAutoBackupEnabled(enabled)
+        val currentSettings = settingsRepository.settings.first()
+        settingsRepository.setBackupSettings(
+            currentSettings.backupSettings.copy(cloudAutoBackupEnabled = enabled),
+        )
+        _uiState.update { it.copy(isAutoBackupToggleInProgress = false) }
     }
 
     fun backup() {
         viewModelScope.launch {
             _uiState.update { it.copy(isBackupInProgress = true) }
 
-            pendingOperation = PendingOperation.BACKUP
-            when (val result = googleDriveBackupService.authorize()) {
-                is GoogleDriveAuthResult.Success -> {
-                    val token = result.authResult.accessToken
-                    if (token != null) {
-                        val backupResult = googleDriveBackupService.backupNow(token)
-                        _uiState.update { it.copy(isBackupInProgress = false) }
-                        val message =
-                            if (backupResult == BackupPromptResult.SUCCESS) {
-                                getString(Res.string.backup_completed_successfully)
-                            } else {
-                                getString(Res.string.backup_failed_please_try_again)
-                            }
-                        SnackbarController.sendEvent(SnackbarEvent(message = message))
-                    } else {
-                        _uiState.update { it.copy(isBackupInProgress = false) }
-                        SnackbarController.sendEvent(
-                            SnackbarEvent(message = getString(Res.string.backup_failed_please_try_again)),
-                        )
-                    }
-                    pendingOperation = null
-                }
-                is GoogleDriveAuthResult.NeedsUserConsent -> {
-                    _uiState.update { it.copy(isBackupInProgress = false) }
-                    _pendingAuthIntent.value = result.pendingIntent
-                }
-                is GoogleDriveAuthResult.Error -> {
-                    _uiState.update { it.copy(isBackupInProgress = false) }
-                    SnackbarController.sendEvent(
-                        SnackbarEvent(message = getString(Res.string.backup_failed_please_try_again)),
-                    )
-                    pendingOperation = null
-                }
+            val token = googleDriveBackupService.getAuthTokenOrNull()
+            if (token == null) {
+                _uiState.update { it.copy(isBackupInProgress = false, isConnected = false) }
+                SnackbarController.sendEvent(
+                    SnackbarEvent(message = getString(Res.string.backup_failed_please_try_again)),
+                )
+                return@launch
             }
+
+            executeBackup(token)
         }
+    }
+
+    private suspend fun executeBackup(token: String) {
+        val backupResult = googleDriveBackupService.backupNow(token)
+        _uiState.update { it.copy(isBackupInProgress = false) }
+        val message =
+            if (backupResult == BackupPromptResult.SUCCESS) {
+                getString(Res.string.backup_completed_successfully)
+            } else {
+                getString(Res.string.backup_failed_please_try_again)
+            }
+        SnackbarController.sendEvent(SnackbarEvent(message = message))
     }
 
     fun restore() {
         viewModelScope.launch {
             _uiState.update { it.copy(isRestoreInProgress = true) }
 
-            pendingOperation = PendingOperation.RESTORE
-            when (val result = googleDriveBackupService.authorize()) {
-                is GoogleDriveAuthResult.Success -> {
-                    val backups = googleDriveBackupService.listAvailableBackups()
-                    _uiState.update { it.copy(isRestoreInProgress = false) }
-                    when {
-                        backups == null -> {
-                            SnackbarController.sendEvent(
-                                SnackbarEvent(message = getString(Res.string.backup_restore_failed_please_try_again)),
-                            )
-                        }
-                        backups.isEmpty() -> {
-                            SnackbarController.sendEvent(
-                                SnackbarEvent(message = getString(Res.string.backup_no_backups_found)),
-                            )
-                        }
-                        else -> {
-                            _uiState.update {
-                                it.copy(
-                                    showRestoreDialog = true,
-                                    availableBackups = backups,
-                                )
-                            }
-                        }
-                    }
-                    pendingOperation = null
-                }
-                is GoogleDriveAuthResult.NeedsUserConsent -> {
-                    _uiState.update { it.copy(isRestoreInProgress = false) }
-                    _pendingAuthIntent.value = result.pendingIntent
-                }
-                is GoogleDriveAuthResult.Error -> {
-                    _uiState.update { it.copy(isRestoreInProgress = false) }
-                    SnackbarController.sendEvent(
-                        SnackbarEvent(message = getString(Res.string.backup_restore_failed_please_try_again)),
+            val token = googleDriveBackupService.getAuthTokenOrNull()
+            if (token == null) {
+                _uiState.update { it.copy(isRestoreInProgress = false, isConnected = false) }
+                SnackbarController.sendEvent(
+                    SnackbarEvent(message = getString(Res.string.backup_restore_failed_please_try_again)),
+                )
+                return@launch
+            }
+
+            executeRestore()
+        }
+    }
+
+    private suspend fun executeRestore() {
+        val backups = googleDriveBackupService.listAvailableBackups()
+        _uiState.update { it.copy(isRestoreInProgress = false) }
+        when {
+            backups == null -> {
+                SnackbarController.sendEvent(
+                    SnackbarEvent(message = getString(Res.string.backup_restore_failed_please_try_again)),
+                )
+            }
+            backups.isEmpty() -> {
+                SnackbarController.sendEvent(
+                    SnackbarEvent(message = getString(Res.string.backup_no_backups_found)),
+                )
+            }
+            else -> {
+                _uiState.update {
+                    it.copy(
+                        showRestoreDialog = true,
+                        availableBackups = backups,
                     )
-                    pendingOperation = null
                 }
             }
         }
@@ -254,24 +218,18 @@ class CloudBackupViewModel(
     }
 
     fun handleAuthResult(data: Intent?) {
-        val token = googleDriveBackupService.getAuthorizationResultFromIntent(data)
-        _pendingAuthIntent.value = null
+        viewModelScope.launch {
+            val token = googleDriveBackupService.getAuthorizationResultFromIntent(data)
+            _pendingAuthIntent.value = null
 
-        if (token != null) {
-            _uiState.update { it.copy(isConnected = true) }
-            when (pendingOperation) {
-                PendingOperation.CONNECT -> { /* Already connected */ }
-                PendingOperation.TOGGLE_AUTO_BACKUP -> toggleAutoBackup(true)
-                PendingOperation.BACKUP -> backup()
-                PendingOperation.RESTORE -> restore()
-                null -> { }
+            if (token != null) {
+                _uiState.update { it.copy(isConnected = true) }
+                executeToggleAutoBackup(true)
             }
         }
-        pendingOperation = null
     }
 
     fun handleAuthCancelled() {
         _pendingAuthIntent.value = null
-        pendingOperation = null
     }
 }

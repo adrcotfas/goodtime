@@ -214,11 +214,11 @@ class BackupFileManager(
                             if (session.label == Label.DEFAULT_LABEL_NAME) "" else session.label
                         sink.writeUtf8(
                             "{" +
-                                "\"end\":${session.timestamp.formatToIso8601()}," +
+                                "\"end\":\"${session.timestamp.formatToIso8601().escapeJson()}\"," +
                                 "\"duration\":${session.duration}," +
                                 "\"interruptions\":${session.interruptions}," +
-                                "\"label\":\"${labelName}\"," +
-                                "\"notes\":\"${session.notes}\"," +
+                                "\"label\":\"${labelName.escapeJson()}\"," +
+                                "\"notes\":\"${session.notes.escapeJson()}\"," +
                                 "\"is_break\":${!session.isWork}," +
                                 "\"archived\":${session.isArchived}}",
                         )
@@ -230,6 +230,16 @@ class BackupFileManager(
             }
         }
     }
+
+    private fun String.escapeJson(): String =
+        this
+            .replace("\\", "\\\\")
+            .replace("\"", "\\\"")
+            .replace("\n", "\\n")
+            .replace("\r", "\\r")
+            .replace("\t", "\\t")
+            .replace("\b", "\\b")
+            .replace("\u000C", "\\f")
 
     private suspend fun restoreBackup() {
         withContext(defaultDispatcher) {
