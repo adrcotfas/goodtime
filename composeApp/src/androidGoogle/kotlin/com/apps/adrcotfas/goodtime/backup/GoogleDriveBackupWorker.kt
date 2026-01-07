@@ -21,9 +21,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import co.touchlab.kermit.Logger
-import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
-import com.google.api.services.drive.DriveScopes
 import kotlinx.coroutines.flow.first
 
 /**
@@ -50,45 +48,17 @@ class GoogleDriveBackupWorker(
         return try {
             val settings = settingsRepository.settings.first()
 
-            val disableAutoBackup: suspend () -> Unit = {
+            val result = backupService.getAuthTokenOrNull()
+            if (result != null) {
+                googleDriveManager.uploadBackup(result)
+                logger.i { "GoogleDriveBackupWorker - backup completed successfully" }
+                Result.success()
+            } else {
                 settingsRepository.setBackupSettings(
                     settings.backupSettings.copy(cloudAutoBackupEnabled = false),
                 )
-            }
-
-            when (val result = backupService.authorize()) {
-                is GoogleDriveAuthResult.Success -> {
-                    val authResult = result.authResult
-                    val hasDrivePermission =
-                        authResult.grantedScopes.any { scope ->
-                            scope.toString().contains(DriveScopes.DRIVE_APPDATA)
-                        }
-                    if (!hasDrivePermission) {
-                        disableAutoBackup()
-                        logger.e { "missing Drive permission, disabling auto-backup" }
-                        return Result.failure()
-                    }
-                    if (authResult.accessToken == null) {
-                        disableAutoBackup()
-                        logger.e { "access token is null, re-auth required" }
-                        return Result.failure()
-                    }
-
-                    googleDriveManager.uploadBackup(authResult.accessToken!!)
-
-                    settingsRepository.setBackupSettings(
-                        settings.backupSettings.copy(
-                            cloudLastBackupTimestamp = TimeProvider.now(),
-                        ),
-                    )
-
-                    logger.i { "GoogleDriveBackupWorker - backup completed successfully" }
-                    Result.success()
-                }
-
-                else -> {
-                    Result.failure()
-                }
+                logger.e { "missing Drive permission, disabling auto-backup" }
+                return Result.failure()
             }
         } catch (e: Exception) {
             logger.e(e) { "failed" }

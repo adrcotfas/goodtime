@@ -17,8 +17,9 @@
  */
 package com.apps.adrcotfas.goodtime.backup
 
-import android.content.Context
 import co.touchlab.kermit.Logger
+import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.FileContent
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -26,6 +27,7 @@ import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.io.FileOutputStream
 
@@ -45,7 +47,7 @@ class TokenRevokedException(
  * in a hidden app-specific folder that users cannot see directly.
  */
 class GoogleDriveManager(
-    private val context: Context,
+    private val settingsRepository: SettingsRepository,
     private val backupManager: BackupFileManager,
     private val dbPath: String,
     private val cacheDir: String,
@@ -70,7 +72,8 @@ class GoogleDriveManager(
                 backupManager.checkpointDatabase()
 
                 // Create backup file with timestamp
-                val fileName = backupManager.generateDbBackupFileName(BackupConstants.DB_BACKUP_PREFIX)
+                val fileName =
+                    backupManager.generateDbBackupFileName(BackupConstants.DB_BACKUP_PREFIX)
                 val dbFile = java.io.File(dbPath)
 
                 if (!dbFile.exists() || !dbFile.canRead()) {
@@ -99,6 +102,12 @@ class GoogleDriveManager(
                         .execute()
 
                 logger.i { "uploadBackup() - uploaded successfully: ${uploadedFile.id}" }
+
+                settingsRepository.setBackupSettings(
+                    settingsRepository.settings.first().backupSettings.copy(
+                        cloudLastBackupTimestamp = TimeProvider.now(),
+                    ),
+                )
 
                 // Clean up old backups
                 cleanupOldBackups(driveService)

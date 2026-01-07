@@ -36,7 +36,7 @@ actual val platformBackupModule: Module =
 
         single<GoogleDriveManager> {
             GoogleDriveManager(
-                context = get<Context>(),
+                settingsRepository = get<SettingsRepository>(),
                 backupManager = get<BackupFileManager>(),
                 dbPath = get<String>(named(DB_PATH_KEY)),
                 cacheDir = get<String>(named(CACHE_DIR_PATH_KEY)),

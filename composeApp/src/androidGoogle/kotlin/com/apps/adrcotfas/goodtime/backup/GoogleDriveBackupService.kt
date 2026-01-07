@@ -59,11 +59,11 @@ class GoogleDriveBackupService(
     private val logger: Logger,
 ) {
     private val authorizationClient = Identity.getAuthorizationClient(context)
-
     private val credentialManager = CredentialManager.create(context)
     private val workManager = WorkManager.getInstance(context)
 
     suspend fun authorize(): GoogleDriveAuthResult {
+        logger.i { "authorize() - starting" }
         val request =
             AuthorizationRequest
                 .builder()
@@ -98,7 +98,8 @@ class GoogleDriveBackupService(
         if (data == null) return null
 
         return try {
-            val result: AuthorizationResult = authorizationClient.getAuthorizationResultFromIntent(data)
+            val result: AuthorizationResult =
+                authorizationClient.getAuthorizationResultFromIntent(data)
             result.accessToken
         } catch (e: Exception) {
             logger.e(e) { "getAuthorizationResultFromIntent() - failed" }
@@ -118,8 +119,9 @@ class GoogleDriveBackupService(
      * Performs a backup synchronously and returns the result.
      * Use this for manual "Backup now" actions.
      */
-    suspend fun backupNow(accessToken: String): BackupPromptResult =
-        try {
+    suspend fun backupNow(accessToken: String): BackupPromptResult {
+        logger.i { "backupNow" }
+        return try {
             val result = googleDriveManager.uploadBackup(accessToken)
             if (result != null) {
                 BackupPromptResult.SUCCESS
@@ -130,6 +132,7 @@ class GoogleDriveBackupService(
             logger.e(e) { "backupNow() - failed" }
             BackupPromptResult.FAILED
         }
+    }
 
     /**
      * Lists available backups from Google Drive.
@@ -195,14 +198,14 @@ class GoogleDriveBackupService(
             .build()
 
     private fun schedulePeriodicBackup() {
+        logger.i { "schedulePeriodicBackup" }
         val constraints = buildNetworkConstraints()
 
         val workRequest =
             PeriodicWorkRequestBuilder<GoogleDriveBackupWorker>(
                 repeatInterval = 1L,
                 repeatIntervalTimeUnit = TimeUnit.DAYS,
-            ).setInitialDelay(1L, TimeUnit.HOURS)
-                .setConstraints(constraints)
+            ).setConstraints(constraints)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 1, TimeUnit.HOURS)
                 .build()
 
@@ -214,12 +217,24 @@ class GoogleDriveBackupService(
     }
 
     fun cancelAllBackupWork() {
+        logger.i { "cancelAllBackupWork" }
         workManager.cancelUniqueWork(GoogleDriveBackupWorker.AUTO_BACKUP)
     }
 
     suspend fun getAuthTokenOrNull(): String? =
         when (val authResult = authorize()) {
-            is GoogleDriveAuthResult.Success -> authResult.authResult.accessToken
+            is GoogleDriveAuthResult.Success -> {
+                val hasDrivePermission =
+                    authResult.authResult.grantedScopes.any { scope ->
+                        scope.toString().contains(DriveScopes.DRIVE_APPDATA)
+                    }
+                if (hasDrivePermission) {
+                    authResult.authResult.accessToken
+                } else {
+                    null
+                }
+            }
+
             else -> null
         }
 }
