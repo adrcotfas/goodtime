@@ -53,7 +53,8 @@ class ICloudBackupService(
         try {
             cloudBackupManager.performManualBackup()
             BackupPromptResult.SUCCESS
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            logger.e(e) { "backupNow() failed" }
             BackupPromptResult.FAILED
         }
 
@@ -64,7 +65,8 @@ class ICloudBackupService(
     suspend fun listAvailableBackups(): List<String>? =
         try {
             cloudBackupManager.listAvailableBackups()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            logger.e(e) { "listAvailableBackups() failed" }
             null
         }
 
@@ -72,7 +74,8 @@ class ICloudBackupService(
         try {
             val tempFilePath = cloudBackupManager.getBackupFileForRestore(fileName)
             backupManager.restoreFromFile(tempFilePath)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            logger.e(e) { "restoreFromBackup($fileName) failed" }
             BackupPromptResult.FAILED
         }
 

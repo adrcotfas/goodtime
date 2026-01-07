@@ -181,7 +181,7 @@ class GoogleDriveBackupService(
     suspend fun disconnect() {
         val token = getAuthTokenOrNull()
         if (token == null) {
-            logger.e { "Cannot disconnect without being connected" }
+            logger.i { "Already disconnected" }
             return
         }
         authorizationClient

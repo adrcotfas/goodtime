@@ -47,19 +47,17 @@ class GoogleDriveBackupWorker(
 
         return try {
             val settings = settingsRepository.settings.first()
-
             val result = backupService.getAuthTokenOrNull()
             if (result != null) {
                 googleDriveManager.uploadBackup(result)
                 logger.i { "GoogleDriveBackupWorker - backup completed successfully" }
-                Result.success()
             } else {
                 settingsRepository.setBackupSettings(
                     settings.backupSettings.copy(cloudAutoBackupEnabled = false),
                 )
                 logger.e { "missing Drive permission, disabling auto-backup" }
-                return Result.failure()
             }
+            Result.success()
         } catch (e: Exception) {
             logger.e(e) { "failed" }
             Result.failure()

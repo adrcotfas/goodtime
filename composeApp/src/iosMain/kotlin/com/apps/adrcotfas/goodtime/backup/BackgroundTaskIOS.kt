@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.backup
 
+import co.touchlab.kermit.Logger
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +39,7 @@ private const val TASK_INTERVAL_HOURS = 24.0
  */
 object BackgroundTaskHandler : KoinComponent {
     private val cloudBackupManager: CloudBackupManager by inject()
+    private val logger: Logger by inject()
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     /**
@@ -49,30 +51,38 @@ object BackgroundTaskHandler : KoinComponent {
             identifier = TASK_IDENTIFIER,
             usingQueue = null,
         ) { task ->
-            println("[BackgroundTaskIOS] Cloud backup task started")
+            logger.i { "Cloud backup task started" }
+            val appRefreshTask = task as? BGAppRefreshTask
 
-            // Perform the backup
-            scope.launch {
+            // Create cancellable job
+            val job = scope.launch {
                 try {
                     cloudBackupManager.checkAndPerformBackup()
-                    println("[BackgroundTaskIOS] Cloud backup completed successfully")
+                    logger.i { "Cloud backup completed successfully" }
 
                     // Schedule the next backup only if auto backup is still enabled (and the user is Pro).
                     if (cloudBackupManager.isAutoBackupEnabledForProUser()) {
                         scheduleCloudBackupTask()
                     } else {
-                        println("[BackgroundTaskIOS] Auto backup disabled or user is not Pro; not rescheduling")
+                        logger.i { "Auto backup disabled or user is not Pro; not rescheduling" }
                     }
 
                     // Mark task as completed
-                    (task as? BGAppRefreshTask)?.setTaskCompletedWithSuccess(true)
+                    appRefreshTask?.setTaskCompletedWithSuccess(true)
                 } catch (e: Exception) {
-                    println("[BackgroundTaskIOS] Cloud backup failed: ${e.message}")
-                    (task as? BGAppRefreshTask)?.setTaskCompletedWithSuccess(false)
+                    logger.e(e) { "Cloud backup failed" }
+                    appRefreshTask?.setTaskCompletedWithSuccess(false)
                 }
             }
+
+            // Handle iOS killing the task (after ~30 seconds)
+            task?.expirationHandler = {
+                logger.w { "Cloud backup task expired, cancelling" }
+                job.cancel()
+                appRefreshTask?.setTaskCompletedWithSuccess(false)
+            }
         }
-        println("[BackgroundTaskIOS] Cloud backup task registered: $TASK_IDENTIFIER")
+        logger.i { "Cloud backup task registered: $TASK_IDENTIFIER" }
     }
 }
 
@@ -90,12 +100,21 @@ fun registerCloudBackupTask() {
  */
 @OptIn(ExperimentalForeignApi::class)
 fun scheduleCloudBackupTask() {
+    val logger = Logger.withTag("BackgroundTaskIOS")
     val request = BGAppRefreshTaskRequest(identifier = TASK_IDENTIFIER)
     // Schedule for approximately 24 hours from now
     request.earliestBeginDate = NSDate().dateByAddingTimeInterval(TASK_INTERVAL_HOURS * 60 * 60)
 
-    BGTaskScheduler.sharedScheduler.submitTaskRequest(request, null)
-    println("[BackgroundTaskIOS] Cloud backup task scheduled for ~$TASK_INTERVAL_HOURS hours from now")
+    try {
+        val success = BGTaskScheduler.sharedScheduler.submitTaskRequest(request, null)
+        if (success) {
+            logger.i { "Cloud backup task scheduled for ~$TASK_INTERVAL_HOURS hours from now" }
+        } else {
+            logger.e { "Failed to schedule cloud backup task" }
+        }
+    } catch (e: Exception) {
+        logger.e(e) { "Exception scheduling cloud backup task" }
+    }
 }
 
 /**
@@ -103,6 +122,7 @@ fun scheduleCloudBackupTask() {
  * Should be called when auto backup is disabled.
  */
 fun cancelCloudBackupTask() {
+    val logger = Logger.withTag("BackgroundTaskIOS")
     BGTaskScheduler.sharedScheduler.cancelTaskRequestWithIdentifier(TASK_IDENTIFIER)
-    println("[BackgroundTaskIOS] Cloud backup task cancelled")
+    logger.i { "Cloud backup task cancelled" }
 }

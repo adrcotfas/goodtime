@@ -60,6 +60,17 @@ class CloudBackupViewModel(
         }
     }
 
+    private suspend fun checkAvailabilityOrFail(errorMessage: String): Boolean {
+        if (!iCloudBackupService.isICloudAvailable()) {
+            _uiState.update {
+                it.copy(isCloudUnavailable = true, isConnected = false)
+            }
+            SnackbarController.sendEvent(SnackbarEvent(message = errorMessage))
+            return false
+        }
+        return true
+    }
+
     fun toggleAutoBackup(enabled: Boolean) {
         viewModelScope.launch {
             _uiState.update { it.copy(isAutoBackupToggleInProgress = true) }
@@ -98,6 +109,12 @@ class CloudBackupViewModel(
     fun backup() {
         viewModelScope.launch {
             _uiState.update { it.copy(isBackupInProgress = true) }
+
+            if (!checkAvailabilityOrFail(getString(Res.string.backup_failed_please_try_again))) {
+                _uiState.update { it.copy(isBackupInProgress = false) }
+                return@launch
+            }
+
             val result = iCloudBackupService.backupNow()
             _uiState.update { it.copy(isBackupInProgress = false) }
             val message =
@@ -113,6 +130,12 @@ class CloudBackupViewModel(
     fun restore() {
         viewModelScope.launch {
             _uiState.update { it.copy(isRestoreInProgress = true) }
+
+            if (!checkAvailabilityOrFail(getString(Res.string.backup_restore_failed_please_try_again))) {
+                _uiState.update { it.copy(isRestoreInProgress = false) }
+                return@launch
+            }
+
             val backups = iCloudBackupService.listAvailableBackups()
             _uiState.update { it.copy(isRestoreInProgress = false) }
             when {

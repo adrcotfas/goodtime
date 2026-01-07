@@ -251,29 +251,24 @@ class CloudBackupManager(
             val backupsUrl = getBackupsDirUrl(fileManager, createIfMissing = true)
 
             // Generate backup filename with formatted date time
-            logger.d { "performBackup() - generating filename..." }
             val fileName = backupManager.generateDbBackupFileName(BackupConstants.DB_BACKUP_PREFIX)
             val backupFileUrl =
                 backupsUrl.URLByAppendingPathComponent(fileName)
                     ?: throw Exception("Failed to create backup file path")
 
             // Checkpoint database and copy to iCloud
-            logger.d { "performBackup() - checkpointing database..." }
             backupManager.checkpointDatabase()
             val backupFilePath =
                 backupFileUrl.path ?: throw Exception("Failed to get backup file path string")
 
-            logger.d { "performBackup() - copying file to $backupFilePath..." }
+            logger.d { "Copying backup to $backupFilePath" }
             fileSystem.copy(dbPath.toPath(), backupFilePath.toPath())
 
             // Clean up old backups - keep only the most recent
-            logger.d { "performBackup() - cleaning up old backups..." }
             cleanupOldBackups(backupsUrl, fileManager)
 
             // Update last backup timestamp
-            logger.d { "performBackup() - getting current settings..." }
             val currentSettings = settingsRepository.settings.first().backupSettings
-            logger.d { "performBackup() - updating backup timestamp..." }
             settingsRepository.setBackupSettings(
                 currentSettings.copy(
                     cloudLastBackupTimestamp = TimeProvider.now(),
@@ -304,14 +299,11 @@ class CloudBackupManager(
                 ?: throw Exception("Failed to create ${BackupConstants.IOS_ICLOUD_BACKUP_SUBPATH} path")
 
         logger.d { "Backups directory URL: ${backupsUrl.path}" }
-        logger.d { "getBackupsDirUrl() - checking if directory exists at: ${backupsUrl.path}" }
+
         val pathToCheck = backupsUrl.path ?: ""
-        logger.d { "getBackupsDirUrl() - calling fileExistsAtPath..." }
         val exists = fileManager.fileExistsAtPath(pathToCheck)
-        logger.d { "getBackupsDirUrl() - fileExistsAtPath returned: $exists" }
 
         if (createIfMissing && !exists) {
-            logger.d { "getBackupsDirUrl() - creating directory..." }
             val success =
                 fileManager.createDirectoryAtURL(
                     backupsUrl,
@@ -319,15 +311,12 @@ class CloudBackupManager(
                     attributes = null,
                     error = null,
                 )
-            logger.d { "getBackupsDirUrl() - directory creation result: $success" }
             if (!success) {
                 throw Exception("Failed to create backups directory")
             }
-        } else {
-            logger.d { "getBackupsDirUrl() - directory already exists or createIfMissing=false" }
+            logger.d { "Created backups directory at ${backupsUrl.path}" }
         }
 
-        logger.d { "getBackupsDirUrl() - returning" }
         return backupsUrl
     }
 
