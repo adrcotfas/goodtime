@@ -20,6 +20,8 @@ package com.apps.adrcotfas.goodtime.backup
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.credentials.ClearCredentialStateRequest
+import androidx.credentials.CredentialManager
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -57,6 +59,8 @@ class GoogleDriveBackupService(
     private val logger: Logger,
 ) {
     private val authorizationClient = Identity.getAuthorizationClient(context)
+
+    private val credentialManager = CredentialManager.create(context)
     private val workManager = WorkManager.getInstance(context)
 
     suspend fun authorize(): GoogleDriveAuthResult {
@@ -180,6 +184,8 @@ class GoogleDriveBackupService(
         authorizationClient
             .clearToken(ClearTokenRequest.builder().setToken(token).build())
             .await()
+        val clearRequest = ClearCredentialStateRequest()
+        credentialManager.clearCredentialState(clearRequest)
     }
 
     private fun buildNetworkConstraints(): Constraints =
