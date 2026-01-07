@@ -47,7 +47,6 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CloudRestorePickerDialog(
-    cloudProviderName: String,
     backups: List<String>,
     onDismiss: () -> Unit,
     onBackupSelected: (String) -> Unit,
@@ -58,38 +57,28 @@ fun CloudRestorePickerDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(Res.string.backup_dialog_cloud_restore_picker_title)) },
         text = {
-            Column {
-                Text(
-                    stringResource(
-                        Res.string.backup_dialog_cloud_restore_picker_subtitle,
-                        cloudProviderName,
-                    ),
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = 16.dp),
-                )
-                LazyColumn(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                ) {
-                    items(backups.size) { index ->
-                        val backup = backups[index]
-                        Row(
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .clickable { selectedBackup = backup }
-                                    .padding(vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            RadioButton(
-                                selected = selectedBackup == backup,
-                                onClick = { selectedBackup = backup },
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = backup,
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-                        }
+            LazyColumn(
+                modifier = Modifier.padding(vertical = 8.dp),
+            ) {
+                items(backups.size) { index ->
+                    val backup = backups[index]
+                    Row(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable { selectedBackup = backup }
+                                .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(
+                            selected = selectedBackup == backup,
+                            onClick = { selectedBackup = backup },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = backup,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                     }
                 }
             }

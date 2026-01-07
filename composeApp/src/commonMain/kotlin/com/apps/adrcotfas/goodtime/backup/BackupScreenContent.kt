@@ -33,6 +33,7 @@ import goodtime_productivity.composeapp.generated.resources.Res
 import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_backup_now
 import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_disconnect
 import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_restore
+import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_google_drive
 import goodtime_productivity.composeapp.generated.resources.backup_auto_backup
 import goodtime_productivity.composeapp.generated.resources.backup_cloud
 import goodtime_productivity.composeapp.generated.resources.backup_enable_cloud_sync
@@ -59,7 +60,6 @@ fun CloudBackupSection(
     isConnected: Boolean,
     isCloudUnavailable: Boolean,
     onConnect: (() -> Unit)?,
-    cloudProviderName: String,
     cloudAutoBackupEnabled: Boolean,
     onAutoBackupToggle: (Boolean) -> Unit,
     isAutoBackupInProgress: Boolean,
@@ -92,7 +92,7 @@ fun CloudBackupSection(
             Column {
                 SwitchListItem(
                     title = stringResource(Res.string.backup_auto_backup),
-                    subtitle = if (cloudAutoBackupEnabled) cloudProviderName else null,
+                    subtitle = if (cloudAutoBackupEnabled) stringResource(Res.string.backup_actions_provider_google_drive) else null,
                     checked = cloudAutoBackupEnabled,
                     enabled = enabled,
                     showProgress = isAutoBackupInProgress,

@@ -26,9 +26,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
-import goodtime_productivity.composeapp.generated.resources.Res
-import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_google_drive
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @Composable
@@ -60,8 +57,6 @@ actual fun BackupScreen(
         }
     }
 
-    val cloudProviderName = stringResource(Res.string.backup_actions_provider_google_drive)
-
     AndroidBackupScreenContent(
         onNavigateToPro = onNavigateToPro,
         onNavigateBack = onNavigateBack,
@@ -72,7 +67,6 @@ actual fun BackupScreen(
                 isConnected = cloudUiState.isConnected,
                 isCloudUnavailable = cloudUiState.isCloudUnavailable,
                 onConnect = { cloudBackupViewModel.connect() },
-                cloudProviderName = cloudProviderName,
                 cloudAutoBackupEnabled = backupUiState.backupSettings.cloudAutoBackupEnabled,
                 onAutoBackupToggle = { cloudBackupViewModel.toggleAutoBackup(it) },
                 isAutoBackupInProgress = cloudUiState.isAutoBackupToggleInProgress,
@@ -89,7 +83,6 @@ actual fun BackupScreen(
 
     if (cloudUiState.showRestoreDialog) {
         CloudRestorePickerDialog(
-            cloudProviderName = cloudProviderName,
             backups = cloudUiState.availableBackups,
             onDismiss = { cloudBackupViewModel.dismissRestoreDialog() },
             onBackupSelected = { cloudBackupViewModel.selectBackupToRestore(it) },
