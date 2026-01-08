@@ -39,7 +39,7 @@ private const val TASK_INTERVAL_HOURS = 24.0
  */
 object BackgroundTaskHandler : KoinComponent {
     private val cloudBackupManager: CloudBackupManager by inject()
-    private val logger: Logger by inject()
+    private val logger = Logger.withTag("BackgroundTaskIOS")
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     /**
