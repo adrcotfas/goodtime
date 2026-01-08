@@ -26,7 +26,7 @@ import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
-import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_HANDLER
+import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_STARTER
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidSoundPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidTorchManager
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidVibrationPlayer
@@ -45,7 +45,6 @@ import com.apps.adrcotfas.goodtime.common.UrlOpener
 import com.apps.adrcotfas.goodtime.data.local.DATABASE_NAME
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
-import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderScheduler
 import kotlinx.coroutines.CoroutineScope
 import okio.FileSystem
@@ -102,10 +101,10 @@ actual val platformModule: Module =
         }
         single<List<EventListener>> {
             listOf(
-                get<EventListener>(named(EventListener.TIMER_SERVICE_HANDLER)),
-                get<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)),
-                get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
                 get<EventListener>(named(EventListener.DND_MODE_MANAGER)),
+                get<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)),
+                get<EventListener>(named(EventListener.TIMER_SERVICE_STARTER)),
+                get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
             )
         }
         single<UrlOpener> { AndroidUrlOpener(get()) }

@@ -27,7 +27,7 @@ import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
 import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.DndModeManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
-import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_HANDLER
+import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_STARTER
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
@@ -83,7 +83,7 @@ class GoodtimeApplication :
                             coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
                         )
                     }
-                    single<EventListener>(named(EventListener.TIMER_SERVICE_HANDLER)) {
+                    single<EventListener>(named(EventListener.TIMER_SERVICE_STARTER)) {
                         TimerServiceStarter(get())
                     }
                     single<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)) {

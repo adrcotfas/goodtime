@@ -36,8 +36,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import java.io.Closeable
 import java.lang.reflect.Method
 
@@ -51,10 +49,10 @@ class AndroidSoundPlayer(
     Closeable {
     companion object {
         private const val SET_LOOPING_METHOD_NAME = "setLooping"
+        private const val PLAYBACK_POLLING_INTERVAL_MS = 100L
     }
 
     private var job: Job? = null
-    private val playbackMutex = Mutex()
 
     @Volatile
     private var state = SoundPlayerState()
@@ -68,18 +66,22 @@ class AndroidSoundPlayer(
     @Volatile
     private var focusMonitorJob: Job? = null
 
-    private lateinit var setLoopingMethod: Method
+    private var setLoopingMethod: Method? = null
 
     init {
-        try {
-            setLoopingMethod =
-                Ringtone::class.java.getDeclaredMethod(
-                    SET_LOOPING_METHOD_NAME,
-                    Boolean::class.javaPrimitiveType,
-                )
-        } catch (e: NoSuchMethodException) {
-            logger.e(e) { "Failed to get method $SET_LOOPING_METHOD_NAME" }
+        // Only use reflection for older Android versions
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            try {
+                setLoopingMethod =
+                    Ringtone::class.java.getDeclaredMethod(
+                        SET_LOOPING_METHOD_NAME,
+                        Boolean::class.javaPrimitiveType,
+                    )
+            } catch (e: NoSuchMethodException) {
+                logger.e(e) { "Failed to get method $SET_LOOPING_METHOD_NAME" }
+            }
         }
+
         ioScope.launch {
             settingsRepo.settings.collect { settings ->
                 state =
@@ -105,7 +107,7 @@ class AndroidSoundPlayer(
                 TimerType.FOCUS -> state.workRingTone
                 TimerType.BREAK, TimerType.LONG_BREAK -> state.breakRingTone
             }
-        play(soundData, state.loop)
+        play(soundData, state.loop, false)
     }
 
     /**
@@ -120,22 +122,22 @@ class AndroidSoundPlayer(
         loop: Boolean,
         forceSound: Boolean,
     ) {
-        playerScope.launch {
-            job?.cancelAndJoin()
-            job =
-                playerScope.launch {
-                    stopInternal()
-                    playInternal(soundData, loop, forceSound)
-                }
-        }
+        val previousJob = job
+        job =
+            playerScope.launch {
+                previousJob?.cancelAndJoin()
+                stopInternal()
+                playInternal(soundData, loop, forceSound)
+            }
     }
 
-    private suspend fun playInternal(
+    private fun playInternal(
         soundData: SoundData,
         loop: Boolean,
         forceSound: Boolean,
-    ) = playbackMutex.withLock {
-        if (soundData.isSilent) return@withLock
+    ) {
+        if (soundData.isSilent) return
+
         val uri =
             soundData.uriString.let {
                 if (it.isEmpty()) {
@@ -167,20 +169,29 @@ class AndroidSoundPlayer(
         requestAudioFocusInternal(audioManager, audioAttributes, loop)
 
         val ringtone = RingtoneManager.getRingtone(context, uri)
-        ringtone?.audioAttributes = audioAttributes
+        if (ringtone == null) {
+            logger.e { "Could not create ringtone for URI: $uri" }
+            abandonAudioFocusInternal()
+            return
+        }
 
-        // Update currentRingtone
         currentRingtone = ringtone
+        ringtone.audioAttributes = audioAttributes
 
         try {
             if (loop) {
-                setLoopingMethod.invoke(ringtone, true)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    ringtone.isLooping = true
+                } else {
+                    setLoopingMethod?.invoke(ringtone, true)
+                }
             }
         } catch (e: Exception) {
             logger.e(e) { "Failed to set looping" }
         }
+
         try {
-            ringtone?.play()
+            ringtone.play()
         } catch (e: Exception) {
             logger.e(e) { "Failed to play ringtone" }
         }
@@ -200,11 +211,10 @@ class AndroidSoundPlayer(
         focusMonitorJob =
             playerScope.launch {
                 try {
-                    // Poll until the ringtone stops playing
+                    // Poll until the ringtone stops playing (Ringtone API limitation)
                     while (ringtone?.isPlaying == true) {
-                        delay(100)
+                        delay(PLAYBACK_POLLING_INTERVAL_MS)
                     }
-                    // Sound finished playing, abandon audio focus
                     abandonAudioFocusInternal()
                 } catch (e: Exception) {
                     logger.e(e) { "Error monitoring ringtone completion" }
@@ -214,16 +224,14 @@ class AndroidSoundPlayer(
 
     /**
      * Stops any currently playing sound.
-     * This method is safe to call even if no sound is currently playing.
      */
     override fun stop() {
-        playerScope.launch {
-            job?.cancelAndJoin()
-            job =
-                playerScope.launch {
-                    stopInternal()
-                }
-        }
+        val previousJob = job
+        job =
+            playerScope.launch {
+                previousJob?.cancelAndJoin()
+                stopInternal()
+            }
     }
 
     private fun stopInternal() {
@@ -309,8 +317,10 @@ class AndroidSoundPlayer(
                 AudioDeviceInfo.TYPE_USB_DEVICE,
                 AudioDeviceInfo.TYPE_USB_HEADSET,
                 AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
+                AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
             )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            list.add(AudioDeviceInfo.TYPE_BLE_HEADSET)
             list.add(AudioDeviceInfo.TYPE_BLE_SPEAKER)
         }
         return audioDevices.any { deviceInfo ->
@@ -319,13 +329,13 @@ class AndroidSoundPlayer(
     }
 
     override fun close() {
-        playerScope.launch {
-            job?.cancelAndJoin()
-            focusMonitorJob?.cancel()
-            stopInternal()
-            currentRingtone = null
-            currentAudioFocusRequest = null
-            focusMonitorJob = null
+        job?.cancel()
+        focusMonitorJob?.cancel()
+        try {
+            currentRingtone?.stop()
+            abandonAudioFocusInternal()
+        } catch (e: Exception) {
+            logger.e(e) { "Error closing SoundPlayer" }
         }
     }
 }
