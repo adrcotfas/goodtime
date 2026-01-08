@@ -25,6 +25,7 @@ import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.injectLogger
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -38,6 +39,10 @@ class TimerService :
 
     private val coroutineScope: CoroutineScope by inject((named(MAIN_SCOPE)))
     private val log: Logger by injectLogger("TimerService")
+
+    // Track pending finished notification to avoid race condition
+    @Volatile
+    private var pendingFinishedNotificationJob: Job? = null
 
     override fun onBind(intent: Intent?) = null
 
@@ -54,8 +59,12 @@ class TimerService :
         log.v { "onStartCommand: ${intent.action}" }
         when (intent.action) {
             Action.StartOrUpdate.name -> {
-                notificationManager.clearFinishedNotification()
+                log.d { "clearing finished notifications" }
                 coroutineScope.launch {
+                    // Wait for any pending finished notification to post before clearing
+                    pendingFinishedNotificationJob?.join()
+                    notificationManager.clearFinishedNotification()
+
                     val notification = notificationManager.buildInProgressNotification(data)
                     startForeground(
                         NotificationArchManager.IN_PROGRESS_NOTIFICATION_ID,
@@ -65,7 +74,11 @@ class TimerService :
             }
 
             Action.Reset.name -> {
-                notificationManager.clearFinishedNotification()
+                coroutineScope.launch {
+                    // Wait for any pending finished notification to post before clearing
+                    pendingFinishedNotificationJob?.join()
+                    notificationManager.clearFinishedNotification()
+                }
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()
                 return START_NOT_STICKY
@@ -79,9 +92,11 @@ class TimerService :
                     stopForeground(STOP_FOREGROUND_REMOVE)
                     stopSelf()
                 }
-                coroutineScope.launch {
-                    notificationManager.notifyFinished(type, data, withActions = !autoStart)
-                }
+                pendingFinishedNotificationJob =
+                    coroutineScope.launch {
+                        log.d { "notify finished notification" }
+                        notificationManager.notifyFinished(type, data, withActions = !autoStart)
+                    }
                 return START_NOT_STICKY
             }
 
