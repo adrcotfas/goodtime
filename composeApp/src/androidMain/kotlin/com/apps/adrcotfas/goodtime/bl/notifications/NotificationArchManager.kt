@@ -194,6 +194,7 @@ class NotificationArchManager(
         return builder.build()
     }
 
+    // TODO: clear when a new session starts
     suspend fun notifyFinished(
         finishedType: TimerType,
         data: DomainTimerData,
@@ -217,11 +218,13 @@ class NotificationArchManager(
                 }
                 setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 setContentIntent(createOpenActivityIntent(activityClass))
-                setOngoing(false)
                 setSilent(true)
+                setOngoing(true)
+                setRequestPromotedOngoing(true)
                 setShowWhen(false)
                 setAutoCancel(true)
                 setContentTitle(stateText)
+                setShortCriticalText("00:00")
             }
         val extender = NotificationCompat.WearableExtender()
         if (withActions) {
