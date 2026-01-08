@@ -55,8 +55,6 @@ actual fun BackupScreen(
     // TODO: replace with loading indicator
     if (backupUiState.isLoading || cloudUiState.isLoading) return
 
-    val cloudProviderName = stringResource(Res.string.backup_actions_icloud_drive)
-
     val listState = rememberScrollState()
     Scaffold(
         topBar = {
@@ -85,7 +83,6 @@ actual fun BackupScreen(
                 isConnected = cloudUiState.isConnected,
                 isCloudUnavailable = cloudUiState.isCloudUnavailable,
                 onConnect = null,
-                cloudProviderName = cloudProviderName,
                 cloudAutoBackupEnabled = backupUiState.backupSettings.cloudAutoBackupEnabled,
                 onAutoBackupToggle = { cloudBackupViewModel.toggleAutoBackup(it) },
                 isAutoBackupInProgress = cloudUiState.isAutoBackupToggleInProgress,
@@ -127,7 +124,6 @@ actual fun BackupScreen(
     // Cloud restore picker dialog
     if (cloudUiState.showRestoreDialog) {
         CloudRestorePickerDialog(
-            cloudProviderName = cloudProviderName,
             backups = cloudUiState.availableBackups,
             onDismiss = { cloudBackupViewModel.dismissRestoreDialog() },
             onBackupSelected = { cloudBackupViewModel.selectBackupToRestore(it) },

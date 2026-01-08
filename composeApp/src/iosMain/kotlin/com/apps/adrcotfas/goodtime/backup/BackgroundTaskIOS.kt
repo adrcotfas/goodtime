@@ -55,25 +55,26 @@ object BackgroundTaskHandler : KoinComponent {
             val appRefreshTask = task as? BGAppRefreshTask
 
             // Create cancellable job
-            val job = scope.launch {
-                try {
-                    cloudBackupManager.checkAndPerformBackup()
-                    logger.i { "Cloud backup completed successfully" }
+            val job =
+                scope.launch {
+                    try {
+                        cloudBackupManager.checkAndPerformBackup()
+                        logger.i { "Cloud backup completed successfully" }
 
-                    // Schedule the next backup only if auto backup is still enabled (and the user is Pro).
-                    if (cloudBackupManager.isAutoBackupEnabledForProUser()) {
-                        scheduleCloudBackupTask()
-                    } else {
-                        logger.i { "Auto backup disabled or user is not Pro; not rescheduling" }
+                        // Schedule the next backup only if auto backup is still enabled (and the user is Pro).
+                        if (cloudBackupManager.isAutoBackupEnabledForProUser()) {
+                            scheduleCloudBackupTask()
+                        } else {
+                            logger.i { "Auto backup disabled or user is not Pro; not rescheduling" }
+                        }
+
+                        // Mark task as completed
+                        appRefreshTask?.setTaskCompletedWithSuccess(true)
+                    } catch (e: Exception) {
+                        logger.e(e) { "Cloud backup failed" }
+                        appRefreshTask?.setTaskCompletedWithSuccess(false)
                     }
-
-                    // Mark task as completed
-                    appRefreshTask?.setTaskCompletedWithSuccess(true)
-                } catch (e: Exception) {
-                    logger.e(e) { "Cloud backup failed" }
-                    appRefreshTask?.setTaskCompletedWithSuccess(false)
                 }
-            }
 
             // Handle iOS killing the task (after ~30 seconds)
             task?.expirationHandler = {
