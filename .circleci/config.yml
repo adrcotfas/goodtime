@@ -7,7 +7,7 @@ jobs:
   build-android:
     executor:
       name: android/android_docker
-      resource_class: large
+      resource_class: xlarge
       tag: 2025.12.1
 
     steps:
