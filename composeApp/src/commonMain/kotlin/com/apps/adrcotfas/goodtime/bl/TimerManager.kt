@@ -564,7 +564,8 @@ class TimerManager(
             longBreakEnabled &&
             (
                 finishActionType == FinishActionType.AUTO ||
-                    finishActionType == FinishActionType.MANUAL_SKIP
+                    finishActionType == FinishActionType.MANUAL_SKIP ||
+                    finishActionType == FinishActionType.FORCE_FINISH
             )
         ) {
             incrementStreak()
@@ -706,7 +707,7 @@ class TimerManager(
         val COUNT_UP_HARD_LIMIT = 900.minutes.inWholeMilliseconds
 
         // Skip autostart if user returns more than 30 minutes after the timer was supposed to end
-        val AUTOSTART_TIMEOUT = if (!isDebug()) 30.minutes.inWholeMilliseconds else 1.minutes.inWholeMilliseconds
+        val AUTOSTART_TIMEOUT = 30.minutes.inWholeMilliseconds
     }
 }
 
