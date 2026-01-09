@@ -275,6 +275,12 @@ class TimerManager(
     }
 
     private fun pause() {
+        val timerDataValue = timerData.value
+        val isBreakOfCountUpProfile = !timerDataValue.label.isCountdown && timerDataValue.type != TimerType.FOCUS
+        if (isBreakOfCountUpProfile) {
+            log.e { "Trying to pause a break timer of a count up profile" }
+            return
+        }
         val elapsedRealtime = timeProvider.elapsedRealtime()
         updateBreakBudgetIfNeeded()
         _timerData.update {
