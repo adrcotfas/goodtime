@@ -6,23 +6,28 @@
 
 -keep class * extends androidx.room.RoomDatabase { <init>(); }
 
-# -------------------------------------
-# Google Auth & API Client
-# -------------------------------------
+# ===== Google API Client - Targeted Rules =====
+# Keep fields annotated with @Key (needed for JSON serialization)
+-keepclassmembers class * {
+  @com.google.api.client.util.Key <fields>;
+}
 
+# Keep generic signatures and annotations for reflection
 -keepattributes Signature,RuntimeVisibleAnnotations,AnnotationDefault
 
--keepclassmembers class * {
-    @com.google.api.client.util.Key <fields>;
-}
+# Google Drive API models
+-keep class com.google.api.services.drive.model.** { *; }
 
--keep class com.google.api.services.drive.** { *; }
+# Google HTTP/JSON internals that use reflection
+-keepclassmembers class com.google.api.client.http.** { *; }
+-keepclassmembers class com.google.api.client.json.** { *; }
+-keepclassmembers class com.google.api.client.util.** { *; }
 
-# -------------------------------------
-# Credential Manager
-# -------------------------------------
+# Google Auth - only the specific credential classes
+-keep class com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential { *; }
+-keep class com.google.android.gms.auth.api.signin.** { *; }
 
--if class androidx.credentials.CredentialManager
--keep class androidx.credentials.playservices.** {
-    *;
-}
+# ===== Missing classes (not available on Android) =====
+-dontwarn javax.naming.**
+-dontwarn org.ietf.jgss.**
+-dontwarn org.apache.http.**
