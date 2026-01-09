@@ -22,21 +22,20 @@ import com.apps.adrcotfas.goodtime.backup.CloudBackupManager
 import com.apps.adrcotfas.goodtime.backup.cancelCloudBackupTask
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
-import com.revenuecat.purchases.kmp.Purchases
 import com.revenuecat.purchases.kmp.PurchasesDelegate
-import com.revenuecat.purchases.kmp.models.CacheFetchPolicy
 import com.revenuecat.purchases.kmp.models.CustomerInfo
 import com.revenuecat.purchases.kmp.models.PurchasesError
 import com.revenuecat.purchases.kmp.models.StoreProduct
 import com.revenuecat.purchases.kmp.models.StoreTransaction
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 actual class PurchaseManager actual constructor(
     private val settingsRepository: SettingsRepository,
     dataRepository: LocalDataRepository,
-    ioScope: CoroutineScope,
+    private val ioScope: CoroutineScope,
     private val log: Logger,
 ) : PurchasesDelegate,
     KoinComponent {
@@ -57,21 +56,26 @@ actual class PurchaseManager actual constructor(
         if (started) return
         started = true
 
-        if (!Purchases.isConfigured) {
-            log.i { "Configuring purchases (RevenueCat)" }
-            configurePurchasesFromPlatform()
-            check(Purchases.isConfigured) { "Purchases not configured; missing RevenueCat API key?" }
+        ioScope.launch {
+            settingsRepository.setPro(true)
         }
 
-        Purchases.sharedInstance.delegate = this
-
-        Purchases.sharedInstance.getCustomerInfo(
-            fetchPolicy = CacheFetchPolicy.FETCH_CURRENT,
-            onError = { error ->
-                log.w { "Failed to fetch customer info: ${error.message}" }
-            },
-            onSuccess = { handleCustomerInfo(it) },
-        )
+        //TODO: enable later
+//        if (!Purchases.isConfigured) {
+//            log.i { "Configuring purchases (RevenueCat)" }
+//            configurePurchasesFromPlatform()
+//            check(Purchases.isConfigured) { "Purchases not configured; missing RevenueCat API key?" }
+//        }
+//
+//        Purchases.sharedInstance.delegate = this
+//
+//        Purchases.sharedInstance.getCustomerInfo(
+//            fetchPolicy = CacheFetchPolicy.FETCH_CURRENT,
+//            onError = { error ->
+//                log.w { "Failed to fetch customer info: ${error.message}" }
+//            },
+//            onSuccess = { handleCustomerInfo(it) },
+//        )
     }
 
     override fun onCustomerInfoUpdated(customerInfo: CustomerInfo) {
