@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.apps.adrcotfas.goodtime.bl.TimeUtils
+import com.apps.adrcotfas.goodtime.platform.getPlatformConfiguration
 import com.apps.adrcotfas.goodtime.ui.ActionCard
 import com.apps.adrcotfas.goodtime.ui.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.CircularProgressListItem
@@ -34,6 +35,7 @@ import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud
 import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_disconnect
 import goodtime_productivity.composeapp.generated.resources.backup_actions_cloud_restore
 import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_google_drive
+import goodtime_productivity.composeapp.generated.resources.backup_actions_provider_icloud
 import goodtime_productivity.composeapp.generated.resources.backup_auto_backup
 import goodtime_productivity.composeapp.generated.resources.backup_cloud
 import goodtime_productivity.composeapp.generated.resources.backup_enable_cloud_sync
@@ -72,6 +74,11 @@ fun CloudBackupSection(
 ) {
     CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_cloud))
 
+    val cloudProviderName = if (getPlatformConfiguration().isAndroid)
+        stringResource(Res.string.backup_actions_provider_google_drive)
+    else
+        stringResource(Res.string.backup_actions_provider_icloud)
+
     when {
         // Cloud unavailable (e.g., iCloud disabled in system settings)
         isCloudUnavailable -> {
@@ -92,7 +99,7 @@ fun CloudBackupSection(
             Column {
                 SwitchListItem(
                     title = stringResource(Res.string.backup_auto_backup),
-                    subtitle = if (cloudAutoBackupEnabled) stringResource(Res.string.backup_actions_provider_google_drive) else null,
+                    subtitle = if (cloudAutoBackupEnabled) cloudProviderName else null,
                     checked = cloudAutoBackupEnabled,
                     enabled = enabled,
                     showProgress = isAutoBackupInProgress,
