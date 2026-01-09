@@ -60,7 +60,7 @@ actual class PurchaseManager actual constructor(
             settingsRepository.setPro(true)
         }
 
-        //TODO: enable later
+        // TODO: enable later
 //        if (!Purchases.isConfigured) {
 //            log.i { "Configuring purchases (RevenueCat)" }
 //            configurePurchasesFromPlatform()

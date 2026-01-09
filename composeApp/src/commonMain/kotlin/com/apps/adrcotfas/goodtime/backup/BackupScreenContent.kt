@@ -74,10 +74,12 @@ fun CloudBackupSection(
 ) {
     CompactPreferenceGroupTitle(text = stringResource(Res.string.backup_cloud))
 
-    val cloudProviderName = if (getPlatformConfiguration().isAndroid)
-        stringResource(Res.string.backup_actions_provider_google_drive)
-    else
-        stringResource(Res.string.backup_actions_provider_icloud)
+    val cloudProviderName =
+        if (getPlatformConfiguration().isAndroid) {
+            stringResource(Res.string.backup_actions_provider_google_drive)
+        } else {
+            stringResource(Res.string.backup_actions_provider_icloud)
+        }
 
     when {
         // Cloud unavailable (e.g., iCloud disabled in system settings)
