@@ -317,7 +317,6 @@ class AndroidSoundPlayer(
                 AudioDeviceInfo.TYPE_USB_DEVICE,
                 AudioDeviceInfo.TYPE_USB_HEADSET,
                 AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
-                AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
             )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             list.add(AudioDeviceInfo.TYPE_BLE_HEADSET)
