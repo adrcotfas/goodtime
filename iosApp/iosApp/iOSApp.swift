@@ -21,6 +21,9 @@ struct iOSApp: App {
     class AppDelegate: NSObject, UIApplicationDelegate {
         func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
+            // keep screen on
+            application.isIdleTimerDisabled = true
+
             PurchasePlatform_iosKt.configurePurchasesFromPlatform()
 
             // Register Live Activity delegate
