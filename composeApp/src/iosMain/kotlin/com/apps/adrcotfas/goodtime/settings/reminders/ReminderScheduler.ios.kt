@@ -18,6 +18,7 @@
 package com.apps.adrcotfas.goodtime.settings.reminders
 
 import co.touchlab.kermit.Logger
+import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager.Companion.REMINDER_ID_PREFIX
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.datetime.DayOfWeek
@@ -92,8 +93,9 @@ actual class ReminderScheduler(
     }
 
     actual fun cancelAllReminders() {
-        logger.d("Cancelling all iOS reminders")
-        notificationCenter.removeAllPendingNotificationRequests()
+        logger.d("Cancelling all reminders")
+        val reminderIdentifiers = DayOfWeek.entries.map { "${REMINDER_ID_PREFIX}${it.isoDayNumber}" }
+        notificationCenter.removePendingNotificationRequestsWithIdentifiers(reminderIdentifiers)
     }
 
     /**

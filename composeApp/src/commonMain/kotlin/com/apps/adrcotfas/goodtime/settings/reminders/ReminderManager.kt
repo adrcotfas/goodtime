@@ -57,7 +57,7 @@ class ReminderManager(
 
         currentSettings.days.forEach { dayNumber ->
             val day = DayOfWeek(dayNumber)
-            val identifier = "reminder_day_$dayNumber"
+            val identifier = "${REMINDER_ID_PREFIX}$dayNumber"
             logger.d("Scheduling reminder for $day with identifier: $identifier")
             scheduler.scheduleWeeklyReminder(
                 dayOfWeek = day,
@@ -65,5 +65,9 @@ class ReminderManager(
                 identifier = identifier,
             )
         }
+    }
+
+    companion object {
+        const val REMINDER_ID_PREFIX = "reminder_day_"
     }
 }
