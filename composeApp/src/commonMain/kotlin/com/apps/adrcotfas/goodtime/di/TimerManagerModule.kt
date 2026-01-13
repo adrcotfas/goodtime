@@ -22,6 +22,7 @@ import com.apps.adrcotfas.goodtime.bl.FinishedSessionsHandler
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerForegroundMonitor
 import com.apps.adrcotfas.goodtime.bl.TimerManager
+import com.apps.adrcotfas.goodtime.bl.TimerStateRestoration
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import org.koin.core.qualifier.named
@@ -38,6 +39,7 @@ val timerManagerModule =
                 get<FinishedSessionsHandler>(),
                 getWith("TimerManager"),
                 coroutineScope = get(named(IO_SCOPE)),
+                timerStateRestoration = getOrNull<TimerStateRestoration>(),
             )
         }
 

@@ -50,6 +50,20 @@ data class DomainLabel(
 fun DomainLabel.getLabelData() = this.label.getLabelData()
 
 /**
+ * Runtime state of the timer (the dynamic data that changes during timer execution).
+ */
+data class TimerRuntimeState(
+    val startTime: Long = 0, // millis since boot when timer started
+    val lastStartTime: Long = 0, // millis since boot when timer was last started/resumed
+    val lastPauseTime: Long = 0, // millis since boot when last paused
+    val endTime: Long = 0, // millis since boot when timer should end
+    val timeAtPause: Long = 0, // millis remaining/elapsed at pause
+    val state: TimerState = TimerState.RESET,
+    val type: TimerType = TimerType.FOCUS,
+    val timeSpentPaused: Long = 0, // millis spent in pause
+)
+
+/**
  * Data class that captures the current timer state.
  * There can only be one running timer at a time.
  */
@@ -66,23 +80,26 @@ data class DomainTimerData(
     val longBreakData: LongBreakData = LongBreakData(),
     val breakBudgetData: BreakBudgetData = BreakBudgetData(),
     /**
-     * Bellow we have the dynamic data that is not stored in persistent storage.
+     * Runtime timer state (dynamic data that is not stored in persistent storage on Android).
      */
-    val startTime: Long = 0, // millis since boot
-    val lastStartTime: Long = 0, // millis since boot
-    val lastPauseTime: Long = 0, // millis since boot
-    val endTime: Long = 0, // millis since boot
-    val timeAtPause: Long = 0, // millis
-    val state: TimerState = TimerState.RESET,
-    val type: TimerType = TimerType.FOCUS,
-    val timeSpentPaused: Long = 0, // millis spent in pause
+    val runtime: TimerRuntimeState = TimerRuntimeState(),
     val completedMinutes: Long = 0, // minutes
 ) {
+    // Convenience accessors for backward compatibility
+    val startTime: Long get() = runtime.startTime
+    val lastStartTime: Long get() = runtime.lastStartTime
+    val lastPauseTime: Long get() = runtime.lastPauseTime
+    val endTime: Long get() = runtime.endTime
+    val timeAtPause: Long get() = runtime.timeAtPause
+    val state: TimerState get() = runtime.state
+    val type: TimerType get() = runtime.type
+    val timeSpentPaused: Long get() = runtime.timeSpentPaused
+
     fun reset() =
         DomainTimerData(
             isReady = isReady,
             label = label,
-            state = TimerState.RESET,
+            runtime = TimerRuntimeState(state = TimerState.RESET),
             longBreakData = longBreakData,
             breakBudgetData = breakBudgetData,
         )

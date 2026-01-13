@@ -165,11 +165,14 @@ class TimerManagerTest {
                 DomainTimerData(
                     isReady = true,
                     label = DomainLabel(defaultLabel, defaultLabel.timerProfile),
-                    startTime = startTime,
-                    lastStartTime = startTime,
-                    endTime = startTime + DEFAULT_DURATION,
-                    type = TimerType.FOCUS,
-                    state = TimerState.RUNNING,
+                    runtime =
+                        TimerRuntimeState(
+                            startTime = startTime,
+                            lastStartTime = startTime,
+                            endTime = startTime + DEFAULT_DURATION,
+                            type = TimerType.FOCUS,
+                            state = TimerState.RUNNING,
+                        ),
                 ),
             )
             val elapsedTime = 1.minutes.inWholeMilliseconds
@@ -201,11 +204,14 @@ class TimerManagerTest {
                 DomainTimerData(
                     isReady = true,
                     label = DomainLabel(defaultLabel, defaultLabel.timerProfile),
-                    startTime = startTime,
-                    lastStartTime = startTime,
-                    endTime = startTime + DEFAULT_DURATION,
-                    type = TimerType.FOCUS,
-                    state = TimerState.RUNNING,
+                    runtime =
+                        TimerRuntimeState(
+                            startTime = startTime,
+                            lastStartTime = startTime,
+                            endTime = startTime + DEFAULT_DURATION,
+                            type = TimerType.FOCUS,
+                            state = TimerState.RUNNING,
+                        ),
                 ),
                 "the timer should have started",
             )
@@ -215,11 +221,14 @@ class TimerManagerTest {
                 DomainTimerData(
                     isReady = true,
                     label = DomainLabel(defaultLabel, defaultLabel.timerProfile),
-                    startTime = startTime,
-                    lastStartTime = startTime,
-                    endTime = startTime + DEFAULT_DURATION + 1.minutes.inWholeMilliseconds,
-                    type = TimerType.FOCUS,
-                    state = TimerState.RUNNING,
+                    runtime =
+                        TimerRuntimeState(
+                            startTime = startTime,
+                            lastStartTime = startTime,
+                            endTime = startTime + DEFAULT_DURATION + 1.minutes.inWholeMilliseconds,
+                            type = TimerType.FOCUS,
+                            state = TimerState.RUNNING,
+                        ),
                 ),
                 "the timer should have been prolonged by one minute",
             )
@@ -235,11 +244,14 @@ class TimerManagerTest {
                 DomainTimerData(
                     isReady = true,
                     label = DomainLabel(defaultLabel, defaultLabel.timerProfile),
-                    startTime = startTime,
-                    lastStartTime = startTime,
-                    endTime = startTime + DEFAULT_DURATION,
-                    type = TimerType.FOCUS,
-                    state = TimerState.RUNNING,
+                    runtime =
+                        TimerRuntimeState(
+                            startTime = startTime,
+                            lastStartTime = startTime,
+                            endTime = startTime + DEFAULT_DURATION,
+                            type = TimerType.FOCUS,
+                            state = TimerState.RUNNING,
+                        ),
                 ),
                 "the timer should have started",
             )
@@ -267,8 +279,31 @@ class TimerManagerTest {
             assertEquals(
                 fakeEventListener.events,
                 listOf(
-                    Event.Start(isFocus = true, endTime = startTime + DEFAULT_DURATION),
-                    Event.Pause,
+                    Event.Start(
+                        isFocus = true,
+                        endTime = startTime + DEFAULT_DURATION,
+                        runtimeState =
+                            TimerRuntimeState(
+                                startTime = startTime,
+                                lastStartTime = startTime,
+                                endTime = startTime + DEFAULT_DURATION,
+                                type = TimerType.FOCUS,
+                                state = TimerState.RUNNING,
+                            ),
+                    ),
+                    Event.Pause(
+                        runtimeState =
+                            TimerRuntimeState(
+                                startTime = startTime,
+                                lastStartTime = startTime,
+                                lastPauseTime = oneMinute,
+                                endTime = startTime + DEFAULT_DURATION,
+                                timeAtPause = DEFAULT_DURATION - oneMinute,
+                                type = TimerType.FOCUS,
+                                state = TimerState.PAUSED,
+                                timeSpentPaused = 0,
+                            ),
+                    ),
                     Event.AddOneMinute(endTime = startTime + DEFAULT_DURATION + oneMinute),
                     Event.Finished(type = TimerType.FOCUS),
                 ),
@@ -288,11 +323,14 @@ class TimerManagerTest {
                 DomainTimerData(
                     isReady = true,
                     label = DomainLabel(defaultLabel, defaultLabel.timerProfile),
-                    startTime = startTime,
-                    lastStartTime = startTime,
-                    endTime = startTime + DEFAULT_DURATION,
-                    type = TimerType.FOCUS,
-                    state = TimerState.RUNNING,
+                    runtime =
+                        TimerRuntimeState(
+                            startTime = startTime,
+                            lastStartTime = startTime,
+                            endTime = startTime + DEFAULT_DURATION,
+                            type = TimerType.FOCUS,
+                            state = TimerState.RUNNING,
+                        ),
                 ),
                 "the timer should have started",
             )
@@ -325,14 +363,34 @@ class TimerManagerTest {
             val duration = 45.seconds.inWholeMilliseconds
             timeProvider.elapsedRealtime = duration
             timerManager.next()
+            val breakStartTime = timeProvider.elapsedRealtime
+            val breakEndTime = breakStartTime + TimerProfile.DEFAULT_BREAK_DURATION.minutes.inWholeMilliseconds
             assertEquals(
                 fakeEventListener.events,
                 listOf(
-                    Event.Start(isFocus = true, endTime = endTime),
+                    Event.Start(
+                        isFocus = true,
+                        endTime = endTime,
+                        runtimeState =
+                            TimerRuntimeState(
+                                startTime = 0,
+                                lastStartTime = 0,
+                                endTime = endTime,
+                                type = TimerType.FOCUS,
+                                state = TimerState.RUNNING,
+                            ),
+                    ),
                     Event.Start(
                         isFocus = false,
-                        endTime =
-                            timeProvider.elapsedRealtime + TimerProfile.DEFAULT_BREAK_DURATION.minutes.inWholeMilliseconds,
+                        endTime = breakEndTime,
+                        runtimeState =
+                            TimerRuntimeState(
+                                startTime = breakStartTime,
+                                lastStartTime = breakStartTime,
+                                endTime = breakEndTime,
+                                type = TimerType.BREAK,
+                                state = TimerState.RUNNING,
+                            ),
                     ),
                 ),
             )
@@ -357,11 +415,14 @@ class TimerManagerTest {
                             streak = 1,
                             lastWorkEndTime = DEFAULT_DURATION,
                         ),
-                    startTime = 0,
-                    lastStartTime = 0,
-                    endTime = DEFAULT_DURATION,
-                    type = TimerType.FOCUS,
-                    state = TimerState.FINISHED,
+                    runtime =
+                        TimerRuntimeState(
+                            startTime = 0,
+                            lastStartTime = 0,
+                            endTime = DEFAULT_DURATION,
+                            type = TimerType.FOCUS,
+                            state = TimerState.FINISHED,
+                        ),
                     completedMinutes = DEFAULT_WORK_DURATION.toLong(),
                 ),
                 "the timer should have finished",
@@ -394,7 +455,21 @@ class TimerManagerTest {
             )
             assertEquals(
                 fakeEventListener.events,
-                listOf(Event.Start(isFocus = true, endTime = endTime), Event.Reset),
+                listOf(
+                    Event.Start(
+                        isFocus = true,
+                        endTime = endTime,
+                        runtimeState =
+                            TimerRuntimeState(
+                                startTime = 0,
+                                lastStartTime = 0,
+                                endTime = endTime,
+                                type = TimerType.FOCUS,
+                                state = TimerState.RUNNING,
+                            ),
+                    ),
+                    Event.Reset,
+                ),
             )
             val session = localDataRepo.selectAllSessions().first().last()
             assertEquals(session.duration.minutes.inWholeMilliseconds, oneMinute)
@@ -424,7 +499,21 @@ class TimerManagerTest {
             )
             assertEquals(
                 fakeEventListener.events,
-                listOf(Event.Start(isFocus = true, endTime = endTime), Event.Reset),
+                listOf(
+                    Event.Start(
+                        isFocus = true,
+                        endTime = endTime,
+                        runtimeState =
+                            TimerRuntimeState(
+                                startTime = 0,
+                                lastStartTime = 0,
+                                endTime = endTime,
+                                type = TimerType.FOCUS,
+                                state = TimerState.RUNNING,
+                            ),
+                    ),
+                    Event.Reset,
+                ),
             )
             localDataRepo.selectAllSessions().test {
                 assertTrue(awaitItem().isEmpty())
@@ -750,6 +839,14 @@ class TimerManagerTest {
                         isDefaultLabel = false,
                         labelColorIndex = countUpLabel.colorIndex,
                         isCountdown = false,
+                        runtimeState =
+                            TimerRuntimeState(
+                                startTime = 0,
+                                lastStartTime = 0,
+                                endTime = 0,
+                                type = TimerType.FOCUS,
+                                state = TimerState.RUNNING,
+                            ),
                     ),
                     Event.Start(
                         isFocus = false,
@@ -758,6 +855,14 @@ class TimerManagerTest {
                         isDefaultLabel = false,
                         labelColorIndex = countUpLabel.colorIndex,
                         isCountdown = true,
+                        runtimeState =
+                            TimerRuntimeState(
+                                startTime = 0,
+                                lastStartTime = 0,
+                                endTime = 10.minutes.inWholeMilliseconds,
+                                type = TimerType.BREAK,
+                                state = TimerState.RUNNING,
+                            ),
                     ),
                 ),
                 fakeEventListener.events,
@@ -791,6 +896,14 @@ class TimerManagerTest {
                             isDefaultLabel = false,
                             labelColorIndex = countUpLabel.colorIndex,
                             isCountdown = false,
+                            runtimeState =
+                                TimerRuntimeState(
+                                    startTime = 0,
+                                    lastStartTime = 0,
+                                    endTime = 0,
+                                    type = TimerType.FOCUS,
+                                    state = TimerState.RUNNING,
+                                ),
                         ),
                         Event.Start(
                             isFocus = false,
@@ -799,6 +912,14 @@ class TimerManagerTest {
                             isDefaultLabel = false,
                             labelColorIndex = countUpLabel.colorIndex,
                             isCountdown = true,
+                            runtimeState =
+                                TimerRuntimeState(
+                                    startTime = 0,
+                                    lastStartTime = 0,
+                                    endTime = breakBudgetMillis,
+                                    type = TimerType.BREAK,
+                                    state = TimerState.RUNNING,
+                                ),
                         ),
                         Event.Finished(type = TimerType.BREAK, autostartNextSession = true),
                         Event.Start(
@@ -809,6 +930,14 @@ class TimerManagerTest {
                             isDefaultLabel = false,
                             labelColorIndex = countUpLabel.colorIndex,
                             isCountdown = false,
+                            runtimeState =
+                                TimerRuntimeState(
+                                    startTime = breakBudgetMillis,
+                                    lastStartTime = breakBudgetMillis,
+                                    endTime = 0,
+                                    type = TimerType.FOCUS,
+                                    state = TimerState.RUNNING,
+                                ),
                         ),
                     ),
                 actual = fakeEventListener.events,

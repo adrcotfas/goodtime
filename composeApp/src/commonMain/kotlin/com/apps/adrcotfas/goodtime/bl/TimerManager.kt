@@ -25,7 +25,6 @@ import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.streakInUse
-import com.apps.adrcotfas.goodtime.di.isDebug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -54,6 +53,7 @@ class TimerManager(
     private val finishedSessionsHandler: FinishedSessionsHandler,
     private val log: Logger,
     private val coroutineScope: CoroutineScope,
+    private val timerStateRestoration: TimerStateRestoration? = null,
 ) {
     private var mainJob: Job? = null
 
@@ -72,6 +72,11 @@ class TimerManager(
                 initAndObserveLabelChange()
             }
         initPersistentData()
+        timerStateRestoration?.restoreTimerState { runtimeState ->
+            _timerData.update {
+                it.copy(runtime = runtimeState)
+            }
+        }
     }
 
     fun restart() {
@@ -179,12 +184,15 @@ class TimerManager(
 
         val newTimerData =
             timerData.value.copy(
-                startTime = elapsedRealTime,
-                lastStartTime = elapsedRealTime,
-                endTime = data.getEndTime(timerType, elapsedRealTime),
-                state = TimerState.RUNNING,
-                type = timerType,
-                timeSpentPaused = 0,
+                runtime =
+                    data.runtime.copy(
+                        startTime = elapsedRealTime,
+                        lastStartTime = elapsedRealTime,
+                        endTime = data.getEndTime(timerType, elapsedRealTime),
+                        state = TimerState.RUNNING,
+                        type = timerType,
+                        timeSpentPaused = 0,
+                    ),
             )
 
         _timerData.update { newTimerData }
@@ -208,6 +216,7 @@ class TimerManager(
                     labelColorIndex = timerData.label.label.colorIndex,
                     isBreakEnabled = timerData.label.profile.isBreakEnabled,
                     isCountdown = isCountdown,
+                    runtimeState = timerData.runtime,
                 ),
             )
         }
@@ -258,8 +267,11 @@ class TimerManager(
 
         _timerData.update {
             it.copy(
-                endTime = newEndTime,
-                timeAtPause = newRemainingTimeAtPause,
+                runtime =
+                    it.runtime.copy(
+                        endTime = newEndTime,
+                        timeAtPause = newRemainingTimeAtPause,
+                    ),
             )
         }
         log.i { "Added one minute" }
@@ -285,18 +297,21 @@ class TimerManager(
         updateBreakBudgetIfNeeded()
         _timerData.update {
             it.copy(
-                timeAtPause =
-                    if (it.label.profile.isCountdown) {
-                        it.endTime - elapsedRealtime
-                    } else {
-                        elapsedRealtime - it.startTime - it.timeSpentPaused
-                    },
-                lastPauseTime = elapsedRealtime,
-                state = TimerState.PAUSED,
+                runtime =
+                    it.runtime.copy(
+                        timeAtPause =
+                            if (it.label.profile.isCountdown) {
+                                it.endTime - elapsedRealtime
+                            } else {
+                                elapsedRealtime - it.startTime - it.timeSpentPaused
+                            },
+                        lastPauseTime = elapsedRealtime,
+                        state = TimerState.PAUSED,
+                    ),
             )
         }
         log.i { "Paused: ${timerData.value}" }
-        listeners.forEach { it.onEvent(Event.Pause) }
+        listeners.forEach { it.onEvent(Event.Pause(runtimeState = _timerData.value.runtime)) }
     }
 
     private fun resume() {
@@ -312,10 +327,13 @@ class TimerManager(
             }
         _timerData.update {
             it.copy(
-                lastStartTime = elapsedRealTime,
-                endTime = newEndTime,
-                state = TimerState.RUNNING,
-                timeAtPause = 0,
+                runtime =
+                    it.runtime.copy(
+                        lastStartTime = elapsedRealTime,
+                        endTime = newEndTime,
+                        state = TimerState.RUNNING,
+                        timeAtPause = 0,
+                    ),
             )
         }
         log.i { "Resumed: ${timerData.value}" }
@@ -334,6 +352,7 @@ class TimerManager(
                     labelColorIndex = timerData.label.label.colorIndex,
                     isBreakEnabled = timerData.label.profile.isBreakEnabled,
                     isCountdown = isCurrentSessionCountdown,
+                    runtimeState = timerData.runtime,
                 ),
             )
         }
@@ -346,7 +365,13 @@ class TimerManager(
             val pausedTime = data.timeSpentPaused + elapsedRealTime - data.lastPauseTime
             log.i { "updatePausedTime: ${pausedTime.milliseconds}" }
             _timerData.update {
-                it.copy(timeSpentPaused = pausedTime, lastPauseTime = 0)
+                it.copy(
+                    runtime =
+                        it.runtime.copy(
+                            timeSpentPaused = pausedTime,
+                            lastPauseTime = 0,
+                        ),
+                )
             }
         }
     }
@@ -382,7 +407,12 @@ class TimerManager(
         if (updateDuration) {
             // Update endTime to include idle time
             _timerData.update {
-                it.copy(endTime = timeProvider.elapsedRealtime())
+                it.copy(
+                    runtime =
+                        it.runtime.copy(
+                            endTime = timeProvider.elapsedRealtime(),
+                        ),
+                )
             }
             // Create session with new duration, timestamp, and notes
             val session = createFinishedSession(notes = notes)
@@ -427,7 +457,12 @@ class TimerManager(
             // Update endTime to current time before saving session
             // This ensures we save the actual time spent, not the expected duration
             _timerData.update {
-                it.copy(endTime = timeProvider.elapsedRealtime())
+                it.copy(
+                    runtime =
+                        it.runtime.copy(
+                            endTime = timeProvider.elapsedRealtime(),
+                        ),
+                )
             }
             handleFinishedSession(finishActionType = finishActionType)
         }
@@ -472,8 +507,11 @@ class TimerManager(
 
         _timerData.update {
             it.copy(
-                state = TimerState.FINISHED,
-                endTime = if (actionType == FinishActionType.AUTO) timeProvider.elapsedRealtime() else data.endTime,
+                runtime =
+                    it.runtime.copy(
+                        state = TimerState.FINISHED,
+                        endTime = if (actionType == FinishActionType.AUTO) timeProvider.elapsedRealtime() else data.endTime,
+                    ),
             )
         }
         log.i { "Finish: $data" }
@@ -526,7 +564,12 @@ class TimerManager(
             // Update endTime to current time before saving session
             // This ensures we save the actual time spent, not the expected duration
             _timerData.update {
-                it.copy(endTime = timeProvider.elapsedRealtime())
+                it.copy(
+                    runtime =
+                        it.runtime.copy(
+                            endTime = timeProvider.elapsedRealtime(),
+                        ),
+                )
             }
             handleFinishedSession(finishActionType = actionType)
         }

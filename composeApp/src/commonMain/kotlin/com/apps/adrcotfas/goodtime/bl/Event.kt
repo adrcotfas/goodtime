@@ -29,9 +29,12 @@ sealed class Event {
         val labelColorIndex: Int = Label.DEFAULT_LABEL_COLOR_INDEX,
         val isBreakEnabled: Boolean = true,
         val isCountdown: Boolean = true,
+        val runtimeState: TimerRuntimeState = TimerRuntimeState(),
     ) : Event()
 
-    data object Pause : Event()
+    data class Pause(
+        val runtimeState: TimerRuntimeState = TimerRuntimeState(),
+    ) : Event()
 
     data class AddOneMinute(
         val endTime: Long,

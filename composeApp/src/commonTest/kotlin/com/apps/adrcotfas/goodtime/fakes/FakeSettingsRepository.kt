@@ -223,4 +223,16 @@ class FakeSettingsRepository(
             _settings.value.copy(lastDismissedUpdateVersionCode = versionCode),
         )
     }
+
+    override suspend fun setPersistedTimerState(state: com.apps.adrcotfas.goodtime.data.settings.PersistedTimerState?) {
+        _settings.emit(
+            _settings.value.copy(persistedTimerState = state),
+        )
+    }
+
+    override suspend fun clearPersistedTimerState() {
+        _settings.emit(
+            _settings.value.copy(persistedTimerState = null),
+        )
+    }
 }

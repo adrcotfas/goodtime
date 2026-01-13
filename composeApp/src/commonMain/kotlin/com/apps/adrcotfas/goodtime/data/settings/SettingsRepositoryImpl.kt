@@ -71,6 +71,7 @@ class SettingsRepositoryImpl(
         val showTutorialKey = booleanPreferencesKey("showTutorialKey")
         val backupSettingsKey = stringPreferencesKey("backupSettingsKey")
         val lastDismissedUpdateVersionCodeKey = longPreferencesKey("lastDismissedUpdateVersionCodeKey")
+        val persistedTimerStateKey = stringPreferencesKey("persistedTimerStateKey")
     }
 
     override val settings: Flow<AppSettings> =
@@ -161,6 +162,10 @@ class SettingsRepositoryImpl(
                             json.decodeFromString<BackupSettings>(b)
                         } ?: BackupSettings(),
                     lastDismissedUpdateVersionCode = it[Keys.lastDismissedUpdateVersionCodeKey] ?: default.lastDismissedUpdateVersionCode,
+                    persistedTimerState =
+                        it[Keys.persistedTimerStateKey]?.let { p ->
+                            json.decodeFromString<PersistedTimerState>(p)
+                        },
                 )
             }.catch {
                 log.e("Error parsing settings", it)
@@ -319,5 +324,19 @@ class SettingsRepositoryImpl(
 
     override suspend fun setLastDismissedUpdateVersionCode(versionCode: Long) {
         dataStore.edit { it[Keys.lastDismissedUpdateVersionCodeKey] = versionCode }
+    }
+
+    override suspend fun setPersistedTimerState(state: PersistedTimerState?) {
+        dataStore.edit {
+            if (state != null) {
+                it[Keys.persistedTimerStateKey] = json.encodeToString(state)
+            } else {
+                it.remove(Keys.persistedTimerStateKey)
+            }
+        }
+    }
+
+    override suspend fun clearPersistedTimerState() {
+        dataStore.edit { it.remove(Keys.persistedTimerStateKey) }
     }
 }

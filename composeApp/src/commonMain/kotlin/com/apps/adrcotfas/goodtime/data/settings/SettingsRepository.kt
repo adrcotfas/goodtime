@@ -86,4 +86,8 @@ interface SettingsRepository {
     suspend fun setBackupSettings(backupSettings: BackupSettings)
 
     suspend fun setLastDismissedUpdateVersionCode(versionCode: Long)
+
+    suspend fun setPersistedTimerState(state: PersistedTimerState?)
+
+    suspend fun clearPersistedTimerState()
 }

@@ -20,5 +20,8 @@ package com.apps.adrcotfas.goodtime.bl
 val EventListener.Companion.IOS_NOTIFICATION_HANDLER: String
     get() = "IosNotificationHandler"
 
+val EventListener.Companion.IOS_TIMER_STATE_PERSISTENCE: String
+    get() = "IosTimerStatePersistence"
+
 val EventListener.Companion.SOUND_AND_VIBRATION_PLAYER: String
     get() = "SoundAndVibrationPlayer"

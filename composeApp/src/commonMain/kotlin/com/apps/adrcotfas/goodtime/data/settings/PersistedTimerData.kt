@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.data.settings
 
+import com.apps.adrcotfas.goodtime.bl.TimerRuntimeState
 import kotlinx.serialization.Serializable
 import kotlin.math.max
 import kotlin.time.Duration
@@ -43,3 +44,53 @@ data class LongBreakData(
 )
 
 fun LongBreakData.streakInUse(sessionsBeforeLongBreak: Int): Int = streak % sessionsBeforeLongBreak
+
+/**
+ * Persisted timer state for iOS to restore app state after process termination.
+ * Contains both elapsedRealtime values (for normal app kill) and wall-clock timestamps
+ * (for detecting expiration and handling device reboot).
+ */
+@Serializable
+data class PersistedTimerState(
+    val state: Int, // TimerState.ordinal
+    val type: Int, // TimerType.ordinal
+    val startTime: Long = 0, // elapsedRealtime when timer started
+    val lastStartTime: Long = 0, // elapsedRealtime when timer was last started/resumed
+    val endTime: Long = 0, // elapsedRealtime when timer should end
+    val timeSpentPaused: Long = 0, // total duration paused in millis
+    val timeAtPause: Long = 0, // remaining time when paused (duration in millis)
+    val lastPauseTime: Long = 0, // elapsedRealtime when last paused
+    val savedAtWallClock: Long = 0, // System.currentTimeMillis() when saved
+    val endTimeWallClock: Long = 0, // Wall-clock time when timer should end
+) {
+    companion object {
+        fun from(
+            runtime: TimerRuntimeState,
+            savedAtWallClock: Long,
+            endTimeWallClock: Long,
+        ) = PersistedTimerState(
+            state = runtime.state.ordinal,
+            type = runtime.type.ordinal,
+            startTime = runtime.startTime,
+            lastStartTime = runtime.lastStartTime,
+            endTime = runtime.endTime,
+            timeSpentPaused = runtime.timeSpentPaused,
+            timeAtPause = runtime.timeAtPause,
+            lastPauseTime = runtime.lastPauseTime,
+            savedAtWallClock = savedAtWallClock,
+            endTimeWallClock = endTimeWallClock,
+        )
+    }
+
+    fun toRuntimeState() =
+        TimerRuntimeState(
+            startTime = startTime,
+            lastStartTime = lastStartTime,
+            lastPauseTime = lastPauseTime,
+            endTime = endTime,
+            timeAtPause = timeAtPause,
+            state = com.apps.adrcotfas.goodtime.bl.TimerState.entries[state],
+            type = com.apps.adrcotfas.goodtime.bl.TimerType.entries[type],
+            timeSpentPaused = timeSpentPaused,
+        )
+}

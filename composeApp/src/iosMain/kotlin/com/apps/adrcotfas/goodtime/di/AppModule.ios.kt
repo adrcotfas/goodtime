@@ -23,11 +23,14 @@ import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.IOS_LIVE_ACTIVITY_LISTENER
 import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
+import com.apps.adrcotfas.goodtime.bl.IOS_TIMER_STATE_PERSISTENCE
 import com.apps.adrcotfas.goodtime.bl.IosLiveActivityListener
 import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
+import com.apps.adrcotfas.goodtime.bl.IosTimerStatePersistenceListener
 import com.apps.adrcotfas.goodtime.bl.LiveActivityBridge
 import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.bl.TimerStateRestoration
 import com.apps.adrcotfas.goodtime.bl.notifications.IosSoundPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.IosTorchManager
 import com.apps.adrcotfas.goodtime.bl.notifications.IosVibrationPlayer
@@ -112,6 +115,15 @@ actual val platformModule: Module =
         single<TimeFormatProvider> { IosTimeFormatProvider() }
         single<InstallDateProvider> { IosInstallDateProvider() }
 
+        single<TimerStateRestoration> {
+            TimerStateRestoration(
+                settingsRepo = get<SettingsRepository>(),
+                timeProvider = get<TimeProvider>(),
+                log = getWith("TimerStateRestoration"),
+                coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
+            )
+        }
+
         single<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)) {
             IosNotificationHandler(
                 timeProvider = get<TimeProvider>(),
@@ -168,11 +180,21 @@ actual val platformModule: Module =
             )
         }
 
+        single<EventListener>(named(EventListener.IOS_TIMER_STATE_PERSISTENCE)) {
+            IosTimerStatePersistenceListener(
+                settingsRepo = get<SettingsRepository>(),
+                timeProvider = get<TimeProvider>(),
+                coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
+                log = getWith("IosTimerStatePersistence"),
+            )
+        }
+
         single<List<EventListener>> {
             listOf(
                 get<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)),
                 get<EventListener>(named(EventListener.IOS_LIVE_ACTIVITY_LISTENER)),
                 get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
+                get<EventListener>(named(EventListener.IOS_TIMER_STATE_PERSISTENCE)),
             )
         }
 
