@@ -96,10 +96,10 @@ actual fun BackupScreen(
 
             SubtleHorizontalDivider()
 
-            // iOS doesn't have local auto-backup feature
             LocalBackupSection(
                 enabled = backupUiState.isPro,
                 localAutoBackupEnabled = false,
+                localAutoBackupChecked = false,
                 localAutoBackupPath = "",
                 onLocalAutoBackupToggle = { /* Not used on iOS */ },
                 lastLocalAutoBackupTimestamp = 0L,

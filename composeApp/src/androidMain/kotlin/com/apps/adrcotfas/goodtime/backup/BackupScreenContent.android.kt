@@ -160,7 +160,8 @@ fun AndroidBackupScreenContent(
 
             LocalBackupSection(
                 enabled = backupUiState.isPro,
-                localAutoBackupEnabled = backupSettings.autoBackupEnabled,
+                localAutoBackupEnabled = true,
+                localAutoBackupChecked = backupSettings.autoBackupEnabled,
                 localAutoBackupPath = backupSettings.path,
                 onLocalAutoBackupToggle = {
                     if (backupSettings.autoBackupEnabled) {
