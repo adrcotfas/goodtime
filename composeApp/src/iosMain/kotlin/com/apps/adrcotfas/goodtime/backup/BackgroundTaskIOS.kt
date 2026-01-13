@@ -18,7 +18,13 @@
 package com.apps.adrcotfas.goodtime.backup
 
 import co.touchlab.kermit.Logger
+import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.ObjCObjectVar
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.ptr
+import kotlinx.cinterop.value
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,6 +35,7 @@ import platform.BackgroundTasks.BGAppRefreshTask
 import platform.BackgroundTasks.BGAppRefreshTaskRequest
 import platform.BackgroundTasks.BGTaskScheduler
 import platform.Foundation.NSDate
+import platform.Foundation.NSError
 import platform.Foundation.dateByAddingTimeInterval
 
 private const val TASK_IDENTIFIER = "com.apps.adrcotfas.goodtime.cloudbackup"
@@ -99,22 +106,18 @@ fun registerCloudBackupTask() {
  * Schedule the next cloud backup task.
  * Should be called after completing a backup or when auto backup is enabled.
  */
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 fun scheduleCloudBackupTask() {
     val logger = Logger.withTag("BackgroundTaskIOS")
     val request = BGAppRefreshTaskRequest(identifier = TASK_IDENTIFIER)
-    // Schedule for approximately 24 hours from now
     request.earliestBeginDate = NSDate().dateByAddingTimeInterval(TASK_INTERVAL_HOURS * 60 * 60)
 
-    try {
-        val success = BGTaskScheduler.sharedScheduler.submitTaskRequest(request, null)
-        if (success) {
-            logger.i { "Cloud backup task scheduled for ~$TASK_INTERVAL_HOURS hours from now" }
-        } else {
-            logger.e { "Failed to schedule cloud backup task" }
+    memScoped {
+        val errorPtr = alloc<ObjCObjectVar<NSError?>>()
+        val success = BGTaskScheduler.sharedScheduler.submitTaskRequest(request, errorPtr.ptr)
+        if (!success) {
+            logger.e { "Failed to schedule: ${errorPtr.value?.localizedDescription}" }
         }
-    } catch (e: Exception) {
-        logger.e(e) { "Exception scheduling cloud backup task" }
     }
 }
 
