@@ -8,30 +8,27 @@
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSUbiquitousContainers</key>
+	<dict>
+		<key>iCloud.app.goodtime.productivity</key>
+		<dict>
+			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
+			<true/>
+			<key>NSUbiquitousContainerName</key>
+			<string>Goodtime</string>
+			<key>NSUbiquitousContainerSupportedFolderLevels</key>
+			<string>Any</string>
+		</dict>
+	</dict>
 	<key>RevenueCatApiKeyDebug</key>
 	<string>test_mIjxZUKugfUbtAZNjpvxaWynKcD</string>
 	<key>RevenueCatApiKeyRelease</key>
 	<string>appl_YPAaDSHuUxyiHObGNkmupSMlNWR</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>processing</string>
 		<string>fetch</string>
 	</array>
-    <key>LSSupportsOpeningDocumentsInPlace</key>
-    <true/>
-    <key>UIFileSharingEnabled</key>
-    <true/>
-    <key>NSUbiquitousContainers</key>
-    <dict>
-        <key>iCloud.app.goodtime.productivity</key>
-        <dict>
-            <key>NSUbiquitousContainerIsDocumentScopePublic</key>
-            <true/>
-            <key>NSUbiquitousContainerSupportedFolderLevels</key>
-            <string>Any</string>
-            <key>NSUbiquitousContainerName</key>
-            <string>Goodtime</string>
-        </dict>
-    </dict>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>
