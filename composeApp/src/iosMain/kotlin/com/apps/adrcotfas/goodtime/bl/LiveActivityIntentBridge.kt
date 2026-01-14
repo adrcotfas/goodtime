@@ -17,12 +17,18 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
-
 /**
- * Bridge object that allows Swift code to access the TimerManager from Koin DI
+ * Bridge object that allows Swift code to access the TimerManager.
+ * Stores a direct reference to TimerManager instead of using Koin DI,
+ * because Live Activities run in a separate process where Koin context
+ * may not be available.
  */
-object LiveActivityIntentBridge : KoinComponent {
-    fun getTimerManager(): TimerManager = get()
+object LiveActivityIntentBridge {
+    private var timerManager: TimerManager? = null
+
+    fun setTimerManager(manager: TimerManager) {
+        timerManager = manager
+    }
+
+    fun getTimerManager(): TimerManager? = timerManager
 }
