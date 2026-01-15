@@ -11,8 +11,6 @@ import SwiftUI
 @main
 struct GoodtimeInProgressBundle: WidgetBundle {
     var body: some Widget {
-        GoodtimeInProgress()
-        GoodtimeInProgressControl()
         GoodtimeLiveActivity()
     }
 }
