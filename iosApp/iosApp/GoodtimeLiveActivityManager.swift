@@ -388,15 +388,13 @@ class GoodtimeLiveActivityManager: NSObject, ObservableObject, LiveActivityDeleg
     }
 
     private func endActivityAsync() async {
-        guard let activity = currentActivity else { return }
-
-        await activity.end(nil, dismissalPolicy: .immediate)
-
+        for activity in Activity<GoodtimeActivityAttributes>.activities {
+            await activity.end(nil, dismissalPolicy: .immediate)
+        }
         await MainActor.run {
             self.currentActivity = nil
         }
-
-        print("Goodtime: Activity ended")
+        print("Goodtime: All activities ended")
     }
 
     func endAllActivities() async {
