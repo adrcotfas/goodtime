@@ -32,10 +32,6 @@ struct iOSApp: App {
                 print("[iOSApp] Live Activity delegate registered")
             }
 
-            // Initialize the intent handler (it will get TimerManager lazily when needed)
-            _ = LiveActivityIntentHandler.shared
-            print("[iOSApp] Live Activity intent handler initialized")
-
             // Initialize status bar manager to enable fullscreen mode support
             _ = StatusBarManager.shared
             print("[iOSApp] Status bar manager initialized")

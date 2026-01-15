@@ -72,7 +72,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				appIcon.icon,
-				GoodtimeAppIntents.swift,
 			);
 			target = B03582212EE8AF20001F3E0C /* GoodtimeInProgressExtension */;
 		};

@@ -30,12 +30,8 @@ private enum UIConstants {
     static let labelIconSize: CGFloat = 12
     static let compactTimerWidth: CGFloat = 50
     static let hourInSeconds: TimeInterval = 3600
-    static let buttonHorizontalPadding: CGFloat = 12
-    static let buttonVerticalPadding: CGFloat = 6
-    static let buttonCornerRadius: CGFloat = 8
-    static let buttonSpacing: CGFloat = 6
-    static let buttonBackgroundOpacity: Double = 0.2
     static let pausedTimerOpacity: Double = 0.35
+    static let buttonSpacing: CGFloat = 6
 }
 
 struct GoodtimeLiveActivity: Widget {
@@ -77,11 +73,6 @@ struct GoodtimeLiveActivity: Widget {
                             foregroundColor: .white
                         )
                     }
-                }
-
-                DynamicIslandExpandedRegion(.bottom) {
-                    GoodtimeActionButtons(context: context)
-                        .padding(.top, 4)
                 }
 
             } compactLeading: {
@@ -332,104 +323,11 @@ struct GoodtimeLockScreenView: View {
                             )
                         }
                     }.padding(.vertical, 4)
-                    GoodtimeActionButtons(context: context)
                 }
             }
             .padding()
         }
         .background(Color.black)
-    }
-}
-
-// MARK: - Action Buttons Component
-
-struct GoodtimeActionButtons: View {
-    let context: ActivityViewContext<GoodtimeActivityAttributes>
-
-    var body: some View {
-        let timerType = context.attributes.timerType
-        let isPaused = context.state.isPaused
-        let isCountdown = context.attributes.isCountdown
-        let isFinished = shouldShowAsFinished()
-
-        HStack(spacing: UIConstants.buttonSpacing) {
-            if isFinished {
-                if timerType == .focus {
-                    textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
-                } else {
-                    textButton(context.attributes.strStartFocus, intent: GoodtimeStartFocusIntent())
-                }
-            } else if isCountdown {
-                if timerType == .focus {
-                    if isPaused {
-                        textButton(context.attributes.strResume, intent: GoodtimeTogglePauseIntent())
-                        textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
-                        textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
-                    } else {
-                        textButton(context.attributes.strPause, intent: GoodtimeTogglePauseIntent())
-                        textButton(context.attributes.strPlusOneMin, intent: GoodtimeAddMinuteIntent())
-                        textButton(context.attributes.strStartBreak, intent: GoodtimeStartBreakIntent())
-                    }
-                } else {
-                    textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
-                    textButton(context.attributes.strPlusOneMin, intent: GoodtimeAddMinuteIntent())
-                    textButton(context.attributes.strStartFocus, intent: GoodtimeStartFocusIntent())
-                }
-            } else {
-                textButton(context.attributes.strStop, intent: GoodtimeStopIntent())
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func textButton<Intent: AppIntent>(_ title: String, intent: Intent) -> some View {
-        Button(intent: intent) {
-            Text(title)
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundColor(.white)
-                .padding(.horizontal, UIConstants.buttonHorizontalPadding)
-                .padding(.vertical, UIConstants.buttonVerticalPadding)
-                .background(Color.white.opacity(UIConstants.buttonBackgroundOpacity))
-                .clipShape(RoundedRectangle(cornerRadius: UIConstants.buttonCornerRadius))
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(title)
-        .accessibilityHint(accessibilityHint(for: title))
-    }
-
-    private func accessibilityHint(for buttonTitle: String) -> String {
-        if buttonTitle == context.attributes.strPause {
-            return "Pause the timer"
-        } else if buttonTitle == context.attributes.strResume {
-            return "Resume the timer"
-        } else if buttonTitle == context.attributes.strStop {
-            return "Stop the timer"
-        } else if buttonTitle == context.attributes.strPlusOneMin {
-            return "Add one minute to the timer"
-        } else if buttonTitle == context.attributes.strStartBreak {
-            return "Start break session"
-        } else if buttonTitle == context.attributes.strStartFocus {
-            return "Start focus session"
-        }
-        return ""
-    }
-
-    /// Check if timer has actually expired based on real time
-    private func isTimerExpired() -> Bool {
-        // Only countdown timers can expire
-        guard context.attributes.isCountdown else { return false }
-
-        // Don't check paused timers (they use stored pausedTimeRemaining)
-        guard !context.state.isPaused else { return false }
-
-        // Check if current time has passed the end time
-        return Date() >= context.state.timerEndDate
-    }
-
-    /// Combined check - true if stale OR time expired
-    private func shouldShowAsFinished() -> Bool {
-        return context.isStale || isTimerExpired()
     }
 }
 

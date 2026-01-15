@@ -26,7 +26,6 @@ import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
 import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
-import com.apps.adrcotfas.goodtime.bl.LiveActivityIntentBridge
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.billingModule
@@ -78,7 +77,6 @@ private fun AppWithKoin() {
 
         initNotificationHandler()
         initReminderManager()
-        initLiveActivityIntentBridge()
 
         LaunchedEffect(Unit) {
             purchaseManager.start()
@@ -110,10 +108,4 @@ private fun initReminderManager() {
     scope.launch {
         reminderManager.init()
     }
-}
-
-@Composable
-private fun initLiveActivityIntentBridge() {
-    val timerManager: TimerManager = koinInject()
-    LiveActivityIntentBridge.setTimerManager(timerManager)
 }
