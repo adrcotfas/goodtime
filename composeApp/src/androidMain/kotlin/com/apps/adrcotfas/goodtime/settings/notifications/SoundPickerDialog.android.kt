@@ -141,6 +141,9 @@ actual fun NotificationSoundPickerDialog(
                     onRemove = { viewModel.removeUserSound(item) },
                 ) {
                     onSelected(item)
+                    coroutineScope.launch {
+                        soundPlayer.play(item, loop = false, forceSound = true)
+                    }
                 }
             }
             item(key = "add custom sound") {
