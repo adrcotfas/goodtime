@@ -318,6 +318,7 @@ fun GoodtimeApp(
                 }
                 composable<AboutDest> {
                     AboutScreen(
+                        mainViewModel = mainViewModel,
                         onNavigateToLicenses = {
                             navController.navigate(
                                 LicensesDest,

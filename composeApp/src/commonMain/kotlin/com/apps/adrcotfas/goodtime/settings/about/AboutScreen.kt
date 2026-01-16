@@ -55,19 +55,19 @@ import goodtime_productivity.composeapp.generated.resources.about_source_code
 import goodtime_productivity.composeapp.generated.resources.about_translate_this_app
 import goodtime_productivity.composeapp.generated.resources.tutorial_title
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(
+    mainViewModel: MainViewModel,
+    aboutViewModel: AboutViewModel = koinViewModel<AboutViewModel>(),
     onNavigateToLicenses: () -> Unit,
     onNavigateToAcknowledgements: () -> Unit,
     isLicensesSelected: Boolean = false,
     onNavigateBack: () -> Unit,
     onNavigateToMain: () -> Unit,
 ) {
-    val mainViewModel = koinInject<MainViewModel>()
-    val aboutViewModel = koinInject<AboutViewModel>()
     val listState = rememberScrollState()
     Scaffold(
         topBar = {

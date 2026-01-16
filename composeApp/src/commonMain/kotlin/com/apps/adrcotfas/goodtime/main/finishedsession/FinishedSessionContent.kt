@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.main.finishedsession
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +37,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
@@ -45,9 +47,12 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -55,7 +60,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isBreak
@@ -64,21 +72,7 @@ import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.ui.DragHandle
 import com.apps.adrcotfas.goodtime.ui.FullscreenEffect
 import com.apps.adrcotfas.goodtime.ui.TextBox
-import goodtime_productivity.composeapp.generated.resources.Res
-import goodtime_productivity.composeapp.generated.resources.main_break_complete
-import goodtime_productivity.composeapp.generated.resources.main_consider_idle_time_as_extra_focus
-import goodtime_productivity.composeapp.generated.resources.main_focus_complete
-import goodtime_productivity.composeapp.generated.resources.main_idle
-import goodtime_productivity.composeapp.generated.resources.main_interruptions
-import goodtime_productivity.composeapp.generated.resources.main_start_break
-import goodtime_productivity.composeapp.generated.resources.main_start_focus
-import goodtime_productivity.composeapp.generated.resources.main_this_session
-import goodtime_productivity.composeapp.generated.resources.stats_add_notes
-import goodtime_productivity.composeapp.generated.resources.stats_break
-import goodtime_productivity.composeapp.generated.resources.stats_focus
-import goodtime_productivity.composeapp.generated.resources.stats_today
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Duration.Companion.milliseconds
@@ -87,105 +81,130 @@ import kotlin.time.Duration.Companion.minutes
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FinishedSessionSheet(
-    viewModel: FinishedSessionViewModel = koinViewModel(),
     timerUiState: TimerUiState,
     onNext: () -> Unit,
     onReset: () -> Unit,
     onUpdateFinishedSession: (updateDuration: Boolean, notes: String) -> Unit,
     onHideSheet: () -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val coroutineScope = rememberCoroutineScope()
-    val finishedSessionSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val hideFinishedSessionSheet = {
-        coroutineScope.launch { finishedSessionSheetState.hide() }.invokeOnCompletion {
-            if (!finishedSessionSheetState.isVisible) {
+    val viewModelStore = remember { ViewModelStore() }
+    val localOwner =
+        remember {
+            object : ViewModelStoreOwner {
+                override val viewModelStore = viewModelStore
+            }
+        }
+    CompositionLocalProvider(LocalViewModelStoreOwner provides localOwner) {
+        val viewModel: FinishedSessionViewModel = koinViewModel()
+        DisposableEffect(Unit) {
+            onDispose { viewModelStore.clear() }
+        }
+
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val coroutineScope = rememberCoroutineScope()
+        val finishedSessionSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        val hideFinishedSessionSheet = {
+            coroutineScope.launch { finishedSessionSheetState.hide() }.invokeOnCompletion {
+                if (!finishedSessionSheetState.isVisible) {
+                    onHideSheet()
+                }
+            }
+        }
+
+        val isBreak = rememberSaveable { timerUiState.timerType.isBreak }
+        var addIdleTime by rememberSaveable { mutableStateOf(false) }
+        var notes by rememberSaveable { mutableStateOf("") }
+        val isFullscreen = uiState.isFullscreen
+
+        // Auto-dismiss after 30 minutes since session ended (ViewModel updates elapsedRealtime)
+        LaunchedEffect(timerUiState.isWithinInactivityTimeout) {
+            if (!timerUiState.isWithinInactivityTimeout) {
+                onReset()
                 onHideSheet()
             }
         }
-    }
 
-    val isBreak = rememberSaveable { timerUiState.timerType.isBreak }
-    var addIdleTime by rememberSaveable { mutableStateOf(false) }
-    var notes by rememberSaveable { mutableStateOf("") }
-    val isFullscreen = uiState.isFullscreen
-
-    // Auto-dismiss after 30 minutes since session ended (ViewModel updates elapsedRealtime)
-    LaunchedEffect(timerUiState.isWithinInactivityTimeout) {
-        if (!timerUiState.isWithinInactivityTimeout) {
+        val handleSheetClose = {
+            // Unified update logic - no race conditions!
+            val notesModified = notes.isNotEmpty()
+            if (addIdleTime) {
+                // Update duration, timestamp, AND notes (even if empty)
+                onUpdateFinishedSession(true, notes)
+            } else if (notesModified) {
+                // Only update notes
+                onUpdateFinishedSession(false, notes)
+            }
+            // If addIdleTime=false and notes empty: do nothing, just reset
             onReset()
-            onHideSheet()
-        }
-    }
-
-    val handleSheetClose = {
-        // Unified update logic - no race conditions!
-        val notesModified = notes.isNotEmpty()
-        if (addIdleTime) {
-            // Update duration, timestamp, AND notes (even if empty)
-            onUpdateFinishedSession(true, notes)
-        } else if (notesModified) {
-            // Only update notes
-            onUpdateFinishedSession(false, notes)
-        }
-        // If addIdleTime=false and notes empty: do nothing, just reset
-        onReset()
-    }
-
-    val handleNext = {
-        // Unified update logic - no race conditions!
-        val notesModified = notes.isNotEmpty()
-        if (addIdleTime) {
-            // Update duration, timestamp, AND notes (even if empty)
-            onUpdateFinishedSession(true, notes)
-        } else if (notesModified) {
-            // Only update notes
-            onUpdateFinishedSession(false, notes)
-        }
-        // If addIdleTime=false and notes empty: do nothing, just proceed with next
-        onNext()
-    }
-
-    ModalBottomSheet(
-        onDismissRequest = {
-            handleSheetClose()
-            onHideSheet()
-        },
-        dragHandle = {
-            DragHandle(
-                buttonText =
-                    if (isBreak) {
-                        stringResource(Res.string.main_start_focus)
-                    } else {
-                        stringResource(
-                            Res.string.main_start_break,
-                        )
-                    },
-                onClose = {
-                    handleSheetClose()
-                    hideFinishedSessionSheet()
-                },
-                onClick = {
-                    handleNext()
-                    hideFinishedSessionSheet()
-                },
-                isEnabled = true,
-            )
-        },
-        sheetState = finishedSessionSheetState,
-    ) {
-        if (isFullscreen) {
-            FullscreenEffect()
         }
 
-        FinishedSessionContent(
-            timerUiState = timerUiState,
-            finishedSessionUiState = uiState,
-            addIdleMinutes = addIdleTime,
-            onChangeAddIdleMinutes = { addIdleTime = it },
-            notes = notes,
-            onNotesChanged = { notes = it },
-        )
+        val handleNext = {
+            // Unified update logic - no race conditions!
+            val notesModified = notes.isNotEmpty()
+            if (addIdleTime) {
+                // Update duration, timestamp, AND notes (even if empty)
+                onUpdateFinishedSession(true, notes)
+            } else if (notesModified) {
+                // Only update notes
+                onUpdateFinishedSession(false, notes)
+            }
+            // If addIdleTime=false and notes empty: do nothing, just proceed with next
+            onNext()
+        }
+
+        ModalBottomSheet(
+            onDismissRequest = {
+                handleSheetClose()
+                onHideSheet()
+            },
+            dragHandle = {
+                if (!uiState.isLoading) {
+                    DragHandle(
+                        buttonText =
+                            if (isBreak) {
+                                uiState.strings.mainStartFocus
+                            } else {
+                                uiState.strings.mainStartBreak
+                            },
+                        onClose = {
+                            handleSheetClose()
+                            hideFinishedSessionSheet()
+                        },
+                        onClick = {
+                            handleNext()
+                            hideFinishedSessionSheet()
+                        },
+                        isEnabled = true,
+                    )
+                }
+            },
+            sheetState = finishedSessionSheetState,
+        ) {
+            if (isFullscreen) {
+                FullscreenEffect()
+            }
+
+            if (uiState.isLoading) {
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(300.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                FinishedSessionContent(
+                    timerUiState = timerUiState,
+                    finishedSessionUiState = uiState,
+                    addIdleMinutes = addIdleTime,
+                    onChangeAddIdleMinutes = { addIdleTime = it },
+                    notes = notes,
+                    onNotesChanged = { notes = it },
+                )
+            }
+        }
     }
 }
 
@@ -207,14 +226,13 @@ private fun FinishedSessionContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val isBreak = timerUiState.timerType.isBreak
+        val strings = finishedSessionUiState.strings
         Text(
             text =
                 if (isBreak) {
-                    stringResource(Res.string.main_break_complete)
+                    strings.mainBreakComplete
                 } else {
-                    stringResource(
-                        Res.string.main_focus_complete,
-                    )
+                    strings.mainFocusComplete
                 },
             style = MaterialTheme.typography.titleLarge,
         )
@@ -225,6 +243,7 @@ private fun FinishedSessionContent(
             finishedSessionUiState.isPro,
             notes,
             onNotesChanged,
+            strings,
         )
         HistoryCard(finishedSessionUiState)
     }
@@ -238,6 +257,7 @@ private fun CurrentSessionCard(
     enabled: Boolean,
     notes: String,
     onNotesChanged: (String) -> Unit,
+    strings: FinishedSessionStrings,
 ) {
     val isBreak = timerUiState.isBreak
     val idleMillis = timerUiState.idleTime
@@ -256,7 +276,7 @@ private fun CurrentSessionCard(
                     .padding(16.dp),
         ) {
             Text(
-                stringResource(Res.string.main_this_session),
+                strings.mainThisSession,
                 style =
                     MaterialTheme.typography.titleSmall.copy(
                         MaterialTheme.colorScheme.primary,
@@ -277,7 +297,7 @@ private fun CurrentSessionCard(
                     horizontalAlignment = Alignment.Start,
                 ) {
                     Text(
-                        if (isBreak) stringResource(Res.string.stats_break) else stringResource(Res.string.stats_focus),
+                        if (isBreak) strings.statsBreak else strings.statsFocus,
                         style = MaterialTheme.typography.labelSmall,
                     )
                     Text(
@@ -295,7 +315,7 @@ private fun CurrentSessionCard(
                             horizontalAlignment = Alignment.Start,
                         ) {
                             Text(
-                                stringResource(Res.string.main_interruptions),
+                                strings.mainInterruptions,
                                 style = MaterialTheme.typography.labelSmall,
                             )
                             Text(
@@ -312,26 +332,29 @@ private fun CurrentSessionCard(
                                 verticalArrangement = Arrangement.SpaceBetween,
                                 horizontalAlignment = Alignment.Start,
                             ) {
-                                Text(stringResource(Res.string.main_idle), style = MaterialTheme.typography.labelSmall)
+                                Text(strings.mainIdle, style = MaterialTheme.typography.labelSmall)
                                 Text(
                                     idleMillis.formatMilliseconds(),
                                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                                 )
                             }
                             Spacer(modifier = Modifier.width(12.dp))
-                            Crossfade(modifier = Modifier.size(36.dp), targetState = addIdleMinutes) {
+                            Crossfade(
+                                modifier = Modifier.size(36.dp),
+                                targetState = addIdleMinutes,
+                            ) {
                                 if (it) {
                                     FilledTonalIconButton(onClick = { onAddIdleMinutesChanged(false) }) {
                                         Icon(
                                             imageVector = Icons.Default.Check,
-                                            contentDescription = stringResource(Res.string.main_consider_idle_time_as_extra_focus),
+                                            contentDescription = strings.mainConsiderIdleTimeAsExtraFocus,
                                         )
                                     }
                                 } else {
                                     IconButton(onClick = { onAddIdleMinutesChanged(true) }) {
                                         Icon(
                                             imageVector = Icons.Default.Add,
-                                            contentDescription = stringResource(Res.string.main_consider_idle_time_as_extra_focus),
+                                            contentDescription = strings.mainConsiderIdleTimeAsExtraFocus,
                                         )
                                     }
                                 }
@@ -345,7 +368,7 @@ private fun CurrentSessionCard(
                 value = notes,
                 onValueChange = onNotesChanged,
                 enabled = enabled,
-                placeholder = stringResource(Res.string.stats_add_notes),
+                placeholder = strings.statsAddNotes,
             )
         }
     }
@@ -354,6 +377,7 @@ private fun CurrentSessionCard(
 @Composable
 fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
     if (finishedSessionUiState.todayWorkMinutes > 0 || finishedSessionUiState.todayBreakMinutes > 0) {
+        val strings = finishedSessionUiState.strings
         Card(
             modifier =
                 Modifier
@@ -367,7 +391,7 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
                         .animateContentSize(),
             ) {
                 Text(
-                    stringResource(Res.string.stats_today),
+                    strings.statsToday,
                     style =
                         MaterialTheme.typography.titleSmall.copy(
                             MaterialTheme.colorScheme.primary,
@@ -388,7 +412,7 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
                         horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
-                            stringResource(Res.string.stats_focus),
+                            strings.statsFocus,
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
@@ -402,7 +426,7 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
                         horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
-                            stringResource(Res.string.stats_break),
+                            strings.statsBreak,
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
@@ -417,7 +441,7 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
                             horizontalAlignment = Alignment.Start,
                         ) {
                             Text(
-                                stringResource(Res.string.main_interruptions),
+                                strings.mainInterruptions,
                                 style = MaterialTheme.typography.labelSmall,
                             )
                             Text(

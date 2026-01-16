@@ -22,6 +22,19 @@ import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import goodtime_productivity.composeapp.generated.resources.Res
+import goodtime_productivity.composeapp.generated.resources.main_break_complete
+import goodtime_productivity.composeapp.generated.resources.main_consider_idle_time_as_extra_focus
+import goodtime_productivity.composeapp.generated.resources.main_focus_complete
+import goodtime_productivity.composeapp.generated.resources.main_idle
+import goodtime_productivity.composeapp.generated.resources.main_interruptions
+import goodtime_productivity.composeapp.generated.resources.main_start_break
+import goodtime_productivity.composeapp.generated.resources.main_start_focus
+import goodtime_productivity.composeapp.generated.resources.main_this_session
+import goodtime_productivity.composeapp.generated.resources.stats_add_notes
+import goodtime_productivity.composeapp.generated.resources.stats_break
+import goodtime_productivity.composeapp.generated.resources.stats_focus
+import goodtime_productivity.composeapp.generated.resources.stats_today
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -36,6 +49,7 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.getString
 import kotlin.time.Instant
 
 data class FinishedSessionUiState(
@@ -44,6 +58,23 @@ data class FinishedSessionUiState(
     val todayWorkMinutes: Long = 0,
     val todayBreakMinutes: Long = 0,
     val todayInterruptedMinutes: Long = 0,
+    val strings: FinishedSessionStrings = FinishedSessionStrings(),
+    val isLoading: Boolean = true,
+)
+
+data class FinishedSessionStrings(
+    val mainStartFocus: String = "",
+    val mainStartBreak: String = "",
+    val mainBreakComplete: String = "",
+    val mainFocusComplete: String = "",
+    val mainThisSession: String = "",
+    val statsBreak: String = "",
+    val statsFocus: String = "",
+    val mainInterruptions: String = "",
+    val mainIdle: String = "",
+    val mainConsiderIdleTimeAsExtraFocus: String = "",
+    val statsAddNotes: String = "",
+    val statsToday: String = "",
 )
 
 class FinishedSessionViewModel(
@@ -56,7 +87,40 @@ class FinishedSessionViewModel(
         finishedSessionUiState
             .onStart {
                 loadHistoryState()
+                loadStrings()
             }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), FinishedSessionUiState())
+
+    private var stringsLoaded = false
+    private var historyLoaded = false
+
+    private fun checkLoading() {
+        if (stringsLoaded && historyLoaded) {
+            finishedSessionUiState.update { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun loadStrings() {
+        viewModelScope.launch {
+            val strings =
+                FinishedSessionStrings(
+                    mainStartFocus = getString(Res.string.main_start_focus),
+                    mainStartBreak = getString(Res.string.main_start_break),
+                    mainBreakComplete = getString(Res.string.main_break_complete),
+                    mainFocusComplete = getString(Res.string.main_focus_complete),
+                    mainThisSession = getString(Res.string.main_this_session),
+                    statsBreak = getString(Res.string.stats_break),
+                    statsFocus = getString(Res.string.stats_focus),
+                    mainInterruptions = getString(Res.string.main_interruptions),
+                    mainIdle = getString(Res.string.main_idle),
+                    mainConsiderIdleTimeAsExtraFocus = getString(Res.string.main_consider_idle_time_as_extra_focus),
+                    statsAddNotes = getString(Res.string.stats_add_notes),
+                    statsToday = getString(Res.string.stats_today),
+                )
+            stringsLoaded = true
+            finishedSessionUiState.update { it.copy(strings = strings) }
+            checkLoading()
+        }
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadHistoryState() {
@@ -82,6 +146,7 @@ class FinishedSessionViewModel(
                     val todayBreakMinutes = todayBreakSessions.sumOf { it.duration }
                     val todayInterruptedMinutes = todayWorkSessions.sumOf { it.interruptions }
 
+                    historyLoaded = true
                     finishedSessionUiState.update {
                         it.copy(
                             todayWorkMinutes = todayWorkMinutes,
@@ -89,6 +154,7 @@ class FinishedSessionViewModel(
                             todayInterruptedMinutes = todayInterruptedMinutes,
                         )
                     }
+                    checkLoading()
                 }
         }
     }
