@@ -1,7 +1,7 @@
 [versions]
 
-appVersionName = "3.1.2"
-appVersionCode = "355"
+appVersionName = "3.1.3"
+appVersionCode = "356"
 
 acra = "5.13.1"
 android-minSdk = "26"
@@ -11,7 +11,7 @@ android-targetSdk = "36"
 agp = "8.13.2"
 appUpdateKtx = "2.1.0"
 revenuecat-purchases-kmp = "2.2.17+17.26.1"
-composeMultiplatform = "1.9.3"
+composeMultiplatform = "1.10.0"
 coreSplashscreen = "1.2.0"
 kotlin = "2.3.0"
 kotlinxCollectionsImmutable = "0.4.0"
@@ -49,7 +49,7 @@ espresso-core = "3.7.0"
 robolectric = "4.16"
 turbine = "1.2.1"
 
-uiBackhandler = "1.9.3"
+uiBackhandler = "1.10.0"
 vico = "2.4.1"
 androidchart = "3.1.0.25"
 
