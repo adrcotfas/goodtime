@@ -58,7 +58,10 @@ class TimerManager(
     private var mainJob: Job? = null
 
     private val _timerData: MutableStateFlow<DomainTimerData> = MutableStateFlow(DomainTimerData())
-    private lateinit var settings: AppSettings
+
+    // defaults are only visible until the first settings emission, which also sets isReady;
+    // callers gate on isReady before reading auto-start flags
+    private var settings = AppSettings()
 
     val timerData: StateFlow<DomainTimerData> = _timerData
 

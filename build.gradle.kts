@@ -39,13 +39,6 @@ subprojects {
             target("*.gradle.kts")
             ktlint()
         }
-         afterEvaluate {
-             tasks.named("preBuild") {
-                 dependsOn("spotlessApply")
-                 dependsOn("exportLibraryDefinitions")
-             }
-         }
-
         tasks.withType<SpotlessTask>().configureEach {
             notCompatibleWithConfigurationCache("https://github.com/diffplug/spotless/issues/987")
         }

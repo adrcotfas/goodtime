@@ -186,7 +186,7 @@ fun LocalBackupSection(
             checked = localAutoBackupChecked,
             enabled = enabled,
             onCheckedChange = { onLocalAutoBackupToggle(it) },
-        )   
+        )
     }
 
     if (lastLocalAutoBackupTimestamp > 0) {

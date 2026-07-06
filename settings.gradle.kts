@@ -36,6 +36,3 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
-// Disabled - migrated to composeApp
-// include(":androidApp")
-// include(":shared")
