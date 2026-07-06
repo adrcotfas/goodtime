@@ -14,3 +14,4 @@ composeApp/build
 composeApp/google
 composeApp/fdroid
 composeApp/src/commonMain/composeResources/files/aboutlibraries.json
+.claude/settings.local.json
