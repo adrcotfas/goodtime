@@ -19,12 +19,12 @@ package com.apps.adrcotfas.goodtime.bl
 
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -34,7 +34,7 @@ class DndModeManager(
     private val coroutineScope: CoroutineScope,
 ) : EventListener {
     private val isDndDuringWorkFlow =
-        settingsRepository.settings.map { it.uiSettings.dndDuringWork }
+        settingsRepository.select { it.uiSettings.dndDuringWork }
 
     private var job: Job? = null
 

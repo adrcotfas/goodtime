@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import com.apps.adrcotfas.goodtime.ui.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
 import goodtime_productivity.shared.generated.resources.Res
@@ -32,7 +33,6 @@ import goodtime_productivity.shared.generated.resources.backup_restore_failed_pl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -62,15 +62,14 @@ class BackupViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            settingsRepository.settings
-                .distinctUntilChanged { old, new ->
-                    old.isPro == new.isPro && old.backupSettings == new.backupSettings
-                }.collect { settings ->
+            settingsRepository
+                .select { it.isPro to it.backupSettings }
+                .collect { (isPro, backupSettings) ->
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            isPro = settings.isPro,
-                            backupSettings = settings.backupSettings,
+                            isPro = isPro,
+                            backupSettings = backupSettings,
                         )
                     }
                 }

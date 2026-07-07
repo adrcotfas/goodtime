@@ -21,9 +21,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
+import com.apps.adrcotfas.goodtime.data.settings.HistoryChartSettings
 import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -48,6 +50,13 @@ data class StatisticsHistoryUiState(
     val isLineChart: Boolean = true,
 )
 
+private data class HistoryScreenSettings(
+    val chartSettings: HistoryChartSettings,
+    val firstDayOfWeek: Int,
+    val workdayStart: Int,
+    val overviewType: OverviewType,
+)
+
 class StatisticsHistoryViewModel(
     private val localDataRepo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,
@@ -60,9 +69,8 @@ class StatisticsHistoryViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            settingsRepository.settings
-                .map { it.statisticsSettings.showArchived }
-                .distinctUntilChanged()
+            settingsRepository
+                .select { it.statisticsSettings.showArchived }
                 .flatMapLatest { showArchived ->
                     if (showArchived) {
                         localDataRepo.selectAllLabels()
@@ -85,24 +93,22 @@ class StatisticsHistoryViewModel(
         }
 
         viewModelScope.launch {
-            settingsRepository.settings
-                .distinctUntilChanged { old, new ->
-                    old.historyChartSettings.intervalType == new.historyChartSettings.intervalType &&
-                        old.firstDayOfWeek == new.firstDayOfWeek &&
-                        old.workdayStart == new.workdayStart &&
-                        old.statisticsSettings.overviewType == new.statisticsSettings.overviewType &&
-                        old.historyChartSettings.isLineChart == new.historyChartSettings.isLineChart
+            settingsRepository
+                .select {
+                    HistoryScreenSettings(
+                        chartSettings = it.historyChartSettings,
+                        firstDayOfWeek = it.firstDayOfWeek,
+                        workdayStart = it.workdayStart,
+                        overviewType = it.statisticsSettings.overviewType,
+                    )
                 }.collect { settings ->
-                    val type = settings.historyChartSettings.intervalType
-                    val overviewType = settings.statisticsSettings.overviewType
-                    val firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek)
                     _uiState.update { state ->
                         state.copy(
-                            firstDayOfWeek = firstDayOfWeek,
+                            firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
                             workdayStart = settings.workdayStart,
-                            type = type,
-                            overviewType = overviewType,
-                            isLineChart = settings.historyChartSettings.isLineChart,
+                            type = settings.chartSettings.intervalType,
+                            overviewType = settings.overviewType,
+                            isLineChart = settings.chartSettings.isLineChart,
                         )
                     }
                 }

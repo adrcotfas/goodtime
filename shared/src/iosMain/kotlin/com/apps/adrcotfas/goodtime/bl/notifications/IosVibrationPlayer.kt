@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.bl.notifications
 
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCObjectVar
@@ -30,7 +31,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import platform.CoreHaptics.CHHapticAdvancedPatternPlayerProtocol
 import platform.CoreHaptics.CHHapticEngine
@@ -66,8 +66,8 @@ class IosVibrationPlayer(
 
         // Observe Settings
         ioScope.launch {
-            settingsRepo.settings
-                .map {
+            settingsRepo
+                .select {
                     VibrationData(
                         it.vibrationStrength,
                         it.insistentNotification,

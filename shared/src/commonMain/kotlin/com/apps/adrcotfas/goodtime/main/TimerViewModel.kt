@@ -38,6 +38,8 @@ import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
+import com.apps.adrcotfas.goodtime.data.settings.UiSettings
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.FlowCollector
@@ -103,6 +105,14 @@ data class TimerMainUiState(
     val isPro: Boolean = false,
 )
 
+private data class TimerScreenSettings(
+    val timerStyle: TimerStyleData,
+    val uiSettings: UiSettings,
+    val isPro: Boolean,
+    val showTutorial: Boolean,
+    val flashScreen: Boolean,
+)
+
 class TimerViewModel(
     private val timerManager: TimerManager,
     private val timeProvider: TimeProvider,
@@ -139,15 +149,16 @@ class TimerViewModel(
     private fun loadData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            settingsRepo.settings
-                .distinctUntilChanged { old, new ->
-                    old.timerStyle == new.timerStyle &&
-                        old.uiSettings == new.uiSettings &&
-                        old.isPro == new.isPro &&
-                        old.showTutorial == new.showTutorial &&
-                        old.flashScreen == new.flashScreen
-                }.collect {
-                    val settings = it
+            settingsRepo
+                .select {
+                    TimerScreenSettings(
+                        timerStyle = it.timerStyle,
+                        uiSettings = it.uiSettings,
+                        isPro = it.isPro,
+                        showTutorial = it.showTutorial,
+                        flashScreen = it.flashScreen,
+                    )
+                }.collect { settings ->
                     val uiSettings = settings.uiSettings
                     _uiState.update { state ->
                         state.copy(

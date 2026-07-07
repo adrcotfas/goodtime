@@ -36,6 +36,7 @@ import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.StatisticsSettings
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -131,9 +132,8 @@ class StatisticsViewModel(
                 )
             }
 
-            settingsRepository.settings
-                .map { it.statisticsSettings }
-                .distinctUntilChanged()
+            settingsRepository
+                .select { it.statisticsSettings }
                 .flatMapLatest { statisticsSettings ->
                     _uiState.update { it.copy(statisticsSettings = statisticsSettings) }
                     if (statisticsSettings.showArchived) {

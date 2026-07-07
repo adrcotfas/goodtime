@@ -23,10 +23,10 @@ import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -55,18 +55,16 @@ class TimerProfileViewModel(
     private fun loadData() {
         viewModelScope.launch {
             combine(
-                settingsRepository.settings.distinctUntilChanged { old, new ->
-                    old.isPro == new.isPro
-                },
+                settingsRepository.select { it.isPro },
                 repo.selectDefaultLabel().filterNotNull(),
                 repo.selectAllTimerProfiles(),
-            ) { settings, defaultLabel, profiles ->
-                Triple(settings, defaultLabel, profiles)
-            }.collect { (settings, defaultLabel, profiles) ->
+            ) { isPro, defaultLabel, profiles ->
+                Triple(isPro, defaultLabel, profiles)
+            }.collect { (isPro, defaultLabel, profiles) ->
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        isPro = settings.isPro,
+                        isPro = isPro,
                         tmpLabel = if (!it.isLoading) it.tmpLabel else defaultLabel, // keep tmpLabel if already set
                         defaultLabel = defaultLabel,
                         timerProfiles = profiles,

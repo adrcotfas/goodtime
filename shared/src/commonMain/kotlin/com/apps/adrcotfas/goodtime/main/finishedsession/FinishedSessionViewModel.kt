@@ -22,6 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.main_break_complete
 import goodtime_productivity.shared.generated.resources.main_consider_idle_time_as_extra_focus
@@ -38,7 +39,6 @@ import goodtime_productivity.shared.generated.resources.stats_today
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -125,19 +125,16 @@ class FinishedSessionViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadHistoryState() {
         viewModelScope.launch {
-            settingsRepo.settings
-                .distinctUntilChanged { old, new ->
-                    old.workdayStart == new.workdayStart &&
-                        old.isPro == new.isPro &&
-                        old.uiSettings.fullscreenMode == new.uiSettings.fullscreenMode
-                }.flatMapLatest { settings ->
+            settingsRepo
+                .select { Triple(it.workdayStart, it.isPro, it.uiSettings.fullscreenMode) }
+                .flatMapLatest { (workdayStart, isPro, isFullscreen) ->
                     finishedSessionUiState.update {
                         it.copy(
-                            isPro = settings.isPro,
-                            isFullscreen = settings.uiSettings.fullscreenMode,
+                            isPro = isPro,
+                            isFullscreen = isFullscreen,
                         )
                     }
-                    localDataRepo.selectSessionsAfter(toMillisOfToday(settings.workdayStart))
+                    localDataRepo.selectSessionsAfter(toMillisOfToday(workdayStart))
                 }.collect { sessions ->
                     val (todayWorkSessions, todayBreakSessions) =
                         sessions.partition { session -> session.isWork }

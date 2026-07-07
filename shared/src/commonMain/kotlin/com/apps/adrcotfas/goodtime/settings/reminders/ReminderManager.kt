@@ -20,8 +20,7 @@ package com.apps.adrcotfas.goodtime.settings.reminders
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.settings.ProductivityReminderSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.datetime.DayOfWeek
 
 /**
@@ -37,9 +36,8 @@ class ReminderManager(
 
     suspend fun init() {
         logger.d("init")
-        settingsRepository.settings
-            .map { it.productivityReminderSettings }
-            .distinctUntilChanged()
+        settingsRepository
+            .select { it.productivityReminderSettings }
             .collect { settings ->
                 currentSettings = settings
                 rescheduleAllReminders()

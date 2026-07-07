@@ -23,11 +23,11 @@ import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import com.apps.adrcotfas.goodtime.ui.lightPalette
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -68,16 +68,13 @@ class AddEditLabelViewModel(
     ) {
         viewModelScope.launch {
             combine(
-                settingsRepository.settings
-                    .distinctUntilChanged { old, new ->
-                        old.labelName == new.labelName &&
-                            old.isPro == new.isPro
-                    },
+                settingsRepository.select { it.labelName to it.isPro },
                 repo.selectAllLabels(),
                 repo.selectAllTimerProfiles(),
             ) { settings, labels, timerProfiles ->
                 Triple(settings, labels, timerProfiles)
             }.collect { (settings, labels, timerProfiles) ->
+                val (activeLabelName, isPro) = settings
                 val labelToEdit =
                     labelToEditName?.let { name ->
                         labels.find { label -> label.name == name }
@@ -89,7 +86,7 @@ class AddEditLabelViewModel(
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        isPro = settings.isPro,
+                        isPro = isPro,
                         defaultLabelDisplayName = defaultLabelDisplayName,
                         labelToEdit = labelToEdit,
                         tmpLabel =
@@ -97,7 +94,7 @@ class AddEditLabelViewModel(
                             ?: Label
                                 .newLabelWithRandomColorIndex(lightPalette.lastIndex)
                                 .copy(timerProfile = defaultLabel.timerProfile),
-                        activeLabelName = settings.labelName,
+                        activeLabelName = activeLabelName,
                         labels = labels,
                         timerProfiles = timerProfiles,
                     )

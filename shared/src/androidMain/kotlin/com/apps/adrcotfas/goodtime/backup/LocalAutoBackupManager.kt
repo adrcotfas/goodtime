@@ -24,13 +24,11 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import co.touchlab.kermit.Logger
-import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -54,26 +52,25 @@ class LocalAutoBackupManager(
 
     private fun observeBackupSettings() {
         scope.launch {
-            settingsRepository.settings
-                .map { it.backupSettings }
-                .distinctUntilChanged { oldValue, newValue ->
-                    oldValue.autoBackupEnabled == newValue.autoBackupEnabled &&
-                        oldValue.path == newValue.path
-                }.collect { backupSettings ->
-                    handleBackupSettingsChange(backupSettings)
+            settingsRepository
+                .select { it.backupSettings.autoBackupEnabled to it.backupSettings.path }
+                .collect { (autoBackupEnabled, path) ->
+                    handleBackupSettingsChange(autoBackupEnabled, path)
                 }
         }
     }
 
-    private fun handleBackupSettingsChange(backupSettings: BackupSettings) {
+    private fun handleBackupSettingsChange(
+        autoBackupEnabled: Boolean,
+        path: String,
+    ) {
         logger.i {
-            "Backup settings changed: autoBackupEnabled=${backupSettings.autoBackupEnabled}, " +
-                "path=${backupSettings.path}"
+            "Backup settings changed: autoBackupEnabled=$autoBackupEnabled, path=$path"
         }
 
-        if (backupSettings.autoBackupEnabled && backupSettings.path.isNotBlank()) {
+        if (autoBackupEnabled && path.isNotBlank()) {
             scheduleBackup()
-            logger.i { "Auto backup scheduled with path: ${backupSettings.path}" }
+            logger.i { "Auto backup scheduled with path: $path" }
         } else {
             cancelBackup()
             logger.i { "Auto backup canceled" }

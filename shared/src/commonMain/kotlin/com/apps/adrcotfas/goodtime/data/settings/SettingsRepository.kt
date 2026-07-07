@@ -18,6 +18,8 @@
 package com.apps.adrcotfas.goodtime.data.settings
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 /**
  * Repository for the app settings.
@@ -91,3 +93,10 @@ interface SettingsRepository {
 
     suspend fun clearPersistedTimerState()
 }
+
+/**
+ * Observe a projection of the settings, emitting only when the selected value changes.
+ * Prefer this over hand-rolled `distinctUntilChanged` comparators: the selector is both
+ * the projection and the equality check, so they cannot drift apart.
+ */
+fun <T> SettingsRepository.select(selector: (AppSettings) -> T): Flow<T> = settings.map(selector).distinctUntilChanged()

@@ -23,10 +23,10 @@ import android.hardware.camera2.CameraCharacteristics.FLASH_INFO_AVAILABLE
 import android.hardware.camera2.CameraManager
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -56,8 +56,8 @@ class AndroidTorchManager(
             }
         }
         ioScope.launch {
-            settingsRepo.settings
-                .map {
+            settingsRepo
+                .select {
                     TorchManagerData(
                         enabled = it.enableTorch,
                         loop = it.insistentNotification,

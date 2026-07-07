@@ -23,11 +23,11 @@ import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import com.apps.adrcotfas.goodtime.labels.utils.generateUniqueNameForDuplicate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -60,19 +60,17 @@ class LabelsViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            settingsRepository.settings
-                .distinctUntilChanged { old, new ->
-                    old.labelName == new.labelName &&
-                        old.isPro == new.isPro
-                }.combine(repo.selectAllLabels()) { activeLabelName, labels ->
-                    activeLabelName to labels
-                }.distinctUntilChanged()
-                .collect { (settings, labels) ->
+            settingsRepository
+                .select { it.labelName to it.isPro }
+                .combine(repo.selectAllLabels()) { settings, labels ->
+                    settings to labels
+                }.collect { (settings, labels) ->
+                    val (activeLabelName, isPro) = settings
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            isPro = settings.isPro,
-                            activeLabelName = settings.labelName,
+                            isPro = isPro,
+                            activeLabelName = activeLabelName,
                             labels = labels,
                             archivedLabelCount = labels.filter { label -> label.isArchived }.size,
                         )

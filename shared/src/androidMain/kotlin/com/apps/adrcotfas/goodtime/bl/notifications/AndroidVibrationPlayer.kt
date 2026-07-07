@@ -26,11 +26,11 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class AndroidVibrationPlayer(
@@ -44,8 +44,8 @@ class AndroidVibrationPlayer(
 
     init {
         ioScope.launch {
-            settingsRepo.settings
-                .map {
+            settingsRepo
+                .select {
                     VibrationData(
                         it.vibrationStrength,
                         it.insistentNotification,
