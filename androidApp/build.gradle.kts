@@ -91,7 +91,7 @@ android {
 
     sourceSets {
         named("androidTest") {
-            assets.srcDirs(files("$rootDir/composeApp/schemas"))
+            assets.srcDirs(files("$rootDir/shared/schemas"))
         }
     }
 
@@ -102,7 +102,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.composeApp)
+    implementation(projects.shared)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)

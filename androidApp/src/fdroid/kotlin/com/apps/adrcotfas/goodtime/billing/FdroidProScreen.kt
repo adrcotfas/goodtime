@@ -47,12 +47,12 @@ import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.app.R
 import com.apps.adrcotfas.goodtime.common.openUrl
 import com.apps.adrcotfas.goodtime.ui.TopBar
-import goodtime_productivity.composeapp.generated.resources.Res
-import goodtime_productivity.composeapp.generated.resources.product_name_long
-import goodtime_productivity.composeapp.generated.resources.support_development
-import goodtime_productivity.composeapp.generated.resources.support_donate_desc
-import goodtime_productivity.composeapp.generated.resources.unlock_premium_desc1
-import goodtime_productivity.composeapp.generated.resources.unlock_premium_desc3
+import goodtime_productivity.shared.generated.resources.Res
+import goodtime_productivity.shared.generated.resources.product_name_long
+import goodtime_productivity.shared.generated.resources.support_development
+import goodtime_productivity.shared.generated.resources.support_donate_desc
+import goodtime_productivity.shared.generated.resources.unlock_premium_desc1
+import goodtime_productivity.shared.generated.resources.unlock_premium_desc3
 import org.jetbrains.compose.resources.stringResource
 
 private const val PAYPAL_URL = "https://paypal.me/adrcotfas"

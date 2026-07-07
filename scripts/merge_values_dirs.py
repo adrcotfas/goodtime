@@ -102,7 +102,7 @@ def merge_values_directories(base_path):
 
 if __name__ == "__main__":
     # Path to composeResources (relative to scripts directory)
-    compose_resources_path = "../composeApp/src/commonMain/composeResources"
+    compose_resources_path = "../shared/src/commonMain/composeResources"
 
     print("Regional Values Directory Merger")
     print("="*60)

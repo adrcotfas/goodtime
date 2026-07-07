@@ -16,7 +16,7 @@ jobs:
       - android/restore_gradle_cache
       - run:
           name: Check Android
-          command: ./gradlew :composeApp:check :androidApp:check
+          command: ./gradlew :shared:check :androidApp:check
       - run:
           name: Check Spotless
           command: ./gradlew spotlessCheck

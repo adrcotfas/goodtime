@@ -1,0 +1,110 @@
+/**
+ *     Goodtime Productivity
+ *     Copyright (C) 2025 Adrian Cotfas
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+package com.apps.adrcotfas.goodtime.settings.notifications
+
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedDayNamesForStats
+import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
+import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
+import com.apps.adrcotfas.goodtime.ui.BetterListItem
+import goodtime_productivity.shared.generated.resources.Res
+import goodtime_productivity.shared.generated.resources.settings_days_of_the_week
+import goodtime_productivity.shared.generated.resources.settings_reminder_time
+import kotlinx.datetime.DayOfWeek
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun ProductivityReminderListItem(
+    firstDayOfWeek: DayOfWeek,
+    selectedDays: Set<DayOfWeek>,
+    reminderSecondOfDay: Int,
+    is24HourFormat: Boolean,
+    onSelectDay: (DayOfWeek) -> Unit,
+    onReminderTimeClick: () -> Unit,
+) {
+    val iconButtonColors = IconButtonDefaults.filledIconButtonColors()
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.Start,
+    ) {
+        BetterListItem(
+            title = stringResource(Res.string.settings_days_of_the_week),
+            supporting = {
+                Row(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .horizontalScroll(rememberScrollState())
+                            .padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    val daysInOrder = firstDayOfWeek.entriesStartingWithThis()
+                    for (day in daysInOrder) {
+                        FilledIconButton(
+                            colors =
+                                if (selectedDays.contains(day)) {
+                                    iconButtonColors.copy(
+                                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                                        contentColor = MaterialTheme.colorScheme.primary,
+                                    )
+                                } else {
+                                    iconButtonColors.copy(
+                                        containerColor = iconButtonColors.disabledContainerColor,
+                                        contentColor = iconButtonColors.disabledContentColor,
+                                    )
+                                },
+                            onClick = { onSelectDay(day) },
+                        ) {
+                            Text(
+                                text = getLocalizedDayNamesForStats()[day.ordinal],
+                                maxLines = 1,
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                        }
+                    }
+                }
+            },
+        )
+
+        BetterListItem(
+            title = stringResource(Res.string.settings_reminder_time),
+            trailing =
+                secondsOfDayToTimerFormat(
+                    reminderSecondOfDay,
+                    is24HourFormat,
+                ),
+            enabled = selectedDays.isNotEmpty(),
+            onClick = { onReminderTimeClick() },
+        )
+    }
+}
