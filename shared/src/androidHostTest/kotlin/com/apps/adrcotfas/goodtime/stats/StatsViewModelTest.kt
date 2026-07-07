@@ -41,6 +41,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
 
 class StatsViewModelTest {
     private lateinit var fakeSessionDao: FakeSessionDao
@@ -150,7 +151,7 @@ class StatsViewModelTest {
     fun `Select label A and delete all`() = runTest {
         retryTest {
             viewModel.setSelectedLabels(listOf("A"))
-            delay(10)
+            delay(10.milliseconds)
             val selected = viewModel.uiState.value.selectedLabels
             assertEquals(selected, listOf("A"))
             var sessions = viewModel.pagedSessions.asSnapshot()
