@@ -17,7 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.billing
 
-import com.apps.adrcotfas.goodtime.BuildConfig
+import com.apps.adrcotfas.goodtime.app.BuildConfig
 import com.revenuecat.purchases.kmp.Purchases
 import com.revenuecat.purchases.kmp.configure
 

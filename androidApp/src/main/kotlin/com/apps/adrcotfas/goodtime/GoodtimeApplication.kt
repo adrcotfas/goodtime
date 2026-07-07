@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime
 import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
+import com.apps.adrcotfas.goodtime.app.BuildConfig
 import com.apps.adrcotfas.goodtime.billing.PurchaseManager
 import com.apps.adrcotfas.goodtime.billing.configurePurchasesFromPlatform
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER

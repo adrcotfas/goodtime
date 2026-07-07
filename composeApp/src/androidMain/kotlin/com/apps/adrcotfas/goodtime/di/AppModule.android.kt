@@ -21,7 +21,6 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
-import com.apps.adrcotfas.goodtime.BuildConfig
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.EventListener

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:name="com.apps.adrcotfas.goodtime.GoodtimeApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/default_launcher_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Goodtime.Splash">
+        <activity
+            android:name="com.apps.adrcotfas.goodtime.MainActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:showOnLockScreen="true"
+            android:exported="true">
+        </activity>
+        <activity-alias
+            android:name="com.apps.adrcotfas.goodtime.settings.GoodtimeLauncherAlias"
+            android:enabled="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/default_launcher_name"
+            android:targetActivity="com.apps.adrcotfas.goodtime.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name="com.apps.adrcotfas.goodtime.settings.ProductivityLauncherAlias"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/productivity_launcher_name"
+            android:targetActivity="com.apps.adrcotfas.goodtime.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <!-- GoodtimeApplication implements Configuration.Provider (on-demand WorkManager init) -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+    </application>
+</manifest>

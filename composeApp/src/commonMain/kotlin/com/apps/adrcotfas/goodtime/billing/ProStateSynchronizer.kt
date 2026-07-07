@@ -26,14 +26,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.math.floor
 
-internal const val DEFAULT_PRO_ENTITLEMENT_ID: String = "PREMIUM"
+const val DEFAULT_PRO_ENTITLEMENT_ID: String = "PREMIUM"
 
 /**
  * Shared "pro entitlement changed" logic.
  *
  * The entitlement check itself is platform-specific; callers simply feed `hasPro`.
  */
-internal class ProStateSynchronizer(
+class ProStateSynchronizer(
     private val settingsRepository: SettingsRepository,
     private val dataRepository: LocalDataRepository,
     private val ioScope: CoroutineScope,

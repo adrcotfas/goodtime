@@ -114,7 +114,7 @@ fun coreModule(isDebug: Boolean) =
 internal const val SETTINGS_NAME = "productivity_settings.preferences"
 internal const val SETTINGS_FILE_NAME = SETTINGS_NAME + "_pb"
 const val DB_PATH_KEY = "db_path"
-internal const val CACHE_DIR_PATH_KEY = "tmp_path"
+const val CACHE_DIR_PATH_KEY = "tmp_path"
 
 internal fun getDataStore(producePath: () -> String): DataStore<Preferences> =
     PreferenceDataStoreFactory.createWithPath(
