@@ -26,6 +26,7 @@ import com.apps.adrcotfas.goodtime.data.model.toLocal
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -33,20 +34,33 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 internal class LocalDataRepositoryImpl(
-    private var sessionDao: SessionDao,
-    private var labelDao: LabelDao,
-    private var timerProfileDao: TimerProfileDao,
+    sessionDao: SessionDao,
+    labelDao: LabelDao,
+    timerProfileDao: TimerProfileDao,
     private val settingsRepo: SettingsRepository,
     private val coroutineScope: CoroutineScope,
 ) : LocalDataRepository {
+    private data class Daos(
+        val sessionDao: SessionDao,
+        val labelDao: LabelDao,
+        val timerProfileDao: TimerProfileDao,
+    )
+
+    // All flow-returning methods route through this via flatMapLatest so that live
+    // collectors (TimerManager, ViewModels) transparently switch to the new database
+    // after a backup restore (see reopen).
+    private val daos = MutableStateFlow(Daos(sessionDao, labelDao, timerProfileDao))
+
+    private val sessionDao get() = daos.value.sessionDao
+    private val labelDao get() = daos.value.labelDao
+    private val timerProfileDao get() = daos.value.timerProfileDao
+
     init {
         insertDefaultLabel()
     }
 
-    override fun reinitDatabase(database: ProductivityDatabase) {
-        sessionDao = database.sessionsDao()
-        labelDao = database.labelsDao()
-        timerProfileDao = database.timerProfileDao()
+    override fun reopen(database: ProductivityDatabase) {
+        daos.value = Daos(database.sessionsDao(), database.labelsDao(), database.timerProfileDao())
         insertDefaultLabel()
     }
 
@@ -129,33 +143,39 @@ internal class LocalDataRepositoryImpl(
         sessionDao.updateLabelByIdsExcept(newLabel, unselectedIds, selectedLabels, considerBreaks)
     }
 
-    override fun selectAllSessions(): Flow<List<Session>> = sessionDao.selectAll().map { it.map { sessions -> sessions.toExternal() } }
+    override fun selectAllSessions(): Flow<List<Session>> = daos
+        .flatMapLatest { it.sessionDao.selectAll() }
+        .map { it.map { sessions -> sessions.toExternal() } }
 
-    override fun selectSessionsAfter(timestamp: Long): Flow<List<Session>> = sessionDao
-        .selectAfter(timestamp)
+    override fun selectSessionsAfter(timestamp: Long): Flow<List<Session>> = daos
+        .flatMapLatest { it.sessionDao.selectAfter(timestamp) }
         .map { sessions -> sessions.map { it.toExternal() } }
 
-    override fun selectSessionById(id: Long): Flow<Session> = sessionDao.selectById(id).map { it.toExternal() }
+    override fun selectSessionById(id: Long): Flow<Session> = daos
+        .flatMapLatest { it.sessionDao.selectById(id) }
+        .map { it.toExternal() }
 
-    override fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>> = sessionDao
-        .selectByIsArchived(isArchived)
+    override fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>> = daos
+        .flatMapLatest { it.sessionDao.selectByIsArchived(isArchived) }
         .map { sessions -> sessions.map { it.toExternal() } }
 
-    override fun selectSessionsByLabel(label: String): Flow<List<Session>> = sessionDao.selectByLabel(label).map { sessions ->
-        sessions.map {
-            it.toExternal()
+    override fun selectSessionsByLabel(label: String): Flow<List<Session>> = daos
+        .flatMapLatest { it.sessionDao.selectByLabel(label) }
+        .map { sessions ->
+            sessions.map {
+                it.toExternal()
+            }
         }
-    }
 
-    override fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>> = sessionDao
-        .selectByLabels(labels)
+    override fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>> = daos
+        .flatMapLatest { it.sessionDao.selectByLabels(labels) }
         .map { sessions -> sessions.map { it.toExternal() } }
 
     override fun selectSessionsByLabels(
         labels: List<String>,
         after: Long,
-    ): Flow<List<Session>> = sessionDao
-        .selectByLabels(labels, after)
+    ): Flow<List<Session>> = daos
+        .flatMapLatest { it.sessionDao.selectByLabels(labels, after) }
         .map { sessions -> sessions.map { it.toExternal() } }
 
     override fun selectSessionsForTimelinePaged(
@@ -163,7 +183,7 @@ internal class LocalDataRepositoryImpl(
         showBreaks: Boolean,
     ): PagingSource<Int, LocalSession> = sessionDao.selectSessionsForTimelinePaged(labels, showBreaks)
 
-    override fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int> = sessionDao.selectNumberOfSessionsAfter(timestamp)
+    override fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int> = daos.flatMapLatest { it.sessionDao.selectNumberOfSessionsAfter(timestamp) }
 
     override suspend fun deleteSessions(ids: List<Long>) {
         sessionDao.delete(ids)
@@ -237,33 +257,37 @@ internal class LocalDataRepositoryImpl(
         labelDao.updateIsArchived(newIsArchived, name)
     }
 
-    override fun selectLabelByName(name: String): Flow<Label?> = labelDao.selectByName(name).flatMapLatest { localLabel ->
-        if (localLabel?.timerProfileName != null) {
-            timerProfileDao.selectByName(localLabel.timerProfileName).map { timerProfile ->
-                localLabel.toExternal(timerProfile?.toExternal())
+    override fun selectLabelByName(name: String): Flow<Label?> = daos.flatMapLatest { d ->
+        d.labelDao.selectByName(name).flatMapLatest { localLabel ->
+            if (localLabel?.timerProfileName != null) {
+                d.timerProfileDao.selectByName(localLabel.timerProfileName).map { timerProfile ->
+                    localLabel.toExternal(timerProfile?.toExternal())
+                }
+            } else {
+                flowOf(localLabel?.toExternal())
             }
-        } else {
-            flowOf(localLabel?.toExternal())
         }
     }
 
-    override fun selectAllLabels(): Flow<List<Label>> = labelDao.selectAll().flatMapLatest { localLabels ->
-        val timerProfileNames = localLabels.mapNotNull { it.timerProfileName }.distinct()
-        if (timerProfileNames.isEmpty()) {
-            flowOf(localLabels.map { it.toExternal() })
-        } else {
-            timerProfileDao.selectByNames(timerProfileNames).map { timerProfiles ->
-                localLabels.map { localLabel ->
-                    val matchingProfile =
-                        timerProfiles.find { it.name == localLabel.timerProfileName }
-                    localLabel.toExternal(matchingProfile?.toExternal())
+    override fun selectAllLabels(): Flow<List<Label>> = daos.flatMapLatest { d ->
+        d.labelDao.selectAll().flatMapLatest { localLabels ->
+            val timerProfileNames = localLabels.mapNotNull { it.timerProfileName }.distinct()
+            if (timerProfileNames.isEmpty()) {
+                flowOf(localLabels.map { it.toExternal() })
+            } else {
+                d.timerProfileDao.selectByNames(timerProfileNames).map { timerProfiles ->
+                    localLabels.map { localLabel ->
+                        val matchingProfile =
+                            timerProfiles.find { it.name == localLabel.timerProfileName }
+                        localLabel.toExternal(matchingProfile?.toExternal())
+                    }
                 }
             }
         }
     }
 
-    override fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>> = labelDao
-        .selectByArchived(isArchived)
+    override fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>> = daos
+        .flatMapLatest { it.labelDao.selectByArchived(isArchived) }
         .map { labels -> labels.map { it.toExternal() } }
 
     override suspend fun deleteLabel(name: String) {
@@ -290,11 +314,15 @@ internal class LocalDataRepositoryImpl(
         timerProfileDao.deleteByName(name)
     }
 
-    override suspend fun selectTimerProfile(name: String): Flow<TimerProfile?> = timerProfileDao.selectByName(name).map { it?.toExternal() }
+    override suspend fun selectTimerProfile(name: String): Flow<TimerProfile?> = daos
+        .flatMapLatest { it.timerProfileDao.selectByName(name) }
+        .map { it?.toExternal() }
 
-    override suspend fun selectAllTimerProfiles(): Flow<List<TimerProfile>> = timerProfileDao.selectAll().map { profiles ->
-        profiles.map {
-            it.toExternal()
+    override suspend fun selectAllTimerProfiles(): Flow<List<TimerProfile>> = daos
+        .flatMapLatest { it.timerProfileDao.selectAll() }
+        .map { profiles ->
+            profiles.map {
+                it.toExternal()
+            }
         }
-    }
 }

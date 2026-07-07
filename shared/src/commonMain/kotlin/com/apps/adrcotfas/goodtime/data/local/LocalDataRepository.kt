@@ -27,7 +27,11 @@ import kotlinx.coroutines.flow.Flow
  * Single source of truth for finished sessions and labels.
  */
 interface LocalDataRepository {
-    fun reinitDatabase(database: ProductivityDatabase)
+    /**
+     * Swaps the underlying database instance after a backup restore.
+     * Already-collected flows transparently switch to the new database.
+     */
+    fun reopen(database: ProductivityDatabase)
 
     suspend fun insertSession(session: Session): Long
 

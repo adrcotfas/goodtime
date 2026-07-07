@@ -72,6 +72,7 @@ class TimerManager(
     }
 
     fun setup() {
+        mainJob?.cancel()
         mainJob =
             coroutineScope.launch {
                 initAndObserveLabelChange()
@@ -82,11 +83,6 @@ class TimerManager(
                 it.copy(runtime = runtimeState)
             }
         }
-    }
-
-    fun restart() {
-        mainJob?.cancel()
-        setup()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

@@ -55,4 +55,23 @@ fun getRoomDatabase(
     .fallbackToDestructiveMigration(dropAllTables = true)
     .build()
 
+/**
+ * Owns the single live [ProductivityDatabase] instance. A backup restore closes the current
+ * instance and calls [reopen] to build a fresh one on the restored file; resolving the
+ * database through this holder always yields the live instance.
+ */
+class DatabaseHolder(
+    private val builder: RoomDatabase.Builder<ProductivityDatabase>,
+) {
+    var current: ProductivityDatabase = build()
+        private set
+
+    fun reopen(): ProductivityDatabase {
+        current = build()
+        return current
+    }
+
+    private fun build(): ProductivityDatabase = getRoomDatabase(builder, getDatabaseDriver())
+}
+
 const val DATABASE_NAME = "goodtime-db"

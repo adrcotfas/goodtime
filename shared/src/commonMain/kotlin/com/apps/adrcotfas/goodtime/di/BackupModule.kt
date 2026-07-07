@@ -20,8 +20,8 @@ package com.apps.adrcotfas.goodtime.di
 import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.data.local.DatabaseHolder
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
-import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import okio.FileSystem
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
@@ -34,7 +34,7 @@ val coreBackupModule: Module =
                 get<FileSystem>(),
                 get<String>(named(DB_PATH_KEY)),
                 get<String>(named(CACHE_DIR_PATH_KEY)),
-                get<ProductivityDatabase>(),
+                get<DatabaseHolder>(),
                 get<TimeProvider>(),
                 get<BackupPrompter>(),
                 get<LocalDataRepository>(),

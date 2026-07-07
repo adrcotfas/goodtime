@@ -21,11 +21,9 @@ import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatForBackupFileName
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToIso8601
-import com.apps.adrcotfas.goodtime.bl.TimerManager
+import com.apps.adrcotfas.goodtime.data.local.DatabaseHolder
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
-import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.model.Label
-import com.apps.adrcotfas.goodtime.di.reinitModulesAtBackupAndRestore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -37,20 +35,18 @@ import okio.Path
 import okio.Path.Companion.toPath
 import okio.buffer
 import okio.use
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 
 class BackupFileManager(
     private val fileSystem: FileSystem,
     private val dbPath: String,
     private val filesDirPath: String,
-    private var database: ProductivityDatabase,
+    private val databaseHolder: DatabaseHolder,
     private val timeProvider: TimeProvider,
     private val backupPrompter: BackupPrompter,
     private val localDataRepository: LocalDataRepository,
     private val logger: Logger,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
-) : KoinComponent {
+) {
     private val importedTemporaryFileName = "$filesDirPath/last-import"
 
     init {
@@ -163,7 +159,7 @@ class BackupFileManager(
     }
 
     suspend fun checkpointDatabase() {
-        database.sessionsDao().checkpoint()
+        databaseHolder.current.sessionsDao().checkpoint()
     }
 
     fun generateBackupFileName(prefix: String = BackupConstants.DB_BACKUP_PREFIX): String = "${prefix}${timeProvider.now().formatForBackupFileName()}"
@@ -245,7 +241,7 @@ class BackupFileManager(
                 checkpointDatabase()
 
                 // Close the current DB connection before replacing the file on disk.
-                database.close()
+                databaseHolder.current.close()
 
                 val dbMain = dbPath.toPath()
                 val dbWal = ("$dbPath-wal").toPath()
@@ -271,11 +267,7 @@ class BackupFileManager(
     }
 
     private fun afterOperation() {
-        reinitModulesAtBackupAndRestore()
-        val newDatabase: ProductivityDatabase = get()
-        database = newDatabase
-        get<LocalDataRepository>().reinitDatabase(newDatabase)
-        get<TimerManager>().restart()
+        localDataRepository.reopen(databaseHolder.reopen())
     }
 
     private fun isSQLite3File(filePath: Path): Boolean {

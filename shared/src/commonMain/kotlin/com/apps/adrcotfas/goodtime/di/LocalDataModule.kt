@@ -18,9 +18,8 @@
 package com.apps.adrcotfas.goodtime.di
 
 import androidx.room.RoomDatabase
+import com.apps.adrcotfas.goodtime.data.local.DatabaseHolder
 import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
-import com.apps.adrcotfas.goodtime.data.local.getDatabaseDriver
-import com.apps.adrcotfas.goodtime.data.local.getRoomDatabase
 import org.koin.dsl.module
 
 internal fun getDbPath(producePath: () -> String): String = producePath()
@@ -29,5 +28,8 @@ internal fun getTmpPath(producePath: () -> String): String = producePath()
 
 val localDataModule =
     module {
-        single { getRoomDatabase(get<RoomDatabase.Builder<ProductivityDatabase>>(), getDatabaseDriver()) }
+        single { DatabaseHolder(get<RoomDatabase.Builder<ProductivityDatabase>>()) }
+        // Reads through the holder so that resolving ProductivityDatabase always yields the
+        // live instance, even after a backup restore swaps it.
+        factory<ProductivityDatabase> { get<DatabaseHolder>().current }
     }
