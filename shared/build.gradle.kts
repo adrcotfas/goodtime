@@ -51,6 +51,15 @@ kotlin {
         }
     }
 
+    // The RevenueCat klib embeds a Swift library search path from its publisher's machine;
+    // point the simulator test binary at the local toolchain so swiftCompatibility* resolve.
+    iosSimulatorArm64().binaries.configureEach {
+        if (this is org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable) {
+            val developerDir = System.getenv("DEVELOPER_DIR") ?: "/Applications/Xcode.app/Contents/Developer"
+            linkerOpts("-L$developerDir/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator")
+        }
+    }
+
     sourceSets {
         all {
             languageSettings.apply {
