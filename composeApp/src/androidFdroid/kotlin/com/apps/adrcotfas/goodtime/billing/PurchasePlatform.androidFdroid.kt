@@ -17,6 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.billing
 
-actual fun configurePurchasesFromPlatform() {
+fun configurePurchasesFromPlatform() {
     // F-Droid builds do not include billing/RevenueCat.
 }

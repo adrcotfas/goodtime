@@ -23,7 +23,7 @@ import com.revenuecat.purchases.kmp.ui.revenuecatui.Paywall
 import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallOptions
 
 @Composable
-actual fun ProScreen(onNavigateBack: () -> Unit) {
+internal fun GoogleProScreen(onNavigateBack: () -> Unit) {
     val options =
         remember {
             PaywallOptions(dismissRequest = onNavigateBack)

@@ -20,7 +20,7 @@ package com.apps.adrcotfas.goodtime.backup
 import androidx.compose.runtime.Composable
 
 @Composable
-actual fun BackupScreen(
+internal fun FdroidBackupScreen(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
     onNavigateToMainAndReset: () -> Unit,

@@ -28,13 +28,12 @@ import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
 import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
-import com.apps.adrcotfas.goodtime.di.billingModule
 import com.apps.adrcotfas.goodtime.di.coreBackupModule
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
+import com.apps.adrcotfas.goodtime.di.distributionModule
 import com.apps.adrcotfas.goodtime.di.localDataModule
 import com.apps.adrcotfas.goodtime.di.mainModule
-import com.apps.adrcotfas.goodtime.di.platformBackupModule
 import com.apps.adrcotfas.goodtime.di.platformModule
 import com.apps.adrcotfas.goodtime.di.timerManagerModule
 import com.apps.adrcotfas.goodtime.di.viewModelModule
@@ -60,11 +59,10 @@ private fun AppWithKoin() {
         application = {
             modules(
                 coroutineScopeModule,
-                billingModule,
                 coreModule,
                 localDataModule,
                 coreBackupModule,
-                platformBackupModule,
+                distributionModule,
                 timerManagerModule,
                 mainModule,
                 viewModelModule,

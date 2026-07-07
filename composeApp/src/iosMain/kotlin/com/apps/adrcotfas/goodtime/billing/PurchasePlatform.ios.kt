@@ -23,7 +23,7 @@ import platform.Foundation.NSBundle
 import kotlin.experimental.ExperimentalNativeApi
 
 @OptIn(ExperimentalNativeApi::class)
-actual fun configurePurchasesFromPlatform() {
+fun configurePurchasesFromPlatform() {
     val info = NSBundle.mainBundle.infoDictionary ?: return
     val keyName = if (Platform.isDebugBinary) "RevenueCatApiKeyDebug" else "RevenueCatApiKeyRelease"
     val apiKey = (info[keyName] as? String)?.takeIf { it.isNotBlank() } ?: return

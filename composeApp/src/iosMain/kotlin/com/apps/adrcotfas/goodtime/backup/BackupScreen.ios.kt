@@ -41,7 +41,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-actual fun BackupScreen(
+internal fun IosBackupScreen(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
     onNavigateToMainAndReset: () -> Unit,

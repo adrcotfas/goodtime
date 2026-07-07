@@ -23,15 +23,15 @@ import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-actual class PurchaseManager actual constructor(
+class FdroidPurchaseManager(
     private val settingsRepository: SettingsRepository,
     private val dataRepository: LocalDataRepository,
     private val ioScope: CoroutineScope,
     private val log: Logger,
-) {
+) : PurchaseManager {
     private var started = false
 
-    actual fun start() {
+    override fun start() {
         if (started) return
         started = true
 

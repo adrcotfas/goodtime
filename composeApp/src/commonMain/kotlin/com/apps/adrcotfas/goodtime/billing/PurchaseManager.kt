@@ -17,23 +17,10 @@
  */
 package com.apps.adrcotfas.goodtime.billing
 
-import co.touchlab.kermit.Logger
-import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
-import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
-import kotlinx.coroutines.CoroutineScope
-
 /**
- * Cross-platform purchase/billing manager.
- *
- * - `androidGoogle`: backed by RevenueCat
- * - `iosMain`: backed by RevenueCat
- * - `androidFdroid`: no-op (or always-pro)
+ * Distribution-specific purchase handling (RevenueCat on Google Play/iOS, no-op Pro on F-Droid).
+ * Implementations are bound via Koin by each distribution's module.
  */
-expect class PurchaseManager(
-    settingsRepository: SettingsRepository,
-    dataRepository: LocalDataRepository,
-    ioScope: CoroutineScope,
-    log: Logger,
-) {
+interface PurchaseManager {
     fun start()
 }

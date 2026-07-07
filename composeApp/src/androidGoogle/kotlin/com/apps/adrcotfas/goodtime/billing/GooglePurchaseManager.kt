@@ -29,16 +29,17 @@ import com.revenuecat.purchases.kmp.models.StoreProduct
 import com.revenuecat.purchases.kmp.models.StoreTransaction
 import kotlinx.coroutines.CoroutineScope
 
-actual class PurchaseManager actual constructor(
+class GooglePurchaseManager(
     settingsRepository: SettingsRepository,
     dataRepository: LocalDataRepository,
     ioScope: CoroutineScope,
     private val log: Logger,
-) : PurchasesDelegate {
+) : PurchaseManager,
+    PurchasesDelegate {
     private val proSync = ProStateSynchronizer(settingsRepository, dataRepository, ioScope, log)
     private var started = false
 
-    actual fun start() {
+    override fun start() {
         if (started) return
         started = true
 

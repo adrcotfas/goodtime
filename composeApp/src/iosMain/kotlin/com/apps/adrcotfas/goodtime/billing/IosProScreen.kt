@@ -17,9 +17,19 @@
  */
 package com.apps.adrcotfas.goodtime.billing
 
-/**
- * Configure platform purchases as early as possible:
- * - Android: right after `super.onCreate()`
- * - iOS: in `App.init()`
- */
-expect fun configurePurchasesFromPlatform()
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import com.revenuecat.purchases.kmp.ui.revenuecatui.Paywall
+import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallOptions
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun IosProScreen(onNavigateBack: () -> Unit) {
+    val options =
+        remember {
+            PaywallOptions(dismissRequest = onNavigateBack)
+        }
+
+    Paywall(options)
+}

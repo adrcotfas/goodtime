@@ -17,10 +17,34 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
+import com.apps.adrcotfas.goodtime.DistributionScreens
+import com.apps.adrcotfas.goodtime.backup.FdroidBackupScreen
+import com.apps.adrcotfas.goodtime.billing.FdroidProScreen
+import com.apps.adrcotfas.goodtime.billing.FdroidPurchaseManager
+import com.apps.adrcotfas.goodtime.billing.PurchaseManager
 import org.koin.core.module.Module
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-actual val platformBackupModule: Module =
+val distributionModule: Module =
     module {
         includes(androidCommonBackupModule)
+
+        single<PurchaseManager> {
+            FdroidPurchaseManager(
+                settingsRepository = get(),
+                dataRepository = get(),
+                ioScope = get(named(IO_SCOPE)),
+                log = getWith("PurchaseManager"),
+            )
+        }
+
+        single<DistributionScreens> {
+            DistributionScreens(
+                backupScreen = { onNavigateToPro, onNavigateBack, onNavigateToMainAndReset ->
+                    FdroidBackupScreen(onNavigateToPro, onNavigateBack, onNavigateToMainAndReset)
+                },
+                proScreen = { onNavigateBack -> FdroidProScreen(onNavigateBack) },
+            )
+        }
     }

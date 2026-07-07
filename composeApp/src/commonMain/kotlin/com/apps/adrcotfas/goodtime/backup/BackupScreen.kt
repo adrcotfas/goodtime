@@ -18,10 +18,14 @@
 package com.apps.adrcotfas.goodtime.backup
 
 import androidx.compose.runtime.Composable
+import com.apps.adrcotfas.goodtime.DistributionScreens
+import org.koin.compose.koinInject
 
 @Composable
-expect fun BackupScreen(
+fun BackupScreen(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
     onNavigateToMainAndReset: () -> Unit,
-)
+) {
+    koinInject<DistributionScreens>().backupScreen(onNavigateToPro, onNavigateBack, onNavigateToMainAndReset)
+}

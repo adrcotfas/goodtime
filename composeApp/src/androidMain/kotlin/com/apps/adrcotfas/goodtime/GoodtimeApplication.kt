@@ -33,14 +33,13 @@ import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.di.IO_SCOPE
-import com.apps.adrcotfas.goodtime.di.billingModule
 import com.apps.adrcotfas.goodtime.di.coreBackupModule
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
+import com.apps.adrcotfas.goodtime.di.distributionModule
 import com.apps.adrcotfas.goodtime.di.getWith
 import com.apps.adrcotfas.goodtime.di.localDataModule
 import com.apps.adrcotfas.goodtime.di.mainModule
-import com.apps.adrcotfas.goodtime.di.platformBackupModule
 import com.apps.adrcotfas.goodtime.di.platformModule
 import com.apps.adrcotfas.goodtime.di.timerManagerModule
 import com.apps.adrcotfas.goodtime.di.viewModelModule
@@ -108,12 +107,11 @@ class GoodtimeApplication :
                     }
                 },
                 coroutineScopeModule,
-                billingModule,
                 platformModule,
                 coreModule,
                 localDataModule,
                 coreBackupModule,
-                platformBackupModule,
+                distributionModule,
                 timerManagerModule,
                 viewModelModule,
                 mainModule,

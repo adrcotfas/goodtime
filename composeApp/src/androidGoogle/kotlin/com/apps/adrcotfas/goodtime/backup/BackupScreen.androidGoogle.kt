@@ -29,7 +29,7 @@ import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
 import org.koin.compose.koinInject
 
 @Composable
-actual fun BackupScreen(
+internal fun GoogleBackupScreen(
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
     onNavigateToMainAndReset: () -> Unit,

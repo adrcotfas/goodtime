@@ -32,12 +32,13 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-actual class PurchaseManager actual constructor(
+class IosPurchaseManager(
     private val settingsRepository: SettingsRepository,
     dataRepository: LocalDataRepository,
     private val ioScope: CoroutineScope,
     private val log: Logger,
-) : PurchasesDelegate,
+) : PurchaseManager,
+    PurchasesDelegate,
     KoinComponent {
     private val cloudBackupManager: CloudBackupManager by inject()
 
@@ -52,7 +53,7 @@ actual class PurchaseManager actual constructor(
         )
     private var started = false
 
-    actual fun start() {
+    override fun start() {
         if (started) return
         started = true
 

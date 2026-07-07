@@ -62,7 +62,7 @@ private const val BUY_ME_A_COFFEE_URL = "https://buymeacoffee.com/adrcotfas"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-actual fun ProScreen(onNavigateBack: () -> Unit) {
+internal fun FdroidProScreen(onNavigateBack: () -> Unit) {
     val context = LocalContext.current
 
     val listState = rememberScrollState()

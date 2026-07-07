@@ -21,7 +21,7 @@ import com.apps.adrcotfas.goodtime.BuildConfig
 import com.revenuecat.purchases.kmp.Purchases
 import com.revenuecat.purchases.kmp.configure
 
-actual fun configurePurchasesFromPlatform() {
+fun configurePurchasesFromPlatform() {
     val apiKey =
         if (BuildConfig.DEBUG) {
             BuildConfig.REVENUECAT_API_KEY_DEBUG

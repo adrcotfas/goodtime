@@ -15,20 +15,19 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.di
+package com.apps.adrcotfas.goodtime
 
-import com.apps.adrcotfas.goodtime.billing.PurchaseManager
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
+import androidx.compose.runtime.Composable
 
-val billingModule =
-    module {
-        single {
-            PurchaseManager(
-                settingsRepository = get(),
-                dataRepository = get(),
-                ioScope = get(named(IO_SCOPE)),
-                log = getWith("PurchaseManager"),
-            )
-        }
-    }
+/**
+ * Screens that differ per distribution (Google Play, F-Droid, iOS), bound via Koin
+ * by each distribution's [distributionModule].
+ */
+class DistributionScreens(
+    val backupScreen: @Composable (
+        onNavigateToPro: () -> Unit,
+        onNavigateBack: () -> Boolean,
+        onNavigateToMainAndReset: () -> Unit,
+    ) -> Unit,
+    val proScreen: @Composable (onNavigateBack: () -> Unit) -> Unit,
+)

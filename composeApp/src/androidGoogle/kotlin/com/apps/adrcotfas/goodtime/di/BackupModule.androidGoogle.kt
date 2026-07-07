@@ -18,11 +18,16 @@
 package com.apps.adrcotfas.goodtime.di
 
 import android.content.Context
+import com.apps.adrcotfas.goodtime.DistributionScreens
 import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.CloudBackupViewModel
+import com.apps.adrcotfas.goodtime.backup.GoogleBackupScreen
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupService
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveBackupWorker
 import com.apps.adrcotfas.goodtime.backup.GoogleDriveManager
+import com.apps.adrcotfas.goodtime.billing.GoogleProScreen
+import com.apps.adrcotfas.goodtime.billing.GooglePurchaseManager
+import com.apps.adrcotfas.goodtime.billing.PurchaseManager
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.core.module.Module
@@ -30,9 +35,27 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-actual val platformBackupModule: Module =
+val distributionModule: Module =
     module {
         includes(androidCommonBackupModule)
+
+        single<PurchaseManager> {
+            GooglePurchaseManager(
+                settingsRepository = get(),
+                dataRepository = get(),
+                ioScope = get(named(IO_SCOPE)),
+                log = getWith("PurchaseManager"),
+            )
+        }
+
+        single<DistributionScreens> {
+            DistributionScreens(
+                backupScreen = { onNavigateToPro, onNavigateBack, onNavigateToMainAndReset ->
+                    GoogleBackupScreen(onNavigateToPro, onNavigateBack, onNavigateToMainAndReset)
+                },
+                proScreen = { onNavigateBack -> GoogleProScreen(onNavigateBack) },
+            )
+        }
 
         single<GoogleDriveManager> {
             GoogleDriveManager(

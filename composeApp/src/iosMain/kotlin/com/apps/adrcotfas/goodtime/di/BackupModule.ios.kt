@@ -17,12 +17,17 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
+import com.apps.adrcotfas.goodtime.DistributionScreens
 import com.apps.adrcotfas.goodtime.backup.BackupFileManager
 import com.apps.adrcotfas.goodtime.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.backup.CloudBackupManager
 import com.apps.adrcotfas.goodtime.backup.CloudBackupViewModel
 import com.apps.adrcotfas.goodtime.backup.ICloudBackupService
+import com.apps.adrcotfas.goodtime.backup.IosBackupScreen
+import com.apps.adrcotfas.goodtime.billing.IosProScreen
+import com.apps.adrcotfas.goodtime.billing.IosPurchaseManager
+import com.apps.adrcotfas.goodtime.billing.PurchaseManager
 import com.apps.adrcotfas.goodtime.data.backup.IosBackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
@@ -33,8 +38,26 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-actual val platformBackupModule: Module =
+val distributionModule: Module =
     module {
+        single<PurchaseManager> {
+            IosPurchaseManager(
+                settingsRepository = get(),
+                dataRepository = get(),
+                ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                log = getWith("PurchaseManager"),
+            )
+        }
+
+        single<DistributionScreens> {
+            DistributionScreens(
+                backupScreen = { onNavigateToPro, onNavigateBack, onNavigateToMainAndReset ->
+                    IosBackupScreen(onNavigateToPro, onNavigateBack, onNavigateToMainAndReset)
+                },
+                proScreen = { onNavigateBack -> IosProScreen(onNavigateBack) },
+            )
+        }
+
         single<BackupPrompter> {
             IosBackupPrompter(
                 logger = getWith("IosBackupPrompter"),

@@ -18,13 +18,10 @@
 package com.apps.adrcotfas.goodtime.billing
 
 import androidx.compose.runtime.Composable
+import com.apps.adrcotfas.goodtime.DistributionScreens
+import org.koin.compose.koinInject
 
-/**
- * Pro/billing screen composable.
- * Has different implementations for different flavors:
- * - Google Play: Full billing implementation with Play Billing Library
- * - F-Droid: Simplified version or message about how to support
- * - iOS: App Store billing (future)
- */
 @Composable
-expect fun ProScreen(onNavigateBack: () -> Unit)
+fun ProScreen(onNavigateBack: () -> Unit) {
+    koinInject<DistributionScreens>().proScreen(onNavigateBack)
+}
