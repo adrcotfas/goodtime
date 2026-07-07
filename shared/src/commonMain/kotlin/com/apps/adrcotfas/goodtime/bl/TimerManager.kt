@@ -584,45 +584,22 @@ class TimerManager(
 
     private fun createFinishedSession(notes: String = ""): Session? {
         updatePausedTime()
-        val data = timerData.value
-        val isFOCUS = data.type == TimerType.FOCUS
-
-        val endTime = data.endTime
-        val totalDuration = endTime - data.startTime
-        val interruptions = data.timeSpentPaused
-
-        val durationToSave =
-            totalDuration
-                .let { duration ->
-                    // First, conditionally subtract interruptions
-                    if (isFOCUS) duration - interruptions else duration
-                }.plus(WIGGLE_ROOM_MILLIS)
-                .milliseconds
-
-        val durationToSaveMinutes = durationToSave.inWholeMinutes
-        if (durationToSaveMinutes < 1) {
-            log.i { "The session was shorter than 1 minute: $durationToSave" }
+        val result =
+            FinishedSessionFactory.create(
+                data = timerData.value,
+                now = timeProvider.now(),
+                elapsedRealtime = timeProvider.elapsedRealtime(),
+                notes = notes,
+            )
+        if (result == null) {
+            log.i { "The session was shorter than 1 minute" }
             return null
         }
-
+        val (session, completedMinutes) = result
         _timerData.update {
-            it.copy(completedMinutes = durationToSaveMinutes)
+            it.copy(completedMinutes = completedMinutes)
         }
-
-        // Calculate timestamp based on when the session actually ended (endTime)
-        // endTime is in elapsedRealtime (millis since boot), convert to wall-clock time
-        val now = timeProvider.now()
-        val elapsedRealtime = timeProvider.elapsedRealtime()
-        val timestampAtEnd = now - elapsedRealtime + endTime
-
-        return Session.create(
-            timestamp = timestampAtEnd,
-            duration = durationToSaveMinutes,
-            interruptions = if (isFOCUS) interruptions.milliseconds.inWholeMinutes else 0,
-            label = data.getLabelName(),
-            isWork = isFOCUS,
-            notes = notes,
-        )
+        return session
     }
 
     private fun incrementStreak() {
@@ -679,7 +656,7 @@ class TimerManager(
 
     companion object {
         // some extra time to be used when converting millis to minutes and avoid rounding issues
-        const val WIGGLE_ROOM_MILLIS = 10000L
+        const val WIGGLE_ROOM_MILLIS = FinishedSessionFactory.WIGGLE_ROOM_MILLIS
         val COUNT_UP_HARD_LIMIT = 900.minutes.inWholeMilliseconds
 
         // Skip autostart if user returns more than 30 minutes after the timer was supposed to end
