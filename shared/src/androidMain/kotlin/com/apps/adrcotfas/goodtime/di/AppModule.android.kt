@@ -21,11 +21,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
-import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
-import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
+import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
+import com.apps.adrcotfas.goodtime.bl.DndModeManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
-import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
-import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_STARTER
+import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidSoundPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidTorchManager
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidVibrationPlayer
@@ -89,7 +88,7 @@ actual val platformModule: Module =
                 logger = getWith("TorchManager"),
             )
         }
-        single<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)) {
+        single<SoundVibrationAndTorchPlayer> {
             SoundVibrationAndTorchPlayer(
                 soundPlayer = get(),
                 vibrationPlayer = get(),
@@ -100,10 +99,10 @@ actual val platformModule: Module =
         }
         single<List<EventListener>> {
             listOf(
-                get<EventListener>(named(EventListener.DND_MODE_MANAGER)),
-                get<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)),
-                get<EventListener>(named(EventListener.TIMER_SERVICE_STARTER)),
-                get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
+                get<DndModeManager>(),
+                get<AlarmManagerHandler>(),
+                get<TimerServiceStarter>(),
+                get<SoundVibrationAndTorchPlayer>(),
             )
         }
         single<UrlOpener> { AndroidUrlOpener(get()) }

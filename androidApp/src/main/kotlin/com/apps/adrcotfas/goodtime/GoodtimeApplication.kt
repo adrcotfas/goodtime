@@ -23,12 +23,8 @@ import androidx.work.Configuration
 import com.apps.adrcotfas.goodtime.app.BuildConfig
 import com.apps.adrcotfas.goodtime.billing.PurchaseManager
 import com.apps.adrcotfas.goodtime.billing.configurePurchasesFromPlatform
-import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
-import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.DndModeManager
-import com.apps.adrcotfas.goodtime.bl.EventListener
-import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_STARTER
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
@@ -85,10 +81,10 @@ class GoodtimeApplication :
                             coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
                         )
                     }
-                    single<EventListener>(named(EventListener.TIMER_SERVICE_STARTER)) {
+                    single<TimerServiceStarter> {
                         TimerServiceStarter(get())
                     }
-                    single<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)) {
+                    single<AlarmManagerHandler> {
                         AlarmManagerHandler(
                             get<Context>(),
                             get<TimeProvider>(),
@@ -101,7 +97,7 @@ class GoodtimeApplication :
                         )
                     }
 
-                    single<EventListener>(named(EventListener.DND_MODE_MANAGER)) {
+                    single<DndModeManager> {
                         DndModeManager(
                             notificationManager = get<NotificationArchManager>(),
                             settingsRepository = get<SettingsRepository>(),

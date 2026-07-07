@@ -117,6 +117,3 @@ class IosLiveActivityListener(
         }
     }
 }
-
-val EventListener.Companion.IOS_LIVE_ACTIVITY_LISTENER: String
-    get() = "IosLiveActivityListener"

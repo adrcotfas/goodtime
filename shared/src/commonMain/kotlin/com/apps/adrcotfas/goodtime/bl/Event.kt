@@ -59,6 +59,4 @@ sealed class Event {
 
 interface EventListener {
     fun onEvent(event: Event)
-
-    companion object
 }

@@ -22,9 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.ComposeUIViewController
 import com.apps.adrcotfas.goodtime.billing.PurchaseManager
-import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
-import com.apps.adrcotfas.goodtime.bl.IOS_NOTIFICATION_HANDLER
 import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
@@ -92,7 +90,7 @@ private fun AppWithKoin() {
 
 @Composable
 private fun initNotificationHandler() {
-    val notificationHandler = koinInject<EventListener>(named(EventListener.IOS_NOTIFICATION_HANDLER)) as IosNotificationHandler
+    val notificationHandler = koinInject<IosNotificationHandler>()
     val timerManager: TimerManager = koinInject()
     notificationHandler.init {
         timerManager.next(actionType = FinishActionType.MANUAL_NEXT)
