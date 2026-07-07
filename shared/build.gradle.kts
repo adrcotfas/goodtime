@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinx.serialization)
@@ -13,9 +13,30 @@ plugins {
 }
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+    androidLibrary {
+        namespace = "com.apps.adrcotfas.goodtime"
+        compileSdk =
+            libs.versions.android.compileSdk
+                .get()
+                .toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+
+        androidResources.enable = true
+
+        withHostTestBuilder {
+        }.configure {
+            isIncludeAndroidResources = true
+        }
+
+        compilations.configureEach {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_17)
+                }
+            }
         }
     }
 
@@ -95,7 +116,7 @@ kotlin {
             implementation(libs.bundles.shared.commonTest)
         }
 
-        androidUnitTest.dependencies {
+        getByName("androidHostTest").dependencies {
             implementation(libs.bundles.shared.androidTest)
         }
 
@@ -123,30 +144,6 @@ kotlin {
     }
 }
 
-android {
-    namespace = "com.apps.adrcotfas.goodtime"
-    compileSdk =
-        libs.versions.android.compileSdk
-            .get()
-            .toInt()
-
-    defaultConfig {
-        minSdk =
-            libs.versions.android.minSdk
-                .get()
-                .toInt()
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-}
-
 compose.resources {
     // the androidApp entry module references generated resource accessors
     publicResClass = true
@@ -158,10 +155,6 @@ aboutLibraries {
         outputFile = file("src/commonMain/composeResources/files/aboutlibraries.json")
         prettyPrint = true
     }
-}
-
-dependencies {
-    debugImplementation(compose.uiTooling)
 }
 
 room {
@@ -179,13 +172,14 @@ tasks.named("exportLibraryDefinitions") {
 }
 
 // aboutlibraries.json is gitignored, so it must be (re)generated before packaging resources
-tasks.named("preBuild") {
+tasks.matching { it.name == "preBuild" || it.name == "prepareComposeResourcesTaskForCommonMain" }.configureEach {
     dependsOn("exportLibraryDefinitions")
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        // 21: Robolectric's SDK 36 sandbox requires Java 21; bytecode still targets 17 (jvmTarget)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 

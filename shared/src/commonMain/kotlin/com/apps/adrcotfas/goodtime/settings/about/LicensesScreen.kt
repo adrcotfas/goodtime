@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import com.apps.adrcotfas.goodtime.ui.TopBar
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.produceLibraries
+import com.mikepenz.aboutlibraries.ui.compose.variant.LibraryBadges
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.about_open_source_licenses
 import org.jetbrains.compose.resources.stringResource
@@ -57,7 +58,7 @@ fun LicensesScreen(onNavigateBack: () -> Boolean) {
                 .background(MaterialTheme.colorScheme.background),
             lazyListState = listState,
             contentPadding = paddingValues,
-            showLicenseBadges = false,
+            badges = LibraryBadges(license = false),
         )
     }
 }

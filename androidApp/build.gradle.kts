@@ -1,8 +1,8 @@
+import com.android.build.api.variant.BuildConfigField
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.composeCompiler)
 }
 
@@ -40,16 +40,9 @@ android {
         productFlavors {
             create("google") {
                 dimension = "distribution"
-                buildConfigField("boolean", "IS_FDROID", "false")
-                // Debug/test vs release/prod keys (same for now; replace as needed).
-                buildConfigField("String", "REVENUECAT_API_KEY_DEBUG", "\"goog_WJACaArOgxIPytSUVHDOgwjTZjN\"")
-                buildConfigField("String", "REVENUECAT_API_KEY_RELEASE", "\"goog_WJACaArOgxIPytSUVHDOgwjTZjN\"")
             }
             create("fdroid") {
                 dimension = "distribution"
-                buildConfigField("boolean", "IS_FDROID", "true")
-                buildConfigField("String", "REVENUECAT_API_KEY_DEBUG", "\"\"")
-                buildConfigField("String", "REVENUECAT_API_KEY_RELEASE", "\"\"")
             }
         }
     }
@@ -98,6 +91,19 @@ android {
     androidResources {
         @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        val isFdroid = variant.flavorName == "fdroid"
+        // Debug/test vs release/prod RevenueCat keys (same for now; replace as needed).
+        val revenueCatKey = if (isFdroid) "" else "goog_WJACaArOgxIPytSUVHDOgwjTZjN"
+        variant.buildConfigFields?.apply {
+            put("IS_FDROID", BuildConfigField("boolean", isFdroid.toString(), null))
+            put("REVENUECAT_API_KEY_DEBUG", BuildConfigField("String", "\"$revenueCatKey\"", null))
+            put("REVENUECAT_API_KEY_RELEASE", BuildConfigField("String", "\"$revenueCatKey\"", null))
+        }
     }
 }
 
