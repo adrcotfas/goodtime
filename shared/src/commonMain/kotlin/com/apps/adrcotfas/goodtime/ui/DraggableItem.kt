@@ -178,24 +178,23 @@ fun Modifier.dragContainer(
     dragDropState: DragDropState,
     key: Any,
     onDragFinished: () -> Unit,
-): Modifier =
-    pointerInput(dragDropState) {
-        detectDragGestures(
-            onDrag = { change, offset ->
-                change.consume()
-                dragDropState.onDrag(offset = offset)
-            },
-            onDragStart = { _ -> dragDropState.onDragStartWithKey(key) },
-            onDragEnd = {
-                dragDropState.onDragInterrupted()
-                onDragFinished()
-            },
-            onDragCancel = {
-                dragDropState.onDragInterrupted()
-                onDragFinished()
-            },
-        )
-    }
+): Modifier = pointerInput(dragDropState) {
+    detectDragGestures(
+        onDrag = { change, offset ->
+            change.consume()
+            dragDropState.onDrag(offset = offset)
+        },
+        onDragStart = { _ -> dragDropState.onDragStartWithKey(key) },
+        onDragEnd = {
+            dragDropState.onDragInterrupted()
+            onDragFinished()
+        },
+        onDragCancel = {
+            dragDropState.onDragInterrupted()
+            onDragFinished()
+        },
+    )
+}
 
 @Composable
 fun LazyItemScope.DraggableItem(

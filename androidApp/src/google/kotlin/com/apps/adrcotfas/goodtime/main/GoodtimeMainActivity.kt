@@ -69,6 +69,7 @@ open class GoodtimeMainActivity :
                                 appUpdateResultLauncher,
                             )
                         }
+
                         else -> {
                             log.i { "No update available" }
                         }
@@ -84,12 +85,15 @@ open class GoodtimeMainActivity :
                 viewModel.setLastDismissedUpdateVersionCode(0)
                 viewModel.setUpdateAvailable(false)
             }
+
             RESULT_CANCELED -> {
                 log.i { "Update dismissed, version code: $availableVersionCode" }
                 viewModel.setLastDismissedUpdateVersionCode(availableVersionCode.toLong())
                 viewModel.setUpdateAvailable(true)
             }
+
             ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> log.e { "Update Failed" }
+
             else -> Unit
         }
     }
@@ -114,6 +118,7 @@ open class GoodtimeMainActivity :
                                 viewModel.setUpdateAvailable(true)
                             }
                         }
+
                         else -> Unit
                     }
                 }

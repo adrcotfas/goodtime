@@ -54,9 +54,9 @@ fun Modifier.dashedBorder(
             cap = cap,
             width = strokeWidth.toPx(),
             pathEffect =
-                PathEffect.dashPathEffect(
-                    intervals = floatArrayOf(dashLength.toPx(), gapLength.toPx()),
-                ),
+            PathEffect.dashPathEffect(
+                intervals = floatArrayOf(dashLength.toPx(), gapLength.toPx()),
+            ),
         )
 
     drawContent()

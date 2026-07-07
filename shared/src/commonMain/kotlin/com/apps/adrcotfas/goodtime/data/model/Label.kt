@@ -39,13 +39,12 @@ data class Label(
         const val OTHERS_LABEL_COLOR_INDEX = 24
         const val LABEL_NAME_MAX_LENGTH = 32
 
-        fun defaultLabel() =
-            Label(
-                name = DEFAULT_LABEL_NAME,
-                colorIndex = DEFAULT_LABEL_COLOR_INDEX,
-                orderIndex = 0,
-                timerProfile = TimerProfile.default(),
-            )
+        fun defaultLabel() = Label(
+            name = DEFAULT_LABEL_NAME,
+            colorIndex = DEFAULT_LABEL_COLOR_INDEX,
+            orderIndex = 0,
+            timerProfile = TimerProfile.default(),
+        )
 
         fun newLabelWithRandomColorIndex(lastIndex: Int) = Label(name = "", colorIndex = Random.nextInt(lastIndex))
     }

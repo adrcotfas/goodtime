@@ -75,10 +75,10 @@ fun AddEditSessionContent(
 ) {
     Column(
         modifier =
-            Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(vertical = 16.dp)
-                .animateContentSize(),
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = 16.dp)
+            .animateContentSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
     ) {
@@ -124,22 +124,22 @@ fun AddEditSessionContent(
         ) {
             Row(
                 modifier =
-                    Modifier
-                        .weight(0.7f)
-                        .clickable {
-                            onOpenDatePicker()
-                        },
+                Modifier
+                    .weight(0.7f)
+                    .clickable {
+                        onOpenDatePicker()
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
             ) {
                 Icon(
                     modifier =
-                        Modifier.padding(
-                            start = 28.dp,
-                            end = 16.dp,
-                            top = 16.dp,
-                            bottom = 16.dp,
-                        ),
+                    Modifier.padding(
+                        start = 28.dp,
+                        end = 16.dp,
+                        top = 16.dp,
+                        bottom = 16.dp,
+                    ),
                     imageVector = EvaIcons.Outline.Clock,
                     contentDescription = stringResource(Res.string.stats_time),
                 )
@@ -151,12 +151,12 @@ fun AddEditSessionContent(
             }
             Row(
                 modifier =
-                    Modifier
-                        .height(48.dp)
-                        .weight(0.3f)
-                        .clickable {
-                            onOpenTimePicker()
-                        },
+                Modifier
+                    .height(48.dp)
+                    .weight(0.3f)
+                    .clickable {
+                        onOpenTimePicker()
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End,
             ) {
@@ -170,11 +170,11 @@ fun AddEditSessionContent(
         }
         ListItem(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        onOpenLabelSelector()
-                    },
+            Modifier
+                .fillMaxWidth()
+                .clickable {
+                    onOpenLabelSelector()
+                },
             leadingContent = {
                 Icon(
                     modifier = Modifier.padding(start = 12.dp),
@@ -199,9 +199,9 @@ fun AddEditSessionContent(
         )
         Row(
             modifier =
-                Modifier
-                    .padding(horizontal = 12.dp)
-                    .fillMaxWidth(),
+            Modifier
+                .padding(horizontal = 12.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.Top,
         ) {
@@ -213,9 +213,9 @@ fun AddEditSessionContent(
             )
             TextBox(
                 modifier =
-                    Modifier
-                        .padding(top = 14.dp)
-                        .weight(1f),
+                Modifier
+                    .padding(top = 14.dp)
+                    .weight(1f),
                 value = session.notes,
                 onValueChange = { onUpdate(session.copy(notes = it)) },
                 placeholder = stringResource(Res.string.stats_add_notes),

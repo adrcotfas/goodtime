@@ -82,15 +82,14 @@ data class PersistedTimerState(
         )
     }
 
-    fun toRuntimeState() =
-        TimerRuntimeState(
-            startTime = startTime,
-            lastStartTime = lastStartTime,
-            lastPauseTime = lastPauseTime,
-            endTime = endTime,
-            timeAtPause = timeAtPause,
-            state = com.apps.adrcotfas.goodtime.bl.TimerState.entries[state],
-            type = com.apps.adrcotfas.goodtime.bl.TimerType.entries[type],
-            timeSpentPaused = timeSpentPaused,
-        )
+    fun toRuntimeState() = TimerRuntimeState(
+        startTime = startTime,
+        lastStartTime = lastStartTime,
+        lastPauseTime = lastPauseTime,
+        endTime = endTime,
+        timeAtPause = timeAtPause,
+        state = com.apps.adrcotfas.goodtime.bl.TimerState.entries[state],
+        type = com.apps.adrcotfas.goodtime.bl.TimerType.entries[type],
+        timeSpentPaused = timeSpentPaused,
+    )
 }

@@ -135,26 +135,26 @@ actual fun PieChartSection(
 
     Column(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 8.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 stringResource(Res.string.stats_focus_distribution),
                 style =
-                    MaterialTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.Medium,
-                        color = color,
-                    ),
+                MaterialTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = color,
+                ),
             )
             DropdownMenuBox(
                 textStyle = MaterialTheme.typography.bodySmall,
@@ -168,10 +168,10 @@ actual fun PieChartSection(
         }
         Column(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(224.dp)
-                    .align(Alignment.CenterHorizontally),
+            Modifier
+                .fillMaxWidth()
+                .height(224.dp)
+                .align(Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.Center,
         ) {
             if (entries.isEmpty()) {
@@ -179,17 +179,17 @@ actual fun PieChartSection(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     text = "No items",
                     style =
-                        MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        ),
+                    MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    ),
                 )
             } else {
                 var showPercentages by rememberSaveable { mutableStateOf(true) }
                 AndroidView(
                     modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .align(Alignment.CenterHorizontally),
+                    Modifier
+                        .fillMaxSize()
+                        .align(Alignment.CenterHorizontally),
                     factory = { context ->
                         PieChart(context).apply {
                             isDrawHoleEnabled = true

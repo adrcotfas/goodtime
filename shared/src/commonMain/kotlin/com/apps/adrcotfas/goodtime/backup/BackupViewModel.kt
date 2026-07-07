@@ -157,15 +157,14 @@ class BackupViewModel(
         }
     }
 
-    fun clearProgress() =
-        _uiState.update {
-            it.copy(
-                isBackupInProgress = false,
-                isRestoreInProgress = false,
-                isCsvBackupInProgress = false,
-                isJsonBackupInProgress = false,
-            )
-        }
+    fun clearProgress() = _uiState.update {
+        it.copy(
+            isBackupInProgress = false,
+            isRestoreInProgress = false,
+            isCsvBackupInProgress = false,
+            isJsonBackupInProgress = false,
+        )
+    }
 
     fun setBackupSettings(settings: BackupSettings) {
         coroutineScope.launch {

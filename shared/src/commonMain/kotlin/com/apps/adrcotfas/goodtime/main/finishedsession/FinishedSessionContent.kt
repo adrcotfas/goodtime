@@ -161,11 +161,11 @@ fun FinishedSessionSheet(
                 if (!uiState.isLoading) {
                     DragHandle(
                         buttonText =
-                            if (isBreak) {
-                                uiState.strings.mainStartFocus
-                            } else {
-                                uiState.strings.mainStartBreak
-                            },
+                        if (isBreak) {
+                            uiState.strings.mainStartFocus
+                        } else {
+                            uiState.strings.mainStartBreak
+                        },
                         onClose = {
                             handleSheetClose()
                             hideFinishedSessionSheet()
@@ -187,9 +187,9 @@ fun FinishedSessionSheet(
             if (uiState.isLoading) {
                 Box(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(300.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .height(300.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator()
@@ -219,9 +219,9 @@ private fun FinishedSessionContent(
 ) {
     Column(
         modifier =
-            Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -229,11 +229,11 @@ private fun FinishedSessionContent(
         val strings = finishedSessionUiState.strings
         Text(
             text =
-                if (isBreak) {
-                    strings.mainBreakComplete
-                } else {
-                    strings.mainFocusComplete
-                },
+            if (isBreak) {
+                strings.mainBreakComplete
+            } else {
+                strings.mainFocusComplete
+            },
             style = MaterialTheme.typography.titleLarge,
         )
         CurrentSessionCard(
@@ -271,23 +271,23 @@ private fun CurrentSessionCard(
     Card(modifier = Modifier.wrapContentSize()) {
         Column(
             modifier =
-                Modifier
-                    .animateContentSize()
-                    .padding(16.dp),
+            Modifier
+                .animateContentSize()
+                .padding(16.dp),
         ) {
             Text(
                 strings.mainThisSession,
                 style =
-                    MaterialTheme.typography.titleSmall.copy(
-                        MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                MaterialTheme.typography.titleSmall.copy(
+                    MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                ),
             )
             Spacer(modifier = Modifier.height(12.dp))
             Row(
                 modifier =
-                    Modifier
-                        .fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(32.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -380,29 +380,29 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
         val strings = finishedSessionUiState.strings
         Card(
             modifier =
-                Modifier
-                    .wrapContentSize()
-                    .padding(),
+            Modifier
+                .wrapContentSize()
+                .padding(),
         ) {
             Column(
                 modifier =
-                    Modifier
-                        .padding(16.dp)
-                        .animateContentSize(),
+                Modifier
+                    .padding(16.dp)
+                    .animateContentSize(),
             ) {
                 Text(
                     strings.statsToday,
                     style =
-                        MaterialTheme.typography.titleSmall.copy(
-                            MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Bold,
-                        ),
+                    MaterialTheme.typography.titleSmall.copy(
+                        MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                    ),
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Row(
                     modifier =
-                        Modifier
-                            .fillMaxWidth(),
+                    Modifier
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(32.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -461,20 +461,20 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
 fun FinishedSessionContentPreview() {
     FinishedSessionContent(
         timerUiState =
-            TimerUiState(
-                timerType = TimerType.FOCUS,
-                completedMinutes = 25,
-                timeSpentPaused = 2.minutes.inWholeMilliseconds,
-                endTime = 0,
-                elapsedRealtime = 3.minutes.inWholeMilliseconds,
-            ),
+        TimerUiState(
+            timerType = TimerType.FOCUS,
+            completedMinutes = 25,
+            timeSpentPaused = 2.minutes.inWholeMilliseconds,
+            endTime = 0,
+            elapsedRealtime = 3.minutes.inWholeMilliseconds,
+        ),
         finishedSessionUiState =
-            FinishedSessionUiState(
-                todayWorkMinutes = 90,
-                todayBreakMinutes = 55,
-                todayInterruptedMinutes = 2,
-                isPro = false,
-            ),
+        FinishedSessionUiState(
+            todayWorkMinutes = 90,
+            todayBreakMinutes = 55,
+            todayInterruptedMinutes = 2,
+            isPro = false,
+        ),
         addIdleMinutes = true,
         onChangeAddIdleMinutes = {},
         notes = "Some notes",

@@ -93,10 +93,10 @@ class AddEditLabelViewModel(
                         defaultLabelDisplayName = defaultLabelDisplayName,
                         labelToEdit = labelToEdit,
                         tmpLabel =
-                            labelToEdit
-                                ?: Label
-                                    .newLabelWithRandomColorIndex(lightPalette.lastIndex)
-                                    .copy(timerProfile = defaultLabel.timerProfile),
+                        labelToEdit
+                            ?: Label
+                                .newLabelWithRandomColorIndex(lightPalette.lastIndex)
+                                .copy(timerProfile = defaultLabel.timerProfile),
                         activeLabelName = settings.labelName,
                         labels = labels,
                         timerProfiles = timerProfiles,
@@ -136,16 +136,16 @@ class AddEditLabelViewModel(
         _uiState.update {
             it.copy(
                 tmpLabel =
-                    if (resetProfile) {
-                        newLabel.copy(
-                            timerProfile =
-                                newLabel.timerProfile.copy(
-                                    name = null,
-                                ),
-                        )
-                    } else {
-                        newLabel
-                    },
+                if (resetProfile) {
+                    newLabel.copy(
+                        timerProfile =
+                        newLabel.timerProfile.copy(
+                            name = null,
+                        ),
+                    )
+                } else {
+                    newLabel
+                },
             )
         }
     }

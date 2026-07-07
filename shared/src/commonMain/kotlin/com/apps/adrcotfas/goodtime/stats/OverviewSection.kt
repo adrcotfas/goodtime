@@ -55,26 +55,26 @@ fun OverviewSection(
 ) {
     Column(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 8.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 text = stringResource(Res.string.stats_overview),
                 style =
-                    MaterialTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.Medium,
-                        color = color,
-                    ),
+                MaterialTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = color,
+                ),
             )
             DropdownMenuBox(
                 textStyle = MaterialTheme.typography.bodySmall,
@@ -89,10 +89,10 @@ fun OverviewSection(
 
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 24.dp)
-                    .horizontalScroll(rememberScrollState()),
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 24.dp)
+                .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.Absolute.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
         ) {
@@ -139,10 +139,10 @@ fun OverviewTypeSection(
         Text(
             valueWork,
             style =
-                MaterialTheme.typography.labelMedium.copy(
-                    color = colorWork,
-                    textAlign = TextAlign.Center,
-                ),
+            MaterialTheme.typography.labelMedium.copy(
+                color = colorWork,
+                textAlign = TextAlign.Center,
+            ),
         )
         Text(
             title,

@@ -129,50 +129,46 @@ class BackupFileManager(
      * Restore from a file that's already been copied to a specific location.
      * Used for cloud backup restore where file selection happens outside the normal UI flow.
      */
-    suspend fun restoreFromFile(filePath: String): BackupPromptResult =
-        try {
-            withContext(defaultDispatcher) {
-                val sourcePath = filePath.toPath()
-                val destPath = importedTemporaryFileName.toPath()
-
-                // Delete existing temp file if present
-                if (fileSystem.exists(destPath)) {
-                    fileSystem.delete(destPath)
-                }
-
-                fileSystem.copy(sourcePath, destPath)
-            }
-
-            restoreFromImportedTemp(sourceLabel = "file:$filePath")
-        } catch (e: Exception) {
-            logger.e(e) { "Failed to restore from file: $filePath" }
-            BackupPromptResult.FAILED
-        }
-
-    private suspend fun restoreFromImportedTemp(sourceLabel: String): BackupPromptResult =
+    suspend fun restoreFromFile(filePath: String): BackupPromptResult = try {
         withContext(defaultDispatcher) {
-            val imported = importedTemporaryFileName.toPath()
-            if (!isSQLite3File(imported)) {
-                logger.e { "Invalid backup file (source=$sourceLabel)" }
-                return@withContext BackupPromptResult.FAILED
+            val sourcePath = filePath.toPath()
+            val destPath = importedTemporaryFileName.toPath()
+
+            // Delete existing temp file if present
+            if (fileSystem.exists(destPath)) {
+                fileSystem.delete(destPath)
             }
-            BackupPromptResult.SUCCESS
-        }.also { result ->
-            if (result == BackupPromptResult.SUCCESS) {
-                restoreBackup()
-                logger.i { "Restore completed successfully (source=$sourceLabel)" }
-            }
+
+            fileSystem.copy(sourcePath, destPath)
         }
+
+        restoreFromImportedTemp(sourceLabel = "file:$filePath")
+    } catch (e: Exception) {
+        logger.e(e) { "Failed to restore from file: $filePath" }
+        BackupPromptResult.FAILED
+    }
+
+    private suspend fun restoreFromImportedTemp(sourceLabel: String): BackupPromptResult = withContext(defaultDispatcher) {
+        val imported = importedTemporaryFileName.toPath()
+        if (!isSQLite3File(imported)) {
+            logger.e { "Invalid backup file (source=$sourceLabel)" }
+            return@withContext BackupPromptResult.FAILED
+        }
+        BackupPromptResult.SUCCESS
+    }.also { result ->
+        if (result == BackupPromptResult.SUCCESS) {
+            restoreBackup()
+            logger.i { "Restore completed successfully (source=$sourceLabel)" }
+        }
+    }
 
     suspend fun checkpointDatabase() {
         database.sessionsDao().checkpoint()
     }
 
-    fun generateBackupFileName(prefix: String = BackupConstants.DB_BACKUP_PREFIX): String =
-        "${prefix}${timeProvider.now().formatForBackupFileName()}"
+    fun generateBackupFileName(prefix: String = BackupConstants.DB_BACKUP_PREFIX): String = "${prefix}${timeProvider.now().formatForBackupFileName()}"
 
-    fun generateDbBackupFileName(prefix: String = BackupConstants.DB_BACKUP_PREFIX): String =
-        generateBackupFileName(prefix) + BackupConstants.DB_BACKUP_EXTENSION
+    fun generateDbBackupFileName(prefix: String = BackupConstants.DB_BACKUP_PREFIX): String = generateBackupFileName(prefix) + BackupConstants.DB_BACKUP_EXTENSION
 
     private suspend fun createBackup(tmpFilePath: String) {
         withContext(defaultDispatcher) {
@@ -231,15 +227,14 @@ class BackupFileManager(
         }
     }
 
-    private fun String.escapeJson(): String =
-        this
-            .replace("\\", "\\\\")
-            .replace("\"", "\\\"")
-            .replace("\n", "\\n")
-            .replace("\r", "\\r")
-            .replace("\t", "\\t")
-            .replace("\b", "\\b")
-            .replace("\u000C", "\\f")
+    private fun String.escapeJson(): String = this
+        .replace("\\", "\\\\")
+        .replace("\"", "\\\"")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+        .replace("\t", "\\t")
+        .replace("\b", "\\b")
+        .replace("\u000C", "\\f")
 
     private suspend fun restoreBackup() {
         withContext(defaultDispatcher) {

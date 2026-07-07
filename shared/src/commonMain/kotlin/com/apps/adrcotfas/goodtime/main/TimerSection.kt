@@ -152,7 +152,7 @@ fun MainTimerView(
                 (
                     MaterialTheme.typography.labelLarge.fontSize.value.sp
                         .toDp() + 5.dp
-                ) * 2f
+                    ) * 2f
             }
         Spacer(modifier = Modifier.height(imageSize))
     }
@@ -181,15 +181,15 @@ fun CurrentStatusSection(
             (
                 MaterialTheme.typography.labelLarge.fontSize.value.sp
                     .toDp() + 5.dp
-            ) * 2f
+                ) * 2f
         }
 
     Row(
         modifier =
-            modifier
-                .fillMaxWidth()
-                .height(imageSize)
-                .hideUnless(isActive),
+        modifier
+            .fillMaxWidth()
+            .height(imageSize)
+            .hideUnless(isActive),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
@@ -230,10 +230,10 @@ fun StatusIndicator(
             alpha.animateTo(
                 targetValue = 0.3f,
                 animationSpec =
-                    infiniteRepeatable(
-                        animation = tween(1000, easing = EaseInOut),
-                        repeatMode = RepeatMode.Reverse,
-                    ),
+                infiniteRepeatable(
+                    animation = tween(1000, easing = EaseInOut),
+                    repeatMode = RepeatMode.Reverse,
+                ),
             )
         } else {
             alpha.animateTo(targetValue = 1f, animationSpec = tween(200))
@@ -252,13 +252,13 @@ fun StatusIndicator(
             }
         Box(
             modifier =
-                Modifier
-                    .graphicsLayer { this.alpha = alpha.value }
-                    .padding(4.dp)
-                    .size(imageSize)
-                    .clip(MaterialTheme.shapes.small)
-                    .background(backgroundColor)
-                    .padding(5.dp),
+            Modifier
+                .graphicsLayer { this.alpha = alpha.value }
+                .padding(4.dp)
+                .size(imageSize)
+                .clip(MaterialTheme.shapes.small)
+                .background(backgroundColor)
+                .padding(5.dp),
         ) {
             Crossfade(
                 modifier = Modifier.align(Alignment.Center),
@@ -305,11 +305,11 @@ fun StreakIndicator(
                 }
             Box(
                 modifier =
-                    Modifier
-                        .padding(5.dp)
-                        .size(imageSize)
-                        .clip(MaterialTheme.shapes.small)
-                        .background(backgroundColor),
+                Modifier
+                    .padding(5.dp)
+                    .size(imageSize)
+                    .clip(MaterialTheme.shapes.small)
+                    .background(backgroundColor),
             ) {
                 val numerator =
                     (streak % sessionsBeforeLongBreak).run {
@@ -354,12 +354,12 @@ fun BreakBudgetIndicator(
             }
         Box(
             modifier =
-                Modifier
-                    .padding(6.dp)
-                    .height(imageSize)
-                    .clip(MaterialTheme.shapes.small)
-                    .background(backgroundColor)
-                    .padding(6.dp),
+            Modifier
+                .padding(6.dp)
+                .height(imageSize)
+                .clip(MaterialTheme.shapes.small)
+                .background(backgroundColor)
+                .padding(6.dp),
         ) {
             Row(
                 modifier = Modifier.align(Alignment.Center),
@@ -374,9 +374,9 @@ fun BreakBudgetIndicator(
                     modifier = Modifier.padding(horizontal = 4.dp),
                     text = breakBudget.minutes.formatOverview(),
                     style =
-                        MaterialTheme.typography.labelSmall.copy(
-                            color = color,
-                        ),
+                    MaterialTheme.typography.labelSmall.copy(
+                        color = color,
+                    ),
                 )
             }
         }
@@ -446,10 +446,10 @@ fun TimerTextView(
             alpha.animateTo(
                 targetValue = 0.3f,
                 animationSpec =
-                    infiniteRepeatable(
-                        animation = tween(1000, easing = EaseInOut),
-                        repeatMode = RepeatMode.Reverse,
-                    ),
+                infiniteRepeatable(
+                    animation = tween(1000, easing = EaseInOut),
+                    repeatMode = RepeatMode.Reverse,
+                ),
             )
         } else {
             alpha.animateTo(targetValue = 1f, animationSpec = tween(200))
@@ -467,17 +467,17 @@ fun TimerTextView(
         } ?: Modifier
     Text(
         modifier =
-            Modifier
-                .then(modifier)
-                .graphicsLayer(scaleX = scale, scaleY = scale, alpha = alpha.value)
-                .then(clickableModifier),
+        Modifier
+            .then(modifier)
+            .graphicsLayer(scaleX = scale, scaleY = scale, alpha = alpha.value)
+            .then(clickableModifier),
         text = millis.formatMilliseconds(timerStyle.minutesOnly),
         style =
-            TextStyle(
-                fontSize = timerStyle.inUseFontSize().em,
-                fontFamily = fontMap[timerStyle.fontWeight],
-                color = color,
-            ),
+        TextStyle(
+            fontSize = timerStyle.inUseFontSize().em,
+            fontFamily = fontMap[timerStyle.fontWeight],
+            color = color,
+        ),
     )
 }
 

@@ -48,10 +48,9 @@ import org.koin.core.qualifier.named
 import platform.UIKit.UIViewController
 
 @Suppress("ktlint:standard:function-naming")
-fun MainViewController(): UIViewController =
-    ComposeUIViewController {
-        AppWithKoin()
-    }
+fun MainViewController(): UIViewController = ComposeUIViewController {
+    AppWithKoin()
+}
 
 @OptIn(kotlin.experimental.ExperimentalNativeApi::class)
 @Composable

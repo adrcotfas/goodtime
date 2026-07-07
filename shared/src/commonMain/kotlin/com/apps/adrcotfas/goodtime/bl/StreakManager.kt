@@ -39,10 +39,9 @@ class StreakManager(
     private val coroutineScope: CoroutineScope,
     private val log: Logger,
 ) {
-    suspend fun initialLongBreakData(): LongBreakData =
-        settingsRepo.settings
-            .map { it.longBreakData }
-            .first()
+    suspend fun initialLongBreakData(): LongBreakData = settingsRepo.settings
+        .map { it.longBreakData }
+        .first()
 
     fun incrementStreak(current: LongBreakData): LongBreakData {
         val newData = LongBreakData(current.streak + 1, lastWorkEndTime = timeProvider.elapsedRealtime())

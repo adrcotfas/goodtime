@@ -122,14 +122,17 @@ class IosNotificationHandler(
                     onStartNextSession?.invoke()
                 }
             }
+
             "com.apple.UNNotificationDefaultActionIdentifier" -> {
                 log.v { "User tapped notification body (default action) - opens app" }
                 // User tapped the notification itself, not a button
                 // iOS automatically brings the app to foreground
             }
+
             "com.apple.UNNotificationDismissActionIdentifier" -> {
                 log.v { "User dismissed notification" }
             }
+
             else -> {
                 log.w { "Unknown action identifier: $actionId" }
             }

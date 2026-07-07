@@ -35,23 +35,22 @@ fun rememberCustomDialControlState(
     onTop: () -> Unit,
     onRight: () -> Unit,
     onBottom: () -> Unit,
-): DialControlState<DialRegion> =
-    remember(density, config, coroutineScope) {
-        DialControlState(
-            initialOptions = DialRegion.entries,
-            onSelected = {
-                when (it) {
-                    DialRegion.LEFT -> onLeft()
-                    DialRegion.TOP -> onTop()
-                    DialRegion.RIGHT -> onRight()
-                    DialRegion.BOTTOM -> onBottom()
-                }
-            },
-            config = config,
-            density = density,
-            coroutineScope = coroutineScope,
-        )
-    }
+): DialControlState<DialRegion> = remember(density, config, coroutineScope) {
+    DialControlState(
+        initialOptions = DialRegion.entries,
+        onSelected = {
+            when (it) {
+                DialRegion.LEFT -> onLeft()
+                DialRegion.TOP -> onTop()
+                DialRegion.RIGHT -> onRight()
+                DialRegion.BOTTOM -> onBottom()
+            }
+        },
+        config = config,
+        density = density,
+        coroutineScope = coroutineScope,
+    )
+}
 
 fun DialControlState<DialRegion>.updateEnabledOptions(timerUiState: TimerUiState) {
     val label = timerUiState.label

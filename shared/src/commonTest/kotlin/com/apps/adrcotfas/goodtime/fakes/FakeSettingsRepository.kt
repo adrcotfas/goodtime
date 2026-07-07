@@ -39,20 +39,18 @@ class FakeSettingsRepository(
     private val _settings = MutableStateFlow(settings)
     override val settings: Flow<AppSettings> = _settings
 
-    override suspend fun updateReminderSettings(transform: (ProductivityReminderSettings) -> ProductivityReminderSettings) =
-        _settings.emit(
-            _settings.value.copy(
-                productivityReminderSettings =
-                    transform(
-                        ProductivityReminderSettings(),
-                    ),
+    override suspend fun updateReminderSettings(transform: (ProductivityReminderSettings) -> ProductivityReminderSettings) = _settings.emit(
+        _settings.value.copy(
+            productivityReminderSettings =
+            transform(
+                ProductivityReminderSettings(),
             ),
-        )
+        ),
+    )
 
-    override suspend fun updateUiSettings(transform: (UiSettings) -> UiSettings) =
-        _settings.emit(
-            _settings.value.copy(uiSettings = transform(UiSettings())),
-        )
+    override suspend fun updateUiSettings(transform: (UiSettings) -> UiSettings) = _settings.emit(
+        _settings.value.copy(uiSettings = transform(UiSettings())),
+    )
 
     override suspend fun updateStatisticsSettings(transform: (StatisticsSettings) -> StatisticsSettings) {
         _settings.emit(
@@ -84,15 +82,13 @@ class FakeSettingsRepository(
         )
     }
 
-    override suspend fun setWorkFinishedSound(sound: String?) =
-        _settings.emit(
-            _settings.value.copy(workFinishedSound = sound ?: ""),
-        )
+    override suspend fun setWorkFinishedSound(sound: String?) = _settings.emit(
+        _settings.value.copy(workFinishedSound = sound ?: ""),
+    )
 
-    override suspend fun setBreakFinishedSound(sound: String?) =
-        _settings.emit(
-            _settings.value.copy(breakFinishedSound = sound ?: ""),
-        )
+    override suspend fun setBreakFinishedSound(sound: String?) = _settings.emit(
+        _settings.value.copy(breakFinishedSound = sound ?: ""),
+    )
 
     override suspend fun addUserSound(sound: SoundData) {
         val existingSounds = _settings.value.userSounds.toMutableSet()
@@ -110,15 +106,13 @@ class FakeSettingsRepository(
         )
     }
 
-    override suspend fun setVibrationStrength(strength: Int) =
-        _settings.emit(
-            _settings.value.copy(vibrationStrength = strength),
-        )
+    override suspend fun setVibrationStrength(strength: Int) = _settings.emit(
+        _settings.value.copy(vibrationStrength = strength),
+    )
 
-    override suspend fun setEnableTorch(enabled: Boolean) =
-        _settings.emit(
-            _settings.value.copy(enableTorch = enabled),
-        )
+    override suspend fun setEnableTorch(enabled: Boolean) = _settings.emit(
+        _settings.value.copy(enableTorch = enabled),
+    )
 
     override suspend fun setEnableFlashScreen(enabled: Boolean) {
         _settings.emit(
@@ -126,25 +120,21 @@ class FakeSettingsRepository(
         )
     }
 
-    override suspend fun setOverrideSoundProfile(enabled: Boolean) =
-        _settings.emit(
-            _settings.value.copy(overrideSoundProfile = enabled),
-        )
+    override suspend fun setOverrideSoundProfile(enabled: Boolean) = _settings.emit(
+        _settings.value.copy(overrideSoundProfile = enabled),
+    )
 
-    override suspend fun setInsistentNotification(enabled: Boolean) =
-        _settings.emit(
-            _settings.value.copy(insistentNotification = enabled),
-        )
+    override suspend fun setInsistentNotification(enabled: Boolean) = _settings.emit(
+        _settings.value.copy(insistentNotification = enabled),
+    )
 
-    override suspend fun setAutoStartWork(enabled: Boolean) =
-        _settings.emit(
-            _settings.value.copy(autoStartFocus = enabled),
-        )
+    override suspend fun setAutoStartWork(enabled: Boolean) = _settings.emit(
+        _settings.value.copy(autoStartFocus = enabled),
+    )
 
-    override suspend fun setAutoStartBreak(enabled: Boolean) =
-        _settings.emit(
-            _settings.value.copy(autoStartBreak = enabled),
-        )
+    override suspend fun setAutoStartBreak(enabled: Boolean) = _settings.emit(
+        _settings.value.copy(autoStartBreak = enabled),
+    )
 
     override suspend fun activateLabelWithName(labelName: String) {
         _settings.emit(

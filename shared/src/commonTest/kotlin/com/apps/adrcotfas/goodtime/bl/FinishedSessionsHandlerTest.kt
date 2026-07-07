@@ -57,69 +57,64 @@ class FinishedSessionsHandlerTest {
         )
 
     @BeforeTest
-    fun setup() =
-        runTest(testDispatcher) {
-            settingsRepo = FakeSettingsRepository()
-            repo =
-                LocalDataRepositoryImpl(
-                    sessionDao = FakeSessionDao(),
-                    labelDao = FakeLabelDao(),
-                    timerProfileDao = FakeTimerProfileDao(),
-                    settingsRepo = settingsRepo,
-                    coroutineScope = testScope,
-                )
-            handler =
-                FinishedSessionsHandler(
-                    coroutineScope = testScope,
-                    repo = repo,
-                    settingsRepo = settingsRepo,
-                    log = Logger(StaticConfig()),
-                )
-        }
+    fun setup() = runTest(testDispatcher) {
+        settingsRepo = FakeSettingsRepository()
+        repo =
+            LocalDataRepositoryImpl(
+                sessionDao = FakeSessionDao(),
+                labelDao = FakeLabelDao(),
+                timerProfileDao = FakeTimerProfileDao(),
+                settingsRepo = settingsRepo,
+                coroutineScope = testScope,
+            )
+        handler =
+            FinishedSessionsHandler(
+                coroutineScope = testScope,
+                repo = repo,
+                settingsRepo = settingsRepo,
+                log = Logger(StaticConfig()),
+            )
+    }
 
     @Test
-    fun `saveSession inserts and records the inserted id`() =
-        runTest(testDispatcher) {
-            handler.saveSession(session)
+    fun `saveSession inserts and records the inserted id`() = runTest(testDispatcher) {
+        handler.saveSession(session)
 
-            val sessions = repo.selectAllSessions().first()
-            assertEquals(1, sessions.size)
-            assertEquals(sessions.first().id, settingsRepo.settings.first().lastInsertedSessionId)
-        }
-
-    @Test
-    fun `updateLastFinishedSessionNotes only touches the notes`() =
-        runTest(testDispatcher) {
-            handler.saveSession(session)
-            handler.updateLastFinishedSessionNotes("stayed focused")
-
-            val stored = repo.selectAllSessions().first().single()
-            assertEquals("stayed focused", stored.notes)
-            assertEquals(session.duration, stored.duration)
-        }
+        val sessions = repo.selectAllSessions().first()
+        assertEquals(1, sessions.size)
+        assertEquals(sessions.first().id, settingsRepo.settings.first().lastInsertedSessionId)
+    }
 
     @Test
-    fun `updateSession replaces the last inserted session`() =
-        runTest(testDispatcher) {
-            handler.saveSession(session)
-            handler.updateSession(session.copy(duration = 30, notes = "extended"))
+    fun `updateLastFinishedSessionNotes only touches the notes`() = runTest(testDispatcher) {
+        handler.saveSession(session)
+        handler.updateLastFinishedSessionNotes("stayed focused")
 
-            val stored = repo.selectAllSessions().first().single()
-            assertEquals(30, stored.duration)
-            assertEquals("extended", stored.notes)
-        }
+        val stored = repo.selectAllSessions().first().single()
+        assertEquals("stayed focused", stored.notes)
+        assertEquals(session.duration, stored.duration)
+    }
 
     @Test
-    fun `updates are no-ops after resetLastInsertedSessionId`() =
-        runTest(testDispatcher) {
-            handler.saveSession(session)
-            handler.resetLastInsertedSessionId()
+    fun `updateSession replaces the last inserted session`() = runTest(testDispatcher) {
+        handler.saveSession(session)
+        handler.updateSession(session.copy(duration = 30, notes = "extended"))
 
-            handler.updateSession(session.copy(duration = 30))
-            handler.updateLastFinishedSessionNotes("ignored")
+        val stored = repo.selectAllSessions().first().single()
+        assertEquals(30, stored.duration)
+        assertEquals("extended", stored.notes)
+    }
 
-            val stored = repo.selectAllSessions().first().single()
-            assertEquals(session.duration, stored.duration)
-            assertEquals("", stored.notes)
-        }
+    @Test
+    fun `updates are no-ops after resetLastInsertedSessionId`() = runTest(testDispatcher) {
+        handler.saveSession(session)
+        handler.resetLastInsertedSessionId()
+
+        handler.updateSession(session.copy(duration = 30))
+        handler.updateLastFinishedSessionNotes("ignored")
+
+        val stored = repo.selectAllSessions().first().single()
+        assertEquals(session.duration, stored.duration)
+        assertEquals("", stored.notes)
+    }
 }

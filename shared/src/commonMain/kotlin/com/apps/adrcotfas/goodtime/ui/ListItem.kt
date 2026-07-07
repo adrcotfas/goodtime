@@ -114,13 +114,13 @@ fun BetterListItem(
     val internalModifier = modifier.padding(vertical = 4.dp)
     ListItem(
         modifier =
-            if (enabled && onClick != null) {
-                Modifier
-                    .clickable(onClick = onClick)
-                    .then(internalModifier)
-            } else {
-                internalModifier
-            },
+        if (enabled && onClick != null) {
+            Modifier
+                .clickable(onClick = onClick)
+                .then(internalModifier)
+        } else {
+            internalModifier
+        },
         colors = if (enabled) ListItemDefaults.enabledColors() else ListItemDefaults.disabledColors(),
         leadingContent = leading,
         headlineContent = { Text(text = title) },
@@ -146,13 +146,13 @@ fun BetterListItem(
     val modifier = Modifier.padding(vertical = 4.dp)
     ListItem(
         modifier =
-            if (enabled && onClick != null) {
-                Modifier
-                    .clickable(onClick = onClick)
-                    .then(modifier)
-            } else {
-                modifier
-            },
+        if (enabled && onClick != null) {
+            Modifier
+                .clickable(onClick = onClick)
+                .then(modifier)
+        } else {
+            modifier
+        },
         colors = if (enabled) ListItemDefaults.enabledColors() else ListItemDefaults.disabledColors(),
         headlineContent = { Text(text = title) },
         supportingContent = supporting,
@@ -177,9 +177,9 @@ fun IconListItem(
 
     ListItem(
         modifier =
-            Modifier
-                .clickable(onClick = onClick)
-                .then(modifier),
+        Modifier
+            .clickable(onClick = onClick)
+            .then(modifier),
         colors = colors,
         headlineContent = { Text(text = title) },
         supportingContent = {
@@ -278,11 +278,11 @@ fun CheckboxListItem(
         },
         enabled = enabled,
         onClick =
-            if (enabled) {
-                { onCheckedChange.invoke(!checked) }
-            } else {
-                null
-            },
+        if (enabled) {
+            { onCheckedChange.invoke(!checked) }
+        } else {
+            null
+        },
     )
 }
 
@@ -332,11 +332,11 @@ fun LockedCheckboxListItem(
         },
         enabled = enabled,
         onClick =
-            if (enabled) {
-                { onCheckedChange.invoke(!checked) }
-            } else {
-                null
-            },
+        if (enabled) {
+            { onCheckedChange.invoke(!checked) }
+        } else {
+            null
+        },
     )
 }
 
@@ -353,15 +353,15 @@ fun SwitchListItem(
     val isEnabled = enabled && !showProgress
     BetterListItem(
         modifier =
-            if (isEnabled) {
-                modifier.toggleable(
-                    value = checked,
-                    onValueChange = { onCheckedChange(!checked) },
-                    role = Role.Switch,
-                )
-            } else {
-                modifier
-            },
+        if (isEnabled) {
+            modifier.toggleable(
+                value = checked,
+                onValueChange = { onCheckedChange(!checked) },
+                role = Role.Switch,
+            )
+        } else {
+            modifier
+        },
         title = title,
         subtitle = subtitle,
         trailing = {
@@ -379,11 +379,11 @@ fun SwitchListItem(
         },
         enabled = isEnabled,
         onClick =
-            if (isEnabled) {
-                { onCheckedChange(!checked) }
-            } else {
-                null
-            },
+        if (isEnabled) {
+            { onCheckedChange(!checked) }
+        } else {
+            null
+        },
     )
 }
 

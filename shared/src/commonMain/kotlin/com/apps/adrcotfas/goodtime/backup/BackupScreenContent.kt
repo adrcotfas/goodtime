@@ -96,6 +96,7 @@ fun CloudBackupSection(
                 enabled = false,
             )
         }
+
         // Connected - show full controls
         isConnected -> {
             Column {
@@ -142,6 +143,7 @@ fun CloudBackupSection(
                 }
             }
         }
+
         // Not connected and connect action available (Android)
         onConnect != null -> {
             ActionCard(
@@ -178,11 +180,11 @@ fun LocalBackupSection(
         SwitchListItem(
             title = stringResource(Res.string.backup_auto_backup),
             subtitle =
-                if (localAutoBackupChecked && localAutoBackupPath.isNotBlank()) {
-                    formatFolderPath(localAutoBackupPath)
-                } else {
-                    null
-                },
+            if (localAutoBackupChecked && localAutoBackupPath.isNotBlank()) {
+                formatFolderPath(localAutoBackupPath)
+            } else {
+                null
+            },
             checked = localAutoBackupChecked,
             enabled = enabled,
             onCheckedChange = { onLocalAutoBackupToggle(it) },

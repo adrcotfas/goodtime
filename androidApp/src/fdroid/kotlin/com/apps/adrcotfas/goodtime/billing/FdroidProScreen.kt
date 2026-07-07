@@ -78,27 +78,27 @@ internal fun FdroidProScreen(onNavigateBack: () -> Unit) {
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(listState),
         ) {
             val productName = stringResource(Res.string.product_name_long)
             Text(
                 modifier = Modifier.padding(16.dp),
                 text =
-                    stringResource(Res.string.unlock_premium_desc1, productName) + "\n" + "\n" +
-                        stringResource(Res.string.support_donate_desc) + "\n" +
-                        stringResource(Res.string.unlock_premium_desc3),
+                stringResource(Res.string.unlock_premium_desc1, productName) + "\n" + "\n" +
+                    stringResource(Res.string.support_donate_desc) + "\n" +
+                    stringResource(Res.string.unlock_premium_desc3),
                 style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
             )
 
             Spacer(modifier = Modifier.height(24.dp))
             Column(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {

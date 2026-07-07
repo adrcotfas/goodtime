@@ -49,11 +49,10 @@ expect fun getDatabaseDriver(): SQLiteDriver
 fun getRoomDatabase(
     builder: RoomDatabase.Builder<ProductivityDatabase>,
     driver: SQLiteDriver,
-): ProductivityDatabase =
-    builder
-        .addMigrations(*MIGRATIONS)
-        .setDriver(driver)
-        .fallbackToDestructiveMigration(dropAllTables = true)
-        .build()
+): ProductivityDatabase = builder
+    .addMigrations(*MIGRATIONS)
+    .setDriver(driver)
+    .fallbackToDestructiveMigration(dropAllTables = true)
+    .build()
 
 const val DATABASE_NAME = "goodtime-db"

@@ -33,31 +33,30 @@ import androidx.compose.ui.platform.LocalFocusManager
 
 @OptIn(ExperimentalLayoutApi::class)
 @Stable
-actual fun Modifier.clearFocusOnKeyboardDismiss(onFocusCleared: () -> Unit): Modifier =
-    composed {
-        var isFocused by remember { mutableStateOf(false) }
-        var keyboardAppearedSinceLastFocused by remember { mutableStateOf(false) }
+actual fun Modifier.clearFocusOnKeyboardDismiss(onFocusCleared: () -> Unit): Modifier = composed {
+    var isFocused by remember { mutableStateOf(false) }
+    var keyboardAppearedSinceLastFocused by remember { mutableStateOf(false) }
 
-        if (isFocused) {
-            val imeIsVisible = WindowInsets.isImeVisible
-            val focusManager = LocalFocusManager.current
+    if (isFocused) {
+        val imeIsVisible = WindowInsets.isImeVisible
+        val focusManager = LocalFocusManager.current
 
-            LaunchedEffect(imeIsVisible) {
-                if (imeIsVisible) {
-                    keyboardAppearedSinceLastFocused = true
-                } else if (keyboardAppearedSinceLastFocused) {
-                    focusManager.clearFocus()
-                }
-            }
-        }
-
-        onFocusEvent {
-            if (isFocused != it.isFocused) {
-                if (!it.isFocused) {
-                    onFocusCleared()
-                }
-                isFocused = it.isFocused
-                if (isFocused) keyboardAppearedSinceLastFocused = false
+        LaunchedEffect(imeIsVisible) {
+            if (imeIsVisible) {
+                keyboardAppearedSinceLastFocused = true
+            } else if (keyboardAppearedSinceLastFocused) {
+                focusManager.clearFocus()
             }
         }
     }
+
+    onFocusEvent {
+        if (isFocused != it.isFocused) {
+            if (!it.isFocused) {
+                onFocusCleared()
+            }
+            isFocused = it.isFocused
+            if (isFocused) keyboardAppearedSinceLastFocused = false
+        }
+    }
+}

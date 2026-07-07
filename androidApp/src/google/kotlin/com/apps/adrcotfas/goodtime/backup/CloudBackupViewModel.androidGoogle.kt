@@ -71,9 +71,11 @@ class CloudBackupViewModel(
                     _uiState.update { it.copy(isConnected = true) }
                     executeToggleAutoBackup(true)
                 }
+
                 is GoogleDriveAuthResult.NeedsUserConsent -> {
                     _pendingAuthIntent.value = result.pendingIntent
                 }
+
                 is GoogleDriveAuthResult.Error -> {
                     SnackbarController.sendEvent(
                         SnackbarEvent(message = getString(Res.string.backup_failed_please_try_again)),
@@ -177,11 +179,13 @@ class CloudBackupViewModel(
                     SnackbarEvent(message = getString(Res.string.backup_restore_failed_please_try_again)),
                 )
             }
+
             backups.isEmpty() -> {
                 SnackbarController.sendEvent(
                     SnackbarEvent(message = getString(Res.string.backup_no_backups_found)),
                 )
             }
+
             else -> {
                 _uiState.update {
                     it.copy(

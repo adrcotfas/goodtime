@@ -69,63 +69,58 @@ class SettingsRepositoryImplTest : RobolectricTest() {
     }
 
     @Test
-    fun `defaults are emitted for an empty store`() =
-        runTest {
-            assertEquals(AppSettings(), repo.settings.first())
-        }
+    fun `defaults are emitted for an empty store`() = runTest {
+        assertEquals(AppSettings(), repo.settings.first())
+    }
 
     @Test
-    fun `break budget data round-trips`() =
-        runTest {
-            val data = BreakBudgetData(breakBudget = 12.minutes, breakBudgetStart = 1234L, isAccumulating = true)
-            repo.setBreakBudgetData(data)
-            assertEquals(data, repo.settings.first().breakBudgetData)
-        }
+    fun `break budget data round-trips`() = runTest {
+        val data = BreakBudgetData(breakBudget = 12.minutes, breakBudgetStart = 1234L, isAccumulating = true)
+        repo.setBreakBudgetData(data)
+        assertEquals(data, repo.settings.first().breakBudgetData)
+    }
 
     @Test
-    fun `long break data round-trips`() =
-        runTest {
-            val data = LongBreakData(streak = 3, lastWorkEndTime = 99_000L)
-            repo.setLongBreakData(data)
-            assertEquals(data, repo.settings.first().longBreakData)
-        }
+    fun `long break data round-trips`() = runTest {
+        val data = LongBreakData(streak = 3, lastWorkEndTime = 99_000L)
+        repo.setLongBreakData(data)
+        assertEquals(data, repo.settings.first().longBreakData)
+    }
 
     @Test
-    fun `persisted timer state round-trips and clears`() =
-        runTest {
-            val state =
-                PersistedTimerState.from(
-                    runtime =
-                        TimerRuntimeState(
-                            startTime = 1,
-                            lastStartTime = 2,
-                            endTime = 3,
-                            state = TimerState.PAUSED,
-                            type = TimerType.BREAK,
-                            timeSpentPaused = 4,
-                            timeAtPause = 5,
-                            lastPauseTime = 6,
-                        ),
-                    savedAtWallClock = 7,
-                    endTimeWallClock = 8,
-                )
-            repo.setPersistedTimerState(state)
-            assertEquals(state, repo.settings.first().persistedTimerState)
+    fun `persisted timer state round-trips and clears`() = runTest {
+        val state =
+            PersistedTimerState.from(
+                runtime =
+                TimerRuntimeState(
+                    startTime = 1,
+                    lastStartTime = 2,
+                    endTime = 3,
+                    state = TimerState.PAUSED,
+                    type = TimerType.BREAK,
+                    timeSpentPaused = 4,
+                    timeAtPause = 5,
+                    lastPauseTime = 6,
+                ),
+                savedAtWallClock = 7,
+                endTimeWallClock = 8,
+            )
+        repo.setPersistedTimerState(state)
+        assertEquals(state, repo.settings.first().persistedTimerState)
 
-            repo.clearPersistedTimerState()
-            assertNull(repo.settings.first().persistedTimerState)
-        }
+        repo.clearPersistedTimerState()
+        assertNull(repo.settings.first().persistedTimerState)
+    }
 
     @Test
-    fun `scalar settings round-trip`() =
-        runTest {
-            repo.setPro(true)
-            repo.setLastInsertedSessionId(42L)
-            repo.setAutoStartBreak(true)
+    fun `scalar settings round-trip`() = runTest {
+        repo.setPro(true)
+        repo.setLastInsertedSessionId(42L)
+        repo.setAutoStartBreak(true)
 
-            val settings = repo.settings.first()
-            assertEquals(true, settings.isPro)
-            assertEquals(42L, settings.lastInsertedSessionId)
-            assertEquals(true, settings.autoStartBreak)
-        }
+        val settings = repo.settings.first()
+        assertEquals(true, settings.isPro)
+        assertEquals(42L, settings.lastInsertedSessionId)
+        assertEquals(true, settings.autoStartBreak)
+    }
 }

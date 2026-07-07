@@ -37,10 +37,9 @@ class ReminderTimerCalculatorTest {
         day: Int,
         hour: Int,
         minute: Int,
-    ): Long =
-        LocalDateTime(year, month, day, hour, minute, 0, 0)
-            .toInstant(timeZone)
-            .toEpochMilliseconds()
+    ): Long = LocalDateTime(year, month, day, hour, minute, 0, 0)
+        .toInstant(timeZone)
+        .toEpochMilliseconds()
 
     private fun Long.toDateTime(): LocalDateTime = Instant.fromEpochMilliseconds(this).toLocalDateTime(timeZone)
 

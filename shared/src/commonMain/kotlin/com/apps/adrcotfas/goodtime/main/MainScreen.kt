@@ -189,10 +189,10 @@ fun MainScreen(
                 initialValue = backgroundColor,
                 targetValue = MaterialTheme.colorScheme.onSurface,
                 animationSpec =
-                    infiniteRepeatable(
-                        animation = tween(200, easing = FastOutLinearInEasing, delayMillis = 2000),
-                        repeatMode = RepeatMode.Restart,
-                    ),
+                infiniteRepeatable(
+                    animation = tween(200, easing = FastOutLinearInEasing, delayMillis = 2000),
+                    repeatMode = RepeatMode.Restart,
+                ),
                 label = "flashColor",
             )
         } else {
@@ -216,21 +216,21 @@ fun MainScreen(
         Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
             Surface(
                 modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                        ) {
-                            onSurfaceClick()
-                        },
+                Modifier
+                    .fillMaxSize()
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                    ) {
+                        onSurfaceClick()
+                    },
             ) {
                 Box(
                     modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .background(flashScreenBackgroundColor)
-                            .windowInsetsPadding(WindowInsets.safeDrawing),
+                    Modifier
+                        .fillMaxSize()
+                        .background(flashScreenBackgroundColor)
+                        .windowInsetsPadding(WindowInsets.safeDrawing),
                     contentAlignment = Alignment.Center,
                 ) {
                     val tutorialModifier =

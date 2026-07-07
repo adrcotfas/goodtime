@@ -49,35 +49,32 @@ class ICloudBackupService(
         cloudBackupManager.setAutoBackupSchedulingEnabled(enabled)
     }
 
-    suspend fun backupNow(): BackupPromptResult =
-        try {
-            cloudBackupManager.performManualBackup()
-            BackupPromptResult.SUCCESS
-        } catch (e: Exception) {
-            logger.e(e) { "backupNow() failed" }
-            BackupPromptResult.FAILED
-        }
+    suspend fun backupNow(): BackupPromptResult = try {
+        cloudBackupManager.performManualBackup()
+        BackupPromptResult.SUCCESS
+    } catch (e: Exception) {
+        logger.e(e) { "backupNow() failed" }
+        BackupPromptResult.FAILED
+    }
 
     /**
      * Lists available backups from iCloud.
      * @return list of backup file names, or null if the operation failed (network error, etc.)
      */
-    suspend fun listAvailableBackups(): List<String>? =
-        try {
-            cloudBackupManager.listAvailableBackups()
-        } catch (e: Exception) {
-            logger.e(e) { "listAvailableBackups() failed" }
-            null
-        }
+    suspend fun listAvailableBackups(): List<String>? = try {
+        cloudBackupManager.listAvailableBackups()
+    } catch (e: Exception) {
+        logger.e(e) { "listAvailableBackups() failed" }
+        null
+    }
 
-    suspend fun restoreFromBackup(fileName: String): BackupPromptResult =
-        try {
-            val tempFilePath = cloudBackupManager.getBackupFileForRestore(fileName)
-            backupManager.restoreFromFile(tempFilePath)
-        } catch (e: Exception) {
-            logger.e(e) { "restoreFromBackup($fileName) failed" }
-            BackupPromptResult.FAILED
-        }
+    suspend fun restoreFromBackup(fileName: String): BackupPromptResult = try {
+        val tempFilePath = cloudBackupManager.getBackupFileForRestore(fileName)
+        backupManager.restoreFromFile(tempFilePath)
+    } catch (e: Exception) {
+        logger.e(e) { "restoreFromBackup($fileName) failed" }
+        BackupPromptResult.FAILED
+    }
 
     suspend fun attemptEnableAutoBackup(): CloudAutoBackupIssue? {
         logger.d { "attemptEnableAutoBackup() - starting..." }

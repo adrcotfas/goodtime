@@ -96,15 +96,14 @@ class SoundVibrationAndTorchPlayerTest {
         torchManager = RecordingTorchManager()
     }
 
-    private fun player(isAndroid: Boolean) =
-        SoundVibrationAndTorchPlayer(
-            soundPlayer = soundPlayer,
-            vibrationPlayer = vibrationPlayer,
-            torchManager = torchManager,
-            timeProvider = timeProvider,
-            logger = Logger(StaticConfig()),
-            platformConfiguration = FakePlatformConfiguration(isAndroid = isAndroid),
-        )
+    private fun player(isAndroid: Boolean) = SoundVibrationAndTorchPlayer(
+        soundPlayer = soundPlayer,
+        vibrationPlayer = vibrationPlayer,
+        torchManager = torchManager,
+        timeProvider = timeProvider,
+        logger = Logger(StaticConfig()),
+        platformConfiguration = FakePlatformConfiguration(isAndroid = isAndroid),
+    )
 
     @Test
     fun `finished on Android always plays`() {

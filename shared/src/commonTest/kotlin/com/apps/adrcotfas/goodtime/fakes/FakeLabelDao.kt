@@ -102,12 +102,11 @@ class FakeLabelDao : LabelDao {
 
     override fun selectAll(): Flow<List<LocalLabel>> = labels
 
-    override fun selectByArchived(isArchived: Boolean): Flow<List<LocalLabel>> =
-        labels.map { labels ->
-            labels.filter {
-                it.isArchived == isArchived
-            }
+    override fun selectByArchived(isArchived: Boolean): Flow<List<LocalLabel>> = labels.map { labels ->
+        labels.filter {
+            it.isArchived == isArchived
         }
+    }
 
     override fun selectByName(name: String): Flow<LocalLabel?> = labels.map { labels -> labels.find { it.name == name } }
 

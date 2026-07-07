@@ -56,21 +56,20 @@ import goodtime_productivity.shared.generated.resources.stats_productive_hours
 import kotlinx.datetime.LocalTime
 import org.jetbrains.compose.resources.stringResource
 
-private fun Int.toFormattedHour(is24HourFormat: Boolean): String =
-    if (is24HourFormat) {
-        "$this"
-    } else {
-        val hour =
-            if (this == 0) {
-                12
-            } else if (this > 12) {
-                this - 12
-            } else {
-                this
-            }
-        val amPm = if (this < 12) "AM" else "PM"
-        "$hour\n$amPm"
-    }
+private fun Int.toFormattedHour(is24HourFormat: Boolean): String = if (is24HourFormat) {
+    "$this"
+} else {
+    val hour =
+        if (this == 0) {
+            12
+        } else if (this > 12) {
+            this - 12
+        } else {
+            this
+        }
+    val amPm = if (this < 12) "AM" else "PM"
+    "$hour\n$amPm"
+}
 
 fun <K, V> Map<K, V>.rotate(startKey: K): Map<K, V> {
     val startIndex = this.keys.indexOf(startKey)
@@ -95,22 +94,22 @@ fun ProductiveTimeSection(
 
     Column(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             text = stringResource(Res.string.stats_productive_hours),
             style =
-                MaterialTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                    color = color,
-                ),
+            MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.Medium,
+                color = color,
+            ),
         )
         val density = LocalDensity.current
         val cellSize = remember { (convertSpToDp(density, 12.sp.value) * 1.5f).dp }
@@ -118,14 +117,14 @@ fun ProductiveTimeSection(
 
         Column(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 24.dp,
-                        bottom = 16.dp,
-                        start = cellSize,
-                        end = 32.dp,
-                    ),
+            Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 24.dp,
+                    bottom = 16.dp,
+                    start = cellSize,
+                    end = 32.dp,
+                ),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             CompositionLocalProvider(
@@ -137,9 +136,9 @@ fun ProductiveTimeSection(
                     // the only reason for this is to have it aligned to the Heatmap section
                     Text(
                         modifier =
-                            Modifier
-                                .alpha(0f)
-                                .padding(cellSpacing),
+                        Modifier
+                            .alpha(0f)
+                            .padding(cellSpacing),
                         text = "mmm",
                         maxLines = 1,
                         style = MaterialTheme.typography.labelSmall,
@@ -157,25 +156,25 @@ fun ProductiveTimeSection(
                                 Box(modifier = Modifier.padding(cellSpacing)) {
                                     Box(
                                         modifier =
-                                            Modifier
-                                                .size(cellSize)
-                                                .clip(MaterialTheme.shapes.extraSmall)
-                                                .background(
-                                                    MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                        alpha = 0.5f,
-                                                    ),
+                                        Modifier
+                                            .size(cellSize)
+                                            .clip(MaterialTheme.shapes.extraSmall)
+                                            .background(
+                                                MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                    alpha = 0.5f,
                                                 ),
+                                            ),
                                     )
                                     Box(
                                         modifier =
-                                            Modifier
-                                                .size(cellSize)
-                                                .clip(MaterialTheme.shapes.extraSmall)
-                                                .background(
-                                                    color.copy(
-                                                        alpha = value,
-                                                    ),
+                                        Modifier
+                                            .size(cellSize)
+                                            .clip(MaterialTheme.shapes.extraSmall)
+                                            .background(
+                                                color.copy(
+                                                    alpha = value,
                                                 ),
+                                            ),
                                     )
                                 }
                                 if (hour % 3 == 0) {

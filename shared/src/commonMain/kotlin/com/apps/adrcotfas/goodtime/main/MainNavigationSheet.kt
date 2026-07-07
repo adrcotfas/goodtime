@@ -131,10 +131,10 @@ fun MainNavigationSheetContent(
 ) {
     Column(
         modifier =
-            Modifier
-                .padding(horizontal = 8.dp, vertical = 16.dp)
-                .animateContentSize()
-                .verticalScroll(rememberScrollState()),
+        Modifier
+            .padding(horizontal = 8.dp, vertical = 16.dp)
+            .animateContentSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top,
     ) {
@@ -147,9 +147,9 @@ fun MainNavigationSheetContent(
             Text(
                 text = stringResource(Res.string.product_name_long),
                 style =
-                    MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                    ),
+                MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                ),
             )
         }
         SubtleHorizontalDivider()

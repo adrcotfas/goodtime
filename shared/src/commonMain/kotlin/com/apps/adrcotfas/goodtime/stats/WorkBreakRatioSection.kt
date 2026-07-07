@@ -70,26 +70,26 @@ fun WorkBreakRatioSection(
 
     Column(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 8.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 stringResource(Res.string.stats_focus_break_ratio),
                 style =
-                    MaterialTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.Medium,
-                        color = color,
-                    ),
+                MaterialTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = color,
+                ),
             )
             DropdownMenuBox(
                 textStyle = MaterialTheme.typography.bodySmall,
@@ -104,9 +104,9 @@ fun WorkBreakRatioSection(
 
         Column(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp, horizontal = 32.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp, horizontal = 32.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Row(
@@ -125,9 +125,9 @@ fun WorkBreakRatioSection(
             }
             LinearProgressIndicator(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(10.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .height(10.dp),
                 progress = { workPercentage.toFloat() / 100 },
                 drawStopIndicator = {},
             )

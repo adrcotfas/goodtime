@@ -24,12 +24,11 @@ data class PermissionsState(
     val shouldAskForBatteryOptimizationRemoval: Boolean,
     val shouldAskForAlarmPermission: Boolean,
 ) {
-    fun count() =
-        listOf(
-            shouldAskForNotificationPermission,
-            shouldAskForBatteryOptimizationRemoval,
-            shouldAskForAlarmPermission,
-        ).count { it }
+    fun count() = listOf(
+        shouldAskForNotificationPermission,
+        shouldAskForBatteryOptimizationRemoval,
+        shouldAskForAlarmPermission,
+    ).count { it }
 }
 
 @Composable

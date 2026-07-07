@@ -87,9 +87,9 @@ fun TimelineTab(
     if (sessions.itemCount == 0) {
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -102,9 +102,9 @@ fun TimelineTab(
             Text(
                 text = stringResource(Res.string.stats_no_items),
                 style =
-                    MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    ),
+                MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                ),
             )
         }
         return
@@ -112,8 +112,8 @@ fun TimelineTab(
 
     LazyColumn(
         modifier =
-            Modifier
-                .fillMaxSize(),
+        Modifier
+            .fillMaxSize(),
         state = listState,
     ) {
         items(
@@ -125,8 +125,7 @@ fun TimelineTab(
             if (session != null) {
                 val isSelected =
                     selectedSessions.contains(session.id) ||
-                        isSelectAllEnabled &&
-                        !unselectedSessions.contains(session.id)
+                        (isSelectAllEnabled && !unselectedSessions.contains(session.id))
 
                 // might be null at the moment of toggling "show archived"
                 val colorIndex =
@@ -158,10 +157,10 @@ fun TimelineListItem(
 ) {
     ListItem(
         modifier =
-            modifier.combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongClick,
-            ),
+        modifier.combinedClickable(
+            onClick = onClick,
+            onLongClick = onLongClick,
+        ),
         colors = if (isSelected) ListItemDefaults.selectedColors() else ListItemDefaults.enabledColors(),
         leadingContent = {
             Row(
@@ -173,13 +172,13 @@ fun TimelineListItem(
                 Image(
                     modifier = Modifier.size(12.dp),
                     painter =
-                        painterResource(
-                            if (session.isWork) {
-                                Res.drawable.ic_status_goodtime
-                            } else {
-                                Res.drawable.ic_break
-                            },
-                        ),
+                    painterResource(
+                        if (session.isWork) {
+                            Res.drawable.ic_status_goodtime
+                        } else {
+                            Res.drawable.ic_break
+                        },
+                    ),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
                     contentDescription = "session type",
                 )
@@ -189,9 +188,9 @@ fun TimelineListItem(
                     text = stringResource(Res.string.main_min, session.duration),
                     maxLines = 1,
                     style =
-                        MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        ),
+                    MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    ),
                 )
             }
         },
@@ -208,10 +207,10 @@ fun TimelineListItem(
                         text = session.notes,
                         maxLines = 1,
                         style =
-                            MaterialTheme.typography.bodySmall.copy(
-                                MaterialTheme.colorScheme.onSurfaceVariant,
-                                fontStyle = FontStyle.Italic,
-                            ),
+                        MaterialTheme.typography.bodySmall.copy(
+                            MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontStyle = FontStyle.Italic,
+                        ),
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
@@ -233,12 +232,12 @@ fun HistoryListItemPreview() {
     MaterialTheme {
         TimelineListItem(
             session =
-                Session.default().copy(
-                    duration = 25,
-                    timestamp = 1763978735,
-                    label = "mathematics",
-                    notes = "Today was a good day and I did a lot of work and I am very happy",
-                ),
+            Session.default().copy(
+                duration = 25,
+                timestamp = 1763978735,
+                label = "mathematics",
+                notes = "Today was a good day and I did a lot of work and I am very happy",
+            ),
             isSelected = false,
             colorIndex = 0,
             onClick = {},

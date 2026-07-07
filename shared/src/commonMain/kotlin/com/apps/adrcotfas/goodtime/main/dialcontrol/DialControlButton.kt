@@ -50,11 +50,11 @@ fun DialControlButton(
                 imageVector = region.icon,
                 contentDescription = null,
                 tint =
-                    if (selected) {
-                        MaterialTheme.colorScheme.onPrimary
-                    } else {
-                        LocalContentColor.current
-                    },
+                if (selected) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    LocalContentColor.current
+                },
             )
         }
 
@@ -63,11 +63,11 @@ fun DialControlButton(
                 alignment = Alignment.TopCenter,
                 offset = IntOffset(0, -48.dp.value.toInt()),
                 properties =
-                    PopupProperties(
-                        dismissOnBackPress = false,
-                        dismissOnClickOutside = false,
-                        clippingEnabled = false,
-                    ),
+                PopupProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                    clippingEnabled = false,
+                ),
             ) {
                 Text(
                     text = stringResource(region.labelId),
@@ -75,11 +75,11 @@ fun DialControlButton(
                     color = MaterialTheme.colorScheme.inverseOnSurface,
                     textAlign = TextAlign.Center,
                     modifier =
-                        Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.inverseSurface,
-                                shape = MaterialTheme.shapes.small,
-                            ).padding(horizontal = 8.dp, vertical = 4.dp),
+                    Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.inverseSurface,
+                            shape = MaterialTheme.shapes.small,
+                        ).padding(horizontal = 8.dp, vertical = 4.dp),
                 )
             }
         }

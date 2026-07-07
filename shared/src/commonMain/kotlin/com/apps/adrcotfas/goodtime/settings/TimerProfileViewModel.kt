@@ -92,16 +92,16 @@ class TimerProfileViewModel(
         _uiState.update {
             it.copy(
                 tmpLabel =
-                    if (resetProfile) {
-                        newLabel.copy(
-                            timerProfile =
-                                newLabel.timerProfile.copy(
-                                    name = null,
-                                ),
-                        )
-                    } else {
-                        newLabel
-                    },
+                if (resetProfile) {
+                    newLabel.copy(
+                        timerProfile =
+                        newLabel.timerProfile.copy(
+                            name = null,
+                        ),
+                    )
+                } else {
+                    newLabel
+                },
             )
         }
     }
@@ -119,12 +119,12 @@ class TimerProfileViewModel(
                 _uiState.update {
                     it.copy(
                         tmpLabel =
-                            it.tmpLabel.copy(
-                                timerProfile =
-                                    it.tmpLabel.timerProfile.copy(
-                                        name = null,
-                                    ),
+                        it.tmpLabel.copy(
+                            timerProfile =
+                            it.tmpLabel.timerProfile.copy(
+                                name = null,
                             ),
+                        ),
                     )
                 }
             }

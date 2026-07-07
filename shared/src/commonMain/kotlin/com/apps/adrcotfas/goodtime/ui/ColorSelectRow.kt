@@ -50,9 +50,9 @@ fun ColorSelectRow(
 
     LazyRow(
         modifier =
-            Modifier
-                .wrapContentWidth()
-                .height(48.dp),
+        Modifier
+            .wrapContentWidth()
+            .height(48.dp),
         state = listState,
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -76,20 +76,20 @@ private fun LabelColorPickerItem(
 ) {
     Box(
         modifier =
-            Modifier
-                .size(32.dp)
-                .clip(CircleShape)
-                .background(color)
-                .clickable(onClick = onClick),
+        Modifier
+            .size(32.dp)
+            .clip(CircleShape)
+            .background(color)
+            .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         if (isSelected) {
             Box(
                 modifier =
-                    Modifier
-                        .size(22.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.background.copy(alpha = 0.5f)),
+                Modifier
+                    .size(22.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.background.copy(alpha = 0.5f)),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(

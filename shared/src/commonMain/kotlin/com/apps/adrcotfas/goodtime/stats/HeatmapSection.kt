@@ -101,27 +101,27 @@ fun HeatmapSection(
 
     Column(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 8.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 stringResource(Res.string.stats_heatmap),
                 style =
-                    MaterialTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.Medium,
-                        color = color,
-                    ),
+                MaterialTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = color,
+                ),
             )
         }
 
@@ -130,26 +130,26 @@ fun HeatmapSection(
         ) {
             Row(
                 modifier =
-                    Modifier
-                        .wrapContentSize()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(
-                            top = 16.dp,
-                            bottom = 16.dp,
-                            start = cellSize,
-                            end = 32.dp,
-                        ),
+                Modifier
+                    .wrapContentSize()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(
+                        top = 16.dp,
+                        bottom = 16.dp,
+                        start = cellSize,
+                        end = 32.dp,
+                    ),
             ) {
                 Column(
                     modifier =
-                        Modifier
-                            .wrapContentHeight(),
+                    Modifier
+                        .wrapContentHeight(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Box(
                         modifier =
-                            Modifier
-                                .size(cellSize),
+                        Modifier
+                            .size(cellSize),
                     )
                     val labeledDays = mutableListOf(1, 3, 5)
 
@@ -157,18 +157,18 @@ fun HeatmapSection(
                         if (labeledDays.contains(it.isoDayNumber)) {
                             Text(
                                 modifier =
-                                    Modifier
-                                        .padding(cellSpacing)
-                                        .height(cellSize),
+                                Modifier
+                                    .padding(cellSpacing)
+                                    .height(cellSize),
                                 text = dayNames[it.ordinal],
                                 style = MaterialTheme.typography.labelSmall,
                             )
                         } else {
                             Box(
                                 modifier =
-                                    Modifier
-                                        .padding(cellSpacing)
-                                        .size(cellSize),
+                                Modifier
+                                    .padding(cellSpacing)
+                                    .size(cellSize),
                             )
                         }
                     }
@@ -182,8 +182,8 @@ fun HeatmapSection(
                         items(numberOfWeeks) { index ->
                             Column(
                                 modifier =
-                                    Modifier
-                                        .wrapContentHeight(),
+                                Modifier
+                                    .wrapContentHeight(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 val currentWeekStart =
@@ -215,35 +215,35 @@ fun HeatmapSection(
                                         Box(modifier = Modifier.padding(cellSpacing)) {
                                             Box(
                                                 modifier =
-                                                    Modifier
-                                                        .size(cellSize)
-                                                        .clip(MaterialTheme.shapes.extraSmall)
-                                                        .background(
-                                                            MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                                alpha = 0.5f,
-                                                            ),
+                                                Modifier
+                                                    .size(cellSize)
+                                                    .clip(MaterialTheme.shapes.extraSmall)
+                                                    .background(
+                                                        MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                            alpha = 0.5f,
                                                         ),
+                                                    ),
                                             )
                                             Box(
                                                 modifier =
-                                                    Modifier
-                                                        .size(cellSize)
-                                                        .clip(MaterialTheme.shapes.extraSmall)
-                                                        .background(
-                                                            color.copy(
-                                                                alpha =
-                                                                    data[currentDay]?.plus(0.2f)
-                                                                        ?: 0f,
-                                                            ),
+                                                Modifier
+                                                    .size(cellSize)
+                                                    .clip(MaterialTheme.shapes.extraSmall)
+                                                    .background(
+                                                        color.copy(
+                                                            alpha =
+                                                            data[currentDay]?.plus(0.2f)
+                                                                ?: 0f,
                                                         ),
+                                                    ),
                                             )
                                         }
                                     } else {
                                         Box(
                                             modifier =
-                                                Modifier
-                                                    .padding(cellSpacing)
-                                                    .size(cellSize),
+                                            Modifier
+                                                .padding(cellSpacing)
+                                                .size(cellSize),
                                         )
                                     }
                                 }

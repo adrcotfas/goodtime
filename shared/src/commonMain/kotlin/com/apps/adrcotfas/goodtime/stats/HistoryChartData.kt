@@ -81,9 +81,9 @@ fun computeHistoryChartData(
             HistoryIntervalType.WEEKS -> {
                 IterationData(
                     intervalStart =
-                        today
-                            .firstDayOfWeekInThisWeek(firstDayOfWeek)
-                            .minus(DatePeriod(days = NUM_WEEKS * 7)),
+                    today
+                        .firstDayOfWeekInThisWeek(firstDayOfWeek)
+                        .minus(DatePeriod(days = NUM_WEEKS * 7)),
                     intervalLength = NUM_WEEKS,
                     step = DatePeriod(days = 7),
                 )
@@ -92,11 +92,11 @@ fun computeHistoryChartData(
             HistoryIntervalType.MONTHS -> {
                 IterationData(
                     intervalStart =
-                        LocalDate(
-                            today.year,
-                            today.month,
-                            1,
-                        ).minus(DatePeriod(months = NUM_MONTHS)),
+                    LocalDate(
+                        today.year,
+                        today.month,
+                        1,
+                    ).minus(DatePeriod(months = NUM_MONTHS)),
                     intervalLength = NUM_MONTHS,
                     step = DatePeriod(months = 1),
                 )
@@ -105,9 +105,9 @@ fun computeHistoryChartData(
             HistoryIntervalType.QUARTERS -> {
                 IterationData(
                     intervalStart =
-                        today
-                            .firstDayOfThisQuarter()
-                            .minus(DatePeriod(months = NUM_QUARTERS * 3)),
+                    today
+                        .firstDayOfThisQuarter()
+                        .minus(DatePeriod(months = NUM_QUARTERS * 3)),
                     intervalLength = NUM_QUARTERS,
                     step = DatePeriod(months = 3),
                 )
@@ -116,11 +116,11 @@ fun computeHistoryChartData(
             HistoryIntervalType.YEARS -> {
                 IterationData(
                     intervalStart =
-                        LocalDate(
-                            today.year,
-                            1,
-                            1,
-                        ).minus(DatePeriod(years = NUM_YEARS)),
+                    LocalDate(
+                        today.year,
+                        1,
+                        1,
+                    ).minus(DatePeriod(years = NUM_YEARS)),
                     intervalLength = NUM_YEARS,
                     step = DatePeriod(years = 1),
                 )

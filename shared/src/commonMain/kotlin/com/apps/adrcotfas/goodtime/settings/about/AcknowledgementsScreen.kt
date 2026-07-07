@@ -51,11 +51,11 @@ fun AcknowledgementsScreen(onNavigateBack: () -> Boolean) {
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState)
-                    .background(MaterialTheme.colorScheme.background),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(listState)
+                .background(MaterialTheme.colorScheme.background),
         ) {
             BetterListItem(
                 title = "Pomodoro Technique",

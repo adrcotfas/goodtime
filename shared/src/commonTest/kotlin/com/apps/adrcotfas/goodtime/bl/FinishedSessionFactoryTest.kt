@@ -32,13 +32,13 @@ class FinishedSessionFactoryTest {
     ) = DomainTimerData(
         isReady = true,
         runtime =
-            TimerRuntimeState(
-                startTime = startTime,
-                endTime = endTime,
-                timeSpentPaused = timeSpentPaused,
-                type = type,
-                state = TimerState.FINISHED,
-            ),
+        TimerRuntimeState(
+            startTime = startTime,
+            endTime = endTime,
+            timeSpentPaused = timeSpentPaused,
+            type = type,
+            state = TimerState.FINISHED,
+        ),
     )
 
     @Test
@@ -57,11 +57,11 @@ class FinishedSessionFactoryTest {
         val result =
             FinishedSessionFactory.create(
                 data =
-                    data(
-                        startTime = 0,
-                        endTime = 25.minutes.inWholeMilliseconds,
-                        timeSpentPaused = 5.minutes.inWholeMilliseconds,
-                    ),
+                data(
+                    startTime = 0,
+                    endTime = 25.minutes.inWholeMilliseconds,
+                    timeSpentPaused = 5.minutes.inWholeMilliseconds,
+                ),
                 now = 2_000_000,
                 elapsedRealtime = 25.minutes.inWholeMilliseconds,
                 notes = "note",
@@ -82,12 +82,12 @@ class FinishedSessionFactoryTest {
         val result =
             FinishedSessionFactory.create(
                 data =
-                    data(
-                        startTime = 0,
-                        endTime = 10.minutes.inWholeMilliseconds,
-                        timeSpentPaused = 2.minutes.inWholeMilliseconds,
-                        type = TimerType.BREAK,
-                    ),
+                data(
+                    startTime = 0,
+                    endTime = 10.minutes.inWholeMilliseconds,
+                    timeSpentPaused = 2.minutes.inWholeMilliseconds,
+                    type = TimerType.BREAK,
+                ),
                 now = 3_000_000,
                 elapsedRealtime = 10.minutes.inWholeMilliseconds,
             )

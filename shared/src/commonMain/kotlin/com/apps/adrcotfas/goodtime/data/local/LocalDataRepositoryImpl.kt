@@ -131,37 +131,32 @@ internal class LocalDataRepositoryImpl(
 
     override fun selectAllSessions(): Flow<List<Session>> = sessionDao.selectAll().map { it.map { sessions -> sessions.toExternal() } }
 
-    override fun selectSessionsAfter(timestamp: Long): Flow<List<Session>> =
-        sessionDao
-            .selectAfter(timestamp)
-            .map { sessions -> sessions.map { it.toExternal() } }
+    override fun selectSessionsAfter(timestamp: Long): Flow<List<Session>> = sessionDao
+        .selectAfter(timestamp)
+        .map { sessions -> sessions.map { it.toExternal() } }
 
     override fun selectSessionById(id: Long): Flow<Session> = sessionDao.selectById(id).map { it.toExternal() }
 
-    override fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>> =
-        sessionDao
-            .selectByIsArchived(isArchived)
-            .map { sessions -> sessions.map { it.toExternal() } }
+    override fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>> = sessionDao
+        .selectByIsArchived(isArchived)
+        .map { sessions -> sessions.map { it.toExternal() } }
 
-    override fun selectSessionsByLabel(label: String): Flow<List<Session>> =
-        sessionDao.selectByLabel(label).map { sessions ->
-            sessions.map {
-                it.toExternal()
-            }
+    override fun selectSessionsByLabel(label: String): Flow<List<Session>> = sessionDao.selectByLabel(label).map { sessions ->
+        sessions.map {
+            it.toExternal()
         }
+    }
 
-    override fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>> =
-        sessionDao
-            .selectByLabels(labels)
-            .map { sessions -> sessions.map { it.toExternal() } }
+    override fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>> = sessionDao
+        .selectByLabels(labels)
+        .map { sessions -> sessions.map { it.toExternal() } }
 
     override fun selectSessionsByLabels(
         labels: List<String>,
         after: Long,
-    ): Flow<List<Session>> =
-        sessionDao
-            .selectByLabels(labels, after)
-            .map { sessions -> sessions.map { it.toExternal() } }
+    ): Flow<List<Session>> = sessionDao
+        .selectByLabels(labels, after)
+        .map { sessions -> sessions.map { it.toExternal() } }
 
     override fun selectSessionsForTimelinePaged(
         labels: List<String>,
@@ -242,37 +237,34 @@ internal class LocalDataRepositoryImpl(
         labelDao.updateIsArchived(newIsArchived, name)
     }
 
-    override fun selectLabelByName(name: String): Flow<Label?> =
-        labelDao.selectByName(name).flatMapLatest { localLabel ->
-            if (localLabel?.timerProfileName != null) {
-                timerProfileDao.selectByName(localLabel.timerProfileName).map { timerProfile ->
-                    localLabel.toExternal(timerProfile?.toExternal())
-                }
-            } else {
-                flowOf(localLabel?.toExternal())
+    override fun selectLabelByName(name: String): Flow<Label?> = labelDao.selectByName(name).flatMapLatest { localLabel ->
+        if (localLabel?.timerProfileName != null) {
+            timerProfileDao.selectByName(localLabel.timerProfileName).map { timerProfile ->
+                localLabel.toExternal(timerProfile?.toExternal())
             }
+        } else {
+            flowOf(localLabel?.toExternal())
         }
+    }
 
-    override fun selectAllLabels(): Flow<List<Label>> =
-        labelDao.selectAll().flatMapLatest { localLabels ->
-            val timerProfileNames = localLabels.mapNotNull { it.timerProfileName }.distinct()
-            if (timerProfileNames.isEmpty()) {
-                flowOf(localLabels.map { it.toExternal() })
-            } else {
-                timerProfileDao.selectByNames(timerProfileNames).map { timerProfiles ->
-                    localLabels.map { localLabel ->
-                        val matchingProfile =
-                            timerProfiles.find { it.name == localLabel.timerProfileName }
-                        localLabel.toExternal(matchingProfile?.toExternal())
-                    }
+    override fun selectAllLabels(): Flow<List<Label>> = labelDao.selectAll().flatMapLatest { localLabels ->
+        val timerProfileNames = localLabels.mapNotNull { it.timerProfileName }.distinct()
+        if (timerProfileNames.isEmpty()) {
+            flowOf(localLabels.map { it.toExternal() })
+        } else {
+            timerProfileDao.selectByNames(timerProfileNames).map { timerProfiles ->
+                localLabels.map { localLabel ->
+                    val matchingProfile =
+                        timerProfiles.find { it.name == localLabel.timerProfileName }
+                    localLabel.toExternal(matchingProfile?.toExternal())
                 }
             }
         }
+    }
 
-    override fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>> =
-        labelDao
-            .selectByArchived(isArchived)
-            .map { labels -> labels.map { it.toExternal() } }
+    override fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>> = labelDao
+        .selectByArchived(isArchived)
+        .map { labels -> labels.map { it.toExternal() } }
 
     override suspend fun deleteLabel(name: String) {
         labelDao.deleteByName(name)
@@ -300,10 +292,9 @@ internal class LocalDataRepositoryImpl(
 
     override suspend fun selectTimerProfile(name: String): Flow<TimerProfile?> = timerProfileDao.selectByName(name).map { it?.toExternal() }
 
-    override suspend fun selectAllTimerProfiles(): Flow<List<TimerProfile>> =
-        timerProfileDao.selectAll().map { profiles ->
-            profiles.map {
-                it.toExternal()
-            }
+    override suspend fun selectAllTimerProfiles(): Flow<List<TimerProfile>> = timerProfileDao.selectAll().map { profiles ->
+        profiles.map {
+            it.toExternal()
         }
+    }
 }

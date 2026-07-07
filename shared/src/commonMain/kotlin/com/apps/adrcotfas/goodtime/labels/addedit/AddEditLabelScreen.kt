@@ -132,12 +132,12 @@ fun AddEditLabelScreen(
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState)
-                    .background(MaterialTheme.colorScheme.background)
-                    .imePadding(),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(listState)
+                .background(MaterialTheme.colorScheme.background)
+                .imePadding(),
         ) {
             ColorSelectRow(
                 selectedIndex = label.colorIndex,
@@ -147,12 +147,12 @@ fun AddEditLabelScreen(
             Spacer(modifier = Modifier.height(16.dp))
             ListItem(
                 modifier =
-                    Modifier.clickable {
-                        viewModel.updateTmpLabel(
-                            label.copy(useDefaultTimeProfile = !followDefault),
-                            resetProfile = false,
-                        )
-                    },
+                Modifier.clickable {
+                    viewModel.updateTmpLabel(
+                        label.copy(useDefaultTimeProfile = !followDefault),
+                        resetProfile = false,
+                    )
+                },
                 leadingContent = {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -205,9 +205,9 @@ fun AddEditLabelScreen(
             AnimatedVisibility(visible = uiState.labelToEdit != label) {
                 Button(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     enabled = uiState.labelNameIsValid(),
                     onClick = {
                         if (isEditMode) {
@@ -241,8 +241,8 @@ private fun LabelNameRow(
 
     Column(
         modifier =
-            Modifier
-                .animateContentSize(),
+        Modifier
+            .animateContentSize(),
     ) {
         val internalModifier =
             if (isAddingNewLabel) {
@@ -254,14 +254,14 @@ private fun LabelNameRow(
         Box {
             BasicTextField(
                 modifier =
-                    internalModifier
-                        .fillMaxWidth()
-                        .clearFocusOnKeyboardDismiss(),
+                internalModifier
+                    .fillMaxWidth()
+                    .clearFocusOnKeyboardDismiss(),
                 textStyle =
-                    MaterialTheme.typography.titleLarge.copy(
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textDecoration = TextDecoration.Underline,
-                    ),
+                MaterialTheme.typography.titleLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textDecoration = TextDecoration.Underline,
+                ),
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                 singleLine = true,
                 value = labelName,
@@ -274,9 +274,9 @@ private fun LabelNameRow(
             if (labelName.isEmpty()) {
                 Text(
                     text =
-                        stringResource(
-                            Res.string.labels_add_label_name,
-                        ),
+                    stringResource(
+                        Res.string.labels_add_label_name,
+                    ),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

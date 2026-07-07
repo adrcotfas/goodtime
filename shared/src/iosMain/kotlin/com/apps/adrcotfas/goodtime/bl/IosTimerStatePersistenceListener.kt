@@ -38,12 +38,15 @@ class IosTimerStatePersistenceListener(
             is Event.Start -> {
                 persistTimerState(event.runtimeState)
             }
+
             is Event.Pause -> {
                 persistTimerState(event.runtimeState)
             }
+
             is Event.Reset, is Event.Finished -> {
                 clearPersistedTimerState()
             }
+
             else -> {
                 // Other events don't affect persistence
             }

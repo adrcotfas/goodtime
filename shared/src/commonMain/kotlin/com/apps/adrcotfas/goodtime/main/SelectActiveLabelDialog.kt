@@ -106,17 +106,17 @@ fun SelectActiveLabelDialog(
 private fun EmptyState() {
     Row(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
         horizontalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(Res.string.stats_no_items),
             style =
-                MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                ),
+            MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            ),
         )
     }
 }

@@ -79,9 +79,9 @@ fun TimerProfileSettings(
     AnimatedVisibility(timerProfiles.isNotEmpty(), enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Box(modifier = Modifier.weight(1f)) {
@@ -182,10 +182,10 @@ fun TimerProfileSettings(
             }
             ListItem(
                 modifier =
-                    Modifier.toggleable(
-                        value = timerProfile.isBreakEnabled,
-                        onValueChange = { toggleBreak() },
-                    ),
+                Modifier.toggleable(
+                    value = timerProfile.isBreakEnabled,
+                    onValueChange = { toggleBreak() },
+                ),
                 headlineContent = {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -230,8 +230,8 @@ fun BreakBudgetInfoDialog(onDismiss: () -> Unit) {
     InfoDialog(
         title = stringResource(Res.string.labels_break_budget_info),
         subtitle =
-            "${stringResource(Res.string.labels_break_budget_desc1)}\n" +
-                stringResource(Res.string.labels_break_budget_desc2),
+        "${stringResource(Res.string.labels_break_budget_desc1)}\n" +
+            stringResource(Res.string.labels_break_budget_desc2),
     ) {
         onDismiss()
     }

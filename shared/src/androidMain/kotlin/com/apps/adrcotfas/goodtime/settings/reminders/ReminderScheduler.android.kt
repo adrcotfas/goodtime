@@ -67,20 +67,19 @@ actual class ReminderScheduler(
         pendingIntents.clear()
     }
 
-    private fun getOrCreatePendingIntent(identifier: String): PendingIntent =
-        pendingIntents.getOrPut(identifier) {
-            val intent =
-                Intent(context, ReminderReceiver::class.java).apply {
-                    action = REMINDER_ACTION
-                    putExtra(EXTRA_REMINDER_ID, identifier)
-                }
-            PendingIntent.getBroadcast(
-                context,
-                identifier.hashCode(),
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-            )
-        }
+    private fun getOrCreatePendingIntent(identifier: String): PendingIntent = pendingIntents.getOrPut(identifier) {
+        val intent =
+            Intent(context, ReminderReceiver::class.java).apply {
+                action = REMINDER_ACTION
+                putExtra(EXTRA_REMINDER_ID, identifier)
+            }
+        PendingIntent.getBroadcast(
+            context,
+            identifier.hashCode(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+    }
 
     companion object {
         const val REMINDER_ACTION = "goodtime.reminder_action"

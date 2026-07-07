@@ -73,12 +73,12 @@ class StatisticsHistoryViewModel(
                     _uiState.update {
                         it.copy(
                             selectedLabels =
-                                labels.map { label ->
-                                    LabelData(
-                                        name = label.name,
-                                        colorIndex = label.colorIndex,
-                                    )
-                                },
+                            labels.map { label ->
+                                LabelData(
+                                    name = label.name,
+                                    colorIndex = label.colorIndex,
+                                )
+                            },
                         )
                     }
                 }

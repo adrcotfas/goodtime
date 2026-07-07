@@ -117,11 +117,11 @@ fun SettingsScreen(
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState)
-                    .animateContentSize(),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(listState)
+                .animateContentSize(),
         ) {
             AnimatedVisibility(
                 areNotificationsEnabled,
@@ -174,10 +174,10 @@ fun SettingsScreen(
                 title = stringResource(Res.string.settings_custom_start_of_day_title),
                 subtitle = stringResource(Res.string.settings_custom_start_of_day_desc),
                 trailing =
-                    secondsOfDayToTimerFormat(
-                        uiState.settings.workdayStart,
-                        uiState.is24HourFormat,
-                    ),
+                secondsOfDayToTimerFormat(
+                    uiState.settings.workdayStart,
+                    uiState.is24HourFormat,
+                ),
                 onClick = {
                     viewModel.setShowWorkdayStartPicker(true)
                 },

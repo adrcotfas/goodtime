@@ -150,9 +150,9 @@ fun LabelsScreen(
             AnimatedVisibility(uiState.archivedLabelCount > 0) {
                 ListItem(
                     modifier =
-                        Modifier.clickable {
-                            onNavigateToArchivedLabels()
-                        },
+                    Modifier.clickable {
+                        onNavigateToArchivedLabels()
+                    },
                     leadingContent = {
                         Icon(
                             imageVector = EvaIcons.Outline.Archive,
@@ -164,18 +164,18 @@ fun LabelsScreen(
                         Text(
                             text = stringResource(Res.string.labels_archived_labels_title),
                             style =
-                                MaterialTheme.typography.labelLarge.copy(
-                                    color = MaterialTheme.colorScheme.secondary,
-                                ),
+                            MaterialTheme.typography.labelLarge.copy(
+                                color = MaterialTheme.colorScheme.secondary,
+                            ),
                         )
                     },
                     trailingContent = {
                         Text(
                             text = "${uiState.archivedLabelCount}",
                             style =
-                                MaterialTheme.typography.labelLarge.copy(
-                                    color = MaterialTheme.colorScheme.secondary,
-                                ),
+                            MaterialTheme.typography.labelLarge.copy(
+                                color = MaterialTheme.colorScheme.secondary,
+                            ),
                         )
                     },
                 )
@@ -183,9 +183,9 @@ fun LabelsScreen(
             if (labels.isEmpty()) {
                 Column(
                     modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
+                    Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -198,9 +198,9 @@ fun LabelsScreen(
                     Text(
                         text = stringResource(Res.string.stats_no_items),
                         style =
-                            MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            ),
+                        MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        ),
                     )
                 }
             }
@@ -218,11 +218,11 @@ fun LabelsScreen(
                             label = label,
                             isDragging = isDragging,
                             dragModifier =
-                                Modifier.dragContainer(
-                                    dragDropState = dragDropState,
-                                    key = label.name,
-                                    onDragFinished = { viewModel.rearrangeLabelsToDisk() },
-                                ),
+                            Modifier.dragContainer(
+                                dragDropState = dragDropState,
+                                key = label.name,
+                                onDragFinished = { viewModel.rearrangeLabelsToDisk() },
+                            ),
                             onEdit = {
                                 onNavigateToLabel(AddEditLabelDest(label.name))
                             },

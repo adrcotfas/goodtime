@@ -48,16 +48,15 @@ data class Session(
             isArchived = false,
         )
 
-        fun default() =
-            Session(
-                id = 0,
-                timestamp = 0,
-                duration = 0,
-                interruptions = 0,
-                label = DEFAULT_LABEL_NAME,
-                notes = "",
-                isWork = true,
-                isArchived = false,
-            )
+        fun default() = Session(
+            id = 0,
+            timestamp = 0,
+            duration = 0,
+            interruptions = 0,
+            label = DEFAULT_LABEL_NAME,
+            notes = "",
+            isWork = true,
+            isArchived = false,
+        )
     }
 }

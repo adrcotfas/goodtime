@@ -144,11 +144,13 @@ class CloudBackupViewModel(
                         SnackbarEvent(message = getString(Res.string.backup_restore_failed_please_try_again)),
                     )
                 }
+
                 backups.isEmpty() -> {
                     SnackbarController.sendEvent(
                         SnackbarEvent(message = getString(Res.string.backup_no_backups_found)),
                     )
                 }
+
                 else -> {
                     _uiState.update {
                         it.copy(

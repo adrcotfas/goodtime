@@ -61,67 +61,65 @@ val coroutineScopeModule =
 
 expect val platformModule: Module
 
-fun coreModule(isDebug: Boolean) =
-    module {
-        val baseLogger =
-            Logger(
-                config =
-                    StaticConfig(
-                        logWriterList = listOf(platformLogWriter()),
-                        minSeverity = if (isDebug) Severity.Verbose else Severity.Info,
-                    ),
-                tag = "Goodtime",
-            )
-        factory { (tag: String?) -> if (tag != null) baseLogger.withTag(tag) else baseLogger }
+fun coreModule(isDebug: Boolean) = module {
+    val baseLogger =
+        Logger(
+            config =
+            StaticConfig(
+                logWriterList = listOf(platformLogWriter()),
+                minSeverity = if (isDebug) Severity.Verbose else Severity.Info,
+            ),
+            tag = "Goodtime",
+        )
+    factory { (tag: String?) -> if (tag != null) baseLogger.withTag(tag) else baseLogger }
 
-        single<SettingsRepository> {
-            SettingsRepositoryImpl(
-                get<DataStore<Preferences>>(named(SETTINGS_NAME)),
-                getWith("SettingsRepository"),
-            )
-        }
-        single<LocalDataRepository> {
-            LocalDataRepositoryImpl(
-                get<ProductivityDatabase>().sessionsDao(),
-                get<ProductivityDatabase>().labelsDao(),
-                get<ProductivityDatabase>().timerProfileDao(),
-                get<SettingsRepository>(),
-                get<CoroutineScope>(named(IO_SCOPE)),
-            )
-        }
-        single<TimeProvider> {
-            createTimeProvider()
-        }
-
-        single<FinishedSessionsHandler> {
-            FinishedSessionsHandler(
-                get<CoroutineScope>(named(IO_SCOPE)),
-                get<LocalDataRepository>(),
-                get<SettingsRepository>(),
-                getWith("FinishedSessionsHandler"),
-            )
-        }
-
-        single<ReminderManager> {
-            ReminderManager(
-                get<ReminderScheduler>(),
-                get<SettingsRepository>(),
-                getWith("ReminderManager"),
-            )
-        }
+    single<SettingsRepository> {
+        SettingsRepositoryImpl(
+            get<DataStore<Preferences>>(named(SETTINGS_NAME)),
+            getWith("SettingsRepository"),
+        )
     }
+    single<LocalDataRepository> {
+        LocalDataRepositoryImpl(
+            get<ProductivityDatabase>().sessionsDao(),
+            get<ProductivityDatabase>().labelsDao(),
+            get<ProductivityDatabase>().timerProfileDao(),
+            get<SettingsRepository>(),
+            get<CoroutineScope>(named(IO_SCOPE)),
+        )
+    }
+    single<TimeProvider> {
+        createTimeProvider()
+    }
+
+    single<FinishedSessionsHandler> {
+        FinishedSessionsHandler(
+            get<CoroutineScope>(named(IO_SCOPE)),
+            get<LocalDataRepository>(),
+            get<SettingsRepository>(),
+            getWith("FinishedSessionsHandler"),
+        )
+    }
+
+    single<ReminderManager> {
+        ReminderManager(
+            get<ReminderScheduler>(),
+            get<SettingsRepository>(),
+            getWith("ReminderManager"),
+        )
+    }
+}
 
 internal const val SETTINGS_NAME = "productivity_settings.preferences"
 internal const val SETTINGS_FILE_NAME = SETTINGS_NAME + "_pb"
 const val DB_PATH_KEY = "db_path"
 const val CACHE_DIR_PATH_KEY = "tmp_path"
 
-internal fun getDataStore(producePath: () -> String): DataStore<Preferences> =
-    PreferenceDataStoreFactory.createWithPath(
-        produceFile = {
-            producePath().toPath()
-        },
-    )
+internal fun getDataStore(producePath: () -> String): DataStore<Preferences> = PreferenceDataStoreFactory.createWithPath(
+    produceFile = {
+        producePath().toPath()
+    },
+)
 
 inline fun <reified T> Scope.getWith(vararg params: Any?): T = get(parameters = { parametersOf(*params) })
 

@@ -24,25 +24,10 @@ import kotlin.test.assertEquals
 
 class HistoryChartDataTest {
     @Test
-    fun testAggregateDataIfNeeded() =
-        runTest {
-            assertEquals(
-                aggregateDataIfNeeded(
-                    mapOf(
-                        "1" to 1,
-                        "2" to 1,
-                        "3" to 1,
-                        "4" to 1,
-                        "5" to 1,
-                        "6" to 1,
-                        "7" to 1,
-                        "8" to 1,
-                        "9" to 1,
-                        "10" to 1,
-                        "11" to 1,
-                    ),
-                ),
-                mapOf<String, Long>(
+    fun testAggregateDataIfNeeded() = runTest {
+        assertEquals(
+            aggregateDataIfNeeded(
+                mapOf(
                     "1" to 1,
                     "2" to 1,
                     "3" to 1,
@@ -55,26 +40,25 @@ class HistoryChartDataTest {
                     "10" to 1,
                     "11" to 1,
                 ),
-            )
+            ),
+            mapOf<String, Long>(
+                "1" to 1,
+                "2" to 1,
+                "3" to 1,
+                "4" to 1,
+                "5" to 1,
+                "6" to 1,
+                "7" to 1,
+                "8" to 1,
+                "9" to 1,
+                "10" to 1,
+                "11" to 1,
+            ),
+        )
 
-            assertEquals(
-                aggregateDataIfNeeded(
-                    mapOf(
-                        "1" to 15,
-                        "2" to 15,
-                        "3" to 15,
-                        "4" to 15,
-                        "5" to 15,
-                        "6" to 15,
-                        "7" to 5,
-                        "8" to 1,
-                        "9" to 1,
-                        "10" to 1,
-                        "11" to 1,
-                        "12" to 1,
-                    ),
-                ).filterValues { it > 0 },
-                mapOf<String, Long>(
+        assertEquals(
+            aggregateDataIfNeeded(
+                mapOf(
                     "1" to 15,
                     "2" to 15,
                     "3" to 15,
@@ -82,40 +66,55 @@ class HistoryChartDataTest {
                     "5" to 15,
                     "6" to 15,
                     "7" to 5,
-                    Label.OTHERS_LABEL_NAME to 5,
+                    "8" to 1,
+                    "9" to 1,
+                    "10" to 1,
+                    "11" to 1,
+                    "12" to 1,
                 ),
-            )
+            ).filterValues { it > 0 },
+            mapOf<String, Long>(
+                "1" to 15,
+                "2" to 15,
+                "3" to 15,
+                "4" to 15,
+                "5" to 15,
+                "6" to 15,
+                "7" to 5,
+                Label.OTHERS_LABEL_NAME to 5,
+            ),
+        )
 
-            assertEquals(
-                aggregateDataIfNeeded(
-                    mapOf(
-                        "1" to 15,
-                        "2" to 15,
-                        "3" to 15,
-                        "4" to 15,
-                        "5" to 15,
-                        "6" to 15,
-                        "7" to 1,
-                        "8" to 1,
-                        "9" to 1,
-                        "10" to 1,
-                        "11" to 1,
-                        "12" to 1,
-                        "13" to 1,
-                        "14" to 1,
-                        "15" to 1,
-                        "16" to 1,
-                    ),
-                ).filterValues { it > 0 },
-                mapOf<String, Long>(
+        assertEquals(
+            aggregateDataIfNeeded(
+                mapOf(
                     "1" to 15,
                     "2" to 15,
                     "3" to 15,
                     "4" to 15,
                     "5" to 15,
                     "6" to 15,
-                    Label.OTHERS_LABEL_NAME to 10,
+                    "7" to 1,
+                    "8" to 1,
+                    "9" to 1,
+                    "10" to 1,
+                    "11" to 1,
+                    "12" to 1,
+                    "13" to 1,
+                    "14" to 1,
+                    "15" to 1,
+                    "16" to 1,
                 ),
-            )
-        }
+            ).filterValues { it > 0 },
+            mapOf<String, Long>(
+                "1" to 15,
+                "2" to 15,
+                "3" to 15,
+                "4" to 15,
+                "5" to 15,
+                "6" to 15,
+                Label.OTHERS_LABEL_NAME to 10,
+            ),
+        )
+    }
 }

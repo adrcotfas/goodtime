@@ -54,10 +54,10 @@ fun IconTextButton(
             val alignment = if (centered) Alignment.CenterHorizontally else Alignment.Start
             Row(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(if (isFilled) 42.dp else 48.dp)
-                        .then(if (isFilled) Modifier else Modifier.padding(horizontal = 12.dp)),
+                Modifier
+                    .fillMaxWidth()
+                    .height(if (isFilled) 42.dp else 48.dp)
+                    .then(if (isFilled) Modifier else Modifier.padding(horizontal = 12.dp)),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp, alignment),
             ) {

@@ -62,10 +62,10 @@ fun TimerProfileBottomSheet(
         ConfirmationDialog(
             title = stringResource(Res.string.settings_delete_profile),
             subtitle =
-                stringResource(
-                    Res.string.settings_delete_profile_confirmation,
-                    profileToDelete?.name ?: "",
-                ),
+            stringResource(
+                Res.string.settings_delete_profile_confirmation,
+                profileToDelete?.name ?: "",
+            ),
             onConfirm = {
                 profileToDelete?.name?.let { onDelete(it) }
                 showDeleteConfirmationDialog = false
@@ -96,10 +96,10 @@ fun TimerProfileBottomSheet(
                         Icon(
                             imageVector = Icons.Outlined.Delete,
                             contentDescription =
-                                stringResource(
-                                    Res.string.labels_delete,
-                                    profile.name ?: "",
-                                ),
+                            stringResource(
+                                Res.string.labels_delete,
+                                profile.name ?: "",
+                            ),
                         )
                     }
                 }

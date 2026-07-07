@@ -385,13 +385,12 @@ class IosVibrationPlayer(
         return pattern
     }
 
-    private fun getPatternForStrength(strength: Int): LongArray =
-        when (strength) {
-            1 -> longArrayOf(0, 100, 2000)
-            2 -> longArrayOf(0, 100, 50, 100, 1000)
-            3 -> longArrayOf(0, 200, 50, 200, 1000)
-            4 -> longArrayOf(0, 400, 100, 400, 1000)
-            5 -> longArrayOf(0, 400, 100, 400, 100, 400, 1000)
-            else -> longArrayOf()
-        }
+    private fun getPatternForStrength(strength: Int): LongArray = when (strength) {
+        1 -> longArrayOf(0, 100, 2000)
+        2 -> longArrayOf(0, 100, 50, 100, 1000)
+        3 -> longArrayOf(0, 200, 50, 200, 1000)
+        4 -> longArrayOf(0, 400, 100, 400, 1000)
+        5 -> longArrayOf(0, 400, 100, 400, 100, 400, 1000)
+        else -> longArrayOf()
+    }
 }

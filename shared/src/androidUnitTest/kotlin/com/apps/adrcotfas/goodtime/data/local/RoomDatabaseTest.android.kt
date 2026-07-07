@@ -23,9 +23,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.apps.adrcotfas.goodtime.RobolectricTest
 
 actual abstract class RoomDatabaseTest : RobolectricTest() {
-    actual fun getInMemoryDatabaseBuilder(): RoomDatabase.Builder<ProductivityDatabase> =
-        Room.inMemoryDatabaseBuilder(
-            InstrumentationRegistry.getInstrumentation().context,
-            ProductivityDatabase::class.java,
-        )
+    actual fun getInMemoryDatabaseBuilder(): RoomDatabase.Builder<ProductivityDatabase> = Room.inMemoryDatabaseBuilder(
+        InstrumentationRegistry.getInstrumentation().context,
+        ProductivityDatabase::class.java,
+    )
 }

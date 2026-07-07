@@ -94,67 +94,59 @@ class FakeSessionDao : SessionDao {
 
     override fun selectAll(): Flow<List<LocalSession>> = sessions
 
-    override fun selectAfter(timestamp: Long): Flow<List<LocalSession>> =
-        sessions.map { sessions ->
-            sessions.filter {
-                it.timestamp > timestamp
-            }
+    override fun selectAfter(timestamp: Long): Flow<List<LocalSession>> = sessions.map { sessions ->
+        sessions.filter {
+            it.timestamp > timestamp
         }
+    }
 
     override fun selectById(id: Long): Flow<LocalSession> = sessions.map { sessions -> sessions.first { it.id == id } }
 
-    override fun selectByIsArchived(isArchived: Boolean): Flow<List<LocalSession>> =
-        sessions.map { sessions ->
-            sessions.filter {
-                it.isArchived == isArchived
-            }
+    override fun selectByIsArchived(isArchived: Boolean): Flow<List<LocalSession>> = sessions.map { sessions ->
+        sessions.filter {
+            it.isArchived == isArchived
         }
+    }
 
-    override fun selectByLabel(labelName: String): Flow<List<LocalSession>> =
-        sessions.map { sessions ->
-            sessions.filter {
-                it.labelName == labelName
-            }
+    override fun selectByLabel(labelName: String): Flow<List<LocalSession>> = sessions.map { sessions ->
+        sessions.filter {
+            it.labelName == labelName
         }
+    }
 
-    override fun selectByLabels(labelNames: List<String>): Flow<List<LocalSession>> =
-        sessions.map { sessions ->
-            sessions.filter {
-                it.labelName in labelNames
-            }
+    override fun selectByLabels(labelNames: List<String>): Flow<List<LocalSession>> = sessions.map { sessions ->
+        sessions.filter {
+            it.labelName in labelNames
         }
+    }
 
     override fun selectByLabels(
         labelNames: List<String>,
         after: Long,
-    ): Flow<List<LocalSession>> =
-        sessions.map { sessions ->
-            sessions.filter {
-                it.labelName in labelNames && it.timestamp > after
-            }
+    ): Flow<List<LocalSession>> = sessions.map { sessions ->
+        sessions.filter {
+            it.labelName in labelNames && it.timestamp > after
         }
+    }
 
     override fun selectSessionsForTimelinePaged(
         labelNames: List<String>,
         considerBreaks: Boolean,
-    ): PagingSource<Int, LocalSession> =
-        object : PagingSource<Int, LocalSession>() {
-            override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LocalSession> =
-                LoadResult.Page(
-                    data = sessions.value.filter { it.labelName in labelNames && if (!considerBreaks) it.isWork else true },
-                    prevKey = null,
-                    nextKey = null,
-                )
+    ): PagingSource<Int, LocalSession> = object : PagingSource<Int, LocalSession>() {
+        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LocalSession> = LoadResult.Page(
+            data = sessions.value.filter { it.labelName in labelNames && if (!considerBreaks) it.isWork else true },
+            prevKey = null,
+            nextKey = null,
+        )
 
-            override fun getRefreshKey(state: PagingState<Int, LocalSession>): Int? = null
-        }
+        override fun getRefreshKey(state: PagingState<Int, LocalSession>): Int? = null
+    }
 
-    override fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int> =
-        sessions.map { sessions ->
-            sessions.count {
-                it.timestamp >= timestamp
-            }
+    override fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int> = sessions.map { sessions ->
+        sessions.count {
+            it.timestamp >= timestamp
         }
+    }
 
     override suspend fun delete(ids: List<Long>) {
         sessions.value = sessions.value.filter { it.id !in ids }

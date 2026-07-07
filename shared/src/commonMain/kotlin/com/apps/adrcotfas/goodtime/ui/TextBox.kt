@@ -49,14 +49,14 @@ fun TextBox(
     Box(modifier = modifier) {
         BasicTextField(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clearFocusOnKeyboardDismiss(),
+            Modifier
+                .fillMaxWidth()
+                .clearFocusOnKeyboardDismiss(),
             textStyle =
-                MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textDecoration = TextDecoration.Underline,
-                ),
+            MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onSurface,
+                textDecoration = TextDecoration.Underline,
+            ),
             enabled = enabled,
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             singleLine = false,

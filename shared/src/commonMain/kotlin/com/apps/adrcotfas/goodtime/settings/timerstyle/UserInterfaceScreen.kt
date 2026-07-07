@@ -119,11 +119,11 @@ fun UserInterfaceScreen(
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState)
-                    .background(MaterialTheme.colorScheme.background),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(listState)
+                .background(MaterialTheme.colorScheme.background),
         ) {
             var baseTime by rememberSaveable { mutableLongStateOf(25.minutes.inWholeMilliseconds) }
             var sessionsBeforeLongBreak by rememberSaveable { mutableIntStateOf(4) }
@@ -188,23 +188,23 @@ fun UserInterfaceScreen(
             }
             Box(
                 modifier =
-                    Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .width(timerStyle.currentScreenWidth.dp)
-                        .height(timerStyle.currentScreenWidth.dp * 0.6f)
-                        .padding(16.dp)
-                        .dashedBorder(
-                            color = MaterialTheme.colorScheme.onSurface,
-                            shape = MaterialTheme.shapes.medium,
-                        ),
+                Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .width(timerStyle.currentScreenWidth.dp)
+                    .height(timerStyle.currentScreenWidth.dp * 0.6f)
+                    .padding(16.dp)
+                    .dashedBorder(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        shape = MaterialTheme.shapes.medium,
+                    ),
                 contentAlignment = Alignment.Center,
             ) {
                 Row(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .align(Alignment.TopCenter),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .align(Alignment.TopCenter),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -243,14 +243,14 @@ fun UserInterfaceScreen(
 
                 MainTimerView(
                     modifier =
-                        Modifier
-                            .padding(vertical = 16.dp)
-                            .align(Alignment.Center),
+                    Modifier
+                        .padding(vertical = 16.dp)
+                        .align(Alignment.Center),
                     gestureModifier = Modifier,
                     timerUiState = timerUiState,
                     timerStyle = timerStyle,
                     domainLabel =
-                        DomainLabel(label = uiState.defaultLabel.copy(colorIndex = colorIndex)),
+                    DomainLabel(label = uiState.defaultLabel.copy(colorIndex = colorIndex)),
                     onStart = {},
                     onToggle = null,
                 )

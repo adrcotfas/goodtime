@@ -95,14 +95,13 @@ data class DomainTimerData(
     val type: TimerType get() = runtime.type
     val timeSpentPaused: Long get() = runtime.timeSpentPaused
 
-    fun reset() =
-        DomainTimerData(
-            isReady = isReady,
-            label = label,
-            runtime = TimerRuntimeState(state = TimerState.RESET),
-            longBreakData = longBreakData,
-            breakBudgetData = breakBudgetData,
-        )
+    fun reset() = DomainTimerData(
+        isReady = isReady,
+        label = label,
+        runtime = TimerRuntimeState(state = TimerState.RESET),
+        longBreakData = longBreakData,
+        breakBudgetData = breakBudgetData,
+    )
 
     fun getTimerProfile(): TimerProfile = label.profile
 
@@ -120,15 +119,14 @@ data class DomainTimerData(
     fun getEndTime(
         timerType: TimerType,
         elapsedRealtime: Long,
-    ): Long =
-        if (getTimerProfile().isCountdown) {
-            getTimerProfile().endTime(timerType, elapsedRealtime)
-        } else if (timerType.isBreak) {
-            val breakBudget = breakBudgetData.breakBudget.inWholeMilliseconds
-            elapsedRealtime + breakBudget
-        } else {
-            0
-        }
+    ): Long = if (getTimerProfile().isCountdown) {
+        getTimerProfile().endTime(timerType, elapsedRealtime)
+    } else if (timerType.isBreak) {
+        val breakBudget = breakBudgetData.breakBudget.inWholeMilliseconds
+        elapsedRealtime + breakBudget
+    } else {
+        0
+    }
 
     fun isDefaultLabel() = label.getLabelName() == Label.DEFAULT_LABEL_NAME
 
@@ -143,11 +141,12 @@ data class DomainTimerData(
                         (
                             (elapsedRealtime - lastStartTime).milliseconds /
                                 workBreakRatio
-                        ) + breakBudgetMillis
-                    ).let {
+                            ) + breakBudgetMillis
+                        ).let {
                         if (it.isNegative()) 0.minutes else it
                     }
                 }
+
                 else -> breakBudgetData.getRemainingBreakBudget(elapsedRealtime)
             }
         } else {

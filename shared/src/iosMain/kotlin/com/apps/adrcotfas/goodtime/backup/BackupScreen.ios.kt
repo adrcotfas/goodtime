@@ -67,11 +67,11 @@ internal fun IosBackupScreen(
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState)
-                    .background(MaterialTheme.colorScheme.background),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(listState)
+                .background(MaterialTheme.colorScheme.background),
         ) {
             UnlockFeaturesActionCard(
                 backupUiState.isPro,

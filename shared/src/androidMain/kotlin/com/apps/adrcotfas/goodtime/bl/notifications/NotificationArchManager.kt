@@ -304,18 +304,17 @@ class NotificationArchManager(
         icon: IconCompat? = null,
         title: String,
         action: TimerService.Companion.Action,
-    ): NotificationCompat.Action =
-        NotificationCompat.Action
-            .Builder(
-                icon,
-                title,
-                PendingIntent.getService(
-                    context,
-                    0,
-                    TimerService.createIntentWithAction(context, action),
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-                ),
-            ).build()
+    ): NotificationCompat.Action = NotificationCompat.Action
+        .Builder(
+            icon,
+            title,
+            PendingIntent.getService(
+                context,
+                0,
+                TimerService.createIntentWithAction(context, action),
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            ),
+        ).build()
 
     fun isDndModeEnabled(): Boolean = notificationManager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
 

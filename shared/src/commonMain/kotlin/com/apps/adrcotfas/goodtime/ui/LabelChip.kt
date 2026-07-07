@@ -91,10 +91,10 @@ fun LabelChip(
         colors = chipColors,
         shape = MaterialTheme.shapes.small,
         border =
-            BorderStroke(
-                width = 0.dp,
-                color = Color.Transparent,
-            ),
+        BorderStroke(
+            width = 0.dp,
+            color = Color.Transparent,
+        ),
     )
 }
 
@@ -117,11 +117,11 @@ fun SmallLabelChip(
 
     Row(
         modifier =
-            Modifier
-                .wrapContentWidth()
-                .widthIn(min = 32.dp)
-                .clip(RoundedCornerShape(6.0.dp))
-                .background(color.copy(alpha = 0.15f)),
+        Modifier
+            .wrapContentWidth()
+            .widthIn(min = 32.dp)
+            .clip(RoundedCornerShape(6.0.dp))
+            .background(color.copy(alpha = 0.15f)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {

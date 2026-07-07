@@ -60,70 +60,69 @@ class GoogleDriveManager(
      * @return The uploaded file's ID, or null if upload failed
      * @throws TokenRevokedException if the token has been revoked
      */
-    suspend fun uploadBackup(accessToken: String): String? =
-        withContext(Dispatchers.IO) {
-            logger.i { "uploadBackup() - starting" }
+    suspend fun uploadBackup(accessToken: String): String? = withContext(Dispatchers.IO) {
+        logger.i { "uploadBackup() - starting" }
 
-            try {
-                val driveService = createDriveService(accessToken)
+        try {
+            val driveService = createDriveService(accessToken)
 
-                // Checkpoint database before backing up
-                logger.d { "uploadBackup() - checkpointing database" }
-                backupManager.checkpointDatabase()
+            // Checkpoint database before backing up
+            logger.d { "uploadBackup() - checkpointing database" }
+            backupManager.checkpointDatabase()
 
-                // Create backup file with timestamp
-                val fileName =
-                    backupManager.generateDbBackupFileName(BackupConstants.DB_BACKUP_PREFIX)
-                val dbFile = java.io.File(dbPath)
+            // Create backup file with timestamp
+            val fileName =
+                backupManager.generateDbBackupFileName(BackupConstants.DB_BACKUP_PREFIX)
+            val dbFile = java.io.File(dbPath)
 
-                if (!dbFile.exists() || !dbFile.canRead()) {
-                    logger.e { "uploadBackup() - database file not accessible: $dbPath" }
-                    return@withContext null
-                }
-
-                // Delete existing file with same name (overwrites backup done in same minute)
-                deleteFileByName(driveService, fileName)
-
-                // Create file metadata for appDataFolder
-                val fileMetadata =
-                    File().apply {
-                        name = fileName
-                        parents = listOf("appDataFolder")
-                    }
-
-                val mediaContent = FileContent("application/octet-stream", dbFile)
-
-                logger.d { "uploadBackup() - uploading $fileName (${dbFile.length()} bytes)" }
-                val uploadedFile =
-                    driveService
-                        .files()
-                        .create(fileMetadata, mediaContent)
-                        .setFields("id, name, modifiedTime")
-                        .execute()
-
-                logger.i { "uploadBackup() - uploaded successfully: ${uploadedFile.id}" }
-
-                settingsRepository.setBackupSettings(
-                    settingsRepository.settings.first().backupSettings.copy(
-                        cloudLastBackupTimestamp = TimeProvider.now(),
-                    ),
-                )
-
-                // Clean up old backups
-                cleanupOldBackups(driveService)
-
-                uploadedFile.id
-            } catch (e: GoogleJsonResponseException) {
-                logger.e(e) { "uploadBackup() - failed" }
-                if (e.statusCode == 401 || e.statusCode == 403) {
-                    throw TokenRevokedException("Token has been revoked or is invalid", e)
-                }
-                null
-            } catch (e: Exception) {
-                logger.e(e) { "uploadBackup() - failed" }
-                null
+            if (!dbFile.exists() || !dbFile.canRead()) {
+                logger.e { "uploadBackup() - database file not accessible: $dbPath" }
+                return@withContext null
             }
+
+            // Delete existing file with same name (overwrites backup done in same minute)
+            deleteFileByName(driveService, fileName)
+
+            // Create file metadata for appDataFolder
+            val fileMetadata =
+                File().apply {
+                    name = fileName
+                    parents = listOf("appDataFolder")
+                }
+
+            val mediaContent = FileContent("application/octet-stream", dbFile)
+
+            logger.d { "uploadBackup() - uploading $fileName (${dbFile.length()} bytes)" }
+            val uploadedFile =
+                driveService
+                    .files()
+                    .create(fileMetadata, mediaContent)
+                    .setFields("id, name, modifiedTime")
+                    .execute()
+
+            logger.i { "uploadBackup() - uploaded successfully: ${uploadedFile.id}" }
+
+            settingsRepository.setBackupSettings(
+                settingsRepository.settings.first().backupSettings.copy(
+                    cloudLastBackupTimestamp = TimeProvider.now(),
+                ),
+            )
+
+            // Clean up old backups
+            cleanupOldBackups(driveService)
+
+            uploadedFile.id
+        } catch (e: GoogleJsonResponseException) {
+            logger.e(e) { "uploadBackup() - failed" }
+            if (e.statusCode == 401 || e.statusCode == 403) {
+                throw TokenRevokedException("Token has been revoked or is invalid", e)
+            }
+            null
+        } catch (e: Exception) {
+            logger.e(e) { "uploadBackup() - failed" }
+            null
         }
+    }
 
     /**
      * List available backups from Google Drive.
@@ -131,42 +130,41 @@ class GoogleDriveManager(
      * @param accessToken OAuth access token with Drive appDataFolder scope
      * @return List of backup file names, sorted newest first
      */
-    suspend fun listBackups(accessToken: String): List<String>? =
-        withContext(Dispatchers.IO) {
-            logger.d { "listBackups() - fetching" }
+    suspend fun listBackups(accessToken: String): List<String>? = withContext(Dispatchers.IO) {
+        logger.d { "listBackups() - fetching" }
 
-            try {
-                val driveService = createDriveService(accessToken)
+        try {
+            val driveService = createDriveService(accessToken)
 
-                val result =
-                    driveService
-                        .files()
-                        .list()
-                        .setSpaces("appDataFolder")
-                        .setFields("files(id, name, modifiedTime)")
-                        .setOrderBy("modifiedTime desc")
-                        .setPageSize(BackupConstants.MAX_BACKUPS_TO_KEEP)
-                        .execute()
+            val result =
+                driveService
+                    .files()
+                    .list()
+                    .setSpaces("appDataFolder")
+                    .setFields("files(id, name, modifiedTime)")
+                    .setOrderBy("modifiedTime desc")
+                    .setPageSize(BackupConstants.MAX_BACKUPS_TO_KEEP)
+                    .execute()
 
-                val backups =
-                    result.files
-                        ?.filter { it.name?.startsWith(BackupConstants.DB_BACKUP_PREFIX) == true }
-                        ?.mapNotNull { it.name }
-                        ?: emptyList()
+            val backups =
+                result.files
+                    ?.filter { it.name?.startsWith(BackupConstants.DB_BACKUP_PREFIX) == true }
+                    ?.mapNotNull { it.name }
+                    ?: emptyList()
 
-                logger.d { "listBackups() - found ${backups.size} backups" }
-                backups
-            } catch (e: GoogleJsonResponseException) {
-                logger.e(e) { "listBackups() - failed" }
-                if (e.statusCode == 401 || e.statusCode == 403) {
-                    throw TokenRevokedException("Token has been revoked or is invalid", e)
-                }
-                null
-            } catch (e: Exception) {
-                logger.e(e) { "listBackups() - failed" }
-                null
+            logger.d { "listBackups() - found ${backups.size} backups" }
+            backups
+        } catch (e: GoogleJsonResponseException) {
+            logger.e(e) { "listBackups() - failed" }
+            if (e.statusCode == 401 || e.statusCode == 403) {
+                throw TokenRevokedException("Token has been revoked or is invalid", e)
             }
+            null
+        } catch (e: Exception) {
+            logger.e(e) { "listBackups() - failed" }
+            null
         }
+    }
 
     /**
      * Download a backup file from Google Drive for restore.
@@ -178,55 +176,54 @@ class GoogleDriveManager(
     suspend fun downloadBackup(
         accessToken: String,
         fileName: String,
-    ): String? =
-        withContext(Dispatchers.IO) {
-            logger.i { "downloadBackup() - downloading $fileName" }
+    ): String? = withContext(Dispatchers.IO) {
+        logger.i { "downloadBackup() - downloading $fileName" }
 
-            try {
-                val driveService = createDriveService(accessToken)
+        try {
+            val driveService = createDriveService(accessToken)
 
-                // Find the file by name
-                val result =
-                    driveService
-                        .files()
-                        .list()
-                        .setSpaces("appDataFolder")
-                        .setQ("name = '${fileName.replace("'", "\\'")}'")
-                        .setFields("files(id, name)")
-                        .execute()
+            // Find the file by name
+            val result =
+                driveService
+                    .files()
+                    .list()
+                    .setSpaces("appDataFolder")
+                    .setQ("name = '${fileName.replace("'", "\\'")}'")
+                    .setFields("files(id, name)")
+                    .execute()
 
-                val file = result.files?.firstOrNull()
-                if (file == null) {
-                    logger.e { "downloadBackup() - file not found: $fileName" }
-                    return@withContext null
-                }
-
-                // Download to cache directory
-                val tempFile = java.io.File(cacheDir, "goodtime_cloud_restore.db")
-                if (tempFile.exists()) {
-                    tempFile.delete()
-                }
-
-                FileOutputStream(tempFile).use { outputStream ->
-                    driveService
-                        .files()
-                        .get(file.id)
-                        .executeMediaAndDownloadTo(outputStream)
-                }
-
-                logger.i { "downloadBackup() - downloaded to ${tempFile.absolutePath}" }
-                tempFile.absolutePath
-            } catch (e: GoogleJsonResponseException) {
-                logger.e(e) { "downloadBackup() - failed" }
-                if (e.statusCode == 401 || e.statusCode == 403) {
-                    throw TokenRevokedException("Token has been revoked or is invalid", e)
-                }
-                null
-            } catch (e: Exception) {
-                logger.e(e) { "downloadBackup() - failed" }
-                null
+            val file = result.files?.firstOrNull()
+            if (file == null) {
+                logger.e { "downloadBackup() - file not found: $fileName" }
+                return@withContext null
             }
+
+            // Download to cache directory
+            val tempFile = java.io.File(cacheDir, "goodtime_cloud_restore.db")
+            if (tempFile.exists()) {
+                tempFile.delete()
+            }
+
+            FileOutputStream(tempFile).use { outputStream ->
+                driveService
+                    .files()
+                    .get(file.id)
+                    .executeMediaAndDownloadTo(outputStream)
+            }
+
+            logger.i { "downloadBackup() - downloaded to ${tempFile.absolutePath}" }
+            tempFile.absolutePath
+        } catch (e: GoogleJsonResponseException) {
+            logger.e(e) { "downloadBackup() - failed" }
+            if (e.statusCode == 401 || e.statusCode == 403) {
+                throw TokenRevokedException("Token has been revoked or is invalid", e)
+            }
+            null
+        } catch (e: Exception) {
+            logger.e(e) { "downloadBackup() - failed" }
+            null
         }
+    }
 
     /**
      * Delete a file by name if it exists.

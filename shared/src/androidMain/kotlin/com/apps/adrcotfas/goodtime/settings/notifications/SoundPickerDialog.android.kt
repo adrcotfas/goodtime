@@ -73,17 +73,16 @@ actual fun NotificationSoundPickerDialog(
     val pickSoundLauncher =
         rememberLauncherForActivityResult(
             contract =
-                object : ActivityResultContracts.OpenDocument() {
-                    override fun createIntent(
-                        context: Context,
-                        input: Array<String>,
-                    ): Intent =
-                        super.createIntent(context, input).apply {
-                            addFlags(FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                            addCategory(Intent.CATEGORY_OPENABLE)
-                            type = "audio/*"
-                        }
-                },
+            object : ActivityResultContracts.OpenDocument() {
+                override fun createIntent(
+                    context: Context,
+                    input: Array<String>,
+                ): Intent = super.createIntent(context, input).apply {
+                    addFlags(FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "audio/*"
+                }
+            },
         ) { uri ->
             if (uri != null) {
                 context.getFileName(uri)?.let {
@@ -168,10 +167,10 @@ fun AddCustomSoundButton(
 ) {
     Row(
         modifier =
-            modifier
-                .fillMaxWidth()
-                .clickable { onAddUserSound() }
-                .padding(horizontal = 24.dp, vertical = 12.dp),
+        modifier
+            .fillMaxWidth()
+            .clickable { onAddUserSound() }
+            .padding(horizontal = 24.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
@@ -198,11 +197,11 @@ fun NotificationSoundPickerDialogPreview() {
         onSave = {},
         onDismiss = {},
         items =
-            setOf(
-                SoundData("Coconuts", "Coconuts"),
-                SoundData("Mallet", "Mallet"),
-                SoundData("Music Box", "Music Box"),
-            ),
+        setOf(
+            SoundData("Coconuts", "Coconuts"),
+            SoundData("Mallet", "Mallet"),
+            SoundData("Music Box", "Music Box"),
+        ),
         platformSpecificContent = null,
     )
 }

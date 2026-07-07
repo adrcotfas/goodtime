@@ -55,10 +55,10 @@ fun ActionSection(
             PreferenceGroupTitle(
                 text = stringResource(Res.string.settings_action_required),
                 paddingValues =
-                    PaddingValues(
-                        horizontal = 16.dp,
-                        vertical = 8.dp,
-                    ),
+                PaddingValues(
+                    horizontal = 16.dp,
+                    vertical = 8.dp,
+                ),
             )
             ActionsContent(
                 permissionsState = permissionsState,

@@ -44,18 +44,17 @@ data class TimerProfile(
         const val DEFAULT_SESSIONS_BEFORE_LONG_BREAK = 4
         const val DEFAULT_WORK_BREAK_RATIO = 3
 
-        fun default() =
-            TimerProfile(
-                name = null,
-                isCountdown = true,
-                workDuration = DEFAULT_WORK_DURATION,
-                isBreakEnabled = true,
-                breakDuration = DEFAULT_BREAK_DURATION,
-                isLongBreakEnabled = false,
-                longBreakDuration = DEFAULT_LONG_BREAK_DURATION,
-                sessionsBeforeLongBreak = DEFAULT_SESSIONS_BEFORE_LONG_BREAK,
-                workBreakRatio = DEFAULT_WORK_BREAK_RATIO,
-            )
+        fun default() = TimerProfile(
+            name = null,
+            isCountdown = true,
+            workDuration = DEFAULT_WORK_DURATION,
+            isBreakEnabled = true,
+            breakDuration = DEFAULT_BREAK_DURATION,
+            isLongBreakEnabled = false,
+            longBreakDuration = DEFAULT_LONG_BREAK_DURATION,
+            sessionsBeforeLongBreak = DEFAULT_SESSIONS_BEFORE_LONG_BREAK,
+            workBreakRatio = DEFAULT_WORK_BREAK_RATIO,
+        )
     }
 }
 
@@ -68,16 +67,14 @@ data class TimerProfile(
 fun TimerProfile.endTime(
     timerType: TimerType,
     elapsedRealTime: Long,
-): Long =
-    if (isCountdown) {
-        elapsedRealTime + this.duration(timerType).minutes.inWholeMilliseconds
-    } else {
-        0
-    }
+): Long = if (isCountdown) {
+    elapsedRealTime + this.duration(timerType).minutes.inWholeMilliseconds
+} else {
+    0
+}
 
-fun TimerProfile.duration(timerType: TimerType): Int =
-    when (timerType) {
-        TimerType.FOCUS -> workDuration
-        TimerType.BREAK -> breakDuration
-        TimerType.LONG_BREAK -> longBreakDuration
-    }
+fun TimerProfile.duration(timerType: TimerType): Int = when (timerType) {
+    TimerType.FOCUS -> workDuration
+    TimerType.BREAK -> breakDuration
+    TimerType.LONG_BREAK -> longBreakDuration
+}

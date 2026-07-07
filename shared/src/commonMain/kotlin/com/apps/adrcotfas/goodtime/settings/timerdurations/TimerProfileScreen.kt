@@ -95,12 +95,12 @@ fun TimerProfileScreen(
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState)
-                    .background(MaterialTheme.colorScheme.background)
-                    .imePadding(),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(listState)
+                .background(MaterialTheme.colorScheme.background)
+                .imePadding(),
         ) {
             Column {
                 TimerProfileSettings(
@@ -116,20 +116,20 @@ fun TimerProfileScreen(
                         )
                     },
                     onEditProfiles =
-                        if (uiState.isPro) {
-                            { showTimerProfilesSheet = true }
-                        } else {
-                            null
-                        },
+                    if (uiState.isPro) {
+                        { showTimerProfilesSheet = true }
+                    } else {
+                        null
+                    },
                     onBreakBudgetInfo = { showBreakBudgetInfoDialog = true },
                 )
 
                 if (isDifferentFromDefault || label.timerProfile.name == null) {
                     Row(
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         val createProfileButtonTargetWeight =
@@ -151,13 +151,13 @@ fun TimerProfileScreen(
                                 enabled = uiState.isPro,
                                 modifier = Modifier.weight(createProfileButtonAnimatedWeight),
                                 colors =
-                                    ButtonDefaults.filledTonalButtonColors().copy(
-                                        containerColor =
-                                            MaterialTheme.colorScheme.primary.copy(
-                                                alpha = 0.18f,
-                                            ),
-                                        contentColor = MaterialTheme.colorScheme.primary,
+                                ButtonDefaults.filledTonalButtonColors().copy(
+                                    containerColor =
+                                    MaterialTheme.colorScheme.primary.copy(
+                                        alpha = 0.18f,
                                     ),
+                                    contentColor = MaterialTheme.colorScheme.primary,
+                                ),
                                 onClick = { showAddTimerProfileDialog = true },
                             ) {
                                 Row(

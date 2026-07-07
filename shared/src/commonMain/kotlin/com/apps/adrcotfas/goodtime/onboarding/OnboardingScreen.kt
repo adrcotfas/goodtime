@@ -85,16 +85,16 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
     Scaffold {
         Box(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
-                    .systemBarsPadding(),
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .systemBarsPadding(),
         ) {
             Column(
                 modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .align(Alignment.Center),
+                Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -119,10 +119,10 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
 
             FloatingActionButton(
                 modifier =
-                    Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(32.dp)
-                        .size(72.dp),
+                Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(32.dp)
+                    .size(72.dp),
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
@@ -151,9 +151,9 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
 
             PageIndicator(
                 modifier =
-                    Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(32.dp),
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(32.dp),
                 pageCount = pages.size,
                 currentPage = pagerState.currentPage,
                 color = MaterialTheme.colorScheme.surfaceVariant,
@@ -184,10 +184,10 @@ fun OnboardingPage(
     if (isPortraitOrientation) {
         Column(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(32.dp)
-                    .verticalScroll(rememberScrollState()),
+            Modifier
+                .fillMaxWidth()
+                .padding(32.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -198,9 +198,9 @@ fun OnboardingPage(
     } else {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 64.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 64.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
@@ -255,11 +255,11 @@ fun PageIndicator(
         repeat(pageCount) { iteration ->
             Box(
                 modifier =
-                    Modifier
-                        .padding(4.dp)
-                        .clip(CircleShape)
-                        .background(if (currentPage == iteration) selectionColor else color)
-                        .size(10.dp),
+                Modifier
+                    .padding(4.dp)
+                    .clip(CircleShape)
+                    .background(if (currentPage == iteration) selectionColor else color)
+                    .size(10.dp),
             )
         }
     }

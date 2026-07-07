@@ -64,38 +64,38 @@ fun CreateTimerProfileDialog(
             shape = MaterialTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
             modifier =
-                Modifier
-                    .padding(horizontal = 16.dp)
-                    .background(
-                        shape = MaterialTheme.shapes.extraLarge,
-                        color = MaterialTheme.colorScheme.surface,
-                    ),
+            Modifier
+                .padding(horizontal = 16.dp)
+                .background(
+                    shape = MaterialTheme.shapes.extraLarge,
+                    color = MaterialTheme.colorScheme.surface,
+                ),
         ) {
             Column(
                 modifier =
-                    Modifier
-                        .verticalScroll(rememberScrollState())
-                        .padding(
-                            top = 24.dp,
-                            start = 16.dp,
-                            end = 16.dp,
-                            bottom = 16.dp,
-                        ),
+                Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(
+                        top = 24.dp,
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = 16.dp,
+                    ),
             ) {
                 Text(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp),
                     text = "Create profile",
                     style = MaterialTheme.typography.titleMedium,
                 )
 
                 OutlinedTextField(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     value = timerProfileName,
                     maxLines = 1,
                     onValueChange = {

@@ -62,14 +62,13 @@ fun appTypography(): Typography {
 fun timerFontWith(
     resource: org.jetbrains.compose.resources.FontResource,
     weight: Int,
-): FontFamily =
-    FontFamily(
-        Font(
-            resource = resource,
-            weight = FontWeight(weight),
-            variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
-        ),
-    )
+): FontFamily = FontFamily(
+    Font(
+        resource = resource,
+        weight = FontWeight(weight),
+        variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
+    ),
+)
 
 val timerFontWeights = listOf(100, 200, 300)
 

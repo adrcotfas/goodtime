@@ -84,11 +84,11 @@ fun NotificationsScreen(onNavigateBack: () -> Boolean) {
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(listState)
-                    .background(MaterialTheme.colorScheme.background),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(listState)
+                .background(MaterialTheme.colorScheme.background),
         ) {
             BetterListItem(
                 title = stringResource(Res.string.settings_focus_complete_sound),
@@ -180,11 +180,10 @@ fun NotificationsScreen(onNavigateBack: () -> Boolean) {
 }
 
 @Composable
-private fun notificationSoundName(it: SoundData) =
-    if (it.isSilent) {
-        stringResource(Res.string.settings_silent)
-    } else {
-        it.name.ifEmpty {
-            stringResource(Res.string.settings_default_notification_sound)
-        }
+private fun notificationSoundName(it: SoundData) = if (it.isSilent) {
+    stringResource(Res.string.settings_silent)
+} else {
+    it.name.ifEmpty {
+        stringResource(Res.string.settings_default_notification_sound)
     }
+}

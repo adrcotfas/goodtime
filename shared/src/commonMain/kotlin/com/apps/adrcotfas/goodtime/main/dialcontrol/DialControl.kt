@@ -92,12 +92,11 @@ object DialControlDefaults {
         dialColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
         indicatorColor: Color = MaterialTheme.colorScheme.primary,
         selectionColor: Color = MaterialTheme.colorScheme.primary,
-    ): DialControlColors =
-        DialControlColors(
-            dialColor = dialColor,
-            indicatorColor = indicatorColor,
-            selectionColor = selectionColor,
-        )
+    ): DialControlColors = DialControlColors(
+        dialColor = dialColor,
+        indicatorColor = indicatorColor,
+        selectionColor = selectionColor,
+    )
 
     @Composable
     fun Indicator(
@@ -106,14 +105,14 @@ object DialControlDefaults {
     ) {
         Box(
             modifier =
-                Modifier
-                    .graphicsLayer {
-                        state.indicatorOffset.value.let {
-                            translationX = it.x
-                            translationY = it.y
-                        }
-                    }.size(state.config.indicatorSize)
-                    .background(color = colors.indicatorColor, shape = CircleShape),
+            Modifier
+                .graphicsLayer {
+                    state.indicatorOffset.value.let {
+                        translationX = it.x
+                        translationY = it.y
+                    }
+                }.size(state.config.indicatorSize)
+                .background(color = colors.indicatorColor, shape = CircleShape),
         )
     }
 }
@@ -186,16 +185,16 @@ fun <T> DialControl(
             enter = fadeIn(),
             exit = fadeOut(),
             modifier =
-                Modifier // containerModifier
-                    .padding(16.dp)
-                    .padding(state.config.indicatorSize)
-                    .size(state.config.size)
-                    .align(state.config.dialAlignment),
+            Modifier // containerModifier
+                .padding(16.dp)
+                .padding(state.config.indicatorSize)
+                .size(state.config.size)
+                .align(state.config.dialAlignment),
         ) {
             CircleDial(
                 modifier =
-                    modifier
-                        .then(gestureModifier),
+                modifier
+                    .then(gestureModifier),
                 state = state,
                 optionContent = dialContent,
                 colors = colors,
@@ -224,10 +223,10 @@ private fun <T> CircleDial(
                 alphas[option]?.animateTo(
                     if (option == state.selectedOption) 1f else 0f,
                     animationSpec =
-                        spring(
-                            dampingRatio = Spring.DampingRatioNoBouncy,
-                            stiffness = Spring.StiffnessMediumLow,
-                        ),
+                    spring(
+                        dampingRatio = Spring.DampingRatioNoBouncy,
+                        stiffness = Spring.StiffnessMediumLow,
+                    ),
                 )
             }
         }
@@ -237,17 +236,17 @@ private fun <T> CircleDial(
         val sweep = 360f / state.options.size
         Box(
             modifier =
-                Modifier
-                    .fillMaxSize(),
+            Modifier
+                .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
             Canvas(
                 modifier =
-                    Modifier
-                        .graphicsLayer {
-                            compositingStrategy = CompositingStrategy.Offscreen
-                        }.fillMaxSize()
-                        .background(color = colors.dialColor, shape = CircleShape),
+                Modifier
+                    .graphicsLayer {
+                        compositingStrategy = CompositingStrategy.Offscreen
+                    }.fillMaxSize()
+                    .background(color = colors.dialColor, shape = CircleShape),
             ) {
                 state.options.forEachIndexed { index, option ->
                     val alpha = alphas[option]!!.value
@@ -289,18 +288,18 @@ private fun <T> CircleDial(
             key(option) {
                 Box(
                     modifier =
-                        Modifier
-                            .graphicsLayer {
-                                val optionAlpha = 1f
-                                val startAngle =
-                                    calculateStartAngle(index = index, count = state.options.size)
-                                val radians = (startAngle + sweep / 2) * PI / 180
-                                val radius =
-                                    (state.config.size.toPx() / 2) * (state.config.cutoffFraction + (1f - state.config.cutoffFraction) / 2)
-                                translationX = (radius * cos(radians)).toFloat()
-                                translationY = (radius * sin(radians)).toFloat()
-                                alpha = optionAlpha
-                            },
+                    Modifier
+                        .graphicsLayer {
+                            val optionAlpha = 1f
+                            val startAngle =
+                                calculateStartAngle(index = index, count = state.options.size)
+                            val radians = (startAngle + sweep / 2) * PI / 180
+                            val radius =
+                                (state.config.size.toPx() / 2) * (state.config.cutoffFraction + (1f - state.config.cutoffFraction) / 2)
+                            translationX = (radius * cos(radians)).toFloat()
+                            translationY = (radius * sin(radians)).toFloat()
+                            alpha = optionAlpha
+                        },
                 ) {
                     optionContent(option)
                 }

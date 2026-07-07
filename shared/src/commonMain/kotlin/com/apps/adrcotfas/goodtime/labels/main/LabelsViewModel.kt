@@ -111,9 +111,9 @@ class LabelsViewModel(
         _uiState.update {
             it.copy(
                 labels =
-                    it.unarchivedLabels.toMutableList().apply {
-                        add(toIndex, removeAt(fromIndex))
-                    },
+                it.unarchivedLabels.toMutableList().apply {
+                    add(toIndex, removeAt(fromIndex))
+                },
             )
         }
     }
@@ -138,16 +138,16 @@ class LabelsViewModel(
             _uiState.update { uiState ->
                 uiState.copy(
                     labels =
-                        uiState.labels.toMutableList().apply {
-                            val index =
-                                indexOfFirst { it.name == if (isDefault) Label.DEFAULT_LABEL_NAME else name }
-                            if (index != -1) {
-                                val label = get(index)
-                                val newLabelName = generateUniqueNameForDuplicate(name, map { it.name })
-                                val newLabel = label.copy(name = newLabelName)
-                                insertLabelAt(newLabel, index + 1)
-                            }
-                        },
+                    uiState.labels.toMutableList().apply {
+                        val index =
+                            indexOfFirst { it.name == if (isDefault) Label.DEFAULT_LABEL_NAME else name }
+                        if (index != -1) {
+                            val label = get(index)
+                            val newLabelName = generateUniqueNameForDuplicate(name, map { it.name })
+                            val newLabel = label.copy(name = newLabelName)
+                            insertLabelAt(newLabel, index + 1)
+                        }
+                    },
                 )
             }
         }
@@ -161,9 +161,9 @@ class LabelsViewModel(
             _uiState.update { state ->
                 state.copy(
                     labels =
-                        state.labels.toMutableList().apply {
-                            add(index, label)
-                        },
+                    state.labels.toMutableList().apply {
+                        add(index, label)
+                    },
                 )
             }
             repo.insertLabelAndBulkRearrange(

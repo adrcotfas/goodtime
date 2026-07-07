@@ -90,11 +90,10 @@ class AlarmManagerHandler(
         pendingIntent.cancel()
     }
 
-    private fun getAlarmPendingIntent(): PendingIntent =
-        PendingIntent.getBroadcast(
-            context,
-            0,
-            Intent(context, AlarmReceiver::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
+    private fun getAlarmPendingIntent(): PendingIntent = PendingIntent.getBroadcast(
+        context,
+        0,
+        Intent(context, AlarmReceiver::class.java),
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+    )
 }

@@ -63,24 +63,24 @@ fun NotificationSoundPickerDialogContent(
             shape = MaterialTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
             modifier =
-                Modifier
-                    .background(
-                        shape = MaterialTheme.shapes.extraLarge,
-                        color = MaterialTheme.colorScheme.surface,
-                    ),
+            Modifier
+                .background(
+                    shape = MaterialTheme.shapes.extraLarge,
+                    color = MaterialTheme.colorScheme.surface,
+                ),
         ) {
             Column(
                 modifier =
-                    Modifier
-                        .padding(top = 24.dp)
-                        .fillMaxHeight(0.75f),
+                Modifier
+                    .padding(top = 24.dp)
+                    .fillMaxHeight(0.75f),
                 verticalArrangement = Arrangement.Top,
             ) {
                 Text(
                     modifier =
-                        Modifier
-                            .padding(start = 24.dp)
-                            .fillMaxWidth(),
+                    Modifier
+                        .padding(start = 24.dp)
+                        .fillMaxWidth(),
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                 )

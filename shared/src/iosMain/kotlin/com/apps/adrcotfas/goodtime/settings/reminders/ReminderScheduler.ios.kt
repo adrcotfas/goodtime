@@ -103,9 +103,10 @@ actual class ReminderScheduler(
      * iOS uses 1=Sunday, 2=Monday, ..., 7=Saturday
      * Kotlin DayOfWeek uses 1=Monday, 2=Tuesday, ..., 7=Sunday
      */
-    private fun DayOfWeek.toIOSWeekday(): Int =
-        when (this.isoDayNumber) {
-            7 -> 1 // Sunday
-            else -> this.isoDayNumber + 1
-        }
+    private fun DayOfWeek.toIOSWeekday(): Int = when (this.isoDayNumber) {
+        7 -> 1
+
+        // Sunday
+        else -> this.isoDayNumber + 1
+    }
 }

@@ -63,10 +63,10 @@ fun CloudRestorePickerDialog(
                     val backup = backups[index]
                     Row(
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .clickable { selectedBackup = backup }
-                                .padding(vertical = 8.dp),
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable { selectedBackup = backup }
+                            .padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         RadioButton(

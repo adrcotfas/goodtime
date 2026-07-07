@@ -96,9 +96,8 @@ enum class ThemePreference {
     DARK,
 }
 
-fun ThemePreference.isDarkTheme(isSystemInDarkTheme: Boolean): Boolean =
-    this == ThemePreference.DARK ||
-        (this == ThemePreference.SYSTEM && isSystemInDarkTheme)
+fun ThemePreference.isDarkTheme(isSystemInDarkTheme: Boolean): Boolean = this == ThemePreference.DARK ||
+    (this == ThemePreference.SYSTEM && isSystemInDarkTheme)
 
 @Serializable
 data class TimerStyleData(

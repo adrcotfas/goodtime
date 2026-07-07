@@ -48,332 +48,322 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
     }
 
     @BeforeTest
-    fun setup() =
-        runTest {
-            settingsRepo = FakeSettingsRepository()
-            db = getInMemoryDatabaseBuilder().build()
-            repo =
-                LocalDataRepositoryImpl(
-                    sessionDao = db.sessionsDao(),
-                    labelDao = db.labelsDao(),
-                    timerProfileDao = db.timerProfileDao(),
-                    settingsRepo = settingsRepo,
-                    coroutineScope = this,
-                )
-            repo.deleteAllSessions()
-            repo.deleteAllLabels()
-            repo.insertLabel(label)
-            repo.insertLabel(Label.defaultLabel())
-            repo.insertSession(session)
-        }
+    fun setup() = runTest {
+        settingsRepo = FakeSettingsRepository()
+        db = getInMemoryDatabaseBuilder().build()
+        repo =
+            LocalDataRepositoryImpl(
+                sessionDao = db.sessionsDao(),
+                labelDao = db.labelsDao(),
+                timerProfileDao = db.timerProfileDao(),
+                settingsRepo = settingsRepo,
+                coroutineScope = this,
+            )
+        repo.deleteAllSessions()
+        repo.deleteAllLabels()
+        repo.insertLabel(label)
+        repo.insertLabel(Label.defaultLabel())
+        repo.insertSession(session)
+    }
 
     @Test
-    fun selectByName() =
-        runTest {
-            val label = repo.selectLabelByName(LABEL_NAME).first()
-            assertEquals(LABEL_NAME, label!!.name, "selectLabelByName failed")
-        }
+    fun selectByName() = runTest {
+        val label = repo.selectLabelByName(LABEL_NAME).first()
+        assertEquals(LABEL_NAME, label!!.name, "selectLabelByName failed")
+    }
 
     @Test
-    fun selectAllSessions() =
-        runTest {
-            val sessions = repo.selectAllSessions().first()
-            assertTrue { sessions.size == 1 }
-            val labels = repo.selectAllLabels().first()
-            assertTrue { labels.size == 2 }
-        }
+    fun selectAllSessions() = runTest {
+        val sessions = repo.selectAllSessions().first()
+        assertTrue { sessions.size == 1 }
+        val labels = repo.selectAllLabels().first()
+        assertTrue { labels.size == 2 }
+    }
 
     @Test
-    fun verifyForeignKeyCascadeOnLabelChange() =
-        runTest {
-            val session = repo.selectAllSessions().first().first()
-            repo.updateSession(
-                session.id,
-                Session(
-                    id = session.id,
-                    timestamp = 1.minutes.inWholeMilliseconds,
-                    duration = 1.minutes.toLong(DurationUnit.MINUTES),
-                    interruptions = 0,
-                    label = LABEL_NAME,
-                    notes = "",
-                    isWork = true,
-                    isArchived = false,
-                ),
-            )
-            assertTrue(
-                repo.selectAllSessions().first().first().run {
-                    this.label == LABEL_NAME && !this.isArchived
-                },
-                "Cascade update of Session's label failed after updateSession",
-            )
+    fun verifyForeignKeyCascadeOnLabelChange() = runTest {
+        val session = repo.selectAllSessions().first().first()
+        repo.updateSession(
+            session.id,
+            Session(
+                id = session.id,
+                timestamp = 1.minutes.inWholeMilliseconds,
+                duration = 1.minutes.toLong(DurationUnit.MINUTES),
+                interruptions = 0,
+                label = LABEL_NAME,
+                notes = "",
+                isWork = true,
+                isArchived = false,
+            ),
+        )
+        assertTrue(
+            repo.selectAllSessions().first().first().run {
+                this.label == LABEL_NAME && !this.isArchived
+            },
+            "Cascade update of Session's label failed after updateSession",
+        )
 
-            val newLabelName = "new"
-            repo.updateLabel(LABEL_NAME, label.copy(name = newLabelName))
-            assertEquals(
-                newLabelName,
-                repo
-                    .selectAllSessions()
-                    .first()
-                    .first()
-                    .label,
-                "Cascade update of Session's label failed after updateLabelName",
-            )
+        val newLabelName = "new"
+        repo.updateLabel(LABEL_NAME, label.copy(name = newLabelName))
+        assertEquals(
+            newLabelName,
+            repo
+                .selectAllSessions()
+                .first()
+                .first()
+                .label,
+            "Cascade update of Session's label failed after updateLabelName",
+        )
 
-            repo.updateLabelIsArchived(newLabelName, newIsArchived = true)
-            assertEquals(
-                true,
-                repo
-                    .selectAllSessions()
-                    .first()
-                    .first()
-                    .isArchived,
-                "Cascade update of Session's label failed after updateLabelIsArchived",
-            )
-            repo.deleteAllLabels()
-            assertTrue(
-                repo.selectAllSessions().first().first().run {
-                    this.label == Label.DEFAULT_LABEL_NAME && !this.isArchived
-                },
-                "Cascade update of Session's label failed after deleteAllLabels",
-            )
-        }
-
-    @Test
-    fun selectEntitiesByLabel() =
-        runTest {
-            val filteredSessions = repo.selectSessionsByLabel(LABEL_NAME).first()
-            assertEquals(0, filteredSessions.size, "There should be no sessions with this label")
-
-            val allSessions = repo.selectAllSessions().first()
-            repo.updateSession(
-                allSessions.first().id,
-                allSessions.first().copy(label = LABEL_NAME),
-            )
-            assertEquals(
-                1,
-                repo.selectSessionsByLabel(LABEL_NAME).first().size,
-                "updateSession failed",
-            )
-        }
+        repo.updateLabelIsArchived(newLabelName, newIsArchived = true)
+        assertEquals(
+            true,
+            repo
+                .selectAllSessions()
+                .first()
+                .first()
+                .isArchived,
+            "Cascade update of Session's label failed after updateLabelIsArchived",
+        )
+        repo.deleteAllLabels()
+        assertTrue(
+            repo.selectAllSessions().first().first().run {
+                this.label == Label.DEFAULT_LABEL_NAME && !this.isArchived
+            },
+            "Cascade update of Session's label failed after deleteAllLabels",
+        )
+    }
 
     @Test
-    fun selectEntitiesByIsArchived() =
-        runTest {
-            val expectedArchivedSessions = 3
-            repeat(expectedArchivedSessions) {
-                repo.insertSession(session.copy(label = LABEL_NAME))
-            }
-            repo.updateLabelIsArchived(LABEL_NAME, true)
+    fun selectEntitiesByLabel() = runTest {
+        val filteredSessions = repo.selectSessionsByLabel(LABEL_NAME).first()
+        assertEquals(0, filteredSessions.size, "There should be no sessions with this label")
 
-            val sessions = repo.selectSessionsByIsArchived(true).first()
-            assertEquals(expectedArchivedSessions, sessions.size, "selectSessionsByIsArchived failed")
-
-            repo.insertLabel(label.copy(name = "ceva", isArchived = true))
-            repo.insertLabel(label.copy(name = "fin", isArchived = true))
-
-            val labels = repo.selectLabelsByArchived(isArchived = true).first()
-            assertEquals(3, labels.size, "selectLabelsByArchived failed")
-        }
+        val allSessions = repo.selectAllSessions().first()
+        repo.updateSession(
+            allSessions.first().id,
+            allSessions.first().copy(label = LABEL_NAME),
+        )
+        assertEquals(
+            1,
+            repo.selectSessionsByLabel(LABEL_NAME).first().size,
+            "updateSession failed",
+        )
+    }
 
     @Test
-    fun updateLabelProperties() =
-        runTest {
-            val expectedColorIndex = 9
-            val expectedOrderIndex = 10L
-            val expectedFollowDefaultTimeProfile = false
-            repo.updateLabel(
-                LABEL_NAME,
-                label.copy(
-                    colorIndex = expectedColorIndex,
-                    orderIndex = expectedOrderIndex,
-                    useDefaultTimeProfile = expectedFollowDefaultTimeProfile,
-                ),
-            )
-            repo.updateLabelOrderIndex(LABEL_NAME, expectedOrderIndex)
-
-            val labels = repo.selectAllLabels().first()
-            val label = labels.firstOrNull { it.name == LABEL_NAME }
-            assertNotNull(label, "label not found")
-            assertEquals(expectedColorIndex, label.colorIndex, "updateLabelColorIndex failed")
-            assertEquals(expectedOrderIndex, label.orderIndex, "updateLabelOrderIndex failed")
-            assertEquals(
-                expectedFollowDefaultTimeProfile,
-                label.useDefaultTimeProfile,
-                "updateShouldFollowDefaultTimeProfile failed",
-            )
+    fun selectEntitiesByIsArchived() = runTest {
+        val expectedArchivedSessions = 3
+        repeat(expectedArchivedSessions) {
+            repo.insertSession(session.copy(label = LABEL_NAME))
         }
+        repo.updateLabelIsArchived(LABEL_NAME, true)
+
+        val sessions = repo.selectSessionsByIsArchived(true).first()
+        assertEquals(expectedArchivedSessions, sessions.size, "selectSessionsByIsArchived failed")
+
+        repo.insertLabel(label.copy(name = "ceva", isArchived = true))
+        repo.insertLabel(label.copy(name = "fin", isArchived = true))
+
+        val labels = repo.selectLabelsByArchived(isArchived = true).first()
+        assertEquals(3, labels.size, "selectLabelsByArchived failed")
+    }
 
     @Test
-    fun deleteEntities() =
-        runTest {
-            repo.deleteAllSessions()
-            val sessions = repo.selectAllSessions().first()
-            assertTrue(sessions.isEmpty(), "deleteAllSessions failed")
+    fun updateLabelProperties() = runTest {
+        val expectedColorIndex = 9
+        val expectedOrderIndex = 10L
+        val expectedFollowDefaultTimeProfile = false
+        repo.updateLabel(
+            LABEL_NAME,
+            label.copy(
+                colorIndex = expectedColorIndex,
+                orderIndex = expectedOrderIndex,
+                useDefaultTimeProfile = expectedFollowDefaultTimeProfile,
+            ),
+        )
+        repo.updateLabelOrderIndex(LABEL_NAME, expectedOrderIndex)
 
-            repo.insertSession(session)
-            assertEquals(1, repo.selectAllSessions().first().size, "insertSession failed")
-
-            val sessionId =
-                repo
-                    .selectAllSessions()
-                    .first()
-                    .first()
-                    .id
-            repo.deleteSessions(listOf(sessionId))
-            assertEquals(0, repo.selectAllSessions().first().size, "deleteSession failed")
-
-            repo.deleteAllLabels()
-            val labels = repo.selectAllLabels().first()
-            assertNotNull(
-                labels.firstOrNull { it.name == Label.DEFAULT_LABEL_NAME },
-                "default label should always be present",
-            )
-
-            val labelToDeleteName = "ceva"
-            repo.insertLabel(label.copy(name = labelToDeleteName))
-            assertEquals(2, repo.selectAllLabels().first().size, "insertLabel failed")
-            repo.deleteLabel(labelToDeleteName)
-            assertEquals(1, repo.selectAllLabels().first().size, "deleteLabel failed")
-        }
+        val labels = repo.selectAllLabels().first()
+        val label = labels.firstOrNull { it.name == LABEL_NAME }
+        assertNotNull(label, "label not found")
+        assertEquals(expectedColorIndex, label.colorIndex, "updateLabelColorIndex failed")
+        assertEquals(expectedOrderIndex, label.orderIndex, "updateLabelOrderIndex failed")
+        assertEquals(
+            expectedFollowDefaultTimeProfile,
+            label.useDefaultTimeProfile,
+            "updateShouldFollowDefaultTimeProfile failed",
+        )
+    }
 
     @Test
-    fun editSessionLabelExcept() =
-        runTest {
-            repeat(3) {
-                repo.insertLabel(Label.defaultLabel().copy(name = "label$it"))
-            }
-            repeat(21) {
-                repo.insertSession(session.copy(id = it.toLong(), label = "label${it % 3}"))
-            }
+    fun deleteEntities() = runTest {
+        repo.deleteAllSessions()
+        val sessions = repo.selectAllSessions().first()
+        assertTrue(sessions.isEmpty(), "deleteAllSessions failed")
 
-            val allSessions = repo.selectAllSessions().first()
-            repo.updateSessionsLabelByIdsExcept(
-                newLabel = "label1",
-                unselectedIds = emptyList(),
-                selectedLabels = emptyList(),
-            )
-            assertEquals(allSessions, repo.selectAllSessions().first())
+        repo.insertSession(session)
+        assertEquals(1, repo.selectAllSessions().first().size, "insertSession failed")
 
-            val label0SessionsSize =
-                allSessions
-                    .filter {
-                        it.label == "label0"
-                    }.size
-            val label1SessionsSize =
-                allSessions
-                    .filter {
-                        it.label == "label1"
-                    }.size
+        val sessionId =
+            repo
+                .selectAllSessions()
+                .first()
+                .first()
+                .id
+        repo.deleteSessions(listOf(sessionId))
+        assertEquals(0, repo.selectAllSessions().first().size, "deleteSession failed")
 
-            val label1SessionsIds =
-                allSessions
-                    .filter {
-                        it.label == "label1"
-                    }.map { it.id }
+        repo.deleteAllLabels()
+        val labels = repo.selectAllLabels().first()
+        assertNotNull(
+            labels.firstOrNull { it.name == Label.DEFAULT_LABEL_NAME },
+            "default label should always be present",
+        )
 
-            repo.updateSessionsLabelByIdsExcept(
-                newLabel = "label1",
-                unselectedIds = label1SessionsIds,
-                selectedLabels = listOf("label1"),
-            )
-            assertEquals(allSessions, repo.selectAllSessions().first())
-
-            repo.updateSessionsLabelByIdsExcept(
-                newLabel = "label1",
-                unselectedIds = emptyList(),
-                selectedLabels = listOf("label0"),
-            )
-            assertEquals(
-                0,
-                repo
-                    .selectAllSessions()
-                    .first()
-                    .filter { it.label == "label0" }
-                    .size,
-            )
-            assertEquals(
-                label0SessionsSize + label1SessionsSize,
-                repo
-                    .selectAllSessions()
-                    .first()
-                    .filter { it.label == "label1" }
-                    .size,
-            )
-
-            repo.updateSessionsLabelByIdsExcept(
-                newLabel = "label2",
-                unselectedIds = emptyList(),
-                selectedLabels = listOf("label0", "label1", "label2"),
-            )
-
-            assertEquals(
-                allSessions.size,
-                repo
-                    .selectAllSessions()
-                    .first()
-                    .filter { it.label == "label2" }
-                    .size,
-            )
-        }
+        val labelToDeleteName = "ceva"
+        repo.insertLabel(label.copy(name = labelToDeleteName))
+        assertEquals(2, repo.selectAllLabels().first().size, "insertLabel failed")
+        repo.deleteLabel(labelToDeleteName)
+        assertEquals(1, repo.selectAllLabels().first().size, "deleteLabel failed")
+    }
 
     @Test
-    fun deleteSessionsExcept() =
-        runTest {
-            repeat(5) {
-                repo.insertLabel(Label.defaultLabel().copy(name = "label$it"))
-            }
-            repeat(20) {
-                repo.insertSession(session.copy(id = it.toLong(), label = "label${it % 5}"))
-            }
-
-            val allSessions = repo.selectAllSessions().first()
-
-            repo.deleteSessionsExcept(
-                unselectedIds = emptyList(),
-                selectedLabels = emptyList(),
-            )
-
-            assertEquals(allSessions.size, repo.selectAllSessions().first().size)
-
-            val label0SessionsIds =
-                allSessions
-                    .filter {
-                        it.label == "label0"
-                    }.map { it.id }
-
-            val label1SessionsIds =
-                allSessions
-                    .filter {
-                        it.label == "label1"
-                    }.map { it.id }
-
-            repo.deleteSessionsExcept(
-                unselectedIds = label1SessionsIds,
-                selectedLabels = listOf("label1"),
-            )
-            var remainingSessions = repo.selectAllSessions().first()
-            assertEquals(
-                allSessions.size,
-                remainingSessions.size,
-                "expecting that no sessions were deleted",
-            )
-
-            repo.deleteSessionsExcept(
-                unselectedIds = listOf(),
-                selectedLabels = listOf("label0"),
-            )
-
-            remainingSessions = repo.selectAllSessions().first()
-            assertEquals(allSessions.size - label0SessionsIds.size, remainingSessions.size)
-
-            val allLabelsNames = repo.selectAllLabels().first().map { it.name }
-            repo.deleteSessionsExcept(
-                unselectedIds = emptyList(),
-                selectedLabels = allLabelsNames,
-            )
-            remainingSessions = repo.selectAllSessions().first()
-            assertEquals(0, remainingSessions.size)
+    fun editSessionLabelExcept() = runTest {
+        repeat(3) {
+            repo.insertLabel(Label.defaultLabel().copy(name = "label$it"))
         }
+        repeat(21) {
+            repo.insertSession(session.copy(id = it.toLong(), label = "label${it % 3}"))
+        }
+
+        val allSessions = repo.selectAllSessions().first()
+        repo.updateSessionsLabelByIdsExcept(
+            newLabel = "label1",
+            unselectedIds = emptyList(),
+            selectedLabels = emptyList(),
+        )
+        assertEquals(allSessions, repo.selectAllSessions().first())
+
+        val label0SessionsSize =
+            allSessions
+                .filter {
+                    it.label == "label0"
+                }.size
+        val label1SessionsSize =
+            allSessions
+                .filter {
+                    it.label == "label1"
+                }.size
+
+        val label1SessionsIds =
+            allSessions
+                .filter {
+                    it.label == "label1"
+                }.map { it.id }
+
+        repo.updateSessionsLabelByIdsExcept(
+            newLabel = "label1",
+            unselectedIds = label1SessionsIds,
+            selectedLabels = listOf("label1"),
+        )
+        assertEquals(allSessions, repo.selectAllSessions().first())
+
+        repo.updateSessionsLabelByIdsExcept(
+            newLabel = "label1",
+            unselectedIds = emptyList(),
+            selectedLabels = listOf("label0"),
+        )
+        assertEquals(
+            0,
+            repo
+                .selectAllSessions()
+                .first()
+                .filter { it.label == "label0" }
+                .size,
+        )
+        assertEquals(
+            label0SessionsSize + label1SessionsSize,
+            repo
+                .selectAllSessions()
+                .first()
+                .filter { it.label == "label1" }
+                .size,
+        )
+
+        repo.updateSessionsLabelByIdsExcept(
+            newLabel = "label2",
+            unselectedIds = emptyList(),
+            selectedLabels = listOf("label0", "label1", "label2"),
+        )
+
+        assertEquals(
+            allSessions.size,
+            repo
+                .selectAllSessions()
+                .first()
+                .filter { it.label == "label2" }
+                .size,
+        )
+    }
+
+    @Test
+    fun deleteSessionsExcept() = runTest {
+        repeat(5) {
+            repo.insertLabel(Label.defaultLabel().copy(name = "label$it"))
+        }
+        repeat(20) {
+            repo.insertSession(session.copy(id = it.toLong(), label = "label${it % 5}"))
+        }
+
+        val allSessions = repo.selectAllSessions().first()
+
+        repo.deleteSessionsExcept(
+            unselectedIds = emptyList(),
+            selectedLabels = emptyList(),
+        )
+
+        assertEquals(allSessions.size, repo.selectAllSessions().first().size)
+
+        val label0SessionsIds =
+            allSessions
+                .filter {
+                    it.label == "label0"
+                }.map { it.id }
+
+        val label1SessionsIds =
+            allSessions
+                .filter {
+                    it.label == "label1"
+                }.map { it.id }
+
+        repo.deleteSessionsExcept(
+            unselectedIds = label1SessionsIds,
+            selectedLabels = listOf("label1"),
+        )
+        var remainingSessions = repo.selectAllSessions().first()
+        assertEquals(
+            allSessions.size,
+            remainingSessions.size,
+            "expecting that no sessions were deleted",
+        )
+
+        repo.deleteSessionsExcept(
+            unselectedIds = listOf(),
+            selectedLabels = listOf("label0"),
+        )
+
+        remainingSessions = repo.selectAllSessions().first()
+        assertEquals(allSessions.size - label0SessionsIds.size, remainingSessions.size)
+
+        val allLabelsNames = repo.selectAllLabels().first().map { it.name }
+        repo.deleteSessionsExcept(
+            unselectedIds = emptyList(),
+            selectedLabels = allLabelsNames,
+        )
+        remainingSessions = repo.selectAllSessions().first()
+        assertEquals(0, remainingSessions.size)
+    }
 
     companion object {
         private const val LABEL_NAME = "label_name"

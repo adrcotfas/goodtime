@@ -58,15 +58,13 @@ class FakeTimerProfileDao : TimerProfileDao {
         timerProfiles.value = currentList
     }
 
-    override fun selectByName(name: String): Flow<LocalTimerProfile?> =
-        timerProfiles.map { profiles ->
-            profiles.firstOrNull { it.name == name }
-        }
+    override fun selectByName(name: String): Flow<LocalTimerProfile?> = timerProfiles.map { profiles ->
+        profiles.firstOrNull { it.name == name }
+    }
 
-    override fun selectByNames(names: List<String>): Flow<List<LocalTimerProfile>> =
-        timerProfiles.map { profiles ->
-            profiles.filter { it.name in names }
-        }
+    override fun selectByNames(names: List<String>): Flow<List<LocalTimerProfile>> = timerProfiles.map { profiles ->
+        profiles.filter { it.name in names }
+    }
 
     override fun selectAll(): Flow<List<LocalTimerProfile>> = timerProfiles
 }

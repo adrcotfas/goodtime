@@ -102,9 +102,13 @@ class TimerService :
 
             // actions triggered from the notification itself
             Action.Toggle.name -> timerManager.toggle()
+
             Action.AddOneMinute.name -> timerManager.addOneMinute()
+
             Action.Skip.name -> timerManager.next(actionType = FinishActionType.MANUAL_SKIP)
+
             Action.Next.name -> timerManager.next(actionType = FinishActionType.MANUAL_NEXT)
+
             Action.DoReset.name -> timerManager.reset()
         }
 
@@ -137,11 +141,10 @@ class TimerService :
             context: Context,
             autostart: Boolean = false,
             type: TimerType,
-        ): Intent =
-            Intent(context, TimerService::class.java).apply {
-                action = Action.Finished.name
-                putExtra(EXTRA_FINISHED_AUTOSTART, autostart)
-                putExtra(EXTRA_FINISHED_TYPE, type.name)
-            }
+        ): Intent = Intent(context, TimerService::class.java).apply {
+            action = Action.Finished.name
+            putExtra(EXTRA_FINISHED_AUTOSTART, autostart)
+            putExtra(EXTRA_FINISHED_TYPE, type.name)
+        }
     }
 }

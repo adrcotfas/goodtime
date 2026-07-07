@@ -62,26 +62,24 @@ class BreakBudgetManagerTest {
     }
 
     @Test
-    fun `initial budget is read as persisted when the device was not rebooted`() =
-        runTest(testDispatcher) {
-            val persisted = BreakBudgetData(breakBudget = 10.minutes, breakBudgetStart = 5_000)
-            settingsRepo.setBreakBudgetData(persisted)
-            timeProvider.elapsedRealtime = 10_000
+    fun `initial budget is read as persisted when the device was not rebooted`() = runTest(testDispatcher) {
+        val persisted = BreakBudgetData(breakBudget = 10.minutes, breakBudgetStart = 5_000)
+        settingsRepo.setBreakBudgetData(persisted)
+        timeProvider.elapsedRealtime = 10_000
 
-            assertEquals(persisted, breakBudgetManager.initialBreakBudget())
-        }
+        assertEquals(persisted, breakBudgetManager.initialBreakBudget())
+    }
 
     @Test
-    fun `initial budget start is reset and persisted after a reboot`() =
-        runTest(testDispatcher) {
-            settingsRepo.setBreakBudgetData(BreakBudgetData(breakBudget = 10.minutes, breakBudgetStart = 50_000))
-            timeProvider.elapsedRealtime = 10_000 // below the persisted start -> reboot
+    fun `initial budget start is reset and persisted after a reboot`() = runTest(testDispatcher) {
+        settingsRepo.setBreakBudgetData(BreakBudgetData(breakBudget = 10.minutes, breakBudgetStart = 50_000))
+        timeProvider.elapsedRealtime = 10_000 // below the persisted start -> reboot
 
-            val result = breakBudgetManager.initialBreakBudget()
+        val result = breakBudgetManager.initialBreakBudget()
 
-            assertEquals(BreakBudgetData(breakBudget = 10.minutes, breakBudgetStart = 10_000), result)
-            assertEquals(result, settingsRepo.settings.first().breakBudgetData)
-        }
+        assertEquals(BreakBudgetData(breakBudget = 10.minutes, breakBudgetStart = 10_000), result)
+        assertEquals(result, settingsRepo.settings.first().breakBudgetData)
+    }
 
     @Test
     fun `no budget update for countdown profiles`() {
@@ -91,29 +89,28 @@ class BreakBudgetManagerTest {
     }
 
     @Test
-    fun `running focus accumulates budget at the work-break ratio`() =
-        runTest(testDispatcher) {
-            timeProvider.elapsedRealtime = 0
-            val data =
-                DomainTimerData(
-                    isReady = true,
-                    label = countUpLabel,
-                    runtime =
-                        TimerRuntimeState(
-                            startTime = 0,
-                            lastStartTime = 0,
-                            state = TimerState.RUNNING,
-                            type = TimerType.FOCUS,
-                        ),
-                )
-            timeProvider.elapsedRealtime = 9.minutes.inWholeMilliseconds
+    fun `running focus accumulates budget at the work-break ratio`() = runTest(testDispatcher) {
+        timeProvider.elapsedRealtime = 0
+        val data =
+            DomainTimerData(
+                isReady = true,
+                label = countUpLabel,
+                runtime =
+                TimerRuntimeState(
+                    startTime = 0,
+                    lastStartTime = 0,
+                    state = TimerState.RUNNING,
+                    type = TimerType.FOCUS,
+                ),
+            )
+        timeProvider.elapsedRealtime = 9.minutes.inWholeMilliseconds
 
-            val result = breakBudgetManager.updatedBreakBudget(data)
+        val result = breakBudgetManager.updatedBreakBudget(data)
 
-            assertNotNull(result)
-            // 9 minutes of focus at ratio 3 -> 3 minutes of budget
-            assertEquals(3.minutes, result.breakBudget)
-            assertEquals(9.minutes.inWholeMilliseconds, result.breakBudgetStart)
-            assertEquals(result, settingsRepo.settings.first().breakBudgetData)
-        }
+        assertNotNull(result)
+        // 9 minutes of focus at ratio 3 -> 3 minutes of budget
+        assertEquals(3.minutes, result.breakBudget)
+        assertEquals(9.minutes.inWholeMilliseconds, result.breakBudgetStart)
+        assertEquals(result, settingsRepo.settings.first().breakBudgetData)
+    }
 }

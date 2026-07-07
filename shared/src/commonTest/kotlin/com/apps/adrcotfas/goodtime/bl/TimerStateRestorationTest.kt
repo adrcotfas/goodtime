@@ -52,14 +52,13 @@ class TimerStateRestorationTest {
         restored = null
     }
 
-    private fun restoration(isAndroid: Boolean = false) =
-        TimerStateRestoration(
-            settingsRepo = settingsRepo,
-            timeProvider = timeProvider,
-            log = logger,
-            coroutineScope = testScope,
-            platformConfiguration = FakePlatformConfiguration(isAndroid = isAndroid),
-        )
+    private fun restoration(isAndroid: Boolean = false) = TimerStateRestoration(
+        settingsRepo = settingsRepo,
+        timeProvider = timeProvider,
+        log = logger,
+        coroutineScope = testScope,
+        platformConfiguration = FakePlatformConfiguration(isAndroid = isAndroid),
+    )
 
     private fun runningState(
         startTime: Long,
@@ -77,72 +76,68 @@ class TimerStateRestorationTest {
     )
 
     @Test
-    fun `does nothing on Android`() =
-        runTest(testDispatcher) {
-            settingsRepo.setPersistedTimerState(
-                runningState(startTime = 0, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000),
-            )
-            timeProvider.elapsedRealtime = 60_000
+    fun `does nothing on Android`() = runTest(testDispatcher) {
+        settingsRepo.setPersistedTimerState(
+            runningState(startTime = 0, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000),
+        )
+        timeProvider.elapsedRealtime = 60_000
 
-            restoration(isAndroid = true).restoreTimerState { restored = it }
+        restoration(isAndroid = true).restoreTimerState { restored = it }
 
-            assertNull(restored)
-            assertNotNull(settingsRepo.settings.first().persistedTimerState)
-        }
-
-    @Test
-    fun `expired running timer is not restored and state is cleared`() =
-        runTest(testDispatcher) {
-            settingsRepo.setPersistedTimerState(
-                runningState(startTime = 0, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000),
-            )
-            timeProvider.elapsedRealtime = 300_000 // now() >= endTimeWallClock
-
-            restoration().restoreTimerState { restored = it }
-
-            assertNull(restored)
-            assertNull(settingsRepo.settings.first().persistedTimerState)
-        }
+        assertNull(restored)
+        assertNotNull(settingsRepo.settings.first().persistedTimerState)
+    }
 
     @Test
-    fun `state is restored directly when device was not rebooted`() =
-        runTest(testDispatcher) {
-            val persisted =
-                runningState(startTime = 10_000, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000)
-            settingsRepo.setPersistedTimerState(persisted)
-            timeProvider.elapsedRealtime = 60_000 // >= startTime, so no reboot; < endTimeWallClock
+    fun `expired running timer is not restored and state is cleared`() = runTest(testDispatcher) {
+        settingsRepo.setPersistedTimerState(
+            runningState(startTime = 0, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000),
+        )
+        timeProvider.elapsedRealtime = 300_000 // now() >= endTimeWallClock
 
-            restoration().restoreTimerState { restored = it }
+        restoration().restoreTimerState { restored = it }
 
-            assertEquals(persisted.toRuntimeState(), restored)
-        }
+        assertNull(restored)
+        assertNull(settingsRepo.settings.first().persistedTimerState)
+    }
 
     @Test
-    fun `times are recalculated from wall clock after a reboot`() =
-        runTest(testDispatcher) {
-            // before reboot: started at elapsed 100_000, ends at elapsed 200_000 (duration 100_000)
-            // wall clock: saved at 1_000_000, ends at 1_050_000
-            settingsRepo.setPersistedTimerState(
-                runningState(
-                    startTime = 100_000,
-                    endTime = 200_000,
-                    savedAtWallClock = 1_000_000,
-                    endTimeWallClock = 1_050_000,
-                ),
-            )
-            // after reboot: elapsedRealtime restarted below startTime, wall clock advanced 20s
-            timeProvider.elapsedRealtime = 5_000
-            timeProvider.wallClock = 1_020_000
+    fun `state is restored directly when device was not rebooted`() = runTest(testDispatcher) {
+        val persisted =
+            runningState(startTime = 10_000, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000)
+        settingsRepo.setPersistedTimerState(persisted)
+        timeProvider.elapsedRealtime = 60_000 // >= startTime, so no reboot; < endTimeWallClock
 
-            restoration().restoreTimerState { restored = it }
+        restoration().restoreTimerState { restored = it }
 
-            val result = restored
-            assertNotNull(result)
-            // remaining wall-clock time is 30_000, so new end = 5_000 + 30_000
-            assertEquals(35_000, result.endTime)
-            // original duration (100_000) is preserved relative to the new end time
-            assertEquals(35_000 - 100_000, result.startTime)
-            assertEquals(TimerState.RUNNING, result.state)
-            assertEquals(TimerType.FOCUS, result.type)
-        }
+        assertEquals(persisted.toRuntimeState(), restored)
+    }
+
+    @Test
+    fun `times are recalculated from wall clock after a reboot`() = runTest(testDispatcher) {
+        // before reboot: started at elapsed 100_000, ends at elapsed 200_000 (duration 100_000)
+        // wall clock: saved at 1_000_000, ends at 1_050_000
+        settingsRepo.setPersistedTimerState(
+            runningState(
+                startTime = 100_000,
+                endTime = 200_000,
+                savedAtWallClock = 1_000_000,
+                endTimeWallClock = 1_050_000,
+            ),
+        )
+        // after reboot: elapsedRealtime restarted below startTime, wall clock advanced 20s
+        timeProvider.elapsedRealtime = 5_000
+        timeProvider.wallClock = 1_020_000
+
+        restoration().restoreTimerState { restored = it }
+
+        val result = restored
+        assertNotNull(result)
+        // remaining wall-clock time is 30_000, so new end = 5_000 + 30_000
+        assertEquals(35_000, result.endTime)
+        // original duration (100_000) is preserved relative to the new end time
+        assertEquals(35_000 - 100_000, result.startTime)
+        assertEquals(TimerState.RUNNING, result.state)
+        assertEquals(TimerType.FOCUS, result.type)
+    }
 }

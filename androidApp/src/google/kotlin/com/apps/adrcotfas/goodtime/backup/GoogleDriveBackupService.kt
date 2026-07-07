@@ -138,19 +138,18 @@ class GoogleDriveBackupService(
      * Lists available backups from Google Drive.
      * @return list of backup file names, or null if the operation failed (network error, etc.)
      */
-    suspend fun listAvailableBackups(): List<String>? =
-        try {
-            val token = getAuthTokenOrNull()
-            if (token != null) {
-                googleDriveManager.listBackups(token)
-            } else {
-                logger.e { "Cannot list backups without being connected" }
-                null
-            }
-        } catch (e: Exception) {
-            logger.e(e) { "listAvailableBackups() - failed" }
+    suspend fun listAvailableBackups(): List<String>? = try {
+        val token = getAuthTokenOrNull()
+        if (token != null) {
+            googleDriveManager.listBackups(token)
+        } else {
+            logger.e { "Cannot list backups without being connected" }
             null
         }
+    } catch (e: Exception) {
+        logger.e(e) { "listAvailableBackups() - failed" }
+        null
+    }
 
     suspend fun restoreFromBackup(fileName: String): BackupPromptResult {
         logger.i { "restoreFromBackup() - $fileName" }
@@ -191,11 +190,10 @@ class GoogleDriveBackupService(
         credentialManager.clearCredentialState(clearRequest)
     }
 
-    private fun buildNetworkConstraints(): Constraints =
-        Constraints
-            .Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+    private fun buildNetworkConstraints(): Constraints = Constraints
+        .Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
 
     private fun schedulePeriodicBackup() {
         logger.i { "schedulePeriodicBackup" }
@@ -221,20 +219,19 @@ class GoogleDriveBackupService(
         workManager.cancelUniqueWork(GoogleDriveBackupWorker.AUTO_BACKUP)
     }
 
-    suspend fun getAuthTokenOrNull(): String? =
-        when (val authResult = authorize()) {
-            is GoogleDriveAuthResult.Success -> {
-                val hasDrivePermission =
-                    authResult.authResult.grantedScopes.any { scope ->
-                        scope.toString().contains(DriveScopes.DRIVE_APPDATA)
-                    }
-                if (hasDrivePermission) {
-                    authResult.authResult.accessToken
-                } else {
-                    null
+    suspend fun getAuthTokenOrNull(): String? = when (val authResult = authorize()) {
+        is GoogleDriveAuthResult.Success -> {
+            val hasDrivePermission =
+                authResult.authResult.grantedScopes.any { scope ->
+                    scope.toString().contains(DriveScopes.DRIVE_APPDATA)
                 }
+            if (hasDrivePermission) {
+                authResult.authResult.accessToken
+            } else {
+                null
             }
-
-            else -> null
         }
+
+        else -> null
+    }
 }

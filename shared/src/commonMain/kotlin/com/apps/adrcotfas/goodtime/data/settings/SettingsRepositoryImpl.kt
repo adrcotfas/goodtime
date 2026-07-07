@@ -88,84 +88,84 @@ class SettingsRepositoryImpl(
                 AppSettings(
                     isPro = it[Keys.isProKey] ?: default.isPro,
                     timeProfilesInitialized =
-                        it[Keys.timerProfilesInitializedKey]
-                            ?: default.timeProfilesInitialized,
+                    it[Keys.timerProfilesInitializedKey]
+                        ?: default.timeProfilesInitialized,
                     shouldAskForReview = it[Keys.shouldAskForReviewKey] ?: default.shouldAskForReview,
                     productivityReminderSettings =
-                        it[Keys.productivityReminderSettingsKey]?.let { p ->
-                            json.decodeFromString<ProductivityReminderSettings>(p)
-                        } ?: default.productivityReminderSettings,
+                    it[Keys.productivityReminderSettingsKey]?.let { p ->
+                        json.decodeFromString<ProductivityReminderSettings>(p)
+                    } ?: default.productivityReminderSettings,
                     uiSettings =
-                        it[Keys.uiSettingsKey]?.let { u ->
-                            json.decodeFromString<UiSettings>(u)
-                        } ?: default.uiSettings,
+                    it[Keys.uiSettingsKey]?.let { u ->
+                        json.decodeFromString<UiSettings>(u)
+                    } ?: default.uiSettings,
                     statisticsSettings =
-                        it[Keys.statisticsSettingsKey]?.let { s ->
-                            json.decodeFromString<StatisticsSettings>(s)
-                        } ?: default.statisticsSettings,
+                    it[Keys.statisticsSettingsKey]?.let { s ->
+                        json.decodeFromString<StatisticsSettings>(s)
+                    } ?: default.statisticsSettings,
                     historyChartSettings =
-                        it[Keys.historyChartSettingsKey]?.let { h ->
-                            json.decodeFromString<HistoryChartSettings>(h)
-                        } ?: default.historyChartSettings,
+                    it[Keys.historyChartSettingsKey]?.let { h ->
+                        json.decodeFromString<HistoryChartSettings>(h)
+                    } ?: default.historyChartSettings,
                     timerStyle =
-                        it[Keys.timerStyleKey]?.let { t ->
-                            json.decodeFromString<TimerStyleData>(t)
-                        } ?: default.timerStyle,
+                    it[Keys.timerStyleKey]?.let { t ->
+                        json.decodeFromString<TimerStyleData>(t)
+                    } ?: default.timerStyle,
                     workdayStart = it[Keys.workdayStartKey] ?: default.workdayStart,
                     firstDayOfWeek = it[Keys.firstDayOfWeekKey] ?: default.firstDayOfWeek,
                     workFinishedSound =
-                        it[Keys.workFinishedSoundKey]
-                            ?: default.workFinishedSound,
+                    it[Keys.workFinishedSoundKey]
+                        ?: default.workFinishedSound,
                     breakFinishedSound =
-                        it[Keys.breakFinishedSoundKey]
-                            ?: default.breakFinishedSound,
+                    it[Keys.breakFinishedSoundKey]
+                        ?: default.breakFinishedSound,
                     userSounds =
-                        it[Keys.userSoundsKey]?.let { u ->
-                            json.decodeFromString<Set<SoundData>>(u)
-                        } ?: emptySet(),
+                    it[Keys.userSoundsKey]?.let { u ->
+                        json.decodeFromString<Set<SoundData>>(u)
+                    } ?: emptySet(),
                     vibrationStrength =
-                        it[Keys.vibrationStrengthKey]
-                            ?: default.vibrationStrength,
+                    it[Keys.vibrationStrengthKey]
+                        ?: default.vibrationStrength,
                     enableTorch = it[Keys.enableTorchKey] ?: default.enableTorch,
                     flashScreen =
-                        it[Keys.enableFlashScreenKey] ?: default.flashScreen,
+                    it[Keys.enableFlashScreenKey] ?: default.flashScreen,
                     overrideSoundProfile =
-                        it[Keys.overrideSoundProfile]
-                            ?: default.overrideSoundProfile,
+                    it[Keys.overrideSoundProfile]
+                        ?: default.overrideSoundProfile,
                     insistentNotification =
-                        it[Keys.insistentNotificationKey]
-                            ?: default.insistentNotification,
+                    it[Keys.insistentNotificationKey]
+                        ?: default.insistentNotification,
                     autoStartFocus = it[Keys.autoStartWorkKey] ?: default.autoStartFocus,
                     autoStartBreak = it[Keys.autoStartBreakKey] ?: default.autoStartBreak,
                     labelName = it[Keys.labelNameKey] ?: default.labelName,
                     longBreakData =
-                        it[Keys.longBreakDataKey]?.let { l ->
-                            json.decodeFromString<LongBreakData>(l)
-                        } ?: LongBreakData(),
+                    it[Keys.longBreakDataKey]?.let { l ->
+                        json.decodeFromString<LongBreakData>(l)
+                    } ?: LongBreakData(),
                     breakBudgetData =
-                        it[Keys.breakBudgetDataKey]?.let { b ->
-                            json.decodeFromString<BreakBudgetData>(b)
-                        } ?: BreakBudgetData(),
+                    it[Keys.breakBudgetDataKey]?.let { b ->
+                        json.decodeFromString<BreakBudgetData>(b)
+                    } ?: BreakBudgetData(),
                     notificationPermissionState =
-                        it[Keys.notificationPermissionStateKey]?.let { key ->
-                            NotificationPermissionState.entries[key]
-                        } ?: default.notificationPermissionState,
+                    it[Keys.notificationPermissionStateKey]?.let { key ->
+                        NotificationPermissionState.entries[key]
+                    } ?: default.notificationPermissionState,
                     lastInsertedSessionId =
-                        it[Keys.lastInsertedSessionIdKey]
-                            ?: default.lastInsertedSessionId,
+                    it[Keys.lastInsertedSessionIdKey]
+                        ?: default.lastInsertedSessionId,
                     showOnboarding =
-                        it[Keys.showOnboardingKey]
-                            ?: default.showOnboarding,
+                    it[Keys.showOnboardingKey]
+                        ?: default.showOnboarding,
                     showTutorial = it[Keys.showTutorialKey] ?: default.showTutorial,
                     backupSettings =
-                        it[Keys.backupSettingsKey]?.let { b ->
-                            json.decodeFromString<BackupSettings>(b)
-                        } ?: BackupSettings(),
+                    it[Keys.backupSettingsKey]?.let { b ->
+                        json.decodeFromString<BackupSettings>(b)
+                    } ?: BackupSettings(),
                     lastDismissedUpdateVersionCode = it[Keys.lastDismissedUpdateVersionCodeKey] ?: default.lastDismissedUpdateVersionCode,
                     persistedTimerState =
-                        it[Keys.persistedTimerStateKey]?.let { p ->
-                            json.decodeFromString<PersistedTimerState>(p)
-                        },
+                    it[Keys.persistedTimerStateKey]?.let { p ->
+                        json.decodeFromString<PersistedTimerState>(p)
+                    },
                 )
             }.catch {
                 log.e("Error parsing settings", it)

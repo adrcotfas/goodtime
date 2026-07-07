@@ -38,33 +38,33 @@ fun SystemDialogScrim(enabled: Boolean) {
     AnimatedVisibility(
         visible = enabled,
         enter =
-            fadeIn(
-                animationSpec =
-                    tween(
-                        durationMillis = 250,
-                        easing = FastOutSlowInEasing,
-                    ),
+        fadeIn(
+            animationSpec =
+            tween(
+                durationMillis = 250,
+                easing = FastOutSlowInEasing,
             ),
+        ),
         exit =
-            fadeOut(
-                animationSpec =
-                    tween(
-                        durationMillis = 250,
-                        easing = FastOutSlowInEasing,
-                    ),
+        fadeOut(
+            animationSpec =
+            tween(
+                durationMillis = 250,
+                easing = FastOutSlowInEasing,
             ),
+        ),
     ) {
         Box(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.28f))
-                    .clearAndSetSemantics { }
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null,
-                        onClick = { /* consume taps */ },
-                    ),
+            Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.28f))
+                .clearAndSetSemantics { }
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = { /* consume taps */ },
+                ),
         )
     }
 }

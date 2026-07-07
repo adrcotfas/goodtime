@@ -37,16 +37,16 @@ actual fun rememberAlarmPermissionRequester(permissionState: PermissionsState): 
             if (permissionState.shouldAskForAlarmPermission) {
                 SnackbarController.sendEvent(
                     event =
-                        SnackbarEvent(
-                            message = getString(Res.string.settings_allow_alarms),
-                            action =
-                                SnackbarAction(
-                                    name = getString(Res.string.settings_allow),
-                                    action = {
-                                        context.askForAlarmPermission()
-                                    },
-                                ),
+                    SnackbarEvent(
+                        message = getString(Res.string.settings_allow_alarms),
+                        action =
+                        SnackbarAction(
+                            name = getString(Res.string.settings_allow),
+                            action = {
+                                context.askForAlarmPermission()
+                            },
                         ),
+                    ),
                 )
                 true
             } else {

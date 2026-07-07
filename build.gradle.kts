@@ -23,7 +23,12 @@ subprojects {
         kotlin {
             target("**/*.kt")
             targetExclude("${layout.buildDirectory}/**/*.kt")
-            ktlint()
+            ktlint().editorConfigOverride(
+                mapOf(
+                    // the GPL license header is a toplevel KDoc in every file
+                    "ktlint_standard_kdoc" to "disabled",
+                ),
+            )
             licenseHeaderFile(rootProject.file(".spotless/license.kt"))
             trimTrailingWhitespace()
             endWithNewline()

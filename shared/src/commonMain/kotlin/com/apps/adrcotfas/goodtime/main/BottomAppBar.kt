@@ -80,9 +80,9 @@ fun BottomAppBar(
 
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -130,20 +130,20 @@ fun BottomAppBar(
             }) {
                 Box(
                     modifier =
-                        Modifier
-                            .size(32.dp)
-                            .clip(CircleShape)
-                            .background(
-                                MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
-                            ),
+                    Modifier
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(
+                            MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
+                        ),
                 ) {
                     Text(
                         text = sessionCountToday.toString(),
                         style =
-                            MaterialTheme.typography.bodyMedium.copy(
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface,
-                            ),
+                        MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        ),
                         modifier = Modifier.align(Alignment.Center),
                     )
                 }

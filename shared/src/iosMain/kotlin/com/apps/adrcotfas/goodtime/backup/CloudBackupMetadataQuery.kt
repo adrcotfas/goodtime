@@ -85,50 +85,49 @@ class CloudBackupMetadataQuery(
      * @return List of backup metadata, sorted by modification date (newest first)
      */
     @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
-    suspend fun queryAllBackups(backupsUrl: NSURL): List<BackupMetadata> =
-        withContext(Dispatchers.Main) {
-            logger.d { "Starting metadata query for backups at: ${backupsUrl.path}" }
+    suspend fun queryAllBackups(backupsUrl: NSURL): List<BackupMetadata> = withContext(Dispatchers.Main) {
+        logger.d { "Starting metadata query for backups at: ${backupsUrl.path}" }
 
-            val query = NSMetadataQuery()
+        val query = NSMetadataQuery()
 
-            // Create predicate to find backup files
-            // We look for files that start with the backup prefix
-            @Suppress("UNCHECKED_CAST")
-            query.predicate =
-                NSPredicate.predicateWithFormat(
-                    "%K BEGINSWITH %@",
-                    argumentArray =
-                        listOf(
-                            NSMetadataItemFSNameKey,
-                            BackupConstants.DB_BACKUP_PREFIX,
-                        ) as List<Any?>,
-                )
+        // Create predicate to find backup files
+        // We look for files that start with the backup prefix
+        @Suppress("UNCHECKED_CAST")
+        query.predicate =
+            NSPredicate.predicateWithFormat(
+                "%K BEGINSWITH %@",
+                argumentArray =
+                listOf(
+                    NSMetadataItemFSNameKey,
+                    BackupConstants.DB_BACKUP_PREFIX,
+                ) as List<Any?>,
+            )
 
-            // Search in the ubiquitous documents scope (iCloud Documents)
-            query.setSearchScopes(listOf(NSMetadataQueryUbiquitousDocumentsScope))
+        // Search in the ubiquitous documents scope (iCloud Documents)
+        query.setSearchScopes(listOf(NSMetadataQueryUbiquitousDocumentsScope))
 
-            val results =
-                withTimeoutOrNull(QUERY_TIMEOUT_MS) {
-                    executeQuery(query)
-                }
-
-            if (results == null) {
-                logger.w { "Metadata query timed out after ${QUERY_TIMEOUT_MS}ms" }
-                return@withContext emptyList()
+        val results =
+            withTimeoutOrNull(QUERY_TIMEOUT_MS) {
+                executeQuery(query)
             }
 
-            logger.d { "Metadata query returned ${results.size} results" }
-
-            // Parse results into BackupMetadata objects
-            val backups =
-                results
-                    .mapNotNull { item ->
-                        parseMetadataItem(item, backupsUrl)
-                    }.sortedByDescending { it.modificationDate }
-
-            logger.i { "Found ${backups.size} backups via metadata query (${backups.count { it.isDownloaded }} downloaded)" }
-            backups
+        if (results == null) {
+            logger.w { "Metadata query timed out after ${QUERY_TIMEOUT_MS}ms" }
+            return@withContext emptyList()
         }
+
+        logger.d { "Metadata query returned ${results.size} results" }
+
+        // Parse results into BackupMetadata objects
+        val backups =
+            results
+                .mapNotNull { item ->
+                    parseMetadataItem(item, backupsUrl)
+                }.sortedByDescending { it.modificationDate }
+
+        logger.i { "Found ${backups.size} backups via metadata query (${backups.count { it.isDownloaded }} downloaded)" }
+        backups
+    }
 
     /**
      * Query a specific backup file by name.
@@ -141,37 +140,36 @@ class CloudBackupMetadataQuery(
     suspend fun queryBackupFile(
         backupsUrl: NSURL,
         fileName: String,
-    ): BackupMetadata? =
-        withContext(Dispatchers.Main) {
-            logger.d { "Querying for specific backup: $fileName" }
+    ): BackupMetadata? = withContext(Dispatchers.Main) {
+        logger.d { "Querying for specific backup: $fileName" }
 
-            val query = NSMetadataQuery()
+        val query = NSMetadataQuery()
 
-            @Suppress("UNCHECKED_CAST")
-            query.predicate =
-                NSPredicate.predicateWithFormat(
-                    "%K == %@",
-                    argumentArray =
-                        listOf(
-                            NSMetadataItemFSNameKey,
-                            fileName,
-                        ) as List<Any?>,
-                )
+        @Suppress("UNCHECKED_CAST")
+        query.predicate =
+            NSPredicate.predicateWithFormat(
+                "%K == %@",
+                argumentArray =
+                listOf(
+                    NSMetadataItemFSNameKey,
+                    fileName,
+                ) as List<Any?>,
+            )
 
-            query.setSearchScopes(listOf(NSMetadataQueryUbiquitousDocumentsScope))
+        query.setSearchScopes(listOf(NSMetadataQueryUbiquitousDocumentsScope))
 
-            val results =
-                withTimeoutOrNull(QUERY_TIMEOUT_MS) {
-                    executeQuery(query)
-                }
-
-            if (results == null) {
-                logger.w { "Metadata query for $fileName timed out" }
-                return@withContext null
+        val results =
+            withTimeoutOrNull(QUERY_TIMEOUT_MS) {
+                executeQuery(query)
             }
 
-            results.firstNotNullOfOrNull { parseMetadataItem(it, backupsUrl) }
+        if (results == null) {
+            logger.w { "Metadata query for $fileName timed out" }
+            return@withContext null
         }
+
+        results.firstNotNullOfOrNull { parseMetadataItem(it, backupsUrl) }
+    }
 
     /**
      * Ensure a backup file is downloaded to the device.
@@ -181,71 +179,69 @@ class CloudBackupMetadataQuery(
      * @return The local file path, or throws an exception if download fails
      */
     @OptIn(ExperimentalForeignApi::class)
-    suspend fun ensureBackupDownloaded(metadata: BackupMetadata): String =
-        withContext(Dispatchers.IO) {
-            val filePath = metadata.url.path ?: throw Exception("Invalid backup URL")
+    suspend fun ensureBackupDownloaded(metadata: BackupMetadata): String = withContext(Dispatchers.IO) {
+        val filePath = metadata.url.path ?: throw Exception("Invalid backup URL")
 
-            if (metadata.isDownloaded) {
-                return@withContext filePath
-            }
-
-            logger.i { "Downloading backup: ${metadata.fileName}" }
-            startDownload(metadata.url)
-
-            val downloaded =
-                withTimeoutOrNull(DOWNLOAD_TIMEOUT_MS) {
-                    waitForDownloadCompletion(metadata.url, metadata.fileName)
-                }
-
-            if (downloaded != true) {
-                throw Exception("Download timed out for ${metadata.fileName}")
-            }
-
-            filePath
+        if (metadata.isDownloaded) {
+            return@withContext filePath
         }
+
+        logger.i { "Downloading backup: ${metadata.fileName}" }
+        startDownload(metadata.url)
+
+        val downloaded =
+            withTimeoutOrNull(DOWNLOAD_TIMEOUT_MS) {
+                waitForDownloadCompletion(metadata.url, metadata.fileName)
+            }
+
+        if (downloaded != true) {
+            throw Exception("Download timed out for ${metadata.fileName}")
+        }
+
+        filePath
+    }
 
     /**
      * Execute a metadata query and return the results.
      */
     @OptIn(ExperimentalForeignApi::class)
-    private suspend fun executeQuery(query: NSMetadataQuery): List<NSMetadataItem> =
-        suspendCancellableCoroutine { continuation ->
-            var observer: Any? = null
+    private suspend fun executeQuery(query: NSMetadataQuery): List<NSMetadataItem> = suspendCancellableCoroutine { continuation ->
+        var observer: Any? = null
 
-            observer =
-                NSNotificationCenter.defaultCenter.addObserverForName(
-                    name = NSMetadataQueryDidFinishGatheringNotification,
-                    `object` = query,
-                    queue = NSOperationQueue.mainQueue,
-                ) { _ ->
-                    query.disableUpdates()
+        observer =
+            NSNotificationCenter.defaultCenter.addObserverForName(
+                name = NSMetadataQueryDidFinishGatheringNotification,
+                `object` = query,
+                queue = NSOperationQueue.mainQueue,
+            ) { _ ->
+                query.disableUpdates()
 
-                    @Suppress("UNCHECKED_CAST")
-                    val results =
-                        (0 until query.resultCount.toInt()).mapNotNull {
-                            query.resultAtIndex(it.toULong()) as? NSMetadataItem
-                        }
-
-                    query.stopQuery()
-
-                    observer?.let {
-                        NSNotificationCenter.defaultCenter.removeObserver(it)
+                @Suppress("UNCHECKED_CAST")
+                val results =
+                    (0 until query.resultCount.toInt()).mapNotNull {
+                        query.resultAtIndex(it.toULong()) as? NSMetadataItem
                     }
 
-                    if (continuation.isActive) {
-                        continuation.resume(results)
-                    }
-                }
-
-            continuation.invokeOnCancellation {
                 query.stopQuery()
+
                 observer?.let {
                     NSNotificationCenter.defaultCenter.removeObserver(it)
                 }
+
+                if (continuation.isActive) {
+                    continuation.resume(results)
+                }
             }
 
-            query.startQuery()
+        continuation.invokeOnCancellation {
+            query.stopQuery()
+            observer?.let {
+                NSNotificationCenter.defaultCenter.removeObserver(it)
+            }
         }
+
+        query.startQuery()
+    }
 
     /**
      * Parse an NSMetadataItem into a BackupMetadata object.
@@ -320,86 +316,85 @@ class CloudBackupMetadataQuery(
     private suspend fun waitForDownloadCompletion(
         url: NSURL,
         fileName: String,
-    ): Boolean =
-        withContext(Dispatchers.Main) {
-            suspendCancellableCoroutine { continuation ->
-                val query = NSMetadataQuery()
+    ): Boolean = withContext(Dispatchers.Main) {
+        suspendCancellableCoroutine { continuation ->
+            val query = NSMetadataQuery()
 
-                @Suppress("UNCHECKED_CAST")
-                query.predicate =
-                    NSPredicate.predicateWithFormat(
-                        "%K == %@",
-                        argumentArray =
-                            listOf(
-                                NSMetadataItemFSNameKey,
-                                fileName,
-                            ) as List<Any?>,
-                    )
-                query.setSearchScopes(listOf(NSMetadataQueryUbiquitousDocumentsScope))
+            @Suppress("UNCHECKED_CAST")
+            query.predicate =
+                NSPredicate.predicateWithFormat(
+                    "%K == %@",
+                    argumentArray =
+                    listOf(
+                        NSMetadataItemFSNameKey,
+                        fileName,
+                    ) as List<Any?>,
+                )
+            query.setSearchScopes(listOf(NSMetadataQueryUbiquitousDocumentsScope))
 
-                var updateObserver: Any? = null
-                var gatheringObserver: Any? = null
+            var updateObserver: Any? = null
+            var gatheringObserver: Any? = null
 
-                fun checkDownloadStatus(): Boolean {
-                    if (query.resultCount.toInt() > 0) {
-                        val item = query.resultAtIndex(0u) as? NSMetadataItem
-                        val isDownloaded =
-                            item?.valueForAttribute(NSMetadataUbiquitousItemIsDownloadedKey) as? Boolean
-                                ?: false
-                        val downloadStatus = item?.valueForAttribute(NSMetadataUbiquitousItemDownloadingStatusKey) as? String
+            fun checkDownloadStatus(): Boolean {
+                if (query.resultCount.toInt() > 0) {
+                    val item = query.resultAtIndex(0u) as? NSMetadataItem
+                    val isDownloaded =
+                        item?.valueForAttribute(NSMetadataUbiquitousItemIsDownloadedKey) as? Boolean
+                            ?: false
+                    val downloadStatus = item?.valueForAttribute(NSMetadataUbiquitousItemDownloadingStatusKey) as? String
 
-                        if (isDownloaded ||
-                            downloadStatus == NSMetadataUbiquitousItemDownloadingStatusDownloaded ||
-                            downloadStatus == NSMetadataUbiquitousItemDownloadingStatusCurrent
-                        ) {
-                            return true
-                        }
-                    }
-                    return false
-                }
-
-                fun cleanup() {
-                    query.stopQuery()
-                    updateObserver?.let { NSNotificationCenter.defaultCenter.removeObserver(it) }
-                    gatheringObserver?.let { NSNotificationCenter.defaultCenter.removeObserver(it) }
-                }
-
-                fun resumeIfActive(result: Boolean) {
-                    cleanup()
-                    if (continuation.isActive) {
-                        continuation.resume(result)
+                    if (isDownloaded ||
+                        downloadStatus == NSMetadataUbiquitousItemDownloadingStatusDownloaded ||
+                        downloadStatus == NSMetadataUbiquitousItemDownloadingStatusCurrent
+                    ) {
+                        return true
                     }
                 }
-
-                updateObserver =
-                    NSNotificationCenter.defaultCenter.addObserverForName(
-                        name = NSMetadataQueryDidUpdateNotification,
-                        `object` = query,
-                        queue = NSOperationQueue.mainQueue,
-                    ) { _ ->
-                        if (checkDownloadStatus()) {
-                            resumeIfActive(true)
-                        }
-                    }
-
-                gatheringObserver =
-                    NSNotificationCenter.defaultCenter.addObserverForName(
-                        name = NSMetadataQueryDidFinishGatheringNotification,
-                        `object` = query,
-                        queue = NSOperationQueue.mainQueue,
-                    ) { _ ->
-                        // Check immediately after initial gathering
-                        if (checkDownloadStatus()) {
-                            resumeIfActive(true)
-                        }
-                        // Keep listening for updates
-                    }
-
-                continuation.invokeOnCancellation {
-                    cleanup()
-                }
-
-                query.startQuery()
+                return false
             }
+
+            fun cleanup() {
+                query.stopQuery()
+                updateObserver?.let { NSNotificationCenter.defaultCenter.removeObserver(it) }
+                gatheringObserver?.let { NSNotificationCenter.defaultCenter.removeObserver(it) }
+            }
+
+            fun resumeIfActive(result: Boolean) {
+                cleanup()
+                if (continuation.isActive) {
+                    continuation.resume(result)
+                }
+            }
+
+            updateObserver =
+                NSNotificationCenter.defaultCenter.addObserverForName(
+                    name = NSMetadataQueryDidUpdateNotification,
+                    `object` = query,
+                    queue = NSOperationQueue.mainQueue,
+                ) { _ ->
+                    if (checkDownloadStatus()) {
+                        resumeIfActive(true)
+                    }
+                }
+
+            gatheringObserver =
+                NSNotificationCenter.defaultCenter.addObserverForName(
+                    name = NSMetadataQueryDidFinishGatheringNotification,
+                    `object` = query,
+                    queue = NSOperationQueue.mainQueue,
+                ) { _ ->
+                    // Check immediately after initial gathering
+                    if (checkDownloadStatus()) {
+                        resumeIfActive(true)
+                    }
+                    // Keep listening for updates
+                }
+
+            continuation.invokeOnCancellation {
+                cleanup()
+            }
+
+            query.startQuery()
         }
+    }
 }

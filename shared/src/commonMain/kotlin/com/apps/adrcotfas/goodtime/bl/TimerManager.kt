@@ -171,14 +171,14 @@ class TimerManager(
         val newTimerData =
             timerData.value.copy(
                 runtime =
-                    data.runtime.copy(
-                        startTime = elapsedRealTime,
-                        lastStartTime = elapsedRealTime,
-                        endTime = data.getEndTime(timerType, elapsedRealTime),
-                        state = TimerState.RUNNING,
-                        type = timerType,
-                        timeSpentPaused = 0,
-                    ),
+                data.runtime.copy(
+                    startTime = elapsedRealTime,
+                    lastStartTime = elapsedRealTime,
+                    endTime = data.getEndTime(timerType, elapsedRealTime),
+                    state = TimerState.RUNNING,
+                    type = timerType,
+                    timeSpentPaused = 0,
+                ),
             )
 
         _timerData.update { newTimerData }
@@ -235,10 +235,10 @@ class TimerManager(
         _timerData.update {
             it.copy(
                 runtime =
-                    it.runtime.copy(
-                        endTime = newEndTime,
-                        timeAtPause = newRemainingTimeAtPause,
-                    ),
+                it.runtime.copy(
+                    endTime = newEndTime,
+                    timeAtPause = newRemainingTimeAtPause,
+                ),
             )
         }
         log.i { "Added one minute" }
@@ -265,16 +265,16 @@ class TimerManager(
         _timerData.update {
             it.copy(
                 runtime =
-                    it.runtime.copy(
-                        timeAtPause =
-                            if (it.label.profile.isCountdown) {
-                                it.endTime - elapsedRealtime
-                            } else {
-                                elapsedRealtime - it.startTime - it.timeSpentPaused
-                            },
-                        lastPauseTime = elapsedRealtime,
-                        state = TimerState.PAUSED,
-                    ),
+                it.runtime.copy(
+                    timeAtPause =
+                    if (it.label.profile.isCountdown) {
+                        it.endTime - elapsedRealtime
+                    } else {
+                        elapsedRealtime - it.startTime - it.timeSpentPaused
+                    },
+                    lastPauseTime = elapsedRealtime,
+                    state = TimerState.PAUSED,
+                ),
             )
         }
         log.i { "Paused: ${timerData.value}" }
@@ -295,12 +295,12 @@ class TimerManager(
         _timerData.update {
             it.copy(
                 runtime =
-                    it.runtime.copy(
-                        lastStartTime = elapsedRealTime,
-                        endTime = newEndTime,
-                        state = TimerState.RUNNING,
-                        timeAtPause = 0,
-                    ),
+                it.runtime.copy(
+                    lastStartTime = elapsedRealTime,
+                    endTime = newEndTime,
+                    state = TimerState.RUNNING,
+                    timeAtPause = 0,
+                ),
             )
         }
         log.i { "Resumed: ${timerData.value}" }
@@ -334,10 +334,10 @@ class TimerManager(
             _timerData.update {
                 it.copy(
                     runtime =
-                        it.runtime.copy(
-                            timeSpentPaused = pausedTime,
-                            lastPauseTime = 0,
-                        ),
+                    it.runtime.copy(
+                        timeSpentPaused = pausedTime,
+                        lastPauseTime = 0,
+                    ),
                 )
             }
         }
@@ -376,9 +376,9 @@ class TimerManager(
             _timerData.update {
                 it.copy(
                     runtime =
-                        it.runtime.copy(
-                            endTime = timeProvider.elapsedRealtime(),
-                        ),
+                    it.runtime.copy(
+                        endTime = timeProvider.elapsedRealtime(),
+                    ),
                 )
             }
             // Create session with new duration, timestamp, and notes
@@ -426,9 +426,9 @@ class TimerManager(
             _timerData.update {
                 it.copy(
                     runtime =
-                        it.runtime.copy(
-                            endTime = timeProvider.elapsedRealtime(),
-                        ),
+                    it.runtime.copy(
+                        endTime = timeProvider.elapsedRealtime(),
+                    ),
                 )
             }
             handleFinishedSession(finishActionType = finishActionType)
@@ -475,10 +475,10 @@ class TimerManager(
         _timerData.update {
             it.copy(
                 runtime =
-                    it.runtime.copy(
-                        state = TimerState.FINISHED,
-                        endTime = if (actionType == FinishActionType.AUTO) timeProvider.elapsedRealtime() else data.endTime,
-                    ),
+                it.runtime.copy(
+                    state = TimerState.FINISHED,
+                    endTime = if (actionType == FinishActionType.AUTO) timeProvider.elapsedRealtime() else data.endTime,
+                ),
             )
         }
         log.i { "Finish: $data" }
@@ -495,9 +495,9 @@ class TimerManager(
         val autoStart =
             withinAutoStartWindow &&
                 (
-                    settings.autoStartFocus && (type.isBreak || !timerProfile.profile.isBreakEnabled) ||
-                        settings.autoStartBreak && type.isFocus && timerProfile.profile.isBreakEnabled
-                )
+                    (settings.autoStartFocus && (type.isBreak || !timerProfile.profile.isBreakEnabled)) ||
+                        (settings.autoStartBreak && type.isFocus && timerProfile.profile.isBreakEnabled)
+                    )
 
         log.i { "AutoStart: $autoStart (timeSinceExpectedEnd: ${timeSinceExpectedEnd.milliseconds}, withinWindow: $withinAutoStartWindow)" }
         listeners.forEach {
@@ -533,9 +533,9 @@ class TimerManager(
             _timerData.update {
                 it.copy(
                     runtime =
-                        it.runtime.copy(
-                            endTime = timeProvider.elapsedRealtime(),
-                        ),
+                    it.runtime.copy(
+                        endTime = timeProvider.elapsedRealtime(),
+                    ),
                 )
             }
             handleFinishedSession(finishActionType = actionType)
@@ -576,7 +576,7 @@ class TimerManager(
                 finishActionType == FinishActionType.AUTO ||
                     finishActionType == FinishActionType.MANUAL_SKIP ||
                     finishActionType == FinishActionType.FORCE_FINISH
-            )
+                )
         ) {
             incrementStreak()
         }
@@ -630,11 +630,11 @@ class TimerManager(
                 Event.SendToBackground(
                     isTimerRunning = timerData.state.isRunning,
                     endTime =
-                        if (isCountdown) {
-                            timerData.endTime
-                        } else {
-                            countUpEndTime
-                        },
+                    if (isCountdown) {
+                        timerData.endTime
+                    } else {
+                        countUpEndTime
+                    },
                 ),
             )
         }

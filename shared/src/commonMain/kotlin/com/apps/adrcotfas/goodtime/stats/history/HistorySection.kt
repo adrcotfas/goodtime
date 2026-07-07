@@ -143,26 +143,26 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
 
     Column(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 8.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 stringResource(Res.string.stats_history_title),
                 style =
-                    MaterialTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.Medium,
-                        color = primaryColor,
-                    ),
+                MaterialTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = primaryColor,
+                ),
             )
 
             DropdownMenuBox(
@@ -236,9 +236,9 @@ private fun BarHistoryChart(
     ProvideVicoTheme(
         rememberM3VicoTheme(
             lineColor =
-                MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = 0.5f,
-                ),
+            MaterialTheme.colorScheme.secondaryContainer.copy(
+                alpha = 0.5f,
+            ),
         ),
     ) {
         CartesianChartHost(
@@ -246,46 +246,46 @@ private fun BarHistoryChart(
             scrollState = scrollState,
             zoomState = rememberVicoZoomState(zoomEnabled = false),
             chart =
-                rememberCartesianChart(
-                    rememberColumnCartesianLayer(
-                        columnProvider =
-                            ColumnCartesianLayer.ColumnProvider.series(
-                                colors.mapIndexed { _, color ->
-                                    rememberLineComponent(
-                                        fill = Fill(color),
-                                        thickness = 12.dp,
-                                    )
-                                },
-                            ),
-                        columnCollectionSpacing = 24.dp,
-                        mergeMode = { ColumnCartesianLayer.MergeMode.Stacked },
+            rememberCartesianChart(
+                rememberColumnCartesianLayer(
+                    columnProvider =
+                    ColumnCartesianLayer.ColumnProvider.series(
+                        colors.mapIndexed { _, color ->
+                            rememberLineComponent(
+                                fill = Fill(color),
+                                thickness = 12.dp,
+                            )
+                        },
                     ),
-                    startAxis =
-                        VerticalAxis.rememberStart(
-                            label =
-                                rememberAxisLabelComponent(
-                                    style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onSurface),
-                                ),
-                            valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
-                            itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
-                        ),
-                    bottomAxis =
-                        HorizontalAxis.rememberBottom(
-                            guideline = null,
-                            label =
-                                rememberAxisLabelComponent(
-                                    style =
-                                        MaterialTheme.typography.labelSmall.copy(
-                                            textAlign = TextAlign.Center,
-                                            color = MaterialTheme.colorScheme.onSurface,
-                                        ),
-                                    lineCount = 2,
-                                ),
-                            valueFormatter = BottomAxisValueFormatter,
-                            itemPlacer = HorizontalAxis.ItemPlacer.aligned(),
-                        ),
-                    marker = rememberMarker(markerValueFormatter),
+                    columnCollectionSpacing = 24.dp,
+                    mergeMode = { ColumnCartesianLayer.MergeMode.Stacked },
                 ),
+                startAxis =
+                VerticalAxis.rememberStart(
+                    label =
+                    rememberAxisLabelComponent(
+                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onSurface),
+                    ),
+                    valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
+                    itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
+                ),
+                bottomAxis =
+                HorizontalAxis.rememberBottom(
+                    guideline = null,
+                    label =
+                    rememberAxisLabelComponent(
+                        style =
+                        MaterialTheme.typography.labelSmall.copy(
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        ),
+                        lineCount = 2,
+                    ),
+                    valueFormatter = BottomAxisValueFormatter,
+                    itemPlacer = HorizontalAxis.ItemPlacer.aligned(),
+                ),
+                marker = rememberMarker(markerValueFormatter),
+            ),
             modelProducer = modelProducer,
         )
     }
@@ -313,9 +313,9 @@ private fun LineHistoryChart(
     ProvideVicoTheme(
         rememberM3VicoTheme(
             lineColor =
-                MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = 0.5f,
-                ),
+            MaterialTheme.colorScheme.secondaryContainer.copy(
+                alpha = 0.5f,
+            ),
         ),
     ) {
         CartesianChartHost(
@@ -323,63 +323,63 @@ private fun LineHistoryChart(
             scrollState = scrollState,
             zoomState = rememberVicoZoomState(zoomEnabled = false),
             chart =
-                rememberCartesianChart(
-                    rememberLineCartesianLayer(
-                        pointSpacing = 36.dp,
-                        lineProvider =
-                            LineCartesianLayer.LineProvider.series(
-                                LineCartesianLayer.rememberLine(
-                                    fill = LineCartesianLayer.LineFill.single(Fill(primaryColor)),
-                                    areaFill =
-                                        LineCartesianLayer.AreaFill.single(
-                                            Fill(
-                                                Brush.verticalGradient(
-                                                    listOf(
-                                                        primaryColor.copy(alpha = 0.3f),
-                                                        primaryColor.copy(alpha = 0.1f),
-                                                    ),
-                                                ),
-                                            ),
+            rememberCartesianChart(
+                rememberLineCartesianLayer(
+                    pointSpacing = 36.dp,
+                    lineProvider =
+                    LineCartesianLayer.LineProvider.series(
+                        LineCartesianLayer.rememberLine(
+                            fill = LineCartesianLayer.LineFill.single(Fill(primaryColor)),
+                            areaFill =
+                            LineCartesianLayer.AreaFill.single(
+                                Fill(
+                                    Brush.verticalGradient(
+                                        listOf(
+                                            primaryColor.copy(alpha = 0.3f),
+                                            primaryColor.copy(alpha = 0.1f),
                                         ),
-                                    pointProvider =
-                                        LineCartesianLayer.PointProvider.single(
-                                            LineCartesianLayer.Point(
-                                                size = 6.dp,
-                                                component =
-                                                    rememberShapeComponent(
-                                                        Fill(primaryColor),
-                                                        shape = RoundedCornerShape(4.dp),
-                                                    ),
-                                            ),
-                                        ),
+                                    ),
                                 ),
                             ),
+                            pointProvider =
+                            LineCartesianLayer.PointProvider.single(
+                                LineCartesianLayer.Point(
+                                    size = 6.dp,
+                                    component =
+                                    rememberShapeComponent(
+                                        Fill(primaryColor),
+                                        shape = RoundedCornerShape(4.dp),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
-                    startAxis =
-                        VerticalAxis.rememberStart(
-                            label =
-                                rememberAxisLabelComponent(
-                                    style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onSurface),
-                                ),
-                            valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
-                            itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
-                        ),
-                    bottomAxis =
-                        HorizontalAxis.rememberBottom(
-                            guideline = null,
-                            label =
-                                rememberAxisLabelComponent(
-                                    style =
-                                        MaterialTheme.typography.labelSmall.copy(
-                                            textAlign = TextAlign.Center,
-                                            color = MaterialTheme.colorScheme.onSurface,
-                                        ),
-                                    lineCount = 2,
-                                ),
-                            valueFormatter = BottomAxisValueFormatter,
-                        ),
-                    marker = rememberMarker(markerValueFormatter),
                 ),
+                startAxis =
+                VerticalAxis.rememberStart(
+                    label =
+                    rememberAxisLabelComponent(
+                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onSurface),
+                    ),
+                    valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
+                    itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
+                ),
+                bottomAxis =
+                HorizontalAxis.rememberBottom(
+                    guideline = null,
+                    label =
+                    rememberAxisLabelComponent(
+                        style =
+                        MaterialTheme.typography.labelSmall.copy(
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        ),
+                        lineCount = 2,
+                    ),
+                    valueFormatter = BottomAxisValueFormatter,
+                ),
+                marker = rememberMarker(markerValueFormatter),
+            ),
             modelProducer = modelProducer,
         )
     }

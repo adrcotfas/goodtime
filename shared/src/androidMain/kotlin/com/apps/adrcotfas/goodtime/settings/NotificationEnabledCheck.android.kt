@@ -41,6 +41,7 @@ actual fun rememberAreNotificationsEnabled(): Boolean {
             Lifecycle.State.RESUMED -> {
                 areNotificationsEnabled = context.areNotificationsEnabled()
             }
+
             else -> {
                 // do nothing
             }

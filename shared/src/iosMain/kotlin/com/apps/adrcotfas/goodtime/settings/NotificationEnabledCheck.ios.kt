@@ -44,6 +44,7 @@ actual fun rememberAreNotificationsEnabled(): Boolean {
                     areNotificationsEnabled = isEnabled
                 }
             }
+
             else -> {
                 // do nothing
             }

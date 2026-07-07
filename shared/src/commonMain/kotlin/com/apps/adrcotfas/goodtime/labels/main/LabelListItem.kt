@@ -83,34 +83,34 @@ fun LabelListItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
-            Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .clickable { onEdit() }
-                .let {
-                    if (isDragging) {
-                        it.background(
-                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.05f),
-                        )
-                    } else {
-                        it
-                    }
-                }.padding(4.dp),
+        Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .clickable { onEdit() }
+            .let {
+                if (isDragging) {
+                    it.background(
+                        MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.05f),
+                    )
+                } else {
+                    it
+                }
+            }.padding(4.dp),
     ) {
         Icon(
             modifier =
-                dragModifier.clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    onClick = {},
-                ),
+            dragModifier.clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = {},
+            ),
             imageVector = Icons.Filled.DragIndicator,
             tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
             contentDescription = "Drag indicator for $labelName",
         )
         Icon(
             modifier =
-                Modifier
-                    .padding(8.dp),
+            Modifier
+                .padding(8.dp),
             imageVector = Icons.AutoMirrored.Outlined.Label,
             contentDescription = labelName,
             tint = MaterialTheme.getLabelColor(label.colorIndex),
@@ -152,10 +152,10 @@ fun LabelListItem(
                         Icon(
                             EvaIcons.Outline.Edit,
                             contentDescription =
-                                stringResource(
-                                    Res.string.labels_edit_label,
-                                    labelName,
-                                ),
+                            stringResource(
+                                Res.string.labels_edit_label,
+                                labelName,
+                            ),
                         )
                     },
                 )
@@ -174,10 +174,10 @@ fun LabelListItem(
                         Icon(
                             EvaIcons.Outline.Copy,
                             contentDescription =
-                                stringResource(
-                                    Res.string.labels_duplicate_label_name,
-                                    labelName,
-                                ),
+                            stringResource(
+                                Res.string.labels_duplicate_label_name,
+                                labelName,
+                            ),
                         )
                     },
                 )
@@ -197,10 +197,10 @@ fun LabelListItem(
                         Icon(
                             EvaIcons.Outline.Archive,
                             contentDescription =
-                                stringResource(
-                                    Res.string.labels_archive_label_name,
-                                    labelName,
-                                ),
+                            stringResource(
+                                Res.string.labels_archive_label_name,
+                                labelName,
+                            ),
                         )
                     },
                 )
@@ -220,10 +220,10 @@ fun LabelListItem(
                         Icon(
                             EvaIcons.Outline.Trash,
                             contentDescription =
-                                stringResource(
-                                    Res.string.labels_delete_label_name,
-                                    labelName,
-                                ),
+                            stringResource(
+                                Res.string.labels_delete_label_name,
+                                labelName,
+                            ),
                         )
                     },
                 )
@@ -237,11 +237,11 @@ fun LabelListItem(
 fun LabelCardPreview() {
     LabelListItem(
         label =
-            Label(
-                name = "Default",
-                useDefaultTimeProfile = false,
-                timerProfile = TimerProfile(sessionsBeforeLongBreak = 4),
-            ),
+        Label(
+            name = "Default",
+            useDefaultTimeProfile = false,
+            timerProfile = TimerProfile(sessionsBeforeLongBreak = 4),
+        ),
         isDragging = false,
         dragModifier = Modifier,
         onEdit = {},

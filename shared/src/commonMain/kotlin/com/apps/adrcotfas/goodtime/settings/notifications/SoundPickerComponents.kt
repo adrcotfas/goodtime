@@ -68,32 +68,32 @@ private fun NotificationSoundItemBase(
 ) {
     Row(
         modifier =
-            modifier
-                .fillMaxWidth()
-                .let {
-                    if (isSelected) {
-                        it.background(
-                            MaterialTheme.colorScheme.inverseSurface.copy(
-                                alpha = 0.1f,
-                            ),
-                        )
-                    } else {
-                        it
-                    }
-                }.padding(horizontal = 24.dp, vertical = 12.dp),
+        modifier
+            .fillMaxWidth()
+            .let {
+                if (isSelected) {
+                    it.background(
+                        MaterialTheme.colorScheme.inverseSurface.copy(
+                            alpha = 0.1f,
+                        ),
+                    )
+                } else {
+                    it
+                }
+            }.padding(horizontal = 24.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         content()
 
         Icon(
             imageVector =
-                if (isCustomSound) {
-                    EvaIcons.Fill.Music
-                } else if (isSilent) {
-                    EvaIcons.Outline.BellOff
-                } else {
-                    EvaIcons.Outline.Bell
-                },
+            if (isCustomSound) {
+                EvaIcons.Fill.Music
+            } else if (isSilent) {
+                EvaIcons.Outline.BellOff
+            } else {
+                EvaIcons.Outline.Bell
+            },
             contentDescription = null,
             modifier = Modifier.padding(end = 16.dp),
             tint = MaterialTheme.colorScheme.primary,
@@ -148,14 +148,14 @@ fun NotificationSoundItem(
     var dropDownMenuExpanded by remember { mutableStateOf(false) }
     NotificationSoundItemBase(
         modifier =
-            modifier.combinedClickable(
-                onClick = { onSelected() },
-                onLongClick = {
-                    if (onRemove != null) {
-                        dropDownMenuExpanded = true
-                    }
-                },
-            ),
+        modifier.combinedClickable(
+            onClick = { onSelected() },
+            onLongClick = {
+                if (onRemove != null) {
+                    dropDownMenuExpanded = true
+                }
+            },
+        ),
         name = name,
         isSilent = isSilent,
         isCustomSound = isCustomSound,
@@ -199,15 +199,15 @@ fun SoundPickerButtonsRow(
     ) {
         TextButton(
             modifier =
-                Modifier
-                    .padding(end = 8.dp, bottom = 4.dp),
+            Modifier
+                .padding(end = 8.dp, bottom = 4.dp),
             onClick = onDismiss,
         ) { Text(stringResource(Res.string.main_cancel)) }
 
         TextButton(
             modifier =
-                Modifier
-                    .padding(end = 8.dp, bottom = 4.dp),
+            Modifier
+                .padding(end = 8.dp, bottom = 4.dp),
             onClick = {
                 onSave(selectedItem)
                 onDismiss()

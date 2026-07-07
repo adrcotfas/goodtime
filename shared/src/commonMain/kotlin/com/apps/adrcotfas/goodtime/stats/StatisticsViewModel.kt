@@ -111,14 +111,13 @@ class StatisticsViewModel(
     private fun selectSessionsForTimelinePaged(
         labels: List<String>,
         showBreaks: Boolean,
-    ): Flow<PagingData<Session>> =
-        Pager(PagingConfig(pageSize = 50, prefetchDistance = 50)) {
-            localDataRepo.selectSessionsForTimelinePaged(labels, showBreaks = showBreaks)
-        }.flow.map { value ->
-            value.map {
-                it.toExternal()
-            }
+    ): Flow<PagingData<Session>> = Pager(PagingConfig(pageSize = 50, prefetchDistance = 50)) {
+        localDataRepo.selectSessionsForTimelinePaged(labels, showBreaks = showBreaks)
+    }.flow.map { value ->
+        value.map {
+            it.toExternal()
         }
+    }
 
     private fun loadData() {
         viewModelScope.launch {
@@ -276,14 +275,13 @@ class StatisticsViewModel(
         _uiState.update { it.copy(showAddSession = false) }
     }
 
-    private fun generateNewSession(): Session =
-        Session.create(
-            duration = 0,
-            timestamp = timeProvider.now(),
-            interruptions = 0,
-            label = Label.DEFAULT_LABEL_NAME,
-            isWork = true,
-        )
+    private fun generateNewSession(): Session = Session.create(
+        duration = 0,
+        timestamp = timeProvider.now(),
+        interruptions = 0,
+        label = Label.DEFAULT_LABEL_NAME,
+        isWork = true,
+    )
 
     fun setSelectedLabelToBulkEdit(label: String) {
         _uiState.update { it.copy(selectedLabelToBulkEdit = label) }

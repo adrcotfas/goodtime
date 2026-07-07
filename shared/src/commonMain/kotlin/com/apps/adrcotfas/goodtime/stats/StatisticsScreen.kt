@@ -228,16 +228,16 @@ fun StatisticsScreen(
                                 buttonText = stringResource(Res.string.main_save),
                                 isEnabled = uiState.canSave && uiState.isPro,
                                 buttonIcon =
-                                    if (uiState.isPro) {
-                                        null
-                                    } else {
-                                        {
-                                            Icon(
-                                                imageVector = EvaIcons.Outline.Lock,
-                                                contentDescription = stringResource(Res.string.unlock_premium),
-                                            )
-                                        }
-                                    },
+                                if (uiState.isPro) {
+                                    null
+                                } else {
+                                    {
+                                        Icon(
+                                            imageVector = EvaIcons.Outline.Lock,
+                                            contentDescription = stringResource(Res.string.unlock_premium),
+                                        )
+                                    }
+                                },
                                 onClose = { hideSheet() },
                                 onClick = {
                                     viewModel.saveSession()
@@ -287,13 +287,13 @@ fun StatisticsScreen(
                     val datePickerState =
                         rememberDatePickerState(
                             initialSelectedDateMillis =
-                                dateTime
-                                    .toInstant(timeZone)
-                                    .toEpochMilliseconds(),
+                            dateTime
+                                .toInstant(timeZone)
+                                .toEpochMilliseconds(),
                             selectableDates =
-                                object : SelectableDates {
-                                    override fun isSelectableDate(utcTimeMillis: Long) = utcTimeMillis < tomorrowMillis
-                                },
+                            object : SelectableDates {
+                                override fun isSelectableDate(utcTimeMillis: Long) = utcTimeMillis < tomorrowMillis
+                            },
                         )
                     DatePickerDialog(
                         onDismiss = { showDatePicker = false },

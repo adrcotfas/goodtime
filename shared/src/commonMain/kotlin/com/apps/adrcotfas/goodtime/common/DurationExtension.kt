@@ -43,6 +43,7 @@ fun Duration.formatOverview(): String {
 
     return when {
         this.inWholeMinutes == 0L -> "0min"
+
         else ->
             buildString {
                 if (hours != 0L) append("${hours}h ")

@@ -80,8 +80,8 @@ class MainViewModel(
                             showWhenLocked = settings.uiSettings.showWhenLocked,
                             shouldAskForReview = settings.shouldAskForReview,
                             wasNotificationPermissionDenied =
-                                settings.notificationPermissionState ==
-                                    NotificationPermissionState.DENIED,
+                            settings.notificationPermissionState ==
+                                NotificationPermissionState.DENIED,
                             lastDismissedUpdateVersionCode = settings.lastDismissedUpdateVersionCode,
                         )
                     }

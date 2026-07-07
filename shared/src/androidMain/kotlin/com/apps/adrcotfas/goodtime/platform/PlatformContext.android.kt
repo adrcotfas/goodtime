@@ -69,16 +69,16 @@ actual fun PlatformContext.setShowWhenLocked(enabled: Boolean) {
 actual fun PlatformContext.configureSystemBars(isDarkTheme: Boolean) {
     activity.enableEdgeToEdge(
         statusBarStyle =
-            SystemBarStyle.auto(
-                lightScrim = android.graphics.Color.TRANSPARENT,
-                darkScrim = android.graphics.Color.TRANSPARENT,
-            ) { isDarkTheme },
+        SystemBarStyle.auto(
+            lightScrim = android.graphics.Color.TRANSPARENT,
+            darkScrim = android.graphics.Color.TRANSPARENT,
+        ) { isDarkTheme },
         navigationBarStyle =
-            SystemBarStyle.auto(
-                lightScrim = lightScrim,
-                darkScrim = darkScrim,
-                detectDarkMode = { isDarkTheme },
-            ),
+        SystemBarStyle.auto(
+            lightScrim = lightScrim,
+            darkScrim = darkScrim,
+            detectDarkMode = { isDarkTheme },
+        ),
     )
 }
 

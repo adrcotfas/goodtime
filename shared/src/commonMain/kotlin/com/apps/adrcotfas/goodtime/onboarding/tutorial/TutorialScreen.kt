@@ -111,16 +111,16 @@ fun TutorialScreen(
 
     Box(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .background(black.copy(alpha = 0.68f))
-                .then(modifier),
+        Modifier
+            .fillMaxSize()
+            .background(black.copy(alpha = 0.68f))
+            .then(modifier),
     ) {
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center),
+            Modifier
+                .fillMaxSize()
+                .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(64.dp, Alignment.CenterVertically),
         ) {
@@ -136,10 +136,10 @@ fun TutorialScreen(
 
         FloatingActionButton(
             modifier =
-                Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(32.dp)
-                    .size(72.dp),
+            Modifier
+                .align(Alignment.BottomEnd)
+                .padding(32.dp)
+                .size(72.dp),
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             shape = CircleShape,
             onClick = {
@@ -166,9 +166,9 @@ fun TutorialScreen(
 
         PageIndicator(
             modifier =
-                Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(32.dp),
+            Modifier
+                .align(Alignment.BottomCenter)
+                .padding(32.dp),
             pageCount = pages.size,
             currentPage = pagerState.currentPage,
             color = Color.White.copy(alpha = 0.4f),
@@ -206,10 +206,10 @@ fun TutorialPage(
         composition?.let { comp ->
             Image(
                 painter =
-                    rememberLottiePainter(
-                        composition = comp,
-                        iterations = Compottie.IterateForever,
-                    ),
+                rememberLottiePainter(
+                    composition = comp,
+                    iterations = Compottie.IterateForever,
+                ),
                 contentScale = ContentScale.FillHeight,
                 contentDescription = null,
             )
@@ -219,10 +219,10 @@ fun TutorialPage(
     if (isPortraitOrientation) {
         Column(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState()),
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -232,30 +232,30 @@ fun TutorialPage(
                 text = "Use gestures to control the timer",
                 modifier = Modifier.fillMaxWidth(0.9f),
                 style =
-                    MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        color = white,
-                    ),
+                MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = white,
+                ),
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = title,
                 modifier = Modifier.fillMaxWidth(0.9f),
                 style =
-                    MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        color = white,
-                    ),
+                MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = white,
+                ),
             )
         }
     } else {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 64.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 64.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
@@ -265,22 +265,22 @@ fun TutorialPage(
                     text = "Use gestures to control the timer",
                     modifier = Modifier.fillMaxWidth(0.9f),
                     style =
-                        MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            color = white,
-                        ),
+                    MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = white,
+                    ),
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = title,
                     modifier = Modifier.fillMaxWidth(0.9f),
                     style =
-                        MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            color = white,
-                        ),
+                    MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = white,
+                    ),
                 )
             }
         }

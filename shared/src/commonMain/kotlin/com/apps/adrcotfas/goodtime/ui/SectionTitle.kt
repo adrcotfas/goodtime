@@ -55,12 +55,12 @@ fun CompactPreferenceGroupTitle(
         modifier = modifier,
         text = text,
         paddingValues =
-            PaddingValues(
-                top = 24.dp,
-                bottom = 4.dp,
-                start = 16.dp,
-                end = 16.dp,
-            ),
+        PaddingValues(
+            top = 24.dp,
+            bottom = 4.dp,
+            start = 16.dp,
+            end = 16.dp,
+        ),
     )
 }
 

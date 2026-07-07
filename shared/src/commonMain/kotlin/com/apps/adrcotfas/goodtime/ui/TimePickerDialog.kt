@@ -116,13 +116,13 @@ fun TimePickerDialog(
             shape = MaterialTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
             modifier =
-                Modifier
-                    .width(IntrinsicSize.Min)
-                    .height(IntrinsicSize.Min)
-                    .background(
-                        shape = MaterialTheme.shapes.extraLarge,
-                        color = MaterialTheme.colorScheme.surface,
-                    ),
+            Modifier
+                .width(IntrinsicSize.Min)
+                .height(IntrinsicSize.Min)
+                .background(
+                    shape = MaterialTheme.shapes.extraLarge,
+                    color = MaterialTheme.colorScheme.surface,
+                ),
         ) {
             Column(
                 modifier = Modifier.padding(top = 24.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
@@ -130,18 +130,18 @@ fun TimePickerDialog(
             ) {
                 Text(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, bottom = 20.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, bottom = 20.dp),
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                 )
                 content()
                 Row(
                     modifier =
-                        Modifier
-                            .height(40.dp)
-                            .fillMaxWidth(),
+                    Modifier
+                        .height(40.dp)
+                        .fillMaxWidth(),
                 ) {
                     toggle()
                     Spacer(modifier = Modifier.weight(1f))

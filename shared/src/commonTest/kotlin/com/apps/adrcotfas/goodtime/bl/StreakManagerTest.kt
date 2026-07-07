@@ -63,15 +63,14 @@ class StreakManagerTest {
     }
 
     @Test
-    fun `incrementStreak bumps the count and persists it`() =
-        runTest(testDispatcher) {
-            timeProvider.elapsedRealtime = 42_000
+    fun `incrementStreak bumps the count and persists it`() = runTest(testDispatcher) {
+        timeProvider.elapsedRealtime = 42_000
 
-            val result = streakManager.incrementStreak(LongBreakData(streak = 2, lastWorkEndTime = 0))
+        val result = streakManager.incrementStreak(LongBreakData(streak = 2, lastWorkEndTime = 0))
 
-            assertEquals(LongBreakData(streak = 3, lastWorkEndTime = 42_000), result)
-            assertEquals(result, settingsRepo.settings.first().longBreakData)
-        }
+        assertEquals(LongBreakData(streak = 3, lastWorkEndTime = 42_000), result)
+        assertEquals(result, settingsRepo.settings.first().longBreakData)
+    }
 
     @Test
     fun `streak is kept when the last work session finished recently`() {
@@ -81,15 +80,14 @@ class StreakManagerTest {
     }
 
     @Test
-    fun `streak is reset after too much idle time`() =
-        runTest(testDispatcher) {
-            val data = LongBreakData(streak = 2, lastWorkEndTime = 10_000)
+    fun `streak is reset after too much idle time`() = runTest(testDispatcher) {
+        val data = LongBreakData(streak = 2, lastWorkEndTime = 10_000)
 
-            val result = streakManager.resetStreakIfNeeded(data, profile, millis = 10_000 + maxIdleTime)
+        val result = streakManager.resetStreakIfNeeded(data, profile, millis = 10_000 + maxIdleTime)
 
-            assertEquals(LongBreakData(), result)
-            assertEquals(LongBreakData(), settingsRepo.settings.first().longBreakData)
-        }
+        assertEquals(LongBreakData(), result)
+        assertEquals(LongBreakData(), settingsRepo.settings.first().longBreakData)
+    }
 
     @Test
     fun `long break is due when the streak target is reached recently`() {

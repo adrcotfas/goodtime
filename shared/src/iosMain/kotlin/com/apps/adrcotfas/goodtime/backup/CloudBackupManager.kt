@@ -73,16 +73,15 @@ class CloudBackupManager(
      * Returns false if user is signed out of iCloud or has disabled iCloud Drive for this app.
      */
     @OptIn(ExperimentalForeignApi::class)
-    suspend fun isICloudAvailable(): Boolean =
-        withContext(Dispatchers.IO) {
-            logger.d { "isICloudAvailable() - checking token..." }
-            val fileManager = NSFileManager.defaultManager
-            val hasToken = fileManager.ubiquityIdentityToken != null
-            logger.d { "isICloudAvailable() - hasToken=$hasToken, checking container URL..." }
-            val containerUrl = fileManager.URLForUbiquityContainerIdentifier(null)
-            logger.d { "isICloudAvailable() - containerUrl=${containerUrl?.path}" }
-            hasToken && containerUrl != null
-        }
+    suspend fun isICloudAvailable(): Boolean = withContext(Dispatchers.IO) {
+        logger.d { "isICloudAvailable() - checking token..." }
+        val fileManager = NSFileManager.defaultManager
+        val hasToken = fileManager.ubiquityIdentityToken != null
+        logger.d { "isICloudAvailable() - hasToken=$hasToken, checking container URL..." }
+        val containerUrl = fileManager.URLForUbiquityContainerIdentifier(null)
+        logger.d { "isICloudAvailable() - containerUrl=${containerUrl?.path}" }
+        hasToken && containerUrl != null
+    }
 
     /**
      * Check if backup is needed and perform it if necessary.
@@ -170,18 +169,17 @@ class CloudBackupManager(
      * Returns a list of backup file names sorted by date (newest first).
      */
     @OptIn(ExperimentalForeignApi::class)
-    suspend fun listAvailableBackups(): List<String> =
-        withContext(Dispatchers.IO) {
-            try {
-                val fileManager = NSFileManager.defaultManager
-                val backupsUrl = getBackupsDirUrl(fileManager, createIfMissing = false)
-                val backups = metadataQuery.queryAllBackups(backupsUrl)
-                backups.map { it.fileName }
-            } catch (e: Exception) {
-                logger.e(e) { "Failed to list iCloud backups" }
-                emptyList()
-            }
+    suspend fun listAvailableBackups(): List<String> = withContext(Dispatchers.IO) {
+        try {
+            val fileManager = NSFileManager.defaultManager
+            val backupsUrl = getBackupsDirUrl(fileManager, createIfMissing = false)
+            val backups = metadataQuery.queryAllBackups(backupsUrl)
+            backups.map { it.fileName }
+        } catch (e: Exception) {
+            logger.e(e) { "Failed to list iCloud backups" }
+            emptyList()
         }
+    }
 
     /**
      * Restore from a specific iCloud backup file.
@@ -189,56 +187,55 @@ class CloudBackupManager(
      * Returns the temporary file path where the backup was copied, ready for BackupManager to restore.
      */
     @OptIn(ExperimentalForeignApi::class)
-    suspend fun getBackupFileForRestore(fileName: String): String =
-        withContext(Dispatchers.IO) {
-            logger.i { "Preparing iCloud backup for restore: $fileName" }
+    suspend fun getBackupFileForRestore(fileName: String): String = withContext(Dispatchers.IO) {
+        logger.i { "Preparing iCloud backup for restore: $fileName" }
 
-            val fileManager = NSFileManager.defaultManager
-            val backupsUrl = getBackupsDirUrl(fileManager, createIfMissing = false)
+        val fileManager = NSFileManager.defaultManager
+        val backupsUrl = getBackupsDirUrl(fileManager, createIfMissing = false)
 
-            // Query for the backup file to check if it needs to be downloaded
-            val backupMetadata = metadataQuery.queryBackupFile(backupsUrl, fileName)
+        // Query for the backup file to check if it needs to be downloaded
+        val backupMetadata = metadataQuery.queryBackupFile(backupsUrl, fileName)
 
-            val backupFilePath: String =
-                if (backupMetadata != null) {
-                    metadataQuery.ensureBackupDownloaded(backupMetadata)
-                } else {
-                    // Fallback to direct file access if metadata query fails
-                    val backupFileUrl =
-                        backupsUrl.URLByAppendingPathComponent(fileName)
-                            ?: throw Exception("Failed to get backup file path")
-                    backupFileUrl.path ?: throw Exception("Failed to get backup file path string")
-                }
-
-            // Verify the file exists locally after download
-            if (!fileManager.fileExistsAtPath(backupFilePath)) {
-                logger.e { "Backup file does not exist at: $backupFilePath" }
-                throw Exception("Backup file does not exist: $fileName")
+        val backupFilePath: String =
+            if (backupMetadata != null) {
+                metadataQuery.ensureBackupDownloaded(backupMetadata)
+            } else {
+                // Fallback to direct file access if metadata query fails
+                val backupFileUrl =
+                    backupsUrl.URLByAppendingPathComponent(fileName)
+                        ?: throw Exception("Failed to get backup file path")
+                backupFileUrl.path ?: throw Exception("Failed to get backup file path string")
             }
 
-            // Copy to temporary location for BackupManager to restore
-            val tempDir = platform.Foundation.NSTemporaryDirectory()
-            val tempFilePath = "${tempDir}goodtime_cloud_restore.db"
-
-            logger.i { "Copying from $backupFilePath to $tempFilePath" }
-
-            // Remove old temp file if exists
-            if (fileManager.fileExistsAtPath(tempFilePath)) {
-                fileManager.removeItemAtPath(tempFilePath, error = null)
-            }
-
-            // Copy backup to temp location
-            fileSystem.copy(backupFilePath.toPath(), tempFilePath.toPath())
-
-            // Verify the copy succeeded
-            if (!fileManager.fileExistsAtPath(tempFilePath)) {
-                logger.e { "Failed to copy backup to temp location" }
-                throw Exception("Failed to copy backup file")
-            }
-
-            logger.i { "iCloud backup copied to temp location for restore: $tempFilePath" }
-            tempFilePath
+        // Verify the file exists locally after download
+        if (!fileManager.fileExistsAtPath(backupFilePath)) {
+            logger.e { "Backup file does not exist at: $backupFilePath" }
+            throw Exception("Backup file does not exist: $fileName")
         }
+
+        // Copy to temporary location for BackupManager to restore
+        val tempDir = platform.Foundation.NSTemporaryDirectory()
+        val tempFilePath = "${tempDir}goodtime_cloud_restore.db"
+
+        logger.i { "Copying from $backupFilePath to $tempFilePath" }
+
+        // Remove old temp file if exists
+        if (fileManager.fileExistsAtPath(tempFilePath)) {
+            fileManager.removeItemAtPath(tempFilePath, error = null)
+        }
+
+        // Copy backup to temp location
+        fileSystem.copy(backupFilePath.toPath(), tempFilePath.toPath())
+
+        // Verify the copy succeeded
+        if (!fileManager.fileExistsAtPath(tempFilePath)) {
+            logger.e { "Failed to copy backup to temp location" }
+            throw Exception("Failed to copy backup file")
+        }
+
+        logger.i { "iCloud backup copied to temp location for restore: $tempFilePath" }
+        tempFilePath
+    }
 
     @OptIn(ExperimentalForeignApi::class)
     private suspend fun performBackup() {

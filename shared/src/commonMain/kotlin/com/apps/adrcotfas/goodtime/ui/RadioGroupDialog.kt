@@ -57,11 +57,11 @@ fun RadioGroupDialog(
             shape = MaterialTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
             modifier =
-                Modifier
-                    .background(
-                        shape = MaterialTheme.shapes.extraLarge,
-                        color = MaterialTheme.colorScheme.surface,
-                    ),
+            Modifier
+                .background(
+                    shape = MaterialTheme.shapes.extraLarge,
+                    color = MaterialTheme.colorScheme.surface,
+                ),
         ) {
             val radioOptionsIndexes = radioOptions.indices.toList()
             val (selectedOption, onOptionSelected) =
@@ -72,17 +72,17 @@ fun RadioGroupDialog(
                 }
             Column(
                 modifier =
-                    Modifier
-                        .padding(
-                            top = 24.dp,
-                        ).fillMaxWidth()
-                        .selectableGroup(),
+                Modifier
+                    .padding(
+                        top = 24.dp,
+                    ).fillMaxWidth()
+                    .selectableGroup(),
             ) {
                 Text(
                     modifier =
-                        Modifier
-                            .padding(start = 24.dp, bottom = 20.dp)
-                            .fillMaxWidth(),
+                    Modifier
+                        .padding(start = 24.dp, bottom = 20.dp)
+                        .fillMaxWidth(),
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                 )
@@ -117,9 +117,9 @@ fun RadioGroupDialog(
                 }
                 TextButton(
                     modifier =
-                        Modifier
-                            .align(Alignment.End)
-                            .padding(end = 8.dp, bottom = 4.dp),
+                    Modifier
+                        .align(Alignment.End)
+                        .padding(end = 8.dp, bottom = 4.dp),
                     onClick = onDismiss,
                 ) { Text(stringResource(Res.string.main_cancel)) }
             }

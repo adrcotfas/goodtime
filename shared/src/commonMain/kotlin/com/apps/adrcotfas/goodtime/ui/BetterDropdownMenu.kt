@@ -56,9 +56,9 @@ fun BetterDropdownMenu(
 ) {
     DropdownMenu(
         modifier =
-            Modifier
-                .crop(vertical = DROPDOWN_MENU_CORNER.dp)
-                .clip(RoundedCornerShape(DROPDOWN_MENU_CORNER.dp)),
+        Modifier
+            .crop(vertical = DROPDOWN_MENU_CORNER.dp)
+            .clip(RoundedCornerShape(DROPDOWN_MENU_CORNER.dp)),
         shape = MaterialTheme.shapes.medium,
         expanded = expanded,
         onDismissRequest = onDismissRequest,
@@ -108,13 +108,13 @@ fun BetterDropdownMenu(
                         modifier = paddingModifier,
                         text = it,
                         style =
-                            if (it == value) {
-                                textStyle.copy(
-                                    color = MaterialTheme.colorScheme.primary,
-                                )
-                            } else {
-                                textStyle
-                            },
+                        if (it == value) {
+                            textStyle.copy(
+                                color = MaterialTheme.colorScheme.primary,
+                            )
+                        } else {
+                            textStyle
+                        },
                     )
                 },
                 onClick = {
@@ -149,12 +149,12 @@ fun DropdownMenuBox(
     Box(modifier) {
         Row(
             modifier =
-                contentModifier
-                    .clip(MaterialTheme.shapes.medium)
-                    .then(if (colored) selectionModifier else Modifier)
-                    .clickable {
-                        expanded = true
-                    }.padding(start = 16.dp, end = 12.dp, top = 12.dp, bottom = 12.dp),
+            contentModifier
+                .clip(MaterialTheme.shapes.medium)
+                .then(if (colored) selectionModifier else Modifier)
+                .clickable {
+                    expanded = true
+                }.padding(start = 16.dp, end = 12.dp, top = 12.dp, bottom = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -169,9 +169,9 @@ fun DropdownMenuBox(
             )
             Icon(
                 modifier =
-                    Modifier.graphicsLayer {
-                        rotationZ = rotation
-                    },
+                Modifier.graphicsLayer {
+                    rotationZ = rotation
+                },
                 imageVector = Icons.Default.ExpandMore,
                 tint = if (colored) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                 contentDescription = "Dropdown",

@@ -21,72 +21,31 @@ import com.apps.adrcotfas.goodtime.data.local.LocalLabel
 import com.apps.adrcotfas.goodtime.data.local.LocalSession
 import com.apps.adrcotfas.goodtime.data.local.LocalTimerProfile
 
-fun Label.toLocal(): LocalLabel =
-    LocalLabel(
-        name = name,
-        colorIndex = colorIndex,
-        orderIndex = orderIndex,
-        useDefaultTimeProfile = useDefaultTimeProfile,
-        timerProfileName = timerProfile.name,
-        isCountdown = timerProfile.isCountdown,
-        workDuration = timerProfile.workDuration,
-        isBreakEnabled = timerProfile.isBreakEnabled,
-        breakDuration = timerProfile.breakDuration,
-        isLongBreakEnabled = timerProfile.isLongBreakEnabled,
-        longBreakDuration = timerProfile.longBreakDuration,
-        sessionsBeforeLongBreak = timerProfile.sessionsBeforeLongBreak,
-        workBreakRatio = timerProfile.workBreakRatio,
-        isArchived = isArchived,
-    )
+fun Label.toLocal(): LocalLabel = LocalLabel(
+    name = name,
+    colorIndex = colorIndex,
+    orderIndex = orderIndex,
+    useDefaultTimeProfile = useDefaultTimeProfile,
+    timerProfileName = timerProfile.name,
+    isCountdown = timerProfile.isCountdown,
+    workDuration = timerProfile.workDuration,
+    isBreakEnabled = timerProfile.isBreakEnabled,
+    breakDuration = timerProfile.breakDuration,
+    isLongBreakEnabled = timerProfile.isLongBreakEnabled,
+    longBreakDuration = timerProfile.longBreakDuration,
+    sessionsBeforeLongBreak = timerProfile.sessionsBeforeLongBreak,
+    workBreakRatio = timerProfile.workBreakRatio,
+    isArchived = isArchived,
+)
 
-fun LocalLabel.toExternal(timerProfile: TimerProfile? = null): Label =
-    Label(
-        name = name,
-        colorIndex = colorIndex,
-        orderIndex = orderIndex,
-        useDefaultTimeProfile = useDefaultTimeProfile,
-        timerProfile =
-            timerProfile ?: TimerProfile(
-                name = null,
-                isCountdown = isCountdown,
-                workDuration = workDuration,
-                isBreakEnabled = isBreakEnabled,
-                breakDuration = breakDuration,
-                isLongBreakEnabled = isLongBreakEnabled,
-                longBreakDuration = longBreakDuration,
-                sessionsBeforeLongBreak = sessionsBeforeLongBreak,
-                workBreakRatio = workBreakRatio,
-            ),
-        isArchived = isArchived,
-    )
-
-fun Session.toLocal() =
-    LocalSession(
-        id = id,
-        timestamp = timestamp,
-        duration = duration,
-        interruptions = interruptions,
-        labelName = label,
-        notes = notes,
-        isWork = isWork,
-        isArchived = isArchived,
-    )
-
-fun LocalSession.toExternal() =
-    Session(
-        id = id,
-        timestamp = timestamp,
-        duration = duration,
-        interruptions = interruptions,
-        label = labelName,
-        notes = notes,
-        isWork = isWork,
-        isArchived = isArchived,
-    )
-
-fun LocalTimerProfile.toExternal(): TimerProfile =
-    TimerProfile(
-        name = name,
+fun LocalLabel.toExternal(timerProfile: TimerProfile? = null): Label = Label(
+    name = name,
+    colorIndex = colorIndex,
+    orderIndex = orderIndex,
+    useDefaultTimeProfile = useDefaultTimeProfile,
+    timerProfile =
+    timerProfile ?: TimerProfile(
+        name = null,
         isCountdown = isCountdown,
         workDuration = workDuration,
         isBreakEnabled = isBreakEnabled,
@@ -95,7 +54,43 @@ fun LocalTimerProfile.toExternal(): TimerProfile =
         longBreakDuration = longBreakDuration,
         sessionsBeforeLongBreak = sessionsBeforeLongBreak,
         workBreakRatio = workBreakRatio,
-    )
+    ),
+    isArchived = isArchived,
+)
+
+fun Session.toLocal() = LocalSession(
+    id = id,
+    timestamp = timestamp,
+    duration = duration,
+    interruptions = interruptions,
+    labelName = label,
+    notes = notes,
+    isWork = isWork,
+    isArchived = isArchived,
+)
+
+fun LocalSession.toExternal() = Session(
+    id = id,
+    timestamp = timestamp,
+    duration = duration,
+    interruptions = interruptions,
+    label = labelName,
+    notes = notes,
+    isWork = isWork,
+    isArchived = isArchived,
+)
+
+fun LocalTimerProfile.toExternal(): TimerProfile = TimerProfile(
+    name = name,
+    isCountdown = isCountdown,
+    workDuration = workDuration,
+    isBreakEnabled = isBreakEnabled,
+    breakDuration = breakDuration,
+    isLongBreakEnabled = isLongBreakEnabled,
+    longBreakDuration = longBreakDuration,
+    sessionsBeforeLongBreak = sessionsBeforeLongBreak,
+    workBreakRatio = workBreakRatio,
+)
 
 fun TimerProfile.toLocal(): LocalTimerProfile {
     if (name == null) {

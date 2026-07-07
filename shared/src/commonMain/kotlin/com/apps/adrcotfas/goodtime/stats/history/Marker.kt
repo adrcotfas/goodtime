@@ -57,11 +57,11 @@ internal fun rememberMarker(
     val label =
         rememberTextComponent(
             style =
-                MaterialTheme.typography.labelSmall.copy(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Start,
-                    lineHeight = 16.sp,
-                ),
+            MaterialTheme.typography.labelSmall.copy(
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Start,
+                lineHeight = 16.sp,
+            ),
             lineCount = 10, // 1 for total, 1 for others, 8 for labels
             padding = Insets(8.dp, 8.dp),
             background = labelBackground,

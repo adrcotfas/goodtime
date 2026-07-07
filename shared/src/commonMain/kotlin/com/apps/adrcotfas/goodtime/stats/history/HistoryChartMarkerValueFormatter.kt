@@ -108,14 +108,14 @@ class HistoryBarChartMarkerValueFormatter(
         append(valueFormatted)
     }
 
-    override fun equals(other: Any?): Boolean =
-        this === other ||
+    override fun equals(other: Any?): Boolean = this === other ||
+        (
             other is HistoryBarChartMarkerValueFormatter &&
-            defaultLabelName == other.defaultLabelName &&
-            othersLabelName == other.othersLabelName &&
-            othersLabelColor == other.othersLabelColor &&
-            totalLabel == other.totalLabel
+                defaultLabelName == other.defaultLabelName &&
+                othersLabelName == other.othersLabelName &&
+                othersLabelColor == other.othersLabelColor &&
+                totalLabel == other.totalLabel
+            )
 
-    override fun hashCode(): Int =
-        defaultLabelName.hashCode() * 31 + othersLabelName.hashCode() + othersLabelColor.hashCode() + totalLabel.hashCode()
+    override fun hashCode(): Int = defaultLabelName.hashCode() * 31 + othersLabelName.hashCode() + othersLabelColor.hashCode() + totalLabel.hashCode()
 }

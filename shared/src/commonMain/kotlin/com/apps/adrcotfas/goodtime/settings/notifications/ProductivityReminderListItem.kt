@@ -61,10 +61,10 @@ fun ProductivityReminderListItem(
             supporting = {
                 Row(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState())
-                            .padding(top = 8.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -72,17 +72,17 @@ fun ProductivityReminderListItem(
                     for (day in daysInOrder) {
                         FilledIconButton(
                             colors =
-                                if (selectedDays.contains(day)) {
-                                    iconButtonColors.copy(
-                                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
-                                        contentColor = MaterialTheme.colorScheme.primary,
-                                    )
-                                } else {
-                                    iconButtonColors.copy(
-                                        containerColor = iconButtonColors.disabledContainerColor,
-                                        contentColor = iconButtonColors.disabledContentColor,
-                                    )
-                                },
+                            if (selectedDays.contains(day)) {
+                                iconButtonColors.copy(
+                                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                                    contentColor = MaterialTheme.colorScheme.primary,
+                                )
+                            } else {
+                                iconButtonColors.copy(
+                                    containerColor = iconButtonColors.disabledContainerColor,
+                                    contentColor = iconButtonColors.disabledContentColor,
+                                )
+                            },
                             onClick = { onSelectDay(day) },
                         ) {
                             Text(
@@ -99,10 +99,10 @@ fun ProductivityReminderListItem(
         BetterListItem(
             title = stringResource(Res.string.settings_reminder_time),
             trailing =
-                secondsOfDayToTimerFormat(
-                    reminderSecondOfDay,
-                    is24HourFormat,
-                ),
+            secondsOfDayToTimerFormat(
+                reminderSecondOfDay,
+                is24HourFormat,
+            ),
             enabled = selectedDays.isNotEmpty(),
             onClick = { onReminderTimeClick() },
         )
