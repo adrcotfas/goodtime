@@ -102,6 +102,8 @@ class TimerManagerTest {
                     listeners = listOf(fakeEventListener),
                     timeProvider,
                     finishedSessionsHandler,
+                    BreakBudgetManager(settingsRepo, timeProvider, testScope, logger),
+                    StreakManager(settingsRepo, timeProvider, testScope, logger),
                     logger,
                     coroutineScope = testScope,
                 )

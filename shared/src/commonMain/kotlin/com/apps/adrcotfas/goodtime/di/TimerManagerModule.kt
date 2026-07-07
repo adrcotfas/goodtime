@@ -17,8 +17,10 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
+import com.apps.adrcotfas.goodtime.bl.BreakBudgetManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.FinishedSessionsHandler
+import com.apps.adrcotfas.goodtime.bl.StreakManager
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerForegroundMonitor
 import com.apps.adrcotfas.goodtime.bl.TimerManager
@@ -30,6 +32,24 @@ import org.koin.dsl.module
 
 val timerManagerModule =
     module {
+        single<BreakBudgetManager> {
+            BreakBudgetManager(
+                settingsRepo = get(),
+                timeProvider = get(),
+                coroutineScope = get(named(IO_SCOPE)),
+                log = getWith("BreakBudgetManager"),
+            )
+        }
+
+        single<StreakManager> {
+            StreakManager(
+                settingsRepo = get(),
+                timeProvider = get(),
+                coroutineScope = get(named(IO_SCOPE)),
+                log = getWith("StreakManager"),
+            )
+        }
+
         single<TimerManager> {
             TimerManager(
                 get<LocalDataRepository>(),
@@ -37,6 +57,8 @@ val timerManagerModule =
                 get<List<EventListener>>(),
                 get<TimeProvider>(),
                 get<FinishedSessionsHandler>(),
+                get<BreakBudgetManager>(),
+                get<StreakManager>(),
                 getWith("TimerManager"),
                 coroutineScope = get(named(IO_SCOPE)),
                 timerStateRestoration = getOrNull<TimerStateRestoration>(),
