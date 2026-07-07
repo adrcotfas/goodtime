@@ -106,13 +106,15 @@ class StatsViewModelTest {
                 var sessions = viewModel.pagedSessions.asSnapshot()
                 assertTrue { sessions.isNotEmpty() }
                 val sessionsSize = sessions.size
+                val originalIds = sessions.map { it.id }.toSet()
                 viewModel.onAddEditSession()
                 viewModel.saveSession()
                 advanceUntilIdle()
                 sessions = viewModel.pagedSessions.asSnapshot()
                 assertTrue { sessionsSize + 1 == sessions.size }
 
-                viewModel.toggleSessionIsSelected(0)
+                val newSessionId = sessions.map { it.id }.single { it !in originalIds }
+                viewModel.toggleSessionIsSelected(newSessionId)
                 viewModel.deleteSelectedSessions()
                 advanceUntilIdle()
                 sessions = viewModel.pagedSessions.asSnapshot()

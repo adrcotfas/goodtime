@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.bl
 
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.platform.PlatformConfiguration
 import com.apps.adrcotfas.goodtime.platform.getPlatformConfiguration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
@@ -34,10 +35,11 @@ class TimerStateRestoration(
     private val timeProvider: TimeProvider,
     private val log: Logger,
     private val coroutineScope: CoroutineScope,
+    private val platformConfiguration: PlatformConfiguration = getPlatformConfiguration(),
 ) {
     fun restoreTimerState(updateTimerData: (TimerRuntimeState) -> Unit) {
         // Only restore state on iOS
-        if (getPlatformConfiguration().isAndroid) {
+        if (platformConfiguration.isAndroid) {
             return
         }
 

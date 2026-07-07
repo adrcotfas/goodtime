@@ -17,15 +17,12 @@
  */
 package com.apps.adrcotfas.goodtime.fakes
 
-import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.platform.PlatformConfiguration
 
-class FakeTimeProvider : TimeProvider {
-    var elapsedRealtime = 0L
-
-    // wall clock; defaults to tracking elapsedRealtime unless set explicitly (e.g. reboot scenarios)
-    var wallClock: Long? = null
-
-    override fun now() = wallClock ?: elapsedRealtime
-
-    override fun elapsedRealtime() = elapsedRealtime
+class FakePlatformConfiguration(
+    override val isAndroid: Boolean = false,
+) : PlatformConfiguration {
+    override val supportsInAppUpdates: Boolean = false
+    override val supportsDynamicColor: Boolean = false
+    override val supportsShowWhenLocked: Boolean = false
 }

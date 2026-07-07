@@ -30,8 +30,10 @@ class FakeSessionDao : SessionDao {
     private val sessions = MutableStateFlow<List<LocalSession>>(emptyList())
 
     override suspend fun insert(session: LocalSession): Long {
-        sessions.value += session
-        return sessions.value.size.toLong()
+        // mimic Room's autoGenerate: id 0 means "generate"; explicit ids are kept
+        val id = if (session.id == 0L) (sessions.value.maxOfOrNull { it.id } ?: 0L) + 1 else session.id
+        sessions.value += session.copy(id = id)
+        return id
     }
 
     override suspend fun update(

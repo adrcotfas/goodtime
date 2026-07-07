@@ -21,6 +21,7 @@ import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.Event
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.platform.PlatformConfiguration
 import com.apps.adrcotfas.goodtime.platform.getPlatformConfiguration
 import kotlin.math.abs
 
@@ -30,6 +31,7 @@ class SoundVibrationAndTorchPlayer(
     private val torchManager: TorchManager,
     private val timeProvider: TimeProvider,
     private val logger: Logger,
+    private val platformConfiguration: PlatformConfiguration = getPlatformConfiguration(),
 ) : EventListener {
     // Using this expected endTime logic because on iOS, if the app is in the foreground while the timer finishes,
     // the finish event is not triggered in the background but when the user brings the app to foreground.
@@ -62,7 +64,7 @@ class SoundVibrationAndTorchPlayer(
                 // there's less than 1 second difference between the expected end time and now, play the orchestra
                 // this condition is not true if the user brings the app to foreground 1 second after receiving the notification
                 // on Android, we don't care about this since Finished is triggered when the app is in the background (foreground service active)
-                if (getPlatformConfiguration().isAndroid || endTime == 0L || abs(now - endTime) < 1000L) {
+                if (platformConfiguration.isAndroid || endTime == 0L || abs(now - endTime) < 1000L) {
                     logger.d { "playing sound and vibration" }
                     soundPlayer.play(event.type)
                     vibrationPlayer.start()

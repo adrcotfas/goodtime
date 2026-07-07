@@ -26,8 +26,4 @@ jobs:
 workflows:
   build-all:
     jobs:
-      - build-android:
-          filters:
-            branches:
-              only:
-                - master
+      - build-android
