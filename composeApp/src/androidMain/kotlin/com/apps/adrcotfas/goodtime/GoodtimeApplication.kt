@@ -43,6 +43,7 @@ import com.apps.adrcotfas.goodtime.di.mainModule
 import com.apps.adrcotfas.goodtime.di.platformModule
 import com.apps.adrcotfas.goodtime.di.timerManagerModule
 import com.apps.adrcotfas.goodtime.di.viewModelModule
+import com.apps.adrcotfas.goodtime.platform.Distribution
 import com.apps.adrcotfas.goodtime.settings.notifications.SoundsViewModel
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager
 import kotlinx.coroutines.CoroutineScope
@@ -70,6 +71,7 @@ class GoodtimeApplication :
     override fun onCreate() {
         super.onCreate()
         if (ACRA.isACRASenderServiceProcess()) return
+        Distribution.isFdroid = BuildConfig.IS_FDROID
         configurePurchasesFromPlatform()
         startKoin {
             modules(
@@ -108,7 +110,7 @@ class GoodtimeApplication :
                 },
                 coroutineScopeModule,
                 platformModule,
-                coreModule,
+                coreModule(isDebug = BuildConfig.DEBUG),
                 localDataModule,
                 coreBackupModule,
                 distributionModule,

@@ -18,7 +18,6 @@
 package com.apps.adrcotfas.goodtime.platform
 
 import android.os.Build
-import com.apps.adrcotfas.goodtime.BuildConfig.IS_FDROID
 
 /**
  * Android implementation of PlatformConfiguration.
@@ -48,5 +47,3 @@ private class AndroidPlatformConfiguration : PlatformConfiguration {
  * Returns the Android platform configuration.
  */
 actual fun getPlatformConfiguration(): PlatformConfiguration = AndroidPlatformConfiguration()
-
-actual fun isFDroid(): Boolean = IS_FDROID

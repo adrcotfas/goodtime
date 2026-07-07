@@ -62,7 +62,6 @@ import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
-import kotlin.experimental.ExperimentalNativeApi
 
 @OptIn(ExperimentalForeignApi::class)
 actual val platformModule: Module =
@@ -204,6 +203,3 @@ actual val platformModule: Module =
             )
         }
     }
-
-@OptIn(ExperimentalNativeApi::class)
-actual fun isDebug(): Boolean = Platform.isDebugBinary

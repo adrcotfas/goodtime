@@ -59,18 +59,16 @@ val coroutineScopeModule =
         single<CoroutineScope>(named(IO_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
     }
 
-expect fun isDebug(): Boolean
-
 expect val platformModule: Module
 
-val coreModule =
+fun coreModule(isDebug: Boolean) =
     module {
         val baseLogger =
             Logger(
                 config =
                     StaticConfig(
                         logWriterList = listOf(platformLogWriter()),
-                        minSeverity = if (isDebug()) Severity.Verbose else Severity.Info,
+                        minSeverity = if (isDebug) Severity.Verbose else Severity.Info,
                     ),
                 tag = "Goodtime",
             )

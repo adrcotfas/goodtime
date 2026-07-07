@@ -120,5 +120,3 @@ actual val platformModule: Module =
             )
         }
     }
-
-actual fun isDebug(): Boolean = BuildConfig.DEBUG

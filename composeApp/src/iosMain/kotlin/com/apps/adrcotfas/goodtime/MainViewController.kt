@@ -53,13 +53,14 @@ fun MainViewController(): UIViewController =
         AppWithKoin()
     }
 
+@OptIn(kotlin.experimental.ExperimentalNativeApi::class)
 @Composable
 private fun AppWithKoin() {
     KoinApplication(
         application = {
             modules(
                 coroutineScopeModule,
-                coreModule,
+                coreModule(isDebug = Platform.isDebugBinary),
                 localDataModule,
                 coreBackupModule,
                 distributionModule,

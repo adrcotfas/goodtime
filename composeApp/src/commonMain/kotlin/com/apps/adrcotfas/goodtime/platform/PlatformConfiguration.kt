@@ -59,4 +59,11 @@ interface PlatformConfiguration {
  */
 expect fun getPlatformConfiguration(): PlatformConfiguration
 
-expect fun isFDroid(): Boolean
+/**
+ * Distribution flags that cannot be known at library compile time; set once by the app entry point.
+ */
+object Distribution {
+    var isFdroid: Boolean = false
+}
+
+fun isFDroid(): Boolean = Distribution.isFdroid
