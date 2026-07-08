@@ -26,7 +26,6 @@ desugar_jdk_libs = "2.1.5"
 androidx-lifecycle = "2.11.0"
 androidx-activity-compose = "1.13.0"
 androidx-core-ktx = "1.19.0"
-androidx-navigation-compose = "2.9.8"
 androidx-paging = "3.5.0"
 androidx-datastore = "1.2.1"
 androidx-media = "1.8.0"
@@ -74,7 +73,6 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidx-paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidx-paging" }
 androidx-paging-testing = { group = "androidx.paging", name = "paging-testing", version.ref = "androidx-paging" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation-compose" }
 androidx-media = { group = "androidx.media", name = "media", version.ref = "androidx-media" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "androidx-documentfile" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }

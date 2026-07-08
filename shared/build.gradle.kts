@@ -85,7 +85,6 @@ kotlin {
 
             implementation(libs.androidx.documentfile)
             implementation(libs.androidx.lifecycle.runtime.ktx)
-            implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.media)
 
             implementation(libs.androidchart)
