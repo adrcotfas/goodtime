@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.androidxBaselineProfile)
 }
 
 kotlin {
@@ -117,6 +118,8 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     debugImplementation(libs.leakcanary.android)
+
+    baselineProfile(projects.baselineProfile)
 
     // Google Play distribution
     add("googleImplementation", libs.app.update.ktx)

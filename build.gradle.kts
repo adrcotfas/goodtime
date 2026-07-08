@@ -13,6 +13,8 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.mikepenz.aboutlibraries) apply false
+    alias(libs.plugins.androidTest) apply false
+    alias(libs.plugins.androidxBaselineProfile) apply false
     alias(libs.plugins.spotless)
 }
 

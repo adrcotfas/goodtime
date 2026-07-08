@@ -48,6 +48,8 @@ espresso-core = "3.7.0"
 robolectric = "4.16.1"
 turbine = "1.2.1"
 leakcanary = "2.14"
+androidx-benchmark = "1.5.0-alpha07"
+androidx-uiautomator = "2.3.0"
 
 uiBackhandler = "1.11.1"
 vico = "2.5.2"
@@ -118,6 +120,8 @@ androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-t
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+androidx-benchmark-macro-junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark" }
+androidx-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx-uiautomator" }
 okio-fakefilesystem = { module = "com.squareup.okio:okio-fakefilesystem", version.ref = "okio" }
 touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 touchlab-kermit-simple = { module = "co.touchlab:kermit-simple", version.ref = "kermit" }
@@ -136,6 +140,8 @@ work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "w
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+androidTest = { id = "com.android.test", version.ref = "agp" }
+androidxBaselineProfile = { id = "androidx.baselineprofile", version.ref = "androidx-benchmark" }
 androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
