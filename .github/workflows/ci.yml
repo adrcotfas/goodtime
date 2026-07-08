@@ -29,4 +29,6 @@ jobs:
           java-version: 21
       - uses: gradle/actions/setup-gradle@v6
       - name: Test iOS (simulator)
-        run: ./gradlew :shared:iosSimulatorArm64Test
+        # cacheKind=none works around KT-86501 (klib cache builder crashes on the
+        # kotlinx.datetime Clock/Instant typealias); fixed in Kotlin 2.4.10, drop then.
+        run: ./gradlew :shared:iosSimulatorArm64Test -Pkotlin.native.cacheKind.iosSimulatorArm64=none
