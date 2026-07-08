@@ -57,6 +57,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.math.floor
 import kotlin.math.max
+import kotlin.time.Duration.Companion.milliseconds
 
 data class TimerUiState(
     val isReady: Boolean = false,
@@ -124,11 +125,13 @@ class TimerViewModel(
     val timerUiState =
         timerManager.timerData.flatMapLatest {
             when (it.state) {
-                TimerState.RUNNING, TimerState.PAUSED, TimerState.FINISHED ->
+                // PAUSED excluded: baseTime is frozen at timeAtPause, nothing to tick.
+                TimerState.RUNNING, TimerState.FINISHED ->
                     flow {
                         while (true) {
                             emitUiState(it)
-                            delay(1000)
+                            // Delay to the next second boundary so the display doesn't skip a second.
+                            delay((1000 - timeProvider.elapsedRealtime() % 1000).milliseconds)
                         }
                     }
 
@@ -136,7 +139,7 @@ class TimerViewModel(
                     flow { emitUiState(it) }
                 }
             }
-        } // .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
 
     private val _uiState = MutableStateFlow(TimerMainUiState())
     val uiState =
