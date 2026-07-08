@@ -20,7 +20,6 @@ package com.apps.adrcotfas.goodtime.main
 import androidx.activity.ComponentActivity
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.di.injectLogger
-import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 

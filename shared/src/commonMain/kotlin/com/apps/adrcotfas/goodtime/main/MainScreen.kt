@@ -79,8 +79,6 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlButton
 import com.apps.adrcotfas.goodtime.main.dialcontrol.rememberCustomDialControlState
 import com.apps.adrcotfas.goodtime.main.dialcontrol.updateEnabledOptions
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionSheet
-import com.apps.adrcotfas.goodtime.onboarding.MainUiState
-import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.tutorial.TutorialScreen
 import com.apps.adrcotfas.goodtime.platform.isFDroid
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState

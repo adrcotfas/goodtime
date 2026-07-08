@@ -35,7 +35,7 @@ import com.apps.adrcotfas.goodtime.di.mainModule
 import com.apps.adrcotfas.goodtime.di.platformModule
 import com.apps.adrcotfas.goodtime.di.timerManagerModule
 import com.apps.adrcotfas.goodtime.di.viewModelModule
-import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
+import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderManager
 import kotlinx.coroutines.CoroutineScope

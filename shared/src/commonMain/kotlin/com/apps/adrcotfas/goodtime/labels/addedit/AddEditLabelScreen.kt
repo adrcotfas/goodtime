@@ -61,8 +61,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.LABEL_NAME_MAX_LENGTH
-import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
-import com.apps.adrcotfas.goodtime.labels.labelNameIsValid
 import com.apps.adrcotfas.goodtime.ui.BreakBudgetInfoDialog
 import com.apps.adrcotfas.goodtime.ui.ColorSelectRow
 import com.apps.adrcotfas.goodtime.ui.TimerProfileSettings

@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.labels
+package com.apps.adrcotfas.goodtime.labels.addedit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

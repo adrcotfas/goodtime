@@ -35,6 +35,7 @@ import com.apps.adrcotfas.goodtime.main.LabelsDest
 import com.apps.adrcotfas.goodtime.main.LicensesDest
 import com.apps.adrcotfas.goodtime.main.MainDest
 import com.apps.adrcotfas.goodtime.main.MainScreen
+import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.main.NotificationSettingsDest
 import com.apps.adrcotfas.goodtime.main.OnboardingDest
 import com.apps.adrcotfas.goodtime.main.ProDest
@@ -42,7 +43,6 @@ import com.apps.adrcotfas.goodtime.main.SettingsDest
 import com.apps.adrcotfas.goodtime.main.StatsDest
 import com.apps.adrcotfas.goodtime.main.TimerDurationsDest
 import com.apps.adrcotfas.goodtime.main.UserInterfaceDest
-import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
 import com.apps.adrcotfas.goodtime.settings.SettingsScreen
 import com.apps.adrcotfas.goodtime.settings.about.AboutScreen

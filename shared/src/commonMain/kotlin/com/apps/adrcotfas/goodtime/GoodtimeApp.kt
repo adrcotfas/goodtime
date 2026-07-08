@@ -38,9 +38,9 @@ import androidx.navigation.compose.rememberNavController
 import com.apps.adrcotfas.goodtime.bl.TimerForegroundMonitor
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.main.MainDest
+import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.main.OnboardingDest
 import com.apps.adrcotfas.goodtime.main.route
-import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
 import com.apps.adrcotfas.goodtime.platform.configureSystemBars
 import com.apps.adrcotfas.goodtime.platform.setFullscreen

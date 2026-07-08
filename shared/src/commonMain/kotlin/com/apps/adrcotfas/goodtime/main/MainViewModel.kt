@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.onboarding
+package com.apps.adrcotfas.goodtime.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

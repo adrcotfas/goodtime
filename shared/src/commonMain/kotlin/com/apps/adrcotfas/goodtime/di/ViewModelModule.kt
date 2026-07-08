@@ -17,11 +17,11 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
-import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
+import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
+import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionViewModel
-import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.TimerProfileViewModel
 import com.apps.adrcotfas.goodtime.settings.about.AboutViewModel

@@ -33,7 +33,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
+import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.ui.IconListItem
 import com.apps.adrcotfas.goodtime.ui.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.TopBar
