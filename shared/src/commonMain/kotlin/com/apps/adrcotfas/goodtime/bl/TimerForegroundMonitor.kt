@@ -59,9 +59,9 @@ class TimerForegroundMonitor(
     private suspend fun listenForeground() {
         logger.v { "listenForeground" }
         timerManager.timerData
-            .filter { it.state.isActive }
+            .filter { it.runtime.state.isActive }
             .collectLatest { activeTimerData ->
-                while (currentCoroutineContext().isActive && timerManager.timerData.value.state.isActive) {
+                while (currentCoroutineContext().isActive && timerManager.timerData.value.runtime.state.isActive) {
                     val isCountdown = activeTimerData.isCurrentSessionCountdown()
                     val baseTime = activeTimerData.getBaseTime(timeProvider)
 

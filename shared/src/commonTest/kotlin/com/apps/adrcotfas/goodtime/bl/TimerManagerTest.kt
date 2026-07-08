@@ -178,16 +178,16 @@ class TimerManagerTest {
         timeProvider.elapsedRealtime += elapsedTime
         timerManager.toggle()
         assertEquals(
-            timerManager.timerData.value.timeAtPause,
+            timerManager.timerData.value.runtime.timeAtPause,
             DEFAULT_DURATION - elapsedTime,
             "remaining time should be one minute less",
         )
         timeProvider.elapsedRealtime += elapsedTime
         val endTime =
-            timerManager.timerData.value.timeAtPause + timeProvider.elapsedRealtime
+            timerManager.timerData.value.runtime.timeAtPause + timeProvider.elapsedRealtime
         timerManager.toggle()
         assertEquals(
-            timerManager.timerData.value.endTime,
+            timerManager.timerData.value.runtime.endTime,
             endTime,
             "the timer should end after 2 more minutes",
         )
@@ -256,20 +256,20 @@ class TimerManagerTest {
         timeProvider.elapsedRealtime += oneMinute
         timerManager.toggle()
         assertEquals(
-            timerManager.timerData.value.timeAtPause,
+            timerManager.timerData.value.runtime.timeAtPause,
             DEFAULT_DURATION - oneMinute,
             "remaining time should be one minute less",
         )
         timeProvider.elapsedRealtime += oneMinute
         timerManager.addOneMinute()
         assertEquals(
-            timerManager.timerData.value.timeAtPause,
+            timerManager.timerData.value.runtime.timeAtPause,
             DEFAULT_DURATION - oneMinute + 1.minutes.inWholeMilliseconds,
             "remaining time should be one minute more",
         )
         timerManager.finish()
         assertEquals(
-            timerManager.timerData.value.endTime,
+            timerManager.timerData.value.runtime.endTime,
             timeProvider.elapsedRealtime,
             "the timer should end after 1 more minute",
         )
@@ -333,8 +333,8 @@ class TimerManagerTest {
         val elapsedTime = 1.minutes.inWholeMilliseconds
         timeProvider.elapsedRealtime += elapsedTime
         timerManager.next()
-        assertEquals(timerManager.timerData.value.state, TimerState.RUNNING)
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.state, TimerState.RUNNING)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
 
         var session = localDataRepo.selectAllSessions().first().last()
         assertEquals(session.duration.minutes.inWholeMilliseconds, elapsedTime)
@@ -343,8 +343,8 @@ class TimerManagerTest {
 
         timeProvider.elapsedRealtime += elapsedTime
         timerManager.next()
-        assertEquals(timerManager.timerData.value.state, TimerState.RUNNING)
-        assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
+        assertEquals(timerManager.timerData.value.runtime.state, TimerState.RUNNING)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.FOCUS)
         session = localDataRepo.selectAllSessions().first().last()
         assertEquals(session.duration.minutes.inWholeMilliseconds, elapsedTime)
         assertEquals(session.timestamp, elapsedTime + elapsedTime)
@@ -354,7 +354,7 @@ class TimerManagerTest {
     @Test
     fun `Skip timer before one minute`() = runTest {
         timerManager.start(TimerType.FOCUS)
-        val endTime = timerManager.timerData.value.endTime
+        val endTime = timerManager.timerData.value.runtime.endTime
         val duration = 45.seconds.inWholeMilliseconds
         timeProvider.elapsedRealtime = duration
         timerManager.next()
@@ -429,7 +429,7 @@ class TimerManagerTest {
     @Test
     fun `Timer reset after one minute`() = runTest {
         timerManager.start(TimerType.FOCUS)
-        val endTime = timerManager.timerData.value.endTime
+        val endTime = timerManager.timerData.value.runtime.endTime
         val oneMinute = 1.minutes.inWholeMilliseconds
         timeProvider.elapsedRealtime = oneMinute
         timerManager.reset()
@@ -472,7 +472,7 @@ class TimerManagerTest {
     @Test
     fun `Timer reset before one minute`() = runTest {
         timerManager.start(TimerType.FOCUS)
-        val endTime = timerManager.timerData.value.endTime
+        val endTime = timerManager.timerData.value.runtime.endTime
         val duration = 45.seconds.inWholeMilliseconds
         timeProvider.elapsedRealtime = duration
         timerManager.reset()
@@ -557,25 +557,25 @@ class TimerManagerTest {
         timerManager.finish()
         timerManager.next()
         assertEquals(timerManager.timerData.value.longBreakData.streak, 1)
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
         timerManager.next()
         timeProvider.elapsedRealtime += twoMinutes
         timerManager.finish()
         timerManager.next()
         assertEquals(timerManager.timerData.value.longBreakData.streak, 2)
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
         timerManager.next()
         timeProvider.elapsedRealtime += twoMinutes
         timerManager.finish()
         timerManager.next()
         assertEquals(timerManager.timerData.value.longBreakData.streak, 3)
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
         timerManager.next()
         timeProvider.elapsedRealtime += twoMinutes
         timerManager.finish()
         timerManager.next()
         assertEquals(timerManager.timerData.value.longBreakData.streak, 4)
-        assertEquals(timerManager.timerData.value.type, TimerType.LONG_BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.LONG_BREAK)
     }
 
     @Test
@@ -602,7 +602,7 @@ class TimerManagerTest {
         timerManager.finish()
         timerManager.next()
         assertEquals(timerManager.timerData.value.longBreakData.streak, 4)
-        assertEquals(timerManager.timerData.value.type, TimerType.LONG_BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.LONG_BREAK)
     }
 
     @Test
@@ -618,27 +618,27 @@ class TimerManagerTest {
         val twoMinutes = 2.minutes.inWholeMilliseconds
         timeProvider.elapsedRealtime += twoMinutes
         timerManager.skip()
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
         assertEquals(
             timerManager.timerData.value.longBreakData
                 .streakInUse(sessionsBeforeLongBreak),
             1,
         )
         timerManager.skip()
-        assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.FOCUS)
         timeProvider.elapsedRealtime += twoMinutes
         timerManager.skip()
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
         assertEquals(
             timerManager.timerData.value.longBreakData
                 .streakInUse(sessionsBeforeLongBreak),
             2,
         )
         timerManager.skip()
-        assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.FOCUS)
         timeProvider.elapsedRealtime += twoMinutes
         timerManager.skip()
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
         assertEquals(
             timerManager.timerData.value.longBreakData
                 .streakInUse(sessionsBeforeLongBreak),
@@ -655,7 +655,7 @@ class TimerManagerTest {
                 .streakInUse(sessionsBeforeLongBreak),
             1,
         )
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
     }
 
     @Test
@@ -679,7 +679,7 @@ class TimerManagerTest {
         val workDuration = DEFAULT_DURATION
         timeProvider.elapsedRealtime += workDuration
         timerManager.finish()
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
     }
 
     @Test
@@ -697,7 +697,7 @@ class TimerManagerTest {
         val workDuration = DEFAULT_WORK_DURATION.minutes.inWholeMilliseconds
         timeProvider.elapsedRealtime += workDuration
         timerManager.next()
-        assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.FOCUS)
     }
 
     @Test
@@ -719,7 +719,7 @@ class TimerManagerTest {
                 ).inWholeMinutes,
             expectedBreakBudget,
         )
-        assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.BREAK)
         timeProvider.elapsedRealtime += expectedBreakBudget.minutes.inWholeMilliseconds
         timerManager.next()
         assertEquals(
@@ -729,7 +729,7 @@ class TimerManagerTest {
                 ).inWholeMinutes,
             0,
         )
-        assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
+        assertEquals(timerManager.timerData.value.runtime.type, TimerType.FOCUS)
     }
 
     @Test
@@ -808,7 +808,7 @@ class TimerManagerTest {
         timerManager.next()
 
         assertEquals(
-            timerManager.timerData.value.endTime,
+            timerManager.timerData.value.runtime.endTime,
             timerManager.timerData.value.breakBudgetData.breakBudget.inWholeMilliseconds,
         )
         assertEquals(

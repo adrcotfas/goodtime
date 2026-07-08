@@ -114,7 +114,7 @@ class TimerManager(
             .collect {
                 log.i { "new timerProfile: $it" }
                 val value = _timerData.value
-                val isActive = value.state.isActive
+                val isActive = value.runtime.state.isActive
                 val isCountdown = value.label.isCountdown
 
                 if (isCountdown != it.isCountdown) {
@@ -148,7 +148,7 @@ class TimerManager(
     }
 
     fun start(
-        timerType: TimerType = timerData.value.type,
+        timerType: TimerType = timerData.value.runtime.type,
         autoStarted: Boolean = false,
     ) {
         log.i { "Starting timer..." }
@@ -160,7 +160,7 @@ class TimerManager(
 
         val elapsedRealTime = timeProvider.elapsedRealtime()
 
-        if (data.state.isReset) {
+        if (data.runtime.state.isReset) {
             updateBreakBudgetIfNeeded()
         }
 
@@ -190,9 +190,9 @@ class TimerManager(
         listeners.forEach {
             it.onEvent(
                 Event.Start(
-                    isFocus = timerData.type.isFocus,
+                    isFocus = timerData.runtime.type.isFocus,
                     autoStarted = autoStarted,
-                    endTime = if (isCountdown) timerData.endTime else countUpEndTime,
+                    endTime = if (isCountdown) timerData.runtime.endTime else countUpEndTime,
                     labelName = timerData.label.label.name,
                     isDefaultLabel = timerData.label.isDefault(),
                     labelColorIndex = timerData.label.label.colorIndex,
@@ -212,7 +212,7 @@ class TimerManager(
 
     fun addOneMinute() {
         val data = timerData.value
-        if (!data.state.isActive) {
+        if (!data.runtime.state.isActive) {
             log.e { "Trying to add one minute when the timer is not running" }
             return
         }
@@ -220,10 +220,10 @@ class TimerManager(
             log.e { "Trying to add a minute to a timer that is not a countdown" }
             return
         }
-        val newEndTime = data.endTime + 1.minutes.inWholeMilliseconds
+        val newEndTime = data.runtime.endTime + 1.minutes.inWholeMilliseconds
         val newRemainingTimeAtPause =
-            if (data.state.isPaused) {
-                data.timeAtPause + 1.minutes.inWholeMilliseconds
+            if (data.runtime.state.isPaused) {
+                data.runtime.timeAtPause + 1.minutes.inWholeMilliseconds
             } else {
                 0
             }
@@ -242,7 +242,7 @@ class TimerManager(
     }
 
     fun toggle() {
-        when (timerData.value.state) {
+        when (timerData.value.runtime.state) {
             TimerState.RUNNING -> pause()
             TimerState.PAUSED -> resume()
             else -> log.e { "Trying to toggle the timer when it is not running or paused" }
@@ -251,7 +251,7 @@ class TimerManager(
 
     private fun pause() {
         val timerDataValue = timerData.value
-        val isBreakOfCountUpProfile = !timerDataValue.label.isCountdown && timerDataValue.type != TimerType.FOCUS
+        val isBreakOfCountUpProfile = !timerDataValue.label.isCountdown && timerDataValue.runtime.type != TimerType.FOCUS
         if (isBreakOfCountUpProfile) {
             log.e { "Trying to pause a break timer of a count up profile" }
             return
@@ -264,9 +264,9 @@ class TimerManager(
                 it.runtime.copy(
                     timeAtPause =
                     if (it.label.profile.isCountdown) {
-                        it.endTime - elapsedRealtime
+                        it.runtime.endTime - elapsedRealtime
                     } else {
-                        elapsedRealtime - it.startTime - it.timeSpentPaused
+                        elapsedRealtime - it.runtime.startTime - it.runtime.timeSpentPaused
                     },
                     lastPauseTime = elapsedRealtime,
                     state = TimerState.PAUSED,
@@ -284,9 +284,9 @@ class TimerManager(
         val isCountdown = timerData.value.label.profile.isCountdown
         val newEndTime =
             if (isCountdown) {
-                timerData.value.timeAtPause + elapsedRealTime
+                timerData.value.runtime.timeAtPause + elapsedRealTime
             } else {
-                timerData.value.endTime
+                timerData.value.runtime.endTime
             }
         _timerData.update {
             it.copy(
@@ -308,8 +308,8 @@ class TimerManager(
         listeners.forEach {
             it.onEvent(
                 Event.Start(
-                    isFocus = timerData.type.isFocus,
-                    endTime = if (isCurrentSessionCountdown) timerData.endTime else countUpEndTime,
+                    isFocus = timerData.runtime.type.isFocus,
+                    endTime = if (isCurrentSessionCountdown) timerData.runtime.endTime else countUpEndTime,
                     labelName = timerData.label.label.name,
                     isDefaultLabel = timerData.label.isDefault(),
                     labelColorIndex = timerData.label.label.colorIndex,
@@ -323,9 +323,9 @@ class TimerManager(
 
     private fun updatePausedTime() {
         val data = timerData.value
-        if (data.lastPauseTime != 0L) {
+        if (data.runtime.lastPauseTime != 0L) {
             val elapsedRealTime = timeProvider.elapsedRealtime()
-            val pausedTime = data.timeSpentPaused + elapsedRealTime - data.lastPauseTime
+            val pausedTime = data.runtime.timeSpentPaused + elapsedRealTime - data.runtime.lastPauseTime
             log.i { "updatePausedTime: ${pausedTime.milliseconds}" }
             _timerData.update {
                 it.copy(
@@ -362,7 +362,7 @@ class TimerManager(
         notes: String,
     ) {
         val data = timerData.value
-        if (data.state != TimerState.FINISHED) {
+        if (data.runtime.state != TimerState.FINISHED) {
             log.w { "Trying to update a session that is not in FINISHED state" }
             return
         }
@@ -397,7 +397,7 @@ class TimerManager(
             log.e { "timer data not ready" }
             return
         }
-        val state = data.state
+        val state = data.runtime.state
         val timerProfile = data.label
 
         if (state == TimerState.RESET) {
@@ -405,7 +405,7 @@ class TimerManager(
             return
         }
 
-        val isWork = data.type.isFocus
+        val isWork = data.runtime.type.isFocus
         val isCountDown = data.getTimerProfile().isCountdown
 
         updateBreakBudgetIfNeeded()
@@ -459,9 +459,9 @@ class TimerManager(
             return
         }
 
-        val state = data.state
+        val state = data.runtime.state
         val timerProfile = data.label
-        val type = data.type
+        val type = data.runtime.type
 
         if (state.isReset || state.isFinished) {
             log.e { "Trying to finish the timer when it is reset or finished" }
@@ -473,7 +473,7 @@ class TimerManager(
                 runtime =
                 it.runtime.copy(
                     state = TimerState.FINISHED,
-                    endTime = if (actionType == FinishActionType.AUTO) timeProvider.elapsedRealtime() else data.endTime,
+                    endTime = if (actionType == FinishActionType.AUTO) timeProvider.elapsedRealtime() else data.runtime.endTime,
                 ),
             )
         }
@@ -485,7 +485,7 @@ class TimerManager(
         // Skip autostart if too much time has passed since the timer was supposed to end.
         // This handles the iOS case where finish is called when the app returns to foreground
         // after being backgrounded for a long time.
-        val timeSinceExpectedEnd = timeProvider.elapsedRealtime() - data.endTime
+        val timeSinceExpectedEnd = timeProvider.elapsedRealtime() - data.runtime.endTime
         val withinAutoStartWindow = timeSinceExpectedEnd < AUTOSTART_TIMEOUT
 
         val autoStart =
@@ -516,7 +516,7 @@ class TimerManager(
      */
     fun reset(actionType: FinishActionType = FinishActionType.MANUAL_RESET) {
         val data = timerData.value
-        if (data.state == TimerState.RESET) {
+        if (data.runtime.state == TimerState.RESET) {
             log.w { "Trying to reset the timer when it is already reset" }
             return
         }
@@ -542,17 +542,17 @@ class TimerManager(
     }
 
     private fun handlePersistentDataAtStart() {
-        if (timerData.value.type == TimerType.FOCUS) {
+        if (timerData.value.runtime.type == TimerType.FOCUS) {
             // filter out the case when some time passes since the last work session
             // preemptively reset the streak if the current work session cannot end in time
-            resetStreakIfNeeded(timerData.value.endTime)
+            resetStreakIfNeeded(timerData.value.runtime.endTime)
         }
     }
 
     private fun handleFinishedSession(finishActionType: FinishActionType) {
         val data = timerData.value
-        val isWork = data.type.isFocus
-        val isFinished = data.state.isFinished
+        val isWork = data.runtime.type.isFocus
+        val isFinished = data.runtime.state.isFinished
         val isCountDown = data.getTimerProfile().isCountdown
         val longBreakEnabled = data.getTimerProfile().isLongBreakEnabled
 
@@ -624,10 +624,10 @@ class TimerManager(
         listeners.forEach {
             it.onEvent(
                 Event.SendToBackground(
-                    isTimerRunning = timerData.state.isRunning,
+                    isTimerRunning = timerData.runtime.state.isRunning,
                     endTime =
                     if (isCountdown) {
-                        timerData.endTime
+                        timerData.runtime.endTime
                     } else {
                         countUpEndTime
                     },

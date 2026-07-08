@@ -124,7 +124,7 @@ class TimerViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     val timerUiState =
         timerManager.timerData.flatMapLatest {
-            when (it.state) {
+            when (it.runtime.state) {
                 // PAUSED excluded: baseTime is frozen at timeAtPause, nothing to tick.
                 TimerState.RUNNING, TimerState.FINISHED ->
                     flow {
@@ -220,11 +220,11 @@ class TimerViewModel(
                 label = it.label,
                 isCountdown = it.isCurrentSessionCountdown(),
                 baseTime = it.getBaseTime(timeProvider),
-                timerState = it.state,
-                timerType = it.type,
+                timerState = it.runtime.state,
+                timerType = it.runtime.type,
                 completedMinutes = it.completedMinutes,
-                timeSpentPaused = it.timeSpentPaused,
-                endTime = it.endTime,
+                timeSpentPaused = it.runtime.timeSpentPaused,
+                endTime = it.runtime.endTime,
                 elapsedRealtime = elapsedRealtime,
                 sessionsBeforeLongBreak = it.inUseSessionsBeforeLongBreak(),
                 longBreakData = it.longBreakData,
@@ -286,8 +286,8 @@ class TimerViewModel(
      */
     fun isWithinInactivityTimeout(): Boolean {
         val timerData = timerManager.timerData.value
-        if (timerData.state != TimerState.FINISHED) return false
-        val idleTime = timeProvider.elapsedRealtime() - timerData.endTime
+        if (timerData.runtime.state != TimerState.FINISHED) return false
+        val idleTime = timeProvider.elapsedRealtime() - timerData.runtime.endTime
         return idleTime < TimerManager.AUTOSTART_TIMEOUT
     }
 

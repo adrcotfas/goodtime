@@ -86,16 +86,6 @@ data class DomainTimerData(
     val runtime: TimerRuntimeState = TimerRuntimeState(),
     val completedMinutes: Long = 0, // minutes
 ) {
-    // Convenience accessors for backward compatibility
-    val startTime: Long get() = runtime.startTime
-    val lastStartTime: Long get() = runtime.lastStartTime
-    val lastPauseTime: Long get() = runtime.lastPauseTime
-    val endTime: Long get() = runtime.endTime
-    val timeAtPause: Long get() = runtime.timeAtPause
-    val state: TimerState get() = runtime.state
-    val type: TimerType get() = runtime.type
-    val timeSpentPaused: Long get() = runtime.timeSpentPaused
-
     fun reset() = DomainTimerData(
         isReady = isReady,
         label = label,
@@ -133,14 +123,14 @@ data class DomainTimerData(
 
     fun getBreakBudget(elapsedRealtime: Long): Duration {
         if (label.profile.isCountdown) return 0.minutes
-        return if (type.isFocus) {
-            when (state) {
+        return if (runtime.type.isFocus) {
+            when (runtime.state) {
                 TimerState.RUNNING -> {
                     val breakBudgetMillis = breakBudgetData.breakBudget
                     val workBreakRatio = label.profile.workBreakRatio
                     (
                         (
-                            (elapsedRealtime - lastStartTime).milliseconds /
+                            (elapsedRealtime - runtime.lastStartTime).milliseconds /
                                 workBreakRatio
                             ) + breakBudgetMillis
                         ).let {
@@ -155,7 +145,7 @@ data class DomainTimerData(
         }
     }
 
-    fun isCurrentSessionCountdown(): Boolean = getTimerProfile().isCountdown || type != TimerType.FOCUS
+    fun isCurrentSessionCountdown(): Boolean = getTimerProfile().isCountdown || runtime.type != TimerType.FOCUS
 }
 
 enum class TimerState {
@@ -195,21 +185,21 @@ val TimerType.isFocus: Boolean
 fun DomainTimerData.getBaseTime(timerProvider: TimeProvider): Long {
     val countdown = label.profile.isCountdown
 
-    if (state == TimerState.RESET) {
+    if (runtime.state == TimerState.RESET) {
         return if (countdown) {
             label.profile
-                .duration(type)
+                .duration(runtime.type)
                 .minutes.inWholeMilliseconds
         } else {
             0
         }
-    } else if (state == TimerState.PAUSED) {
-        return timeAtPause
+    } else if (runtime.state == TimerState.PAUSED) {
+        return runtime.timeAtPause
     }
 
-    return if (countdown || (!countdown && type.isBreak)) {
-        endTime - timerProvider.elapsedRealtime()
+    return if (countdown || (!countdown && runtime.type.isBreak)) {
+        runtime.endTime - timerProvider.elapsedRealtime()
     } else {
-        timerProvider.elapsedRealtime() - startTime - timeSpentPaused
+        timerProvider.elapsedRealtime() - runtime.startTime - runtime.timeSpentPaused
     }
 }

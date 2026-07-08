@@ -40,11 +40,11 @@ object FinishedSessionFactory {
         elapsedRealtime: Long,
         notes: String = "",
     ): Pair<Session, Long>? {
-        val isFocus = data.type == TimerType.FOCUS
+        val isFocus = data.runtime.type == TimerType.FOCUS
 
-        val endTime = data.endTime
-        val totalDuration = endTime - data.startTime
-        val interruptions = data.timeSpentPaused
+        val endTime = data.runtime.endTime
+        val totalDuration = endTime - data.runtime.startTime
+        val interruptions = data.runtime.timeSpentPaused
 
         val durationToSave =
             totalDuration

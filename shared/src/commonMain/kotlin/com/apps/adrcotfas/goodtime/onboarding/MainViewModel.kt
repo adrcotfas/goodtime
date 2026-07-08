@@ -90,13 +90,13 @@ class MainViewModel(
         viewModelScope.launch {
             timerManager.timerData
                 .distinctUntilChanged { old, new ->
-                    old.state == new.state &&
-                        old.type == new.type
+                    old.runtime.state == new.runtime.state &&
+                        old.runtime.type == new.runtime.type
                 }.collect { timerData ->
                     _uiState.update {
                         it.copy(
-                            isActive = timerData.state.isActive,
-                            isFinished = timerData.state.isFinished,
+                            isActive = timerData.runtime.state.isActive,
+                            isFinished = timerData.runtime.state.isFinished,
                         )
                     }
                 }

@@ -76,12 +76,12 @@ class NotificationArchManager(
         val elapsedRealTime = SystemClock.elapsedRealtime()
         val baseTime =
             if (isCountDown) {
-                data.endTime - elapsedRealTime
+                data.runtime.endTime - elapsedRealTime
             } else {
-                elapsedRealTime - (data.startTime + data.timeSpentPaused)
+                elapsedRealTime - (data.runtime.startTime + data.runtime.timeSpentPaused)
             }
-        val running = data.state != TimerState.PAUSED
-        val timerType = data.type
+        val running = data.runtime.state != TimerState.PAUSED
+        val timerType = data.runtime.type
         val labelName = data.getLabelName()
         val isDefaultLabel = data.label.isDefault()
         val stateText =
@@ -114,7 +114,7 @@ class NotificationArchManager(
 
                 // When paused, show the current time as text instead of chronometer
                 if (!running) {
-                    setShortCriticalText(formatMillisToTime(data.timeAtPause))
+                    setShortCriticalText(formatMillisToTime(data.runtime.timeAtPause))
                 } else {
                     setUsesChronometer(true)
                     setChronometerCountDown(isCountDown)
