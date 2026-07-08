@@ -57,7 +57,7 @@ actual fun NotificationSoundPickerDialog(
             onSelected(it)
             coroutineScope.launch {
                 logger.i { "Playing sound: ${it.uriString}" }
-                soundPlayer.play(it, loop = false, forceSound = true)
+                soundPlayer.play(it, loop = false)
             }
         },
         onSave = onSave,

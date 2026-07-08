@@ -105,6 +105,7 @@ class TimerManagerTest {
                 StreakManager(settingsRepo, timeProvider, testScope, logger),
                 logger,
                 coroutineScope = testScope,
+                timerStateRestoration = TimerStateRestoration(settingsRepo, timeProvider, logger, testScope),
             )
         timerManager.setup()
     }

@@ -55,8 +55,6 @@ interface SettingsRepository {
 
     suspend fun setEnableFlashScreen(enabled: Boolean)
 
-    suspend fun setOverrideSoundProfile(enabled: Boolean)
-
     suspend fun setInsistentNotification(enabled: Boolean)
 
     suspend fun setAutoStartWork(enabled: Boolean)

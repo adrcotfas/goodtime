@@ -30,8 +30,6 @@ data class SoundPlayerState(
     val breakRingTone: SoundData = SoundData(),
     /** Whether sounds should loop until manually stopped */
     val loop: Boolean = false,
-    /** Whether to override system sound profile settings */
-    val overrideSoundProfile: Boolean = false,
 )
 
 interface SoundPlayer {
@@ -46,7 +44,6 @@ interface SoundPlayer {
     fun play(
         soundData: SoundData,
         loop: Boolean = false,
-        forceSound: Boolean = false,
     )
 
     /**

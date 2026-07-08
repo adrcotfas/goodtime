@@ -46,8 +46,6 @@ import goodtime_productivity.shared.generated.resources.settings_focus_complete_
 import goodtime_productivity.shared.generated.resources.settings_insistent_notification_desc
 import goodtime_productivity.shared.generated.resources.settings_insistent_notification_title
 import goodtime_productivity.shared.generated.resources.settings_notifications_title
-import goodtime_productivity.shared.generated.resources.settings_override_sound_profile_desc
-import goodtime_productivity.shared.generated.resources.settings_override_sound_profile_title
 import goodtime_productivity.shared.generated.resources.settings_screen_flash_title
 import goodtime_productivity.shared.generated.resources.settings_silent
 import goodtime_productivity.shared.generated.resources.settings_torch_desc
@@ -101,14 +99,6 @@ fun NotificationsScreen(onNavigateBack: () -> Boolean) {
                 subtitle = notificationSoundName(breakRingTone),
                 onClick = { viewModel.setShowSelectBreakSoundPicker(true) },
             )
-
-            CheckboxListItem(
-                title = stringResource(Res.string.settings_override_sound_profile_title),
-                subtitle = stringResource(Res.string.settings_override_sound_profile_desc),
-                checked = settings.overrideSoundProfile,
-            ) {
-                viewModel.setOverrideSoundProfile(it)
-            }
 
             var selectedStrength = settings.vibrationStrength
             SliderListItem(

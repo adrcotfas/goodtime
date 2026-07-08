@@ -258,12 +258,6 @@ class SettingsViewModel(
         }
     }
 
-    fun setOverrideSoundProfile(enabled: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.setOverrideSoundProfile(enabled)
-        }
-    }
-
     fun setShowSelectWorkSoundPicker(show: Boolean) {
         _uiState.value =
             _uiState.value.copy(

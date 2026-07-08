@@ -32,15 +32,8 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import platform.AVFAudio.AVAudioPlayer
 import platform.AVFAudio.AVAudioSession
-import platform.AVFAudio.AVAudioSessionCategoryAmbient
 import platform.AVFAudio.AVAudioSessionCategoryOptionDuckOthers
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
-import platform.AVFAudio.AVAudioSessionPortBluetoothA2DP
-import platform.AVFAudio.AVAudioSessionPortBluetoothHFP
-import platform.AVFAudio.AVAudioSessionPortBluetoothLE
-import platform.AVFAudio.AVAudioSessionPortHeadphones
-import platform.AVFAudio.AVAudioSessionPortUSBAudio
-import platform.AVFAudio.currentRoute
 import platform.AVFAudio.setActive
 import platform.Foundation.NSBundle
 import platform.Foundation.NSURL
@@ -81,7 +74,6 @@ class IosSoundPlayer(
                     state.copy(
                         workRingTone = toSoundData(settings.workFinishedSound),
                         breakRingTone = toSoundData(settings.breakFinishedSound),
-                        overrideSoundProfile = settings.overrideSoundProfile,
                         loop = settings.insistentNotification,
                     )
             }
@@ -108,20 +100,18 @@ class IosSoundPlayer(
      *
      * @param soundData The sound configuration to play
      * @param loop Whether the sound should loop until manually stopped
-     * @param forceSound Whether to force sound playback regardless of system sound profile
      */
     override fun play(
         soundData: SoundData,
         loop: Boolean,
-        forceSound: Boolean,
     ) {
-        logger.i { "▶️ play() called with soundData=${soundData.name}, uri=${soundData.uriString}, loop=$loop, forceSound=$forceSound" }
+        logger.i { "▶️ play() called with soundData=${soundData.name}, uri=${soundData.uriString}, loop=$loop" }
         playerScope.launch {
             job?.cancelAndJoin()
             job =
                 playerScope.launch {
                     stopInternal() // Stop previous sound first
-                    playInternal(soundData, loop, forceSound)
+                    playInternal(soundData, loop)
                 }
         }
     }
@@ -129,7 +119,6 @@ class IosSoundPlayer(
     private suspend fun playInternal(
         soundData: SoundData,
         loop: Boolean,
-        forceSound: Boolean,
     ) = playbackMutex.withLock {
         logger.i { "🎵 playInternal() called with soundData=${soundData.name}, uri=${soundData.uriString}" }
 
@@ -191,17 +180,9 @@ class IosSoundPlayer(
         val session = AVAudioSession.sharedInstance()
 
         try {
-            // Determine Category
-            // Playback: Plays even if silent switch is on (equivalent to USAGE_ALARM / Override Profile)
-            // Ambient: Respects silent switch (equivalent to USAGE_NOTIFICATION)
-            val category =
-                if (state.overrideSoundProfile || forceSound || areHeadphonesPluggedIn(session)) {
-                    logger.d { "Using AVAudioSessionCategoryPlayback (forceSound=$forceSound)" }
-                    AVAudioSessionCategoryPlayback
-                } else {
-                    logger.d { "Using AVAudioSessionCategoryAmbient" }
-                    AVAudioSessionCategoryAmbient
-                }
+            // Always use Playback so the completion sound is audible even if the silent switch is
+            // on (equivalent to USAGE_ALARM on Android).
+            val category = AVAudioSessionCategoryPlayback
 
             // Determine Options (Ducking)
             // If looping (insistent), we usually want to pause background audio (no DuckOthers).
@@ -307,27 +288,6 @@ class IosSoundPlayer(
             AVAudioSession.sharedInstance().setActive(false, withOptions = 1u, error = null)
         } catch (e: Exception) {
             logger.e(e) { "Failed to deactivate AudioSession" }
-        }
-    }
-
-    private fun areHeadphonesPluggedIn(session: AVAudioSession): Boolean {
-        val route = session.currentRoute
-        val outputs = route.outputs
-
-        // Check ports for headphones/bluetooth
-        val headphoneTypes =
-            setOf(
-                AVAudioSessionPortHeadphones,
-                AVAudioSessionPortBluetoothA2DP,
-                AVAudioSessionPortBluetoothHFP,
-                AVAudioSessionPortBluetoothLE,
-                AVAudioSessionPortUSBAudio,
-            )
-
-        // Iterate through outputs using Kotlin collection operations
-        return outputs.any { output ->
-            val portDesc = output as? platform.AVFAudio.AVAudioSessionPortDescription
-            portDesc != null && headphoneTypes.contains(portDesc.portType)
         }
     }
 }

@@ -61,7 +61,7 @@ val timerManagerModule =
                 get<StreakManager>(),
                 getWith("TimerManager"),
                 coroutineScope = get(named(IO_SCOPE)),
-                timerStateRestoration = getOrNull<TimerStateRestoration>(),
+                timerStateRestoration = get<TimerStateRestoration>(),
             )
         }
 

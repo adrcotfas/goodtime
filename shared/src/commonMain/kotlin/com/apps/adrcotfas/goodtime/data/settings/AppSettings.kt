@@ -37,7 +37,6 @@ data class AppSettings(
     val workFinishedSound: String = "",
     /** The name/URI of the sound file or empty for default*/
     val breakFinishedSound: String = "",
-    val overrideSoundProfile: Boolean = false,
     val userSounds: Set<SoundData> = emptySet(),
     val vibrationStrength: Int = 3,
     val enableTorch: Boolean = false,

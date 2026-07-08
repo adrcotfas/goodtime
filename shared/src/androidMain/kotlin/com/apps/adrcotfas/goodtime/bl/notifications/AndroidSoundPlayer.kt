@@ -38,6 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.Closeable
 import java.lang.reflect.Method
+import kotlin.time.Duration.Companion.milliseconds
 
 class AndroidSoundPlayer(
     private val context: Context,
@@ -49,7 +50,6 @@ class AndroidSoundPlayer(
     Closeable {
     companion object {
         private const val SET_LOOPING_METHOD_NAME = "setLooping"
-        private const val PLAYBACK_POLLING_INTERVAL_MS = 100L
     }
 
     private var job: Job? = null
@@ -88,7 +88,6 @@ class AndroidSoundPlayer(
                     state.copy(
                         workRingTone = toSoundData(settings.workFinishedSound),
                         breakRingTone = toSoundData(settings.breakFinishedSound),
-                        overrideSoundProfile = settings.overrideSoundProfile,
                         loop = settings.insistentNotification,
                     )
             }
@@ -107,7 +106,7 @@ class AndroidSoundPlayer(
                 TimerType.FOCUS -> state.workRingTone
                 TimerType.BREAK, TimerType.LONG_BREAK -> state.breakRingTone
             }
-        play(soundData, state.loop, false)
+        play(soundData, state.loop)
     }
 
     /**
@@ -115,26 +114,23 @@ class AndroidSoundPlayer(
      *
      * @param soundData The sound configuration to play
      * @param loop Whether the sound should loop until manually stopped
-     * @param forceSound Whether to force sound playback regardless of system sound profile
      */
     override fun play(
         soundData: SoundData,
         loop: Boolean,
-        forceSound: Boolean,
     ) {
         val previousJob = job
         job =
             playerScope.launch {
                 previousJob?.cancelAndJoin()
                 stopInternal()
-                playInternal(soundData, loop, forceSound)
+                playInternal(soundData, loop)
             }
     }
 
     private fun playInternal(
         soundData: SoundData,
         loop: Boolean,
-        forceSound: Boolean,
     ) {
         if (soundData.isSilent) return
 
@@ -149,13 +145,14 @@ class AndroidSoundPlayer(
 
         val audioManager = (context.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
 
+        // Play as an alarm so the completion sound is audible even when the phone is silenced.
+        // When headphones are connected, use media instead: an alarm plays out the phone speaker,
+        // whereas media routes to the headphones so the sound stays private to the user.
         val usage =
             if (areHeadphonesPluggedIn(audioManager)) {
                 AudioAttributes.USAGE_MEDIA
-            } else if (state.overrideSoundProfile || forceSound) {
-                AudioAttributes.USAGE_ALARM
             } else {
-                AudioAttributes.USAGE_NOTIFICATION
+                AudioAttributes.USAGE_ALARM
             }
 
         val audioAttributes =
@@ -213,7 +210,7 @@ class AndroidSoundPlayer(
                 try {
                     // Poll until the ringtone stops playing (Ringtone API limitation)
                     while (ringtone?.isPlaying == true) {
-                        delay(PLAYBACK_POLLING_INTERVAL_MS)
+                        delay(100.milliseconds)
                     }
                     abandonAudioFocusInternal()
                 } catch (e: Exception) {

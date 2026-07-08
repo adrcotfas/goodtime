@@ -120,10 +120,6 @@ class FakeSettingsRepository(
         )
     }
 
-    override suspend fun setOverrideSoundProfile(enabled: Boolean) = _settings.emit(
-        _settings.value.copy(overrideSoundProfile = enabled),
-    )
-
     override suspend fun setInsistentNotification(enabled: Boolean) = _settings.emit(
         _settings.value.copy(insistentNotification = enabled),
     )
