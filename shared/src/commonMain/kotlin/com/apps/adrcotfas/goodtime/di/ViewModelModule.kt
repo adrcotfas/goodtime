@@ -28,8 +28,8 @@ import com.apps.adrcotfas.goodtime.settings.about.AboutViewModel
 import com.apps.adrcotfas.goodtime.settings.about.AcknowledgementsViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsViewModel
-import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
