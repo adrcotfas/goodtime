@@ -49,7 +49,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -82,6 +81,7 @@ import kotlin.time.Duration.Companion.minutes
 @Composable
 fun FinishedSessionSheet(
     timerUiState: TimerUiState,
+    idleTime: () -> Long,
     onNext: () -> Unit,
     onReset: () -> Unit,
     onUpdateFinishedSession: (updateDuration: Boolean, notes: String) -> Unit,
@@ -115,14 +115,6 @@ fun FinishedSessionSheet(
         var addIdleTime by rememberSaveable { mutableStateOf(false) }
         var notes by rememberSaveable { mutableStateOf("") }
         val isFullscreen = uiState.isFullscreen
-
-        // Auto-dismiss after 30 minutes since session ended (ViewModel updates elapsedRealtime)
-        LaunchedEffect(timerUiState.isWithinInactivityTimeout) {
-            if (!timerUiState.isWithinInactivityTimeout) {
-                onReset()
-                onHideSheet()
-            }
-        }
 
         val handleSheetClose = {
             // Unified update logic - no race conditions!
@@ -197,6 +189,7 @@ fun FinishedSessionSheet(
             } else {
                 FinishedSessionContent(
                     timerUiState = timerUiState,
+                    idleTime = idleTime,
                     finishedSessionUiState = uiState,
                     addIdleMinutes = addIdleTime,
                     onChangeAddIdleMinutes = { addIdleTime = it },
@@ -211,6 +204,7 @@ fun FinishedSessionSheet(
 @Composable
 private fun FinishedSessionContent(
     timerUiState: TimerUiState,
+    idleTime: () -> Long,
     finishedSessionUiState: FinishedSessionUiState,
     addIdleMinutes: Boolean,
     onChangeAddIdleMinutes: (Boolean) -> Unit,
@@ -238,6 +232,7 @@ private fun FinishedSessionContent(
         )
         CurrentSessionCard(
             timerUiState,
+            idleTime,
             addIdleMinutes,
             onChangeAddIdleMinutes,
             finishedSessionUiState.isPro,
@@ -252,6 +247,7 @@ private fun FinishedSessionContent(
 @Composable
 private fun CurrentSessionCard(
     timerUiState: TimerUiState,
+    idleTime: () -> Long,
     addIdleMinutes: Boolean,
     onAddIdleMinutesChanged: (Boolean) -> Unit,
     enabled: Boolean,
@@ -260,7 +256,7 @@ private fun CurrentSessionCard(
     strings: FinishedSessionStrings,
 ) {
     val isBreak = timerUiState.isBreak
-    val idleMillis = timerUiState.idleTime
+    val idleMillis = idleTime()
 
     val duration =
         timerUiState.completedMinutes.minutes.inWholeMilliseconds
@@ -466,8 +462,8 @@ fun FinishedSessionContentPreview() {
             completedMinutes = 25,
             timeSpentPaused = 2.minutes.inWholeMilliseconds,
             endTime = 0,
-            elapsedRealtime = 3.minutes.inWholeMilliseconds,
         ),
+        idleTime = { 3.minutes.inWholeMilliseconds },
         finishedSessionUiState =
         FinishedSessionUiState(
             todayWorkMinutes = 90,

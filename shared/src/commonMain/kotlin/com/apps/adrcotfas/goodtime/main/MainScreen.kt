@@ -69,6 +69,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
+import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.bl.getLabelData
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -84,6 +85,7 @@ import com.apps.adrcotfas.goodtime.platform.isFDroid
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.permissions.rememberAlarmPermissionRequester
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
@@ -119,6 +121,11 @@ fun MainScreen(
     }
 
     val timerUiState by viewModel.timerUiState.collectAsStateWithLifecycle(TimerUiState())
+
+    // Collected without reading .value here, so the ticking values only recompose the leaf
+    // composables that call the lambdas (the timer text / the finished sheet), not this screen.
+    val displayTimeState = viewModel.displayTime.collectAsStateWithLifecycle()
+    val idleTimeState = viewModel.idleTime.collectAsStateWithLifecycle()
 
     val timerStyle = uiState.timerStyle
     val label = timerUiState.label
@@ -254,6 +261,7 @@ fun MainScreen(
                         state = dialControlState,
                         gestureModifier = gestureModifier.then(tutorialModifier),
                         timerUiState = timerUiState,
+                        displayTime = { displayTimeState.value },
                         timerStyle = timerStyle,
                         domainLabel = label,
                         onStart = {
@@ -325,9 +333,12 @@ fun MainScreen(
         mutableStateOf(timerUiState.isFinished && viewModel.isWithinInactivityTimeout())
     }
 
-    // Auto-reset if finished but past the inactivity timeout (don't show sheet)
-    LaunchedEffect(timerUiState.isFinished, timerUiState.isWithinInactivityTimeout) {
-        if (timerUiState.isFinished && !timerUiState.isWithinInactivityTimeout) {
+    // Auto-reset once the inactivity timeout elapses (immediately if already past it, e.g. after
+    // foregrounding). A one-shot delay avoids a per-second ticker running while finished.
+    LaunchedEffect(timerUiState.isFinished, timerUiState.endTime) {
+        if (timerUiState.isFinished) {
+            val remaining = TimerManager.AUTOSTART_TIMEOUT - viewModel.currentIdleTime()
+            if (remaining > 0) delay(remaining)
             showFinishedSessionSheet = false
             viewModel.resetTimer(actionType = FinishActionType.MANUAL_DO_NOTHING)
         }
@@ -336,6 +347,7 @@ fun MainScreen(
     if (showFinishedSessionSheet) {
         FinishedSessionSheet(
             timerUiState = timerUiState,
+            idleTime = { idleTimeState.value },
             onHideSheet = { showFinishedSessionSheet = false },
             onNext = {
                 viewModel.next()

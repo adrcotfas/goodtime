@@ -42,7 +42,6 @@ import com.apps.adrcotfas.goodtime.data.settings.UiSettings
 import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -63,31 +62,19 @@ data class TimerUiState(
     val isReady: Boolean = false,
     val label: DomainLabel = DomainLabel(),
     val isCountdown: Boolean = false,
-    val baseTime: Long = 0,
     val timerState: TimerState = TimerState.RESET,
     val timerType: TimerType = TimerType.FOCUS,
     val completedMinutes: Long = 0,
     val timeSpentPaused: Long = 0,
     val endTime: Long = 0,
-    val elapsedRealtime: Long = 0,
     val sessionsBeforeLongBreak: Int = 0,
     val longBreakData: LongBreakData = LongBreakData(),
     val breakBudgetMinutes: Long = 0,
 ) {
-    val displayTime = max(baseTime, 0)
-
     val isPaused = timerState.isPaused
     val isActive = timerState.isActive
     val isBreak = timerType.isBreak
     val isFinished = timerState == TimerState.FINISHED
-
-    /** Time elapsed since the session finished (only valid when isFinished) */
-    val idleTime: Long
-        get() = if (isFinished) elapsedRealtime - endTime else 0
-
-    /** Whether we're within the 30-minute window after session finished */
-    val isWithinInactivityTimeout: Boolean
-        get() = isFinished && idleTime < TimerManager.AUTOSTART_TIMEOUT
 }
 
 data class TimerMainUiState(
@@ -121,25 +108,53 @@ class TimerViewModel(
     private val localDataRepo: LocalDataRepository,
     private val installDateProvider: InstallDateProvider,
 ) : ViewModel() {
+    /**
+     * Emits [selector] once per second while [tickWhile] holds for the current timer state, and once
+     * otherwise. [distinctUntilChanged] collapses ticks that don't change the value, so a selector
+     * that omits the ticking time (e.g. [TimerUiState]) only re-emits on real state changes.
+     */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val timerUiState =
-        timerManager.timerData.flatMapLatest {
-            when (it.runtime.state) {
-                // PAUSED excluded: baseTime is frozen at timeAtPause, nothing to tick.
-                TimerState.RUNNING, TimerState.FINISHED ->
-                    flow {
-                        while (true) {
-                            emitUiState(it)
-                            // Delay to the next second boundary so the display doesn't skip a second.
-                            delay((1000 - timeProvider.elapsedRealtime() % 1000).milliseconds)
-                        }
+    private fun <T> tickingFlow(
+        tickWhile: (TimerState) -> Boolean,
+        selector: (DomainTimerData) -> T,
+    ) = timerManager.timerData
+        .flatMapLatest { data ->
+            if (tickWhile(data.runtime.state)) {
+                flow {
+                    while (true) {
+                        emit(selector(data))
+                        // Delay to the next second boundary so the display doesn't skip a second.
+                        delay((1000 - timeProvider.elapsedRealtime() % 1000).milliseconds)
                     }
-
-                else -> {
-                    flow { emitUiState(it) }
                 }
+            } else {
+                flow { emit(selector(data)) }
             }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
+        }.distinctUntilChanged()
+
+    // Stable timer state, without the per-second ticking time: tick only while RUNNING to refresh
+    // the whole-minute break budget; distinctUntilChanged then collapses the identical per-second
+    // emissions so the main screen doesn't recompose every second.
+    val timerUiState =
+        tickingFlow(tickWhile = { it == TimerState.RUNNING }, selector = ::toUiState)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
+
+    // The ticking countdown/count-up value, as its own narrow flow so only the timer text recomposes.
+    val displayTime =
+        tickingFlow(tickWhile = { it == TimerState.RUNNING }) {
+            max(it.getBaseTime(timeProvider), 0)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
+
+    // Time elapsed since the session finished, ticking only while FINISHED (drives the finished
+    // sheet's idle counter and its 30-minute auto-dismiss); the ticker stops once reset.
+    val idleTime =
+        tickingFlow(tickWhile = { it == TimerState.FINISHED }) {
+            if (it.runtime.state == TimerState.FINISHED) {
+                timeProvider.elapsedRealtime() - it.runtime.endTime
+            } else {
+                0L
+            }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
 
     private val _uiState = MutableStateFlow(TimerMainUiState())
     val uiState =
@@ -212,26 +227,19 @@ class TimerViewModel(
         timerManager.addOneMinute()
     }
 
-    private suspend fun FlowCollector<TimerUiState>.emitUiState(it: DomainTimerData) {
-        val elapsedRealtime = timeProvider.elapsedRealtime()
-        emit(
-            TimerUiState(
-                isReady = it.isReady,
-                label = it.label,
-                isCountdown = it.isCurrentSessionCountdown(),
-                baseTime = it.getBaseTime(timeProvider),
-                timerState = it.runtime.state,
-                timerType = it.runtime.type,
-                completedMinutes = it.completedMinutes,
-                timeSpentPaused = it.runtime.timeSpentPaused,
-                endTime = it.runtime.endTime,
-                elapsedRealtime = elapsedRealtime,
-                sessionsBeforeLongBreak = it.inUseSessionsBeforeLongBreak(),
-                longBreakData = it.longBreakData,
-                breakBudgetMinutes = it.getBreakBudget(elapsedRealtime).inWholeMinutes,
-            ),
-        )
-    }
+    private fun toUiState(it: DomainTimerData): TimerUiState = TimerUiState(
+        isReady = it.isReady,
+        label = it.label,
+        isCountdown = it.isCurrentSessionCountdown(),
+        timerState = it.runtime.state,
+        timerType = it.runtime.type,
+        completedMinutes = it.completedMinutes,
+        timeSpentPaused = it.runtime.timeSpentPaused,
+        endTime = it.runtime.endTime,
+        sessionsBeforeLongBreak = it.inUseSessionsBeforeLongBreak(),
+        longBreakData = it.longBreakData,
+        breakBudgetMinutes = it.getBreakBudget(timeProvider.elapsedRealtime()).inWholeMinutes,
+    )
 
     fun skip() {
         timerManager.skip()
@@ -287,8 +295,14 @@ class TimerViewModel(
     fun isWithinInactivityTimeout(): Boolean {
         val timerData = timerManager.timerData.value
         if (timerData.runtime.state != TimerState.FINISHED) return false
-        val idleTime = timeProvider.elapsedRealtime() - timerData.runtime.endTime
-        return idleTime < TimerManager.AUTOSTART_TIMEOUT
+        return currentIdleTime() < TimerManager.AUTOSTART_TIMEOUT
+    }
+
+    /** Time elapsed since the session finished, computed live (0 if not finished). */
+    fun currentIdleTime(): Long {
+        val timerData = timerManager.timerData.value
+        if (timerData.runtime.state != TimerState.FINISHED) return 0
+        return timeProvider.elapsedRealtime() - timerData.runtime.endTime
     }
 
     fun setShouldAskForReview() = viewModelScope.launch { settingsRepo.setShouldAskForReview(true) }

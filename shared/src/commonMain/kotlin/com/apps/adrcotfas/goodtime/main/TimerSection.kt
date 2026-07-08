@@ -94,6 +94,7 @@ fun MainTimerView(
     gestureModifier: Modifier,
     state: DialControlState<DialRegion>? = null,
     timerUiState: TimerUiState,
+    displayTime: () -> Long,
     timerStyle: TimerStyleData,
     domainLabel: DomainLabel,
     onStart: () -> Unit,
@@ -133,7 +134,7 @@ fun MainTimerView(
             state = state,
             isPaused = timerUiState.isPaused,
             timerStyle = timerStyle,
-            millis = timerUiState.displayTime,
+            millis = displayTime,
             color = if (isBreak) breakColor else labelColor,
             onClick = {
                 onToggle?.let {
@@ -425,7 +426,7 @@ fun FractionText(
 fun TimerTextView(
     modifier: Modifier,
     state: DialControlState<DialRegion>? = null,
-    millis: Long,
+    millis: () -> Long,
     color: Color,
     timerStyle: TimerStyleData,
     isPaused: Boolean,
@@ -471,7 +472,7 @@ fun TimerTextView(
             .then(modifier)
             .graphicsLayer(scaleX = scale, scaleY = scale, alpha = alpha.value)
             .then(clickableModifier),
-        text = millis.formatMilliseconds(timerStyle.minutesOnly),
+        text = millis().formatMilliseconds(timerStyle.minutesOnly),
         style =
         TextStyle(
             fontSize = timerStyle.inUseFontSize().em,

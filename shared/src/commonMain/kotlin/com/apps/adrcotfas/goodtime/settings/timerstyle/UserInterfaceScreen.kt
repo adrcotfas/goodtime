@@ -234,7 +234,6 @@ fun UserInterfaceScreen(
 
                 val timerUiState =
                     TimerUiState(
-                        baseTime = baseTime,
                         timerState = TimerState.RUNNING,
                         timerType = timerType,
                         sessionsBeforeLongBreak = sessionsBeforeLongBreak,
@@ -248,6 +247,7 @@ fun UserInterfaceScreen(
                         .align(Alignment.Center),
                     gestureModifier = Modifier,
                     timerUiState = timerUiState,
+                    displayTime = { baseTime },
                     timerStyle = timerStyle,
                     domainLabel =
                     DomainLabel(label = uiState.defaultLabel.copy(colorIndex = colorIndex)),
