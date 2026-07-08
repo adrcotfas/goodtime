@@ -163,5 +163,6 @@ shared-androidTest = [
     "coroutines-test",
     "roboelectric",
     "androidx-room-testing",
+    "koin-test",
     "turbine"
 ]

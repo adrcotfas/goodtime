@@ -26,6 +26,7 @@ import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.select
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -60,6 +61,7 @@ private data class HistoryScreenSettings(
 class StatisticsHistoryViewModel(
     private val localDataRepo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(StatisticsHistoryUiState())
     val uiState =
@@ -128,7 +130,7 @@ class StatisticsHistoryViewModel(
                         .selectSessionsByLabels(
                             it.selectedLabels.map { label -> label.name },
                         ).map { sessions ->
-                            withContext(Dispatchers.Default) {
+                            withContext(defaultDispatcher) {
                                 computeHistoryChartData(
                                     sessions = sessions,
                                     labels = it.selectedLabels.map { label -> label.name },

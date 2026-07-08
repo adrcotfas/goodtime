@@ -44,7 +44,7 @@ val viewModelModule: Module =
         viewModelOf(::AboutViewModel)
         viewModelOf(::AcknowledgementsViewModel)
         viewModel { StatisticsViewModel(get(), get(), get(), get(), get()) }
-        viewModelOf(::StatisticsHistoryViewModel)
+        viewModel { StatisticsHistoryViewModel(get(), get()) }
     }
 
 val mainModule: Module =
