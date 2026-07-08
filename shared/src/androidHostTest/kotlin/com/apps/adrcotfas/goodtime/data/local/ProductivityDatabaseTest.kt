@@ -18,7 +18,6 @@
 package com.apps.adrcotfas.goodtime.data.local
 
 import androidx.room.testing.MigrationTestHelper
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.apps.adrcotfas.goodtime.data.local.migrations.MIGRATION_6_7
 import com.apps.adrcotfas.goodtime.data.local.migrations.MIGRATION_7_8
@@ -28,9 +27,12 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import java.io.IOException
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [36])
 class ProductivityDatabaseTest {
     @get:Rule
     val helper: MigrationTestHelper =

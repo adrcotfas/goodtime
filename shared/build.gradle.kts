@@ -177,6 +177,17 @@ room {
     schemaDirectory("$projectDir/schemas")
 }
 
+// MigrationTestHelper loads exported schemas from the test assets; stage them into the
+// host-test assets dir (git-ignored) so the Room migration tests run under Robolectric on
+// every :shared:testAndroidHostTest.
+val stageRoomSchemasForHostTest by tasks.registering(Copy::class) {
+    from("$projectDir/schemas")
+    into("$projectDir/src/androidHostTest/assets")
+}
+tasks.matching { it.name == "mergeAndroidHostTestAssets" }.configureEach {
+    dependsOn(stageRoomSchemasForHostTest)
+}
+
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)

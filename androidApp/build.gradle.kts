@@ -82,12 +82,6 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 
-    sourceSets {
-        named("androidTest") {
-            assets.srcDirs(files("$rootDir/shared/schemas"))
-        }
-    }
-
     androidResources {
         @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
@@ -135,8 +129,6 @@ dependencies {
     add("googleImplementation", libs.google.drive)
     add("googleImplementation", libs.google.id)
     add("googleImplementation", libs.coroutines.play.services)
-
-    androidTestImplementation(libs.bundles.shared.androidTest)
 }
 
 java {
