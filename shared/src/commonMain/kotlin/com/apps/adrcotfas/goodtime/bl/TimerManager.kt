@@ -55,7 +55,7 @@ class TimerManager(
     private val streakManager: StreakManager,
     private val log: Logger,
     private val coroutineScope: CoroutineScope,
-    private val timerStateRestoration: TimerStateRestoration? = null,
+    private val timerStateRestoration: TimerStateRestoration,
 ) {
     private var mainJob: Job? = null
 
@@ -78,7 +78,7 @@ class TimerManager(
                 initAndObserveLabelChange()
             }
         initPersistentData()
-        timerStateRestoration?.restoreTimerState { runtimeState ->
+        timerStateRestoration.restoreTimerState { runtimeState ->
             _timerData.update {
                 it.copy(runtime = runtimeState)
             }

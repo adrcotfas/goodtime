@@ -80,7 +80,8 @@ data class DomainTimerData(
     val longBreakData: LongBreakData = LongBreakData(),
     val breakBudgetData: BreakBudgetData = BreakBudgetData(),
     /**
-     * Runtime timer state (dynamic data that is not stored in persistent storage on Android).
+     * Runtime timer state (dynamic data), persisted separately via [TimerStatePersistenceListener]
+     * so it can be restored after process death.
      */
     val runtime: TimerRuntimeState = TimerRuntimeState(),
     val completedMinutes: Long = 0, // minutes

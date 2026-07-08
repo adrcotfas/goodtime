@@ -25,6 +25,8 @@ import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
 import com.apps.adrcotfas.goodtime.bl.DndModeManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
+import com.apps.adrcotfas.goodtime.bl.TimerStatePersistenceListener
+import com.apps.adrcotfas.goodtime.bl.TimerStateRestoration
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidSoundPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidTorchManager
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidVibrationPlayer
@@ -97,12 +99,29 @@ actual val platformModule: Module =
                 logger = getWith("SoundVibrationAndTorchPlayer"),
             )
         }
+        single<TimerStateRestoration> {
+            TimerStateRestoration(
+                settingsRepo = get(),
+                timeProvider = get(),
+                log = getWith("TimerStateRestoration"),
+                coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
+            )
+        }
+        single<TimerStatePersistenceListener> {
+            TimerStatePersistenceListener(
+                settingsRepo = get(),
+                timeProvider = get(),
+                coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
+                log = getWith("TimerStatePersistence"),
+            )
+        }
         single<List<EventListener>> {
             listOf(
                 get<DndModeManager>(),
                 get<AlarmManagerHandler>(),
                 get<TimerServiceStarter>(),
                 get<SoundVibrationAndTorchPlayer>(),
+                get<TimerStatePersistenceListener>(),
             )
         }
         single<UrlOpener> { AndroidUrlOpener(get()) }

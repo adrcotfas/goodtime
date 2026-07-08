@@ -19,15 +19,13 @@ package com.apps.adrcotfas.goodtime.bl
 
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
-import com.apps.adrcotfas.goodtime.platform.PlatformConfiguration
-import com.apps.adrcotfas.goodtime.platform.getPlatformConfiguration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 /**
- * Handles restoration of timer state after app termination (iOS only).
+ * Handles restoration of timer state after app termination.
  * Checks if timer expired, handles device reboot, and restores state.
  */
 class TimerStateRestoration(
@@ -35,14 +33,8 @@ class TimerStateRestoration(
     private val timeProvider: TimeProvider,
     private val log: Logger,
     private val coroutineScope: CoroutineScope,
-    private val platformConfiguration: PlatformConfiguration = getPlatformConfiguration(),
 ) {
     fun restoreTimerState(updateTimerData: (TimerRuntimeState) -> Unit) {
-        // Only restore state on iOS
-        if (platformConfiguration.isAndroid) {
-            return
-        }
-
         coroutineScope.launch {
             val persistedState =
                 settingsRepo.settings

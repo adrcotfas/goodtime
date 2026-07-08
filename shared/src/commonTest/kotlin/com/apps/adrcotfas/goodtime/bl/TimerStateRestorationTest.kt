@@ -20,7 +20,6 @@ package com.apps.adrcotfas.goodtime.bl
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.StaticConfig
 import com.apps.adrcotfas.goodtime.data.settings.PersistedTimerState
-import com.apps.adrcotfas.goodtime.fakes.FakePlatformConfiguration
 import com.apps.adrcotfas.goodtime.fakes.FakeSettingsRepository
 import com.apps.adrcotfas.goodtime.fakes.FakeTimeProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,12 +51,11 @@ class TimerStateRestorationTest {
         restored = null
     }
 
-    private fun restoration(isAndroid: Boolean = false) = TimerStateRestoration(
+    private fun restoration() = TimerStateRestoration(
         settingsRepo = settingsRepo,
         timeProvider = timeProvider,
         log = logger,
         coroutineScope = testScope,
-        platformConfiguration = FakePlatformConfiguration(isAndroid = isAndroid),
     )
 
     private fun runningState(
@@ -74,19 +72,6 @@ class TimerStateRestorationTest {
         savedAtWallClock = savedAtWallClock,
         endTimeWallClock = endTimeWallClock,
     )
-
-    @Test
-    fun `does nothing on Android`() = runTest(testDispatcher) {
-        settingsRepo.setPersistedTimerState(
-            runningState(startTime = 0, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000),
-        )
-        timeProvider.elapsedRealtime = 60_000
-
-        restoration(isAndroid = true).restoreTimerState { restored = it }
-
-        assertNull(restored)
-        assertNotNull(settingsRepo.settings.first().persistedTimerState)
-    }
 
     @Test
     fun `expired running timer is not restored and state is cleared`() = runTest(testDispatcher) {

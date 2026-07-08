@@ -46,7 +46,7 @@ data class LongBreakData(
 fun LongBreakData.streakInUse(sessionsBeforeLongBreak: Int): Int = streak % sessionsBeforeLongBreak
 
 /**
- * Persisted timer state for iOS to restore app state after process termination.
+ * Persisted timer state to restore app state after process termination.
  * Contains both elapsedRealtime values (for normal app kill) and wall-clock timestamps
  * (for detecting expiration and handling device reboot).
  */

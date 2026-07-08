@@ -24,10 +24,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 /**
- * iOS-only EventListener that persists timer state for restoration after app termination.
+ * EventListener that persists timer state for restoration after app termination.
  * Listens to timer events and saves/clears state accordingly.
  */
-class IosTimerStatePersistenceListener(
+class TimerStatePersistenceListener(
     private val settingsRepo: SettingsRepository,
     private val timeProvider: TimeProvider,
     private val coroutineScope: CoroutineScope,

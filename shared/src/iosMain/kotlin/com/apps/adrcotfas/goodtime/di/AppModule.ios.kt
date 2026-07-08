@@ -23,9 +23,9 @@ import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.IosLiveActivityListener
 import com.apps.adrcotfas.goodtime.bl.IosNotificationHandler
-import com.apps.adrcotfas.goodtime.bl.IosTimerStatePersistenceListener
 import com.apps.adrcotfas.goodtime.bl.LiveActivityBridge
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.bl.TimerStatePersistenceListener
 import com.apps.adrcotfas.goodtime.bl.TimerStateRestoration
 import com.apps.adrcotfas.goodtime.bl.notifications.IosSoundPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.IosTorchManager
@@ -175,12 +175,12 @@ actual val platformModule: Module =
             )
         }
 
-        single<IosTimerStatePersistenceListener> {
-            IosTimerStatePersistenceListener(
+        single<TimerStatePersistenceListener> {
+            TimerStatePersistenceListener(
                 settingsRepo = get<SettingsRepository>(),
                 timeProvider = get<TimeProvider>(),
                 coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
-                log = getWith("IosTimerStatePersistence"),
+                log = getWith("TimerStatePersistence"),
             )
         }
 
@@ -189,7 +189,7 @@ actual val platformModule: Module =
                 get<IosNotificationHandler>(),
                 get<IosLiveActivityListener>(),
                 get<SoundVibrationAndTorchPlayer>(),
-                get<IosTimerStatePersistenceListener>(),
+                get<TimerStatePersistenceListener>(),
             )
         }
 
