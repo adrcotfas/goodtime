@@ -4,6 +4,10 @@ on:
   push:
   pull_request:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   android:
     runs-on: ubuntu-latest
@@ -27,6 +31,12 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
+      - name: Cache Kotlin/Native
+        uses: actions/cache@v4
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: konan-${{ runner.os }}-
       - uses: gradle/actions/setup-gradle@v6
       - name: Test iOS (simulator)
         run: ./gradlew :shared:iosSimulatorArm64Test

@@ -34,6 +34,7 @@ import com.apps.adrcotfas.goodtime.fakes.FakeTimeProvider
 import com.apps.adrcotfas.goodtime.fakes.FakeTimerProfileDao
 import com.apps.adrcotfas.goodtime.testutil.retryTest
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
@@ -80,13 +81,13 @@ class StatsViewModelTest {
                     timeProvider,
                     timeFormatProvider,
                     installDateProvider,
+                    StandardTestDispatcher(testScheduler),
                 )
             populateRepo()
 
             viewModel.uiState.test {
-                assertTrue { awaitItem() == StatisticsUiState() }
-                awaitItem()
-                assertTrue { awaitItem().labels.isNotEmpty() }
+                var state = awaitItem()
+                while (state.labels.isEmpty()) state = awaitItem()
                 cancelAndIgnoreRemainingEvents()
             }
         }

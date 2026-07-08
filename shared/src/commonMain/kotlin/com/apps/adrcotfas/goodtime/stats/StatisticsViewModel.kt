@@ -37,6 +37,7 @@ import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.StatisticsSettings
 import com.apps.adrcotfas.goodtime.data.settings.select
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -93,6 +94,7 @@ class StatisticsViewModel(
     private val timeProvider: TimeProvider,
     private val timeFormatProvider: TimeFormatProvider,
     private val installDateProvider: InstallDateProvider,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(StatisticsUiState())
     val uiState =
@@ -160,7 +162,7 @@ class StatisticsViewModel(
                     localDataRepo
                         .selectSessionsByLabels(selectedLabels)
                         .map { sessions ->
-                            withContext(Dispatchers.Default) {
+                            withContext(defaultDispatcher) {
                                 computeStatisticsData(
                                     sessions = sessions,
                                     firstDayOfWeek = uiState.value.firstDayOfWeek,
