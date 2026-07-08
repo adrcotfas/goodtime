@@ -23,6 +23,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +33,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -178,8 +180,13 @@ fun GoodtimeApp(
         val navController = rememberNavController()
         val snackbarHostState = remember { SnackbarHostState() }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            isMainScreen = destination.route == MainDest.route
+        DisposableEffect(navController) {
+            val listener =
+                NavController.OnDestinationChangedListener { _, destination, _ ->
+                    isMainScreen = destination.route == MainDest.route
+                }
+            navController.addOnDestinationChangedListener(listener)
+            onDispose { navController.removeOnDestinationChangedListener(listener) }
         }
 
         // Handle finished session navigation
