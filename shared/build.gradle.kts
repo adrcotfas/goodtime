@@ -57,6 +57,14 @@ kotlin {
         if (this is org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable) {
             val developerDir = System.getenv("DEVELOPER_DIR") ?: "/Applications/Xcode.app/Contents/Developer"
             linkerOpts("-L$developerDir/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator")
+            // Workaround for KT-86501: the klib static-cache builder crashes on the
+            // kotlinx.datetime Clock/Instant typealias from a cold cache. Pinned to the
+            // current Kotlin version so it auto-expires on upgrade (fixed in 2.4.10).
+            @OptIn(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeCacheApi::class)
+            disableNativeCache(
+                version = org.jetbrains.kotlin.gradle.plugin.mpp.DisableCacheInKotlinVersion.`2_4_0`,
+                reason = "KT-86501: klib cache builder crashes on the kotlinx.datetime Clock/Instant typealias",
+            )
         }
     }
 
