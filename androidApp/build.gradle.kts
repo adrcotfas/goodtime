@@ -122,6 +122,8 @@ dependencies {
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
+    debugImplementation(libs.leakcanary.android)
+
     // Google Play distribution
     add("googleImplementation", libs.app.update.ktx)
     add("googleImplementation", libs.review.ktx)
