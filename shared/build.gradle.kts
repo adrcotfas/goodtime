@@ -92,7 +92,7 @@ kotlin {
             api(libs.compose.material.icons.extended)
             api(libs.compose.ui)
             api(libs.compose.components.resources)
-            implementation(libs.ui.tooling.preview)
+            api(libs.ui.tooling.preview)
             implementation(libs.devsrsouza.compose.icons.eva)
             implementation(libs.navigation.compose)
             implementation(libs.compottie)
