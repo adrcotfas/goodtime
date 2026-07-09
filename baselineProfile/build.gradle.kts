@@ -43,7 +43,7 @@ android {
         create("fdroid") { dimension = "distribution" }
     }
 
-    // A managed emulator so `generateBaselineProfile` can run in CI without a physical device.
+    // A managed emulator so `generateBaselineProfile` can run without a physical device.
     testOptions.managedDevices.allDevices {
         create<ManagedVirtualDevice>("pixel6Api34") {
             device = "Pixel 6"

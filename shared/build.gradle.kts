@@ -13,7 +13,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = "com.apps.adrcotfas.goodtime"
         compileSdk =
             libs.versions.android.compileSdk
