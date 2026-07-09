@@ -53,7 +53,7 @@ androidx-uiautomator = "2.4.0"
 
 uiBackhandler = "1.11.1"
 vico = "2.5.2"
-androidchart = "3.1.0.25"
+androidchart = "3.1.0.31"
 
 work = "2.11.2"
 
