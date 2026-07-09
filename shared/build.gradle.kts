@@ -184,7 +184,12 @@ val stageRoomSchemasForHostTest by tasks.registering(Copy::class) {
     from("$projectDir/schemas")
     into("$projectDir/src/androidHostTest/assets")
 }
-tasks.matching { it.name == "mergeAndroidHostTestAssets" }.configureEach {
+// Every task that consumes the androidHostTest assets dir (asset merge + lint analyze/model)
+// must run after the schemas are staged into it.
+tasks.matching {
+    it.name == "mergeAndroidHostTestAssets" ||
+        (it.name.contains("AndroidHostTest") && it.name.contains("lint", ignoreCase = true))
+}.configureEach {
     dependsOn(stageRoomSchemasForHostTest)
 }
 

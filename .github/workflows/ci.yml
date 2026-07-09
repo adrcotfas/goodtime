@@ -18,8 +18,10 @@ jobs:
           distribution: temurin
           java-version: 21
       - uses: gradle/actions/setup-gradle@v6
-      - name: Check Android + Spotless
-        run: ./gradlew :shared:testAndroidHostTest :androidApp:check spotlessCheck
+      - name: Check Android
+        run: ./gradlew :shared:testAndroidHostTest :androidApp:check
+      - name: Spotless
+        run: ./gradlew spotlessCheck
 
   ios:
     runs-on: macos-latest
