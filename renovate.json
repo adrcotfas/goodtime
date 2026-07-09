@@ -9,8 +9,11 @@
   "packageRules": [
     {
       "description": "Group Kotlin and KSP bumps, which must move together",
-      "matchPackagePatterns": ["^org.jetbrains.kotlin", "com.google.devtools.ksp"],
-      "groupName": "kotlin"
+      "groupName": "kotlin",
+      "matchPackageNames": [
+        "/^org.jetbrains.kotlin/",
+        "/com.google.devtools.ksp/"
+      ]
     }
   ]
 }
