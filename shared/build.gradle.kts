@@ -172,10 +172,11 @@ room {
 // MigrationTestHelper loads exported schemas from the test assets; stage them into the
 // host-test assets dir (git-ignored) so the Room migration tests run under Robolectric on
 // every :shared:testAndroidHostTest.
-val stageRoomSchemasForHostTest = tasks.register<Copy>("stageRoomSchemasForHostTest") {
-    from("$projectDir/schemas")
-    into("$projectDir/src/androidHostTest/assets")
-}
+val stageRoomSchemasForHostTest =
+    tasks.register<Copy>("stageRoomSchemasForHostTest") {
+        from("$projectDir/schemas")
+        into("$projectDir/src/androidHostTest/assets")
+    }
 // Every task that consumes the androidHostTest assets dir (asset merge + lint analyze/model)
 // must run after the schemas are staged into it.
 tasks
