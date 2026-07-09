@@ -70,7 +70,6 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(compose.preview)
             api(libs.androidx.activity.compose)
             implementation(libs.androidx.core.ktx)
             implementation(libs.koin.androidx.workmanager)
@@ -82,17 +81,18 @@ kotlin {
             implementation(libs.androidchart)
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.work.runtime.ktx)
+            implementation(libs.ui.tooling)
         }
 
         commonMain.dependencies {
             // api: the androidApp entry module compiles against these through this library
-            api(compose.runtime)
-            api(compose.foundation)
-            api(compose.material3)
-            api(compose.materialIconsExtended)
-            api(compose.ui)
-            api(compose.components.resources)
-            api(compose.components.uiToolingPreview)
+            api(libs.compose.runtime)
+            api(libs.compose.foundation)
+            api(libs.compose.material3)
+            api(libs.compose.material.icons.extended)
+            api(libs.compose.ui)
+            api(libs.compose.components.resources)
+            implementation(libs.ui.tooling.preview)
             implementation(libs.devsrsouza.compose.icons.eva)
             implementation(libs.navigation.compose)
             implementation(libs.compottie)
@@ -172,7 +172,7 @@ room {
 // MigrationTestHelper loads exported schemas from the test assets; stage them into the
 // host-test assets dir (git-ignored) so the Room migration tests run under Robolectric on
 // every :shared:testAndroidHostTest.
-val stageRoomSchemasForHostTest by tasks.registering(Copy::class) {
+val stageRoomSchemasForHostTest = tasks.register<Copy>("stageRoomSchemasForHostTest") {
     from("$projectDir/schemas")
     into("$projectDir/src/androidHostTest/assets")
 }

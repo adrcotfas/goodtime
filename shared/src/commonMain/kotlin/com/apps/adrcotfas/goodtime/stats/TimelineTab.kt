@@ -64,7 +64,7 @@ import goodtime_productivity.shared.generated.resources.main_min
 import goodtime_productivity.shared.generated.resources.stats_no_items
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TimelineTab(

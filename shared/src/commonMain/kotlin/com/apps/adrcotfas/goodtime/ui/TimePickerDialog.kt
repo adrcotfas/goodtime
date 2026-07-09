@@ -55,7 +55,7 @@ import goodtime_productivity.shared.generated.resources.main_cancel
 import goodtime_productivity.shared.generated.resources.main_ok
 import kotlinx.datetime.LocalTime
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

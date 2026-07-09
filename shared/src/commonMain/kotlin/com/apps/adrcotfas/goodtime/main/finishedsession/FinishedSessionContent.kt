@@ -72,7 +72,7 @@ import com.apps.adrcotfas.goodtime.ui.DragHandle
 import com.apps.adrcotfas.goodtime.ui.FullscreenEffect
 import com.apps.adrcotfas.goodtime.ui.TextBox
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes

@@ -10,7 +10,7 @@ android-targetSdk = "37"
 
 agp = "9.2.1"
 appUpdateKtx = "2.1.0"
-revenuecat-purchases-kmp = "3.2.0"
+revenuecat-purchases-kmp = "3.2.1"
 composeMultiplatform = "1.11.1"
 coreSplashscreen = "1.2.0"
 kotlin = "2.4.10-RC2"
@@ -132,6 +132,14 @@ purchases-core = { module = "com.revenuecat.purchases:purchases-kmp-core", versi
 purchases-ui = { module = "com.revenuecat.purchases:purchases-kmp-ui", version.ref = "revenuecat-purchases-kmp" }
 
 ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "uiBackhandler" }
+ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "uiBackhandler" }
+ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version = "1.9.0" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.7.3" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 vico-compose = { group = "com.patrykandpatrick.vico", name = "multiplatform", version.ref = "vico" }
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "multiplatform-m3", version.ref = "vico" }
 
