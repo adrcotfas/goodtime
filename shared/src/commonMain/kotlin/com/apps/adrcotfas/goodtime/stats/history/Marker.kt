@@ -24,19 +24,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.patrykandpatrick.vico.multiplatform.cartesian.CartesianMeasuringContext
-import com.patrykandpatrick.vico.multiplatform.cartesian.axis.rememberAxisGuidelineComponent
-import com.patrykandpatrick.vico.multiplatform.cartesian.data.CartesianChartModel
-import com.patrykandpatrick.vico.multiplatform.cartesian.layer.CartesianLayerDimensions
-import com.patrykandpatrick.vico.multiplatform.cartesian.layer.CartesianLayerMargins
-import com.patrykandpatrick.vico.multiplatform.cartesian.marker.CartesianMarker
-import com.patrykandpatrick.vico.multiplatform.cartesian.marker.DefaultCartesianMarker
-import com.patrykandpatrick.vico.multiplatform.common.Fill
-import com.patrykandpatrick.vico.multiplatform.common.Insets
-import com.patrykandpatrick.vico.multiplatform.common.MarkerCornerBasedShape
-import com.patrykandpatrick.vico.multiplatform.common.component.TextComponent
-import com.patrykandpatrick.vico.multiplatform.common.component.rememberShapeComponent
-import com.patrykandpatrick.vico.multiplatform.common.component.rememberTextComponent
+import com.patrykandpatrick.vico.compose.cartesian.CartesianMeasuringContext
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisGuidelineComponent
+import com.patrykandpatrick.vico.compose.cartesian.data.CartesianChartModel
+import com.patrykandpatrick.vico.compose.cartesian.layer.CartesianLayerDimensions
+import com.patrykandpatrick.vico.compose.cartesian.layer.CartesianLayerMargins
+import com.patrykandpatrick.vico.compose.cartesian.marker.CartesianMarker
+import com.patrykandpatrick.vico.compose.cartesian.marker.DefaultCartesianMarker
+import com.patrykandpatrick.vico.compose.common.Fill
+import com.patrykandpatrick.vico.compose.common.Insets
+import com.patrykandpatrick.vico.compose.common.MarkerCornerBasedShape
+import com.patrykandpatrick.vico.compose.common.component.TextComponent
+import com.patrykandpatrick.vico.compose.common.component.rememberShapeComponent
+import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
 
 @Composable
 internal fun rememberMarker(

@@ -24,11 +24,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.model.Label
-import com.patrykandpatrick.vico.multiplatform.cartesian.CartesianDrawingContext
-import com.patrykandpatrick.vico.multiplatform.cartesian.marker.CartesianMarker
-import com.patrykandpatrick.vico.multiplatform.cartesian.marker.ColumnCartesianLayerMarkerTarget
-import com.patrykandpatrick.vico.multiplatform.cartesian.marker.DefaultCartesianMarker
-import com.patrykandpatrick.vico.multiplatform.common.data.ExtraStore
+import com.patrykandpatrick.vico.compose.cartesian.CartesianDrawingContext
+import com.patrykandpatrick.vico.compose.cartesian.marker.CartesianMarker
+import com.patrykandpatrick.vico.compose.cartesian.marker.ColumnCartesianLayerMarkerTarget
+import com.patrykandpatrick.vico.compose.cartesian.marker.DefaultCartesianMarker
+import com.patrykandpatrick.vico.compose.common.data.ExtraStore
 import kotlin.time.Duration.Companion.minutes
 
 val labelsKey = ExtraStore.Key<Set<String>>()

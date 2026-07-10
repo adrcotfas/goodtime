@@ -52,8 +52,7 @@ androidx-benchmark = "1.5.0-alpha07"
 androidx-uiautomator = "2.4.0"
 
 uiBackhandler = "1.11.1"
-vico = "2.5.2"
-androidchart = "3.1.0.25"
+vico = "3.2.3"
 
 work = "2.11.2"
 
@@ -66,7 +65,6 @@ google-id = "1.2.0"
 [libraries]
 acra-mail = { module = "ch.acra:acra-mail", version.ref = "acra" }
 acra-notification = { module = "ch.acra:acra-notification", version.ref = "acra" }
-androidchart = { module = "com.github.AppDevNext:AndroidChart", version.ref = "androidchart" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
@@ -140,8 +138,8 @@ compose-material3 = { module = "org.jetbrains.compose.material3:material3", vers
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.7.3" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
-vico-compose = { group = "com.patrykandpatrick.vico", name = "multiplatform", version.ref = "vico" }
-vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "multiplatform-m3", version.ref = "vico" }
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
 

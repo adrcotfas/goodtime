@@ -78,7 +78,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.ktx)
             implementation(libs.androidx.media)
 
-            implementation(libs.androidchart)
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.work.runtime.ktx)
             implementation(libs.ui.tooling)
