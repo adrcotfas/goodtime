@@ -49,4 +49,12 @@ class HistoryLineChartMarkerValueFormatter(
         }
         return ""
     }
+
+    override fun equals(other: Any?): Boolean = this === other ||
+        (
+            other is HistoryLineChartMarkerValueFormatter &&
+                isTimeOverviewType == other.isTimeOverviewType
+            )
+
+    override fun hashCode(): Int = isTimeOverviewType.hashCode()
 }
