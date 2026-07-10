@@ -62,6 +62,7 @@ import goodtime_productivity.shared.generated.resources.tutorial_swipe_down
 import goodtime_productivity.shared.generated.resources.tutorial_swipe_right
 import goodtime_productivity.shared.generated.resources.tutorial_swipe_up
 import goodtime_productivity.shared.generated.resources.tutorial_tap
+import goodtime_productivity.shared.generated.resources.tutorial_use_gestures
 import io.github.alexzhirkevich.compottie.Compottie
 import io.github.alexzhirkevich.compottie.DotLottie
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
@@ -229,7 +230,7 @@ fun TutorialPage(
             lottieAnimation()
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = "Use gestures to control the timer",
+                text = stringResource(Res.string.tutorial_use_gestures),
                 modifier = Modifier.fillMaxWidth(0.9f),
                 style =
                 MaterialTheme.typography.titleMedium.copy(
@@ -262,7 +263,7 @@ fun TutorialPage(
             lottieAnimation()
             Column {
                 Text(
-                    text = "Use gestures to control the timer",
+                    text = stringResource(Res.string.tutorial_use_gestures),
                     modifier = Modifier.fillMaxWidth(0.9f),
                     style =
                     MaterialTheme.typography.titleMedium.copy(

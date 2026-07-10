@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Verfolgen Sie Ihren Fortschritt mit detaillierten Statistiken.</string>
     <string name="intro3_desc2">Überwinde die Prokrastination und verbessern Sie Ihren Fokus.</string>
     <string name="tutorial_title">Einführungen</string>
+    <string name="tutorial_use_gestures">Steuere den Timer mit Gesten</string>
     <string name="tutorial_tap">👆 Tippen Sie auf den Timer, um zu starten oder anzuhalten.</string>
     <string name="tutorial_swipe_right">👉 Wischen Sie nach links oder rechts, um die aktuelle Sitzung zu überspringen.</string>
     <string name="tutorial_swipe_up">☝️ Wischen Sie nach oben, um eine weitere Minute hinzuzufügen.</string>

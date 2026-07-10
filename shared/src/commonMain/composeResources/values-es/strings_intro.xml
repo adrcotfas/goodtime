@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Siga su progreso con estadísticas detalladas.</string>
     <string name="intro3_desc2">Supera la procrastinación y mejora tu enfoque.</string>
     <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_use_gestures">Usa gestos para controlar el temporizador</string>
     <string name="tutorial_tap">👆 Toque el temporizador para iniciar y pausar.</string>
     <string name="tutorial_swipe_right">👉 Deslizar hacia izquierda o derecha para saltar la sesión actual.</string>
     <string name="tutorial_swipe_up">☝️ Deslizar hacia arriba para añadir un minuto más.</string>

@@ -27,6 +27,7 @@
     <string name="intro3_desc1">通过详细的统计数据跟踪您的进度。</string>
     <string name="intro3_desc2">战胜拖延症，增强专注力。</string>
     <string name="tutorial_title">教程</string>
+    <string name="tutorial_use_gestures">使用手势控制计时器</string>
     <string name="tutorial_tap">👆 点击计时器以开始和暂停。</string>
     <string name="tutorial_swipe_right">👉 向左或向右滑动以跳过当前阶段。</string>
     <string name="tutorial_swipe_up">☝️ 向上滑动以增加一分钟。</string>

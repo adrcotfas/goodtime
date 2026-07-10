@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Отслеживайте ваш прогресс с подробной статистикой.</string>
     <string name="intro3_desc2">Пройди прокрастивание и повыши свою направленность.</string>
     <string name="tutorial_title">Краткое руководство</string>
+    <string name="tutorial_use_gestures">Управляйте таймером жестами</string>
     <string name="tutorial_tap">👆 Нажмите на таймер, чтобы начать и приостановить.</string>
     <string name="tutorial_swipe_right">👉 Проведите влево или вправо, чтобы пропустить текущий сеанс.</string>
     <string name="tutorial_swipe_up">☝️ Проведите пальцем вверх, чтобы добавить еще одну минуту.</string>

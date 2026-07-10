@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Följ dina framsteg med detaljerad statistik.</string>
     <string name="intro3_desc2">Slå förhalning och förbättra ditt fokus.</string>
     <string name="tutorial_title">Guide</string>
+    <string name="tutorial_use_gestures">Använd gester för att styra timern</string>
     <string name="tutorial_tap">👆 Tryck på timern för att starta och pausa.</string>
     <string name="tutorial_swipe_right">👉 Dra åt vänster eller höger för att hoppa över den aktuella sessionen.</string>
     <string name="tutorial_swipe_up">☝️ Dra upp för att lägga till en minut.</string>

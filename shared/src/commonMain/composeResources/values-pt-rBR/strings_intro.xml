@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Acompanhe seu progresso com estatísticas detalhadas.</string>
     <string name="intro3_desc2">Ultrapasse a procrastinação e melhorasse seu foco.</string>
     <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_use_gestures">Use gestos para controlar o cronômetro</string>
     <string name="tutorial_tap">👆 Toque o temporizador para iniciar e pausar.</string>
     <string name="tutorial_swipe_right">👉 Deslize para a esquerda ou direita para pular a sessão atual.</string>
     <string name="tutorial_swipe_up">☝️ Deslize para cima para adicionar mais um minuto.</string>

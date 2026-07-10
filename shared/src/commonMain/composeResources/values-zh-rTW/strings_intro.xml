@@ -27,6 +27,7 @@
     <string name="intro3_desc1">透過詳細的統計數據追蹤您的進度。</string>
     <string name="intro3_desc2">戰勝拖延症並增強注意力。</string>
     <string name="tutorial_title">使用教學</string>
+    <string name="tutorial_use_gestures">使用手勢控制計時器</string>
     <string name="tutorial_tap">👆 點按計時器以啟動和暫停.</string>
     <string name="tutorial_swipe_right">👉 向左或向右滑動以跳過當前工作.</string>
     <string name="tutorial_swipe_up">☝️ 向上滑動可再添加一分鐘.</string>

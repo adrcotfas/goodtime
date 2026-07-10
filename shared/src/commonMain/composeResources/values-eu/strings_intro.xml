@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Jarraitu zure aurrerapena estatistika xeheekin.</string>
     <string name="intro3_desc2">Gainditu atzerapena eta hobetzeko arreta.</string>
     <string name="tutorial_title">Tutoriala</string>
+    <string name="tutorial_use_gestures">Erabili keinuak tenporizadorea kontrolatzeko</string>
     <string name="tutorial_tap">👆 Ukitu tenporizadorea hasteko eta pausatzeko.</string>
     <string name="tutorial_swipe_right">👉 Pasatu hatza ezkerrerantz edo eskubirantz uneko saioa saltatzeko.</string>
     <string name="tutorial_swipe_up">☝️ Pasatu hatza gorantz minutu bat gehitzeko.</string>

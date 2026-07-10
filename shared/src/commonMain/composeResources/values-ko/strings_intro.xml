@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Track your progress with detailed statistics.</string>
     <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">사용 방법</string>
+    <string name="tutorial_use_gestures">제스처로 타이머를 제어하세요</string>
     <string name="tutorial_tap">👆 타이머를 탭하면 시작하고 일시중지합니다.</string>
     <string name="tutorial_swipe_right">👉 현재 구간을 건너뛰려면 왼쪽이나 오른쪽으로 스와이프하세요.</string>
     <string name="tutorial_swipe_up">☝️ 위로 스와이프하면 1분을 추가합니다.</string>

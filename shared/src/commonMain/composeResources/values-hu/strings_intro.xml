@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Track your progress with detailed statistics.</string>
     <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">Ismertető</string>
+    <string name="tutorial_use_gestures">Vezéreld az időzítőt kézmozdulatokkal</string>
     <string name="tutorial_tap">👆 Érintsd meg az időzítőt az elindításhoz és szüneteltetéshez.</string>
     <string name="tutorial_swipe_right">👉 Húzd balra vagy jobbra az aktuális munkamenet átugrásához.</string>
     <string name="tutorial_swipe_up">☝️ Húzd felfelé, hogy még egy percet adj az időzítőhöz.</string>

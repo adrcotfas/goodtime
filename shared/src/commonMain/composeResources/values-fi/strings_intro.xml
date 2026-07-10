@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Seuraa edistymistäsi yksityiskohtaisilla tilastoilla.</string>
     <string name="intro3_desc2">Päihitä viivyttely ja paranna keskittymistäsi.</string>
     <string name="tutorial_title">Opastus</string>
+    <string name="tutorial_use_gestures">Hallitse ajastinta eleillä</string>
     <string name="tutorial_tap">👆 Käynnistä ja pysäytä ajastinta koskettamalla.</string>
     <string name="tutorial_swipe_right">👉 Pyyhkäise vasemmalle tai oikealle ohittaaksesi nykyisen istunnon.</string>
     <string name="tutorial_swipe_up">☝️ Pyyhkäise ylöspäin lisätäksesi toisen minuutin.</string>

@@ -27,6 +27,7 @@
     <string name="intro3_desc1">עקוב אחר ההתקדמות שלך עם נתונים סטטיסטיים מפורטים.</string>
     <string name="intro3_desc2">לנצח את הדחיינות ולשפר את המיקוד שלך.</string>
     <string name="tutorial_title">הדרכה</string>
+    <string name="tutorial_use_gestures">השתמש במחוות כדי לשלוט בטיימר</string>
     <string name="tutorial_tap">👆 הקש על הטיימר כדי להפעיל ולהשהות.</string>
     <string name="tutorial_swipe_right">👉 החלק ימינה או שמאלה כדי לדלג על הסשן הנוכחי.</string>
     <string name="tutorial_swipe_up">☝️ החלק למעלה כדי להוסיף עוד דקה.</string>

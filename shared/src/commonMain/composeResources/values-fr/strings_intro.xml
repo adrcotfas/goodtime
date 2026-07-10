@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Suivez vos progrès avec des statistiques détaillées.</string>
     <string name="intro3_desc2">Battez la procrastination et augmentez votre concentration.</string>
     <string name="tutorial_title">Tutoriel</string>
+    <string name="tutorial_use_gestures">Utilisez des gestes pour contrôler le minuteur</string>
     <string name="tutorial_tap">👆 Appuyez sur la minuterie pour démarrer et mettre en pause.</string>
     <string name="tutorial_swipe_right">👉 Glisser vers la gauche ou la droite pour sauter la session en cours.</string>
     <string name="tutorial_swipe_up">☝️ Glisser vers le haut pour ajouter une minute de plus.</string>

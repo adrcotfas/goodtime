@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Track your progress with detailed statistics.</string>
     <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">शैक्षणिक-सूची</string>
+    <string name="tutorial_use_gestures">टाइमर को नियंत्रित करने के लिए जेस्चर का उपयोग करें</string>
     <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
     <string name="tutorial_swipe_right">👉 Swipe left or right to skip the current session.</string>
     <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>

@@ -27,6 +27,7 @@
     <string name="intro3_desc1">বিস্তারিত পরিসংখ্যান সহ আপনার অগ্রগতি ট্র্যাক করুন</string>
     <string name="intro3_desc2">বিলম্বকে হারান এবং আপনার ফোকাস বাড়ান</string>
     <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_use_gestures">টাইমার নিয়ন্ত্রণ করতে অঙ্গভঙ্গি ব্যবহার করুন</string>
     <string name="tutorial_tap">👆 টাইমার বিরতি শুরু করতে ট্যাপ করুন.</string>
     <string name="tutorial_swipe_right">👉 বামে বা ডানে সেশনের এড়িয়ে যেতে সোয়াইপ করুন.</string>
     <string name="tutorial_swipe_up">☝️ উপরে আরও এক মিনিট যোগ করতে সোয়াইপ করুন.</string>

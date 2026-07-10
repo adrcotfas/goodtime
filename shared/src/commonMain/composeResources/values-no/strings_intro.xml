@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Finn fremdriften din med detaljert statistikk.</string>
     <string name="intro3_desc2">Slå på proffentinering og forbedre din fokus.</string>
     <string name="tutorial_title">Opplæring</string>
+    <string name="tutorial_use_gestures">Bruk bevegelser for å styre tidtakeren</string>
     <string name="tutorial_tap">👆 Trykk på timeren for å starte og pause.</string>
     <string name="tutorial_swipe_right">👉 Dra til venstre eller høyre hoppe over gjeldende økt.</string>
     <string name="tutorial_swipe_up">☝️ Dra opp for å legge til et minutt.</string>

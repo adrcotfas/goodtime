@@ -27,6 +27,7 @@
     <string name="intro3_desc1">پیشرفت خود را با آماره‌های جزئی پیگیری کنید.</string>
     <string name="intro3_desc2">اهمال کاری را شکست دهید و تمرکز خود را بهبود ببخشید.</string>
     <string name="tutorial_title">آموزش</string>
+    <string name="tutorial_use_gestures">برای کنترل تایمر از حرکات استفاده کنید</string>
     <string name="tutorial_tap">👆 برای شروع یا توقف ، زمان‌سنج را لمس کنید.</string>
     <string name="tutorial_swipe_right">👉 برای رد کردن تایمر فعال به راست یا چپ بکشید.</string>
     <string name="tutorial_swipe_up">☝️ برای افزودن یک دقیقه به بالا بکشید.</string>

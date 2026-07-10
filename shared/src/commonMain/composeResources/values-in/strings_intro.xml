@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Track your progress with detailed statistics.</string>
     <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_use_gestures">Gunakan gerakan untuk mengontrol pengatur waktu</string>
     <string name="tutorial_tap">👆 Ketuk timer untuk memulai dan menjeda.</string>
     <string name="tutorial_swipe_right">👉 Menggesek kiri atau kanan untuk melewatkan sesi saat ini.</string>
     <string name="tutorial_swipe_up">☝️ Gesek ke atas untuk menambahkan satu menit lagi.</string>

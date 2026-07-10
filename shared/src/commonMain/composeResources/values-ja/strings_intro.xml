@@ -27,6 +27,7 @@
     <string name="intro3_desc1">詳細な統計で進捗状況を追跡します。</string>
     <string name="intro3_desc2">先延ばしを打ち、あなたのフォーカスを高める。</string>
     <string name="tutorial_title">チュートリアル</string>
+    <string name="tutorial_use_gestures">ジェスチャーでタイマーを操作します</string>
     <string name="tutorial_tap">👆 タイマーをタップして開始し、一時停止します.</string>
     <string name="tutorial_swipe_right">👉 現在のセッションをスキップするには、左または右にスワイプします.</string>
     <string name="tutorial_swipe_up">☝️ 上にスワイプしてもう1分追加します.</string>

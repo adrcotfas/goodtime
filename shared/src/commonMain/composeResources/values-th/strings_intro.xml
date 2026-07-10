@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Track your progress with detailed statistics.</string>
     <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">แนะนำการเล่นเบื้องต้น</string>
+    <string name="tutorial_use_gestures">ใช้ท่าทางเพื่อควบคุมตัวจับเวลา</string>
     <string name="tutorial_tap">👆 แตะตัวจับเวลาเพื่อเริ่มและหยุดชั่วคราว.</string>
     <string name="tutorial_swipe_right">👉 ปัดไปทางซ้ายหรือขวาเพื่อข้ามเซสชันปัจจุบัน.</string>
     <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>

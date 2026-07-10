@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Urmărește progresul tău cu statistici detaliate.</string>
     <string name="intro3_desc2">Luați procrastinarea și sporiți focalizarea.</string>
     <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_use_gestures">Folosește gesturi pentru a controla cronometrul</string>
     <string name="tutorial_tap">👆 Apasă cronometrul pentru a începe și pentru a pune pauză.</string>
     <string name="tutorial_swipe_right">👉 Glisați cu degetul spre stânga sau dreapta pentru a sări peste sesiunea curentă.</string>
     <string name="tutorial_swipe_up">☝️ Glisați cu degetul în sus pentru a adăuga încă un minut.</string>

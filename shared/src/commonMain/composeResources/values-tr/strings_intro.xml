@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Gelişiminizi detaylı istatistikler ile takip edin.</string>
     <string name="intro3_desc2">Ertelemeyi yenin ve odağınızı iyileştirin.</string>
     <string name="tutorial_title">Öğretici</string>
+    <string name="tutorial_use_gestures">Zamanlayıcıyı kontrol etmek için hareketleri kullanın</string>
     <string name="tutorial_tap">👆 Zamanlayıcıyı başlatmak ve duraklatmak için dokunun.</string>
     <string name="tutorial_swipe_right">👉 Geçerli oturumu atlamak için sağa ya da sola kaydırın.</string>
     <string name="tutorial_swipe_up">☝️ Bir dakika daha eklemek için yukarı kaydırın.</string>

@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Sledujte svůj pokrok pomocí podrobných statistik.</string>
     <string name="intro3_desc2">Poražte prokrastinaci a zvyšte své soustředění.</string>
     <string name="tutorial_title">Návod</string>
+    <string name="tutorial_use_gestures">Ovládejte časovač gesty</string>
     <string name="tutorial_tap">👆 Klikněte pro start a pozastavení.</string>
     <string name="tutorial_swipe_right">👉 Přejeďte prstem doleva nebo doprava pro přeskočení aktuálního bloku.</string>
     <string name="tutorial_swipe_up">☝️ Přejeďte prstem nahoru pro přidání minuty.</string>

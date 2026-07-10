@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Pratite svoj napredak uz detaljnu statistiku.</string>
     <string name="intro3_desc2">Pobijedite prokrastinaciju i poboljšajte svoju koncentraciju.</string>
     <string name="tutorial_title">Tutorijal</string>
+    <string name="tutorial_use_gestures">Koristite geste za upravljanje mjeračem vremena</string>
     <string name="tutorial_tap">👆 Za početak i pauziranje taknite tajmer.</string>
     <string name="tutorial_swipe_right">👉 Prijeđite prstom lijevo ili desno da biste preskočili trenutnu sesiju.</string>
     <string name="tutorial_swipe_up">☝️ Prijeđite prstom prema gore da biste dodali još jednu minutu.</string>

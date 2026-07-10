@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Відстежуйте свій прогрес з детальною статистикою.</string>
     <string name="intro3_desc2">Бити зволікання та підвищити вашу увагу.</string>
     <string name="tutorial_title">Посібник</string>
+    <string name="tutorial_use_gestures">Керуйте таймером за допомогою жестів</string>
     <string name="tutorial_tap">👆 Торкніться таймеру для початку і призупинення.</string>
     <string name="tutorial_swipe_right">👉 Проведіть ліворуч або праворуч, щоб пропустити поточну сесію.</string>
     <string name="tutorial_swipe_up">☝️ Проведіть догори, щоб додати ще одну хвилину.</string>

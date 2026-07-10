@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Traccia i tuoi progressi con statistiche dettagliate.</string>
     <string name="intro3_desc2">Sconfiggi la procrastinazione e migliora la tua concentrazione.</string>
     <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_use_gestures">Usa i gesti per controllare il timer</string>
     <string name="tutorial_tap">👆 Premi il timer per iniziare o per fermarti.</string>
     <string name="tutorial_swipe_right">👉 Scorri verso sinistra o destra per saltare la sessione corrente.</string>
     <string name="tutorial_swipe_up">☝️ Scorri verso l'alto per aggiungere un altro minuto.</string>

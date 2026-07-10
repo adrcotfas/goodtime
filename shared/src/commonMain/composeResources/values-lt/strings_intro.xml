@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Track your progress with detailed statistics.</string>
     <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">Vedlys</string>
+    <string name="tutorial_use_gestures">Valdykite laikmatį gestais</string>
     <string name="tutorial_tap">👆 Bakstelėkite laikmatį, kad pradėtumėte ir pristabdytumėte.</string>
     <string name="tutorial_swipe_right">👉 Braukite kairėn arba dešinėn pereiti per dabartinį seansą.</string>
     <string name="tutorial_swipe_up">☝️ Braukite į viršų pridėti daugiau minutę.</string>

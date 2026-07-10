@@ -27,6 +27,7 @@
     <string name="intro3_desc1">تتبع تقدمك مع الإحصائيات التفصيلية.</string>
     <string name="intro3_desc2">تغلب على المماطلة وتعزيز تركيزك.</string>
     <string name="tutorial_title">البرنامج التعليمي</string>
+    <string name="tutorial_use_gestures">استخدم الإيماءات للتحكم في المؤقت</string>
     <string name="tutorial_tap">👆 اضغط على الموقت لبدء وقفة.</string>
     <string name="tutorial_swipe_right">👉 اسحب إلى اليسار أو اليمين لتخطي الجلسة الحالية.</string>
     <string name="tutorial_swipe_up">☝️ اسحب لأعلى لإضافة دقيقة أخرى.</string>

@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Track your progress with detailed statistics.</string>
     <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">Navodila</string>
+    <string name="tutorial_use_gestures">Upravljajte časovnik z gibi</string>
     <string name="tutorial_tap">👆 Tapnite časovnik za začetek in premor.</string>
     <string name="tutorial_swipe_right">👉 Če želite preskočiti trenutno sejo, povlecite levo ali desno.</string>
     <string name="tutorial_swipe_up">☝️ Povlecite navzgor, da dodate še eno minuto.</string>

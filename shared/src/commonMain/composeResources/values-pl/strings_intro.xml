@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Śledź swoje postępy za pomocą szczegółowych statystyk.</string>
     <string name="intro3_desc2">Pokonaj prorakstynację i zwiększ swój cel.</string>
     <string name="tutorial_title">Samouczek</string>
+    <string name="tutorial_use_gestures">Steruj minutnikiem za pomocą gestów</string>
     <string name="tutorial_tap">👆 Dotknij licznika, aby rozpocząć i wstrzymać.</string>
     <string name="tutorial_swipe_right">👉 Przesuń palcem w lewo lub w prawo, aby pominąć bieżącą sesję.</string>
     <string name="tutorial_swipe_up">☝️ Przesuń w górę, aby dodać jeszcze jedną minutę.</string>

@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Theo dõi tiến trình của bạn với số liệu thống kê chi tiết.</string>
     <string name="intro3_desc2">Đánh bại sự trì hoãn và tăng cường sự tập trung.</string>
     <string name="tutorial_title">Hướng dẫn</string>
+    <string name="tutorial_use_gestures">Sử dụng cử chỉ để điều khiển bộ hẹn giờ</string>
     <string name="tutorial_tap">👆 Nhấn vào bộ hẹn giờ để bắt đầu và tạm dừng.</string>
     <string name="tutorial_swipe_right">👉 Vuốt sang trái hoặc phải để bỏ qua phiên hiện tại.</string>
     <string name="tutorial_swipe_up">☝️ Vuốt lên để thêm một phút nữa.</string>

@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Spor dine fremskridt med detaljerede statistikker.</string>
     <string name="intro3_desc2">Beat udsættelse og forbedre dit fokus.</string>
     <string name="tutorial_title">Guide</string>
+    <string name="tutorial_use_gestures">Brug bevægelser til at styre timeren</string>
     <string name="tutorial_tap">👆 Tryk på timeren for at starte og pause.</string>
     <string name="tutorial_swipe_right">👉 Stryg til venstre eller højre for at springe den aktuelle session over.</string>
     <string name="tutorial_swipe_up">☝️ Stryg op til at tilføje et minut.</string>

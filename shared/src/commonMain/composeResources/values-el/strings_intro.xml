@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Παρακολουθήστε την πρόοδό σας με λεπτομερή στατιστικά στοιχεία.</string>
     <string name="intro3_desc2">Χτυπήστε την αναβλητικότητα και ενισχύστε την εστίασή σας.</string>
     <string name="tutorial_title">Οδηγός λειτουργίας</string>
+    <string name="tutorial_use_gestures">Χρησιμοποιήστε χειρονομίες για να ελέγξετε το χρονόμετρο</string>
     <string name="tutorial_tap">👆 Πατήστε το χρονόμετρο να ξεκινήσετε και να διακόψετε.</string>
     <string name="tutorial_swipe_right">👉 Σαρώστε προς τα αριστερά ή δεξιά για να παρακάμψετε την τρέχουσα περίοδο λειτουργίας.</string>
     <string name="tutorial_swipe_up">☝️ Σαρώστε προς τα επάνω για να προσθέσετε ένα λεπτό ακόμη.</string>

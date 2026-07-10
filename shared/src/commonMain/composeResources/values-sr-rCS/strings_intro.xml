@@ -27,6 +27,7 @@
     <string name="intro3_desc1">Track your progress with detailed statistics.</string>
     <string name="intro3_desc2">Beat procrastination and enhance your focus.</string>
     <string name="tutorial_title">Uputstvo</string>
+    <string name="tutorial_use_gestures">Koristite gestove za upravljanje tajmerom</string>
     <string name="tutorial_tap">👆 Klikni tajmer da počneš i pauziraš.</string>
     <string name="tutorial_swipe_right">👉 Prevuci levo ili desno da preskočiš trenutnu sesiju.</string>
     <string name="tutorial_swipe_up">☝️ Prevuci nagore da dodaš još jedan minut.</string>
