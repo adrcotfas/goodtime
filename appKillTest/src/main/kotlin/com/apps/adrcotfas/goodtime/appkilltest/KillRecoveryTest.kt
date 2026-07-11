@@ -150,6 +150,8 @@ class KillRecoveryTest {
 
         // alarm fires in the cold process -> finish -> next(AUTO) starts the break
         driver.awaitNotification(BREAK_IN_PROGRESS)
+        // the auto-started break must get its own alarm, so it too finishes if killed again
+        driver.awaitAlarmArmed("the auto-started break should have its own alarm scheduled")
     }
 
     /**

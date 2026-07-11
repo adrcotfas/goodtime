@@ -501,9 +501,13 @@ class TimerManager(
         updateBreakBudgetIfNeeded()
         handleFinishedSession(finishActionType = actionType)
 
-        // Skip autostart if too much time has passed since the timer was supposed to end.
-        // This handles the iOS case where finish is called when the app returns to foreground
-        // after being backgrounded for a long time.
+        // Skip autostart when the timer expired long ago and we're only finishing it now: the
+        // user isn't actively continuing, so silently starting (and chaining) the next session
+        // would be wrong. This only bites when finish() catches up on an expiry it couldn't act
+        // on in time — iOS returning to the foreground after a long background (no background
+        // execution there), or Android restoring after the device was off well past the end
+        // (BootReceiver, FORCE_FINISH). When finish is driven by the expiry itself — the Android
+        // alarm, or the foreground monitor with the app open — the gap is ~0 and autostart runs.
         val timeSinceExpectedEnd = timeProvider.elapsedRealtime() - data.runtime.endTime
         val withinAutoStartWindow = timeSinceExpectedEnd < AUTOSTART_TIMEOUT
 
@@ -673,14 +677,16 @@ class TimerManager(
     companion object {
         val COUNT_UP_HARD_LIMIT = 900.minutes.inWholeMilliseconds
 
-        // Skip autostart if user returns more than 30 minutes after the timer was supposed to end
+        // finish() can run well after the expected end (iOS foreground-return, or Android
+        // restoring after a kill/reboot); don't auto-start the next session past this gap.
         val AUTOSTART_TIMEOUT = 30.minutes.inWholeMilliseconds
     }
 }
 
 enum class FinishActionType {
-    // app was in foreground and finish was triggered by observing the current time, not the result of a scheduled alarm,
-    // or the app was in the background on iOS when the timer expired and we need to update the state according to the expected end time
+    // finish triggered by observing the current time rather than a scheduled alarm: the app is in
+    // the foreground and the time is up, or we're catching up on a countdown that expired while
+    // we couldn't act — iOS in the background, or Android after a process kill / device reboot
     FORCE_FINISH,
     MANUAL_RESET, // the user manually reset a session
     MANUAL_SKIP, // the user manually skipped a session, increment streak even if session is shorter than 1 minute
