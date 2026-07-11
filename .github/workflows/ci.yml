@@ -35,7 +35,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - name: Cache Kotlin/Native
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.konan
           key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml', 'gradle/wrapper/gradle-wrapper.properties') }}
