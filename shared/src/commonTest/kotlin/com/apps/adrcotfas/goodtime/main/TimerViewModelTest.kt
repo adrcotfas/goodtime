@@ -99,7 +99,7 @@ class TimerViewModelTest {
                 streakManager = StreakManager(settingsRepo, timeProvider, testScope, logger),
                 log = logger,
                 coroutineScope = testScope,
-                timerStateRestoration = TimerStateRestoration(settingsRepo, timeProvider, logger, testScope),
+                timerStateRestoration = TimerStateRestoration(settingsRepo, timeProvider, logger),
             )
         timerManager.setup()
         viewModel =

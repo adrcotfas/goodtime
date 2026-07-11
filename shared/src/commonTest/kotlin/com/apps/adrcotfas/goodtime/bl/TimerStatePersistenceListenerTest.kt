@@ -104,11 +104,30 @@ class TimerStatePersistenceListenerTest {
     }
 
     @Test
-    fun `Finished clears persisted state`() = runTest(testDispatcher) {
+    fun `Finished persists state so the overtime phase survives process death`() = runTest(testDispatcher) {
         listener.onEvent(Event.Start(runtimeState = runningRuntime))
-        listener.onEvent(Event.Finished(type = TimerType.FOCUS))
+        listener.onEvent(
+            Event.Finished(
+                type = TimerType.FOCUS,
+                runtimeState = runningRuntime.copy(state = TimerState.FINISHED),
+            ),
+        )
 
-        assertNull(persisted())
+        assertEquals(TimerState.FINISHED.ordinal, persisted()?.state)
+    }
+
+    @Test
+    fun `Finished with autostart does not persist - the next Start will`() = runTest(testDispatcher) {
+        listener.onEvent(Event.Start(runtimeState = runningRuntime))
+        listener.onEvent(
+            Event.Finished(
+                type = TimerType.FOCUS,
+                autostartNextSession = true,
+                runtimeState = runningRuntime.copy(state = TimerState.FINISHED),
+            ),
+        )
+
+        assertEquals(TimerState.RUNNING.ordinal, persisted()?.state)
     }
 
     @Test
@@ -123,7 +142,6 @@ class TimerStatePersistenceListenerTest {
             settingsRepo = settingsRepo,
             timeProvider = timeProvider,
             log = logger,
-            coroutineScope = testScope,
         ).restoreTimerState { restored = it }
 
         assertEquals(runningRuntime, restored)

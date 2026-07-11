@@ -105,7 +105,7 @@ class TimerManagerTest {
                 StreakManager(settingsRepo, timeProvider, testScope, logger),
                 logger,
                 coroutineScope = testScope,
-                timerStateRestoration = TimerStateRestoration(settingsRepo, timeProvider, logger, testScope),
+                timerStateRestoration = TimerStateRestoration(settingsRepo, timeProvider, logger),
             )
         timerManager.setup()
     }
@@ -302,7 +302,19 @@ class TimerManagerTest {
                     ),
                 ),
                 Event.AddOneMinute(endTime = startTime + DEFAULT_DURATION + oneMinute),
-                Event.Finished(type = TimerType.FOCUS),
+                Event.Finished(
+                    type = TimerType.FOCUS,
+                    runtimeState =
+                    TimerRuntimeState(
+                        startTime = startTime,
+                        lastStartTime = startTime,
+                        endTime = startTime + oneMinute + oneMinute,
+                        timeAtPause = DEFAULT_DURATION,
+                        timeSpentPaused = oneMinute,
+                        type = TimerType.FOCUS,
+                        state = TimerState.FINISHED,
+                    ),
+                ),
             ),
         )
         val session = localDataRepo.selectAllSessions().first().last()
@@ -863,7 +875,7 @@ class TimerManagerTest {
         timerManager.start()
         timerManager.next()
         timeProvider.elapsedRealtime += breakBudgetMillis
-        testScope.advanceTimeBy(breakBudgetMillis)
+        testScope.advanceTimeBy(breakBudget)
         timerManager.finish()
 
         assertEquals(
@@ -901,7 +913,18 @@ class TimerManagerTest {
                         state = TimerState.RUNNING,
                     ),
                 ),
-                Event.Finished(type = TimerType.BREAK, autostartNextSession = true),
+                Event.Finished(
+                    type = TimerType.BREAK,
+                    autostartNextSession = true,
+                    runtimeState =
+                    TimerRuntimeState(
+                        startTime = 0,
+                        lastStartTime = 0,
+                        endTime = breakBudgetMillis,
+                        type = TimerType.BREAK,
+                        state = TimerState.FINISHED,
+                    ),
+                ),
                 Event.Start(
                     isFocus = true,
                     endTime = COUNT_UP_HARD_LIMIT + breakBudgetMillis,

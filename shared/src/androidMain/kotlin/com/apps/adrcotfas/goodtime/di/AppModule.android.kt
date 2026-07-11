@@ -104,7 +104,6 @@ actual val platformModule: Module =
                 settingsRepo = get(),
                 timeProvider = get(),
                 log = getWith("TimerStateRestoration"),
-                coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
             )
         }
         single<TimerStatePersistenceListener> {

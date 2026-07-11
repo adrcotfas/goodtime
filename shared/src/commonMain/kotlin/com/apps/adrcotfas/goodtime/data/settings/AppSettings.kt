@@ -58,7 +58,6 @@ data class AppSettings(
     val backupSettings: BackupSettings = BackupSettings(),
     /** The version code of the last dismissed update, or 0 if no update has been dismissed */
     val lastDismissedUpdateVersionCode: Long = 0,
-    /** iOS-only: Persisted timer state for restoring after app termination */
     val persistedTimerState: PersistedTimerState? = null,
 )
 

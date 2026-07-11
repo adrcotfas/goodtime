@@ -27,15 +27,18 @@ import com.apps.adrcotfas.goodtime.di.injectLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
+import kotlin.time.Duration.Companion.seconds
 
 class TimerService :
     Service(),
     KoinComponent {
     private val notificationManager: NotificationArchManager by inject()
     private val timerManager: TimerManager by inject()
+    private val timeProvider: TimeProvider by inject()
 
     private val coroutineScope: CoroutineScope by inject((named(MAIN_SCOPE)))
     private val log: Logger by injectLogger("TimerService")
@@ -52,8 +55,12 @@ class TimerService :
         startId: Int,
     ): Int {
         if (intent == null || intent.action == null) {
-            log.w { "onStartCommand: intent or action is null" }
-            return START_NOT_STICKY
+            // sticky restart after the process was killed: the old foreground notification
+            // was kept by the system and is now orphaned (its chronometer keeps ticking in
+            // SystemUI); reconcile with the restored timer state
+            log.w { "onStartCommand: restarted after process death, reconciling" }
+            reconcileAfterProcessDeath()
+            return START_STICKY
         }
         val data = timerManager.timerData.value
         log.v { "onStartCommand: ${intent.action}" }
@@ -80,6 +87,7 @@ class TimerService :
                     notificationManager.clearFinishedNotification()
                 }
                 stopForeground(STOP_FOREGROUND_REMOVE)
+                notificationManager.clearInProgressNotification()
                 stopSelf()
                 return START_NOT_STICKY
             }
@@ -90,6 +98,7 @@ class TimerService :
                 val type = TimerType.valueOf(typeName)
                 if (!autoStart) {
                     stopForeground(STOP_FOREGROUND_REMOVE)
+                    notificationManager.clearInProgressNotification()
                     stopSelf()
                 }
                 pendingFinishedNotificationJob =
@@ -100,22 +109,70 @@ class TimerService :
                 return START_NOT_STICKY
             }
 
-            // actions triggered from the notification itself
-            Action.Toggle.name -> timerManager.toggle()
+            // actions triggered from the notification itself; a tap can cold-start the
+            // process (e.g. on the finished notification surviving a kill during overtime),
+            // so wait for the restored state before acting
+            Action.Toggle.name -> withReadyTimer { it.toggle() }
 
-            Action.AddOneMinute.name -> timerManager.addOneMinute()
+            Action.AddOneMinute.name -> withReadyTimer { it.addOneMinute() }
 
-            Action.Skip.name -> timerManager.next(actionType = FinishActionType.MANUAL_SKIP)
+            Action.Skip.name -> withReadyTimer { it.next(actionType = FinishActionType.MANUAL_SKIP) }
 
-            Action.Next.name -> timerManager.next(actionType = FinishActionType.MANUAL_NEXT)
+            Action.Next.name -> withReadyTimer { it.next(actionType = FinishActionType.MANUAL_NEXT) }
 
-            Action.DoReset.name -> timerManager.reset()
+            Action.DoReset.name -> withReadyTimer { it.reset() }
         }
 
         return START_STICKY
     }
 
+    private fun withReadyTimer(block: (TimerManager) -> Unit) {
+        coroutineScope.launch {
+            withTimeoutOrNull(AWAIT_READY_TIMEOUT) { timerManager.awaitReady() }
+            block(timerManager)
+        }
+    }
+
+    private fun reconcileAfterProcessDeath() {
+        coroutineScope.launch {
+            withTimeoutOrNull(AWAIT_READY_TIMEOUT) { timerManager.awaitReady() }
+            val data = timerManager.timerData.value
+            if (!data.isReady) {
+                // could not load the state in time; leave everything untouched
+                return@launch
+            }
+            val state = data.runtime.state
+            when {
+                state.isRunning &&
+                    data.isCurrentSessionCountdown() &&
+                    data.getBaseTime(timeProvider) <= 0 -> {
+                    log.i { "countdown expired while the process was dead, finishing it" }
+                    timerManager.finish(actionType = FinishActionType.FORCE_FINISH)
+                }
+
+                state.isActive -> {
+                    log.i { "re-adopting the in-progress notification" }
+                    startForeground(
+                        NotificationArchManager.IN_PROGRESS_NOTIFICATION_ID,
+                        notificationManager.buildInProgressNotification(data),
+                    )
+                    // re-arm the alarm in case it was lost along with the process
+                    timerManager.onSendToBackground()
+                }
+
+                else -> {
+                    // nothing to resume; a finished notification, if any, is left untouched
+                    notificationManager.clearInProgressNotification()
+                    stopSelf()
+                }
+            }
+        }
+    }
+
     companion object {
+        // stay well under the system's patience for a restarted service
+        private val AWAIT_READY_TIMEOUT = 8.seconds
+
         enum class Action {
             StartOrUpdate,
             Reset,

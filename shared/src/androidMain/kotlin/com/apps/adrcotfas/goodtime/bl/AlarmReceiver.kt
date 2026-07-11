@@ -21,14 +21,20 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.PowerManager
+import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.koin.core.qualifier.named
 import kotlin.time.Duration.Companion.seconds
 
 class AlarmReceiver :
     BroadcastReceiver(),
     KoinComponent {
     private val timerManager: TimerManager by inject()
+    private val coroutineScope: CoroutineScope by inject(named(MAIN_SCOPE))
 
     @Suppress("DEPRECATION")
     override fun onReceive(
@@ -45,12 +51,27 @@ class AlarmReceiver :
             ).apply {
                 acquire(10.seconds.inWholeMilliseconds)
             }
-        val isCountdown = timerManager.timerData.value.isCurrentSessionCountdown()
-        if (isCountdown) {
-            timerManager.finish()
-        } else {
-            // hard limit was reached for count-up
-            timerManager.reset()
+        // On a cold start (process killed while the timer was running) the state
+        // restoration runs asynchronously; acting before it lands would drop the session.
+        val pendingResult = goAsync()
+        coroutineScope.launch {
+            try {
+                withTimeoutOrNull(AWAIT_READY_TIMEOUT) { timerManager.awaitReady() }
+                val isCountdown = timerManager.timerData.value.isCurrentSessionCountdown()
+                if (isCountdown) {
+                    timerManager.finish()
+                } else {
+                    // hard limit was reached for count-up
+                    timerManager.reset()
+                }
+            } finally {
+                pendingResult.finish()
+            }
         }
+    }
+
+    companion object {
+        // stay under the ~10s broadcast ANR limit
+        private val AWAIT_READY_TIMEOUT = 8.seconds
     }
 }

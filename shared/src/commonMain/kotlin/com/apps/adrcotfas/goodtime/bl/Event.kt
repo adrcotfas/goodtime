@@ -43,6 +43,7 @@ sealed class Event {
     data class Finished(
         val type: TimerType,
         val autostartNextSession: Boolean = false,
+        val runtimeState: TimerRuntimeState = TimerRuntimeState(),
     ) : Event()
 
     data object Reset : Event()

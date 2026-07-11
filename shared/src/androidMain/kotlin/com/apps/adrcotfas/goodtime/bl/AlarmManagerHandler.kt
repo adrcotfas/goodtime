@@ -31,7 +31,9 @@ class AlarmManagerHandler(
 ) : EventListener {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    private var isForeground = true
+    // false until BringToForeground: a fresh process (alarm, sticky service restart,
+    // boot, notification action) always starts in the background
+    private var isForeground = false
 
     override fun onEvent(event: Event) {
         if (event == Event.BringToForeground) {
@@ -63,6 +65,13 @@ class AlarmManagerHandler(
 
                 is Event.AddOneMinute -> {
                     if (event.endTime != 0L) {
+                        setAlarm(event.endTime)
+                    }
+                }
+
+                is Event.SendToBackground -> {
+                    // re-arm after process death reconciliation (BootReceiver/TimerService)
+                    if (event.endTime != 0L && event.isTimerRunning) {
                         setAlarm(event.endTime)
                     }
                 }

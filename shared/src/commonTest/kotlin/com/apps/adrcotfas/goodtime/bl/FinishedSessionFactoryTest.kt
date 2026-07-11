@@ -78,6 +78,20 @@ class FinishedSessionFactoryTest {
     }
 
     @Test
+    fun `durationMinutes matches the saved duration for a restored finished session`() {
+        val d =
+            data(
+                startTime = 0,
+                endTime = 25.minutes.inWholeMilliseconds,
+                timeSpentPaused = 5.minutes.inWholeMilliseconds,
+            )
+        val savedMinutes = FinishedSessionFactory.create(d, now = 0, elapsedRealtime = 0)!!.second
+
+        // recomputing from the runtime alone (the restore path) yields the same value
+        assertEquals(savedMinutes, FinishedSessionFactory.durationMinutes(d.runtime))
+    }
+
+    @Test
     fun `break session keeps interruptions out and full duration`() {
         val result =
             FinishedSessionFactory.create(

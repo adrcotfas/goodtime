@@ -43,18 +43,9 @@ object FinishedSessionFactory {
         val isFocus = data.runtime.type == TimerType.FOCUS
 
         val endTime = data.runtime.endTime
-        val totalDuration = endTime - data.runtime.startTime
         val interruptions = data.runtime.timeSpentPaused
 
-        val durationToSave =
-            totalDuration
-                .let { duration ->
-                    // First, conditionally subtract interruptions
-                    if (isFocus) duration - interruptions else duration
-                }.plus(WIGGLE_ROOM_MILLIS)
-                .milliseconds
-
-        val durationToSaveMinutes = durationToSave.inWholeMinutes
+        val durationToSaveMinutes = durationMinutes(data.runtime)
         if (durationToSaveMinutes < 1) {
             return null
         }
@@ -71,5 +62,20 @@ object FinishedSessionFactory {
             isWork = isFocus,
             notes = notes,
         ) to durationToSaveMinutes
+    }
+
+    /**
+     * Whole-minute duration credited for [runtime], matching what [create] saves.
+     * Used to recompute completedMinutes when a finished session is restored after
+     * process death (that value isn't part of the persisted runtime state).
+     */
+    fun durationMinutes(runtime: TimerRuntimeState): Long {
+        val isFocus = runtime.type == TimerType.FOCUS
+        val totalDuration = runtime.endTime - runtime.startTime
+        return totalDuration
+            .let { duration -> if (isFocus) duration - runtime.timeSpentPaused else duration }
+            .plus(WIGGLE_ROOM_MILLIS)
+            .milliseconds
+            .inWholeMinutes
     }
 }

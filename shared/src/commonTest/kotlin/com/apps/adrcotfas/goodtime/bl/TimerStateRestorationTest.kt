@@ -23,21 +23,16 @@ import com.apps.adrcotfas.goodtime.data.settings.PersistedTimerState
 import com.apps.adrcotfas.goodtime.fakes.FakeSettingsRepository
 import com.apps.adrcotfas.goodtime.fakes.FakeTimeProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TimerStateRestorationTest {
     private val testDispatcher = UnconfinedTestDispatcher()
-    private val testScope = TestScope(testDispatcher + Job())
 
     private val timeProvider = FakeTimeProvider()
     private val logger = Logger(StaticConfig())
@@ -55,7 +50,6 @@ class TimerStateRestorationTest {
         settingsRepo = settingsRepo,
         timeProvider = timeProvider,
         log = logger,
-        coroutineScope = testScope,
     )
 
     private fun runningState(
@@ -74,16 +68,15 @@ class TimerStateRestorationTest {
     )
 
     @Test
-    fun `expired running timer is not restored and state is cleared`() = runTest(testDispatcher) {
-        settingsRepo.setPersistedTimerState(
-            runningState(startTime = 0, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000),
-        )
+    fun `expired running timer is restored so it can be finished and saved`() = runTest(testDispatcher) {
+        val persisted =
+            runningState(startTime = 0, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000)
+        settingsRepo.setPersistedTimerState(persisted)
         timeProvider.elapsedRealtime = 300_000 // now() >= endTimeWallClock
 
         restoration().restoreTimerState { restored = it }
 
-        assertNull(restored)
-        assertNull(settingsRepo.settings.first().persistedTimerState)
+        assertEquals(persisted.toRuntimeState(), restored)
     }
 
     @Test

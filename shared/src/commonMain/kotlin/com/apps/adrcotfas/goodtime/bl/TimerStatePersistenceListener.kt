@@ -43,7 +43,17 @@ class TimerStatePersistenceListener(
                 persistTimerState(event.runtimeState)
             }
 
-            is Event.Reset, is Event.Finished -> {
+            is Event.Finished -> {
+                // keep the finished state so the overtime phase survives process death;
+                // the foreground service is gone by now and the process is a kill candidate.
+                // on autostart the next session's Start persists right after this event;
+                // writing here too would race it and could leave a stale FINISHED state
+                if (!event.autostartNextSession) {
+                    persistTimerState(event.runtimeState)
+                }
+            }
+
+            is Event.Reset -> {
                 clearPersistedTimerState()
             }
 
@@ -54,7 +64,7 @@ class TimerStatePersistenceListener(
     }
 
     private fun persistTimerState(runtimeState: TimerRuntimeState) {
-        if (!runtimeState.state.isActive) {
+        if (runtimeState.state.isReset) {
             return
         }
 

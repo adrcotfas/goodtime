@@ -248,6 +248,10 @@ class NotificationArchManager(
         notificationManager.cancel(FINISHED_NOTIFICATION_ID)
     }
 
+    fun clearInProgressNotification() {
+        notificationManager.cancel(IN_PROGRESS_NOTIFICATION_ID)
+    }
+
     suspend fun notifyReminder() {
         val pendingIntent = createOpenActivityIntent(activityClass)
         val builder =

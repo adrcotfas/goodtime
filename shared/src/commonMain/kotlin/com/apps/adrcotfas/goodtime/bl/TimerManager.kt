@@ -58,6 +58,7 @@ class TimerManager(
     private val timerStateRestoration: TimerStateRestoration,
 ) {
     private var mainJob: Job? = null
+    private var initJob: Job? = null
 
     private val _timerData: MutableStateFlow<DomainTimerData> = MutableStateFlow(DomainTimerData())
 
@@ -77,12 +78,33 @@ class TimerManager(
             coroutineScope.launch {
                 initAndObserveLabelChange()
             }
-        initPersistentData()
-        timerStateRestoration.restoreTimerState { runtimeState ->
-            _timerData.update {
-                it.copy(runtime = runtimeState)
+        initJob =
+            coroutineScope.launch {
+                initPersistentData()
+                timerStateRestoration.restoreTimerState { runtimeState ->
+                    _timerData.update {
+                        it.copy(
+                            runtime = runtimeState,
+                            completedMinutes =
+                            if (runtimeState.state == TimerState.FINISHED) {
+                                FinishedSessionFactory.durationMinutes(runtimeState)
+                            } else {
+                                it.completedMinutes
+                            },
+                        )
+                    }
+                }
             }
-        }
+    }
+
+    /**
+     * Waits until persisted state was restored and the label/settings are loaded.
+     * Callers that can run right after process creation (e.g. AlarmReceiver)
+     * must await this before issuing commands, otherwise they operate on default data.
+     */
+    suspend fun awaitReady() {
+        initJob?.join()
+        timerData.first { it.isReady }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -134,16 +156,13 @@ class TimerManager(
             }
     }
 
-    private fun initPersistentData() {
-        coroutineScope.launch {
-            val longBreakData = streakManager.initialLongBreakData()
-            log.i { "new long break data: $longBreakData" }
-            _timerData.update { data -> data.copy(longBreakData = longBreakData) }
-        }
-        coroutineScope.launch {
-            val breakBudget = breakBudgetManager.initialBreakBudget()
-            log.i { "new break budget: ${breakBudget.getRemainingBreakBudget(timeProvider.elapsedRealtime())}" }
-            _timerData.update { data -> data.copy(breakBudgetData = breakBudget) }
+    private suspend fun initPersistentData() {
+        val longBreakData = streakManager.initialLongBreakData()
+        log.i { "new long break data: $longBreakData" }
+        val breakBudget = breakBudgetManager.initialBreakBudget()
+        log.i { "new break budget: ${breakBudget.getRemainingBreakBudget(timeProvider.elapsedRealtime())}" }
+        _timerData.update { data ->
+            data.copy(longBreakData = longBreakData, breakBudgetData = breakBudget)
         }
     }
 
@@ -501,6 +520,7 @@ class TimerManager(
                 Event.Finished(
                     type = type,
                     autostartNextSession = autoStart,
+                    runtimeState = _timerData.value.runtime,
                 ),
             )
         }
@@ -651,8 +671,6 @@ class TimerManager(
     private fun computeCountUpEndTime(baseTime: Long) = timeProvider.elapsedRealtime() + (COUNT_UP_HARD_LIMIT - baseTime)
 
     companion object {
-        // some extra time to be used when converting millis to minutes and avoid rounding issues
-        const val WIGGLE_ROOM_MILLIS = FinishedSessionFactory.WIGGLE_ROOM_MILLIS
         val COUNT_UP_HARD_LIMIT = 900.minutes.inWholeMilliseconds
 
         // Skip autostart if user returns more than 30 minutes after the timer was supposed to end
