@@ -56,7 +56,7 @@ import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelCompone
 import com.patrykandpatrick.vico.compose.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.compose.cartesian.data.CartesianValueFormatter
 import com.patrykandpatrick.vico.compose.cartesian.data.columnSeries
-import com.patrykandpatrick.vico.compose.cartesian.data.lineSeries
+import com.patrykandpatrick.vico.compose.cartesian.data.lineModel
 import com.patrykandpatrick.vico.compose.cartesian.layer.ColumnCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.layer.LineCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.layer.rememberColumnCartesianLayer
@@ -120,7 +120,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     LaunchedEffect(data, isLineChart) {
         if (isLineChart) {
             modelProducer.runTransaction {
-                lineSeries {
+                lineModel {
                     series(y[Label.DEFAULT_LABEL_NAME]!!)
                     extras { it[timestampsKey] = x }
                     extras { it[labelsKey] = y.keys }
