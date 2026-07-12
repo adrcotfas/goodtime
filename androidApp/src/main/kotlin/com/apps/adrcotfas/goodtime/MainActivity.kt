@@ -22,7 +22,6 @@ import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.main.GoodtimeMainActivity
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
@@ -41,9 +40,6 @@ class MainActivity : GoodtimeMainActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         log.d { "onCreate" }
-
-        // Configure window for edge-to-edge
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         // Force screen to always stay on
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
