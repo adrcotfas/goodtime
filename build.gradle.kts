@@ -16,6 +16,7 @@ plugins {
     alias(libs.plugins.androidTest) apply false
     alias(libs.plugins.androidxBaselineProfile) apply false
     alias(libs.plugins.spotless)
+    alias(libs.plugins.kmp.app.version)
 }
 
 subprojects {

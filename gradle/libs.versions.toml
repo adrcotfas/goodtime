@@ -1,7 +1,8 @@
 [versions]
 
-appVersionName = "3.1.3"
-appVersionCode = "356"
+app-version-name = "3.2.0"
+app-version-code = "357"
+kmp-app-version = "1.0.2"
 
 acra = "5.13.1"
 android-minSdk = "26"
@@ -159,6 +160,7 @@ mikepenz-aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.r
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 room = { id = "androidx.room", version.ref = "androidx-room" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kmp-app-version = { id = "io.github.adrcotfas.kmp-app-version", version.ref = "kmp-app-version" }
 
 [bundles]
 shared-commonTest = [

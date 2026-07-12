@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.androidxBaselineProfile)
+    alias(libs.plugins.kmp.app.version)
 }
 
 kotlin {
@@ -30,11 +31,6 @@ android {
             libs.versions.android.targetSdk
                 .get()
                 .toInt()
-        versionCode =
-            libs.versions.appVersionCode
-                .get()
-                .toInt()
-        versionName = libs.versions.appVersionName.get()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         flavorDimensions += "distribution"

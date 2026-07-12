@@ -2,6 +2,24 @@
 <Scheme
    version = "1.3">
    <BuildAction>
+         <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Sync KMP Version"
+               scriptText = "cd &quot;$SRCROOT/..&quot;&#xa;./gradlew syncIosVersion&#xa;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5D7099CC0E2E85192A701B54"
+               BuildableName = "Goodtime: Pomodoro Timer.app"
+               BlueprintName = "iosApp"
+               ReferencedContainer = "container:iosApp.xcodeproj">
+            </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForRunning = "YES">
