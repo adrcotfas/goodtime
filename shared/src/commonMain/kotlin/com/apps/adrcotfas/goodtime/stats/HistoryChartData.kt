@@ -205,7 +205,7 @@ fun computeHistoryChartData(
  */
 fun aggregateDataIfNeeded(
     data: Map<String, Long>,
-    threshold: Double = 0.05,
+    threshold: Double = 0.02,
     maxLabels: Int = 8,
 ): Map<String, Long> {
     if (data.isEmpty()) return data
