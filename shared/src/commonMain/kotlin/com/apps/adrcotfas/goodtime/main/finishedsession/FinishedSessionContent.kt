@@ -320,39 +320,39 @@ private fun CurrentSessionCard(
                             )
                         }
                     }
+                }
 
-                    if (idleMillis > 0) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Column(
-                                modifier = Modifier.wrapContentHeight(),
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.Start,
-                            ) {
-                                Text(strings.mainIdle, style = MaterialTheme.typography.labelSmall)
-                                Text(
-                                    idleMillis.formatMilliseconds(),
-                                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                                )
-                            }
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Crossfade(
-                                modifier = Modifier.size(36.dp),
-                                targetState = addIdleMinutes,
-                            ) {
-                                if (it) {
-                                    FilledTonalIconButton(onClick = { onAddIdleMinutesChanged(false) }) {
-                                        Icon(
-                                            imageVector = Icons.Default.Check,
-                                            contentDescription = strings.mainConsiderIdleTimeAsExtraFocus,
-                                        )
-                                    }
-                                } else {
-                                    IconButton(onClick = { onAddIdleMinutesChanged(true) }) {
-                                        Icon(
-                                            imageVector = Icons.Default.Add,
-                                            contentDescription = strings.mainConsiderIdleTimeAsExtraFocus,
-                                        )
-                                    }
+                if (idleMillis > 0) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(
+                            modifier = Modifier.wrapContentHeight(),
+                            verticalArrangement = Arrangement.SpaceBetween,
+                            horizontalAlignment = Alignment.Start,
+                        ) {
+                            Text(strings.mainIdle, style = MaterialTheme.typography.labelSmall)
+                            Text(
+                                idleMillis.formatMilliseconds(),
+                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Crossfade(
+                            modifier = Modifier.size(36.dp),
+                            targetState = addIdleMinutes,
+                        ) {
+                            if (it) {
+                                FilledTonalIconButton(onClick = { onAddIdleMinutesChanged(false) }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Check,
+                                        contentDescription = strings.mainConsiderIdleTimeAsExtraFocus,
+                                    )
+                                }
+                            } else {
+                                IconButton(onClick = { onAddIdleMinutesChanged(true) }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = strings.mainConsiderIdleTimeAsExtraFocus,
+                                    )
                                 }
                             }
                         }

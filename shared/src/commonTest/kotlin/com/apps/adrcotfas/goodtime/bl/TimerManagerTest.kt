@@ -439,6 +439,25 @@ class TimerManagerTest {
     }
 
     @Test
+    fun `Update finished break session with idle time extends persisted duration`() = runTest {
+        timerManager.start(TimerType.BREAK)
+        val breakDuration = TimerProfile.DEFAULT_BREAK_DURATION.minutes.inWholeMilliseconds
+        timeProvider.elapsedRealtime = breakDuration
+        timerManager.finish()
+
+        var session = localDataRepo.selectAllSessions().first().last()
+        assertEquals(TimerProfile.DEFAULT_BREAK_DURATION.toLong(), session.duration)
+        assertEquals(false, session.isWork)
+
+        val idleTime = 5.minutes.inWholeMilliseconds
+        timeProvider.elapsedRealtime += idleTime
+        timerManager.updateFinishedSession(updateDuration = true, notes = "")
+
+        session = localDataRepo.selectAllSessions().first().last()
+        assertEquals(TimerProfile.DEFAULT_BREAK_DURATION.toLong() + 5, session.duration)
+    }
+
+    @Test
     fun `Timer reset after one minute`() = runTest {
         timerManager.start(TimerType.FOCUS)
         val endTime = timerManager.timerData.value.runtime.endTime
