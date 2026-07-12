@@ -24,9 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.main.GoodtimeMainActivity
-import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.inject
 
 /**
