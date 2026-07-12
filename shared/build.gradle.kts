@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -29,14 +28,6 @@ kotlin {
         withHostTestBuilder {
         }.configure {
             isIncludeAndroidResources = true
-        }
-
-        compilations.configureEach {
-            compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_17)
-                }
-            }
         }
     }
 
@@ -199,13 +190,6 @@ tasks.named("exportLibraryDefinitions") {
 // aboutlibraries.json is gitignored, so it must be (re)generated before packaging resources
 tasks.matching { it.name == "preBuild" || it.name == "prepareComposeResourcesTaskForCommonMain" }.configureEach {
     dependsOn("exportLibraryDefinitions")
-}
-
-java {
-    toolchain {
-        // 21: Robolectric's SDK 36 sandbox requires Java 21; bytecode still targets 17 (jvmTarget)
-        languageVersion = JavaLanguageVersion.of(21)
-    }
 }
 
 // remove unused RevenueCat modules

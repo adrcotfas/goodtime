@@ -10,7 +10,7 @@ plugins {
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_21)
     }
 }
 
@@ -74,9 +74,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     androidResources {
@@ -128,12 +127,6 @@ dependencies {
     add("googleImplementation", libs.google.drive)
     add("googleImplementation", libs.google.id)
     add("googleImplementation", libs.coroutines.play.services)
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
 }
 
 // remove unused RevenueCat modules
