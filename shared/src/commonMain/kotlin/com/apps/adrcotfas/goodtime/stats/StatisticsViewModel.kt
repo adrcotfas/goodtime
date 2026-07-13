@@ -25,7 +25,6 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
-import com.apps.adrcotfas.goodtime.common.InstallDateProvider
 import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -93,7 +92,6 @@ class StatisticsViewModel(
     private val settingsRepository: SettingsRepository,
     private val timeProvider: TimeProvider,
     private val timeFormatProvider: TimeFormatProvider,
-    private val installDateProvider: InstallDateProvider,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(StatisticsUiState())
@@ -257,7 +255,6 @@ class StatisticsViewModel(
             sessionToEditId?.let {
                 localDataRepo.updateSession(newSession.id, newSession)
             } ?: localDataRepo.insertSession(newSession)
-            settingsRepository.setShouldAskForReview(true)
         }
     }
 
@@ -324,8 +321,6 @@ class StatisticsViewModel(
         }
     }
 
-    fun setShouldAskForReview() = viewModelScope.launch { settingsRepository.setShouldAskForReview(true) }
-
     fun setShowBreaks(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.updateStatisticsSettings { it.copy(showBreaks = enabled) }
@@ -337,6 +332,4 @@ class StatisticsViewModel(
             settingsRepository.updateStatisticsSettings { it.copy(showArchived = enabled) }
         }
     }
-
-    fun isInstallOlderThan10Days(): Boolean = installDateProvider.isInstallOlderThan10Days()
 }

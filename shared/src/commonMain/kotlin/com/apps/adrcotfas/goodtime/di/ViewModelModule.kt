@@ -43,7 +43,7 @@ val viewModelModule: Module =
         viewModelOf(::TimerProfileViewModel)
         viewModelOf(::AboutViewModel)
         viewModelOf(::AcknowledgementsViewModel)
-        viewModel { StatisticsViewModel(get(), get(), get(), get(), get()) }
+        viewModel { StatisticsViewModel(get(), get(), get(), get()) }
         viewModel { StatisticsHistoryViewModel(get(), get()) }
     }
 

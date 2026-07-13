@@ -240,10 +240,6 @@ fun StatisticsScreen(
                                 onClose = { hideSheet() },
                                 onClick = {
                                     viewModel.saveSession()
-                                    // ask for in app review if the user just saved a session
-                                    if (viewModel.isInstallOlderThan10Days()) {
-                                        viewModel.setShouldAskForReview()
-                                    }
                                     hideSheet()
                                 },
                             )

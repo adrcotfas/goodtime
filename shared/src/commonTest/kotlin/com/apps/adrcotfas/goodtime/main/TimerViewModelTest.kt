@@ -29,6 +29,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepositoryImpl
 import com.apps.adrcotfas.goodtime.data.model.Label
+import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WORK_DURATION
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.fakes.FakeEventListener
@@ -41,6 +42,7 @@ import com.apps.adrcotfas.goodtime.fakes.FakeTimerProfileDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
@@ -51,7 +53,9 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 
 /**
@@ -141,6 +145,37 @@ class TimerViewModelTest {
 
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    @Test
+    fun `askForReviewIfEligible gates on session count and throttles repeat asks`() = runTest(testDispatcher) {
+        timeProvider.wallClock = 100.days.inWholeMilliseconds
+
+        viewModel.askForReviewIfEligible()
+        assertFalse(settingsRepo.settings.first().shouldAskForReview, "should not ask with too few sessions")
+
+        repeat(10) {
+            localDataRepo.insertSession(
+                Session.create(
+                    timestamp = timeProvider.now(),
+                    duration = 25,
+                    interruptions = 0,
+                    label = Label.DEFAULT_LABEL_NAME,
+                    isWork = true,
+                ),
+            )
+        }
+        viewModel.askForReviewIfEligible()
+        assertTrue(settingsRepo.settings.first().shouldAskForReview, "should ask once eligible")
+
+        settingsRepo.setShouldAskForReview(false)
+        timeProvider.wallClock = timeProvider.wallClock!! + 1.days.inWholeMilliseconds
+        viewModel.askForReviewIfEligible()
+        assertFalse(settingsRepo.settings.first().shouldAskForReview, "should throttle a recent ask")
+
+        timeProvider.wallClock = timeProvider.wallClock!! + 30.days.inWholeMilliseconds
+        viewModel.askForReviewIfEligible()
+        assertTrue(settingsRepo.settings.first().shouldAskForReview, "should ask again after the throttle window")
     }
 
     @Test

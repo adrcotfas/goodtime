@@ -133,7 +133,6 @@ open class GoodtimeMainActivity :
 
     private fun showFeedbackDialog() {
         val manager = ReviewManagerFactory.create(this.applicationContext)
-        manager.requestReviewFlow()
         val request = manager.requestReviewFlow()
         request.addOnCompleteListener { task ->
             if (task.isSuccessful) {

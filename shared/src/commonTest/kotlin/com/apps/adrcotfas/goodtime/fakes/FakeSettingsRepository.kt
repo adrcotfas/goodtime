@@ -180,6 +180,12 @@ class FakeSettingsRepository(
         )
     }
 
+    override suspend fun setLastAskedForReviewTime(millis: Long) {
+        _settings.emit(
+            _settings.value.copy(lastAskedForReviewTime = millis),
+        )
+    }
+
     override suspend fun setBackupSettings(backupSettings: BackupSettings) {
         _settings.emit(
             _settings.value.copy(backupSettings = backupSettings),

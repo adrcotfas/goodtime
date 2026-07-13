@@ -351,9 +351,9 @@ fun MainScreen(
             onHideSheet = { showFinishedSessionSheet = false },
             onNext = {
                 viewModel.next()
-                // ask for in app review if the user just started a break session
-                if (viewModel.isInstallOlderThan10Days() && !timerUiState.isBreak) {
-                    viewModel.setShouldAskForReview()
+                // ask for in-app review if the user just completed a focus session
+                if (!timerUiState.isBreak) {
+                    viewModel.askForReviewIfEligible()
                 }
             },
             onReset = {

@@ -25,7 +25,6 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.toLocal
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
-import com.apps.adrcotfas.goodtime.fakes.FakeInstallDateProvider
 import com.apps.adrcotfas.goodtime.fakes.FakeLabelDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSessionDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSettingsRepository
@@ -52,7 +51,6 @@ class StatsViewModelTest {
     private lateinit var settingsRepository: SettingsRepository
     private lateinit var timeProvider: FakeTimeProvider
     private lateinit var timeFormatProvider: FakeTimeFormatProvider
-    private lateinit var installDateProvider: FakeInstallDateProvider
 
     private lateinit var viewModel: StatisticsViewModel
 
@@ -63,7 +61,6 @@ class StatsViewModelTest {
             fakeLabelDao = FakeLabelDao()
             timeProvider = FakeTimeProvider()
             timeFormatProvider = FakeTimeFormatProvider()
-            installDateProvider = FakeInstallDateProvider()
             fakeTimerProfileDao = FakeTimerProfileDao()
             settingsRepository = FakeSettingsRepository()
             localDataRepository =
@@ -80,7 +77,6 @@ class StatsViewModelTest {
                     settingsRepository,
                     timeProvider,
                     timeFormatProvider,
-                    installDateProvider,
                     StandardTestDispatcher(testScheduler),
                 )
             populateRepo()

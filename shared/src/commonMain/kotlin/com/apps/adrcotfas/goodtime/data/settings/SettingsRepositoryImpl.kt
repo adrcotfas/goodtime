@@ -44,6 +44,7 @@ class SettingsRepositoryImpl(
         val isProKey = booleanPreferencesKey("isProKey")
         val timerProfilesInitializedKey = booleanPreferencesKey("timerProfilesInitializedKey")
         val shouldAskForReviewKey = booleanPreferencesKey("shouldAskForReview")
+        val lastAskedForReviewTimeKey = longPreferencesKey("lastAskedForReviewTime")
         val productivityReminderSettingsKey =
             stringPreferencesKey("productivityReminderSettingsKey")
         val uiSettingsKey = stringPreferencesKey("uiSettingsKey")
@@ -90,6 +91,7 @@ class SettingsRepositoryImpl(
                     it[Keys.timerProfilesInitializedKey]
                         ?: default.timeProfilesInitialized,
                     shouldAskForReview = it[Keys.shouldAskForReviewKey] ?: default.shouldAskForReview,
+                    lastAskedForReviewTime = it[Keys.lastAskedForReviewTimeKey] ?: default.lastAskedForReviewTime,
                     productivityReminderSettings =
                     it[Keys.productivityReminderSettingsKey]?.let { p ->
                         json.decodeFromString<ProductivityReminderSettings>(p)
@@ -306,6 +308,10 @@ class SettingsRepositoryImpl(
 
     override suspend fun setShouldAskForReview(enable: Boolean) {
         dataStore.edit { it[Keys.shouldAskForReviewKey] = enable }
+    }
+
+    override suspend fun setLastAskedForReviewTime(millis: Long) {
+        dataStore.edit { it[Keys.lastAskedForReviewTimeKey] = millis }
     }
 
     override suspend fun setBackupSettings(backupSettings: BackupSettings) {

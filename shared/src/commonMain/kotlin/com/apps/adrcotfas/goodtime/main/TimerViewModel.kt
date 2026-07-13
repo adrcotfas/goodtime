@@ -56,6 +56,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.math.floor
 import kotlin.math.max
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.milliseconds
 
 data class TimerUiState(
@@ -307,13 +308,30 @@ class TimerViewModel(
         return timeProvider.elapsedRealtime() - timerData.runtime.endTime
     }
 
-    fun setShouldAskForReview() = viewModelScope.launch { settingsRepo.setShouldAskForReview(true) }
+    /**
+     * Request the in-app review flow if the user is engaged enough to be worth asking:
+     * old install, enough completed sessions, and not asked recently. The Play API has its
+     * own opaque quota; the local throttle keeps each call at a moment we chose.
+     */
+    fun askForReviewIfEligible() {
+        viewModelScope.launch {
+            val lastAsked = settingsRepo.settings.first().lastAskedForReviewTime
+            if (installDateProvider.isInstallOlderThan10Days() &&
+                timeProvider.now() - lastAsked >= MIN_TIME_BETWEEN_REVIEW_ASKS.inWholeMilliseconds &&
+                localDataRepo.selectNumberOfSessionsAfter(0).first() >= MIN_SESSIONS_FOR_REVIEW
+            ) {
+                settingsRepo.setLastAskedForReviewTime(timeProvider.now())
+                settingsRepo.setShouldAskForReview(true)
+            }
+        }
+    }
 
     fun setShowTutorial(show: Boolean) {
         viewModelScope.launch {
             settingsRepo.setShowTutorial(show)
         }
     }
-
-    fun isInstallOlderThan10Days(): Boolean = installDateProvider.isInstallOlderThan10Days()
 }
+
+private const val MIN_SESSIONS_FOR_REVIEW = 10
+private val MIN_TIME_BETWEEN_REVIEW_ASKS = 30.days

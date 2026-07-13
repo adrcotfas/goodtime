@@ -28,6 +28,8 @@ data class AppSettings(
     val isPro: Boolean = false,
     val timeProfilesInitialized: Boolean = false,
     val shouldAskForReview: Boolean = false,
+    /** Epoch millis of the last in-app review request, or 0 if never asked */
+    val lastAskedForReviewTime: Long = 0,
     val productivityReminderSettings: ProductivityReminderSettings = ProductivityReminderSettings(),
     val uiSettings: UiSettings = UiSettings(),
     val timerStyle: TimerStyleData = TimerStyleData(),
