@@ -94,7 +94,7 @@ import kotlin.math.roundToInt
 fun MainScreen(
     navController: NavController,
     onSurfaceClick: () -> Unit,
-    hideBottomBar: Boolean,
+    hideBottomBar: () -> Boolean,
     viewModel: TimerViewModel = koinViewModel(),
     mainViewModel: MainViewModel,
     onUpdateClicked: () -> Unit,
@@ -300,7 +300,7 @@ fun MainScreen(
                     } else {
                         BottomAppBar(
                             modifier = Modifier.align(Alignment.BottomCenter),
-                            hide = hideBottomBar,
+                            hide = hideBottomBar(),
                             onShowSheet = { showNavigationSheet = true },
                             onLabelClick = { showSelectLabelDialog = true },
                             labelData = label.getLabelData(),

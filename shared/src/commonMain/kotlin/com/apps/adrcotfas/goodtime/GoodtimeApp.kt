@@ -98,11 +98,12 @@ fun GoodtimeApp(
     val fullscreenMode = isMainScreen && uiState.fullscreenMode
     var fullScreenJob by remember { mutableStateOf<Job?>(null) }
 
+    val hideBottomBar = remember { mutableStateOf(fullscreenMode) }
+
     LaunchedEffect(fullscreenMode) {
-        fullscreenMode.let {
-            platformContext.setFullscreen(it)
-            if (!it) fullScreenJob?.cancel()
-        }
+        platformContext.setFullscreen(fullscreenMode)
+        hideBottomBar.value = fullscreenMode
+        if (!fullscreenMode) fullScreenJob?.cancel()
     }
 
     LifecycleResumeEffect(Unit) {
@@ -112,20 +113,16 @@ fun GoodtimeApp(
         }
     }
 
-    var hideBottomBar by remember(fullscreenMode) {
-        mutableStateOf(fullscreenMode)
-    }
-
     val onSurfaceClick = {
         if (fullscreenMode) {
             fullScreenJob?.cancel()
             fullScreenJob =
                 coroutineScope.launch {
                     platformContext.setFullscreen(false)
-                    hideBottomBar = false
+                    hideBottomBar.value = false
                     delay(3000.milliseconds)
                     platformContext.setFullscreen(true)
-                    hideBottomBar = true
+                    hideBottomBar.value = true
                 }
         }
     }
@@ -186,7 +183,7 @@ fun GoodtimeApp(
                     navController = navController,
                     mainViewModel = mainViewModel,
                     onSurfaceClick = onSurfaceClick,
-                    hideBottomBar = hideBottomBar,
+                    hideBottomBar = { hideBottomBar.value },
                     onUpdateClicked = onUpdateClicked,
                 )
             }
