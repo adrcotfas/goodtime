@@ -20,3 +20,4 @@ Idéal pour les étudiants qui ont besoin d'un minuteur d'étude, les profession
 <b>Statistiques Pro</b>: Visualisation par étiquettes, édition manuelle des sessions et notes.
 <b>Sauvegarde et exportation</b>
 <b>Alertes avancées</b>: Flash d'écran, lampe torche et notifications persistantes.
+<b>Image dans l’image</b>

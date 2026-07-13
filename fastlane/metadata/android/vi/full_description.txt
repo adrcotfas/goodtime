@@ -20,3 +20,4 @@ Lý tưởng cho sinh viên cần hẹn giờ học, chuyên gia muốn làm vi�
 <b>Thống kê Chuyên sâu</b>: Trực quan hóa dữ liệu theo nhãn, chỉnh sửa thủ công các phiên làm việc và thêm ghi chú.
 <b>Sao lưu & Xuất dữ liệu</b>
 <b>Cảnh báo Nâng cao</b>: Nháy màn hình, bật đèn flash và thông báo liên tục.
+<b>Hình trong hình</b>

@@ -20,3 +20,4 @@ Täydellinen opiskelijoille opiskeluajastimeksi, ammattilaisille syvään työsk
 <b>Pro-tilastot</b>: Tunnisteisiin perustuva visualisointi, manuaalinen istuntojen muokkaus ja muistiinpanot.
 <b>Varmuuskopiointi ja vienti</b>
 <b>Edistyneet hälytykset</b>: Näytön välähdys, taskulamppu ja pysyvät ilmoitukset.
+<b>Kuva kuvassa</b>

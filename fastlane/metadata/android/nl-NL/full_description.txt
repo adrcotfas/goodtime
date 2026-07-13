@@ -20,3 +20,4 @@ Ideaal voor studenten die een studietimer zoeken, professionals die behoefte heb
 <b>Pro Statistieken</b>: Visualisatie op basis van labels, handmatig bewerken van sessies en notities toevoegen.
 <b>Back-up & Exporteren</b>
 <b>Geavanceerde Meldingen</b>: Schermflits, zaklamp en blijvende meldingen.
+<b>Beeld-in-beeld</b>

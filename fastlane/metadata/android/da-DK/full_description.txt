@@ -20,3 +20,4 @@ Perfekt til studerende, der har brug for en studie-timer, professionelle, der s√
 <b>Pro Statistik</b>: Etiketbaseret visualisering, manuel redigering af sessioner og noter.
 <b>Backup & Eksport</b>
 <b>Avancerede Advarsler</b>: Sk√¶rm-flash, lommelygte og vedvarende notifikationer.
+<b>Billede i billede</b>

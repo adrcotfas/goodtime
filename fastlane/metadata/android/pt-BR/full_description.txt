@@ -20,3 +20,4 @@ Ideal para estudantes que precisam de um timer de estudo, profissionais em busca
 <b>Estatísticas Pro</b>: Visualização por etiquetas, edição manual de sessões e notas.
 <b>Backup e Exportação</b>
 <b>Alertas Avançados</b>: Flash na tela, lanterna e notificações persistentes.
+<b>Picture-in-picture</b>

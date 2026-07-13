@@ -20,3 +20,4 @@ Tökéletes választás diákoknak tanuláshoz, szakembereknek mély munkához �
 <b>Pro statisztikák</b>: Címke alapú vizualizáció, manuális munkamenet szerkesztés és jegyzetek.
 <b>Biztonsági mentés és exportálás</b>
 <b>Fejlett riasztások</b>: Képernyő villanás, zseblámpa és tartós értesítések.
+<b>Kép a képben</b>

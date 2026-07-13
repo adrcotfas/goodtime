@@ -20,3 +20,4 @@ Sangat cocok untuk pelajar yang butuh pengatur waktu belajar, profesional yang m
 <b>Statistik Pro</b>: Visualisasi berdasarkan label, pengeditan sesi manual, dan catatan.
 <b>Cadangkan & Ekspor</b>
 <b>Peringatan Lanjutan</b>: Layar berkedip, senter, dan notifikasi yang terus muncul.
+<b>Picture-in-picture</b>

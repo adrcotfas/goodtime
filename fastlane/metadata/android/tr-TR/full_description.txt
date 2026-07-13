@@ -20,3 +20,4 @@ Goodtime, bağımsız geliştirilmiş, açık kaynaklı, minimalist bir üretken
 <b>Profesyonel İstatistikler</b>: Etiket bazlı görselleştirme, manuel seans düzenleme ve notlar.
 <b>Yedekleme ve Dışa Aktarma</b>
 <b>Gelişmiş Uyarılar</b>: Ekran flaşı, el feneri ve kalıcı bildirimler.
+<b>Pencere içinde pencere</b>

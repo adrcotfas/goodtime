@@ -20,3 +20,4 @@ Perfect for students needing a study timer, professionals seeking deep work and 
 <b>Pro Statistics</b>: Label-based visualization, manual session editing, and notes.
 <b>Backup & Export</b>
 <b>Advanced Alerts</b>: Screen flash, torch, and persistent notifications.
+<b>Picture-in-picture</b>

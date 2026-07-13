@@ -20,3 +20,4 @@ Ideal für Studierende, die einen Lern-Timer suchen, Berufstätige, die konzentr
 <b>Pro-Statistiken</b>: Label-basierte Visualisierung, manuelle Bearbeitung von Sitzungen und Notizen.
 <b>Backup & Export</b>
 <b>Erweiterte Benachrichtigungen</b>: Bildschirm-Flash, Taschenlampe und dauerhafte Benachrichtigungen.
+<b>Bild im Bild</b>

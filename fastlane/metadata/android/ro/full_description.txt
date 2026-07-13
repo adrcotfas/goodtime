@@ -20,3 +20,4 @@ Ideal pentru studenții care au nevoie de un cronometru de studiu, profesionișt
 <b>Statistici Avansate</b>: Vizualizări bazate pe etichete, editare manuală a sesiunilor și adăugare de note.
 <b>Backup & Export Date</b>
 <b>Alerte Complexe</b>: Flash ecran, activare lanternă și notificări persistente.
+<b>Picture-in-picture</b>

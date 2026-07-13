@@ -20,3 +20,4 @@ Ideale per studenti che cercano un timer per lo studio, professionisti che punta
 <b>Statistiche Pro</b>: Visualizzazione basata su etichette, modifica manuale delle sessioni e note.
 <b>Backup ed Esportazione</b>
 <b>Avvisi Avanzati</b>: Flash dello schermo, torcia e notifiche persistenti.
+<b>Picture-in-picture</b>

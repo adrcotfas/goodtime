@@ -20,3 +20,4 @@ Ideal para estudiantes que necesitan un temporizador de estudio, profesionales q
 <b>Estadísticas Pro</b>: Visualización por etiquetas, edición manual de sesiones y notas.
 <b>Copia de Seguridad y Exportación</b>
 <b>Alertas Avanzadas</b>: Flash de pantalla, linterna y notificaciones persistentes.
+<b>Imagen en imagen</b>

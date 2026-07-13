@@ -20,3 +20,4 @@ Ideální pro studenty, kteří potřebují časovač na učení, profesionály 
 <b>Pro statistiky</b>: Vizualizace podle štítků, ruční úprava dokončených bloků a poznámky.
 <b>Zálohování a export</b>
 <b>Pokročilá upozornění</b>: Blikání obrazovky, svítilna a trvalá oznámení.
+<b>Obraz v obraze</b>

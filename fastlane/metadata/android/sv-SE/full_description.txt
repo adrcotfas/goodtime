@@ -20,3 +20,4 @@ Perfekt för studenter som behöver en studietimer, yrkesverksamma som vill arbe
 <b>Pro Statistik</b>: Visualisering baserad på etiketter, manuell redigering av pass och anteckningar.
 <b>Säkerhetskopiering & Export</b>
 <b>Avancerade Varningar</b>: Skärmblixt, ficklampa och kvarstående aviseringar.
+<b>Bild-i-bild</b>

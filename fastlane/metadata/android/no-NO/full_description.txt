@@ -20,3 +20,4 @@ Perfekt for studenter som trenger en studietimer, profesjonelle som ønsker dypk
 <b>Pro-statistikk</b>: Visualisering basert på etiketter, manuell redigering av økter og notater.
 <b>Sikkerhetskopiering og eksport</b>
 <b>Avanserte varsler</b>: Skjermblits, lommelykt og vedvarende varsler.
+<b>Bilde-i-bilde</b>

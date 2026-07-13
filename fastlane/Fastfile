@@ -1,11 +1,11 @@
 default_platform(:android)
 
 platform :android do
-  desc "Build the Google-flavor release AAB and upload to Play internal track"
-  lane :internal do
+  desc "Build the Google-flavor release AAB and upload to a Play track (default: internal)"
+  lane :release do |options|
     gradle(task: "androidApp:bundleGoogleRelease")
     upload_to_play_store(
-      track: "internal",
+      track: options[:track] || "internal",
       aab: "androidApp/build/outputs/bundle/googleRelease/androidApp-google-release.aab",
     )
   end

@@ -20,3 +20,4 @@ Idealny dla studentów potrzebujących timera do nauki, profesjonalistów szukaj
 <b>Statystyki Pro</b>: Wizualizacja danych według etykiet, ręczna edycja sesji i dodawanie notatek.
 <b>Kopia Zapasowa i Eksport</b>
 <b>Zaawansowane Alerty</b>: Miganie ekranu, użycie latarki i trwałe powiadomienia.
+<b>Obraz w obrazie</b>
