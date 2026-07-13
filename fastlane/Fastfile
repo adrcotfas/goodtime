@@ -5,6 +5,10 @@ platform :android do
   lane :release do |options|
     gradle(task: "androidApp:bundleGoogleRelease")
     upload_to_play_store(
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
       track: options[:track] || "internal",
       aab: "androidApp/build/outputs/bundle/googleRelease/androidApp-google-release.aab",
     )
