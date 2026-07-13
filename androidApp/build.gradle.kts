@@ -1,5 +1,17 @@
 import com.android.build.api.variant.BuildConfigField
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+
+val keystorePropsFile = rootProject.file("keystore.properties")
+val keystoreProps =
+    Properties().apply {
+        if (keystorePropsFile.exists()) keystorePropsFile.inputStream().use { load(it) }
+    }
+
+fun signingValue(
+    propKey: String,
+    envKey: String,
+): String? = keystoreProps.getProperty(propKey) ?: System.getenv(envKey)
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -58,6 +70,18 @@ android {
         }
     }
 
+    val storeFilePath = signingValue("storeFile", "RELEASE_STORE_FILE")
+    signingConfigs {
+        if (storeFilePath != null) {
+            create("release") {
+                storeFile = rootProject.file(storeFilePath)
+                storePassword = signingValue("storePassword", "RELEASE_STORE_PASSWORD")
+                keyAlias = signingValue("keyAlias", "RELEASE_KEY_ALIAS")
+                keyPassword = signingValue("keyPassword", "RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -66,7 +90,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig =
+                if (storeFilePath != null) {
+                    signingConfigs.getByName("release")
+                } else {
+                    signingConfigs.getByName("debug")
+                }
         }
         getByName("debug") {
             isDebuggable = true

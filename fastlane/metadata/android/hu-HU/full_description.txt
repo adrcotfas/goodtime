@@ -1,0 +1,22 @@
+🧠 <b>Fókuszáljon és növelje a produktivitását - Egyszerű, privát, nyílt forráskódú.</b>
+
+A Goodtime egy független, nyílt forráskódú, minimalista produktivitás időzítő - könnyű, reklám- és követésmentes.
+
+Tökéletes választás diákoknak tanuláshoz, szakembereknek mély munkához és időgazdálkodáshoz, valamint mindenkinek, aki küzd a zavaró tényezőkkel és a halogatással.
+
+<b>Produktivitási módok</b>
+🍅 <b>Pomodoro időzítő</b>: Dolgozzon strukturált, fókuszált szakaszokban, rövid szünetekkel megszakítva, hogy élesen tartsa elméjét. Növelje a tanulás hatékonyságát.
+☕ <b>Hosszabb szünetek</b>: Több pomodoro szakasz után hosszabb szüneteket tarthat, hogy teljesen feltöltődjön és fenntartsa a magas szintű produktivitást.
+⏳ <b>Számláló áramlás időzítő</b>: Kövesse nyomon a megszakítás nélküli munkaidejét, és gyűjtsön szünetre fordítható időt, ahogy eléri az áramlási állapotot. Tartson szünetet, amikor készen áll.
+
+<b>Vezérlés és időkövetés</b>
+<b>Konfigurálható időzítő</b>: Igazítsa az időzítőt a saját munkafolyamatához. Szüneteltessen, ugorjon át vagy adjon hozzá extra időt intuitív csúsztatásos mozdulatokkal.
+<b>Minimalista design</b>: Tiszta felület segíti a fókuszálást, zavaró tényezők nélkül.
+<b>Részletes statisztikák</b>: Kövesse nyomon az összegyűjtött fókusz idejét és mérje a produktivitását. Állítson be napi emlékeztetőt, és szabja testre a nap/hét kezdetét.
+<b>Fókusz védelem</b>: Használja a Ne zavarjanak módot a tanulási vagy munkafolyamatok alatt.
+
+<b>Prémium funkciók</b>
+<b>Címkék és testreszabás</b>: Színes címkék hozzárendelése, archiválás és az időzítő kijelző teljes testreszabása.
+<b>Pro statisztikák</b>: Címke alapú vizualizáció, manuális munkamenet szerkesztés és jegyzetek.
+<b>Biztonsági mentés és exportálás</b>
+<b>Fejlett riasztások</b>: Képernyő villanás, zseblámpa és tartós értesítések.

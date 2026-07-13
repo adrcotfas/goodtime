@@ -1,0 +1,17 @@
+default_platform(:android)
+
+platform :android do
+  desc "Build the Google-flavor release AAB and upload to Play internal track"
+  lane :internal do
+    gradle(task: "androidApp:bundleGoogleRelease")
+    upload_to_play_store(
+      track: "internal",
+      aab: "androidApp/build/outputs/bundle/googleRelease/androidApp-google-release.aab",
+    )
+  end
+
+  desc "Sync store listing metadata to Play (fastlane/metadata/android)"
+  lane :metadata do
+    upload_to_play_store(skip_upload_aab: true, skip_upload_apk: true)
+  end
+end

@@ -1,0 +1,22 @@
+🧠 <b>Concentrare Maximă & Productivitate Sporită - Simplu, Privat, Open-Source.</b>
+
+Goodtime este un cronometru de productivitate minimalist, open-source, dezvoltat independent - ușor, fără reclame și fără urmărire.
+
+Ideal pentru studenții care au nevoie de un cronometru de studiu, profesioniștii care caută concentrare profundă și gestionarea eficientă a timpului, precum și pentru oricine se luptă cu distragerile și amânarea.
+
+<b>Moduri de Productivitate</b>
+🍅 <b>Cronometru Pomodoro</b>: Lucrează în sesiuni de concentrare structurate, urmate de pauze scurte, pentru a-ți menține mintea ageră. Crește eficiența studiului.
+☕ <b>Pauze Mai Lungi</b>: Ia pauze mai extinse după mai multe sesiuni pomodoro pentru a te reîncărca complet și a menține un nivel ridicat de productivitate.
+⏳ <b>Cronometru de Flux (Count-up)</b>: Monitorizează timpul de lucru neîntrerupt și acumulează un "buget" de pauză pe măsură ce intri în starea de flux. Ia o pauză atunci când te simți pregătit.
+
+<b>Control & Monitorizarea Timpului</b>
+<b>Cronometru Configurabil</b>: Adaptează cronometrul la fluxul tău de lucru preferat. Pune pauză, sari peste o sesiune sau adaugă timp suplimentar cu gesturi intuitive de glisare.
+<b>Design Minimalist</b>: Interfața curată te ajută să te concentrezi fără elemente care să te distragă.
+<b>Statistici Detaliate</b>: Urmărește timpul total de concentrare acumulat și cuantifică-ți productivitatea. Setează un memento zilnic și personalizează începutul zilei/săptămânii.
+<b>Protecție Anti-Distragere</b>: Activează modul Nu Deranja în timpul sesiunilor de studiu sau de lucru.
+
+<b>Funcționalități Premium</b>
+<b>Etichete & Personalizare</b>: Atribuie etichete colorate, arhivează sesiuni și personalizează complet aspectul cronometrului.
+<b>Statistici Avansate</b>: Vizualizări bazate pe etichete, editare manuală a sesiunilor și adăugare de note.
+<b>Backup & Export Date</b>
+<b>Alerte Complexe</b>: Flash ecran, activare lanternă și notificări persistente.

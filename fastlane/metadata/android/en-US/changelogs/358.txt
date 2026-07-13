@@ -1,0 +1,7 @@
+• Timer sessions are now recovered if the system closes the app in the background
+• Smoother and more efficient timer updates
+• Faster app startup (baseline profiles)
+• Improved statistics charts
+• Fixed idle time layout in the session finished dialog
+• The sound profile override is now always on (option removed)
+• Translation fixes

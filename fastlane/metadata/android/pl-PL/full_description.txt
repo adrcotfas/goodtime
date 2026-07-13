@@ -1,0 +1,22 @@
+🧠 <b>Skup się i Zwiększ Produktywność – Prosto, Prywatnie, Open Source.</b>
+
+Goodtime to niezależny, minimalistyczny timer produktywności typu open source – lekki, bez reklam i bez śledzenia.
+
+Idealny dla studentów potrzebujących timera do nauki, profesjonalistów szukających narzędzia do głębokiej pracy i zarządzania czasem, a także dla każdego, kto walczy z rozproszeniami i prokrastynacją.
+
+<b>Tryby Produktywności</b>
+🍅 <b>Timer Pomodoro</b>: Pracuj w ustrukturyzowanych sesjach skupienia, przeplatanych krótkimi przerwami, aby utrzymać umysł w dobrej kondycji. Zwiększ efektywność nauki.
+☕ <b>Dłuższe Przerwy</b>: Po kilku sesjach pomodoro zrób dłuższą przerwę, aby w pełni się zregenerować i utrzymać wysoki poziom produktywności.
+⏳ <b>Timer Przepływu (Count-up)</b>: Śledź czas nieprzerwanej pracy i gromadź „budżet” na przerwę, gdy osiągniesz stan przepływu. Zrób przerwę, gdy poczujesz, że jej potrzebujesz.
+
+<b>Kontrola i Śledzenie Czasu</b>
+<b>Konfigurowalny Timer</b>: Dostosuj timer do swojego stylu pracy. Pauzuj, pomijaj sesje lub dodawaj czas za pomocą intuicyjnych gestów przeciągania.
+<b>Minimalistyczny Design</b>: Przejrzysty interfejs pomaga skupić się bez zbędnych rozproszeń.
+<b>Szczegółowe Statystyki</b>: Śledź łączny czas skupienia i mierz swoją produktywność. Ustaw codzienne przypomnienie i dostosuj początek dnia/tygodnia.
+<b>Ochrona Skupienia</b>: Korzystaj z trybu „Nie przeszkadzać” podczas sesji pracy lub nauki.
+
+<b>Funkcje Premium</b>
+<b>Etykiety i Personalizacja</b>: Przypisuj kolorowe etykiety, archiwizuj sesje i w pełni personalizuj wygląd timera.
+<b>Statystyki Pro</b>: Wizualizacja danych według etykiet, ręczna edycja sesji i dodawanie notatek.
+<b>Kopia Zapasowa i Eksport</b>
+<b>Zaawansowane Alerty</b>: Miganie ekranu, użycie latarki i trwałe powiadomienia.

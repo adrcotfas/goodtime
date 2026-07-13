@@ -1,0 +1,2 @@
+json_key_file("fastlane/play-store-key.json")
+package_name("com.apps.adrcotfas.goodtime")

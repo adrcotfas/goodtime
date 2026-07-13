@@ -1,0 +1,22 @@
+🧠 <b>Fokus finden & Produktivität steigern – Einfach, privat, Open Source.</b>
+
+Goodtime ist ein minimalistischer Produktivitäts-Timer von einem Indie-Entwickler – leichtgewichtig, werbefrei und ohne Tracking.
+
+Ideal für Studierende, die einen Lern-Timer suchen, Berufstätige, die konzentriert arbeiten und ihr Zeitmanagement verbessern möchten, und alle, die Ablenkungen und Prokrastination bekämpfen.
+
+<b>Produktivitäts-Modi</b>
+🍅 <b>Pomodoro Technik</b>: Arbeiten Sie in strukturierten Fokus-Einheiten, gefolgt von kurzen Pausen, um konzentriert zu bleiben. Steigern Sie Ihre Lerneffizienz.
+☕ <b>Längere Pausen</b>: Machen Sie nach mehreren Pomodoro-Einheiten längere Pausen, um sich vollständig zu erholen und ein hohes Produktivitätsniveau zu halten.
+⏳ <b>Count-up Flow-Timer</b>: Verfolgen Sie Ihre ununterbrochene Arbeitszeit und sammeln Sie ein Pausenbudget an, während Sie in den Flow kommen. Machen Sie eine Pause, wenn Sie bereit sind.
+
+<b>Kontrolle & Zeiterfassung</b>
+<b>Konfigurierbarer Timer</b>: Passen Sie den Timer an Ihren bevorzugten Arbeitsablauf an. Pausieren, überspringen oder zusätzliche Zeit hinzufügen mit intuitiven Wischgesten.
+<b>Minimalistisches Design</b>: Eine aufgeräumte Oberfläche hilft Ihnen, sich ohne Ablenkungen zu konzentrieren.
+<b>Detaillierte Statistiken</b>: Verfolgen Sie Ihre gesammelte Fokuszeit und messen Sie Ihre Produktivität. Stellen Sie eine tägliche Erinnerung ein und passen Sie den Beginn des Tages/der Woche an.
+<b>Fokus-Schutz</b>: Nutzen Sie den Nicht-Stören-Modus während Ihrer Lernsitzungen.
+
+<b>Premium-Funktionen</b>
+<b>Labels & Anpassung</b>: Weisen Sie farbige Labels zu, archivieren Sie und passen Sie die Timer-Anzeige vollständig an.
+<b>Pro-Statistiken</b>: Label-basierte Visualisierung, manuelle Bearbeitung von Sitzungen und Notizen.
+<b>Backup & Export</b>
+<b>Erweiterte Benachrichtigungen</b>: Bildschirm-Flash, Taschenlampe und dauerhafte Benachrichtigungen.

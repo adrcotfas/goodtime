@@ -1,0 +1,22 @@
+🧠 <b>Oppnå Fokus og Øk Produktiviteten – Enkel, Privat, Åpen Kildekode.</b>
+
+Goodtime er en minimalistisk produktivitetstimer med åpen kildekode, utviklet av en uavhengig utvikler. Den er lett, reklamefri og sporer ikke bruken din.
+
+Perfekt for studenter som trenger en studietimer, profesjonelle som ønsker dypkonsentrasjon og bedre tidsstyring, og alle som sliter med distraksjoner og prokrastinering.
+
+<b>Produktivitetsmoduser</b>
+🍅 <b>Pomodoro-timer</b>: Arbeid i strukturerte fokusøkter etterfulgt av korte pauser for å holde hodet klart. Øk effektiviteten når du studerer.
+☕ <b>Lengre pauser</b>: Ta lengre pauser etter flere pomodoro-økter for å lade helt opp og opprettholde et høyt produktivitetsnivå.
+⏳ <b>Opptellingstimer for flyt</b>: Spor tiden du jobber uavbrutt og bygg opp et "pausebudsjett" etter hvert som du kommer i flytsonen. Ta en pause når du føler deg klar.
+
+<b>Kontroll og tidssporing</b>
+<b>Konfigurerbar timer</b>: Tilpass timeren til din foretrukne arbeidsflyt. Sett på pause, hopp over eller legg til ekstra tid med intuitive sveipebevegelser.
+<b>Minimalistisk design</b>: Et rent grensesnitt hjelper deg å fokusere uten distraksjoner.
+<b>Detaljert statistikk</b>: Spor den totale fokustiden din og få et tall på produktiviteten din. Sett en daglig påminnelse og tilpass starten på dagen/uken.
+<b>Fokusbeskyttelse</b>: Bruk Ikke forstyrr-modus under studieøkter.
+
+<b>Premium-funksjoner</b>
+<b>Etiketter og tilpasning</b>: Tildel fargede etiketter, arkiver og tilpass timerdisplayet fullt ut.
+<b>Pro-statistikk</b>: Visualisering basert på etiketter, manuell redigering av økter og notater.
+<b>Sikkerhetskopiering og eksport</b>
+<b>Avanserte varsler</b>: Skjermblits, lommelykt og vedvarende varsler.

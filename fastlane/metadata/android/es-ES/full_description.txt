@@ -1,0 +1,22 @@
+🧠 <b>Mejora tu Concentración y Productividad - Sencillo, Privado y de Código Abierto.</b>
+
+Goodtime es un temporizador de productividad minimalista e independiente, de código abierto: ligero, sin anuncios ni rastreo.
+
+Ideal para estudiantes que necesitan un temporizador de estudio, profesionales que buscan concentración profunda y gestión del tiempo, y cualquiera que luche contra las distracciones y la procrastinación.
+
+<b>Modos de Productividad</b>
+🍅 <b>Metodo Pomodoro</b>: Trabaja en sesiones de concentración estructuradas seguidas de descansos cortos para mantener la mente despejada. Mejora la eficiencia del estudio.
+☕ <b>Descansos Más Largos</b>: Tómate descansos más largos después de varias sesiones pomodoro para recargar energías por completo y mantener un alto nivel de productividad.
+⏳ <b>Temporizador de Flujo Ascendente</b>: Controla tu tiempo ininterrumpido y acumula tiempo de descanso a medida que alcanzas un estado de flujo. Descansa cuando lo necesites.
+
+<b>Control y Seguimiento del Tiempo</b>
+<b>Temporizador Configurable</b>: Adapta el temporizador a tu método de trabajo preferido. Pausa, salta o añade tiempo extra con gestos de deslizamiento intuitivos.
+<b>Diseño Minimalista</b>: Una interfaz limpia que te ayuda a concentrarte sin distracciones.
+<b>Estadísticas Detalladas</b>: Controla tu tiempo de concentración acumulado y mide tu productividad. Configura un recordatorio diario y personaliza el inicio del día/semana.
+<b>Protección de la Concentración</b>: Utiliza el modo No Molestar durante las sesiones de estudio.
+
+<b>Funciones Premium</b>
+<b>Etiquetas y Personalización</b>: Asigna etiquetas de colores, archiva y personaliza completamente la visualización del temporizador.
+<b>Estadísticas Pro</b>: Visualización por etiquetas, edición manual de sesiones y notas.
+<b>Copia de Seguridad y Exportación</b>
+<b>Alertas Avanzadas</b>: Flash de pantalla, linterna y notificaciones persistentes.

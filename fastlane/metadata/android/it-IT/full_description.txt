@@ -1,0 +1,22 @@
+🧠 <b>Migliora la Concentrazione e Aumenta la Produttività - Semplice, Privato, Open Source.</b>
+
+Goodtime è un timer per la produttività minimalista, indipendente e open source: leggero, senza pubblicità e senza tracciamento.
+
+Ideale per studenti che cercano un timer per lo studio, professionisti che puntano al deep work e alla gestione del tempo, e chiunque voglia combattere distrazioni e procrastinazione.
+
+<b>Modalità di Produttività</b>
+🍅 <b>Metodo Pomodoro</b>: Lavora in sessioni di concentrazione strutturate seguite da brevi pause per mantenere la mente attiva. Migliora l'efficienza dello studio.
+☕ <b>Pause Più Lunghe</b>: Prenditi pause più lunghe dopo diverse sessioni pomodoro per ricaricarti completamente e mantenere un alto livello di produttività.
+⏳ <b>Timer a Conteggio Crescente</b>: Tieni traccia del tuo tempo di lavoro ininterrotto e accumula un "budget" di pausa mentre raggiungi uno stato di flusso. Fai una pausa quando ti senti pronto.
+
+<b>Controllo e Monitoraggio del Tempo</b>
+<b>Timer Configurabile</b>: Adatta il timer al tuo flusso di lavoro ideale. Metti in pausa, salta o aggiungi tempo extra con semplici gesti di scorrimento.
+<b>Design Minimalista</b>: L'interfaccia pulita ti aiuta a concentrarti senza distrazioni.
+<b>Statistiche Dettagliate</b>: Monitora il tempo di concentrazione accumulato e quantifica la tua produttività. Imposta un promemoria giornaliero e personalizza l'inizio del giorno/settimana.
+<b>Protezione della Concentrazione</b>: Utilizza la modalità Non Disturbare durante le sessioni di studio.
+
+<b>Funzionalità Premium</b>
+<b>Etichette e Personalizzazione</b>: Assegna etichette colorate, archivia e personalizza completamente la visualizzazione del timer.
+<b>Statistiche Pro</b>: Visualizzazione basata su etichette, modifica manuale delle sessioni e note.
+<b>Backup ed Esportazione</b>
+<b>Avvisi Avanzati</b>: Flash dello schermo, torcia e notifiche persistenti.

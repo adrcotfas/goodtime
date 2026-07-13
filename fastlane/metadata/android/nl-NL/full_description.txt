@@ -1,0 +1,22 @@
+🧠 <b>Bereik Focus & Verhoog Productiviteit - Eenvoudig, Privé, Open-Source.</b>
+
+Goodtime is een minimalistische productiviteitstimer van een onafhankelijke ontwikkelaar - lichtgewicht, zonder advertenties of tracking.
+
+Ideaal voor studenten die een studietimer zoeken, professionals die behoefte hebben aan diep werk en effectief tijdmanagement, en iedereen die worstelt met afleiding en uitstelgedrag.
+
+<b>Productiviteitsmodi</b>
+🍅 <b>Pomodoro Timer</b>: Werk in gestructureerde focusblokken, afgewisseld met korte pauzes om je concentratie te behouden. Verhoog je studie-efficiëntie.
+☕ <b>Langere Pauzes</b>: Neem na een aantal pomodoro-sessies een langere pauze om volledig te herstellen en je productiviteit op peil te houden.
+⏳ <b>Oplopende Flow Timer</b>: Houd bij hoe lang je ononderbroken werkt en bouw een pauzebudget op naarmate je in een flow komt. Neem een pauze wanneer het jou uitkomt.
+
+<b>Controle & Tijdregistratie</b>
+<b>Configureerbare Timer</b>: Pas de timer aan jouw manier van werken aan. Pauzeer, sla over of voeg extra tijd toe met simpele veegbewegingen.
+<b>Minimalistisch Ontwerp</b>: Een overzichtelijke interface helpt je focussen zonder afleidingen.
+<b>Gedetailleerde Statistieken</b>: Volg je totale focustijd en meet je productiviteit. Stel een dagelijkse herinnering in en bepaal zelf wanneer je dag/week begint.
+<b>Focus Bescherming</b>: Gebruik de Niet Storen-modus tijdens je studiesessies.
+
+<b>Premium Functies</b>
+<b>Labels & Aanpassing</b>: Wijs gekleurde labels toe, archiveer sessies en pas de timerweergave volledig naar wens aan.
+<b>Pro Statistieken</b>: Visualisatie op basis van labels, handmatig bewerken van sessies en notities toevoegen.
+<b>Back-up & Exporteren</b>
+<b>Geavanceerde Meldingen</b>: Schermflits, zaklamp en blijvende meldingen.

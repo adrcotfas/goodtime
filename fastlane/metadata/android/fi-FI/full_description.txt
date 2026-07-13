@@ -1,0 +1,22 @@
+🧠 <b>Keskity ja tehosta tuottavuutta – Yksinkertainen, yksityinen, avoimen lähdekoodin sovellus.</b>
+
+Goodtime on itsenäinen, avoimen lähdekoodin minimalistinen tuottavuusajastin – kevyt, mainokseton ja seurannasta vapaa.
+
+Täydellinen opiskelijoille opiskeluajastimeksi, ammattilaisille syvään työskentelyyn ja ajanhallintaan, sekä kaikille, jotka kamppailevat häiriötekijöiden ja viivyttelyn kanssa.
+
+<b>Tuottavuustilat</b>
+🍅 <b>Pomodoro-ajastin</b>: Työskentele jäsennellyissä keskittymisjaksoissa, joita seuraavat lyhyet tauot pitääksesi mielesi virkeänä. Paranna opiskelun tehokkuutta.
+☕ <b>Pidemmät tauot</b>: Pidä pidempiä taukoja useiden pomodoro-jaksojen jälkeen latautuaksesi täysin ja säilyttääksesi korkean tuottavuuden.
+⏳ <b>Laskeva virtausajastin</b>: Seuraa keskeytymätöntä työskentelyaikaasi ja kerrytä tauko-budjettia saavuttaessasi virtaustilan. Pidä tauko, kun olet valmis.
+
+<b>Hallinta ja ajankäytön seuranta</b>
+<b>Muokattava ajastin</b>: Säädä ajastin vastaamaan haluamaasi työnkulkua. Keskeytä, ohita tai lisää aikaa intuitiivisilla pyyhkäisyeleillä.
+<b>Minimalistinen muotoilu</b>: Selkeä käyttöliittymä auttaa keskittymään ilman häiriöitä.
+<b>Yksityiskohtaiset tilastot</b>: Seuraa kertynyttä keskittymisaikaasi ja mittaa tuottavuuttasi. Aseta päivittäinen muistutus ja mukauta päivän/viikon alkua.
+<b>Keskittymisen suojaus</b>: Käytä Älä häiritse -tilaa työskentelyjaksojen aikana.
+
+<b>Premium-ominaisuudet</b>
+<b>Tunnisteet ja mukautus</b>: Määritä värillisiä tunnisteita, arkistoi ja mukauta ajastimen ulkoasua täysin.
+<b>Pro-tilastot</b>: Tunnisteisiin perustuva visualisointi, manuaalinen istuntojen muokkaus ja muistiinpanot.
+<b>Varmuuskopiointi ja vienti</b>
+<b>Edistyneet hälytykset</b>: Näytön välähdys, taskulamppu ja pysyvät ilmoitukset.

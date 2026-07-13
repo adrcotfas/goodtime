@@ -1,0 +1,22 @@
+🧠 <b>Dosiahnite sústredenie a zvýšte produktivitu – Jednoducho, súkromne, s otvoreným zdrojovým kódom.</b>
+
+Goodtime je nezávislý, minimalistický časovač produktivity s otvoreným zdrojovým kódom – je ľahký, bez reklám a nesleduje vás.
+
+Ideálny pre študentov, ktorí potrebujú časovač na učenie, profesionálov hľadajúcich hlbokú prácu a efektívne riadenie času, a pre každého, kto bojuje s rozptýlením a prokrastináciou.
+
+<b>Režimy produktivity</b>
+🍅 <b>Pomodoro časovač</b>: Pracujte v štruktúrovaných blokoch sústredenia, po ktorých nasledujú krátke prestávky, aby vaša myseľ zostala svieža. Zvýšte efektivitu štúdia.
+☕ <b>Dlhšie prestávky</b>: Po niekoľkých pomodoro blokoch si doprajte dlhšie prestávky, aby ste sa plne zregenerovali a udržali si vysokú úroveň produktivity.
+⏳ <b>Časovač toku (Count-up)</b>: Sledujte čas, počas ktorého ste neprerušene sústredení, a získavajte "rozpočet" na prestávky, keď dosiahnete stav toku. Prestávku si urobte, keď ste pripravení.
+
+<b>Ovládanie a sledovanie času</b>
+<b>Nastaviteľný časovač</b>: Prispôsobte časovač svojmu preferovanému pracovnému štýlu. Pozastavte, preskočte alebo pridajte čas pomocou intuitívnych gest potiahnutia.
+<b>Minimalistický dizajn</b>: Čisté rozhranie vám pomôže sústrediť sa bez rušivých elementov.
+<b>Podrobné štatistiky</b>: Sledujte celkový čas strávený sústredením a kvantifikujte svoju produktivitu. Nastavte si denné pripomenutie a prispôsobte si začiatok dňa/týždňa.
+<b>Ochrana sústredenia</b>: Počas študijných blokov použite režim Nerušiť.
+
+<b>Prémiové funkcie</b>
+<b>Štítky a prispôsobenie</b>: Priraďte farebné štítky, archivujte a plne si prispôsobte vzhľad časovača.
+<b>Pro štatistiky</b>: Vizualizácia podľa štítkov, manuálna úprava dokončených blokov a pridávanie poznámok.
+<b>Zálohovanie a export</b>
+<b>Pokročilé upozornenia</b>: Blikanie obrazovky, zapnutie blesku a trvalé notifikácie.

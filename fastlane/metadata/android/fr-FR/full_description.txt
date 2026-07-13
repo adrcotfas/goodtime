@@ -1,0 +1,22 @@
+🧠 <b>Concentrez-vous et boostez votre productivité - Simple, privé, open source.</b>
+
+Goodtime est un minuteur de productivité minimaliste indépendant et open source - léger, sans publicité et sans suivi.
+
+Idéal pour les étudiants qui ont besoin d'un minuteur d'étude, les professionnels qui recherchent un travail approfondi et une meilleure gestion du temps, et tous ceux qui luttent contre les distractions et la procrastination.
+
+<b>Modes de productivité</b>
+🍅 <b>Minuteur Pomodoro</b>: Travaillez par sessions de concentration structurées, suivies de courtes pauses pour garder l'esprit vif. Améliorez votre efficacité d'étude.
+☕ <b>Pauses plus longues</b>: Prenez des pauses plus longues après plusieurs sessions Pomodoro pour vous ressourcer pleinement et maintenir un haut niveau de productivité.
+⏳ <b>Minuteur de flux (compte ascendant)</b>: Suivez votre temps de travail ininterrompu et accumulez un "budget" de pause lorsque vous atteignez un état de flux. Faites une pause quand vous êtes prêt.
+
+<b>Contrôle et suivi du temps</b>
+<b>Minuteur configurable</b>: Adaptez le minuteur à votre méthode de travail préférée. Mettez en pause, passez ou ajoutez du temps supplémentaire grâce à des gestes de balayage intuitifs.
+<b>Design minimaliste</b>: Une interface épurée pour vous aider à vous concentrer sans distractions.
+<b>Statistiques détaillées</b>: Suivez votre temps de concentration cumulé et mesurez votre productivité. Définissez un rappel quotidien et personnalisez le début du jour/de la semaine.
+<b>Protection de la concentration</b>: Utilisez le mode Ne pas déranger pendant vos sessions d'étude.
+
+<b>Fonctionnalités Premium</b>
+<b>Étiquettes et personnalisation</b>: Attribuez des étiquettes colorées, archivez et personnalisez entièrement l'affichage du minuteur.
+<b>Statistiques Pro</b>: Visualisation par étiquettes, édition manuelle des sessions et notes.
+<b>Sauvegarde et exportation</b>
+<b>Alertes avancées</b>: Flash d'écran, lampe torche et notifications persistantes.

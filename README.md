@@ -14,16 +14,16 @@ Goodtime is an indie open-source minimalist productivity timer - lightweight, ad
 Perfect for students needing a study timer, professionals seeking deep work and time management, and anyone fighting distractions and procrastination.
 
 <p align="center">
-  <img src="docs/assets/screenshots/1.png" width="200">
-  <img src="docs/assets/screenshots/2.png" width="200">
-  <img src="docs/assets/screenshots/3.png" width="200">
-  <img src="docs/assets/screenshots/6.png" width="200">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1_en-US.png" width="200">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2_en-US.png" width="200">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3_en-US.png" width="200">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6_en-US.png" width="200">
 </p>
 
 <p align="center">
-  <img src="docs/assets/screenshots/5.png" width="200">
-  <img src="docs/assets/screenshots/4.png" width="200">
-  <img src="docs/assets/screenshots/7.png" width="200">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5_en-US.png" width="200">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4_en-US.png" width="200">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7_en-US.png" width="200">
 </p>
 
 ## Features

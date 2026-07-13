@@ -1,0 +1,22 @@
+🧠 <b>Achieve Focus & Boost Productivity - Simple, Private, Open-Source.</b>
+
+Goodtime is an indie open-source minimalist productivity timer - lightweight, ad-free and tracking-free.
+
+Perfect for students needing a study timer, professionals seeking deep work and time management, and anyone fighting distractions and procrastination.
+
+<b>Productivity Modes</b>
+🍅 <b>Pomodoro Timer</b>: Work in structured focus sessions followed by short breaks to keep your mind sharp. Boost study efficiency.
+☕ <b>Longer Breaks</b>: Take longer breaks after several pomodoro sessions to fully recharge and maintain a high level of productivity.
+⏳ <b>Count-up Flow Timer</b>: Track your uninterrupted time and accumulate a break budget as you reach a flow state. Take a break when ready.
+
+<b>Control & Time Tracking</b>
+<b>Configurable Timer</b>: Match the timer to your preferred workflow. Pause, skip, or add extra time with intuitive swipe gestures.
+<b>Minimalist Design</b>: Clean interface helps you focus without distractions.
+<b>Detailed Statistics</b>: Track your accumulated focus time and quantify your productivity. Set a daily reminder and customize the start of the day/week.
+<b>Focus Protection</b>: Use Do Not Disturb mode during study sessions.
+
+<b>Premium Features</b>
+<b>Labels & Customization</b>: Assign colored labels, archive, and fully customize the timer display.
+<b>Pro Statistics</b>: Label-based visualization, manual session editing, and notes.
+<b>Backup & Export</b>
+<b>Advanced Alerts</b>: Screen flash, torch, and persistent notifications.

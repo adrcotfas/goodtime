@@ -1,0 +1,22 @@
+🧠 <b>Tăng cường Tập trung & Nâng cao Năng suất - Đơn giản, Riêng tư, Mã nguồn mở.</b>
+
+Goodtime là ứng dụng hẹn giờ năng suất tối giản, mã nguồn mở, được phát triển độc lập - nhẹ, không quảng cáo và không theo dõi dữ liệu người dùng.
+
+Lý tưởng cho sinh viên cần hẹn giờ học, chuyên gia muốn làm việc sâu và quản lý thời gian hiệu quả, cũng như bất kỳ ai đang vật lộn với sự xao nhãng và trì hoãn.
+
+<b>Các Chế độ Năng suất</b>
+🍅 <b>Hẹn giờ Pomodoro</b>: Làm việc theo các phiên tập trung có cấu trúc, xen kẽ với các giờ nghỉ ngắn để giữ cho đầu óc luôn minh mẫn. Nâng cao hiệu quả học tập.
+☕ <b>Nghỉ dài hơn</b>: Dành thời gian nghỉ dài hơn sau vài phiên Pomodoro để nạp năng lượng đầy đủ và duy trì năng suất cao.
+⏳ <b>Hẹn giờ Đếm xuôi (Flow Timer)</b>: Theo dõi thời gian làm việc không bị gián đoạn và tích lũy "ngân sách" nghỉ ngơi khi bạn đạt trạng thái tập trung cao độ (flow state). Nghỉ ngơi khi cảm thấy sẵn sàng.
+
+<b>Kiểm soát & Theo dõi Thời gian</b>
+<b>Hẹn giờ Tùy chỉnh</b>: Điều chỉnh bộ hẹn giờ phù hợp với quy trình làm việc ưa thích của bạn. Tạm dừng, bỏ qua hoặc thêm thời gian dễ dàng bằng cử chỉ vuốt trực quan.
+<b>Thiết kế Tối giản</b>: Giao diện gọn gàng giúp bạn tập trung tối đa, không bị phân tâm.
+<b>Thống kê Chi tiết</b>: Theo dõi tổng thời gian tập trung đã tích lũy và đo lường năng suất của bạn. Đặt lời nhắc hàng ngày và tùy chỉnh thời điểm bắt đầu ngày/tuần.
+<b>Bảo vệ Tập trung</b>: Sử dụng chế độ Không làm phiền trong các phiên làm việc/học tập.
+
+<b>Tính năng Cao cấp (Premium)</b>
+<b>Nhãn & Tùy chỉnh</b>: Gán nhãn màu, lưu trữ và tùy chỉnh hoàn toàn giao diện hẹn giờ.
+<b>Thống kê Chuyên sâu</b>: Trực quan hóa dữ liệu theo nhãn, chỉnh sửa thủ công các phiên làm việc và thêm ghi chú.
+<b>Sao lưu & Xuất dữ liệu</b>
+<b>Cảnh báo Nâng cao</b>: Nháy màn hình, bật đèn flash và thông báo liên tục.
