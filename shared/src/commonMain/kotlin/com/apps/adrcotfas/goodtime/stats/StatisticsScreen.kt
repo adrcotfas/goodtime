@@ -69,7 +69,6 @@ import goodtime_productivity.shared.generated.resources.stats_delete_selected_se
 import goodtime_productivity.shared.generated.resources.stats_overview
 import goodtime_productivity.shared.generated.resources.stats_timeline
 import goodtime_productivity.shared.generated.resources.unlock_premium
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -87,7 +86,7 @@ private enum class TabType {
     Timeline,
 }
 
-@OptIn(ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun StatisticsScreen(
     onNavigateBack: () -> Unit,
@@ -354,7 +353,7 @@ fun StatisticsScreen(
                     SelectLabelDialog(
                         title = stringResource(Res.string.labels_select_label),
                         labels = uiState.labels.filter { !it.isDefault() },
-                        initialSelectedLabels = persistentListOf(uiState.newSession.label),
+                        initialSelectedLabels = listOf(uiState.newSession.label),
                         onDismiss = { showSelectLabelDialog = false },
                         singleSelection = true,
                         onConfirm = {

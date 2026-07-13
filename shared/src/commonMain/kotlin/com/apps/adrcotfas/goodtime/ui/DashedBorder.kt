@@ -19,7 +19,6 @@ package com.apps.adrcotfas.goodtime.ui
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.Shape
@@ -32,15 +31,6 @@ import androidx.compose.ui.unit.dp
 
 fun Modifier.dashedBorder(
     color: Color,
-    shape: Shape,
-    strokeWidth: Dp = 1.dp,
-    dashLength: Dp = 8.dp,
-    gapLength: Dp = 8.dp,
-    cap: StrokeCap = StrokeCap.Round,
-) = dashedBorder(brush = SolidColor(color), shape, strokeWidth, dashLength, gapLength, cap)
-
-fun Modifier.dashedBorder(
-    brush: Brush,
     shape: Shape,
     strokeWidth: Dp = 1.dp,
     dashLength: Dp = 8.dp,
@@ -64,6 +54,6 @@ fun Modifier.dashedBorder(
     drawOutline(
         outline = outline,
         style = dashedStroke,
-        brush = brush,
+        brush = SolidColor(color),
     )
 }

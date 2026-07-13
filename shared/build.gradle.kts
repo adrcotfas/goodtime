@@ -67,9 +67,8 @@ kotlin {
 
             implementation(libs.androidx.documentfile)
             implementation(libs.androidx.lifecycle.runtime.ktx)
-            implementation(libs.androidx.media)
-
             implementation(libs.androidx.core.splashscreen)
+
             implementation(libs.work.runtime.ktx)
             implementation(libs.ui.tooling)
         }
@@ -99,7 +98,6 @@ kotlin {
             implementation(libs.androidx.datastore.preferences.core)
             api(libs.okio)
             api(libs.kotlinx.serialization)
-            implementation(libs.kotlinx.collections.immutable)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.datetime.names)
             api(libs.androidx.lifecycle.viewmodel)

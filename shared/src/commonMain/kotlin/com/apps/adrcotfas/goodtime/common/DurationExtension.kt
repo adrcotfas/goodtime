@@ -102,12 +102,7 @@ object Time {
         return startOfMonthInstant.toLocalDateTime(TimeZone.currentSystemDefault())
     }
 
-    fun currentDateTime(): LocalDateTime {
-        val timeZone = TimeZone.currentSystemDefault()
-        val now = Clock.System.now().toEpochMilliseconds()
-        val currentInstant = Instant.fromEpochMilliseconds(now)
-        return currentInstant.toLocalDateTime(timeZone)
-    }
+    fun currentDateTime(): LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
     fun toLocalDateTime(epochMillis: Long): LocalDateTime {
         val timeZone = TimeZone.currentSystemDefault()

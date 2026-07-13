@@ -52,7 +52,6 @@ import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedDayNamesForStats
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.getLocalizedMonthNamesForStats
 import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.common.at
-import com.apps.adrcotfas.goodtime.common.convertSpToDp
 import com.apps.adrcotfas.goodtime.common.endOfWeekInThisWeek
 import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
 import com.apps.adrcotfas.goodtime.common.firstDayOfWeekInMonth
@@ -90,7 +89,7 @@ fun HeatmapSection(
         }
 
     val fontSizeStyle = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Thin)
-    val cellSize = remember { (convertSpToDp(density, fontSizeStyle.fontSize.value) * 1.5f).dp }
+    val cellSize = remember { with(density) { fontSizeStyle.fontSize.toDp() } * 1.5f }
     val cellSpacing = remember { cellSize / 6f }
     val daysInOrder = remember { firstDayOfWeek.entriesStartingWithThis() }
 

@@ -18,13 +18,10 @@
 package com.apps.adrcotfas.goodtime.ui
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -67,12 +64,4 @@ fun CompactPreferenceGroupTitle(
 @Composable
 fun SubtleHorizontalDivider() {
     HorizontalDivider(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.38f))
-}
-
-@Composable
-fun SubtleVerticalDivider() {
-    VerticalDivider(
-        modifier = Modifier.fillMaxHeight(),
-        color = DividerDefaults.color.copy(alpha = 0.38f),
-    )
 }

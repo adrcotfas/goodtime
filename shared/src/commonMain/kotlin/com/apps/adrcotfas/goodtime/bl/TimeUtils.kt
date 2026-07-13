@@ -35,12 +35,11 @@ object TimeUtils {
         val totalSeconds = (this / 1000).run { if (minutesOnly) this + 59 else this }
         val minutes = totalSeconds / 60
         val seconds = totalSeconds % 60
-        val secondsString = if (seconds < 10) "0$seconds" else seconds.toString()
-        val minutesString = if (minutes < 10) "0$minutes" else minutes.toString()
+        val minutesString = minutes.toString().padStart(2, '0')
         return if (minutesOnly) {
             minutesString
         } else {
-            "$minutesString:$secondsString"
+            "$minutesString:${seconds.toString().padStart(2, '0')}"
         }
     }
 
@@ -102,15 +101,13 @@ object TimeUtils {
         return time.format(formatStyle)
     }
 
-    fun localizedMonthNamesFull() = Month.entries.map { it.getDisplayName(textStyle = TextStyle.FULL_STANDALONE) }
-
     fun getLocalizedDayNamesForStats(): List<String> {
         val localizedDayNamesShort =
             DayOfWeek.entries.map { it.getDisplayName(textStyle = TextStyle.SHORT_STANDALONE) }
         return if (localizedDayNamesShort.any { it.length > 3 }) {
             val localizedDayNamesNarrow =
                 DayOfWeek.entries.map { it.getDisplayName(textStyle = TextStyle.NARROW_STANDALONE) }
-            return localizedDayNamesNarrow
+            localizedDayNamesNarrow
         } else {
             localizedDayNamesShort
         }
@@ -122,7 +119,7 @@ object TimeUtils {
         return if (localizedMonthNamesShort.any { it.length > 3 }) {
             val localizedMonthNamesNarrow =
                 Month.entries.map { it.getDisplayName(textStyle = TextStyle.NARROW_STANDALONE) }
-            return localizedMonthNamesNarrow
+            localizedMonthNamesNarrow
         } else {
             localizedMonthNamesShort
         }

@@ -15,7 +15,6 @@ revenuecat-purchases-kmp = "3.2.1"
 composeMultiplatform = "1.11.1"
 coreSplashscreen = "1.2.0"
 kotlin = "2.4.10-RC2"
-kotlinxCollectionsImmutable = "0.5.1"
 kotlinxDatetimeNames = "0.2.0"
 ksp = "2.3.9"
 
@@ -29,7 +28,6 @@ androidx-activity-compose = "1.13.0"
 androidx-core-ktx = "1.19.0"
 androidx-paging = "3.5.0"
 androidx-datastore = "1.2.1"
-androidx-media = "1.8.0"
 androidx-documentfile = "1.1.0"
 androidx-room = "2.8.4"
 sqlite = "2.7.0"
@@ -76,7 +74,6 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidx-paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidx-paging" }
 androidx-paging-testing = { group = "androidx.paging", name = "paging-testing", version.ref = "androidx-paging" }
-androidx-media = { group = "androidx.media", name = "media", version.ref = "androidx-media" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "androidx-documentfile" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
@@ -84,7 +81,6 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
-kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-datetime-names = { module = "io.github.adrcotfas:kotlinx-datetime-names", version.ref = "kotlinxDatetimeNames" }
 compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 compottie-dot = { module = "io.github.alexzhirkevich:compottie-dot", version.ref = "compottie" }

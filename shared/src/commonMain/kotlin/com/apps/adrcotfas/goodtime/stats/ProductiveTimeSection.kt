@@ -50,7 +50,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.apps.adrcotfas.goodtime.common.convertSpToDp
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.stats_productive_hours
 import kotlinx.datetime.LocalTime
@@ -112,7 +111,7 @@ fun ProductiveTimeSection(
             ),
         )
         val density = LocalDensity.current
-        val cellSize = remember { (convertSpToDp(density, 12.sp.value) * 1.5f).dp }
+        val cellSize = remember { with(density) { 12.sp.toDp() } * 1.5f }
         val cellSpacing = remember { cellSize / 6f }
 
         Column(

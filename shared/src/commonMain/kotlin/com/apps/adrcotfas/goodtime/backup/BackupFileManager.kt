@@ -29,6 +29,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import okio.ByteString.Companion.encodeUtf8
 import okio.FileSystem
 import okio.Path
@@ -194,43 +196,38 @@ class BackupFileManager(
         }
     }
 
+    @Serializable
+    private data class SessionExportDto(
+        val end: String,
+        val duration: Long,
+        val interruptions: Long,
+        val label: String,
+        val notes: String,
+        val is_break: Boolean,
+        val archived: Boolean,
+    )
+
     private suspend fun createJsonExport(tmpFilePath: String) {
         withContext(defaultDispatcher) {
+            val sessions =
+                localDataRepository.selectAllSessions().first().map { session ->
+                    val labelName =
+                        if (session.label == Label.DEFAULT_LABEL_NAME) "" else session.label
+                    SessionExportDto(
+                        end = session.timestamp.formatToIso8601(),
+                        duration = session.duration,
+                        interruptions = session.interruptions,
+                        label = labelName,
+                        notes = session.notes,
+                        is_break = !session.isWork,
+                        archived = session.isArchived,
+                    )
+                }
             fileSystem.sink(tmpFilePath.toPath()).buffer().use { sink ->
-                sink.writeUtf8("[\n")
-                localDataRepository
-                    .selectAllSessions()
-                    .first()
-                    .forEachIndexed { index, session ->
-                        val labelName =
-                            if (session.label == Label.DEFAULT_LABEL_NAME) "" else session.label
-                        sink.writeUtf8(
-                            "{" +
-                                "\"end\":\"${session.timestamp.formatToIso8601().escapeJson()}\"," +
-                                "\"duration\":${session.duration}," +
-                                "\"interruptions\":${session.interruptions}," +
-                                "\"label\":\"${labelName.escapeJson()}\"," +
-                                "\"notes\":\"${session.notes.escapeJson()}\"," +
-                                "\"is_break\":${!session.isWork}," +
-                                "\"archived\":${session.isArchived}}",
-                        )
-                        if (index < localDataRepository.selectAllSessions().first().size - 1) {
-                            sink.writeUtf8(",\n")
-                        }
-                    }
-                sink.writeUtf8("\n]")
+                sink.writeUtf8(Json.encodeToString(sessions))
             }
         }
     }
-
-    private fun String.escapeJson(): String = this
-        .replace("\\", "\\\\")
-        .replace("\"", "\\\"")
-        .replace("\n", "\\n")
-        .replace("\r", "\\r")
-        .replace("\t", "\\t")
-        .replace("\b", "\\b")
-        .replace("\u000C", "\\f")
 
     private suspend fun restoreBackup() {
         withContext(defaultDispatcher) {
