@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Использовать чёрный цвет для фона</string>
     <string name="settings_keep_the_screen_on">Держать экран включенным</string>
     <string name="settings_screensaver_mode">Режим заставки</string>
+    <string name="settings_pip_mode_title">Картинка в картинке</string>
+    <string name="settings_pip_mode_desc">Показывать таймер в маленьком окне при выходе из приложения</string>
     <string name="settings_do_not_disturb_mode">Режим «Не беспокоить»</string>
     <string name="settings_click_to_grant_permission">Нажмите, чтобы предоставить разрешение</string>
     <string name="settings_demo">демо</string>

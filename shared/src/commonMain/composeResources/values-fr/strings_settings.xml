@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Utiliser le vrai noir pour l’arrière-plan</string>
     <string name="settings_keep_the_screen_on">Garder l’écran allumé</string>
     <string name="settings_screensaver_mode">Mode économiseur d’écran</string>
+    <string name="settings_pip_mode_title">Image dans l’image</string>
+    <string name="settings_pip_mode_desc">Afficher le minuteur dans une petite fenêtre en quittant l’application</string>
     <string name="settings_do_not_disturb_mode">Mode ne pas déranger</string>
     <string name="settings_click_to_grant_permission">Cliquez pour accorder l’autorisation</string>
     <string name="settings_demo">Aperçu</string>

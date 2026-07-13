@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">백그라운드 트루 블랙 사용</string>
     <string name="settings_keep_the_screen_on">화면 켜진 상태 유지</string>
     <string name="settings_screensaver_mode">화면 보호기 모드</string>
+    <string name="settings_pip_mode_title">PIP 모드</string>
+    <string name="settings_pip_mode_desc">앱을 나갈 때 작은 창에 타이머 표시</string>
     <string name="settings_do_not_disturb_mode">방해 금지 모드</string>
     <string name="settings_click_to_grant_permission">권한을 허용하십시오</string>
     <string name="settings_demo">데모</string>

@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Käytä tosi mustaa taustalle</string>
     <string name="settings_keep_the_screen_on">Pidä näyttö päällä</string>
     <string name="settings_screensaver_mode">Näytönsäästäjätila</string>
+    <string name="settings_pip_mode_title">Kuva kuvassa</string>
+    <string name="settings_pip_mode_desc">Näytä ajastin pienessä ikkunassa, kun poistut sovelluksesta</string>
     <string name="settings_do_not_disturb_mode">Älä häiritse -tila</string>
     <string name="settings_click_to_grant_permission">Napauta luvan myöntämiseen</string>
     <string name="settings_demo">demo</string>

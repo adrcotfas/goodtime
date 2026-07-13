@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">背景使用真黑色</string>
     <string name="settings_keep_the_screen_on">保持屏幕常亮</string>
     <string name="settings_screensaver_mode">屏保模式</string>
+    <string name="settings_pip_mode_title">画中画</string>
+    <string name="settings_pip_mode_desc">离开应用时在小窗口中显示计时器</string>
     <string name="settings_do_not_disturb_mode">勿扰模式</string>
     <string name="settings_click_to_grant_permission">点击以授予权限</string>
     <string name="settings_demo">演示模式</string>

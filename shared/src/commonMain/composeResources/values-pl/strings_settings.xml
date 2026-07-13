@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Użyj prawdziwie czarnego dla tła</string>
     <string name="settings_keep_the_screen_on">Pozostaw włączony ekran</string>
     <string name="settings_screensaver_mode">Tryb wygaszacza ekranu</string>
+    <string name="settings_pip_mode_title">Obraz w obrazie</string>
+    <string name="settings_pip_mode_desc">Pokazuj minutnik w małym oknie po opuszczeniu aplikacji</string>
     <string name="settings_do_not_disturb_mode">Tryb Nie przeszkadzać</string>
     <string name="settings_click_to_grant_permission">Kliknij, aby udzielić pozwolenia</string>
     <string name="settings_demo">demo</string>

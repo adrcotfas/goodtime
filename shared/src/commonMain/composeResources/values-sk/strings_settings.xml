@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">Obrazovka vždy zapnutá</string>
     <string name="settings_screensaver_mode">Režim šetriča obrazovky</string>
+    <string name="settings_pip_mode_title">Obraz v obraze</string>
+    <string name="settings_pip_mode_desc">Zobraziť časovač v malom okne pri opustení aplikácie</string>
     <string name="settings_do_not_disturb_mode">Režim Nerušiť</string>
     <string name="settings_click_to_grant_permission">Kliknutím udeliť povolenie</string>
     <string name="settings_demo">demo</string>

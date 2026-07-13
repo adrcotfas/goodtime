@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">स्क्रीन चालू रखे</string>
     <string name="settings_screensaver_mode">स्क्रीनसेवर मोड</string>
+    <string name="settings_pip_mode_title">पिक्चर-इन-पिक्चर</string>
+    <string name="settings_pip_mode_desc">ऐप छोड़ने पर टाइमर को एक छोटी विंडो में दिखाएं</string>
     <string name="settings_do_not_disturb_mode">बाधा रहित</string>
     <string name="settings_click_to_grant_permission">अनुमति देने क लिए दबाये</string>
     <string name="settings_demo">डेमो</string>

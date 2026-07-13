@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">ব্যাকগ্রাউন্ডের জন্য সত্যিকারের কালো ব্যবহার করুন</string>
     <string name="settings_keep_the_screen_on">স্ক্রিন খোলা রাখুন</string>
     <string name="settings_screensaver_mode">স্ক্রিন মোড</string>
+    <string name="settings_pip_mode_title">ছবির-মধ্যে-ছবি</string>
+    <string name="settings_pip_mode_desc">অ্যাপ ছেড়ে যাওয়ার সময় একটি ছোট উইন্ডোতে টাইমার দেখান</string>
     <string name="settings_do_not_disturb_mode">বিরক্ত করবেন না মোড</string>
     <string name="settings_click_to_grant_permission">অনুমতি দিতে ক্লিক করুন</string>
     <string name="settings_demo">ডেমো</string>

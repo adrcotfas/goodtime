@@ -20,11 +20,19 @@ package com.apps.adrcotfas.goodtime
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.main.GoodtimeMainActivity
+import com.apps.adrcotfas.goodtime.main.TimerViewModel
+import com.apps.adrcotfas.goodtime.pip.PipTimerScreen
+import com.apps.adrcotfas.goodtime.pip.enterPipIfNeeded
+import com.apps.adrcotfas.goodtime.pip.setupPictureInPicture
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.inject
 
 /**
@@ -33,6 +41,9 @@ import org.koin.core.component.inject
  */
 class MainActivity : GoodtimeMainActivity() {
     private val notificationManager: NotificationArchManager by inject()
+    private val timerViewModel: TimerViewModel by viewModel<TimerViewModel>()
+
+    private var isPipMode by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -45,15 +56,26 @@ class MainActivity : GoodtimeMainActivity() {
         // Keep splash screen visible while loading
         splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.loading }
 
+        setupPictureInPicture(timerViewModel) { isPipMode = it }
+
         setContent {
             val platformContext = remember { PlatformContext(this) }
 
-            GoodtimeApp(
-                platformContext = platformContext,
-                mainViewModel = viewModel,
-                onUpdateClicked = { triggerAppUpdate() },
-            )
+            if (isPipMode) {
+                PipTimerScreen(timerViewModel)
+            } else {
+                GoodtimeApp(
+                    platformContext = platformContext,
+                    mainViewModel = viewModel,
+                    onUpdateClicked = { triggerAppUpdate() },
+                )
+            }
         }
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        enterPipIfNeeded(timerViewModel)
     }
 
     override fun onDestroy() {

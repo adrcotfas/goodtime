@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">Keep the screen on</string>
     <string name="settings_screensaver_mode">Screensaver mode</string>
+    <string name="settings_pip_mode_title">Picture-in-picture</string>
+    <string name="settings_pip_mode_desc">Show the timer in a small window when leaving the app</string>
     <string name="settings_do_not_disturb_mode">Do not disturb mode</string>
     <string name="settings_click_to_grant_permission">Click to grant permission</string>
     <string name="settings_demo">demo</string>

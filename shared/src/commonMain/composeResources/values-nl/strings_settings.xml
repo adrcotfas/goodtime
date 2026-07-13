@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Gebruik waar zwart op de achtergrond</string>
     <string name="settings_keep_the_screen_on">Houd het scherm aan</string>
     <string name="settings_screensaver_mode">Screensaver-modus</string>
+    <string name="settings_pip_mode_title">Beeld-in-beeld</string>
+    <string name="settings_pip_mode_desc">Toon de timer in een klein venster wanneer je de app verlaat</string>
     <string name="settings_do_not_disturb_mode">Niet storen</string>
     <string name="settings_click_to_grant_permission">Klik om toestemming te geven</string>
     <string name="settings_demo">Demo</string>

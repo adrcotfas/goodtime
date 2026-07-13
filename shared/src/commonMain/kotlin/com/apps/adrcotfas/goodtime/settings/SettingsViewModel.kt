@@ -149,6 +149,14 @@ class SettingsViewModel(
         }
     }
 
+    fun setPipMode(enable: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateUiSettings {
+                it.copy(pipMode = enable)
+            }
+        }
+    }
+
     fun setWorkDayStart(secondOfDay: Int) {
         viewModelScope.launch {
             settingsRepository.setWorkDayStart(secondOfDay)

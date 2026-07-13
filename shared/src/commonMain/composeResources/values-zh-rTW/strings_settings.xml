@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">定義統計一天的開始時間</string>
     <string name="settings_keep_the_screen_on">計時保持螢幕常亮</string>
     <string name="settings_screensaver_mode">螢幕保護裝置模式</string>
+    <string name="settings_pip_mode_title">子母畫面</string>
+    <string name="settings_pip_mode_desc">離開應用程式時在小視窗中顯示計時器</string>
     <string name="settings_do_not_disturb_mode">「零打擾」模式</string>
     <string name="settings_click_to_grant_permission">點擊此處授予權限</string>
     <string name="settings_demo">示範</string>

@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">Biarkan layar tetap menyala</string>
     <string name="settings_screensaver_mode">Mode screensaver</string>
+    <string name="settings_pip_mode_title">Picture-in-picture</string>
+    <string name="settings_pip_mode_desc">Tampilkan timer di jendela kecil saat meninggalkan aplikasi</string>
     <string name="settings_do_not_disturb_mode">Mode jangan ganggu</string>
     <string name="settings_click_to_grant_permission">Klik untuk memperoleh izin</string>
     <string name="settings_demo">demo</string>

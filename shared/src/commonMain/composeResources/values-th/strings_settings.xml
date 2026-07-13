@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">ป้องกันหน้าจอดับ</string>
     <string name="settings_screensaver_mode">โหมดสกรีนเซฟเวอร์</string>
+    <string name="settings_pip_mode_title">ภาพซ้อนภาพ</string>
+    <string name="settings_pip_mode_desc">แสดงตัวจับเวลาในหน้าต่างขนาดเล็กเมื่อออกจากแอป</string>
     <string name="settings_do_not_disturb_mode">โหมดห้ามรบกวน</string>
     <string name="settings_click_to_grant_permission">กดเพื่อยืนยันการอนุญาต</string>
     <string name="settings_demo">demo</string>

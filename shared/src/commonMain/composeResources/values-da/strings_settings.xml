@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Brug sand sort til baggrunden</string>
     <string name="settings_keep_the_screen_on">Hold skærmen tændt</string>
     <string name="settings_screensaver_mode">Pauseskærmstilstand</string>
+    <string name="settings_pip_mode_title">Billede i billede</string>
+    <string name="settings_pip_mode_desc">Vis timeren i et lille vindue, når du forlader appen</string>
     <string name="settings_do_not_disturb_mode">Forstyr ikke tilstand</string>
     <string name="settings_click_to_grant_permission">Klik for at give tilladelse</string>
     <string name="settings_demo">demo</string>

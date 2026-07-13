@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Bruk ekte sort for bakgrunnen</string>
     <string name="settings_keep_the_screen_on">Hold skjermen på</string>
     <string name="settings_screensaver_mode">Skjermsparer modus</string>
+    <string name="settings_pip_mode_title">Bilde-i-bilde</string>
+    <string name="settings_pip_mode_desc">Vis tidtakeren i et lite vindu når du forlater appen</string>
     <string name="settings_do_not_disturb_mode">Ikke forstyrr modus</string>
     <string name="settings_click_to_grant_permission">Trykk for å gi tillatelse</string>
     <string name="settings_demo">demo</string>

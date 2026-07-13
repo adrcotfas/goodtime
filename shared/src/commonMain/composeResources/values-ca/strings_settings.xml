@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Utilitzeu el negre real per al fons</string>
     <string name="settings_keep_the_screen_on">Deixar la pantalla encesa</string>
     <string name="settings_screensaver_mode">Mode d'estalvi de pantalla</string>
+    <string name="settings_pip_mode_title">Imatge en imatge</string>
+    <string name="settings_pip_mode_desc">Mostra el temporitzador en una finestra petita en sortir de l’aplicació</string>
     <string name="settings_do_not_disturb_mode">Mode no molesteu</string>
     <string name="settings_click_to_grant_permission">Polsa per donar el permís</string>
     <string name="settings_demo">demo</string>

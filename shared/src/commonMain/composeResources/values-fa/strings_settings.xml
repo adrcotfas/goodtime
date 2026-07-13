@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">استفاده از سیاه کامل برای پس زمینه</string>
     <string name="settings_keep_the_screen_on">روشن نگهداشتن صفحه</string>
     <string name="settings_screensaver_mode">حالت محافظ صفحه</string>
+    <string name="settings_pip_mode_title">تصویر در تصویر</string>
+    <string name="settings_pip_mode_desc">نمایش تایمر در یک پنجره کوچک هنگام خروج از برنامه</string>
     <string name="settings_do_not_disturb_mode">حالت مزاحم نشوید</string>
     <string name="settings_click_to_grant_permission">برای دادن مجوز لمس کنید</string>
     <string name="settings_demo">پیش نمایش</string>

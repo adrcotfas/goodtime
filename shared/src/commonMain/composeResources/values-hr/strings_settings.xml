@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Koristite pravi crni za pozadinu</string>
     <string name="settings_keep_the_screen_on">Zadrži uključen ekran</string>
     <string name="settings_screensaver_mode">Screensaver način</string>
+    <string name="settings_pip_mode_title">Slika u slici</string>
+    <string name="settings_pip_mode_desc">Prikaži timer u malom prozoru kada napustite aplikaciju</string>
     <string name="settings_do_not_disturb_mode">Način bez ometanja</string>
     <string name="settings_click_to_grant_permission">Kliknite za odobrenje</string>
     <string name="settings_demo">demo</string>

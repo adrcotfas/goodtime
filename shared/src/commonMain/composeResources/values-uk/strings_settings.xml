@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Використовувати істинний чорний для фону</string>
     <string name="settings_keep_the_screen_on">Тримати екран увімкненим</string>
     <string name="settings_screensaver_mode">Режим заставки</string>
+    <string name="settings_pip_mode_title">Картинка в картинці</string>
+    <string name="settings_pip_mode_desc">Показувати таймер у маленькому вікні під час виходу з додатка</string>
     <string name="settings_do_not_disturb_mode">Режим \"Не турбувати\</string>
     <string name="settings_click_to_grant_permission">Натисніть, щоб надати дозвіл</string>
     <string name="settings_demo">демо</string>

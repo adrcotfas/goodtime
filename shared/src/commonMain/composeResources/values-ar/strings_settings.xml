@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">استخدم أسود حقيقي للخلفية</string>
     <string name="settings_keep_the_screen_on">إبقاء الشاشة مفعلة</string>
     <string name="settings_screensaver_mode">وضع شاشة التوقف</string>
+    <string name="settings_pip_mode_title">صورة داخل صورة</string>
+    <string name="settings_pip_mode_desc">عرض المؤقّت في نافذة صغيرة عند مغادرة التطبيق</string>
     <string name="settings_do_not_disturb_mode">وضع عدم الإزعاج</string>
     <string name="settings_click_to_grant_permission">إضغط لمنح الاذن</string>
     <string name="settings_demo">تجريبي</string>

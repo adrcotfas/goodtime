@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Erabili beltz benetakoa atzeko planoarentzat</string>
     <string name="settings_keep_the_screen_on">Pantaila piztuta mantendu</string>
     <string name="settings_screensaver_mode">Pantaila-babesle modua</string>
+    <string name="settings_pip_mode_title">Irudia irudian</string>
+    <string name="settings_pip_mode_desc">Erakutsi tenporizadorea leiho txiki batean aplikaziotik irtetean</string>
     <string name="settings_do_not_disturb_mode">\"Ez molestatu\" modua</string>
     <string name="settings_click_to_grant_permission">Egin klik baimena emateko</string>
     <string name="settings_demo">Demostració</string>

@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Använd äkta svart för bakgrunden</string>
     <string name="settings_keep_the_screen_on">Håll skärmen igång</string>
     <string name="settings_screensaver_mode">Skärmsläckarläge</string>
+    <string name="settings_pip_mode_title">Bild-i-bild</string>
+    <string name="settings_pip_mode_desc">Visa timern i ett litet fönster när du lämnar appen</string>
     <string name="settings_do_not_disturb_mode">Stör ej-läge</string>
     <string name="settings_click_to_grant_permission">Klicka för att bevilja tillstånd</string>
     <string name="settings_demo">demo</string>

@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">背景に真黒を使用</string>
     <string name="settings_keep_the_screen_on">画面を表示し続ける</string>
     <string name="settings_screensaver_mode">スクリーンセーバーモード</string>
+    <string name="settings_pip_mode_title">ピクチャー イン ピクチャー</string>
+    <string name="settings_pip_mode_desc">アプリを離れたときにタイマーを小さなウィンドウで表示します</string>
     <string name="settings_do_not_disturb_mode">マナーモード</string>
     <string name="settings_click_to_grant_permission">クリックして許可を与える</string>
     <string name="settings_demo">デモ</string>

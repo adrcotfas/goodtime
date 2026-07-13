@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Usar preto verdadeiro para o fundo</string>
     <string name="settings_keep_the_screen_on">Manter a tela ligada</string>
     <string name="settings_screensaver_mode">Modo protetor de tela</string>
+    <string name="settings_pip_mode_title">Picture-in-picture</string>
+    <string name="settings_pip_mode_desc">Mostrar o timer em uma janela pequena ao sair do app</string>
     <string name="settings_do_not_disturb_mode">Modo não perturbe</string>
     <string name="settings_click_to_grant_permission">Clique em conceder permissão</string>
     <string name="settings_demo">demonstração</string>

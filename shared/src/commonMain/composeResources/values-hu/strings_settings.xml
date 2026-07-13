@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">Képernyő bekapcsolva tartása</string>
     <string name="settings_screensaver_mode">Képernyővédő mód</string>
+    <string name="settings_pip_mode_title">Kép a képben</string>
+    <string name="settings_pip_mode_desc">Az időzítő megjelenítése egy kis ablakban az alkalmazás elhagyásakor</string>
     <string name="settings_do_not_disturb_mode">„Ne zavarjanak” mód</string>
     <string name="settings_click_to_grant_permission">Koppints az engedélyezéshez</string>
     <string name="settings_demo">demo</string>

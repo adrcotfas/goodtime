@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Usa o negro verdadeiro para o fondo</string>
     <string name="settings_keep_the_screen_on">Manter a pantalla acesa</string>
     <string name="settings_screensaver_mode">Modo protector de pantalla</string>
+    <string name="settings_pip_mode_title">Imaxe en imaxe</string>
+    <string name="settings_pip_mode_desc">Mostrar o temporizador nunha ventá pequena ao saír da aplicación</string>
     <string name="settings_do_not_disturb_mode">Modo Non molestar</string>
     <string name="settings_click_to_grant_permission">Fai clic para conceder permiso</string>
     <string name="settings_demo">demo</string>

@@ -84,6 +84,7 @@ data class UiSettings(
     val screensaverMode: Boolean = false,
     val dndDuringWork: Boolean = false,
     val showWhenLocked: Boolean = false,
+    val pipMode: Boolean = true,
     val launcherNameIndex: Int = 0,
 )
 

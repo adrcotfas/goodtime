@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Sử dụng màu đen thực sự cho nền</string>
     <string name="settings_keep_the_screen_on">Giữ cho màn hình luôn bật</string>
     <string name="settings_screensaver_mode">Chế độ bảo vệ màn hình</string>
+    <string name="settings_pip_mode_title">Hình trong hình</string>
+    <string name="settings_pip_mode_desc">Hiển thị bộ hẹn giờ trong một cửa sổ nhỏ khi rời khỏi ứng dụng</string>
     <string name="settings_do_not_disturb_mode">Chế độ không làm phiền</string>
     <string name="settings_click_to_grant_permission">Nhấn vào để chọn cho phép ứng dụng</string>
     <string name="settings_demo">mẫu thử</string>

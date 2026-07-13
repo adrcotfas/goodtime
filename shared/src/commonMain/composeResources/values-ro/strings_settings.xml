@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Folosește negru adevărat pentru fundal</string>
     <string name="settings_keep_the_screen_on">Păstrați ecranul pornit</string>
     <string name="settings_screensaver_mode">Modul screensaver</string>
+    <string name="settings_pip_mode_title">Picture-in-picture</string>
+    <string name="settings_pip_mode_desc">Afișează cronometrul într-o fereastră mică la părăsirea aplicației</string>
     <string name="settings_do_not_disturb_mode">Modul „Nu deranja”</string>
     <string name="settings_click_to_grant_permission">Atingeţi pentru a acorda permisiunea</string>
     <string name="settings_demo">demo</string>

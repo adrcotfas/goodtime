@@ -30,6 +30,8 @@
             android:name="com.apps.adrcotfas.goodtime.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:showOnLockScreen="true"
+            android:supportsPictureInPicture="true"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:exported="true">
         </activity>
         <activity-alias

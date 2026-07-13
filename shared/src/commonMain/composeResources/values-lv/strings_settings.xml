@@ -45,6 +45,8 @@
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">Atstāt ieslēgtu ekrānu</string>
     <string name="settings_screensaver_mode">Ekrānsaudzētāja režīms</string>
+    <string name="settings_pip_mode_title">Attēls attēlā</string>
+    <string name="settings_pip_mode_desc">Rādīt taimeri mazā logā, izejot no lietotnes</string>
     <string name="settings_do_not_disturb_mode">Do not disturb mode</string>
     <string name="settings_click_to_grant_permission">Nospiediet lai piešķirt tiesības</string>
     <string name="settings_demo">demo</string>

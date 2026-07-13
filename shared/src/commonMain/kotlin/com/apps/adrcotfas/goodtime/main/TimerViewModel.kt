@@ -91,6 +91,7 @@ data class TimerMainUiState(
     val startOfToday: Long = 0,
     val showTutorial: Boolean = false,
     val isPro: Boolean = false,
+    val pipMode: Boolean = true,
 )
 
 private data class TimerScreenSettings(
@@ -191,6 +192,7 @@ class TimerViewModel(
                             dndDuringWork = uiSettings.dndDuringWork,
                             isPro = settings.isPro,
                             showTutorial = settings.showTutorial,
+                            pipMode = uiSettings.pipMode,
                         )
                     }
                 }

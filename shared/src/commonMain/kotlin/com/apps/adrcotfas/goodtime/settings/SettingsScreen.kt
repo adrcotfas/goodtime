@@ -269,6 +269,11 @@ fun SettingsScreen(
                     viewModel.setShowWhenLocked(it)
                 }
             }
+            PipModeListItem(
+                isPro = uiState.settings.isPro,
+                checked = uiState.settings.uiSettings.pipMode,
+                onCheckedChange = viewModel::setPipMode,
+            )
 
             SubtleHorizontalDivider()
             CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_notifications_title))
