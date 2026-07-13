@@ -12,6 +12,6 @@ platform :android do
 
   desc "Sync store listing metadata to Play (fastlane/metadata/android)"
   lane :metadata do
-    upload_to_play_store(skip_upload_aab: true, skip_upload_apk: true)
+    upload_to_play_store(skip_upload_aab: true, skip_upload_apk: true, skip_upload_changelogs: true)
   end
 end
