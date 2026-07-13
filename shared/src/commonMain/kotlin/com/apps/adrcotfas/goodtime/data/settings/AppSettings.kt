@@ -85,7 +85,6 @@ data class UiSettings(
     val dndDuringWork: Boolean = false,
     val showWhenLocked: Boolean = false,
     val pipMode: Boolean = true,
-    val launcherNameIndex: Int = 0,
 )
 
 @Serializable

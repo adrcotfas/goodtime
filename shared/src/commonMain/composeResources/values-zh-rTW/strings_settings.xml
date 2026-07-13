@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Create profile</string>
     <string name="settings_delete_profile">Delete profile</string>
     <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
-    <string name="settings_launcher_name">Launcher name</string>
     <string name="settings_language">語言</string>
     <string name="settings_update">更新</string>
     <string name="settings_update_available">有新的更新</string>

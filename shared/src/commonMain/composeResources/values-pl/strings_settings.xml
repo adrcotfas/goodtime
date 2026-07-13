@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Utwórz profil</string>
     <string name="settings_delete_profile">Usuń profil</string>
     <string name="settings_delete_profile_confirmation">Czy na pewno chcesz usunąć %1$s?</string>
-    <string name="settings_launcher_name">Nazwa launchera</string>
     <string name="settings_language">Język</string>
     <string name="settings_update">Aktualizuj</string>
     <string name="settings_update_available">Dostępna jest nowa aktualizacja</string>

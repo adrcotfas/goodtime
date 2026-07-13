@@ -85,7 +85,6 @@
     <string name="settings_create_profile">创建配置文件</string>
     <string name="settings_delete_profile">删除配置文件</string>
     <string name="settings_delete_profile_confirmation">您确定要删除 %1$s 吗？</string>
-    <string name="settings_launcher_name">启动器名称</string>
     <string name="settings_language">语言</string>
     <string name="settings_update">更新</string>
     <string name="settings_update_available">有新的更新</string>

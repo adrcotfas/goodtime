@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Luo profiili</string>
     <string name="settings_delete_profile">Poista profiili</string>
     <string name="settings_delete_profile_confirmation">Oletko varma, että haluat poistaa %1$s?</string>
-    <string name="settings_launcher_name">Käynnistimen nimi</string>
     <string name="settings_language">Kieli</string>
     <string name="settings_update">Päivitä</string>
     <string name="settings_update_available">Uusi päivitys on saatavilla</string>

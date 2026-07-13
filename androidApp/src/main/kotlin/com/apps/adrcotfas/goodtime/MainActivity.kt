@@ -32,6 +32,7 @@ import com.apps.adrcotfas.goodtime.pip.PipTimerScreen
 import com.apps.adrcotfas.goodtime.pip.enterPipIfNeeded
 import com.apps.adrcotfas.goodtime.pip.setupPictureInPicture
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
+import com.apps.adrcotfas.goodtime.settings.restoreGoodtimeLauncherIfNeeded
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.inject
 
@@ -49,6 +50,8 @@ class MainActivity : GoodtimeMainActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         log.d { "onCreate" }
+
+        restoreGoodtimeLauncherIfNeeded(this)
 
         // Force screen to always stay on
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

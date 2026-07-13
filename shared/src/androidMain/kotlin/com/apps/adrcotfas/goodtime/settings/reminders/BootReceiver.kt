@@ -30,6 +30,7 @@ import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isRunning
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.injectLogger
+import com.apps.adrcotfas.goodtime.settings.restoreGoodtimeLauncherIfNeeded
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
@@ -60,6 +61,7 @@ class BootReceiver :
             return
         }
         logger.d("onReceive: ${intent.action}")
+        restoreGoodtimeLauncherIfNeeded(context)
         val pendingResult = goAsync()
         scope.launch {
             try {

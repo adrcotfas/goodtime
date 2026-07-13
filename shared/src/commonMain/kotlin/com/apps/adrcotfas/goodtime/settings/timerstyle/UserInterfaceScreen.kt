@@ -148,11 +148,6 @@ fun UserInterfaceScreen(
                 onCheckedChange = { viewModel.setUseDynamicColor(it) },
             )
 
-            LauncherNameDropdown(
-                selectedIndex = uiState.settings.uiSettings.launcherNameIndex,
-                onSelectionChange = { viewModel.setLauncherNameIndex(it) },
-            )
-
             SubtleHorizontalDivider()
             CompactPreferenceGroupTitle(text = stringResource(Res.string.settings_timer_style_title))
 

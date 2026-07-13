@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Crează profil</string>
     <string name="settings_delete_profile">Ștergeți profilul</string>
     <string name="settings_delete_profile_confirmation">Sunteţi sigur că doriţi să ştergeţi %1$s?</string>
-    <string name="settings_launcher_name">Nume lansator</string>
     <string name="settings_language">Limba</string>
     <string name="settings_update">Actualizează</string>
     <string name="settings_update_available">O nouă actualizare este disponibilă</string>

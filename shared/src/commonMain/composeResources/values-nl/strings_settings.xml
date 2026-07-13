@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Profiel aanmaken</string>
     <string name="settings_delete_profile">Profiel verwijderen</string>
     <string name="settings_delete_profile_confirmation">Weet u zeker dat u %1$s wilt verwijderen?</string>
-    <string name="settings_launcher_name">Launcher naam</string>
     <string name="settings_language">Taal</string>
     <string name="settings_update">Bijwerken</string>
     <string name="settings_update_available">Er is een nieuwe update beschikbaar</string>

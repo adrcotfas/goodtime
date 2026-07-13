@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Δημιουργία προφίλ</string>
     <string name="settings_delete_profile">Διαγραφή προφίλ</string>
     <string name="settings_delete_profile_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε το %1$s?</string>
-    <string name="settings_launcher_name">Όνομα εκκινητή</string>
     <string name="settings_language">Γλώσσες</string>
     <string name="settings_update">Ενημέρωση</string>
     <string name="settings_update_available">Μια νέα ενημέρωση είναι διαθέσιμη</string>

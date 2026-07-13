@@ -25,15 +25,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.common.getAppLanguage
-import com.apps.adrcotfas.goodtime.settings.updateLauncherName
 import com.apps.adrcotfas.goodtime.ui.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.CheckboxListItem
-import com.apps.adrcotfas.goodtime.ui.DropdownMenuListItem
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.settings_language
-import goodtime_productivity.shared.generated.resources.settings_launcher_name
 import goodtime_productivity.shared.generated.resources.settings_use_dynamic_color
-import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -65,23 +61,4 @@ actual fun DynamicColorCheckbox(
             onCheckedChange = onCheckedChange,
         )
     }
-}
-
-@Composable
-actual fun LauncherNameDropdown(
-    selectedIndex: Int,
-    onSelectionChange: (Int) -> Unit,
-) {
-    val context = LocalContext.current
-    DropdownMenuListItem(
-        title = stringResource(Res.string.settings_launcher_name),
-        value = stringArrayResource(Res.array.settings_launcher_name)[selectedIndex],
-        dropdownMenuOptions = stringArrayResource(Res.array.settings_launcher_name).toList(),
-        onDropdownMenuItemSelected = { index ->
-            onSelectionChange(index)
-            context.findActivity()?.let { activity ->
-                updateLauncherName(context.packageManager, activity, index)
-            }
-        },
-    )
 }

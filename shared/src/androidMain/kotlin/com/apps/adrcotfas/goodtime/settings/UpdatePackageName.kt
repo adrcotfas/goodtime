@@ -18,39 +18,27 @@
 package com.apps.adrcotfas.goodtime.settings
 
 import android.content.ComponentName
+import android.content.Context
 import android.content.pm.PackageManager
-import androidx.activity.ComponentActivity
 
+/** Marker class whose fully-qualified name matches the <activity-alias> in the manifest. */
 class GoodtimeLauncherAlias
 
-class ProductivityLauncherAlias
-
-fun updateLauncherName(
-    packageManager: PackageManager,
-    dynamicLauncherActivity: ComponentActivity,
-    index: Int,
-) {
-    val (aliasToEnable, aliasToDisable) =
-        if (index == 0) {
-            GoodtimeLauncherAlias::class.java to ProductivityLauncherAlias::class.java
-        } else {
-            ProductivityLauncherAlias::class.java to GoodtimeLauncherAlias::class.java
-        }
-
-    packageManager.setComponentEnabledSetting(
-        ComponentName(
-            dynamicLauncherActivity,
-            aliasToEnable,
-        ),
-        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-        PackageManager.DONT_KILL_APP,
-    )
-    packageManager.setComponentEnabledSetting(
-        ComponentName(
-            dynamicLauncherActivity,
-            aliasToDisable,
-        ),
-        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-        PackageManager.DONT_KILL_APP,
-    )
+/**
+ * Older versions let users rename the launcher to "Productivity", which disabled
+ * [GoodtimeLauncherAlias] at runtime. That option (and its alias) is gone now, so re-enable the
+ * Goodtime launcher for anyone still on the old override — otherwise they'd have no launcher icon.
+ */
+// runs on every boot/update forever; delete this whole path once "Productivity"
+// installs have aged out (safe from ~mid-2027).
+fun restoreGoodtimeLauncherIfNeeded(context: Context) {
+    val pm = context.packageManager
+    val alias = ComponentName(context, GoodtimeLauncherAlias::class.java)
+    if (pm.getComponentEnabledSetting(alias) == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+        pm.setComponentEnabledSetting(
+            alias,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP,
+        )
+    }
 }

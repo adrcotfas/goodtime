@@ -85,7 +85,6 @@
     <string name="settings_create_profile">プロファイルを作成</string>
     <string name="settings_delete_profile">プロファイルを削除</string>
     <string name="settings_delete_profile_confirmation">%1$s を削除してもよろしいですか？</string>
-    <string name="settings_launcher_name">ランチャー名</string>
     <string name="settings_language">言語</string>
     <string name="settings_update">更新</string>
     <string name="settings_update_available">新しいアップデートが利用可能です</string>

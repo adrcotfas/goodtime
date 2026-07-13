@@ -31,11 +31,3 @@ actual fun DynamicColorCheckbox(
 ) {
     // Dynamic color not supported on iOS - empty implementation
 }
-
-@Composable
-actual fun LauncherNameDropdown(
-    selectedIndex: Int,
-    onSelectionChange: (Int) -> Unit,
-) {
-    // Launcher name not supported on iOS - empty implementation
-}

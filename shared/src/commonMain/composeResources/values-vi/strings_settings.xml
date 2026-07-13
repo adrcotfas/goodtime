@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Tạo cấu hình</string>
     <string name="settings_delete_profile">Xóa cấu hình</string>
     <string name="settings_delete_profile_confirmation">Bạn có chắc chắn muốn xóa %1$s không?</string>
-    <string name="settings_launcher_name">Tên ứng dụng</string>
     <string name="settings_language">Ngôn ngữ</string>
     <string name="settings_update">Cập nhật</string>
     <string name="settings_update_available">Bản cập nhật mới đã sẵn sàng</string>

@@ -37,14 +37,3 @@ expect fun DynamicColorCheckbox(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 )
-
-/**
- * Platform-specific launcher name dropdown.
- * On Android: shows dropdown to change the app's launcher name
- * On iOS: empty (not supported)
- */
-@Composable
-expect fun LauncherNameDropdown(
-    selectedIndex: Int,
-    onSelectionChange: (Int) -> Unit,
-)

@@ -18,10 +18,4 @@
 -->
 <resources>
     <string name="default_launcher_name" translatable="false">Goodtime</string>
-    <string name="productivity_launcher_name" translatable="false">Productivity</string>
-
-    <string-array name="settings_launcher_name">
-        <item>@string/default_launcher_name</item>
-        <item>@string/productivity_launcher_name</item>
-    </string-array>
 </resources>

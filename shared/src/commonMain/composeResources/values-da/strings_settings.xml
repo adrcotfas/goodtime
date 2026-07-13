@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Opret profil</string>
     <string name="settings_delete_profile">Slet profil</string>
     <string name="settings_delete_profile_confirmation">Er du sikker på, at du vil slette %1$s?</string>
-    <string name="settings_launcher_name">Launcher navn</string>
     <string name="settings_language">Sprog</string>
     <string name="settings_update">Opdater</string>
     <string name="settings_update_available">En ny opdatering er tilgængelig</string>

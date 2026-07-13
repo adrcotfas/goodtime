@@ -25,10 +25,4 @@
     <string name="crash_report_title" translatable="false">[Goodtime Productivity] Crash report</string>
 
     <string name="default_launcher_name" translatable="false">Goodtime</string>
-    <string name="productivity_launcher_name" translatable="false">Productivity</string>
-
-    <string-array name="settings_launcher_name">
-        <item>Goodtime</item>
-        <item>Productivity</item>
-    </string-array>
 </resources>

@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Profil oluştur</string>
     <string name="settings_delete_profile">Profili sil</string>
     <string name="settings_delete_profile_confirmation">%1$s profilini silmek istediğinizden emin misiniz?</string>
-    <string name="settings_launcher_name">Başlatıcı ismi</string>
     <string name="settings_language">Dil</string>
     <string name="settings_update">Güncelle</string>
     <string name="settings_update_available">Yeni bir güncelleme mevcut</string>

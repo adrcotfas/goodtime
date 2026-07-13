@@ -46,18 +46,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity-alias>
-        <activity-alias
-            android:name="com.apps.adrcotfas.goodtime.settings.ProductivityLauncherAlias"
-            android:enabled="false"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/productivity_launcher_name"
-            android:targetActivity="com.apps.adrcotfas.goodtime.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity-alias>
 
         <!-- GoodtimeApplication implements Configuration.Provider (on-demand WorkManager init) -->
         <provider

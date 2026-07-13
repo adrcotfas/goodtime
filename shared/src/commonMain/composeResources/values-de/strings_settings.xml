@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Profil erstellen</string>
     <string name="settings_delete_profile">Profil löschen</string>
     <string name="settings_delete_profile_confirmation">Sind Sie sicher, dass Sie %1$s löschen möchten?</string>
-    <string name="settings_launcher_name">Launcher-Name</string>
     <string name="settings_language">Sprache</string>
     <string name="settings_update">Aktualisieren</string>
     <string name="settings_update_available">Ein neues Update ist verfügbar</string>

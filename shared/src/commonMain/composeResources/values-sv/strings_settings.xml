@@ -85,7 +85,6 @@
     <string name="settings_create_profile">Skapa profil</string>
     <string name="settings_delete_profile">Ta bort profil</string>
     <string name="settings_delete_profile_confirmation">Är du säker du vill ta bort %1$s?</string>
-    <string name="settings_launcher_name">Launcher namn</string>
     <string name="settings_language">Språk</string>
     <string name="settings_update">Uppdatera</string>
     <string name="settings_update_available">En ny uppdatering finns tillgänglig</string>

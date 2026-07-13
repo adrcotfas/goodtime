@@ -85,7 +85,6 @@
     <string name="settings_create_profile">إنشاء ملف شخصي</string>
     <string name="settings_delete_profile">حذف الملف الشخصي</string>
     <string name="settings_delete_profile_confirmation">هل أنت متأكد من أنك تريد حذف %1$s؟</string>
-    <string name="settings_launcher_name">اسم المشغل</string>
     <string name="settings_language">اللغة</string>
     <string name="settings_update">تحديث</string>
     <string name="settings_update_available">يتوفر تحديث جديد</string>
