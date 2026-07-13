@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 data class MainUiState(
     val loading: Boolean = true,
     val showOnboarding: Boolean = false,
+    val isPro: Boolean = false,
     val isActive: Boolean = false,
     val isFinished: Boolean = false,
     val dndDuringWork: Boolean = false,
@@ -60,6 +61,7 @@ class MainViewModel(
             settingsRepository.settings
                 .distinctUntilChanged { old, new ->
                     old.showOnboarding == new.showOnboarding &&
+                        old.isPro == new.isPro &&
                         old.uiSettings.dndDuringWork == new.uiSettings.dndDuringWork &&
                         old.uiSettings.themePreference == new.uiSettings.themePreference &&
                         old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor &&
@@ -73,6 +75,7 @@ class MainViewModel(
                         it.copy(
                             loading = false,
                             showOnboarding = settings.showOnboarding,
+                            isPro = settings.isPro,
                             dndDuringWork = settings.uiSettings.dndDuringWork,
                             darkThemePreference = settings.uiSettings.themePreference,
                             isDynamicColor = settings.uiSettings.useDynamicColor,

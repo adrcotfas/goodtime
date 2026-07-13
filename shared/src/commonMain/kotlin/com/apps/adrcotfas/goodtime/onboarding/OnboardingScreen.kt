@@ -40,16 +40,18 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
@@ -58,8 +60,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.billing.ProScreen
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.main.MainViewModel
+import com.apps.adrcotfas.goodtime.platform.isFDroid
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.intro1
 import goodtime_productivity.shared.generated.resources.intro1_desc1
@@ -76,6 +81,16 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
     val pages = OnboardingPage.pages
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val coroutineScope = rememberCoroutineScope()
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var showPro by rememberSaveable { mutableStateOf(false) }
+    val finish = { viewModel.setShowOnboarding(false) }
+
+    if (showPro) {
+        BackHandler { finish() }
+        ProScreen(onNavigateBack = { finish() })
+        return
+    }
 
     BackHandler(pagerState.currentPage != 0) {
         coroutineScope.launch {
@@ -130,7 +145,11 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
                 shape = CircleShape,
                 onClick = {
                     if (isLastPage) {
-                        viewModel.setShowOnboarding(false)
+                        if (!isFDroid() && !uiState.isPro) {
+                            showPro = true
+                        } else {
+                            finish()
+                        }
                     } else {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
@@ -160,16 +179,6 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 selectionColor = MaterialTheme.colorScheme.onSurface,
             )
-
-            IconButton(modifier = Modifier.align(Alignment.TopEnd).padding(end = 16.dp), onClick = {
-                viewModel.setShowOnboarding(false)
-            }) {
-                Icon(
-                    imageVector = Icons.Outlined.Close,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground,
-                )
-            }
         }
     }
 }
