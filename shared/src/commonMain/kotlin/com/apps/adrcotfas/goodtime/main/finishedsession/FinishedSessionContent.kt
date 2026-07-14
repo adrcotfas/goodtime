@@ -289,54 +289,27 @@ private fun CurrentSessionCard(
                 horizontalArrangement = Arrangement.spacedBy(32.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Column(
-                    modifier = Modifier.wrapContentHeight(),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    Text(
-                        if (isBreak) strings.statsBreak else strings.statsFocus,
-                        style = MaterialTheme.typography.labelSmall,
-                    )
-                    Text(
-                        duration,
-                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                    )
-                }
+                StatColumn(
+                    label = if (isBreak) strings.statsBreak else strings.statsFocus,
+                    value = duration,
+                )
 
                 if (!isBreak) {
                     val interruptions = timerUiState.timeSpentPaused.milliseconds.inWholeMinutes
                     if (interruptions > 0) {
-                        Column(
-                            modifier = Modifier.wrapContentHeight(),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start,
-                        ) {
-                            Text(
-                                strings.mainInterruptions,
-                                style = MaterialTheme.typography.labelSmall,
-                            )
-                            Text(
-                                interruptions.minutes.formatOverview(),
-                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                            )
-                        }
+                        StatColumn(
+                            label = strings.mainInterruptions,
+                            value = interruptions.minutes.formatOverview(),
+                        )
                     }
                 }
 
                 if (idleMillis > 0) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Column(
-                            modifier = Modifier.wrapContentHeight(),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start,
-                        ) {
-                            Text(strings.mainIdle, style = MaterialTheme.typography.labelSmall)
-                            Text(
-                                idleMillis.formatMilliseconds(),
-                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                            )
-                        }
+                        StatColumn(
+                            label = strings.mainIdle,
+                            value = idleMillis.formatMilliseconds(),
+                        )
                         Spacer(modifier = Modifier.width(12.dp))
                         Crossfade(
                             modifier = Modifier.size(36.dp),
@@ -367,6 +340,45 @@ private fun CurrentSessionCard(
                 onValueChange = onNotesChanged,
                 enabled = enabled,
                 placeholder = strings.statsAddNotes,
+            )
+        }
+    }
+}
+
+/**
+ * Compact, read-only variant of the finished session sheet for the PiP window:
+ * only the "this session" stats, centered, no actions.
+ */
+@Composable
+fun PipFinishedSessionContent(
+    timerUiState: TimerUiState,
+    idleTime: () -> Long,
+) {
+    val viewModel: FinishedSessionViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    if (uiState.isLoading) return
+    val strings = uiState.strings
+    val isBreak = timerUiState.timerType.isBreak
+
+    Column(
+        modifier = Modifier.padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            if (isBreak) strings.mainBreakComplete else strings.mainFocusComplete,
+            style = MaterialTheme.typography.titleSmall,
+        )
+        Text(
+            text = timerUiState.completedMinutes.minutes.formatOverview(),
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+        )
+        val idleMillis = idleTime()
+        if (idleMillis > 0) {
+            Text(
+                text = "${strings.mainIdle} ${idleMillis.formatMilliseconds()}",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }
@@ -404,49 +416,19 @@ fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
                     horizontalArrangement = Arrangement.spacedBy(32.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Column(
-                        modifier = Modifier.wrapContentHeight(),
-                        verticalArrangement = Arrangement.SpaceBetween,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            strings.statsFocus,
-                            style = MaterialTheme.typography.labelSmall,
-                        )
-                        Text(
-                            finishedSessionUiState.todayWorkMinutes.minutes.formatOverview(),
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                        )
-                    }
-                    Column(
-                        modifier = Modifier.wrapContentHeight(),
-                        verticalArrangement = Arrangement.SpaceBetween,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            strings.statsBreak,
-                            style = MaterialTheme.typography.labelSmall,
-                        )
-                        Text(
-                            finishedSessionUiState.todayBreakMinutes.minutes.formatOverview(),
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                        )
-                    }
+                    StatColumn(
+                        label = strings.statsFocus,
+                        value = finishedSessionUiState.todayWorkMinutes.minutes.formatOverview(),
+                    )
+                    StatColumn(
+                        label = strings.statsBreak,
+                        value = finishedSessionUiState.todayBreakMinutes.minutes.formatOverview(),
+                    )
                     if (finishedSessionUiState.todayInterruptedMinutes > 0) {
-                        Column(
-                            modifier = Modifier.wrapContentHeight(),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start,
-                        ) {
-                            Text(
-                                strings.mainInterruptions,
-                                style = MaterialTheme.typography.labelSmall,
-                            )
-                            Text(
-                                finishedSessionUiState.todayInterruptedMinutes.minutes.formatOverview(),
-                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                            )
-                        }
+                        StatColumn(
+                            label = strings.mainInterruptions,
+                            value = finishedSessionUiState.todayInterruptedMinutes.minutes.formatOverview(),
+                        )
                     }
                 }
             }
