@@ -18,6 +18,7 @@
 package com.apps.adrcotfas.goodtime.platform
 
 import android.os.Build
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
@@ -59,6 +60,17 @@ actual fun PlatformContext.setFullscreen(enabled: Boolean) {
 actual fun PlatformContext.setShowWhenLocked(enabled: Boolean) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
         activity.setShowWhenLocked(enabled)
+    }
+}
+
+/**
+ * Keeps the screen on while the window is visible.
+ */
+actual fun PlatformContext.setKeepScreenOn(enabled: Boolean) {
+    if (enabled) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    } else {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 }
 

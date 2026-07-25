@@ -18,7 +18,6 @@
 package com.apps.adrcotfas.goodtime
 
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,9 +51,6 @@ class MainActivity : GoodtimeMainActivity() {
         log.d { "onCreate" }
 
         restoreGoodtimeLauncherIfNeeded(this)
-
-        // Force screen to always stay on
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // Keep splash screen visible while loading
         splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.loading }

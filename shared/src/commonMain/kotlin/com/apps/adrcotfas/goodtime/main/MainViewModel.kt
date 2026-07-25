@@ -42,6 +42,7 @@ data class MainUiState(
     val isDynamicColor: Boolean = false,
     val isMainScreen: Boolean = true,
     val fullscreenMode: Boolean = false,
+    val keepScreenOn: Boolean = true,
     val showWhenLocked: Boolean = false,
     val shouldAskForReview: Boolean = false,
     val isUpdateAvailable: Boolean = false,
@@ -66,6 +67,7 @@ class MainViewModel(
                         old.uiSettings.themePreference == new.uiSettings.themePreference &&
                         old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor &&
                         old.uiSettings.fullscreenMode == new.uiSettings.fullscreenMode &&
+                        old.uiSettings.keepScreenOn == new.uiSettings.keepScreenOn &&
                         old.uiSettings.showWhenLocked == new.uiSettings.showWhenLocked &&
                         old.shouldAskForReview == new.shouldAskForReview &&
                         old.notificationPermissionState == new.notificationPermissionState &&
@@ -80,6 +82,7 @@ class MainViewModel(
                             darkThemePreference = settings.uiSettings.themePreference,
                             isDynamicColor = settings.uiSettings.useDynamicColor,
                             fullscreenMode = settings.uiSettings.fullscreenMode,
+                            keepScreenOn = settings.uiSettings.keepScreenOn,
                             showWhenLocked = settings.uiSettings.showWhenLocked,
                             shouldAskForReview = settings.shouldAskForReview,
                             wasNotificationPermissionDenied =

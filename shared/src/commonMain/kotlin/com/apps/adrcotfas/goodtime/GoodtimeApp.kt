@@ -44,6 +44,7 @@ import com.apps.adrcotfas.goodtime.main.route
 import com.apps.adrcotfas.goodtime.platform.PlatformContext
 import com.apps.adrcotfas.goodtime.platform.configureSystemBars
 import com.apps.adrcotfas.goodtime.platform.setFullscreen
+import com.apps.adrcotfas.goodtime.platform.setKeepScreenOn
 import com.apps.adrcotfas.goodtime.platform.setShowWhenLocked
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import kotlinx.coroutines.Job
@@ -92,6 +93,12 @@ fun GoodtimeApp(
     // Handle show when locked
     LaunchedEffect(showWhenLocked) {
         platformContext.setShowWhenLocked(showWhenLocked)
+    }
+
+    // Keep the screen on only while a session is running or paused
+    val keepScreenOn = uiState.keepScreenOn && uiState.isActive
+    LaunchedEffect(keepScreenOn) {
+        platformContext.setKeepScreenOn(keepScreenOn)
     }
 
     // Handle fullscreen mode

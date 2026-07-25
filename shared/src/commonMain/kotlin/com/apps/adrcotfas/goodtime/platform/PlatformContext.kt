@@ -27,4 +27,6 @@ expect fun PlatformContext.setFullscreen(enabled: Boolean)
 
 expect fun PlatformContext.setShowWhenLocked(enabled: Boolean)
 
+expect fun PlatformContext.setKeepScreenOn(enabled: Boolean)
+
 expect fun PlatformContext.configureSystemBars(isDarkTheme: Boolean)

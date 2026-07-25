@@ -69,6 +69,7 @@ import goodtime_productivity.shared.generated.resources.settings_display_and_app
 import goodtime_productivity.shared.generated.resources.settings_display_over_lock_screen
 import goodtime_productivity.shared.generated.resources.settings_display_over_lock_screen_desc
 import goodtime_productivity.shared.generated.resources.settings_fullscreen_mode
+import goodtime_productivity.shared.generated.resources.settings_keep_the_screen_on
 import goodtime_productivity.shared.generated.resources.settings_notifications_title
 import goodtime_productivity.shared.generated.resources.settings_productivity_reminder_title
 import goodtime_productivity.shared.generated.resources.settings_screensaver_mode
@@ -208,6 +209,15 @@ fun SettingsScreen(
                 },
                 onClick = onNavigateToUserInterface,
             )
+            CheckboxListItem(
+                title = stringResource(Res.string.settings_keep_the_screen_on),
+                checked = uiState.settings.uiSettings.keepScreenOn,
+            ) {
+                viewModel.setKeepScreenOn(it)
+                if (!it) {
+                    viewModel.setScreensaverMode(false)
+                }
+            }
             if (uiState.settings.isPro) {
                 CheckboxListItem(
                     title = stringResource(Res.string.settings_fullscreen_mode),
@@ -234,7 +244,8 @@ fun SettingsScreen(
                 CheckboxListItem(
                     title = stringResource(Res.string.settings_screensaver_mode),
                     checked = uiState.settings.uiSettings.screensaverMode,
-                    enabled = uiState.settings.uiSettings.fullscreenMode,
+                    enabled = uiState.settings.uiSettings.keepScreenOn &&
+                        uiState.settings.uiSettings.fullscreenMode,
                 ) {
                     viewModel.setScreensaverMode(it)
                 }

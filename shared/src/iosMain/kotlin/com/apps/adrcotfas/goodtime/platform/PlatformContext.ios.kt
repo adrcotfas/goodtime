@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.platform
 
+import platform.UIKit.UIApplication
 import kotlin.concurrent.Volatile
 
 actual class PlatformContext
@@ -29,6 +30,10 @@ actual fun PlatformContext.setFullscreen(enabled: Boolean) {
 actual fun PlatformContext.setShowWhenLocked(enabled: Boolean) {
     // iOS handles this differently - would need UIKit configuration
     // Not implemented for iOS yet
+}
+
+actual fun PlatformContext.setKeepScreenOn(enabled: Boolean) {
+    UIApplication.sharedApplication.idleTimerDisabled = enabled
 }
 
 actual fun PlatformContext.configureSystemBars(isDarkTheme: Boolean) {
