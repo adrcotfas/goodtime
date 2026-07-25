@@ -75,13 +75,9 @@ actual fun PlatformContext.configureSystemBars(isDarkTheme: Boolean) {
         ) { isDarkTheme },
         navigationBarStyle =
         SystemBarStyle.auto(
-            lightScrim = lightScrim,
-            darkScrim = darkScrim,
+            lightScrim = android.graphics.Color.TRANSPARENT,
+            darkScrim = android.graphics.Color.TRANSPARENT,
             detectDarkMode = { isDarkTheme },
         ),
     )
 }
-
-// Scrim colors for navigation bar
-private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
-private val darkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)

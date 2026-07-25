@@ -21,6 +21,10 @@
 
     <style name="Theme.Goodtime" parent="NightAdjusted.Theme.Goodtime">
         <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="29">false</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="29">false</item>
     </style>
 
     <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
