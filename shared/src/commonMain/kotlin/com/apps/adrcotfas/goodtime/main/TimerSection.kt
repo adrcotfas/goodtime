@@ -45,6 +45,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -60,11 +61,12 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
 import com.apps.adrcotfas.goodtime.bl.TimerType
@@ -148,16 +150,28 @@ fun MainTimerView(
             onLongClick = onLongClick,
         )
 
-        val imageSize =
-            with(LocalDensity.current) {
-                (
-                    MaterialTheme.typography.labelLarge.fontSize.value.sp
-                        .toDp() + 5.dp
-                    ) * 2f
-            }
-        Spacer(modifier = Modifier.height(imageSize))
+        Spacer(modifier = Modifier.height(statusStripHeight()))
     }
 }
+
+/**
+ * The sizes below are derived from the text they have to contain and are only ever *added* to,
+ * never subtracted from a parent height. Deriving them the other way around
+ * (chip height minus padding) leaves the content less room than a line of text at small system
+ * font scales, which clips the break budget text - see `adb shell settings put system font_scale 0.7`.
+ */
+@Composable
+private fun statusIconSize(): Dp = with(LocalDensity.current) {
+    MaterialTheme.typography.labelLarge.lineHeight
+        .toDp() * 0.9f
+}
+
+/** Same for all indicators, so they line up. */
+@Composable
+private fun statusChipHeight(): Dp = statusIconSize() + 10.dp
+
+@Composable
+private fun statusStripHeight(): Dp = statusChipHeight() + 10.dp
 
 @Composable
 fun CurrentStatusSection(
@@ -177,19 +191,11 @@ fun CurrentStatusSection(
     val statusColor = color.copy(alpha = 0.75f)
     val statusBackgroundColor = color.copy(alpha = 0.15f)
 
-    val imageSize =
-        with(LocalDensity.current) {
-            (
-                MaterialTheme.typography.labelLarge.fontSize.value.sp
-                    .toDp() + 5.dp
-                ) * 2f
-        }
-
     Row(
         modifier =
         modifier
             .fillMaxWidth()
-            .height(imageSize)
+            .height(statusStripHeight())
             .hideUnless(isActive),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -246,20 +252,14 @@ fun StatusIndicator(
         enter = fadeIn() + expandHorizontally(),
         exit = fadeOut() + shrinkHorizontally(),
     ) {
-        val imageSize =
-            with(LocalDensity.current) {
-                MaterialTheme.typography.labelLarge.fontSize.value.sp
-                    .toDp() * 2f
-            }
         Box(
             modifier =
             Modifier
                 .graphicsLayer { this.alpha = alpha.value }
-                .padding(4.dp)
-                .size(imageSize)
+                .padding(horizontal = 4.dp)
+                .size(statusChipHeight())
                 .clip(MaterialTheme.shapes.small)
-                .background(backgroundColor)
-                .padding(5.dp),
+                .background(backgroundColor),
         ) {
             Crossfade(
                 modifier = Modifier.align(Alignment.Center),
@@ -268,12 +268,14 @@ fun StatusIndicator(
             ) {
                 if (it) {
                     Image(
+                        modifier = Modifier.size(statusIconSize()),
                         colorFilter = ColorFilter.tint(color),
                         painter = painterResource(Res.drawable.ic_break),
                         contentDescription = stringResource(Res.string.stats_break),
                     )
                 } else {
                     Image(
+                        modifier = Modifier.size(statusIconSize()),
                         colorFilter = ColorFilter.tint(color),
                         painter = painterResource(Res.drawable.ic_status_goodtime),
                         contentDescription = stringResource(Res.string.stats_focus),
@@ -299,16 +301,11 @@ fun StreakIndicator(
             enter = fadeIn() + expandHorizontally(),
             exit = fadeOut() + shrinkHorizontally(),
         ) {
-            val imageSize =
-                with(LocalDensity.current) {
-                    MaterialTheme.typography.labelLarge.fontSize.value.sp
-                        .toDp() * 2f
-                }
             Box(
                 modifier =
                 Modifier
-                    .padding(5.dp)
-                    .size(imageSize)
+                    .padding(horizontal = 4.dp)
+                    .size(statusChipHeight())
                     .clip(MaterialTheme.shapes.small)
                     .background(backgroundColor),
             ) {
@@ -348,25 +345,26 @@ fun BreakBudgetIndicator(
         enter = fadeIn() + expandHorizontally(),
         exit = fadeOut() + shrinkHorizontally(),
     ) {
-        val imageSize =
+        val iconSize =
             with(LocalDensity.current) {
-                MaterialTheme.typography.labelLarge.fontSize.value.sp
-                    .toDp() * 2f
+                MaterialTheme.typography.labelSmall.lineHeight
+                    .toDp()
             }
         Box(
             modifier =
             Modifier
-                .padding(6.dp)
-                .height(imageSize)
+                .padding(horizontal = 4.dp)
+                .height(statusChipHeight())
                 .clip(MaterialTheme.shapes.small)
                 .background(backgroundColor)
-                .padding(6.dp),
+                .padding(horizontal = 6.dp),
         ) {
             Row(
                 modifier = Modifier.align(Alignment.Center),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
+                    modifier = Modifier.size(iconSize),
                     colorFilter = ColorFilter.tint(color),
                     painter = painterResource(Res.drawable.ic_break),
                     contentDescription = stringResource(Res.string.labels_break_budget),
@@ -384,6 +382,9 @@ fun BreakBudgetIndicator(
     }
 }
 
+private const val SUPERSCRIPTS = "⁰¹²³⁴⁵⁶⁷⁸"
+private const val SUBSCRIPTS = "₀₁₂₃₄₅₆₇₈"
+
 @Composable
 fun FractionText(
     modifier: Modifier,
@@ -391,9 +392,6 @@ fun FractionText(
     denominator: Int,
     color: Color,
 ) {
-    val superscripts = listOf('⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸')
-    val subscripts = listOf('₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈')
-
     val baseStyle =
         MaterialTheme.typography.labelLarge
             .copy(
@@ -405,13 +403,13 @@ fun FractionText(
     val annotatedString =
         buildAnnotatedString {
             withStyle(baseStyle.copy(letterSpacing = TextUnit(-0.1f, TextUnitType.Em))) {
-                append(superscripts[numerator])
+                append(SUPERSCRIPTS[numerator])
             }
             withStyle(baseStyle) {
                 append("⁄")
             }
             withStyle(baseStyle.copy(letterSpacing = TextUnit(-0.3f, TextUnitType.Em))) {
-                append(subscripts[denominator])
+                append(SUBSCRIPTS[denominator])
             }
         }
 
@@ -470,7 +468,13 @@ fun TimerTextView(
         modifier =
         Modifier
             .then(modifier)
-            .graphicsLayer(scaleX = scale, scaleY = scale, alpha = alpha.value)
+            // the lambda overload keeps the animation reads out of the composition, otherwise the
+            // blinking while paused recomposes this text on every frame
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+                this.alpha = alpha.value
+            }
             .then(clickableModifier),
         text = millis().formatMilliseconds(timerStyle.minutesOnly),
         style =
@@ -482,22 +486,49 @@ fun TimerTextView(
     )
 }
 
+/** Status and break budget indicators, the combination used in flow mode. */
+@Composable
+private fun StatusAndBreakBudget(breakBudget: Long = 30) {
+    CurrentStatusSection(
+        color = MaterialTheme.getLabelColor(13),
+        isBreak = false,
+        isActive = true,
+        isPaused = false,
+        isCountdown = false,
+        streak = 2,
+        sessionsBeforeLongBreak = 3,
+        breakBudget = breakBudget,
+        showStatus = true,
+        showStreak = true,
+        showBreakBudget = true,
+    )
+}
+
 @Preview
 @Composable
 fun CurrentStatusSectionPreview() {
     ApplicationTheme {
-        CurrentStatusSection(
-            color = MaterialTheme.getLabelColor(13),
-            isBreak = false,
-            isActive = true,
-            isPaused = false,
-            isCountdown = false,
-            streak = 2,
-            sessionsBeforeLongBreak = 3,
-            breakBudget = 30,
-            showStatus = true,
-            showStreak = true,
-            showBreakBudget = true,
-        )
+        StatusAndBreakBudget()
+    }
+}
+
+/**
+ * Both indicators must stay the same height and the break budget text must stay unclipped at
+ * every font scale - it used to be cut in half below 1.0.
+ */
+@Preview
+@Composable
+fun CurrentStatusSectionFontScalesPreview() {
+    ApplicationTheme {
+        Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+            listOf(0.7f, 0.85f, 1f, 1.3f).forEach { fontScale ->
+                CompositionLocalProvider(
+                    LocalDensity provides
+                        Density(density = LocalDensity.current.density, fontScale = fontScale),
+                ) {
+                    StatusAndBreakBudget(breakBudget = 9)
+                }
+            }
+        }
     }
 }
