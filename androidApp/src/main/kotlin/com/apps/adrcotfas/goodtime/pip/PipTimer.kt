@@ -183,7 +183,10 @@ fun ComponentActivity.setupPictureInPicture(
 ) {
     addOnPictureInPictureModeChangedListener { onPipModeChanged(it.isInPictureInPictureMode) }
     var lastState: PipState? = null
-    suspend fun updateParams(state: PipState) = setPictureInPictureParams(pipParams(state.autoEnter, sourceRectHint(), pipActions(state)))
+    suspend fun updateParams(state: PipState) {
+        val params = pipParams(state.autoEnter, sourceRectHint(), pipActions(state))
+        runCatching { setPictureInPictureParams(params) }
+    }
     lifecycleScope.launch {
         combine(timerViewModel.timerUiState, timerViewModel.uiState) { timerUiState, uiState ->
             PipState(
