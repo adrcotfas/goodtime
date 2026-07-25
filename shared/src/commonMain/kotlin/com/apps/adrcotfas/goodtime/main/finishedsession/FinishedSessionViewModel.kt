@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.main.finishedsession
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.select
@@ -44,13 +45,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.getString
-import kotlin.time.Instant
 
 data class FinishedSessionUiState(
     val isPro: Boolean = false,
@@ -134,7 +129,12 @@ class FinishedSessionViewModel(
                             isFullscreen = isFullscreen,
                         )
                     }
-                    localDataRepo.selectSessionsAfter(toMillisOfToday(workdayStart))
+                    localDataRepo.selectSessionsAfter(
+                        Time.startOfTodayAdjusted(
+                            secondOfDay = workdayStart,
+                            now = Time.toLocalDateTime(timeProvider.now()),
+                        ),
+                    )
                 }.collect { sessions ->
                     val (todayWorkSessions, todayBreakSessions) =
                         sessions.partition { session -> session.isWork }
@@ -154,18 +154,5 @@ class FinishedSessionViewModel(
                     checkLoading()
                 }
         }
-    }
-
-    private fun toMillisOfToday(workdayStart: Int): Long {
-        val hour = workdayStart / 3600
-        val minute = (workdayStart % 3600) / 60
-        val second = workdayStart % 60
-
-        val instant = Instant.fromEpochMilliseconds(timeProvider.now())
-        val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
-
-        val timeAtSecondOfDay = LocalDateTime(dateTime.date, LocalTime(hour, minute, second))
-        val instant2 = timeAtSecondOfDay.toInstant(TimeZone.currentSystemDefault())
-        return instant2.toEpochMilliseconds()
     }
 }

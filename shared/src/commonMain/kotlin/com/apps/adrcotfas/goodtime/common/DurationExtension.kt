@@ -53,30 +53,32 @@ fun Duration.formatOverview(): String {
 }
 
 object Time {
-    fun startOfTodayAdjusted(secondOfDay: Int): Long {
-        val dateTime =
-            currentDateTime().apply {
-                if (time.toSecondOfDay() < secondOfDay) {
-                    minus(DatePeriod(days = 1))
-                }
-            }
+    /** The day [now] belongs to: before the workday start it's still the previous day. */
+    private fun adjustedDate(
+        now: LocalDateTime,
+        secondOfDay: Int,
+    ): LocalDate = if (now.time.toSecondOfDay() < secondOfDay) {
+        now.date.minus(DatePeriod(days = 1))
+    } else {
+        now.date
+    }
+
+    fun startOfTodayAdjusted(
+        secondOfDay: Int,
+        now: LocalDateTime = currentDateTime(),
+    ): Long {
         val timeZone = TimeZone.currentSystemDefault()
-        val startOfDay = dateTime.date.atStartOfDayIn(timeZone)
+        val startOfDay = adjustedDate(now, secondOfDay).atStartOfDayIn(timeZone)
         return startOfDay.toEpochMilliseconds() + secondOfDay.seconds.inWholeMilliseconds
     }
 
     fun startOfThisWeekAdjusted(
         startDayOfWeek: DayOfWeek,
         secondOfDay: Int,
+        now: LocalDateTime = currentDateTime(),
     ): LocalDateTime {
-        val dateTime =
-            currentDateTime().apply {
-                if (time.toSecondOfDay() < secondOfDay) {
-                    minus(DatePeriod(days = 1))
-                }
-            }
         val timeZone = TimeZone.currentSystemDefault()
-        var date = dateTime.date
+        var date = adjustedDate(now, secondOfDay)
         while (date.dayOfWeek != startDayOfWeek) {
             date = date.minus(1, DateTimeUnit.DAY)
         }
@@ -85,19 +87,12 @@ object Time {
         return startOfWeekInstant.toLocalDateTime(timeZone)
     }
 
-    fun startOfThisMonth(secondOfDay: Int): LocalDateTime {
-        val dateTime =
-            currentDateTime().apply {
-                if (time.toSecondOfDay() < secondOfDay) {
-                    minus(DatePeriod(days = 1))
-                }
-            }
-        val date =
-            LocalDate(
-                dateTime.date.year,
-                dateTime.date.month,
-                1,
-            )
+    fun startOfThisMonth(
+        secondOfDay: Int,
+        now: LocalDateTime = currentDateTime(),
+    ): LocalDateTime {
+        val adjusted = adjustedDate(now, secondOfDay)
+        val date = LocalDate(adjusted.year, adjusted.month, 1)
         val startOfMonthInstant = date.atStartOfDayIn(TimeZone.currentSystemDefault()).plus(secondOfDay.seconds)
         return startOfMonthInstant.toLocalDateTime(TimeZone.currentSystemDefault())
     }
@@ -169,17 +164,7 @@ fun LocalDate.firstDayOfWeekInThisWeek(startDayOfWeek: DayOfWeek): LocalDate {
     return date
 }
 
-fun LocalDate.endOfWeekInThisWeek(startDayOfWeek: DayOfWeek): LocalDate {
-    var date = this
-    if (date.dayOfWeek == startDayOfWeek) {
-        return date.plus(DatePeriod(days = 6))
-    }
-    while (date.dayOfWeek != startDayOfWeek) {
-        date = date.plus(DatePeriod(days = 1))
-    }
-    date.minus(DatePeriod(days = 1))
-    return date
-}
+fun LocalDate.endOfWeekInThisWeek(startDayOfWeek: DayOfWeek): LocalDate = firstDayOfWeekInThisWeek(startDayOfWeek).plus(DatePeriod(days = 6))
 
 fun LocalDate.firstDayOfThisQuarter(): LocalDate {
     val firstMonthInQuarter =

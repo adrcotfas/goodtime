@@ -79,14 +79,7 @@ fun HeatmapSection(
 
     val startAtStartOfWeek = remember { startLocalDate.firstDayOfWeekInThisWeek(firstDayOfWeek) }
     val endAtEndOfWeek = remember { endLocalDate.endOfWeekInThisWeek(firstDayOfWeek) }
-    val numberOfWeeks =
-        remember {
-            if (startLocalDate.daysUntil(endAtEndOfWeek) % 7 == 0) {
-                52
-            } else {
-                53
-            }
-        }
+    val numberOfWeeks = remember { (startAtStartOfWeek.daysUntil(endAtEndOfWeek) + 1) / 7 }
 
     val fontSizeStyle = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Thin)
     val cellSize = remember { with(density) { fontSizeStyle.fontSize.toDp() } * 1.5f }
