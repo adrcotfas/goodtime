@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Odak tam ses</string>
     <string name="settings_break_complete_sound">Ara tam ses</string>
     <string name="settings_silent">Sessiz</string>
-    <string name="settings_default_notification_sound">Varsayılan bildirim sesi</string>
+    <string name="settings_default">Varsayılan</string>
     <string name="settings_your_sounds">Sesleriniz</string>
     <string name="settings_system_sounds">Sistem sesleri</string>
     <string name="settings_delete_sound">Sesi sil</string>

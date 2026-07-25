@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">صوت التركيز الكامل</string>
     <string name="settings_break_complete_sound">كسر صوت كامل</string>
     <string name="settings_silent">صامت</string>
-    <string name="settings_default_notification_sound">صوت الإشعار الافتراضي</string>
+    <string name="settings_default">افتراضي</string>
     <string name="settings_your_sounds">الأصوات الخاصة بك</string>
     <string name="settings_system_sounds">أصوات النظام</string>
     <string name="settings_delete_sound">حذف الصوت</string>

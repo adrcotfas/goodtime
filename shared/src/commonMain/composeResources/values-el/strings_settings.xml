@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Εστίαση στον πλήρη ήχο</string>
     <string name="settings_break_complete_sound">Διάλειμμα πλήρους ήχου</string>
     <string name="settings_silent">Αθόρυβο</string>
-    <string name="settings_default_notification_sound">Προεπιλεγμένος ήχος ειδοποίησης</string>
+    <string name="settings_default">Προεπιλογή</string>
     <string name="settings_your_sounds">Οι ήχοι σας</string>
     <string name="settings_system_sounds">Ήχοι συστήματος</string>
     <string name="settings_delete_sound">Διαγραφή ήχου</string>

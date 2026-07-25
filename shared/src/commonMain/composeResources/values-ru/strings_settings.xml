@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Полная фокусировка звука</string>
     <string name="settings_break_complete_sound">Звук остановки завершен</string>
     <string name="settings_silent">Без звука</string>
-    <string name="settings_default_notification_sound">Звук уведомления по умолчанию</string>
+    <string name="settings_default">По умолчанию</string>
     <string name="settings_your_sounds">Ваши звуки</string>
     <string name="settings_system_sounds">Системные звуки</string>
     <string name="settings_delete_sound">Удалить звук</string>

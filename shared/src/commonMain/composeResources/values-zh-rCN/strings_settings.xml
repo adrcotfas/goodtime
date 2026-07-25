@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">专注完成音效</string>
     <string name="settings_break_complete_sound">休息完成音效</string>
     <string name="settings_silent">静音</string>
-    <string name="settings_default_notification_sound">默认通知声音</string>
+    <string name="settings_default">默认</string>
     <string name="settings_your_sounds">你的音效</string>
     <string name="settings_system_sounds">系统音效</string>
     <string name="settings_delete_sound">删除音效</string>

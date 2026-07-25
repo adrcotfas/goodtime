@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Arreta amaitutako soinua</string>
     <string name="settings_break_complete_sound">Atsedena amaitutako soinua</string>
     <string name="settings_silent">Isilik modua</string>
-    <string name="settings_default_notification_sound">Jakinarazpenen soinu lehenetsia</string>
+    <string name="settings_default">Lehenetsia</string>
     <string name="settings_your_sounds">Zure soinuak</string>
     <string name="settings_system_sounds">Sistemaren soinuak</string>
     <string name="settings_delete_sound">Ezabatu soinua</string>

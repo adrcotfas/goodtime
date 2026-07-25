@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Focus complete sound</string>
     <string name="settings_break_complete_sound">Break complete sound</string>
     <string name="settings_silent">शांत</string>
-    <string name="settings_default_notification_sound">सूचना की डिफ़ॉल्ट आवाज़</string>
+    <string name="settings_default">डिफ़ॉल्ट</string>
     <string name="settings_your_sounds">Your sounds</string>
     <string name="settings_system_sounds">सिस्टम ध्वनियां</string>
     <string name="settings_delete_sound">ध्वनियों को हटाएं</string>

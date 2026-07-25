@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Skoncentrowanie kompletnego dźwięku</string>
     <string name="settings_break_complete_sound">Przerwij dźwięk</string>
     <string name="settings_silent">Cichy</string>
-    <string name="settings_default_notification_sound">Domyślny dźwięk powiadomień</string>
+    <string name="settings_default">Domyślny</string>
     <string name="settings_your_sounds">Twoje dźwięki</string>
     <string name="settings_system_sounds">Dźwięki systemowe</string>
     <string name="settings_delete_sound">Usuń dźwięk</string>

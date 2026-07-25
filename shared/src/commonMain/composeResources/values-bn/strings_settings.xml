@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">সম্পূর্ণ শব্দ ফোকাস করুন</string>
     <string name="settings_break_complete_sound">সম্পূর্ণ শব্দ ফোকাস করুন</string>
     <string name="settings_silent">নীরব</string>
-    <string name="settings_default_notification_sound">ডিফল্ট বিজ্ঞপ্তির সাউন্ড</string>
+    <string name="settings_default">ডিফল্ট</string>
     <string name="settings_your_sounds">আপনার শব্দ</string>
     <string name="settings_system_sounds">সিস্টেম শব্দ</string>
     <string name="settings_delete_sound">শব্দ মুছুন</string>

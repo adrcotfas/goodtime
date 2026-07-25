@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Tono de enfoque completo</string>
     <string name="settings_break_complete_sound">Tono de descanso completo</string>
     <string name="settings_silent">Silencio</string>
-    <string name="settings_default_notification_sound">Sonido de notificación por defecto</string>
+    <string name="settings_default">Predeterminado</string>
     <string name="settings_your_sounds">Tus sonidos</string>
     <string name="settings_system_sounds">Sonidos del sistema</string>
     <string name="settings_delete_sound">Borrar sonido</string>

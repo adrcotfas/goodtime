@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Доступ до фокусу завершено</string>
     <string name="settings_break_complete_sound">Перервати звук</string>
     <string name="settings_silent">Беззвучний</string>
-    <string name="settings_default_notification_sound">Сигнал сповіщень за умовчанням</string>
+    <string name="settings_default">За замовчуванням</string>
     <string name="settings_your_sounds">Ваші звуки</string>
     <string name="settings_system_sounds">Системні звуки</string>
     <string name="settings_delete_sound">Видалити звук</string>

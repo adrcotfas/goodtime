@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Fokusera komplett ljud</string>
     <string name="settings_break_complete_sound">Bryt komplett ljud</string>
     <string name="settings_silent">Tyst</string>
-    <string name="settings_default_notification_sound">Standardljud för aviseringar</string>
+    <string name="settings_default">Standard</string>
     <string name="settings_your_sounds">Dina ljud</string>
     <string name="settings_system_sounds">Systemets ljud</string>
     <string name="settings_delete_sound">Ta bort ljud</string>

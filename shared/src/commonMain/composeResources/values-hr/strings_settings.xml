@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Zvuk završetka fokusa</string>
     <string name="settings_break_complete_sound">Zvuk završetka fokusa</string>
     <string name="settings_silent">Tiho</string>
-    <string name="settings_default_notification_sound">Zvuk za obavijesti</string>
+    <string name="settings_default">Zadano</string>
     <string name="settings_your_sounds">Vaši zvukovi</string>
     <string name="settings_system_sounds">Zvukovi sustava</string>
     <string name="settings_delete_sound">Izbriši zvuk?</string>

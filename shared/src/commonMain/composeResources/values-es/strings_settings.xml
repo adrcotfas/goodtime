@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Enfocar sonido completo</string>
     <string name="settings_break_complete_sound">Interrumpir sonido completo</string>
     <string name="settings_silent">Silenciar</string>
-    <string name="settings_default_notification_sound">Sonido de notificación por defecto</string>
+    <string name="settings_default">Predeterminado</string>
     <string name="settings_your_sounds">Tus sonidos</string>
     <string name="settings_system_sounds">Sonidos del sistema</string>
     <string name="settings_delete_sound">Eliminar sonido</string>

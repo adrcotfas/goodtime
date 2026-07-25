@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Focus complete sound</string>
     <string name="settings_break_complete_sound">Break complete sound</string>
     <string name="settings_silent">Silent</string>
-    <string name="settings_default_notification_sound">Default notification sound</string>
+    <string name="settings_default">Podrazumevano</string>
     <string name="settings_your_sounds">Your sounds</string>
     <string name="settings_system_sounds">System sounds</string>
     <string name="settings_delete_sound">Delete sound</string>

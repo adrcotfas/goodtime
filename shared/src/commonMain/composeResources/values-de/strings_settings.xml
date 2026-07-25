@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Kompletten Ton fokussieren</string>
     <string name="settings_break_complete_sound">Gesamten Ton anhalten</string>
     <string name="settings_silent">Stumm</string>
-    <string name="settings_default_notification_sound">Standard-Benachrichtigungston</string>
+    <string name="settings_default">Standard</string>
     <string name="settings_your_sounds">Deine Töne</string>
     <string name="settings_system_sounds">Systemtöne</string>
     <string name="settings_delete_sound">Ton löschen</string>

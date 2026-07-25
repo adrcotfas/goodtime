@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Fokus komplett lyd</string>
     <string name="settings_break_complete_sound">Bryt ferdig lyd</string>
     <string name="settings_silent">Stille</string>
-    <string name="settings_default_notification_sound">Standard varsellyd</string>
+    <string name="settings_default">Standard</string>
     <string name="settings_your_sounds">Dine lyder</string>
     <string name="settings_system_sounds">System lyder</string>
     <string name="settings_delete_sound">Slett lyd</string>

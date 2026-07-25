@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">מיקוד צליל שלם</string>
     <string name="settings_break_complete_sound">הפסקה הושלמה</string>
     <string name="settings_silent">שקט</string>
-    <string name="settings_default_notification_sound">צליל ברירת מחדל להתראה</string>
+    <string name="settings_default">ברירת מחדל</string>
     <string name="settings_your_sounds">הצלילים שלך</string>
     <string name="settings_system_sounds">צלילי מערכת</string>
     <string name="settings_delete_sound">האם למחוק את הצליל?</string>

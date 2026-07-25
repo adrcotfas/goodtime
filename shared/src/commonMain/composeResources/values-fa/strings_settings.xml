@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">صدای اتمام تمرکز</string>
     <string name="settings_break_complete_sound">صدای اتمام استراحت</string>
     <string name="settings_silent">بی‌صدا</string>
-    <string name="settings_default_notification_sound">صدای پیش‌فرض اعلان</string>
+    <string name="settings_default">پیش‌فرض</string>
     <string name="settings_your_sounds">صداهای شما</string>
     <string name="settings_system_sounds">صداهای سیستم</string>
     <string name="settings_delete_sound">حذف صدا</string>

@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Tập trung âm thanh hoàn chỉnh</string>
     <string name="settings_break_complete_sound">Tập trung âm thanh hoàn chỉnh</string>
     <string name="settings_silent">Im lặng</string>
-    <string name="settings_default_notification_sound">Âm thanh thông báo mặc định</string>
+    <string name="settings_default">Mặc định</string>
     <string name="settings_your_sounds">Âm thanh của bạn</string>
     <string name="settings_system_sounds">Hệ thống âm thanh</string>
     <string name="settings_delete_sound">Xóa âm thanh</string>

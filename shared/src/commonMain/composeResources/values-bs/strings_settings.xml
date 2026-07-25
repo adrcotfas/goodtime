@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Fokusirajte kompletan zvuk</string>
     <string name="settings_break_complete_sound">Fokusirajte kompletan zvuk</string>
     <string name="settings_silent">Nečujno</string>
-    <string name="settings_default_notification_sound">Zadani zvuk obavještenja</string>
+    <string name="settings_default">Zadano</string>
     <string name="settings_your_sounds">Tvoji zvuci</string>
     <string name="settings_system_sounds">Zvuci sistema</string>
     <string name="settings_delete_sound">Obrisati zvuk</string>

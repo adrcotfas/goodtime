@@ -36,6 +36,7 @@ import androidx.compose.ui.window.Dialog
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
 import com.apps.adrcotfas.goodtime.ui.PreferenceGroupTitle
 import goodtime_productivity.shared.generated.resources.Res
+import goodtime_productivity.shared.generated.resources.settings_default
 import goodtime_productivity.shared.generated.resources.settings_silent
 import goodtime_productivity.shared.generated.resources.settings_system_sounds
 import org.jetbrains.compose.resources.stringResource
@@ -102,6 +103,15 @@ fun NotificationSoundPickerDialogContent(
                             isSelected = selectedItem.isSilent,
                         ) {
                             onSelected(SoundData(isSilent = true))
+                        }
+                    }
+                    item(key = "default") {
+                        NotificationSoundItem(
+                            modifier = Modifier.animateItem(),
+                            name = stringResource(Res.string.settings_default),
+                            isSelected = !selectedItem.isSilent && selectedItem.uriString.isEmpty(),
+                        ) {
+                            onSelected(SoundData())
                         }
                     }
                     items(items.toList(), key = { it.uriString }) { item ->

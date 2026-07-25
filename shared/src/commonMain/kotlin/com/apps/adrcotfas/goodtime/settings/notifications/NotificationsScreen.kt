@@ -41,7 +41,7 @@ import com.apps.adrcotfas.goodtime.ui.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.TopBar
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.settings_break_complete_sound
-import goodtime_productivity.shared.generated.resources.settings_default_notification_sound
+import goodtime_productivity.shared.generated.resources.settings_default
 import goodtime_productivity.shared.generated.resources.settings_focus_complete_sound
 import goodtime_productivity.shared.generated.resources.settings_insistent_notification_desc
 import goodtime_productivity.shared.generated.resources.settings_insistent_notification_title
@@ -174,6 +174,6 @@ private fun notificationSoundName(it: SoundData) = if (it.isSilent) {
     stringResource(Res.string.settings_silent)
 } else {
     it.name.ifEmpty {
-        stringResource(Res.string.settings_default_notification_sound)
+        stringResource(Res.string.settings_default)
     }
 }

@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Voltooid geluid focussen</string>
     <string name="settings_break_complete_sound">Afbreek compleet geluid</string>
     <string name="settings_silent">Stil</string>
-    <string name="settings_default_notification_sound">Standaard meldingsgeluid</string>
+    <string name="settings_default">Standaard</string>
     <string name="settings_your_sounds">Jouw geluiden</string>
     <string name="settings_system_sounds">Systeem geluiden</string>
     <string name="settings_delete_sound">Geluid verwijderen</string>

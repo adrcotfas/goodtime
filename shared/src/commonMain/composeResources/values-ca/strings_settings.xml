@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Centra el so complet</string>
     <string name="settings_break_complete_sound">Pausa completa</string>
     <string name="settings_silent">Silenciosa</string>
-    <string name="settings_default_notification_sound">So de notificació predeterminat</string>
+    <string name="settings_default">Predeterminat</string>
     <string name="settings_your_sounds">Els teus sons</string>
     <string name="settings_system_sounds">Sons del sistema</string>
     <string name="settings_delete_sound">Suprimeix el so</string>

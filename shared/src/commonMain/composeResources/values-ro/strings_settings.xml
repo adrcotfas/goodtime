@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Focalizare sunet complet</string>
     <string name="settings_break_complete_sound">Sparge sunet complet</string>
     <string name="settings_silent">Silențios</string>
-    <string name="settings_default_notification_sound">Sunet de notificare implicit</string>
+    <string name="settings_default">Implicit</string>
     <string name="settings_your_sounds">Sunetele tale</string>
     <string name="settings_system_sounds">Sunete sistem</string>
     <string name="settings_delete_sound">Șterge sunet</string>

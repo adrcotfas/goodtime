@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">フォーカス完了時の音</string>
     <string name="settings_break_complete_sound">休憩完了時の音</string>
     <string name="settings_silent">サイレントモード</string>
-    <string name="settings_default_notification_sound">デフォルトの通知音</string>
+    <string name="settings_default">デフォルト</string>
     <string name="settings_your_sounds">あなたのサウンド</string>
     <string name="settings_system_sounds">システム音</string>
     <string name="settings_delete_sound">サウンドを削除</string>

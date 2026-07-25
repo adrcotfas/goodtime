@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Zvuk pro dokončení pracovní sese</string>
     <string name="settings_break_complete_sound">Zvuk pro dokončení přestávky</string>
     <string name="settings_silent">Tichý</string>
-    <string name="settings_default_notification_sound">Výchozí zvuk oznámení</string>
+    <string name="settings_default">Výchozí</string>
     <string name="settings_your_sounds">Vaše zvuky</string>
     <string name="settings_system_sounds">Systémové zvuky</string>
     <string name="settings_delete_sound">Odstranit zvuk</string>

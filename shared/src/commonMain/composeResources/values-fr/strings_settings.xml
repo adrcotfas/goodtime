@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Son de fin de session</string>
     <string name="settings_break_complete_sound">Son de fin de pause</string>
     <string name="settings_silent">Silencieux</string>
-    <string name="settings_default_notification_sound">Son de notification par défaut</string>
+    <string name="settings_default">Par défaut</string>
     <string name="settings_your_sounds">Vos sons</string>
     <string name="settings_system_sounds">Sons système</string>
     <string name="settings_delete_sound">Supprimer le son</string>

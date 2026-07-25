@@ -60,7 +60,7 @@
     <string name="settings_focus_complete_sound">Keskittyminen suoritettu -ääni</string>
     <string name="settings_break_complete_sound">Tauko ohi -ääni</string>
     <string name="settings_silent">Äänetön</string>
-    <string name="settings_default_notification_sound">Ilmoituksen oletusääni</string>
+    <string name="settings_default">Oletus</string>
     <string name="settings_your_sounds">Sinun hälytyksesi</string>
     <string name="settings_system_sounds">Järjestelmän hälytykset</string>
     <string name="settings_delete_sound">Poista hälytys</string>
