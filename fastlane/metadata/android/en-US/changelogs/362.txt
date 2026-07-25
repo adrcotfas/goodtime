@@ -1,0 +1,6 @@
+• Added a way to reset the break budget
+• Re-added the "keep the screen on" option
+• Added a "default" notification sound option
+• Fixed the count-up notification actions
+• Fixed today's progress not respecting the start of the day
+• Fixed a few crashes and visual glitches
