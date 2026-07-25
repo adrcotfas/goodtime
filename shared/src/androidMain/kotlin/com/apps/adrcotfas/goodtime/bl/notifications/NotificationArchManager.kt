@@ -162,12 +162,15 @@ class NotificationArchManager(
                         action = TimerService.Companion.Action.DoReset,
                     )
                 builder.addAction(stopAction)
-                val addOneMinuteAction =
-                    createNotificationAction(
-                        title = getString(Res.string.main_plus_1_min),
-                        action = TimerService.Companion.Action.AddOneMinute,
-                    )
-                builder.addAction(addOneMinuteAction)
+                // a break of a count-up profile is bounded by the break budget; +1 min is a no-op there
+                if (data.getTimerProfile().isCountdown) {
+                    val addOneMinuteAction =
+                        createNotificationAction(
+                            title = getString(Res.string.main_plus_1_min),
+                            action = TimerService.Companion.Action.AddOneMinute,
+                        )
+                    builder.addAction(addOneMinuteAction)
+                }
             }
             val nextActionTitle =
                 if (timerType == TimerType.FOCUS) {
@@ -184,6 +187,12 @@ class NotificationArchManager(
                 builder.addAction(nextAction)
             }
         } else {
+            val toggleAction =
+                createNotificationAction(
+                    title = getString(if (running) Res.string.main_pause else Res.string.main_resume),
+                    action = TimerService.Companion.Action.Toggle,
+                )
+            builder.addAction(toggleAction)
             val stopAction =
                 createNotificationAction(
                     title = getString(Res.string.main_stop),
