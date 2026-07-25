@@ -82,7 +82,11 @@ class GoodtimeApplication :
                         )
                     }
                     single<TimerServiceStarter> {
-                        TimerServiceStarter(get())
+                        TimerServiceStarter(
+                            get(),
+                            get<NotificationArchManager>(),
+                            getWith("TimerServiceStarter"),
+                        )
                     }
                     single<AlarmManagerHandler> {
                         AlarmManagerHandler(
