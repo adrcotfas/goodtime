@@ -34,7 +34,7 @@
     <string name="labels_break_budget_info">Tăng thời gian nghỉ khi bạn tập trung</string>
     <string name="labels_break_budget_desc1">Ngân sách nghỉ ngơi của bạn tăng theo tỷ lệ tập trung/nghỉ ngơi bạn chọn và giảm khi bạn bị làm phiền.</string>
     <string name="labels_break_budget_desc2">Nghỉ ngơi bất cứ khi nào bạn muốn.</string>
-    <string name="labels_break_budget">Phá vỡ ngân sách</string>
+    <string name="labels_break_budget">Quỹ nghỉ</string>
     <string name="labels_follow_default_time_profile">Theo dõi hồ sơ thời gian mặc định</string>
     <string name="labels_add_label">Thêm nhãn</string>
     <string name="labels_add_label_name">Thêm tên nhãn</string>

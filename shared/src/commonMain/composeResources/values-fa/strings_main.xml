@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">زمان غیرفعال را به عنوان تمرکز مضاعف در نظر بگیر</string>
     <string name="main_open_app_menu">منو برنامه را باز کن</string>
     <string name="main_reset_to_default">بازگردانی به حالت پیش فرض</string>
+    <string name="main_reset_break_budget">بودجه استراحت بازنشانی شود؟</string>
     <string name="main_save">ذخیره</string>
     <string name="main_focus_session_in_progress">دوره تمرکز در حال انجام است</string>
     <string name="main_focus_session_paused">دوره تمرکز متوقف شده است</string>

@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Leerlaufzeit als zusätzlicher Fokus betrachten</string>
     <string name="main_open_app_menu">App-Menü öffnen</string>
     <string name="main_reset_to_default">Auf Standard zurücksetzen</string>
+    <string name="main_reset_break_budget">Pausenbudget zurücksetzen?</string>
     <string name="main_save">Speichern</string>
     <string name="main_focus_session_in_progress">Sitzung wird fokussiert</string>
     <string name="main_focus_session_paused">Fokus-Sitzung pausiert</string>

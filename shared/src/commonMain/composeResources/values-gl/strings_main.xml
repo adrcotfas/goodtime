@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Considere o tempo inactivo como un foco adicional</string>
     <string name="main_open_app_menu">Abre o menú da aplicación</string>
     <string name="main_reset_to_default">Restablecer os valores predeterminados</string>
+    <string name="main_reset_break_budget">Restablecer o orzamento de descanso?</string>
     <string name="main_save">Gardar</string>
     <string name="main_focus_session_in_progress">Sesión de enfoque en curso</string>
     <string name="main_focus_session_paused">Focus session paused</string>

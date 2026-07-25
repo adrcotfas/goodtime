@@ -34,7 +34,7 @@
     <string name="labels_break_budget_info">הרווח זמן הפסקה כשאתה מתמקד</string>
     <string name="labels_break_budget_desc1">תקציב ההפסקה שלך גדל בהתאם ליחס המיקוד/הפסקה שבחרת ויורד כאשר מפריעים לך.</string>
     <string name="labels_break_budget_desc2">קח הפסקות מתי שתרצה.</string>
-    <string name="labels_break_budget">לשבור את התקציב</string>
+    <string name="labels_break_budget">תקציב הפסקות</string>
     <string name="labels_follow_default_time_profile">לשבור את התקציב</string>
     <string name="labels_add_label">הוסף תווית</string>
     <string name="labels_add_label_name">הוסף שם תווית</string>

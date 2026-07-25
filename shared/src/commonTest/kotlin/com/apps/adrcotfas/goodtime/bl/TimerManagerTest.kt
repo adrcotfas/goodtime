@@ -999,6 +999,36 @@ class TimerManagerTest {
     }
 
     @Test
+    fun `Reset the break budget while a count-up focus session is running`() = runTest {
+        settingsRepo.activateLabelWithName(countUpLabel.name)
+        timerManager.setup()
+
+        timerManager.start()
+        val workTime = 12.minutes.inWholeMilliseconds
+        timeProvider.elapsedRealtime += workTime
+        testScope.advanceTimeBy(workTime)
+
+        timerManager.resetBreakBudget()
+        assertEquals(
+            0.minutes,
+            timerManager.timerData.value.getBreakBudget(timeProvider.elapsedRealtime),
+            "The break budget should be cleared, without the accrual since the session started",
+        )
+        assertEquals(
+            BreakBudgetData(0.minutes, timeProvider.elapsedRealtime),
+            settingsRepo.settings.first().breakBudgetData,
+        )
+
+        timeProvider.elapsedRealtime += workTime
+        testScope.advanceTimeBy(workTime)
+        assertEquals(
+            workTime.milliseconds / countUpLabel.timerProfile.workBreakRatio,
+            timerManager.timerData.value.getBreakBudget(timeProvider.elapsedRealtime),
+            "The budget should accumulate again from the moment of the reset",
+        )
+    }
+
+    @Test
     fun `Count-up then work for a while then change the work break ratio`() = runTest {
         settingsRepo.activateLabelWithName(countUpLabel.name)
 

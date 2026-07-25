@@ -85,8 +85,12 @@ import com.apps.adrcotfas.goodtime.platform.isFDroid
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.permissions.rememberAlarmPermissionRequester
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
+import com.apps.adrcotfas.goodtime.ui.ConfirmationDialog
+import goodtime_productivity.shared.generated.resources.Res
+import goodtime_productivity.shared.generated.resources.main_reset_break_budget
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 
@@ -209,6 +213,7 @@ fun MainScreen(
 
     var showNavigationSheet by rememberSaveable { mutableStateOf(false) }
     var showSelectLabelDialog by rememberSaveable { mutableStateOf(false) }
+    var showResetBreakBudgetDialog by rememberSaveable { mutableStateOf(false) }
 
     val showTutorial = uiState.showTutorial
     val isPortrait = isPortrait()
@@ -281,6 +286,7 @@ fun MainScreen(
                             }
                         },
                         onLongClick = { navController.navigate(SettingsDest) },
+                        onBreakBudgetClick = { showResetBreakBudgetDialog = true },
                     )
                     DialControl(
                         modifier = modifier,
@@ -362,6 +368,17 @@ fun MainScreen(
             onUpdateFinishedSession = { updateDuration, notes ->
                 viewModel.updateFinishedSession(updateDuration, notes)
             },
+        )
+    }
+
+    if (showResetBreakBudgetDialog) {
+        ConfirmationDialog(
+            title = stringResource(Res.string.main_reset_break_budget),
+            onConfirm = {
+                viewModel.resetBreakBudget()
+                showResetBreakBudgetDialog = false
+            },
+            onDismiss = { showResetBreakBudgetDialog = false },
         )
     }
 

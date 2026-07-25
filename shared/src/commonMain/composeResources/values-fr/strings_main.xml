@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Considérer le temps d’inactivité comme faisant partie d’une session</string>
     <string name="main_open_app_menu">Ouvrir le menu de l’application</string>
     <string name="main_reset_to_default">Revenir à la valeur par défaut</string>
+    <string name="main_reset_break_budget">Réinitialiser la réserve de pause ?</string>
     <string name="main_save">Sauvegarder</string>
     <string name="main_focus_session_in_progress">Session de concentration en cours</string>
     <string name="main_focus_session_paused">Session de concentration en pause</string>

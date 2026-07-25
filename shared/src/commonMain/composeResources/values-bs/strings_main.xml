@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Razmotrite vrijeme mirovanja kao dodatni fokus</string>
     <string name="main_open_app_menu">Otvorite meni aplikacije</string>
     <string name="main_reset_to_default">Resetiraj na početne postavke</string>
+    <string name="main_reset_break_budget">Poništiti budžet za pauze?</string>
     <string name="main_save">Pohrani</string>
     <string name="main_focus_session_in_progress">Fokusna sesija je u toku</string>
     <string name="main_focus_session_paused">Sesija fokusa je pauzirana</string>

@@ -34,7 +34,7 @@
     <string name="labels_break_budget_info">আপনি ফোকাস হিসাবে বিরতি সময় উপার্জন</string>
     <string name="labels_break_budget_desc1">আপনার নির্বাচিত ফোকাস/ব্রেক অনুপাত অনুযায়ী আপনার বিরতির বাজেট বৃদ্ধি পায় এবং আপনি বাধাপ্রাপ্ত হলে হ্রাস পায়.</string>
     <string name="labels_break_budget_desc2">আপনি যখন খুশি বিরতি নিন.</string>
-    <string name="labels_break_budget">বাজেট বিরতি</string>
+    <string name="labels_break_budget">বিরতির বাজেট</string>
     <string name="labels_follow_default_time_profile">ডিফল্ট সময় প্রোফাইল অনুসরণ করুন</string>
     <string name="labels_add_label">লেবেল যোগ করো</string>
     <string name="labels_add_label_name">লেবেলের নাম যোগ করুন</string>

@@ -32,6 +32,7 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -102,6 +103,7 @@ fun MainTimerView(
     onStart: () -> Unit,
     onToggle: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
+    onBreakBudgetClick: (() -> Unit)? = null,
 ) {
     val label = domainLabel.label
     val labelColorIndex = label.colorIndex
@@ -129,6 +131,7 @@ fun MainTimerView(
             showStatus = timerStyle.showStatus,
             showStreak = timerStyle.showStreak,
             showBreakBudget = timerStyle.showBreakBudget && domainLabel.profile.isBreakEnabled && !timerUiState.isBreak,
+            onBreakBudgetClick = onBreakBudgetClick,
         )
 
         TimerTextView(
@@ -187,6 +190,7 @@ fun CurrentStatusSection(
     showStatus: Boolean,
     showStreak: Boolean,
     showBreakBudget: Boolean,
+    onBreakBudgetClick: (() -> Unit)? = null,
 ) {
     val statusColor = color.copy(alpha = 0.75f)
     val statusBackgroundColor = color.copy(alpha = 0.15f)
@@ -218,6 +222,7 @@ fun CurrentStatusSection(
         BreakBudgetIndicator(
             showBreakBudget = showBreakBudget && !isCountdown,
             breakBudget = breakBudget,
+            onClick = onBreakBudgetClick,
         )
     }
 }
@@ -336,6 +341,7 @@ fun StreakIndicator(
 fun BreakBudgetIndicator(
     showBreakBudget: Boolean,
     breakBudget: Long,
+    onClick: (() -> Unit)? = null,
 ) {
     val color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.55f)
     val backgroundColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
@@ -357,6 +363,7 @@ fun BreakBudgetIndicator(
                 .height(statusChipHeight())
                 .clip(MaterialTheme.shapes.small)
                 .background(backgroundColor)
+                .then(onClick?.let { Modifier.clickable(onClick = it) } ?: Modifier)
                 .padding(horizontal = 6.dp),
         ) {
             Row(

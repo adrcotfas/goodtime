@@ -34,7 +34,7 @@
     <string name="labels_break_budget_info">اكسب وقت الاستراحة مع التركيز</string>
     <string name="labels_break_budget_desc1">ترتفع ميزانية الاستراحة الخاصة بك وفقا لنسبة التركيز/الاستراحة المحددة الخاصة بك وتقل عند انقطاعك.</string>
     <string name="labels_break_budget_desc2">خذ فترات استراحة كلما أردت.</string>
-    <string name="labels_break_budget">تكسير الميزانية</string>
+    <string name="labels_break_budget">ميزانية الاستراحة</string>
     <string name="labels_follow_default_time_profile">اتبع الوضع الزمني الافتراضي</string>
     <string name="labels_add_label">أضف علامة</string>
     <string name="labels_add_label_name">إضافة اسم التسمية</string>

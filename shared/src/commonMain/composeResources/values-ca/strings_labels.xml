@@ -34,7 +34,7 @@
     <string name="labels_break_budget_info">Guanyeu temps de descans mentre us concentreu</string>
     <string name="labels_break_budget_desc1">El vostre pressupost de descans augmenta segons la vostra relació enfocament/descans seleccionat i disminueix quan se us interromp.</string>
     <string name="labels_break_budget_desc2">Fes pauses quan vulguis.</string>
-    <string name="labels_break_budget">Trenca el pressupost</string>
+    <string name="labels_break_budget">Pressupost de descans</string>
     <string name="labels_follow_default_time_profile">Seguiu el perfil horari predeterminat</string>
     <string name="labels_add_label">Afegir etiqueta</string>
     <string name="labels_add_label_name">Afegeix el nom de l'etiqueta</string>

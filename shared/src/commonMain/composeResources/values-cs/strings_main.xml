@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Považovat čas nečinnosti za dodatečné soustředění</string>
     <string name="main_open_app_menu">Otevřít menu aplikace</string>
     <string name="main_reset_to_default">Obnovit výchozí</string>
+    <string name="main_reset_break_budget">Vynulovat dostupný čas na přestávku?</string>
     <string name="main_save">Uložit</string>
     <string name="main_focus_session_in_progress">Probíhá pracovní blok</string>
     <string name="main_focus_session_paused">Pracovní blok pozastaven</string>

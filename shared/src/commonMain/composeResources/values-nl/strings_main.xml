@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Inactieve tijd beschouwen als extra focus</string>
     <string name="main_open_app_menu">App-menu openen</string>
     <string name="main_reset_to_default">Standaardinstellingen herstellen</string>
+    <string name="main_reset_break_budget">Pauzebudget resetten?</string>
     <string name="main_save">Opslaan</string>
     <string name="main_focus_session_in_progress">Focus sessie in uitvoering</string>
     <string name="main_focus_session_paused">Focus sessie onderbroken</string>

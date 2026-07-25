@@ -75,4 +75,14 @@ class BreakBudgetManager(
         }
         return newData
     }
+
+    /** Clears the budget. Callers must also restart accrual, see [TimerManager.resetBreakBudget]. */
+    fun resetBreakBudget(): BreakBudgetData {
+        val newData = BreakBudgetData(breakBudgetStart = timeProvider.elapsedRealtime())
+        log.i { "Resetting break budget" }
+        coroutineScope.launch {
+            settingsRepo.setBreakBudgetData(newData)
+        }
+        return newData
+    }
 }

@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Boş zamanı fazladan odak olarak değerlendir</string>
     <string name="main_open_app_menu">Uygulama menüsünü aç</string>
     <string name="main_reset_to_default">Varsayılana sıfırla</string>
+    <string name="main_reset_break_budget">Ara bütçesi sıfırlansın mı?</string>
     <string name="main_save">Kaydet</string>
     <string name="main_focus_session_in_progress">Odak oturumu devam ediyor</string>
     <string name="main_focus_session_paused">Odak oturumu durduruldu</string>

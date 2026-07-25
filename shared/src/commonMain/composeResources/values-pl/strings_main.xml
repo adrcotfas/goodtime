@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Rozważ czas bezczynności jako dodatkowe ognisko</string>
     <string name="main_open_app_menu">Otwórz menu aplikacji</string>
     <string name="main_reset_to_default">Przywróć domyślne</string>
+    <string name="main_reset_break_budget">Zresetować budżet przerw?</string>
     <string name="main_save">Zapisz</string>
     <string name="main_focus_session_in_progress">Skoncentrowanie sesji w toku</string>
     <string name="main_focus_session_paused">Skoncentrowanie sesji wstrzymane</string>

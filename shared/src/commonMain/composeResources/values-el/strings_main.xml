@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Θεωρήστε το χρόνο αδράνειας ως επιπλέον εστίαση</string>
     <string name="main_open_app_menu">Άνοιγμα μενού εφαρμογών</string>
     <string name="main_reset_to_default">Επαναφορά προεπιλογών</string>
+    <string name="main_reset_break_budget">Επαναφορά προϋπολογισμού διαλείμματος;</string>
     <string name="main_save">Αποθήκευση</string>
     <string name="main_focus_session_in_progress">Εστίαση συνεδρίας σε εξέλιξη</string>
     <string name="main_focus_session_paused">Η συνεδρία εστίασης σταμάτησε</string>

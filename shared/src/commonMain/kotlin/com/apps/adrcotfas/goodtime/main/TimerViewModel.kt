@@ -230,6 +230,10 @@ class TimerViewModel(
         timerManager.addOneMinute()
     }
 
+    fun resetBreakBudget() {
+        timerManager.resetBreakBudget()
+    }
+
     private fun toUiState(it: DomainTimerData): TimerUiState = TimerUiState(
         isReady = it.isReady,
         label = it.label,

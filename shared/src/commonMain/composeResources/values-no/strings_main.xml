@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Vurder inaktiv tid som ekstra fokus</string>
     <string name="main_open_app_menu">Åpne app-meny</string>
     <string name="main_reset_to_default">Tilbakestill til standard</string>
+    <string name="main_reset_break_budget">Tilbakestille pausebudsjettet?</string>
     <string name="main_save">Lagre</string>
     <string name="main_focus_session_in_progress">Fokusøkt pågår</string>
     <string name="main_focus_session_paused">Fokuset er satt på</string>

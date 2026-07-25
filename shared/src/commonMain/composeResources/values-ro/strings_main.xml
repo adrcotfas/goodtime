@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Consideră timpul inactiv ca timp de focus suplimentar</string>
     <string name="main_open_app_menu">Deschide meniul aplicației</string>
     <string name="main_reset_to_default">Resetare la valori implicite</string>
+    <string name="main_reset_break_budget">Resetezi bugetul de pauză?</string>
     <string name="main_save">Salvează</string>
     <string name="main_focus_session_in_progress">Sesiune de focus în progres</string>
     <string name="main_focus_session_paused">Sesiune de focus întreruptă</string>

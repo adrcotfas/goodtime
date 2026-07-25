@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">余分な焦点としてアイドル時間を考慮する</string>
     <string name="main_open_app_menu">アプリメニューを開く</string>
     <string name="main_reset_to_default">既定にリセット</string>
+    <string name="main_reset_break_budget">休憩予算をリセットしますか？</string>
     <string name="main_save">保存</string>
     <string name="main_focus_session_in_progress">セッションにフォーカス中</string>
     <string name="main_focus_session_paused">フォーカスセッションを一時停止しました</string>

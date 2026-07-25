@@ -26,7 +26,7 @@
     <string name="labels_break_time">休息時間</string>
     <string name="labels_long_break">大休息</string>
     <string name="labels_sessions_before_long_break">長時間休息之前的工作次數</string>
-    <string name="labels_enable_break_budget">啟用中斷預算</string>
+    <string name="labels_enable_break_budget">啟用休息預算</string>
     <string name="labels_focus_break_ratio">聚焦/斷續比</string>
     <string name="labels_select_active_label">選擇活動標籤</string>
     <string name="labels_edit_labels">編輯分類</string>
@@ -34,7 +34,7 @@
     <string name="labels_break_budget_info">當你集中註意力時賺取休息時間</string>
     <string name="labels_break_budget_desc1">您的休息預算會根據您選擇的焦點/休息比率而增加，並在您被打擾時減少。</string>
     <string name="labels_break_budget_desc2">只要你願意，就休息一下。</string>
-    <string name="labels_break_budget">打破預算</string>
+    <string name="labels_break_budget">休息預算</string>
     <string name="labels_follow_default_time_profile">遵循預設時間配置文件</string>
     <string name="labels_add_label">添加分類</string>
     <string name="labels_add_label_name">新增標籤名稱</string>

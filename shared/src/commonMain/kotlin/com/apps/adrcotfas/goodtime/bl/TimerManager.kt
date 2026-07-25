@@ -229,6 +229,27 @@ class TimerManager(
         }
     }
 
+    /**
+     * Clears the accumulated break budget.
+     * While a count-up focus session is running, the budget shown is the persisted value plus what
+     * accrued since [TimerRuntimeState.lastStartTime], so that also moves to now - otherwise the
+     * accrual since the session started would immediately undo the reset.
+     */
+    fun resetBreakBudget() {
+        val newData = breakBudgetManager.resetBreakBudget()
+        _timerData.update {
+            it.copy(
+                breakBudgetData = newData,
+                runtime =
+                if (it.runtime.state.isRunning) {
+                    it.runtime.copy(lastStartTime = newData.breakBudgetStart)
+                } else {
+                    it.runtime
+                },
+            )
+        }
+    }
+
     fun addOneMinute() {
         val data = timerData.value
         if (!data.runtime.state.isActive) {

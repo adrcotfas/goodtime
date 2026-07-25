@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Betrakta sysslolös tid som extra fokus</string>
     <string name="main_open_app_menu">Öppna appmenyn</string>
     <string name="main_reset_to_default">Återställ till standard</string>
+    <string name="main_reset_break_budget">Återställ pausbudgeten?</string>
     <string name="main_save">Spara</string>
     <string name="main_focus_session_in_progress">Fokussessionen pågår</string>
     <string name="main_focus_session_paused">Fokussessionen pausad</string>

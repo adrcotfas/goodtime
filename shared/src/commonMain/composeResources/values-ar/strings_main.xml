@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">اعتبار وقت الخمول كتركيز إضافي</string>
     <string name="main_open_app_menu">فتح قائمة التطبيقات</string>
     <string name="main_reset_to_default">إعادة التعيين إلى الافتراضي</string>
+    <string name="main_reset_break_budget">إعادة تعيين ميزانية الاستراحة؟</string>
     <string name="main_save">حفظ</string>
     <string name="main_focus_session_in_progress">الدورة المحورية الجارية</string>
     <string name="main_focus_session_paused">جلسة التركيز متوقفة مؤقتاً</string>

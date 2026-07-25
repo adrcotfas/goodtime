@@ -34,7 +34,7 @@
     <string name="labels_break_budget_info">Zaradite vrijeme za pauzu dok se fokusirate</string>
     <string name="labels_break_budget_desc1">Vaš budžet za pauzu se povećava prema odabranom omjeru fokus/pauza i smanjuje se kada ste prekinuti.</string>
     <string name="labels_break_budget_desc2">Pravite pauze kad god želite.</string>
-    <string name="labels_break_budget">Prekini budžet</string>
+    <string name="labels_break_budget">Budžet za pauze</string>
     <string name="labels_follow_default_time_profile">Pratite podrazumevani vremenski profil</string>
     <string name="labels_add_label">Dodajte oznaku</string>
     <string name="labels_add_label_name">Dodajte naziv oznake</string>

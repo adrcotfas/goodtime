@@ -32,9 +32,9 @@
     <string name="labels_edit_labels">Redigera etiketter</string>
     <string name="labels_edit_active_label">Redigera aktiv etikett</string>
     <string name="labels_break_budget_info">Tjäna paustid när du fokuserar</string>
-    <string name="labels_break_budget_desc1">Din paus budget ökar enligt din valda fokus/paus förhållande och minskar när du är avbruten.</string>
+    <string name="labels_break_budget_desc1">Din pausbudget ökar enligt det valda fokus/paus-förhållandet och minskar när du blir avbruten.</string>
     <string name="labels_break_budget_desc2">Ta pauser när du vill.</string>
-    <string name="labels_break_budget">Bryt budget</string>
+    <string name="labels_break_budget">Pausbudget</string>
     <string name="labels_follow_default_time_profile">Följ standardtidsprofil</string>
     <string name="labels_add_label">Lägg till etikett</string>
     <string name="labels_add_label_name">Lägg till etikettnamn</string>

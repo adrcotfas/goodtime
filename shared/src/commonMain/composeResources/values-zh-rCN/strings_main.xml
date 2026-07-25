@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">将空闲时间看作额外的专注</string>
     <string name="main_open_app_menu">打开应用菜单</string>
     <string name="main_reset_to_default">重置为默认值</string>
+    <string name="main_reset_break_budget">重置休息预算？</string>
     <string name="main_save">保存</string>
     <string name="main_focus_session_in_progress">正在专注</string>
     <string name="main_focus_session_paused">专注暂停</string>

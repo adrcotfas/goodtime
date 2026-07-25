@@ -33,6 +33,7 @@
     <string name="main_consider_idle_time_as_extra_focus">Kontuan hartu atsedena denbora arreta gehigarritzat</string>
     <string name="main_open_app_menu">Irekiko aplikazioaren menua</string>
     <string name="main_reset_to_default">Lehenetsietara berrezarri</string>
+    <string name="main_reset_break_budget">Atsedenaren aurrekontua berrezarri?</string>
     <string name="main_save">Gorde</string>
     <string name="main_focus_session_in_progress">Lan-saioa abian</string>
     <string name="main_focus_session_paused">Arreta saioa geldituta</string>
