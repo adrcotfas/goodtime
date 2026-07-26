@@ -20,7 +20,7 @@
     <string name="product_name_long" translatable="false">Goodtime Productivity</string>
     <string name="main_min" translatable="false">%1$smin</string>
     <string name="main_plus_1_min" translatable="false">+1 min</string>
-    <string name="contact_address" translatable="false">goodtime-app@googlegroups.com</string>
+    <string name="contact_address" translatable="false">contact@goodtime.tools</string>
     <string name="feedback_title" translatable="false">[Goodtime Productivity] Feedback</string>
     <string name="crash_report_title" translatable="false">[Goodtime Productivity] Crash report</string>
 

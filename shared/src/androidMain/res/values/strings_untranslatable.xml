@@ -17,6 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="contact_address" translatable="false">"goodtime-app@googlegroups.com"</string>
+    <string name="contact_address" translatable="false">"contact@goodtime.tools"</string>
     <string name="crash_report_title" translatable="false">"[Goodtime Productivity] Crash report"</string>
 </resources>
