@@ -64,7 +64,7 @@ jobs:
       # Only on tag push: a manual re-run must not overwrite a release body written by hand
       - name: Create GitHub release
         if: github.event_name == 'push'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
           body_path: fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt
