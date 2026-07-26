@@ -1,0 +1,70 @@
+name: Release
+
+# Publishes the Google-flavor AAB to the Play beta track when a version tag is pushed.
+# Can also be run manually against a tag that already exists: the workflow definition comes
+# from the default branch, the source that gets built comes from the tag.
+on:
+  push:
+    tags: ['*.*.*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to publish (e.g. 3.2.4)'
+        required: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag || github.ref_name }}
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install fastlane --no-document
+
+      - name: Verify tag matches version
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          NAME=$(grep '^app-version-name' gradle/libs.versions.toml | cut -d'"' -f2)
+          CODE=$(grep '^app-version-code' gradle/libs.versions.toml | cut -d'"' -f2)
+          [ "$NAME" = "$TAG" ] || { echo "tag $TAG != app-version-name $NAME"; exit 1; }
+          [ -f "fastlane/metadata/android/en-US/changelogs/$CODE.txt" ] || { echo "no changelog for versionCode $CODE"; exit 1; }
+          echo "VERSION_CODE=$CODE" >> "$GITHUB_ENV"
+
+      - name: Write signing secrets
+        env:
+          KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          PLAY_STORE_KEY_JSON: ${{ secrets.PLAY_STORE_KEY_JSON }}
+        run: |
+          set -euo pipefail
+          # Without these the release build silently falls back to debug signing and Play rejects the upload
+          [ -n "$KEYSTORE_BASE64" ] && [ -n "$PLAY_STORE_KEY_JSON" ] || { echo "Missing signing secrets"; exit 1; }
+          echo "$KEYSTORE_BASE64" | base64 -d > upload-keystore.jks
+          printf '%s' "$PLAY_STORE_KEY_JSON" > fastlane/play-store-key.json
+
+      - name: Publish to beta
+        env:
+          RELEASE_STORE_FILE: upload-keystore.jks
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: fastlane android release track:beta
+
+      # Only on tag push: a manual re-run must not overwrite a release body written by hand
+      - name: Create GitHub release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          body_path: fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt
