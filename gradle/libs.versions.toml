@@ -16,7 +16,7 @@ composeMultiplatform = "1.11.1"
 coreSplashscreen = "1.2.0"
 kotlin = "2.4.10"
 kotlinxDatetimeNames = "0.2.0"
-ksp = "2.3.9"
+ksp = "2.3.10"
 
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.11.0"
