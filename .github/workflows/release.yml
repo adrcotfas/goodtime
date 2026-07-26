@@ -28,7 +28,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: '3.4.10'
       - run: gem install fastlane --no-document
 
       - name: Verify tag matches version
