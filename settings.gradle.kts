@@ -1,4 +1,4 @@
-rootProject.name = "goodtime-productivity"
+rootProject.name = "goodtime"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
