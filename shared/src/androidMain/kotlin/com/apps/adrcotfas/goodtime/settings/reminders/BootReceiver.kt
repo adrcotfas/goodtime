@@ -23,8 +23,7 @@ import android.content.Intent
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager
-import com.apps.adrcotfas.goodtime.bl.TimerService
-import com.apps.adrcotfas.goodtime.bl.TimerService.Companion.Action
+import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
 import com.apps.adrcotfas.goodtime.bl.getBaseTime
 import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isRunning
@@ -46,6 +45,7 @@ class BootReceiver :
     private val reminderManager: ReminderManager by inject()
     private val timerManager: TimerManager by inject()
     private val timeProvider: TimeProvider by inject()
+    private val timerServiceStarter: TimerServiceStarter by inject()
     private val scope: CoroutineScope by inject(named(MAIN_SCOPE))
     private val logger by injectLogger(TAG)
 
@@ -65,7 +65,7 @@ class BootReceiver :
         val pendingResult = goAsync()
         scope.launch {
             try {
-                restoreTimer(context)
+                restoreTimer()
                 reminderManager.rescheduleAllReminders()
             } catch (e: RuntimeException) {
                 logger.e("Could not process intent")
@@ -81,7 +81,7 @@ class BootReceiver :
      * session and showing the finished notification) and re-establish the alarm and the
      * in-progress notification for a timer that is still running.
      */
-    private suspend fun restoreTimer(context: Context) {
+    private suspend fun restoreTimer() {
         withTimeoutOrNull(AWAIT_READY_TIMEOUT) { timerManager.awaitReady() }
 
         val data = timerManager.timerData.value
@@ -97,7 +97,7 @@ class BootReceiver :
         // still running (or was just auto-started by the finish above)
         timerManager.onSendToBackground()
         if (timerManager.timerData.value.runtime.state.isActive) {
-            context.startService(TimerService.createIntentWithAction(context, Action.StartOrUpdate))
+            timerServiceStarter.startService()
         }
     }
 

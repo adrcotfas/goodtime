@@ -37,7 +37,7 @@ class TimerServiceStarter(
         }
     }
 
-    private fun startService(action: Action = Action.StartOrUpdate) {
+    fun startService(action: Action = Action.StartOrUpdate) {
         start(
             TimerService.createIntentWithAction(
                 context,
