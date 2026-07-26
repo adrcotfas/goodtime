@@ -89,6 +89,7 @@ import goodtime_productivity.shared.generated.resources.stats_focus
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
 @Composable
@@ -238,7 +239,7 @@ fun StatusIndicator(
     val alpha = remember(isPaused) { Animatable(1f) }
     LaunchedEffect(isPaused) {
         if (!isPaused) {
-            delay(500)
+            delay(500.milliseconds)
             alpha.animateTo(
                 targetValue = 0.3f,
                 animationSpec =
@@ -448,7 +449,7 @@ fun TimerTextView(
     val alpha = remember { Animatable(1f) }
     LaunchedEffect(isPaused) {
         if (isPaused) {
-            delay(200)
+            delay(200.milliseconds)
             alpha.animateTo(
                 targetValue = 0.3f,
                 animationSpec =

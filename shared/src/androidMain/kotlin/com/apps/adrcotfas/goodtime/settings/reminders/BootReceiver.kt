@@ -68,7 +68,7 @@ class BootReceiver :
                 restoreTimer()
                 reminderManager.rescheduleAllReminders()
             } catch (e: RuntimeException) {
-                logger.e("Could not process intent")
+                logger.e(e) { "Could not process intent" }
             } finally {
                 pendingResult.finish()
             }

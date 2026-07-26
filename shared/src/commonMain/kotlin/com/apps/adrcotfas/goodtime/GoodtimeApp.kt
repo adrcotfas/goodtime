@@ -60,7 +60,6 @@ import kotlin.time.Duration.Companion.milliseconds
  *
  * @param platformContext Platform-specific context for accessing platform APIs
  * @param mainViewModel ViewModel for main app state
- * @param themeSettings Current theme settings (resolved from system + user preferences)
  * @param onUpdateClicked Callback for when user clicks update button (null on iOS, Google Play only)
  */
 @Composable

@@ -93,6 +93,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun MainScreen(
@@ -223,7 +224,7 @@ fun MainScreen(
         enter = fadeIn(),
         exit = fadeOut(),
     ) {
-        Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
+        Scaffold(modifier = Modifier.fillMaxSize()) { _ ->
             Surface(
                 modifier =
                 Modifier
@@ -344,7 +345,7 @@ fun MainScreen(
     LaunchedEffect(timerUiState.isFinished, timerUiState.endTime) {
         if (timerUiState.isFinished) {
             val remaining = TimerManager.AUTOSTART_TIMEOUT - viewModel.currentIdleTime()
-            if (remaining > 0) delay(remaining)
+            if (remaining > 0) delay(remaining.milliseconds)
             showFinishedSessionSheet = false
             viewModel.resetTimer(actionType = FinishActionType.MANUAL_DO_NOTHING)
         }

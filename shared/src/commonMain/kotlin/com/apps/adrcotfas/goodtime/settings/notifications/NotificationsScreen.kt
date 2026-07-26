@@ -35,7 +35,6 @@ import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.ui.BetterListItem
-import com.apps.adrcotfas.goodtime.ui.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.LockedCheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.TopBar

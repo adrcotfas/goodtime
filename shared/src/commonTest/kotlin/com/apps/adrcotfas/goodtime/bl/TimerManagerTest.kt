@@ -740,7 +740,7 @@ class TimerManagerTest {
         val expectedBreakBudget =
             workDuration.milliseconds.inWholeMinutes / countUpLabel.timerProfile.workBreakRatio
         timeProvider.elapsedRealtime += workDuration
-        testScope.advanceTimeBy(workDuration)
+        testScope.advanceTimeBy(workDuration.milliseconds)
 
         timerManager.next()
         assertEquals(
@@ -770,7 +770,7 @@ class TimerManagerTest {
         timerManager.start()
         val workTime = 12.minutes.inWholeMilliseconds
         timeProvider.elapsedRealtime += workTime
-        testScope.advanceTimeBy(workTime)
+        testScope.advanceTimeBy(workTime.milliseconds)
 
         var expectedBreakBudget =
             workTime.milliseconds.inWholeMinutes / countUpLabel.timerProfile.workBreakRatio
@@ -785,7 +785,7 @@ class TimerManagerTest {
 
         val idleTime = 3.minutes.inWholeMilliseconds
         timeProvider.elapsedRealtime += idleTime
-        testScope.advanceTimeBy(idleTime)
+        testScope.advanceTimeBy(idleTime.milliseconds)
 
         expectedBreakBudget -= idleTime.milliseconds.inWholeMinutes.toInt()
         assertEquals(
@@ -799,7 +799,7 @@ class TimerManagerTest {
 
         timerManager.start(TimerType.FOCUS)
         timeProvider.elapsedRealtime += workTime
-        testScope.advanceTimeBy(workTime)
+        testScope.advanceTimeBy(workTime.milliseconds)
 
         timerManager.reset()
         val extraBreakBudget =
@@ -816,7 +816,7 @@ class TimerManagerTest {
         )
         timerManager.start(TimerType.FOCUS)
         timeProvider.elapsedRealtime += idleTime
-        testScope.advanceTimeBy(idleTime)
+        testScope.advanceTimeBy(idleTime.milliseconds)
         timerManager.finish()
 
         assertEquals(
@@ -979,19 +979,19 @@ class TimerManagerTest {
         timerManager.start()
         timerManager.next()
         timeProvider.elapsedRealtime += oneMinute
-        testScope.advanceTimeBy(oneMinute)
+        testScope.advanceTimeBy(oneMinute.milliseconds)
         assertEquals(
             timerManager.timerData.value.getBreakBudget(timeProvider.elapsedRealtime),
             breakBudget - 1.minutes,
         )
         timeProvider.elapsedRealtime += oneMinute
-        testScope.advanceTimeBy(oneMinute)
+        testScope.advanceTimeBy(oneMinute.milliseconds)
         assertEquals(
             timerManager.timerData.value.getBreakBudget(timeProvider.elapsedRealtime),
             breakBudget - 2.minutes,
         )
         timeProvider.elapsedRealtime += oneMinute
-        testScope.advanceTimeBy(oneMinute)
+        testScope.advanceTimeBy(oneMinute.milliseconds)
         assertEquals(
             timerManager.timerData.value.getBreakBudget(timeProvider.elapsedRealtime),
             breakBudget - 3.minutes,
@@ -1006,7 +1006,7 @@ class TimerManagerTest {
         timerManager.start()
         val workTime = 12.minutes.inWholeMilliseconds
         timeProvider.elapsedRealtime += workTime
-        testScope.advanceTimeBy(workTime)
+        testScope.advanceTimeBy(workTime.milliseconds)
 
         timerManager.resetBreakBudget()
         assertEquals(
@@ -1020,7 +1020,7 @@ class TimerManagerTest {
         )
 
         timeProvider.elapsedRealtime += workTime
-        testScope.advanceTimeBy(workTime)
+        testScope.advanceTimeBy(workTime.milliseconds)
         assertEquals(
             workTime.milliseconds / countUpLabel.timerProfile.workBreakRatio,
             timerManager.timerData.value.getBreakBudget(timeProvider.elapsedRealtime),
@@ -1035,7 +1035,7 @@ class TimerManagerTest {
         timerManager.start()
         val workTime = 12.minutes.inWholeMilliseconds
         timeProvider.elapsedRealtime += workTime
-        testScope.advanceTimeBy(workTime)
+        testScope.advanceTimeBy(workTime.milliseconds)
 
         val expectedBreakBudget =
             workTime.milliseconds / countUpLabel.timerProfile.workBreakRatio
@@ -1052,7 +1052,7 @@ class TimerManagerTest {
         )
         timerManager.start()
         timeProvider.elapsedRealtime += workTime
-        testScope.advanceTimeBy(workTime)
+        testScope.advanceTimeBy(workTime.milliseconds)
 
         val extraBreakBudget =
             workTime.milliseconds / newWorkBreakRatio
