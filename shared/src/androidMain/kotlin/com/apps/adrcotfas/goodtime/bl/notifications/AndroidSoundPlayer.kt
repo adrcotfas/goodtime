@@ -50,6 +50,7 @@ class AndroidSoundPlayer(
     Closeable {
     companion object {
         private const val SET_LOOPING_METHOD_NAME = "setLooping"
+        private const val SET_VOLUME_METHOD_NAME = "setVolume"
     }
 
     private var job: Job? = null
@@ -67,6 +68,7 @@ class AndroidSoundPlayer(
     private var focusMonitorJob: Job? = null
 
     private var setLoopingMethod: Method? = null
+    private var setVolumeMethod: Method? = null
 
     init {
         // Only use reflection for older Android versions
@@ -80,6 +82,15 @@ class AndroidSoundPlayer(
             } catch (e: NoSuchMethodException) {
                 logger.e(e) { "Failed to get method $SET_LOOPING_METHOD_NAME" }
             }
+            try {
+                setVolumeMethod =
+                    Ringtone::class.java.getDeclaredMethod(
+                        SET_VOLUME_METHOD_NAME,
+                        Float::class.javaPrimitiveType,
+                    )
+            } catch (e: NoSuchMethodException) {
+                logger.e(e) { "Failed to get method $SET_VOLUME_METHOD_NAME" }
+            }
         }
 
         ioScope.launch {
@@ -89,6 +100,7 @@ class AndroidSoundPlayer(
                         workRingTone = toSoundData(settings.workFinishedSound),
                         breakRingTone = toSoundData(settings.breakFinishedSound),
                         loop = settings.insistentNotification,
+                        volume = settings.notificationSoundVolume,
                     )
             }
         }
@@ -114,23 +126,27 @@ class AndroidSoundPlayer(
      *
      * @param soundData The sound configuration to play
      * @param loop Whether the sound should loop until manually stopped
+     * @param volume Volume in percent (0..100); null means the configured setting
      */
     override fun play(
         soundData: SoundData,
         loop: Boolean,
+        volume: Int?,
     ) {
+        val volumePercent = volume ?: state.volume
         val previousJob = job
         job =
             playerScope.launch {
                 previousJob?.cancelAndJoin()
                 stopInternal()
-                playInternal(soundData, loop)
+                playInternal(soundData, loop, volumePercent / 100f)
             }
     }
 
     private fun playInternal(
         soundData: SoundData,
         loop: Boolean,
+        volume: Float,
     ) {
         if (soundData.isSilent) return
 
@@ -185,6 +201,16 @@ class AndroidSoundPlayer(
             }
         } catch (e: Exception) {
             logger.e(e) { "Failed to set looping" }
+        }
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                ringtone.volume = volume
+            } else {
+                setVolumeMethod?.invoke(ringtone, volume)
+            }
+        } catch (e: Exception) {
+            logger.e(e) { "Failed to set volume" }
         }
 
         try {

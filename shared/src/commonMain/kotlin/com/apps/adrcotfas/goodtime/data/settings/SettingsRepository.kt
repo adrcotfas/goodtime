@@ -49,6 +49,8 @@ interface SettingsRepository {
 
     suspend fun removeUserSound(sound: SoundData)
 
+    suspend fun setNotificationSoundVolume(volume: Int)
+
     suspend fun setVibrationStrength(strength: Int)
 
     suspend fun setEnableTorch(enabled: Boolean)

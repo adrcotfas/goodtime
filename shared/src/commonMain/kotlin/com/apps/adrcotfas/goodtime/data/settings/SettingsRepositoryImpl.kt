@@ -56,6 +56,7 @@ class SettingsRepositoryImpl(
         val workFinishedSoundKey = stringPreferencesKey("workFinishedSoundKey")
         val breakFinishedSoundKey = stringPreferencesKey("breakFinishedSoundKey")
         val userSoundsKey = stringPreferencesKey("userSoundsKey")
+        val notificationSoundVolumeKey = intPreferencesKey("notificationSoundVolumeKey")
         val vibrationStrengthKey = intPreferencesKey("vibrationStrengthKey")
         val enableTorchKey = booleanPreferencesKey("enableTorchKey")
         val enableFlashScreenKey = booleanPreferencesKey("enableFlashScreenKey")
@@ -124,6 +125,9 @@ class SettingsRepositoryImpl(
                     it[Keys.userSoundsKey]?.let { u ->
                         json.decodeFromString<Set<SoundData>>(u)
                     } ?: emptySet(),
+                    notificationSoundVolume =
+                    it[Keys.notificationSoundVolumeKey]
+                        ?: default.notificationSoundVolume,
                     vibrationStrength =
                     it[Keys.vibrationStrengthKey]
                         ?: default.vibrationStrength,
@@ -242,6 +246,10 @@ class SettingsRepositoryImpl(
 
     override suspend fun removeUserSound(sound: SoundData) {
         dataStore.remove(Keys.userSoundsKey, sound)
+    }
+
+    override suspend fun setNotificationSoundVolume(volume: Int) {
+        dataStore.edit { it[Keys.notificationSoundVolumeKey] = volume }
     }
 
     override suspend fun setVibrationStrength(strength: Int) {

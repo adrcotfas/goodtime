@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Özel ses ekle</string>
     <string name="settings_override_sound_profile_title">Telefon ses modunu görmezden gel</string>
     <string name="settings_override_sound_profile_desc">Bildirim sesi, telefon sessiz modda olsa bile çalar</string>
+    <string name="settings_sound_volume">Ses düzeyi</string>
     <string name="settings_vibration_strength">Titreşim gücü</string>
     <string name="settings_torch_title">Meşale</string>
     <string name="settings_screen_flash_title">Ekran parlaması</string>

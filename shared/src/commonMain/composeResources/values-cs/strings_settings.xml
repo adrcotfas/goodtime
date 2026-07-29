@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Přidat vlastní zvuk</string>
     <string name="settings_override_sound_profile_title">Přepsat zvukový profil</string>
     <string name="settings_override_sound_profile_desc">Zvuk upozornění se chová jako budík</string>
+    <string name="settings_sound_volume">Hlasitost</string>
     <string name="settings_vibration_strength">Síla vibrací</string>
     <string name="settings_torch_title">Svítilna</string>
     <string name="settings_screen_flash_title">Blikání obrazovky</string>

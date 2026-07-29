@@ -23,13 +23,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Vibration
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.TorchManager
 import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
@@ -47,6 +54,7 @@ import goodtime_productivity.shared.generated.resources.settings_insistent_notif
 import goodtime_productivity.shared.generated.resources.settings_notifications_title
 import goodtime_productivity.shared.generated.resources.settings_screen_flash_title
 import goodtime_productivity.shared.generated.resources.settings_silent
+import goodtime_productivity.shared.generated.resources.settings_sound_volume
 import goodtime_productivity.shared.generated.resources.settings_torch_desc
 import goodtime_productivity.shared.generated.resources.settings_torch_title
 import goodtime_productivity.shared.generated.resources.settings_vibration_strength
@@ -63,6 +71,7 @@ fun NotificationsScreen(onNavigateBack: () -> Boolean) {
     val settings = uiState.settings
 
     val vibrationPlayer = koinInject<VibrationPlayer>()
+    val soundPlayer = koinInject<SoundPlayer>()
     val torchManager = koinInject<TorchManager>()
     val isTorchAvailable = torchManager.isTorchAvailable()
     val workRingTone = toSoundData(settings.workFinishedSound)
@@ -99,17 +108,42 @@ fun NotificationsScreen(onNavigateBack: () -> Boolean) {
                 onClick = { viewModel.setShowSelectBreakSoundPicker(true) },
             )
 
-            var selectedStrength = settings.vibrationStrength
+            var selectedVolume by remember(settings.notificationSoundVolume) {
+                mutableIntStateOf(settings.notificationSoundVolume)
+            }
+            SliderListItem(
+                title = stringResource(Res.string.settings_sound_volume),
+                value = selectedVolume,
+                trackIcon = Icons.Outlined.Notifications,
+                min = 0,
+                max = 100,
+                steps = 9,
+                animateToNearestStep = true,
+                onValueChange = { selectedVolume = it },
+                onValueChangeFinished = {
+                    viewModel.setNotificationSoundVolume(selectedVolume)
+                    soundPlayer.play(
+                        if (workRingTone.isSilent) breakRingTone else workRingTone,
+                        volume = selectedVolume,
+                    )
+                },
+            )
+
+            var selectedStrength by remember(settings.vibrationStrength) {
+                mutableIntStateOf(settings.vibrationStrength)
+            }
             SliderListItem(
                 title = stringResource(Res.string.settings_vibration_strength),
-                value = settings.vibrationStrength,
+                value = selectedStrength,
+                trackIcon = Icons.Filled.Vibration,
                 min = 0,
                 max = 5,
-                onValueChange = {
-                    selectedStrength = it
-                    viewModel.setVibrationStrength(it)
+                animateToNearestStep = true,
+                onValueChange = { selectedStrength = it },
+                onValueChangeFinished = {
+                    viewModel.setVibrationStrength(selectedStrength)
+                    vibrationPlayer.start(selectedStrength)
                 },
-                onValueChangeFinished = { vibrationPlayer.start(selectedStrength) },
             )
 
             if (isTorchAvailable) {

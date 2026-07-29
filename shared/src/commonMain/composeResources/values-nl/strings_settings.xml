@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Aangepast geluid toevoegen</string>
     <string name="settings_override_sound_profile_title">Geluidsprofiel overschrijven</string>
     <string name="settings_override_sound_profile_desc">Het meldingsgeluid gedraagt zich als een alarm</string>
+    <string name="settings_sound_volume">Volume</string>
     <string name="settings_vibration_strength">Vibratie sterkte</string>
     <string name="settings_torch_title">Fakkel</string>
     <string name="settings_screen_flash_title">Scherm flits</string>

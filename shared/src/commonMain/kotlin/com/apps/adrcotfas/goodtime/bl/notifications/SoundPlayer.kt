@@ -30,6 +30,8 @@ data class SoundPlayerState(
     val breakRingTone: SoundData = SoundData(),
     /** Whether sounds should loop until manually stopped */
     val loop: Boolean = false,
+    /** Playback volume in percent, 0..100 */
+    val volume: Int = 50,
 )
 
 interface SoundPlayer {
@@ -40,10 +42,12 @@ interface SoundPlayer {
 
     /**
      * Plays a specific sound with custom configuration.
+     * @param volume volume in percent (0..100); null means the configured setting
      */
     fun play(
         soundData: SoundData,
         loop: Boolean = false,
+        volume: Int? = null,
     )
 
     /**

@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Добавить собственный звук</string>
     <string name="settings_override_sound_profile_title">Переопределить звуковой профиль</string>
     <string name="settings_override_sound_profile_desc">Звук уведомления ведет себя как будильник</string>
+    <string name="settings_sound_volume">Громкость</string>
     <string name="settings_vibration_strength">Сила вибрации</string>
     <string name="settings_torch_title">Фонарь</string>
     <string name="settings_screen_flash_title">Мигание экрана</string>

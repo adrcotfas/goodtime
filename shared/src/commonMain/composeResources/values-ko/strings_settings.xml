@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Add custom sound</string>
     <string name="settings_override_sound_profile_title">소리/진동 모드 무시</string>
     <string name="settings_override_sound_profile_desc">소리 알림이 휴대폰 알람과 비슷하게 작동합니다</string>
+    <string name="settings_sound_volume">볼륨</string>
     <string name="settings_vibration_strength">Vibration strength</string>
     <string name="settings_torch_title">Torch</string>
     <string name="settings_screen_flash_title">Screen flash</string>

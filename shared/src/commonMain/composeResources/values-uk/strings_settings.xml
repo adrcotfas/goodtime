@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Додати користувацький звук</string>
     <string name="settings_override_sound_profile_title">Перевизначити звуковий профіль</string>
     <string name="settings_override_sound_profile_desc">Звук сповіщення ігнорує звуковий профіль пристрою</string>
+    <string name="settings_sound_volume">Гучність</string>
     <string name="settings_vibration_strength">Інтенсивність вібрації</string>
     <string name="settings_torch_title">Смолоскип</string>
     <string name="settings_screen_flash_title">Блимання екрану</string>

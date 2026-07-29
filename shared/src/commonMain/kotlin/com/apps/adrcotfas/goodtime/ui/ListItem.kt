@@ -18,18 +18,11 @@
 package com.apps.adrcotfas.goodtime.ui
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.TextFormat
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -37,7 +30,6 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,15 +37,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Lock
-import kotlin.math.roundToInt
 
 @Composable
 fun ListItemDefaults.enabledColors(): ListItemColors {
@@ -191,58 +180,6 @@ fun IconListItem(
             }
         },
         leadingContent = icon,
-    )
-}
-
-@Composable
-fun SliderListItem(
-    modifier: Modifier = Modifier,
-    title: String? = null,
-    value: Int,
-    icon: @Composable (() -> Unit)? = null,
-    min: Int = 1,
-    max: Int,
-    steps: Int = max - min - 1,
-    onValueChange: (Int) -> Unit,
-    onValueChangeFinished: () -> Unit = { },
-    showValue: Boolean = false,
-    enabled: Boolean = true,
-) {
-    ListItem(
-        modifier = modifier,
-        colors = if (enabled) ListItemDefaults.enabledColors() else ListItemDefaults.disabledColors(),
-        headlineContent = {
-            if (title != null) {
-                Text(text = title)
-            }
-        },
-        leadingContent = icon,
-        supportingContent = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Slider(
-                    modifier = Modifier.weight(1f),
-                    value = value.toFloat(),
-                    onValueChange = {
-                        onValueChange(it.roundToInt())
-                    },
-                    enabled = enabled,
-                    onValueChangeFinished = onValueChangeFinished,
-                    steps = steps,
-                    valueRange = min.toFloat()..max.toFloat(),
-                )
-                if (showValue) {
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(
-                        text = value.toString(),
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                }
-            }
-        },
     )
 }
 
@@ -443,21 +380,5 @@ fun CircularProgressListItem(
         },
         onClick = onClick,
         enabled = enabled,
-    )
-}
-
-@Preview
-@Composable
-fun SliderListItemPreview() {
-    SliderListItem(
-        value = 0,
-        icon = {
-            Icon(Icons.Default.TextFormat, contentDescription = null)
-        },
-        min = 0,
-        max = 5,
-        showValue = false,
-        onValueChange = {},
-        onValueChangeFinished = {},
     )
 }
