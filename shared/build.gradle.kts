@@ -143,6 +143,7 @@ kotlin {
 compose.resources {
     // the androidApp entry module references generated resource accessors
     publicResClass = true
+    packageOfResClass = "goodtime_productivity.shared.generated.resources"
 }
 
 aboutLibraries {
