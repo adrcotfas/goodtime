@@ -40,6 +40,8 @@ data class AppSettings(
     /** The name/URI of the sound file or empty for default*/
     val breakFinishedSound: String = "",
     val userSounds: Set<SoundData> = emptySet(),
+    /** Notification sound volume in percent, 0..100 */
+    val notificationSoundVolume: Int = 50,
     val vibrationStrength: Int = 3,
     val enableTorch: Boolean = false,
     val flashScreen: Boolean = false,

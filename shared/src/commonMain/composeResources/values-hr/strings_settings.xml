@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Dodati prilagođeni zvuk</string>
     <string name="settings_override_sound_profile_title">Nadjačaj zvučni profil</string>
     <string name="settings_override_sound_profile_desc">Zvuk obavijesti ponaša se kao alarm</string>
+    <string name="settings_sound_volume">Glasnoća</string>
     <string name="settings_vibration_strength">Snaga vibracije</string>
     <string name="settings_torch_title">Svjetiljka</string>
     <string name="settings_screen_flash_title">Screen flash</string>

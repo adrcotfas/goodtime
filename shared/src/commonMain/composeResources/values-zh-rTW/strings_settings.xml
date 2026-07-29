@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">要新增自訂音效嗎</string>
     <string name="settings_override_sound_profile_title">覆蓋個人通知</string>
     <string name="settings_override_sound_profile_desc">提醒鈴聲優先單獨播放</string>
+    <string name="settings_sound_volume">音量</string>
     <string name="settings_vibration_strength">振動強度</string>
     <string name="settings_torch_title">手電筒</string>
     <string name="settings_screen_flash_title">Screen flash</string>

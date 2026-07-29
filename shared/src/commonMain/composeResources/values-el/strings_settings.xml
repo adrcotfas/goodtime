@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Προσθήκη προσαρμοσμένου ήχου</string>
     <string name="settings_override_sound_profile_title">Παρέκαμψε το προφίλ ήχου</string>
     <string name="settings_override_sound_profile_desc">Ο ήχος ειδοποιήσεων συμπεριφέρεται σαν ξυπνητήρι</string>
+    <string name="settings_sound_volume">Ένταση ήχου</string>
     <string name="settings_vibration_strength">Ένταση δόνησης</string>
     <string name="settings_torch_title">Φακός</string>
     <string name="settings_screen_flash_title">Φλας οθόνης</string>

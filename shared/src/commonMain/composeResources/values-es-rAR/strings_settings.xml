@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Agregar sonido personalizado</string>
     <string name="settings_override_sound_profile_title">Usar volumen de tono de alarma</string>
     <string name="settings_override_sound_profile_desc">Si está desactivado, se usará el volumen del tono de notificación</string>
+    <string name="settings_sound_volume">Volumen</string>
     <string name="settings_vibration_strength">Intensidad de vibración</string>
     <string name="settings_torch_title">Linterna</string>
     <string name="settings_screen_flash_title">Parpadear pantalla</string>

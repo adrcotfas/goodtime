@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">カスタムサウンドを追加</string>
     <string name="settings_override_sound_profile_title">サイレントモードを無視する</string>
     <string name="settings_override_sound_profile_desc">アラーム同様、常に通知音が鳴ります</string>
+    <string name="settings_sound_volume">音量</string>
     <string name="settings_vibration_strength">振動の強さ</string>
     <string name="settings_torch_title">トーチ</string>
     <string name="settings_screen_flash_title">画面のフラッシュ</string>

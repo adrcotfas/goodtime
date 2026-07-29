@@ -106,6 +106,10 @@ class FakeSettingsRepository(
         )
     }
 
+    override suspend fun setNotificationSoundVolume(volume: Int) = _settings.emit(
+        _settings.value.copy(notificationSoundVolume = volume),
+    )
+
     override suspend fun setVibrationStrength(strength: Int) = _settings.emit(
         _settings.value.copy(vibrationStrength = strength),
     )

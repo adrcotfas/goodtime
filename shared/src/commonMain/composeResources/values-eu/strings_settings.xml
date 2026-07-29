@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">Soinu pertsonalizatua gehitu nahi duzu?</string>
     <string name="settings_override_sound_profile_title">Gainidatzi soinu-profila</string>
     <string name="settings_override_sound_profile_desc">Jakinarazpenaren soinua alarma balitz bezala jokatzen du</string>
+    <string name="settings_sound_volume">Bolumena</string>
     <string name="settings_vibration_strength">Bizkortze-indarra</string>
     <string name="settings_torch_title">Zuzia</string>
     <string name="settings_screen_flash_title">Screen flash</string>

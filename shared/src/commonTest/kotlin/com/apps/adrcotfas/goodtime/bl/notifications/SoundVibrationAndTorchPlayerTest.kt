@@ -40,6 +40,7 @@ class SoundVibrationAndTorchPlayerTest {
         override fun play(
             soundData: SoundData,
             loop: Boolean,
+            volume: Int?,
         ) {
             playCount++
         }

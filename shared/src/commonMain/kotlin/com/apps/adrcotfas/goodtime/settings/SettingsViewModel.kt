@@ -181,6 +181,12 @@ class SettingsViewModel(
         _uiState.value = _uiState.value.copy(showWorkdayStartPicker = show)
     }
 
+    fun setNotificationSoundVolume(volume: Int) {
+        viewModelScope.launch {
+            settingsRepository.setNotificationSoundVolume(volume)
+        }
+    }
+
     fun setVibrationStrength(vibrationStrength: Int) {
         viewModelScope.launch {
             settingsRepository.setVibrationStrength(vibrationStrength)

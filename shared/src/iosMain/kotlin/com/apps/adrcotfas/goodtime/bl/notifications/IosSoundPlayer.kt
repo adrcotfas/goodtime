@@ -75,6 +75,7 @@ class IosSoundPlayer(
                         workRingTone = toSoundData(settings.workFinishedSound),
                         breakRingTone = toSoundData(settings.breakFinishedSound),
                         loop = settings.insistentNotification,
+                        volume = settings.notificationSoundVolume,
                     )
             }
         }
@@ -100,18 +101,21 @@ class IosSoundPlayer(
      *
      * @param soundData The sound configuration to play
      * @param loop Whether the sound should loop until manually stopped
+     * @param volume Volume in percent (0..100); null means the configured setting
      */
     override fun play(
         soundData: SoundData,
         loop: Boolean,
+        volume: Int?,
     ) {
         logger.i { "▶️ play() called with soundData=${soundData.name}, uri=${soundData.uriString}, loop=$loop" }
+        val volumePercent = volume ?: state.volume
         playerScope.launch {
             job?.cancelAndJoin()
             job =
                 playerScope.launch {
                     stopInternal() // Stop previous sound first
-                    playInternal(soundData, loop)
+                    playInternal(soundData, loop, volumePercent / 100f)
                 }
         }
     }
@@ -119,6 +123,7 @@ class IosSoundPlayer(
     private suspend fun playInternal(
         soundData: SoundData,
         loop: Boolean,
+        volume: Float,
     ) = playbackMutex.withLock {
         logger.i { "🎵 playInternal() called with soundData=${soundData.name}, uri=${soundData.uriString}" }
 
@@ -208,6 +213,8 @@ class IosSoundPlayer(
             val player = AVAudioPlayer(contentsOfURL = resolvedSoundUrl, error = null)
             logger.d { "Preparing to play..." }
             player.prepareToPlay()
+
+            player.volume = volume
 
             // Negative value means infinite loop
             player.numberOfLoops = if (loop) -1 else 0

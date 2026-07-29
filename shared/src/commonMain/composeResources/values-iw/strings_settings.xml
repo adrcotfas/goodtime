@@ -68,6 +68,7 @@
     <string name="settings_add_custom_sound">להוסיף צליל מותאם אישית</string>
     <string name="settings_override_sound_profile_title">עקוף פרופיל שמע</string>
     <string name="settings_override_sound_profile_desc">צליל ההתראה יתנהג כמו התרעה</string>
+    <string name="settings_sound_volume">עוצמת קול</string>
     <string name="settings_vibration_strength">עוצמת רטט</string>
     <string name="settings_torch_title">Torch</string>
     <string name="settings_screen_flash_title">Screen flash</string>
