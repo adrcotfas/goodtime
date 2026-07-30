@@ -1,0 +1,2 @@
+• Added a slider for notification sound volume
+• Improved the UI of the sliders
