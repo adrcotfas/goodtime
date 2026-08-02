@@ -25,7 +25,6 @@ import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.injectLogger
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import org.koin.core.component.KoinComponent
@@ -42,10 +41,6 @@ class TimerService :
 
     private val coroutineScope: CoroutineScope by inject((named(MAIN_SCOPE)))
     private val log: Logger by injectLogger("TimerService")
-
-    // Track pending finished notification to avoid race condition
-    @Volatile
-    private var pendingFinishedNotificationJob: Job? = null
 
     override fun onBind(intent: Intent?) = null
 
@@ -66,46 +61,20 @@ class TimerService :
         log.v { "onStartCommand: ${intent.action}" }
         when (intent.action) {
             Action.StartOrUpdate.name -> {
-                log.d { "clearing finished notifications" }
                 coroutineScope.launch {
-                    // Wait for any pending finished notification to post before clearing
-                    pendingFinishedNotificationJob?.join()
-                    notificationManager.clearFinishedNotification()
-
-                    val notification = notificationManager.buildInProgressNotification(data)
-                    startForeground(
-                        NotificationArchManager.IN_PROGRESS_NOTIFICATION_ID,
-                        notification,
-                    )
+                    startInProgressForeground(data)
                 }
             }
 
             Action.Reset.name -> {
-                coroutineScope.launch {
-                    // Wait for any pending finished notification to post before clearing
-                    pendingFinishedNotificationJob?.join()
-                    notificationManager.clearFinishedNotification()
-                }
                 stopForeground(STOP_FOREGROUND_REMOVE)
-                notificationManager.clearInProgressNotification()
                 stopSelf()
                 return START_NOT_STICKY
             }
 
             Action.Finished.name -> {
-                val autoStart = intent.getBooleanExtra(EXTRA_FINISHED_AUTOSTART, false)
-                val typeName = intent.getStringExtra(EXTRA_FINISHED_TYPE) ?: TimerType.FOCUS.name
-                val type = TimerType.valueOf(typeName)
-                if (!autoStart) {
-                    stopForeground(STOP_FOREGROUND_REMOVE)
-                    notificationManager.clearInProgressNotification()
-                    stopSelf()
-                }
-                pendingFinishedNotificationJob =
-                    coroutineScope.launch {
-                        log.d { "notify finished notification" }
-                        notificationManager.notifyFinished(type, data, withActions = !autoStart)
-                    }
+                stopForeground(STOP_FOREGROUND_REMOVE)
+                stopSelf()
                 return START_NOT_STICKY
             }
 
@@ -124,6 +93,17 @@ class TimerService :
         }
 
         return START_STICKY
+    }
+
+    private suspend fun startInProgressForeground(data: DomainTimerData) {
+        try {
+            startForeground(
+                NotificationArchManager.IN_PROGRESS_NOTIFICATION_ID,
+                notificationManager.buildInProgressNotification(data),
+            )
+        } catch (e: IllegalStateException) {
+            log.w(e) { "Could not start the service in foreground" }
+        }
     }
 
     private fun withReadyTimer(block: (TimerManager) -> Unit) {
@@ -152,10 +132,7 @@ class TimerService :
 
                 state.isActive -> {
                     log.i { "re-adopting the in-progress notification" }
-                    startForeground(
-                        NotificationArchManager.IN_PROGRESS_NOTIFICATION_ID,
-                        notificationManager.buildInProgressNotification(data),
-                    )
+                    startInProgressForeground(data)
                     // re-arm the alarm in case it was lost along with the process
                     timerManager.onSendToBackground()
                 }
@@ -186,22 +163,9 @@ class TimerService :
             DoReset,
         }
 
-        private const val EXTRA_FINISHED_AUTOSTART = "EXTRA_FINISHED_AUTOSTART"
-        private const val EXTRA_FINISHED_TYPE = "EXTRA_FINISHED_TYPE"
-
         fun createIntentWithAction(
             context: Context,
             action: Action,
         ): Intent = Intent(context, TimerService::class.java).setAction(action.name)
-
-        fun createFinishEvent(
-            context: Context,
-            autostart: Boolean = false,
-            type: TimerType,
-        ): Intent = Intent(context, TimerService::class.java).apply {
-            action = Action.Finished.name
-            putExtra(EXTRA_FINISHED_AUTOSTART, autostart)
-            putExtra(EXTRA_FINISHED_TYPE, type.name)
-        }
     }
 }

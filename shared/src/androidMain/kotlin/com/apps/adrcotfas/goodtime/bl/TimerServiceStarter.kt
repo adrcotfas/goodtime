@@ -21,18 +21,20 @@ import android.content.Context
 import android.content.Intent
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.TimerService.Companion.Action
-import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 
 class TimerServiceStarter(
     private val context: Context,
-    private val notificationManager: NotificationArchManager,
     private val log: Logger,
 ) : EventListener {
     override fun onEvent(event: Event) {
         when (event) {
             is Event.Start, is Event.Pause, is Event.AddOneMinute, is Event.UpdateActiveLabel -> startService()
+
             is Event.Reset -> startService(Action.Reset)
-            is Event.Finished -> startServiceWithFinished(event.autostartNextSession, event.type)
+
+            // on autostart the service stays foreground and the next Start updates it
+            is Event.Finished -> if (!event.autostartNextSession) startService(Action.Finished)
+
             else -> {}
         }
     }
@@ -47,20 +49,6 @@ class TimerServiceStarter(
         )
     }
 
-    private fun startServiceWithFinished(
-        autoStart: Boolean,
-        type: TimerType,
-    ) {
-        start(
-            TimerService.createFinishEvent(
-                context,
-                autoStart,
-                type,
-            ),
-            Action.Finished,
-        )
-    }
-
     private fun start(
         intent: Intent,
         action: Action,
@@ -68,14 +56,7 @@ class TimerServiceStarter(
         try {
             context.startService(intent)
         } catch (e: IllegalStateException) {
-            // Android 12+ rejects background service starts; this can happen for instance when
-            // the timer is reset while the screen is off. A reset only needs the notifications
-            // gone and the service is already stopped in that case, so do it here.
             log.w(e) { "Could not start the service for $action" }
-            if (action == Action.Reset) {
-                notificationManager.clearFinishedNotification()
-                notificationManager.clearInProgressNotification()
-            }
         }
     }
 }

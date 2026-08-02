@@ -30,6 +30,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerStateRestoration
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidSoundPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidTorchManager
 import com.apps.adrcotfas.goodtime.bl.notifications.AndroidVibrationPlayer
+import com.apps.adrcotfas.goodtime.bl.notifications.FinishedNotificationHandler
 import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.SoundVibrationAndTorchPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.TorchManager
@@ -119,6 +120,7 @@ actual val platformModule: Module =
                 get<DndModeManager>(),
                 get<AlarmManagerHandler>(),
                 get<TimerServiceStarter>(),
+                get<FinishedNotificationHandler>(),
                 get<SoundVibrationAndTorchPlayer>(),
                 get<TimerStatePersistenceListener>(),
             )

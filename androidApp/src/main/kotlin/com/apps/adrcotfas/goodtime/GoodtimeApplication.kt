@@ -26,10 +26,13 @@ import com.apps.adrcotfas.goodtime.billing.configurePurchasesFromPlatform
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
 import com.apps.adrcotfas.goodtime.bl.DndModeManager
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
+import com.apps.adrcotfas.goodtime.bl.notifications.FinishedNotificationHandler
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.di.IO_SCOPE
+import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.coreBackupModule
 import com.apps.adrcotfas.goodtime.di.coreModule
 import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
@@ -84,8 +87,14 @@ class GoodtimeApplication :
                     single<TimerServiceStarter> {
                         TimerServiceStarter(
                             get(),
-                            get<NotificationArchManager>(),
                             getWith("TimerServiceStarter"),
+                        )
+                    }
+                    single<FinishedNotificationHandler> {
+                        FinishedNotificationHandler(
+                            notificationManager = get<NotificationArchManager>(),
+                            timerData = { get<TimerManager>().timerData.value },
+                            coroutineScope = get<CoroutineScope>(named(MAIN_SCOPE)),
                         )
                     }
                     single<AlarmManagerHandler> {

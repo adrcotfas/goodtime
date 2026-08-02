@@ -24,6 +24,7 @@ import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
 import com.apps.adrcotfas.goodtime.bl.DndModeManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
+import com.apps.adrcotfas.goodtime.bl.notifications.FinishedNotificationHandler
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.module
 import org.koin.test.verify.verify
@@ -53,6 +54,7 @@ class KoinModuleVerifyTest {
                 DndModeManager::class,
                 AlarmManagerHandler::class,
                 TimerServiceStarter::class,
+                FinishedNotificationHandler::class,
                 LoggerConfig::class,
                 WorkerParameters::class,
             ),
