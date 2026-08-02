@@ -182,12 +182,9 @@ dependencies {
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }
 
-tasks.named("exportLibraryDefinitions") {
-    dependsOn("copyNonXmlValueResourcesForCommonMain")
-}
-
-// aboutlibraries.json is gitignored, so it must be (re)generated before packaging resources
-tasks.matching { it.name == "preBuild" || it.name == "prepareComposeResourcesTaskForCommonMain" }.configureEach {
+// aboutlibraries.json is gitignored, so it must be (re)generated before the copy task
+// that stages composeResources/files into the packaged resources
+tasks.matching { it.name == "preBuild" || it.name == "copyNonXmlValueResourcesForCommonMain" }.configureEach {
     dependsOn("exportLibraryDefinitions")
 }
 
