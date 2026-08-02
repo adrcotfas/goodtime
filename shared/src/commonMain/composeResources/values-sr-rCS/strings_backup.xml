@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="backup_and_restore_title">Backup and restore</string>
+    <string name="backup_and_restore_title">Sigurnosno kopiranje i vraćanje</string>
     <string name="backup_export_backup">Izvezi rezervnu kopiju</string>
     <string name="backup_the_file_can_be_imported_back">Ova datoteka može da se uvozi nazad</string>
-    <string name="backup_restore_backup">Restore backup</string>
-    <string name="backup_export_csv">Export CSV</string>
-    <string name="backup_export_json">Export JSON</string>
-    <string name="backup_completed_successfully">Backup completed successfully</string>
-    <string name="backup_failed_please_try_again">Backup failed. Please try again</string>
-    <string name="backup_restore_completed_successfully">Restore completed successfully</string>
-    <string name="backup_restore_failed_please_try_again">Restore failed. Please try again</string>
-    <string name="backup_auto_backup">Automatski backup</string>
+    <string name="backup_restore_backup">Povrati rezervnu kopiju</string>
+    <string name="backup_export_csv">Izvezi CSV</string>
+    <string name="backup_export_json">Izvezi JSON</string>
+    <string name="backup_completed_successfully">Rezervna kopija je napravljena</string>
+    <string name="backup_failed_please_try_again">Greška pri pravljenju rezervne kopije. Pokušaj ponovo</string>
+    <string name="backup_restore_completed_successfully">Podaci su uspešno vraćeni</string>
+    <string name="backup_restore_failed_please_try_again">Učitavanje podataka nije uspelo. Pokušaj ponovo</string>
+    <string name="backup_auto_backup">Automatska rezervna kopija</string>
 </resources>

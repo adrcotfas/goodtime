@@ -19,9 +19,9 @@
 <resources>
     <string name="stats_title">Statisika</string>
     <string name="stats_overview">Pregled</string>
-    <string name="stats_timeline">Timeline</string>
+    <string name="stats_timeline">Vremenski prikaz</string>
     <string name="stats_today">Danas</string>
-    <string name="stats_week">Week %1$s</string>
+    <string name="stats_week">Nedelja %1$s</string>
     <string name="stats_total">Ukupno</string>
     <string-array name="stats_overview_type_options">
         <item>Sesije</item>
@@ -32,27 +32,27 @@
         <item>Dani</item>
         <item>Nedelje</item>
         <item>Meseci</item>
-        <item>Quarters</item>
-        <item>Years</item>
+        <item>Tromesečni prikaz</item>
+        <item>Godine</item>
     </string-array>
-    <string name="stats_productive_hours">Productive hours</string>
-    <string name="stats_heatmap">Heatmap</string>
-    <string name="stats_focus_distribution">Focus distribution</string>
-    <string name="stats_focus_break_ratio">Focus/break ratio</string>
+    <string name="stats_productive_hours">Sati produktivnosti</string>
+    <string name="stats_heatmap">Mapa aktivnosti</string>
+    <string name="stats_focus_distribution">Raspodela fokusa</string>
+    <string name="stats_focus_break_ratio">Odnos fokusa i pauze</string>
     <string name="stats_add_session">Dodaj sesiju</string>
-    <string name="stats_focus">Focus</string>
-    <string name="stats_break">Break</string>
-    <string name="stats_duration">Duration</string>
+    <string name="stats_focus">Fokus</string>
+    <string name="stats_break">Pauza</string>
+    <string name="stats_duration">Trajanje</string>
     <string name="stats_time">Vreme</string>
-    <string name="stats_label">Label</string>
-    <string name="stats_delete_selected_sessions">Delete selected sessions?</string>
-    <string name="stats_change_label_of_selected_sessions">Change label of selected sessions?</string>
-    <string name="stats_add_notes">Add notes</string>
+    <string name="stats_label">Oznaka</string>
+    <string name="stats_delete_selected_sessions">Obriši odabrane stavke?</string>
+    <string name="stats_change_label_of_selected_sessions">Promeniti oznaku izabranih sesija?</string>
+    <string name="stats_add_notes">Dodaj beleške</string>
     <string name="stats_select_all">Izaberi sve</string>
     <string name="stats_no_items">Nema stavki</string>
-    <string name="stats_show_label_breakdown_title">Show label breakdown</string>
-    <string name="stats_show_label_breakdown_desc">Visualize data as stacked bars separated by label</string>
-    <string name="stats_more_options">More options</string>
-    <string name="stats_show_breaks">Show breaks</string>
-    <string name="stats_show_archived">Show archived</string>
+    <string name="stats_show_label_breakdown_title">Prikaži podelu po oznakama</string>
+    <string name="stats_show_label_breakdown_desc">Vizuelizuj podatke kroz naslagane grafikone po oznakama</string>
+    <string name="stats_more_options">Više opcija</string>
+    <string name="stats_show_breaks">Prikaži pauze</string>
+    <string name="stats_show_archived">Prikaži arhivirano</string>
 </resources>

@@ -17,12 +17,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_and_feedback_title">About and feedback</string>
+    <string name="about_and_feedback_title">O aplikaciji i utisci</string>
     <string name="about_source_code">Izvorni kod</string>
-    <string name="about_open_source_licenses">Open Source Licenses</string>
-    <string name="about_acknowledgements">Acknowledgements</string>
-    <string name="about_app_intro">App Intro</string>
+    <string name="about_open_source_licenses">Open Source licence</string>
+    <string name="about_acknowledgements">Zasluge</string>
+    <string name="about_app_intro">O aplikaciji</string>
     <string name="about_feedback">Povratne informacije</string>
     <string name="about_rate_this_app">Ocenite aplikaciju</string>
-    <string name="about_translate_this_app">Translate this app</string>
+    <string name="about_translate_this_app">Prevedi ovu aplikaciju</string>
 </resources>
