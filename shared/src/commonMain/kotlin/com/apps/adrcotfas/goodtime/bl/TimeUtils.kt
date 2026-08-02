@@ -33,13 +33,16 @@ import kotlin.time.Instant
 object TimeUtils {
     fun Long.formatMilliseconds(minutesOnly: Boolean = false): String {
         val totalSeconds = (this / 1000).run { if (minutesOnly) this + 59 else this }
-        val minutes = totalSeconds / 60
+        val hours = totalSeconds / 3600
+        val minutes = (totalSeconds % 3600) / 60
         val seconds = totalSeconds % 60
         val minutesString = minutes.toString().padStart(2, '0')
-        return if (minutesOnly) {
-            minutesString
-        } else {
-            "$minutesString:${seconds.toString().padStart(2, '0')}"
+        val secondsString = seconds.toString().padStart(2, '0')
+        return when {
+            minutesOnly && hours > 0 -> "$hours:$minutesString"
+            minutesOnly -> minutesString
+            hours > 0 -> "$hours:$minutesString:$secondsString"
+            else -> "$minutesString:$secondsString"
         }
     }
 
