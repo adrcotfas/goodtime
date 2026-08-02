@@ -1,0 +1,4 @@
+• The timer now shows hours for sessions longer than 60 minutes
+• Added a start break action to the count-up timer notification
+• Improved the reliability of the session finished notification
+• Updated translations
