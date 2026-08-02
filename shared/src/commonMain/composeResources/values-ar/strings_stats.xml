@@ -38,7 +38,7 @@
     <string name="stats_productive_hours">ساعات الإنتاج</string>
     <string name="stats_heatmap">خريطة حرارية</string>
     <string name="stats_focus_distribution">توزيع التركيز</string>
-    <string name="stats_focus_break_ratio">نسبة التركيز / الاستراحة</string>
+    <string name="stats_focus_break_ratio">نسبة العمل / الاستراحة</string>
     <string name="stats_add_session">أضف جلسة</string>
     <string name="stats_focus">تركيز</string>
     <string name="stats_break">استراحة</string>

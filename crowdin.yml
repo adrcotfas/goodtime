@@ -1,6 +1,28 @@
 ---
-# To download translations:
-# crowdin download -v -i CROWDIN_PROJECT_ID -T CROWDIN_TOKEN
+# Workflow (all commands take: -i CROWDIN_PROJECT_ID -T CROWDIN_TOKEN)
+#
+# A) You added/edited source strings in values/ (English):
+#      crowdin upload sources
+#    New keys appear untranslated on Crowdin; existing translations are untouched.
+#    If you also hand-wrote translations in values-xx/ locally, push them BEFORE
+#    the next download or they will be overwritten by it:
+#      crowdin upload translations
+#    (safe: adds them as unapproved suggestions, skips identical ones, never
+#    deletes or un-approves the community's work)
+#
+# B) New community translations arrived on Crowdin:
+#      crowdin download
+#      python3 scripts/replace_escaped_apostrophes.py   # fix \' and \" artifacts
+#      git diff   # review, then commit
+#
+# If both drifted apart: do A first, then B.
+#
+# Notes:
+# - Never run only a local edit of values-xx/ files — without an upload, the
+#   next crowdin download silently reverts it.
+# - "Translation file ... is missing in the project" warnings on download are
+#   harmless: that language has nothing translated yet for that file.
+# - Do NOT unescape apostrophes in shared/src/androidMain/res (aapt needs \').
 
 languages_mapping: &languages_mapping
   android_code:

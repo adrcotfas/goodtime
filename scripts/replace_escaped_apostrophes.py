@@ -7,6 +7,21 @@ import os
 import re
 from pathlib import Path
 
+STRING_BODY_RE = re.compile(r'(?<=>)([^<]+)(?=</string>)')
+
+
+def fix_string_body(body):
+    body = body.replace(r"\'", "'")
+    if body.count(r'\"') == 1 and body.endswith('\\'):
+        # truncated pair: \"text\ -> "text"
+        body = body.replace(r'\"', '"')[:-1] + '"'
+    elif body.count(r'\"') % 2 == 0:
+        body = body.replace(r'\"', '"')
+    else:
+        # stray unpaired \" -> drop it
+        body = body.replace(r'\"', '')
+    return body
+
 
 def replace_escaped_apostrophes(base_path):
     """
@@ -53,12 +68,18 @@ def replace_escaped_apostrophes(base_path):
             with open(xml_file, 'r', encoding='utf-8') as f:
                 content = f.read()
 
-            # Count replacements in this file
-            file_replacements = content.count(r"\'")
+            file_replacements = 0
+
+            def repl(match):
+                nonlocal file_replacements
+                fixed = fix_string_body(match.group(1))
+                if fixed != match.group(1):
+                    file_replacements += 1
+                return fixed
+
+            new_content = STRING_BODY_RE.sub(repl, content)
 
             if file_replacements > 0:
-                # Replace \' with '
-                new_content = content.replace(r"\'", "'")
 
                 # Write back
                 with open(xml_file, 'w', encoding='utf-8') as f:

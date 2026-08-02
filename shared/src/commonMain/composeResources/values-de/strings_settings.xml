@@ -47,7 +47,7 @@
     <string name="settings_screensaver_mode">Bildschirmschoner-Modus</string>
     <string name="settings_pip_mode_title">Bild im Bild</string>
     <string name="settings_pip_mode_desc">Timer beim Verlassen der App in einem kleinen Fenster anzeigen</string>
-    <string name="settings_do_not_disturb_mode">\"Bitte nicht stören\" Modus</string>
+    <string name="settings_do_not_disturb_mode">"Bitte nicht stören" Modus</string>
     <string name="settings_click_to_grant_permission">Antippen zum Erlauben</string>
     <string name="settings_demo">demo</string>
     <string name="settings_refresh_demo_label">Demo-Label aktualisieren</string>

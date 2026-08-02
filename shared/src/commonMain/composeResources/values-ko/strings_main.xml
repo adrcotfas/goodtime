@@ -41,7 +41,7 @@
     <string name="main_break_in_progress">휴식구간 진행 중</string>
     <string name="main_pause">일시 중지</string>
     <string name="main_resume">다시 시작</string>
-    <string name="main_skip">Skip</string>
+    <string name="main_skip">건너뛰기</string>
     <string name="main_stop">중지</string>
     <string name="main_continue">계속하시겠습니까?</string>
     <string name="main_idle">Idle</string>

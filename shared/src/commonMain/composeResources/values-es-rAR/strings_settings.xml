@@ -27,7 +27,7 @@
     <string name="settings_days_of_the_week">Días de la semana</string>
     <string name="settings_reminder_time">Tiempo de recordatorio</string>
     <string name="settings_timer_style_title">Personalización del temporizador</string>
-    <string name="settings_user_interface">User interface</string>
+    <string name="settings_user_interface">Interfaz de usuario</string>
     <string name="settings_notifications_title">Notificaciones</string>
     <string name="settings_custom_start_of_day_title">Inicio del día personalizado</string>
     <string name="settings_custom_start_of_day_desc">Definí cuándo empieza el día para las estadísticas</string>
@@ -47,7 +47,7 @@
     <string name="settings_screensaver_mode">Modo protector de pantalla</string>
     <string name="settings_pip_mode_title">Imagen en imagen</string>
     <string name="settings_pip_mode_desc">Mostrar el temporizador en una ventana pequeña al salir de la app</string>
-    <string name="settings_do_not_disturb_mode">Modo \"No molestar\</string>
+    <string name="settings_do_not_disturb_mode">Modo "No molestar"</string>
     <string name="settings_click_to_grant_permission">Hacé clic para conceder permiso</string>
     <string name="settings_demo">demo</string>
     <string name="settings_refresh_demo_label">Actualizar etiqueta demo</string>
@@ -81,15 +81,15 @@
     <string name="settings_auto_start_break_desc">Iniciar la sesión de descanso, después de la sesión de trabajo, sin interacción del usuario</string>
     <string name="settings_display_over_lock_screen">Mostrar sobre pantalla de bloqueo</string>
     <string name="settings_display_over_lock_screen_desc">Mantener la aplicación visible sobre la pantalla de bloqueo</string>
-    <string name="settings_timer_durations_title">Timer profile</string>
+    <string name="settings_timer_durations_title">Perfil de temporizador</string>
     <string name="settings_timer_durations_desc">Establecer la duración de las sesiones de trabajo y descanso</string>
-    <string name="settings_create_profile">Create profile</string>
-    <string name="settings_delete_profile">Delete profile</string>
-    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
+    <string name="settings_create_profile">Crear perfil</string>
+    <string name="settings_delete_profile">Borrar perfil</string>
+    <string name="settings_delete_profile_confirmation">¿Está seguro que querés borrar %1$s?</string>
     <string name="settings_language">Idioma</string>
     <string name="settings_update">Actualizar</string>
     <string name="settings_update_available">Hay una nueva actualización disponible</string>
     <string name="settings_general_title">General</string>
-    <string name="settings_display_and_appearance">Display and appearance</string>
-    <string name="settings_timer_and_sessions">Timer and sessions</string>
+    <string name="settings_display_and_appearance">Pantalla y apariencia</string>
+    <string name="settings_timer_and_sessions">Temporizador y sesiones</string>
 </resources>

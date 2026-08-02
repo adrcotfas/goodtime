@@ -47,7 +47,7 @@
     <string name="settings_screensaver_mode">Режим заставки</string>
     <string name="settings_pip_mode_title">Картинка в картинці</string>
     <string name="settings_pip_mode_desc">Показувати таймер у маленькому вікні під час виходу з додатка</string>
-    <string name="settings_do_not_disturb_mode">Режим \"Не турбувати\</string>
+    <string name="settings_do_not_disturb_mode">Режим "Не турбувати"</string>
     <string name="settings_click_to_grant_permission">Натисніть, щоб надати дозвіл</string>
     <string name="settings_demo">демо</string>
     <string name="settings_refresh_demo_label">Оновити демо мітку</string>
@@ -85,7 +85,7 @@
     <string name="settings_timer_durations_desc">Встановіть тривалість для робочих сесій та перерв</string>
     <string name="settings_create_profile">Створити профіль</string>
     <string name="settings_delete_profile">Видалити профіль</string>
-    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
+    <string name="settings_delete_profile_confirmation">Ви дійсно хочете видалити %1$s?</string>
     <string name="settings_language">Мова</string>
     <string name="settings_update">Оновити</string>
     <string name="settings_update_available">Доступне нове оновлення</string>

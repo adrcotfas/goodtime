@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="settings_title">الاعدادات</string>
+    <string name="settings_title">الإعدادات</string>
     <string name="settings_action_required">الإجراء المطلوب</string>
     <string name="settings_allow_background">السماح لهذا التطبيق بالتشغيل في الخلفية</string>
     <string name="settings_allow_notifications">السماح بالإشعارات</string>
@@ -48,7 +48,7 @@
     <string name="settings_pip_mode_title">صورة داخل صورة</string>
     <string name="settings_pip_mode_desc">عرض المؤقّت في نافذة صغيرة عند مغادرة التطبيق</string>
     <string name="settings_do_not_disturb_mode">وضع عدم الإزعاج</string>
-    <string name="settings_click_to_grant_permission">إضغط لمنح الاذن</string>
+    <string name="settings_click_to_grant_permission">اضغط لمنح الإذن</string>
     <string name="settings_demo">تجريبي</string>
     <string name="settings_refresh_demo_label">تحديث التسمية التجريبية</string>
     <string name="settings_show_status_title">إظهار الحالة</string>
@@ -66,25 +66,25 @@
     <string name="settings_delete_sound">حذف الصوت</string>
     <string name="settings_remove">إزالة</string>
     <string name="settings_add_custom_sound">إضافة صوت مخصص</string>
-    <string name="settings_override_sound_profile_title">اعطاء الأولوية لصوت الاشعار</string>
-    <string name="settings_override_sound_profile_desc">سيعمل صوت الاشعار كأنه منبه</string>
+    <string name="settings_override_sound_profile_title">إعطاء الأولوية لصوت الإشعار</string>
+    <string name="settings_override_sound_profile_desc">سيعمل صوت الإشعار كأنه منبه</string>
     <string name="settings_sound_volume">مستوى الصوت</string>
     <string name="settings_vibration_strength">قوة الاهتزاز</string>
-    <string name="settings_torch_title">الشعلة</string>
+    <string name="settings_torch_title">الكشاف</string>
     <string name="settings_screen_flash_title">وميض الشاشة</string>
-    <string name="settings_torch_desc">اظهار إشعار مرئي للبيئات الصامتة</string>
-    <string name="settings_insistent_notification_title">الإشعارات بشكل متواصل </string>
+    <string name="settings_torch_desc">إظهار إشعار مرئي في البيئات الصامتة</string>
+    <string name="settings_insistent_notification_title">إشعارات متواصلة</string>
     <string name="settings_insistent_notification_desc">كرر الإشعار حتى يتم إلغاؤه</string>
-    <string name="settings_auto_start_focus_title">بدء التركيز التلقائي</string>
-    <string name="settings_auto_start_focus_desc">ابدأ الفاصل بعد جلسة عمل دون تدخل المستخدم</string>
-    <string name="settings_auto_start_break_title">بداية الانقطاع التلقائي</string>
-    <string name="settings_auto_start_break_desc">بدء جلسة الاستراحة بعد جلسة عمل بدون تفاعل المستخدم</string>
-    <string name="settings_display_over_lock_screen">عرض على شاشة القفل</string>
-    <string name="settings_display_over_lock_screen_desc">إبقاء التطبيق مرئي على شاشة القفل</string>
-    <string name="settings_timer_durations_title">ملف مؤقت</string>
-    <string name="settings_timer_durations_desc">تعيين مدة العمل وجلسات الاستراحة</string>
-    <string name="settings_create_profile">إنشاء ملف شخصي</string>
-    <string name="settings_delete_profile">حذف الملف الشخصي</string>
+    <string name="settings_auto_start_focus_title">ابدأ التركيز تلقائيًا</string>
+    <string name="settings_auto_start_focus_desc">ابدأ جَلسة العمل بعد الفاصل دون تدخل المستخدم</string>
+    <string name="settings_auto_start_break_title">بداية الاستراحة تلقائيًا</string>
+    <string name="settings_auto_start_break_desc">ابدأ الاستراحة بعد جَلسة العمل دون تفاعل المستخدم</string>
+    <string name="settings_display_over_lock_screen">العرض على شاشة القُفْل</string>
+    <string name="settings_display_over_lock_screen_desc">إبقاء التطبيق مرئيًا على شاشة القُفْل</string>
+    <string name="settings_timer_durations_title">إعدادات المؤقت</string>
+    <string name="settings_timer_durations_desc">تعيين مدة جلسات العمل و الاستراحة</string>
+    <string name="settings_create_profile">إنشاء مؤقت جديد</string>
+    <string name="settings_delete_profile">حذف المؤقت</string>
     <string name="settings_delete_profile_confirmation">هل أنت متأكد من أنك تريد حذف %1$s؟</string>
     <string name="settings_language">اللغة</string>
     <string name="settings_update">تحديث</string>

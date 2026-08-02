@@ -17,11 +17,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="labels_title">بطاقات</string>
+    <string name="labels_title">تسميات</string>
     <string name="labels_default_label_name">افتراضي</string>
     <string name="labels_others">الآخرين</string>
     <string name="labels_countdown">العد التنازلي</string>
-    <string name="labels_count_up">البلد</string>
+    <string name="labels_count_up">عد تصاعدي</string>
     <string name="labels_focus_time">وقت التركيز</string>
     <string name="labels_break_time">وقت الاستراحة</string>
     <string name="labels_long_break">استراحة طويلة</string>
@@ -33,10 +33,10 @@
     <string name="labels_edit_active_label">تعديل التسمية النشطة</string>
     <string name="labels_break_budget_info">اكسب وقت الاستراحة مع التركيز</string>
     <string name="labels_break_budget_desc1">ترتفع ميزانية الاستراحة الخاصة بك وفقا لنسبة التركيز/الاستراحة المحددة الخاصة بك وتقل عند انقطاعك.</string>
-    <string name="labels_break_budget_desc2">خذ فترات استراحة كلما أردت.</string>
+    <string name="labels_break_budget_desc2">خذ استراحة كلما أردت.</string>
     <string name="labels_break_budget">ميزانية الاستراحة</string>
     <string name="labels_follow_default_time_profile">اتبع الوضع الزمني الافتراضي</string>
-    <string name="labels_add_label">أضف علامة</string>
+    <string name="labels_add_label">أضف تسمية</string>
     <string name="labels_add_label_name">إضافة اسم التسمية</string>
     <string name="labels_label_name_already_exists">اسم التسمية موجود مسبقاً</string>
     <string name="labels_archived_labels_title">العناوين المؤرشفة</string>

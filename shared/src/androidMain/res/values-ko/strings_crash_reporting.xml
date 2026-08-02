@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_crash_channel_name">Crash reports</string>
-    <string name="main_crash_notification_title">App crashed</string>
-    <string name="main_crash_notification_desc">Sorry for the inconvenience. Please send a report to the developer.</string>
+    <string name="main_crash_channel_name">오류 보고</string>
+    <string name="main_crash_notification_title">앱 크래시</string>
+    <string name="main_crash_notification_desc">불편을 끼쳐드려 죄송합니다. 개발자에게 보고해 주십시오.</string>
 </resources>

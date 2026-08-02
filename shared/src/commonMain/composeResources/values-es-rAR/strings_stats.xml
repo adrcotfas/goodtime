@@ -54,5 +54,5 @@
     <string name="stats_show_label_breakdown_desc">Visualizar datos como barras apiladas separadas por etiqueta</string>
     <string name="stats_more_options">Más opciones</string>
     <string name="stats_show_breaks">Mostrar descansos</string>
-    <string name="stats_show_archived">Show archived</string>
+    <string name="stats_show_archived">Mostrar archivados</string>
 </resources>

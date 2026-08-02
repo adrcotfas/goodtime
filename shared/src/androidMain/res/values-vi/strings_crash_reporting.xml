@@ -18,6 +18,6 @@
 -->
 <resources>
     <string name="main_crash_channel_name">Báo cáo dừng đột ngột</string>
-    <string name="main_crash_notification_title">Ứng dụng đã bị crash</string>
+    <string name="main_crash_notification_title">Ứng dụng đã bị dừng</string>
     <string name="main_crash_notification_desc">Xin lỗi vì sự bất tiện này. Vui lòng gửi báo cáo cho nhà phát triển.</string>
 </resources>

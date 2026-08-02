@@ -18,11 +18,11 @@
 -->
 <resources>
     <string name="main_navigate_back">Ir atrás</string>
-    <string name="main_ok">OK</string>
+    <string name="main_ok">Ok</string>
     <string name="main_cancel">Cancelar</string>
     <string name="main_delete">Borrar</string>
     <string name="main_edit">Editar</string>
-    <string name="main_duplicate">Duplicate</string>
+    <string name="main_duplicate">Duplicar</string>
     <string name="main_failed_to_open_url">No se puede abrir URL</string>
     <string name="main_start_focus">Iniciar enfoque</string>
     <string name="main_start_break">Iniciar descanso</string>
@@ -44,7 +44,7 @@
     <string name="main_skip">Omitir</string>
     <string name="main_stop">Detener</string>
     <string name="main_continue">¿Continuar?</string>
-    <string name="main_idle">Idle</string>
+    <string name="main_idle">Inactivo</string>
     <string name="main_productivity_reminder_desc">¡Es hora de ser productivo!</string>
     <string name="main_notifications_channel_name">Notificaciones de temporizador</string>
     <string name="main_reminder_channel_name">Notificaciones de recordatorio</string>

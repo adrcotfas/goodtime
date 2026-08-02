@@ -27,7 +27,7 @@
     <string name="settings_days_of_the_week">요일</string>
     <string name="settings_reminder_time">리마인더 시간</string>
     <string name="settings_timer_style_title">타이머 사용자 설정</string>
-    <string name="settings_user_interface">User interface</string>
+    <string name="settings_user_interface">인터페이스</string>
     <string name="settings_notifications_title">알림</string>
     <string name="settings_custom_start_of_day_title">하루 시작 설정</string>
     <string name="settings_custom_start_of_day_desc">통계 설정을 위한 하루 시작 시점을 정의합니다</string>
@@ -59,7 +59,7 @@
     <string name="settings_hide_seconds">Hide seconds</string>
     <string name="settings_focus_complete_sound">Focus complete sound</string>
     <string name="settings_break_complete_sound">Break complete sound</string>
-    <string name="settings_silent">Silent</string>
+    <string name="settings_silent">무음</string>
     <string name="settings_default">기본값</string>
     <string name="settings_your_sounds">Your sounds</string>
     <string name="settings_system_sounds">System sounds</string>
@@ -75,12 +75,12 @@
     <string name="settings_torch_desc">무음 모드일 때 화면 알림 사용</string>
     <string name="settings_insistent_notification_title">계속 알림</string>
     <string name="settings_insistent_notification_desc">취소하기 전까지 알림을 반복합니다</string>
-    <string name="settings_auto_start_focus_title">Auto start focus</string>
+    <string name="settings_auto_start_focus_title">작업 바로 시작하기</string>
     <string name="settings_auto_start_focus_desc">휴식구간이 끝나면 조작 없이 작업구간을 시작합니다</string>
     <string name="settings_auto_start_break_title">휴식 바로 시작하기</string>
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
-    <string name="settings_display_over_lock_screen">Display over lock screen</string>
-    <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
+    <string name="settings_display_over_lock_screen">잠금 화면 위에 표시</string>
+    <string name="settings_display_over_lock_screen_desc">잠금 화면에서도 앱을 표시합니다</string>
     <string name="settings_timer_durations_title">Timer profile</string>
     <string name="settings_timer_durations_desc">작업구간과 휴식구간에 쓸 시간을 설정해주세요</string>
     <string name="settings_create_profile">Create profile</string>

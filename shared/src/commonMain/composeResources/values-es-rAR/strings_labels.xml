@@ -42,8 +42,8 @@
     <string name="labels_archived_labels_title">Etiquetas archivadas</string>
     <string name="labels_delete">¿Borrar %1$s?</string>
     <string name="labels_delete_desc">Borrar esta etiqueta hará que también se borren las sesiones completadas con esta etiqueta.</string>
-    <string name="labels_more_about">More about %1$s</string>
-    <string name="labels_archived">Archived</string>
+    <string name="labels_more_about">Más sobre %1$s</string>
+    <string name="labels_archived">Archivado</string>
     <string name="labels_unarchive">Desarchivar</string>
     <string name="labels_select_label">Elegir etiqueta</string>
     <string name="labels_select_labels">Elegir etiquetas</string>
@@ -51,9 +51,9 @@
     <string name="labels_delete_label_confirmation">Borrar esta etiqueta hará que también se borren las sesiones completadas con esta etiqueta.</string>
     <string name="labels_navigate_to_archived">Ir a etiquetas archivadas</string>
     <string name="labels_clear_label">Borrar etiqueta</string>
-    <string name="labels_delete_label_name">Delete %1$s</string>
-    <string name="labels_archive_label_name">Archive %1$s</string>
-    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
-    <string name="labels_edit_label_name">Edit %1$s</string>
-    <string name="labels_custom">Custom</string>
+    <string name="labels_delete_label_name">Borrar %1$s</string>
+    <string name="labels_archive_label_name">Archivar %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicar %1$s</string>
+    <string name="labels_edit_label_name">Editar %1$s</string>
+    <string name="labels_custom">Personalizado</string>
 </resources>

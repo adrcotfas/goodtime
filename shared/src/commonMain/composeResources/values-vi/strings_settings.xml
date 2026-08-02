@@ -21,7 +21,7 @@
     <string name="settings_action_required">Hành động cần thiết</string>
     <string name="settings_allow_background">Cho phép ứng dụng chạy trong nền</string>
     <string name="settings_allow_notifications">Cho phép gửi thông báo</string>
-    <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
+    <string name="settings_allow_alarms">Cấp quyền báo thức để sử dụng bộ hẹn giờ</string>
     <string name="settings_allow">Cho phép</string>
     <string name="settings_productivity_reminder_title">Nhắc nhở năng suất</string>
     <string name="settings_days_of_the_week">Ngày trong tuần</string>
