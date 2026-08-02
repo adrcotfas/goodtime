@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Open app menu</string>
     <string name="main_reset_to_default">Reset to default</string>
     <string name="main_reset_break_budget">Atstatyti pertraukų laiko rezervą?</string>
+    <string name="main_no_break_budget">Pertrauka dar negalima</string>
     <string name="main_save">Sutaupyti</string>
     <string name="main_focus_session_in_progress">Focus session in progress</string>
     <string name="main_focus_session_paused">Focus session paused</string>

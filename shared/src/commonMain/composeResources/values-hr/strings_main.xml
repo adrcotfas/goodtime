@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Otvorite izbornik aplikacije</string>
     <string name="main_reset_to_default">Poništi na početne postavke</string>
     <string name="main_reset_break_budget">Poništiti budžet za pauze?</string>
+    <string name="main_no_break_budget">Pauza još nije dostupna</string>
     <string name="main_save">Uštedjeti</string>
     <string name="main_focus_session_in_progress">Radna sesija je u tijeku</string>
     <string name="main_focus_session_paused">Sesija fokusiranja pauzirana</string>

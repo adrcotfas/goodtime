@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Abrir menú de app</string>
     <string name="main_reset_to_default">Restablecer por defecto</string>
     <string name="main_reset_break_budget">¿Restablecer el presupuesto de descanso?</string>
+    <string name="main_no_break_budget">El descanso aún no está disponible</string>
     <string name="main_save">Guardar</string>
     <string name="main_focus_session_in_progress">Sesión de concentración en progreso</string>
     <string name="main_focus_session_paused">Sesión de concentración pausada</string>

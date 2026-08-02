@@ -20,16 +20,21 @@ package com.apps.adrcotfas.goodtime.bl
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import com.apps.adrcotfas.goodtime.di.injectLogger
+import goodtime_productivity.shared.generated.resources.Res
+import goodtime_productivity.shared.generated.resources.main_no_break_budget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
+import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 class TimerService :
@@ -85,7 +90,25 @@ class TimerService :
 
             Action.AddOneMinute.name -> withReadyTimer { it.addOneMinute() }
 
-            Action.Skip.name -> withReadyTimer { it.next(actionType = FinishActionType.MANUAL_SKIP) }
+            Action.Skip.name ->
+                withReadyTimer {
+                    // mirrors the guard in TimerManager.nextInternal, which silently ignores the skip
+                    val timerData = it.timerData.value
+                    val noBreakBudget =
+                        timerData.runtime.type.isFocus &&
+                            !timerData.getTimerProfile().isCountdown &&
+                            timerData.getBreakBudget(timeProvider.elapsedRealtime()) < 1.minutes
+                    if (noBreakBudget) {
+                        Toast
+                            .makeText(
+                                this,
+                                getString(Res.string.main_no_break_budget),
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                    } else {
+                        it.next(actionType = FinishActionType.MANUAL_SKIP)
+                    }
+                }
 
             Action.Next.name -> withReadyTimer { it.next(actionType = FinishActionType.MANUAL_NEXT) }
 
@@ -106,7 +129,7 @@ class TimerService :
         }
     }
 
-    private fun withReadyTimer(block: (TimerManager) -> Unit) {
+    private fun withReadyTimer(block: suspend (TimerManager) -> Unit) {
         coroutineScope.launch {
             withTimeoutOrNull(AWAIT_READY_TIMEOUT) { timerManager.awaitReady() }
             block(timerManager)

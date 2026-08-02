@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Open app menu</string>
     <string name="main_reset_to_default">Reset to default</string>
     <string name="main_reset_break_budget">Poništiti budžet za pauze?</string>
+    <string name="main_no_break_budget">Odmor još nije dostupan</string>
     <string name="main_save">Sačuvaj</string>
     <string name="main_focus_session_in_progress">Focus session in progress</string>
     <string name="main_focus_session_paused">Focus session paused</string>

@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Åbn app-menu</string>
     <string name="main_reset_to_default">Nulstil til standard</string>
     <string name="main_reset_break_budget">Nulstil pausebudgettet?</string>
+    <string name="main_no_break_budget">Pausen er endnu ikke tilgængelig</string>
     <string name="main_save">Gem</string>
     <string name="main_focus_session_in_progress">Fokussession i gang</string>
     <string name="main_focus_session_paused">Fokussessionen er sat på pause</string>

@@ -197,6 +197,15 @@ class NotificationArchManager(
                     action = TimerService.Companion.Action.DoReset,
                 )
             builder.addAction(stopAction)
+            // count-up is always a focus session; Skip no-ops in TimerManager while the break budget is under one minute
+            if (data.label.profile.isBreakEnabled) {
+                val startBreakAction =
+                    createNotificationAction(
+                        title = getString(Res.string.main_start_break),
+                        action = TimerService.Companion.Action.Skip,
+                    )
+                builder.addAction(startBreakAction)
+            }
         }
         return builder.build()
     }

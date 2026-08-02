@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Apri menu app</string>
     <string name="main_reset_to_default">Ripristina impostazioni predefinite</string>
     <string name="main_reset_break_budget">Reimpostare il budget di pausa?</string>
+    <string name="main_no_break_budget">Pausa non ancora disponibile</string>
     <string name="main_save">Salva</string>
     <string name="main_focus_session_in_progress">Sessione di focus in corso</string>
     <string name="main_focus_session_paused">Sessione di focus in pausa</string>

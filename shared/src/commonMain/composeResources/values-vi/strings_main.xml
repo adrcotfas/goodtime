@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Mở menu ứng dụng</string>
     <string name="main_reset_to_default">Khôi phục về mặc định</string>
     <string name="main_reset_break_budget">Đặt lại quỹ nghỉ?</string>
+    <string name="main_no_break_budget">Chưa thể nghỉ</string>
     <string name="main_save">Lưu</string>
     <string name="main_focus_session_in_progress">Phiên tập trung đang diễn ra</string>
     <string name="main_focus_session_paused">Phiên tập trung đã bị tạm dừng</string>

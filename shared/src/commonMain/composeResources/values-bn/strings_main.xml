@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">অ্যাপ মেনু খুলুন</string>
     <string name="main_reset_to_default">পুনরায় ডিফল্টে চলে যান</string>
     <string name="main_reset_break_budget">বিরতির বাজেট রিসেট করবেন?</string>
+    <string name="main_no_break_budget">বিরতি এখনও উপলব্ধ নয়</string>
     <string name="main_save">সংরক্ষণ করুন</string>
     <string name="main_focus_session_in_progress">সেশন চলছে কাজ</string>
     <string name="main_focus_session_paused">ফোকাস সেশন পজ করা হয়েছে</string>

@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Obre el menú de l'aplicació</string>
     <string name="main_reset_to_default">Restableix els valors per defecte</string>
     <string name="main_reset_break_budget">Voleu restablir el pressupost de descans?</string>
+    <string name="main_no_break_budget">El descans encara no està disponible</string>
     <string name="main_save">Guarda</string>
     <string name="main_focus_session_in_progress">Sessió de treball en curs</string>
     <string name="main_focus_session_paused">La sessió de focus s'ha aturat</string>

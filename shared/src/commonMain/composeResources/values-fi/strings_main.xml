@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Avaa sovellusvalikko</string>
     <string name="main_reset_to_default">Palauta oletuksiin</string>
     <string name="main_reset_break_budget">Nollataanko taukobudjetti?</string>
+    <string name="main_no_break_budget">Tauko ei ole vielä käytettävissä</string>
     <string name="main_save">Tallenna</string>
     <string name="main_focus_session_in_progress">Istunto käynnissä</string>
     <string name="main_focus_session_paused">Istunto keskeytetty</string>

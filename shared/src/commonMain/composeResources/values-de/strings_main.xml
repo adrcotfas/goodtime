@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">App-Menü öffnen</string>
     <string name="main_reset_to_default">Auf Standard zurücksetzen</string>
     <string name="main_reset_break_budget">Pausenbudget zurücksetzen?</string>
+    <string name="main_no_break_budget">Pause noch nicht verfügbar</string>
     <string name="main_save">Speichern</string>
     <string name="main_focus_session_in_progress">Sitzung wird fokussiert</string>
     <string name="main_focus_session_paused">Fokus-Sitzung pausiert</string>

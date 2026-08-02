@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">Deschide meniul aplicației</string>
     <string name="main_reset_to_default">Resetare la valori implicite</string>
     <string name="main_reset_break_budget">Resetezi bugetul de pauză?</string>
+    <string name="main_no_break_budget">Pauza nu este încă disponibilă</string>
     <string name="main_save">Salvează</string>
     <string name="main_focus_session_in_progress">Sesiune de focus în progres</string>
     <string name="main_focus_session_paused">Sesiune de focus întreruptă</string>

@@ -34,6 +34,7 @@
     <string name="main_open_app_menu">פתח את תפריט האפליקציה</string>
     <string name="main_reset_to_default">אפס לברירת המחדל</string>
     <string name="main_reset_break_budget">לאפס את תקציב ההפסקות?</string>
+    <string name="main_no_break_budget">ההפסקה עדיין לא זמינה</string>
     <string name="main_save">שמור</string>
     <string name="main_focus_session_in_progress">סשן עבודה בפעולה</string>
     <string name="main_focus_session_paused">הפעלת הפוקוס הושהתה</string>

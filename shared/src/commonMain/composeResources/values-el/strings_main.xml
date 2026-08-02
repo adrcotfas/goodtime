@@ -25,7 +25,7 @@
     <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">Αποτυχία ανοίγματος του URL</string>
     <string name="main_start_focus">Έναρξη εστίασης</string>
-    <string name="main_start_break">Έναρξη διάλειμμα</string>
+    <string name="main_start_break">Έναρξη διαλείμματος</string>
     <string name="main_break_complete">Το διάλειμμα ολοκληρώθηκε</string>
     <string name="main_focus_complete">Η συνεδρία ολοκληρώθηκε</string>
     <string name="main_this_session">Αυτή η συνεδρία</string>
@@ -34,10 +34,11 @@
     <string name="main_open_app_menu">Άνοιγμα μενού εφαρμογών</string>
     <string name="main_reset_to_default">Επαναφορά προεπιλογών</string>
     <string name="main_reset_break_budget">Επαναφορά προϋπολογισμού διαλείμματος;</string>
+    <string name="main_no_break_budget">Το διάλειμμα δεν είναι ακόμα διαθέσιμο</string>
     <string name="main_save">Αποθήκευση</string>
     <string name="main_focus_session_in_progress">Εστίαση συνεδρίας σε εξέλιξη</string>
     <string name="main_focus_session_paused">Η συνεδρία εστίασης σταμάτησε</string>
-    <string name="main_break_in_progress">Σπάσει σε εξέλιξη</string>
+    <string name="main_break_in_progress">Διάλειμμα σε εξέλιξη</string>
     <string name="main_pause">Παύση</string>
     <string name="main_resume">Συνέχεια</string>
     <string name="main_skip">Παράλειψη</string>
