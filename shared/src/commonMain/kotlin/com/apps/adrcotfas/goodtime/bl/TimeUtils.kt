@@ -119,7 +119,7 @@ object TimeUtils {
     fun getLocalizedMonthNamesForStats(): List<String> {
         val localizedMonthNamesShort =
             Month.entries.map { it.getDisplayName(textStyle = TextStyle.SHORT_STANDALONE) }
-        return if (localizedMonthNamesShort.any { it.length > 3 }) {
+        return if (localizedMonthNamesShort.any { it.length > 4 }) {
             val localizedMonthNamesNarrow =
                 Month.entries.map { it.getDisplayName(textStyle = TextStyle.NARROW_STANDALONE) }
             localizedMonthNamesNarrow
