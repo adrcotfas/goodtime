@@ -112,7 +112,7 @@ class GoodtimeApplication :
 
                     single<DndModeManager> {
                         DndModeManager(
-                            notificationManager = get<NotificationArchManager>(),
+                            dndModeController = get<NotificationArchManager>(),
                             settingsRepository = get<SettingsRepository>(),
                             coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
                         )

@@ -27,6 +27,7 @@ import android.os.SystemClock
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.apps.adrcotfas.goodtime.R
+import com.apps.adrcotfas.goodtime.bl.DndModeController
 import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.TimerService
 import com.apps.adrcotfas.goodtime.bl.TimerState
@@ -58,7 +59,7 @@ class NotificationArchManager(
     private val context: Context,
     private val activityClass: Class<*>,
     coroutineScope: CoroutineScope,
-) {
+) : DndModeController {
     private val notificationManager: NotificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -336,9 +337,9 @@ class NotificationArchManager(
             ),
         ).build()
 
-    fun isDndModeEnabled(): Boolean = notificationManager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
+    override fun isDndModeEnabled(): Boolean = notificationManager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
 
-    fun toggleDndMode(enabled: Boolean) {
+    override fun toggleDndMode(enabled: Boolean) {
         if (!isNotificationPolicyAccessGranted()) {
             return
         }
