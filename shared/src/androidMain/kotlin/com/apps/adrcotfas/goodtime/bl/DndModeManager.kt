@@ -17,7 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
-import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.CoroutineScope
@@ -28,8 +27,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+interface DndModeController {
+    fun isDndModeEnabled(): Boolean
+
+    fun toggleDndMode(enabled: Boolean)
+}
+
 class DndModeManager(
-    private val notificationManager: NotificationArchManager,
+    private val dndModeController: DndModeController,
     settingsRepository: SettingsRepository,
     private val coroutineScope: CoroutineScope,
 ) : EventListener {
@@ -38,7 +43,7 @@ class DndModeManager(
 
     private var job: Job? = null
 
-    private var dndEnabledBeforeStart = false
+    private var dndEnabledBeforeStart: Boolean? = null
     private var wasPaused = false
 
     override fun onEvent(event: Event) {
@@ -75,12 +80,14 @@ class DndModeManager(
                 val isDndDuringWork = isDndDuringWorkFlow.first()
                 if (!isDndDuringWork) return@launch
 
-                val wasDndEnabled = notificationManager.isDndModeEnabled()
-                dndEnabledBeforeStart = wasDndEnabled
-                if (!wasDndEnabled) {
+                val wasDndEnabled =
+                    dndEnabledBeforeStart ?: dndModeController.isDndModeEnabled().also {
+                        dndEnabledBeforeStart = it
+                    }
+                if (!wasDndEnabled && !dndModeController.isDndModeEnabled()) {
                     withContext(Dispatchers.Main) {
                         delay(2500) // don't enter immediately to not affect ongoing sounds/vibrations
-                        notificationManager.toggleDndMode(true)
+                        dndModeController.toggleDndMode(true)
                     }
                 }
             }
@@ -90,14 +97,12 @@ class DndModeManager(
         job?.cancel()
         job =
             coroutineScope.launch {
-                val isDndDuringWork = isDndDuringWorkFlow.first()
-                if (!isDndDuringWork) return@launch
-
-                if (!dndEnabledBeforeStart && notificationManager.isDndModeEnabled()) {
+                if (dndEnabledBeforeStart == false && dndModeController.isDndModeEnabled()) {
                     withContext(Dispatchers.Main) {
-                        notificationManager.toggleDndMode(false)
+                        dndModeController.toggleDndMode(false)
                     }
                 }
+                dndEnabledBeforeStart = null
             }
     }
 }
