@@ -348,7 +348,11 @@ fun StatisticsScreen(
                 if (showSelectLabelDialog) {
                     SelectLabelDialog(
                         title = stringResource(Res.string.labels_select_label),
-                        labels = uiState.labels.filter { !it.isDefault() },
+                        labels =
+                        uiState.labels.filter {
+                            !it.isDefault() &&
+                                (it.name in uiState.activeLabelNames || it.name == uiState.sessionToEdit?.label)
+                        },
                         initialSelectedLabels = listOf(uiState.newSession.label),
                         onDismiss = { showSelectLabelDialog = false },
                         singleSelection = true,
@@ -398,7 +402,7 @@ fun StatisticsScreen(
                 if (showEditBulkLabelDialog) {
                     SelectLabelDialog(
                         title = stringResource(Res.string.labels_edit_label),
-                        labels = uiState.labels.filter { !it.isDefault() },
+                        labels = uiState.labels.filter { !it.isDefault() && it.name in uiState.activeLabelNames },
                         onDismiss = { showEditBulkLabelDialog = false },
                         singleSelection = true,
                         onConfirm = {

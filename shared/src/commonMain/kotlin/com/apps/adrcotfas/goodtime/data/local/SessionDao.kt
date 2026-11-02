@@ -35,7 +35,11 @@ interface SessionDao {
     @Query(
         """
         UPDATE localSession
-        SET timestamp = :newTimestamp, duration = :newDuration, interruptions = :newInterruptions, labelName = :newLabel, notes = :newNotes, isWork = :newIsWork
+        SET timestamp = :newTimestamp, duration = :newDuration, interruptions = :newInterruptions, labelName = :newLabel, notes = :newNotes, isWork = :newIsWork,
+        isArchived = CASE WHEN labelName = :newLabel THEN isArchived ELSE COALESCE(
+            (SELECT l.isArchived FROM localLabel l WHERE l.name = :newLabel ORDER BY l.isArchived LIMIT 1),
+            isArchived
+        ) END
         WHERE id = :id
     """,
     )
@@ -49,7 +53,16 @@ interface SessionDao {
         id: Long,
     )
 
-    @Query("UPDATE localSession SET labelName = :newLabel WHERE id IN (:ids)")
+    @Query(
+        """
+        UPDATE localSession SET labelName = :newLabel,
+        isArchived = CASE WHEN labelName = :newLabel THEN isArchived ELSE COALESCE(
+            (SELECT l.isArchived FROM localLabel l WHERE l.name = :newLabel ORDER BY l.isArchived LIMIT 1),
+            isArchived
+        ) END
+        WHERE id IN (:ids)
+        """,
+    )
     suspend fun updateLabelByIds(
         newLabel: String,
         ids: List<Long>,
