@@ -29,6 +29,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.minutes
@@ -167,6 +168,31 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
 
         val labels = repo.selectLabelsByArchived(isArchived = true).first()
         assertEquals(3, labels.size, "selectLabelsByArchived failed")
+    }
+
+    @Test
+    fun moveSessionsBetweenActiveAndArchivedLabels() = runTest {
+        val archivedLabelName = "archived"
+        repo.insertLabel(label.copy(name = archivedLabelName, isArchived = true))
+        val sessionId = repo.selectAllSessions().first().first().id
+
+        repo.updateSession(sessionId, session.copy(id = sessionId, label = archivedLabelName))
+        repo.selectSessionById(sessionId).first().run {
+            assertEquals(archivedLabelName, label, "updateSession to an archived label failed")
+            assertTrue(isArchived, "Session should follow the archived state of its new label")
+        }
+
+        repo.updateSession(sessionId, session.copy(id = sessionId, label = LABEL_NAME, isArchived = true))
+        repo.selectSessionById(sessionId).first().run {
+            assertEquals(LABEL_NAME, label, "updateSession to an active label failed")
+            assertFalse(isArchived, "Session should follow the archived state of its new label")
+        }
+
+        repo.updateSessionsLabelByIds(archivedLabelName, listOf(sessionId))
+        assertTrue(repo.selectSessionById(sessionId).first().isArchived, "Bulk edit to an archived label failed")
+
+        repo.updateSessionsLabelByIds(LABEL_NAME, listOf(sessionId))
+        assertFalse(repo.selectSessionById(sessionId).first().isArchived, "Bulk edit to an active label failed")
     }
 
     @Test
