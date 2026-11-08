@@ -70,6 +70,7 @@ class SettingsRepositoryImpl(
         val lastInsertedSessionIdKey = longPreferencesKey("lastInsertedSessionIdKey")
         val showOnboardingKey = booleanPreferencesKey("showOnboardingKey")
         val showTutorialKey = booleanPreferencesKey("showTutorialKey")
+        val dndOwnedByAppKey = booleanPreferencesKey("dndOwnedByAppKey")
         val backupSettingsKey = stringPreferencesKey("backupSettingsKey")
         val lastDismissedUpdateVersionCodeKey = longPreferencesKey("lastDismissedUpdateVersionCodeKey")
         val persistedTimerStateKey = stringPreferencesKey("persistedTimerStateKey")
@@ -159,6 +160,7 @@ class SettingsRepositoryImpl(
                     it[Keys.showOnboardingKey]
                         ?: default.showOnboarding,
                     showTutorial = it[Keys.showTutorialKey] ?: default.showTutorial,
+                    dndOwnedByApp = it[Keys.dndOwnedByAppKey] ?: default.dndOwnedByApp,
                     backupSettings =
                     it[Keys.backupSettingsKey]?.let { b ->
                         json.decodeFromString<BackupSettings>(b)
@@ -308,6 +310,10 @@ class SettingsRepositoryImpl(
 
     override suspend fun setPro(isPro: Boolean) {
         dataStore.edit { it[Keys.isProKey] = isPro }
+    }
+
+    override suspend fun setDndOwnedByApp(owned: Boolean) {
+        dataStore.edit { it[Keys.dndOwnedByAppKey] = owned }
     }
 
     override suspend fun setTimeProfilesInitialized(initialized: Boolean) {

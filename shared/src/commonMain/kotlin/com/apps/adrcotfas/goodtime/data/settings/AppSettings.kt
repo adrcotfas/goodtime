@@ -63,6 +63,7 @@ data class AppSettings(
     /** The version code of the last dismissed update, or 0 if no update has been dismissed */
     val lastDismissedUpdateVersionCode: Long = 0,
     val persistedTimerState: PersistedTimerState? = null,
+    val dndOwnedByApp: Boolean = false,
 )
 
 enum class NotificationPermissionState {

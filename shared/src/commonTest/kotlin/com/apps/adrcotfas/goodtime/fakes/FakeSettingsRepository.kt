@@ -172,6 +172,10 @@ class FakeSettingsRepository(
         )
     }
 
+    override suspend fun setDndOwnedByApp(owned: Boolean) {
+        _settings.emit(_settings.value.copy(dndOwnedByApp = owned))
+    }
+
     override suspend fun setTimeProfilesInitialized(initialized: Boolean) {
         _settings.emit(
             _settings.value.copy(timeProfilesInitialized = initialized),

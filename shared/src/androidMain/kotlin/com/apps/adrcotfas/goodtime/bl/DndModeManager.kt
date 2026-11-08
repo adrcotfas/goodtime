@@ -35,7 +35,7 @@ interface DndModeController {
 
 class DndModeManager(
     private val dndModeController: DndModeController,
-    settingsRepository: SettingsRepository,
+    private val settingsRepository: SettingsRepository,
     private val coroutineScope: CoroutineScope,
 ) : EventListener {
     private val isDndDuringWorkFlow =
@@ -43,7 +43,6 @@ class DndModeManager(
 
     private var job: Job? = null
 
-    private var dndEnabledBeforeStart: Boolean? = null
     private var wasPaused = false
 
     override fun onEvent(event: Event) {
@@ -79,16 +78,12 @@ class DndModeManager(
             coroutineScope.launch {
                 val isDndDuringWork = isDndDuringWorkFlow.first()
                 if (!isDndDuringWork) return@launch
+                if (dndModeController.isDndModeEnabled()) return@launch
 
-                val wasDndEnabled =
-                    dndEnabledBeforeStart ?: dndModeController.isDndModeEnabled().also {
-                        dndEnabledBeforeStart = it
-                    }
-                if (!wasDndEnabled && !dndModeController.isDndModeEnabled()) {
-                    withContext(Dispatchers.Main) {
-                        delay(2500) // don't enter immediately to not affect ongoing sounds/vibrations
-                        dndModeController.toggleDndMode(true)
-                    }
+                settingsRepository.setDndOwnedByApp(true)
+                withContext(Dispatchers.Main) {
+                    delay(2500) // don't enter immediately to not affect ongoing sounds/vibrations
+                    dndModeController.toggleDndMode(true)
                 }
             }
     }
@@ -97,12 +92,13 @@ class DndModeManager(
         job?.cancel()
         job =
             coroutineScope.launch {
-                if (dndEnabledBeforeStart == false && dndModeController.isDndModeEnabled()) {
+                if (!settingsRepository.settings.first().dndOwnedByApp) return@launch
+                if (dndModeController.isDndModeEnabled()) {
                     withContext(Dispatchers.Main) {
                         dndModeController.toggleDndMode(false)
                     }
                 }
-                dndEnabledBeforeStart = null
+                settingsRepository.setDndOwnedByApp(false)
             }
     }
 }
