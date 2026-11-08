@@ -43,6 +43,7 @@
     <string name="labels_delete">Eliminar %1$s</string>
     <string name="labels_delete_desc">Ao eliminar esta etiqueta eliminarase das sesións completadas asociadas.</string>
     <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archive">Arquivar</string>
     <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">Desarquivar</string>
     <string name="labels_select_label">Seleccionar unha etiqueta</string>

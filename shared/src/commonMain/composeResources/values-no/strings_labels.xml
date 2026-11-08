@@ -43,6 +43,7 @@
     <string name="labels_delete">Slette %1$s?</string>
     <string name="labels_delete_desc">Sletting av denne etiketten vil fjerne den fra tilknyttede fullførte økter.</string>
     <string name="labels_more_about">Mer om %1$s</string>
+    <string name="labels_archive">Arkiver</string>
     <string name="labels_archived">Arkivert</string>
     <string name="labels_unarchive">Avarkiver</string>
     <string name="labels_select_label">Velg etikett</string>

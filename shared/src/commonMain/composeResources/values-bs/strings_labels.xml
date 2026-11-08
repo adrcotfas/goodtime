@@ -43,6 +43,7 @@
     <string name="labels_delete">Izbrisati %1$s?</string>
     <string name="labels_delete_desc">Brisanje ove oznake će je ukloniti iz povezanih završenih sesija.</string>
     <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archive">Arhiviraj</string>
     <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">Unarchive</string>
     <string name="labels_select_label">Odaberite oznaku</string>

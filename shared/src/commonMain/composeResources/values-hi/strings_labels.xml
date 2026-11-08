@@ -43,6 +43,7 @@
     <string name="labels_delete">Delete %1$s?</string>
     <string name="labels_delete_desc">Deleting this label will remove it from associated completed sessions.</string>
     <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archive">संग्रहित करें</string>
     <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">Unarchive</string>
     <string name="labels_select_label">वर्ग का चयन करें</string>

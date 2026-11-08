@@ -43,6 +43,7 @@
     <string name="labels_delete">Supprimer %1$s?</string>
     <string name="labels_delete_desc">La suppression de cette étiquette l’enlèvera des sessions terminées associées.</string>
     <string name="labels_more_about">En savoir plus sur %1$s</string>
+    <string name="labels_archive">Archiver</string>
     <string name="labels_archived">Archivé</string>
     <string name="labels_unarchive">Désarchiver</string>
     <string name="labels_select_label">Sélectionner l’étiquette</string>

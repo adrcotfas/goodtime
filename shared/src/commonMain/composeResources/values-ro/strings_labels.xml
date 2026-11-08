@@ -43,6 +43,7 @@
     <string name="labels_delete">Ștergeți %1$s?</string>
     <string name="labels_delete_desc">Ștergerea acestei etichete o va elimina din sesiunile asociate cu finalizarea.</string>
     <string name="labels_more_about">Mai multe despre %1$s</string>
+    <string name="labels_archive">Arhivează</string>
     <string name="labels_archived">Arhivat</string>
     <string name="labels_unarchive">Dezarhivare</string>
     <string name="labels_select_label">Selectează eticheta</string>

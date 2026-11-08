@@ -43,6 +43,7 @@
     <string name="labels_delete">Poista %1$s?</string>
     <string name="labels_delete_desc">Tämän tunnisteen poistaminen irrottaa sen suoritetuista istunnoista.</string>
     <string name="labels_more_about">Lisätietoja %1$s</string>
+    <string name="labels_archive">Arkistoi</string>
     <string name="labels_archived">Arkistoitu</string>
     <string name="labels_unarchive">Poista</string>
     <string name="labels_select_label">Valitse tunniste</string>

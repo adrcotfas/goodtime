@@ -43,6 +43,7 @@
     <string name="labels_delete">Verwijder %1$s?</string>
     <string name="labels_delete_desc">Het verwijderen van dit label zal het verwijderen van de bijbehorende voltooide sessies.</string>
     <string name="labels_more_about">Meer over %1$s</string>
+    <string name="labels_archive">Archiveren</string>
     <string name="labels_archived">Gearchiveerd</string>
     <string name="labels_unarchive">Dearchiveren</string>
     <string name="labels_select_label">Label kiezen</string>

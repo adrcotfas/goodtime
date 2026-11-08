@@ -43,6 +43,7 @@
     <string name="labels_delete">Ezabatu %1$s?</string>
     <string name="labels_delete_desc">Etiketa hau ezabatzeak lotutako saio osatuetatik ere ezabatuko du.</string>
     <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archive">Artxibatu</string>
     <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">Desartxibatu</string>
     <string name="labels_select_label">Hautatu etiketa</string>

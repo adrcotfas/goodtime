@@ -43,6 +43,7 @@
     <string name="labels_delete">%1$s löschen?</string>
     <string name="labels_delete_desc">Das Löschen dieses Labels entfernt es von zugehörigen abgeschlossenen Sitzungen.</string>
     <string name="labels_more_about">Mehr über %1$s</string>
+    <string name="labels_archive">Archivieren</string>
     <string name="labels_archived">Archiviert</string>
     <string name="labels_unarchive">Archivieren</string>
     <string name="labels_select_label">Label auswählen</string>

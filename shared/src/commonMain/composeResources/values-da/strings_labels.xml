@@ -43,6 +43,7 @@
     <string name="labels_delete">Slet %1$s?</string>
     <string name="labels_delete_desc">Sletning af denne etiket vil fjerne den fra tilknyttede afsluttede sessioner.</string>
     <string name="labels_more_about">Mere om %1$s</string>
+    <string name="labels_archive">Arkivér</string>
     <string name="labels_archived">Arkiveret</string>
     <string name="labels_unarchive">Fjern Arkiv</string>
     <string name="labels_select_label">Vælg etiket</string>

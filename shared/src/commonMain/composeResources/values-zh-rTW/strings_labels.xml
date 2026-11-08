@@ -43,6 +43,7 @@
     <string name="labels_delete">刪除%1$s？</string>
     <string name="labels_delete_desc">刪除此標籤會將其從關聯的已完成會話中刪除。</string>
     <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archive">封存</string>
     <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">取消封存</string>
     <string name="labels_select_label">選擇分類</string>

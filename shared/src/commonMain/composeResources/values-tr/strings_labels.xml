@@ -43,6 +43,7 @@
     <string name="labels_delete">%1$s etiketini sil?</string>
     <string name="labels_delete_desc">Bu etiketi silmek bağlı olduğu tamamlanmış oturumlardan kaldıracaktır.</string>
     <string name="labels_more_about">%1$s etiketi hakkında</string>
+    <string name="labels_archive">Arşivle</string>
     <string name="labels_archived">Arşivle</string>
     <string name="labels_unarchive">Arşivden çıkar</string>
     <string name="labels_select_label">Etiket seç</string>

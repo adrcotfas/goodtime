@@ -56,8 +56,8 @@ import compose.icons.evaicons.outline.Edit
 import compose.icons.evaicons.outline.MoreVertical
 import compose.icons.evaicons.outline.Trash
 import goodtime_productivity.shared.generated.resources.Res
+import goodtime_productivity.shared.generated.resources.labels_archive
 import goodtime_productivity.shared.generated.resources.labels_archive_label_name
-import goodtime_productivity.shared.generated.resources.labels_archived
 import goodtime_productivity.shared.generated.resources.labels_delete_label_name
 import goodtime_productivity.shared.generated.resources.labels_duplicate_label_name
 import goodtime_productivity.shared.generated.resources.labels_edit_label
@@ -186,7 +186,7 @@ fun LabelListItem(
                     text = {
                         Text(
                             modifier = paddingModifier,
-                            text = stringResource(Res.string.labels_archived),
+                            text = stringResource(Res.string.labels_archive),
                         )
                     },
                     onClick = {

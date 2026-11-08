@@ -43,6 +43,7 @@
     <string name="labels_delete">Xóa %1$s?</string>
     <string name="labels_delete_desc">Xóa nhãn này sẽ xóa nhãn đó khỏi các phiên đã hoàn thành có liên quan.</string>
     <string name="labels_more_about">Tìm hiểu thêm về %1$s</string>
+    <string name="labels_archive">Lưu trữ</string>
     <string name="labels_archived">Kho lưu trữ</string>
     <string name="labels_unarchive">Bỏ lưu trữ</string>
     <string name="labels_select_label">Chọn nhãn</string>

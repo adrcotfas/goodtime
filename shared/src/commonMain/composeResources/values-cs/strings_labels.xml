@@ -43,6 +43,7 @@
     <string name="labels_delete">Odstranit %1$s?</string>
     <string name="labels_delete_desc">Smazáním tohoto štítku jej odeberete ze souvisejících dokončených pracovních bloků.</string>
     <string name="labels_more_about">Více o %1$s</string>
+    <string name="labels_archive">Archivovat</string>
     <string name="labels_archived">Archivováno</string>
     <string name="labels_unarchive">Odarchivovat</string>
     <string name="labels_select_label">Vybrat štítek</string>

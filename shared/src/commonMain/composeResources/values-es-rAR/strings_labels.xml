@@ -43,6 +43,7 @@
     <string name="labels_delete">¿Borrar %1$s?</string>
     <string name="labels_delete_desc">Borrar esta etiqueta hará que también se borren las sesiones completadas con esta etiqueta.</string>
     <string name="labels_more_about">Más sobre %1$s</string>
+    <string name="labels_archive">Archivar</string>
     <string name="labels_archived">Archivado</string>
     <string name="labels_unarchive">Desarchivar</string>
     <string name="labels_select_label">Elegir etiqueta</string>

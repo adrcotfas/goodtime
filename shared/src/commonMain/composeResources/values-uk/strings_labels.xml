@@ -43,6 +43,7 @@
     <string name="labels_delete">Видалити %1$s?</string>
     <string name="labels_delete_desc">Видалення цієї мітки прибере її з пов'язаних сесій.</string>
     <string name="labels_more_about">Детальніше про %1$s</string>
+    <string name="labels_archive">Архівувати</string>
     <string name="labels_archived">Архівовано</string>
     <string name="labels_unarchive">Видобути з архіву</string>
     <string name="labels_select_label">Виберіть мітку</string>

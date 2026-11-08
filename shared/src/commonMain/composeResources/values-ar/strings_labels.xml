@@ -43,6 +43,7 @@
     <string name="labels_delete">حذف %1$s؟</string>
     <string name="labels_delete_desc">سيؤدي حذف هذه التسمية إلى إزالتها من الجلسات المكتملة المرتبطة بها.</string>
     <string name="labels_more_about">المزيد عن %1$s</string>
+    <string name="labels_archive">أرشفة</string>
     <string name="labels_archived">أرشيف</string>
     <string name="labels_unarchive">إلغاء الأرشيف</string>
     <string name="labels_select_label">حدد التسمية</string>

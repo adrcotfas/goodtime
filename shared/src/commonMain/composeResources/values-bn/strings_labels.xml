@@ -43,6 +43,7 @@
     <string name="labels_delete">%1$sমুছবেন?</string>
     <string name="labels_delete_desc">এই লেবেলটি মুছে দিলে এটি সংশ্লিষ্ট সম্পূর্ণ সেশন থেকে মুছে যাবে.</string>
     <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archive">আর্কাইভ</string>
     <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">সংরক্ষণাগারমুক্ত করুন</string>
     <string name="labels_select_label">লেবেল নির্বাচন করুন</string>

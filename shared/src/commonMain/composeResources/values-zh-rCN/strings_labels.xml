@@ -43,6 +43,7 @@
     <string name="labels_delete">删除 %1$s？</string>
     <string name="labels_delete_desc">删除此标签将从关联的已完成会话中移除。</string>
     <string name="labels_more_about">更多关于 %1$s</string>
+    <string name="labels_archive">存档</string>
     <string name="labels_archived">已存档</string>
     <string name="labels_unarchive">取消归档</string>
     <string name="labels_select_label">选择标签</string>
