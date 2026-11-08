@@ -81,6 +81,8 @@ interface SettingsRepository {
 
     suspend fun setPro(isPro: Boolean)
 
+    suspend fun setDndOwnedByApp(owned: Boolean)
+
     suspend fun setTimeProfilesInitialized(initialized: Boolean)
 
     suspend fun setShouldAskForReview(enable: Boolean)

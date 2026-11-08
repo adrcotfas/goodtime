@@ -123,6 +123,32 @@ class DndModeManagerTest {
         }
     }
 
+    @Test
+    fun `app-managed DND is restored after a process restart`() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            val settingsRepository = settingsWithDndDuringWork()
+            val controller = FakeDndModeController()
+            DndModeManager(controller, settingsRepository, this).onEvent(Event.Start())
+            runCurrent()
+            advanceTimeBy(2_500)
+            runCurrent()
+            assertTrue(controller.isEnabled)
+
+            val restarted = DndModeManager(controller, settingsRepository, this)
+            restarted.onEvent(Event.Finished(type = TimerType.FOCUS, autostartNextSession = true))
+            restarted.onEvent(Event.Start(autoStarted = true))
+            runCurrent()
+            restarted.onEvent(Event.Reset)
+            runCurrent()
+
+            assertFalse(controller.isEnabled)
+            assertEquals(listOf(true, false), controller.transitions)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
     private fun settingsWithDndDuringWork() = FakeSettingsRepository(
         AppSettings(uiSettings = UiSettings(dndDuringWork = true)),
     )
