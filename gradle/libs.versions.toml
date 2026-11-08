@@ -49,7 +49,7 @@ robolectric = "4.16.1"
 turbine = "1.2.1"
 leakcanary = "2.14"
 androidx-benchmark = "1.5.0"
-androidx-uiautomator = "2.4.0"
+androidx-uiautomator = "2.4.1"
 
 uiBackhandler = "1.11.1"
 vico = "3.2.3"
