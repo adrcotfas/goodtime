@@ -70,9 +70,12 @@ interface SessionDao {
 
     @Query(
         """
-        UPDATE localSession SET labelName = :newLabel
-        WHERE isArchived = 0
-        AND id NOT IN (:ids)
+        UPDATE localSession SET labelName = :newLabel,
+        isArchived = CASE WHEN labelName = :newLabel THEN isArchived ELSE COALESCE(
+            (SELECT l.isArchived FROM localLabel l WHERE l.name = :newLabel ORDER BY l.isArchived LIMIT 1),
+            isArchived
+        ) END
+        WHERE id NOT IN (:ids)
         AND labelName IN (:labels)
         AND (:considerBreaks = 1 OR isWork = 1)
         """,
