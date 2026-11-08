@@ -193,6 +193,13 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
 
         repo.updateSessionsLabelByIds(LABEL_NAME, listOf(sessionId))
         assertFalse(repo.selectSessionById(sessionId).first().isArchived, "Bulk edit to an active label failed")
+
+        repo.updateSessionsLabelByIds(archivedLabelName, listOf(sessionId))
+        repo.updateSessionsLabelByIdsExcept(LABEL_NAME, emptyList(), listOf(archivedLabelName))
+        repo.selectSessionById(sessionId).first().run {
+            assertEquals(LABEL_NAME, label, "Select-all edit should include archived sessions")
+            assertFalse(isArchived, "Select-all edit to an active label failed")
+        }
     }
 
     @Test

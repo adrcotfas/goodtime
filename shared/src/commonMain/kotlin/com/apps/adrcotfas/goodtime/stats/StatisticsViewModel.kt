@@ -56,7 +56,7 @@ data class StatisticsUiState(
     val isLoading: Boolean = true,
     val isPro: Boolean = false,
     val labels: List<LabelData> = emptyList(),
-    val activeLabelNames: Set<String> = emptySet(),
+    val unarchivedLabelNames: Set<String> = emptySet(),
     val selectedLabels: List<String> = emptyList(),
     // Selection UI related fields
     val selectedSessions: List<Long> = emptyList(),
@@ -146,16 +146,11 @@ class StatisticsViewModel(
                     _uiState.update {
                         it.copy(
                             labels = labels.map { label -> label.getLabelData() },
+                            unarchivedLabelNames = labels.filterNot { label -> label.isArchived }.map { label -> label.name }.toSet(),
                             selectedLabels = labels.map { label -> label.name },
                         )
                     }
                 }
-        }
-
-        viewModelScope.launch {
-            localDataRepo.selectLabelsByArchived(isArchived = false).collect { labels ->
-                _uiState.update { it.copy(activeLabelNames = labels.map { label -> label.name }.toSet()) }
-            }
         }
 
         viewModelScope.launch {
