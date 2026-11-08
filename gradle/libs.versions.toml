@@ -9,7 +9,7 @@ android-minSdk = "26"
 android-compileSdk = "37"
 android-targetSdk = "37"
 
-agp = "9.5.0"
+agp = "9.5.1"
 appUpdateKtx = "2.1.0"
 revenuecat-purchases-kmp = "3.16.0"
 composeMultiplatform = "1.11.1"
