@@ -1,7 +1,7 @@
 [versions]
 
-app-version-name = "3.2.6"
-app-version-code = "364"
+app-version-name = "3.2.7"
+app-version-code = "365"
 kmp-app-version = "1.0.2"
 
 acra = "5.14.2"

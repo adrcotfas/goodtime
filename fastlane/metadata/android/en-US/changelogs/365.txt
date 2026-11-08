@@ -1,0 +1,3 @@
+• Fixed Do Not Disturb not being restored after a work session
+• Fixed a crash when moving sessions between archived and active labels
+• Updated translations
