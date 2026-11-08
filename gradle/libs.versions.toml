@@ -60,7 +60,7 @@ google-play-auth = "21.6.0"
 google-play-auth-credentials = "1.6.0"
 google-api-client = "2.9.0"
 google-drive = "v3-rev20260720-2.0.0"
-google-id = "1.2.0"
+google-id = "1.2.1"
 
 [libraries]
 acra-mail = { module = "ch.acra:acra-mail", version.ref = "acra" }
