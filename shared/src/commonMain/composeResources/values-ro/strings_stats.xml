@@ -37,8 +37,8 @@
     </string-array>
     <string name="stats_productive_hours">Ore productive</string>
     <string name="stats_heatmap">Hartă</string>
-    <string name="stats_focus_distribution">Distribuția focalizată</string>
-    <string name="stats_focus_break_ratio">Raport focalizare/pauză</string>
+    <string name="stats_focus_distribution">Distribuția concentrării</string>
+    <string name="stats_focus_break_ratio">Raport concentrare/pauză</string>
     <string name="stats_add_session">Adaugă o sesiune de lucru</string>
     <string name="stats_focus">Concentrare</string>
     <string name="stats_break">Pauză</string>

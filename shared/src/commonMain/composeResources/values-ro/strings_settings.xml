@@ -57,7 +57,7 @@
     <string name="settings_show_sessions_long_break_desc">Pentru cronometre numărătoare inversă cu pauze lungi activate</string>
     <string name="settings_show_label">Arată eticheta</string>
     <string name="settings_hide_seconds">Ascunde secunde</string>
-    <string name="settings_focus_complete_sound">Focalizare sunet complet</string>
+    <string name="settings_focus_complete_sound">Sunet la finalul concentrării</string>
     <string name="settings_break_complete_sound">Sparge sunet complet</string>
     <string name="settings_silent">Silențios</string>
     <string name="settings_default">Implicit</string>
@@ -75,7 +75,7 @@
     <string name="settings_torch_desc">O notificare vizuală pentru mediile silențioase</string>
     <string name="settings_insistent_notification_title">Notificare insistentă</string>
     <string name="settings_insistent_notification_desc">Repetă notificarea până când este anulată</string>
-    <string name="settings_auto_start_focus_title">Pornire focalizare automată</string>
+    <string name="settings_auto_start_focus_title">Pornire automată a concentrării</string>
     <string name="settings_auto_start_focus_desc">Începe sesiunea de lucru după pauză fără interacțiunea utilizatorului</string>
     <string name="settings_auto_start_break_title">Auto-start pauză</string>
     <string name="settings_auto_start_break_desc">Începe sesiunea de pauză după o sesiune de lucru fără interacțiunea utilizatorului</string>

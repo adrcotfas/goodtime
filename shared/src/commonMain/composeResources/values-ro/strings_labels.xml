@@ -22,12 +22,12 @@
     <string name="labels_others">altele</string>
     <string name="labels_countdown">Numărătoare inversă</string>
     <string name="labels_count_up">Numărător</string>
-    <string name="labels_focus_time">Timp de focalizare</string>
+    <string name="labels_focus_time">Timp de concentrare</string>
     <string name="labels_break_time">Timp de întrerupere</string>
     <string name="labels_long_break">Pauză lungă</string>
     <string name="labels_sessions_before_long_break">Sesiuni înainte de pauză lungă</string>
     <string name="labels_enable_break_budget">Activează bugetul de pauză</string>
-    <string name="labels_focus_break_ratio">Raport focalizare/pauză</string>
+    <string name="labels_focus_break_ratio">Raport concentrare/pauză</string>
     <string name="labels_select_active_label">Selectați eticheta activă</string>
     <string name="labels_edit_labels">Editare etichete</string>
     <string name="labels_edit_active_label">Editează eticheta activă</string>

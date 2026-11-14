@@ -24,13 +24,13 @@
     <string name="main_edit">Editează</string>
     <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">Deschiderea URL-ului a eșuat</string>
-    <string name="main_start_focus">Începe sesiune de focus</string>
+    <string name="main_start_focus">Începe concentrarea</string>
     <string name="main_start_break">Începeți pauza</string>
     <string name="main_break_complete">Pauza terminată</string>
     <string name="main_focus_complete">Sesiune terminată</string>
     <string name="main_this_session">Această sesiune</string>
     <string name="main_interruptions">Întreruperi</string>
-    <string name="main_consider_idle_time_as_extra_focus">Consideră timpul inactiv ca timp de focus suplimentar</string>
+    <string name="main_consider_idle_time_as_extra_focus">Consideră timpul inactiv ca timp de concentrare suplimentar</string>
     <string name="main_open_app_menu">Deschide meniul aplicației</string>
     <string name="main_reset_to_default">Resetare la valori implicite</string>
     <string name="main_reset_break_budget">Resetezi bugetul de pauză?</string>
