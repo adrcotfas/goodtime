@@ -25,6 +25,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.apps.adrcotfas.goodtime.R
@@ -122,6 +123,22 @@ class NotificationArchManager(
                             else -> NotificationCompat.Metric.TimeDifference.forStopwatch(data.runtime.startTime + data.runtime.timeSpentPaused, format)
                         }
                     setStyle(NotificationCompat.MetricStyle().addMetric(NotificationCompat.Metric(metricValue, stateText)))
+                    setShowWhen(false)
+                } else if (Build.VERSION.SDK_INT < 36) {
+                    val shown = if (running) baseTime else data.runtime.timeAtPause
+                    val chronometerBase = if (isCountDown) elapsedRealTime + shown else elapsedRealTime - shown
+                    val view =
+                        RemoteViews(context.packageName, R.layout.notification_timer).apply {
+                            setTextViewText(R.id.notification_title, stateText)
+                            setChronometer(R.id.notification_chronometer, chronometerBase, null, running)
+                            setChronometerCountDown(R.id.notification_chronometer, isCountDown)
+                            if (!running) {
+                                setTextViewText(R.id.notification_chronometer, formatMillisToTime(data.runtime.timeAtPause))
+                            }
+                        }
+                    setContentTitle(stateText)
+                    setCustomContentView(view)
+                    setStyle(NotificationCompat.DecoratedCustomViewStyle())
                     setShowWhen(false)
                 } else if (!running) {
                     setContentTitle(stateText)
