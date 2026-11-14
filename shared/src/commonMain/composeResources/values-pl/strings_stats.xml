@@ -40,8 +40,8 @@
     <string name="stats_focus_distribution">Dystrybucja skoncentrowana</string>
     <string name="stats_focus_break_ratio">Współczynnik koncentracji/zerwania</string>
     <string name="stats_add_session">Dodaj sesję</string>
-    <string name="stats_focus">Skupienie się</string>
-    <string name="stats_break">Przerwij</string>
+    <string name="stats_focus">Skupienie</string>
+    <string name="stats_break">Przerwa</string>
     <string name="stats_duration">Czas trwania</string>
     <string name="stats_time">Czas</string>
     <string name="stats_label">Etykieta</string>

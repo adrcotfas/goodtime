@@ -40,8 +40,8 @@
     <string name="stats_focus_distribution">Distribución centrada</string>
     <string name="stats_focus_break_ratio">Relación de enfoque/descanso</string>
     <string name="stats_add_session">Agregar sesion</string>
-    <string name="stats_focus">Enfoque</string>
-    <string name="stats_break">Romper</string>
+    <string name="stats_focus">Concentración</string>
+    <string name="stats_break">Descanso</string>
     <string name="stats_duration">Duración</string>
     <string name="stats_time">Tiempo</string>
     <string name="stats_label">Etiqueta</string>

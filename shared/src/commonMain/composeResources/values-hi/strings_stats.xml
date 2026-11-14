@@ -40,8 +40,8 @@
     <string name="stats_focus_distribution">Focus distribution</string>
     <string name="stats_focus_break_ratio">Focus/break ratio</string>
     <string name="stats_add_session">सत्र जोड़ें</string>
-    <string name="stats_focus">Focus</string>
-    <string name="stats_break">Break</string>
+    <string name="stats_focus">फोकस</string>
+    <string name="stats_break">विश्राम</string>
     <string name="stats_duration">Duration</string>
     <string name="stats_time">समय</string>
     <string name="stats_label">Label</string>

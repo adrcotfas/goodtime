@@ -40,7 +40,7 @@
     <string name="stats_focus_distribution">Keskittymisen jakaantuminen</string>
     <string name="stats_focus_break_ratio">Työskentely/tauko-suhde</string>
     <string name="stats_add_session">Lisää istunto</string>
-    <string name="stats_focus">Keskittymistä</string>
+    <string name="stats_focus">Keskittyminen</string>
     <string name="stats_break">Tauko</string>
     <string name="stats_duration">Kesto</string>
     <string name="stats_time">Aika</string>

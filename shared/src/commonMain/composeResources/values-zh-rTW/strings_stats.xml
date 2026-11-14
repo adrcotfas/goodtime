@@ -41,7 +41,7 @@
     <string name="stats_focus_break_ratio">聚焦/斷續比</string>
     <string name="stats_add_session">添加工作</string>
     <string name="stats_focus">專注</string>
-    <string name="stats_break">間斷</string>
+    <string name="stats_break">休息</string>
     <string name="stats_duration">持續時間</string>
     <string name="stats_time">時間</string>
     <string name="stats_label">標籤</string>

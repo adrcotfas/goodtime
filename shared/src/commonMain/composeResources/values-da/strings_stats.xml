@@ -41,7 +41,7 @@
     <string name="stats_focus_break_ratio">Fokus/break ratio</string>
     <string name="stats_add_session">Tilføj session</string>
     <string name="stats_focus">Fokus</string>
-    <string name="stats_break">Bryd</string>
+    <string name="stats_break">Pause</string>
     <string name="stats_duration">Varighed</string>
     <string name="stats_time">Tid</string>
     <string name="stats_label">Etiket</string>

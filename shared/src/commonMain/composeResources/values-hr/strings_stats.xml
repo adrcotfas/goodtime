@@ -40,8 +40,8 @@
     <string name="stats_focus_distribution">Podjela rada</string>
     <string name="stats_focus_break_ratio">Omjer fokusa i pauza</string>
     <string name="stats_add_session">Dodaj sesiju</string>
-    <string name="stats_focus">Fokusiraj</string>
-    <string name="stats_break">Prekid</string>
+    <string name="stats_focus">Fokus</string>
+    <string name="stats_break">Pauza</string>
     <string name="stats_duration">Trajanje</string>
     <string name="stats_time">Vrijeme</string>
     <string name="stats_label">Oznaka</string>

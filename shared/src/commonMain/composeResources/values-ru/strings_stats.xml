@@ -41,7 +41,7 @@
     <string name="stats_focus_break_ratio">Коэффициент фокусировки/перерыва</string>
     <string name="stats_add_session">Добавить сессию</string>
     <string name="stats_focus">Фокус</string>
-    <string name="stats_break">Прерывание</string>
+    <string name="stats_break">Перерыв</string>
     <string name="stats_duration">Продолжительность</string>
     <string name="stats_time">Продолжительность</string>
     <string name="stats_label">Метка</string>

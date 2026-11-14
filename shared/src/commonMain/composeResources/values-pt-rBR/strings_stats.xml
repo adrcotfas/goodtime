@@ -40,8 +40,8 @@
     <string name="stats_focus_distribution">Distribuição de foco</string>
     <string name="stats_focus_break_ratio">Taxa de foco/intervalo</string>
     <string name="stats_add_session">Adicionar sessão</string>
-    <string name="stats_focus">Focar</string>
-    <string name="stats_break">Pausa</string>
+    <string name="stats_focus">Foco</string>
+    <string name="stats_break">Intervalo</string>
     <string name="stats_duration">Duração</string>
     <string name="stats_time">Tempo</string>
     <string name="stats_label">Descrição</string>

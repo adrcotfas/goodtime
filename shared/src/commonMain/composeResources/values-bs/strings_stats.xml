@@ -40,7 +40,7 @@
     <string name="stats_focus_distribution">Distribucija fokusa</string>
     <string name="stats_focus_break_ratio">Omjer fokusa/prekidanja</string>
     <string name="stats_add_session">Dodajte period</string>
-    <string name="stats_focus">Focus</string>
+    <string name="stats_focus">Fokus</string>
     <string name="stats_break">Pauza</string>
     <string name="stats_duration">Trajanje</string>
     <string name="stats_time">Vrijeme</string>

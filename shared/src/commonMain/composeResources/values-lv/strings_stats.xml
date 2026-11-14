@@ -40,8 +40,8 @@
     <string name="stats_focus_distribution">Focus distribution</string>
     <string name="stats_focus_break_ratio">Focus/break ratio</string>
     <string name="stats_add_session">Pievienot sesiju</string>
-    <string name="stats_focus">Focus</string>
-    <string name="stats_break">Break</string>
+    <string name="stats_focus">Fokuss</string>
+    <string name="stats_break">Pārtraukums</string>
     <string name="stats_duration">Duration</string>
     <string name="stats_time">Laiks</string>
     <string name="stats_label">Label</string>

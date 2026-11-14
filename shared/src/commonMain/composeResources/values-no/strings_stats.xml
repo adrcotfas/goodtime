@@ -41,7 +41,7 @@
     <string name="stats_focus_break_ratio">Fokus/brudd-forhold</string>
     <string name="stats_add_session">Legg til økt</string>
     <string name="stats_focus">Fokus</string>
-    <string name="stats_break">Ødelegg</string>
+    <string name="stats_break">Pause</string>
     <string name="stats_duration">Varighet</string>
     <string name="stats_time">Tidspunkt</string>
     <string name="stats_label">Etikett</string>

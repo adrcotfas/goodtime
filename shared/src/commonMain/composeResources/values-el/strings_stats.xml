@@ -41,7 +41,7 @@
     <string name="stats_focus_break_ratio">Λόγος εστίασης/θραύσης</string>
     <string name="stats_add_session">Προσθήκη λειτουργίας</string>
     <string name="stats_focus">Εστίαση</string>
-    <string name="stats_break">Διακοπή</string>
+    <string name="stats_break">Διάλειμμα</string>
     <string name="stats_duration">Διάρκεια</string>
     <string name="stats_time">Χρόνος</string>
     <string name="stats_label">Ετικέτα</string>

@@ -40,8 +40,8 @@
     <string name="stats_focus_distribution">ফোকাস বিতরণ</string>
     <string name="stats_focus_break_ratio">ফোকাস/ব্রেক অনুপাত</string>
     <string name="stats_add_session">সেশন যোগ করুন</string>
-    <string name="stats_focus">ফোকাস করুন</string>
-    <string name="stats_break">ব্রেক</string>
+    <string name="stats_focus">ফোকাস</string>
+    <string name="stats_break">বিরতি</string>
     <string name="stats_duration">সময়কাল</string>
     <string name="stats_time">সময়</string>
     <string name="stats_label">লেবেল</string>
