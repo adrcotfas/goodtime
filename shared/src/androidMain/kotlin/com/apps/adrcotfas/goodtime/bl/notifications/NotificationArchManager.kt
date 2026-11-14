@@ -113,7 +113,7 @@ class NotificationArchManager(
                             isCountDown -> NotificationCompat.Metric.TimeDifference.forTimer(data.runtime.endTime, format)
                             else -> NotificationCompat.Metric.TimeDifference.forStopwatch(data.runtime.startTime + data.runtime.timeSpentPaused, format)
                         }
-                    setStyle(NotificationCompat.MetricStyle().addMetric(NotificationCompat.Metric(metricValue, stateText)))
+                    setStyle(NotificationCompat.MetricStyle().addMetric(NotificationCompat.Metric(metricValue, stateText)).setCriticalMetric(0))
                     setShowWhen(false)
                 } else if (Build.VERSION.SDK_INT < 36) {
                     val shown = if (running) baseTime else data.runtime.timeAtPause
@@ -144,7 +144,6 @@ class NotificationArchManager(
                     } else {
                         setWhen(System.currentTimeMillis() - baseTime)
                     }
-                    setShowWhen(false)
                 }
             }
         if (isCountDown) {
