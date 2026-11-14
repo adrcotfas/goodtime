@@ -23,6 +23,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.SystemClock
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -54,6 +55,7 @@ import goodtime_productivity.shared.generated.resources.settings_productivity_re
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
+import java.time.Duration
 
 class NotificationArchManager(
     private val context: Context,
@@ -98,7 +100,6 @@ class NotificationArchManager(
         val builder =
             NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
                 setSmallIcon(icon)
-                setContentTitle(stateText)
                 if (!isDefaultLabel) {
                     setSubText(labelName)
                 }
@@ -111,10 +112,23 @@ class NotificationArchManager(
                 setSilent(true)
                 setAutoCancel(false)
 
-                // When paused, show the current time as text instead of chronometer
-                if (!running) {
+                if (Build.VERSION.SDK_INT >= 37) {
+                    val format = NotificationCompat.Metric.TimeDifference.FORMAT_CHRONOMETER
+                    val metricValue =
+                        when {
+                            !running && isCountDown -> NotificationCompat.Metric.TimeDifference.forPausedTimer(Duration.ofMillis(data.runtime.timeAtPause), format)
+                            !running -> NotificationCompat.Metric.TimeDifference.forPausedStopwatch(Duration.ofMillis(data.runtime.timeAtPause), format)
+                            isCountDown -> NotificationCompat.Metric.TimeDifference.forTimer(data.runtime.endTime, format)
+                            else -> NotificationCompat.Metric.TimeDifference.forStopwatch(data.runtime.startTime + data.runtime.timeSpentPaused, format)
+                        }
+                    setStyle(NotificationCompat.MetricStyle().addMetric(NotificationCompat.Metric(metricValue, stateText)))
+                    setShowWhen(false)
+                } else if (!running) {
+                    setContentTitle(stateText)
+                    // When paused, show the current time as text instead of chronometer
                     setShortCriticalText(formatMillisToTime(data.runtime.timeAtPause))
                 } else {
+                    setContentTitle(stateText)
                     setUsesChronometer(true)
                     setChronometerCountDown(isCountDown)
                     if (isCountDown) {
