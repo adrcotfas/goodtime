@@ -157,7 +157,8 @@ class NotificationArchManager(
                 }
             }
         if (isCountDown) {
-            if (timerType == TimerType.FOCUS) {
+            // a break of a count-up profile is bounded by the break budget: no pause, no +1 min
+            if (data.getTimerProfile().isCountdown) {
                 if (running) {
                     val pauseAction =
                         createNotificationAction(
@@ -192,15 +193,6 @@ class NotificationArchManager(
                         action = TimerService.Companion.Action.DoReset,
                     )
                 builder.addAction(stopAction)
-                // a break of a count-up profile is bounded by the break budget; +1 min is a no-op there
-                if (data.getTimerProfile().isCountdown) {
-                    val addOneMinuteAction =
-                        createNotificationAction(
-                            title = getString(Res.string.main_plus_1_min),
-                            action = TimerService.Companion.Action.AddOneMinute,
-                        )
-                    builder.addAction(addOneMinuteAction)
-                }
             }
             val nextActionTitle =
                 if (timerType == TimerType.FOCUS) {
