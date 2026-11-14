@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">休憩予算をリセットしますか？</string>
     <string name="main_no_break_budget">休憩はまだ利用できません</string>
     <string name="main_save">保存</string>
-    <string name="main_focus_session_in_progress">セッションにフォーカス中</string>
-    <string name="main_focus_session_paused">フォーカスセッションを一時停止しました</string>
-    <string name="main_break_in_progress">進行中</string>
     <string name="main_pause">一時停止</string>
     <string name="main_resume">再開</string>
     <string name="main_skip">スキップ</string>

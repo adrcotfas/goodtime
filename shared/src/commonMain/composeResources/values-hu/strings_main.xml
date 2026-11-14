@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Visszaállítja a szünetkeretet?</string>
     <string name="main_no_break_budget">A szünet még nem érhető el</string>
     <string name="main_save">Mentés</string>
-    <string name="main_focus_session_in_progress">Focus session in progress</string>
-    <string name="main_focus_session_paused">Focus session paused</string>
-    <string name="main_break_in_progress">Pihenőidő folyamatban</string>
     <string name="main_pause">Szünet</string>
     <string name="main_resume">Folytatás</string>
     <string name="main_skip">Skip</string>

@@ -21,16 +21,15 @@ import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.ui.palette
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.main_break_complete
-import goodtime_productivity.shared.generated.resources.main_break_in_progress
 import goodtime_productivity.shared.generated.resources.main_focus_complete
-import goodtime_productivity.shared.generated.resources.main_focus_session_in_progress
-import goodtime_productivity.shared.generated.resources.main_focus_session_paused
 import goodtime_productivity.shared.generated.resources.main_pause
 import goodtime_productivity.shared.generated.resources.main_plus_1_min
 import goodtime_productivity.shared.generated.resources.main_resume
 import goodtime_productivity.shared.generated.resources.main_start_break
 import goodtime_productivity.shared.generated.resources.main_start_focus
 import goodtime_productivity.shared.generated.resources.main_stop
+import goodtime_productivity.shared.generated.resources.stats_break
+import goodtime_productivity.shared.generated.resources.stats_focus
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
 
@@ -77,9 +76,9 @@ class IosLiveActivityListener(
                             "start_focus" to getString(Res.string.main_start_focus),
                             "start_break" to getString(Res.string.main_start_break),
                             "plus_one_min" to getString(Res.string.main_plus_1_min),
-                            "focus_in_progress" to getString(Res.string.main_focus_session_in_progress),
-                            "focus_paused" to getString(Res.string.main_focus_session_paused),
-                            "break_in_progress" to getString(Res.string.main_break_in_progress),
+                            "focus_in_progress" to getString(Res.string.stats_focus),
+                            "focus_paused" to getString(Res.string.stats_focus),
+                            "break_in_progress" to getString(Res.string.stats_break),
                             "session_complete" to getString(Res.string.main_focus_complete),
                             "break_complete" to getString(Res.string.main_break_complete),
                         )

@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Setel ulang anggaran istirahat?</string>
     <string name="main_no_break_budget">Istirahat belum tersedia</string>
     <string name="main_save">Simpan</string>
-    <string name="main_focus_session_in_progress">Focus session in progress</string>
-    <string name="main_focus_session_paused">Focus session paused</string>
-    <string name="main_break_in_progress">Istirahat sedang berlangsung</string>
     <string name="main_pause">Jeda</string>
     <string name="main_resume">Lanjutkan</string>
     <string name="main_skip">Skip</string>

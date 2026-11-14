@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">รีเซ็ตเวลาพักที่สะสมไว้ไหม?</string>
     <string name="main_no_break_budget">ยังไม่สามารถหยุดพักได้</string>
     <string name="main_save">บันทึก</string>
-    <string name="main_focus_session_in_progress">Focus session in progress</string>
-    <string name="main_focus_session_paused">Focus session paused</string>
-    <string name="main_break_in_progress">กำลังดำเนินการพัก</string>
     <string name="main_pause">หยุดชั่วคราว</string>
     <string name="main_resume">ประวัติย่อ</string>
     <string name="main_skip">Skip</string>

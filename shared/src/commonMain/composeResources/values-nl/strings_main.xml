@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Pauzebudget resetten?</string>
     <string name="main_no_break_budget">Pauze nog niet beschikbaar</string>
     <string name="main_save">Opslaan</string>
-    <string name="main_focus_session_in_progress">Focus sessie in uitvoering</string>
-    <string name="main_focus_session_paused">Focus sessie onderbroken</string>
-    <string name="main_break_in_progress">Pauze aan de gang</string>
     <string name="main_pause">Pauzeren</string>
     <string name="main_resume">Hervatten</string>
     <string name="main_skip">Overslaan</string>

@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">विश्राम बजट रीसेट करें?</string>
     <string name="main_no_break_budget">विश्राम अभी उपलब्ध नहीं है</string>
     <string name="main_save">सहेजें</string>
-    <string name="main_focus_session_in_progress">Focus session in progress</string>
-    <string name="main_focus_session_paused">Focus session paused</string>
-    <string name="main_break_in_progress">विश्राम चालू है</string>
     <string name="main_pause">ठहराएं</string>
     <string name="main_resume">पुनः आरंभ</string>
     <string name="main_skip">Skip</string>

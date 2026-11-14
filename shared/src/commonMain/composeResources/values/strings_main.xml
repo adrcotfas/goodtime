@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Reset break budget?</string>
     <string name="main_no_break_budget">Break not available yet</string>
     <string name="main_save">Save</string>
-    <string name="main_focus_session_in_progress">Focus session in progress</string>
-    <string name="main_focus_session_paused">Focus session paused</string>
-    <string name="main_break_in_progress">Break in progress</string>
     <string name="main_pause">Pause</string>
     <string name="main_resume">Resume</string>
     <string name="main_skip">Skip</string>

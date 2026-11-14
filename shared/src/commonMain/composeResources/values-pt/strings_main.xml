@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Repor o orçamento de pausa?</string>
     <string name="main_no_break_budget">Pausa ainda não disponível</string>
     <string name="main_save">Guardar</string>
-    <string name="main_focus_session_in_progress">Sessão de foco em andamento</string>
-    <string name="main_focus_session_paused">Sessão de foco em pausa</string>
-    <string name="main_break_in_progress">Pausa em progresso</string>
     <string name="main_pause">Pausar</string>
     <string name="main_resume">Retomar</string>
     <string name="main_skip">Ignorar</string>

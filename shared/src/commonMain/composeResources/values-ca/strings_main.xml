@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Voleu restablir el pressupost de descans?</string>
     <string name="main_no_break_budget">El descans encara no està disponible</string>
     <string name="main_save">Guarda</string>
-    <string name="main_focus_session_in_progress">Sessió de treball en curs</string>
-    <string name="main_focus_session_paused">La sessió de focus s'ha aturat</string>
-    <string name="main_break_in_progress">Descans en curs</string>
     <string name="main_pause">Pausa</string>
     <string name="main_resume">Reprendre</string>
     <string name="main_skip">Skip</string>

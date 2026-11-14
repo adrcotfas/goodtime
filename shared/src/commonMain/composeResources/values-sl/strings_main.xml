@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Ponastavim čas za odmor?</string>
     <string name="main_no_break_budget">Odmor še ni na voljo</string>
     <string name="main_save">Shrani</string>
-    <string name="main_focus_session_in_progress">Focus session in progress</string>
-    <string name="main_focus_session_paused">Focus session paused</string>
-    <string name="main_break_in_progress">Odmor v teku</string>
     <string name="main_pause">Premor</string>
     <string name="main_resume">Izvleček</string>
     <string name="main_skip">Skip</string>

@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Nollataanko taukobudjetti?</string>
     <string name="main_no_break_budget">Tauko ei ole vielä käytettävissä</string>
     <string name="main_save">Tallenna</string>
-    <string name="main_focus_session_in_progress">Istunto käynnissä</string>
-    <string name="main_focus_session_paused">Istunto keskeytetty</string>
-    <string name="main_break_in_progress">Tauko käynnissä</string>
     <string name="main_pause">Tauko</string>
     <string name="main_resume">Jatka</string>
     <string name="main_skip">Ohita</string>

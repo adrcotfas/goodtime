@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Atiestatīt pārtraukumu laika rezervi?</string>
     <string name="main_no_break_budget">Pārtraukums vēl nav pieejams</string>
     <string name="main_save">Saglabāt</string>
-    <string name="main_focus_session_in_progress">Focus session in progress</string>
-    <string name="main_focus_session_paused">Focus session paused</string>
-    <string name="main_break_in_progress">Pārtrauktu notiekošo</string>
     <string name="main_pause">Pauze</string>
     <string name="main_resume">Atsākt</string>
     <string name="main_skip">Skip</string>

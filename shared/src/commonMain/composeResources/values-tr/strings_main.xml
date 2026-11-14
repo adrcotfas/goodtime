@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Ara bütçesi sıfırlansın mı?</string>
     <string name="main_no_break_budget">Ara henüz kullanılamıyor</string>
     <string name="main_save">Kaydet</string>
-    <string name="main_focus_session_in_progress">Odak oturumu devam ediyor</string>
-    <string name="main_focus_session_paused">Odak oturumu durduruldu</string>
-    <string name="main_break_in_progress">Ara devam ediyor</string>
     <string name="main_pause">Duraklat</string>
     <string name="main_resume">Devam ettir</string>
     <string name="main_skip">Atla</string>

@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Tilbakestille pausebudsjettet?</string>
     <string name="main_no_break_budget">Pausen er ikke tilgjengelig ennå</string>
     <string name="main_save">Lagre</string>
-    <string name="main_focus_session_in_progress">Fokusøkt pågår</string>
-    <string name="main_focus_session_paused">Fokuset er satt på</string>
-    <string name="main_break_in_progress">Pause pågår</string>
     <string name="main_pause">Paus</string>
     <string name="main_resume">Gjenoppta</string>
     <string name="main_skip">Hopp</string>

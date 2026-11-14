@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Resetezi bugetul de pauză?</string>
     <string name="main_no_break_budget">Pauza nu este încă disponibilă</string>
     <string name="main_save">Salvează</string>
-    <string name="main_focus_session_in_progress">Sesiune de focus în progres</string>
-    <string name="main_focus_session_paused">Sesiune de focus întreruptă</string>
-    <string name="main_break_in_progress">Pauza este în progres</string>
     <string name="main_pause">Pauza</string>
     <string name="main_resume">Continuă</string>
     <string name="main_skip">Omitere</string>

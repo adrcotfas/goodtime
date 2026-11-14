@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Poništiti budžet za pauze?</string>
     <string name="main_no_break_budget">Odmor još nije dostupan</string>
     <string name="main_save">Sačuvaj</string>
-    <string name="main_focus_session_in_progress">Fokus sesija u toku</string>
-    <string name="main_focus_session_paused">Fokus sesija je pauzirana</string>
-    <string name="main_break_in_progress">U toku je odmor</string>
     <string name="main_pause">Pauziraj</string>
     <string name="main_resume">Nastavi</string>
     <string name="main_skip">Preskoči</string>

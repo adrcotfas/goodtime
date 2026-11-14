@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Vynulovat dostupný čas na přestávku?</string>
     <string name="main_no_break_budget">Přestávka zatím není k dispozici</string>
     <string name="main_save">Uložit</string>
-    <string name="main_focus_session_in_progress">Probíhá pracovní blok</string>
-    <string name="main_focus_session_paused">Pracovní blok pozastaven</string>
-    <string name="main_break_in_progress">Probíhá přestávka</string>
     <string name="main_pause">Pozastavit</string>
     <string name="main_resume">Pokračovat</string>
     <string name="main_skip">Přeskočit</string>

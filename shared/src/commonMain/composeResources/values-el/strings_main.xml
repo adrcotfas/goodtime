@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Επαναφορά προϋπολογισμού διαλείμματος;</string>
     <string name="main_no_break_budget">Το διάλειμμα δεν είναι ακόμα διαθέσιμο</string>
     <string name="main_save">Αποθήκευση</string>
-    <string name="main_focus_session_in_progress">Εστίαση συνεδρίας σε εξέλιξη</string>
-    <string name="main_focus_session_paused">Η συνεδρία εστίασης σταμάτησε</string>
-    <string name="main_break_in_progress">Διάλειμμα σε εξέλιξη</string>
     <string name="main_pause">Παύση</string>
     <string name="main_resume">Συνέχεια</string>
     <string name="main_skip">Παράλειψη</string>

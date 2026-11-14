@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">要重設休息預算嗎？</string>
     <string name="main_no_break_budget">休息尚不可用</string>
     <string name="main_save">儲存</string>
-    <string name="main_focus_session_in_progress">正在進行中的工作</string>
-    <string name="main_focus_session_paused">焦點會話已暫停</string>
-    <string name="main_break_in_progress">正在休息</string>
     <string name="main_pause">暫停</string>
     <string name="main_resume">繼續下載</string>
     <string name="main_skip">Skip</string>

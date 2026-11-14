@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">重置休息预算？</string>
     <string name="main_no_break_budget">休息尚不可用</string>
     <string name="main_save">保存</string>
-    <string name="main_focus_session_in_progress">正在专注</string>
-    <string name="main_focus_session_paused">专注暂停</string>
-    <string name="main_break_in_progress">休息中</string>
     <string name="main_pause">暂停</string>
     <string name="main_resume">继续</string>
     <string name="main_skip">跳过</string>

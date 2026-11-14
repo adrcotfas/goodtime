@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Сбросить бюджет перерыва?</string>
     <string name="main_no_break_budget">Перерыв пока недоступен</string>
     <string name="main_save">Сохранить</string>
-    <string name="main_focus_session_in_progress">Выполняется фокус сессии</string>
-    <string name="main_focus_session_paused">Сеанс фокуса приостановлен</string>
-    <string name="main_break_in_progress">Перерыв в прогрессе</string>
     <string name="main_pause">Пауза</string>
     <string name="main_resume">Продолжить</string>
     <string name="main_skip">Пропустить</string>

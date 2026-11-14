@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">לאפס את תקציב ההפסקות?</string>
     <string name="main_no_break_budget">ההפסקה עדיין לא זמינה</string>
     <string name="main_save">שמור</string>
-    <string name="main_focus_session_in_progress">סשן עבודה בפעולה</string>
-    <string name="main_focus_session_paused">הפעלת הפוקוס הושהתה</string>
-    <string name="main_break_in_progress">לפרוץ התקדמות</string>
     <string name="main_pause">השהה</string>
     <string name="main_resume">המשך</string>
     <string name="main_skip">Skip</string>

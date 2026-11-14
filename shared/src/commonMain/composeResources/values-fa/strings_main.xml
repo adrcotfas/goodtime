@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">بودجه استراحت بازنشانی شود؟</string>
     <string name="main_no_break_budget">استراحت هنوز در دسترس نیست</string>
     <string name="main_save">ذخیره</string>
-    <string name="main_focus_session_in_progress">دوره تمرکز در حال انجام است</string>
-    <string name="main_focus_session_paused">دوره تمرکز متوقف شده است</string>
-    <string name="main_break_in_progress">استراحت درحال انجام است</string>
     <string name="main_pause">توقف</string>
     <string name="main_resume">ادامه</string>
     <string name="main_skip">رد کردن</string>

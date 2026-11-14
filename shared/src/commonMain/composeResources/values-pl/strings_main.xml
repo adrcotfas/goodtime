@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Zresetować budżet przerw?</string>
     <string name="main_no_break_budget">Przerwa nie jest jeszcze dostępna</string>
     <string name="main_save">Zapisz</string>
-    <string name="main_focus_session_in_progress">Skoncentrowanie sesji w toku</string>
-    <string name="main_focus_session_paused">Skoncentrowanie sesji wstrzymane</string>
-    <string name="main_break_in_progress">Przerwa w toku</string>
     <string name="main_pause">Pauza</string>
     <string name="main_resume">Wznów</string>
     <string name="main_skip">Pomiń</string>

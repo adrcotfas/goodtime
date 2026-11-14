@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Atstatyti pertraukų laiko rezervą?</string>
     <string name="main_no_break_budget">Pertrauka dar negalima</string>
     <string name="main_save">Sutaupyti</string>
-    <string name="main_focus_session_in_progress">Focus session in progress</string>
-    <string name="main_focus_session_paused">Focus session paused</string>
-    <string name="main_break_in_progress">Pertrauka</string>
     <string name="main_pause">Pauzė</string>
     <string name="main_resume">Tęsti</string>
     <string name="main_skip">Skip</string>

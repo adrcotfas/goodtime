@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">Đặt lại quỹ nghỉ?</string>
     <string name="main_no_break_budget">Chưa thể nghỉ</string>
     <string name="main_save">Lưu</string>
-    <string name="main_focus_session_in_progress">Phiên tập trung đang diễn ra</string>
-    <string name="main_focus_session_paused">Phiên tập trung đã bị tạm dừng</string>
-    <string name="main_break_in_progress">Đang nghỉ</string>
     <string name="main_pause">Dừng</string>
     <string name="main_resume">Tiếp tục</string>
     <string name="main_skip">Bỏ qua</string>

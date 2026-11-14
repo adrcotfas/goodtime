@@ -36,9 +36,6 @@
     <string name="main_reset_break_budget">¿Restablecer el descanso estimado?</string>
     <string name="main_no_break_budget">El descanso todavía no está disponible</string>
     <string name="main_save">Guardar</string>
-    <string name="main_focus_session_in_progress">Sesión de enfoque en progreso</string>
-    <string name="main_focus_session_paused">Sesión de enfoque pausada</string>
-    <string name="main_break_in_progress">Descanso en progreso</string>
     <string name="main_pause">Pausar</string>
     <string name="main_resume">Continuar</string>
     <string name="main_skip">Omitir</string>

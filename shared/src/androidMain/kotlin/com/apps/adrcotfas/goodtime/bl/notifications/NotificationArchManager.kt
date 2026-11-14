@@ -38,11 +38,8 @@ import com.apps.adrcotfas.goodtime.bl.isFocus
 import com.apps.adrcotfas.goodtime.common.formatMillisToTime
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.main_break_complete
-import goodtime_productivity.shared.generated.resources.main_break_in_progress
 import goodtime_productivity.shared.generated.resources.main_continue
 import goodtime_productivity.shared.generated.resources.main_focus_complete
-import goodtime_productivity.shared.generated.resources.main_focus_session_in_progress
-import goodtime_productivity.shared.generated.resources.main_focus_session_paused
 import goodtime_productivity.shared.generated.resources.main_notifications_channel_name
 import goodtime_productivity.shared.generated.resources.main_pause
 import goodtime_productivity.shared.generated.resources.main_plus_1_min
@@ -53,6 +50,8 @@ import goodtime_productivity.shared.generated.resources.main_start_break
 import goodtime_productivity.shared.generated.resources.main_start_focus
 import goodtime_productivity.shared.generated.resources.main_stop
 import goodtime_productivity.shared.generated.resources.settings_productivity_reminder_title
+import goodtime_productivity.shared.generated.resources.stats_break
+import goodtime_productivity.shared.generated.resources.stats_focus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
@@ -87,15 +86,7 @@ class NotificationArchManager(
         val labelName = data.getLabelName()
         val isDefaultLabel = data.label.isDefault()
         val stateText =
-            if (timerType.isFocus) {
-                if (running) {
-                    getString(Res.string.main_focus_session_in_progress)
-                } else {
-                    getString(Res.string.main_focus_session_paused)
-                }
-            } else {
-                getString(Res.string.main_break_in_progress)
-            }
+            getString(if (timerType.isFocus) Res.string.stats_focus else Res.string.stats_break)
 
         val icon = if (timerType.isFocus) R.drawable.ic_status_goodtime else R.drawable.ic_break
         val builder =
