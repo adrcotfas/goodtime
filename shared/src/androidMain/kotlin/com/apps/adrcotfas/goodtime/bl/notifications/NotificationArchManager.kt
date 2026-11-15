@@ -26,12 +26,13 @@ import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.core.graphics.drawable.IconCompat
 import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.DndModeController
 import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.TimerService
+import com.apps.adrcotfas.goodtime.bl.TimerService.Companion.Action
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isFocus
@@ -73,28 +74,12 @@ class NotificationArchManager(
     }
 
     suspend fun buildInProgressNotification(data: DomainTimerData): Notification {
-        val isCountDown = data.isCurrentSessionCountdown()
-        val elapsedRealTime = SystemClock.elapsedRealtime()
-        val baseTime =
-            if (isCountDown) {
-                data.runtime.endTime - elapsedRealTime
-            } else {
-                elapsedRealTime - (data.runtime.startTime + data.runtime.timeSpentPaused)
-            }
-        val running = data.runtime.state != TimerState.PAUSED
-        val timerType = data.runtime.type
-        val labelName = data.getLabelName()
-        val isDefaultLabel = data.label.isDefault()
-        val stateText =
-            getString(if (timerType.isFocus) Res.string.stats_focus else Res.string.stats_break)
-
-        val icon = if (timerType.isFocus) R.drawable.ic_status_goodtime else R.drawable.ic_break
-        val builder =
-            NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
-                setSmallIcon(icon)
-                if (!isDefaultLabel) {
-                    setSubText(labelName)
-                }
+        val isFocus = data.runtime.type.isFocus
+        val stateText = getString(if (isFocus) Res.string.stats_focus else Res.string.stats_break)
+        return NotificationCompat
+            .Builder(context, MAIN_CHANNEL_ID)
+            .apply {
+                setSmallIcon(if (isFocus) R.drawable.ic_status_goodtime else R.drawable.ic_break)
                 setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 setContentIntent(createOpenActivityIntent(activityClass))
@@ -103,130 +88,90 @@ class NotificationArchManager(
                 setOnlyAlertOnce(true)
                 setSilent(true)
                 setAutoCancel(false)
+                when {
+                    Build.VERSION.SDK_INT >= 37 -> setMetricTimer(data, stateText)
+                    Build.VERSION.SDK_INT < 36 -> setCustomViewTimer(data, stateText)
+                    else -> setChronometerTimer(data, stateText)
+                }
+                inProgressActions(data).forEach { addAction(it) }
+            }.build()
+    }
 
-                if (Build.VERSION.SDK_INT >= 37) {
-                    val format = NotificationCompat.Metric.TimeDifference.FORMAT_CHRONOMETER
-                    val metricValue =
-                        when {
-                            !running && isCountDown -> NotificationCompat.Metric.TimeDifference.forPausedTimer(Duration.ofMillis(data.runtime.timeAtPause), format)
-                            !running -> NotificationCompat.Metric.TimeDifference.forPausedStopwatch(Duration.ofMillis(data.runtime.timeAtPause), format)
-                            isCountDown -> NotificationCompat.Metric.TimeDifference.forTimer(data.runtime.endTime, format)
-                            else -> NotificationCompat.Metric.TimeDifference.forStopwatch(data.runtime.startTime + data.runtime.timeSpentPaused, format)
-                        }
-                    setStyle(NotificationCompat.MetricStyle().addMetric(NotificationCompat.Metric(metricValue, stateText)).setCriticalMetric(0))
-                    setContentTitle(if (isDefaultLabel) context.applicationInfo.loadLabel(context.packageManager) else labelName)
-                    setSubText(null)
-                    setShowWhen(false)
-                    if (!running) {
-                        setShortCriticalText(formatMillisToTime(data.runtime.timeAtPause))
-                    }
-                } else if (Build.VERSION.SDK_INT < 36) {
-                    val shown = if (running) baseTime else data.runtime.timeAtPause
-                    val chronometerBase = if (isCountDown) elapsedRealTime + shown else elapsedRealTime - shown
-                    val view =
-                        RemoteViews(context.packageName, R.layout.notification_timer).apply {
-                            setTextViewText(R.id.notification_title, stateText)
-                            setChronometer(R.id.notification_chronometer, chronometerBase, null, running)
-                            setChronometerCountDown(R.id.notification_chronometer, isCountDown)
-                            if (!running) {
-                                setTextViewText(R.id.notification_chronometer, formatMillisToTime(data.runtime.timeAtPause))
-                            }
-                        }
-                    setContentTitle(stateText)
-                    setCustomContentView(view)
-                    setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                    setShowWhen(false)
-                } else if (!running) {
-                    setContentTitle(stateText)
-                    // When paused, show the current time as text instead of chronometer
-                    setShortCriticalText(formatMillisToTime(data.runtime.timeAtPause))
-                } else {
-                    setContentTitle(stateText)
-                    setUsesChronometer(true)
-                    setChronometerCountDown(isCountDown)
-                    if (isCountDown) {
-                        setWhen(System.currentTimeMillis() + baseTime)
-                    } else {
-                        setWhen(System.currentTimeMillis() - baseTime)
-                    }
-                }
+    @RequiresApi(Build.VERSION_CODES.CINNAMON_BUN)
+    private fun NotificationCompat.Builder.setMetricTimer(
+        data: DomainTimerData,
+        stateText: String,
+    ) {
+        val format = NotificationCompat.Metric.TimeDifference.FORMAT_CHRONOMETER
+        val timeAtPause = Duration.ofMillis(data.runtime.timeAtPause)
+        val value =
+            when {
+                !data.isRunning && data.isCurrentSessionCountdown() -> NotificationCompat.Metric.TimeDifference.forPausedTimer(timeAtPause, format)
+                !data.isRunning -> NotificationCompat.Metric.TimeDifference.forPausedStopwatch(timeAtPause, format)
+                data.isCurrentSessionCountdown() -> NotificationCompat.Metric.TimeDifference.forTimer(data.runningChronometerBase, format)
+                else -> NotificationCompat.Metric.TimeDifference.forStopwatch(data.runningChronometerBase, format)
             }
-        if (isCountDown) {
-            // a break of a count-up profile is bounded by the break budget: no pause, no +1 min
-            if (data.getTimerProfile().isCountdown) {
-                if (running) {
-                    val pauseAction =
-                        createNotificationAction(
-                            title = getString(Res.string.main_pause),
-                            action = TimerService.Companion.Action.Toggle,
-                        )
-                    builder.addAction(pauseAction)
-                    val addOneMinuteAction =
-                        createNotificationAction(
-                            title = getString(Res.string.main_plus_1_min),
-                            action = TimerService.Companion.Action.AddOneMinute,
-                        )
-                    builder.addAction(addOneMinuteAction)
-                } else {
-                    val resumeAction =
-                        createNotificationAction(
-                            title = getString(Res.string.main_resume),
-                            action = TimerService.Companion.Action.Toggle,
-                        )
-                    builder.addAction(resumeAction)
-                    val stopAction =
-                        createNotificationAction(
-                            title = getString(Res.string.main_stop),
-                            action = TimerService.Companion.Action.DoReset,
-                        )
-                    builder.addAction(stopAction)
-                }
-            } else {
-                val stopAction =
-                    createNotificationAction(
-                        title = getString(Res.string.main_stop),
-                        action = TimerService.Companion.Action.DoReset,
-                    )
-                builder.addAction(stopAction)
-            }
-            val nextActionTitle =
-                if (timerType == TimerType.FOCUS) {
-                    getString(Res.string.main_start_break)
-                } else {
-                    getString(Res.string.main_start_focus)
-                }
-            val nextAction =
-                createNotificationAction(
-                    title = nextActionTitle,
-                    action = TimerService.Companion.Action.Skip,
-                )
-            if (data.label.profile.isBreakEnabled) {
-                builder.addAction(nextAction)
-            }
-        } else {
-            val toggleAction =
-                createNotificationAction(
-                    title = getString(if (running) Res.string.main_pause else Res.string.main_resume),
-                    action = TimerService.Companion.Action.Toggle,
-                )
-            builder.addAction(toggleAction)
-            val stopAction =
-                createNotificationAction(
-                    title = getString(Res.string.main_stop),
-                    action = TimerService.Companion.Action.DoReset,
-                )
-            builder.addAction(stopAction)
-            // count-up is always a focus session; Skip no-ops in TimerManager while the break budget is under one minute
-            if (data.label.profile.isBreakEnabled) {
-                val startBreakAction =
-                    createNotificationAction(
-                        title = getString(Res.string.main_start_break),
-                        action = TimerService.Companion.Action.Skip,
-                    )
-                builder.addAction(startBreakAction)
-            }
+        setStyle(NotificationCompat.MetricStyle().addMetric(NotificationCompat.Metric(value, stateText)).setCriticalMetric(0))
+        setContentTitle(if (data.label.isDefault()) context.applicationInfo.loadLabel(context.packageManager) else data.getLabelName())
+        setShowWhen(false)
+        if (!data.isRunning) {
+            setShortCriticalText(formatMillisToTime(data.runtime.timeAtPause))
         }
-        return builder.build()
+    }
+
+    private fun NotificationCompat.Builder.setCustomViewTimer(
+        data: DomainTimerData,
+        stateText: String,
+    ) {
+        val view =
+            RemoteViews(context.packageName, R.layout.notification_timer).apply {
+                setTextViewText(R.id.notification_title, stateText)
+                setChronometer(R.id.notification_chronometer, data.chronometerBase(), null, data.isRunning)
+                setChronometerCountDown(R.id.notification_chronometer, data.isCurrentSessionCountdown())
+                if (!data.isRunning) {
+                    setTextViewText(R.id.notification_chronometer, formatMillisToTime(data.runtime.timeAtPause))
+                }
+            }
+        setContentTitle(stateText)
+        setSubText(data.labelSubText())
+        setCustomContentView(view)
+        setStyle(NotificationCompat.DecoratedCustomViewStyle())
+        setShowWhen(false)
+    }
+
+    private fun NotificationCompat.Builder.setChronometerTimer(
+        data: DomainTimerData,
+        stateText: String,
+    ) {
+        setContentTitle(stateText)
+        setSubText(data.labelSubText())
+        if (data.isRunning) {
+            setUsesChronometer(true)
+            setChronometerCountDown(data.isCurrentSessionCountdown())
+            setWhen(System.currentTimeMillis() + data.runningChronometerBase - SystemClock.elapsedRealtime())
+        } else {
+            setShortCriticalText(formatMillisToTime(data.runtime.timeAtPause))
+        }
+    }
+
+    private suspend fun inProgressActions(data: DomainTimerData): List<NotificationCompat.Action> {
+        val toggle = (if (data.isRunning) Res.string.main_pause else Res.string.main_resume) to Action.Toggle
+        val stop = Res.string.main_stop to Action.DoReset
+        val buttons =
+            when {
+                // count-up is always a focus session; Skip no-ops in TimerManager while the break budget is under one minute
+                !data.isCurrentSessionCountdown() -> listOf(toggle, stop)
+
+                // a break of a count-up profile is bounded by the break budget: no pause, no +1 min
+                !data.getTimerProfile().isCountdown -> listOf(stop)
+
+                data.isRunning -> listOf(toggle, Res.string.main_plus_1_min to Action.AddOneMinute)
+
+                else -> listOf(toggle, stop)
+            }
+        val next = (if (data.runtime.type.isFocus) Res.string.main_start_break else Res.string.main_start_focus) to Action.Skip
+        val all = if (data.label.profile.isBreakEnabled) buttons + next else buttons
+        return all.map { (title, action) -> createNotificationAction(getString(title), action) }
     }
 
     suspend fun notifyFinished(
@@ -234,21 +179,13 @@ class NotificationArchManager(
         data: DomainTimerData,
         withActions: Boolean,
     ) {
-        val labelName = data.getLabelName()
-
-        val stateText =
-            if (finishedType == TimerType.FOCUS) {
-                getString(Res.string.main_focus_complete)
-            } else {
-                getString(Res.string.main_break_complete)
-            }
-
+        val isFocus = finishedType.isFocus
         val builder =
             NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
                 setSmallIcon(R.drawable.ic_status_goodtime)
                 setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 if (!data.isDefaultLabel()) {
-                    setSubText(labelName)
+                    setSubText(data.getLabelName())
                 }
                 setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 setContentIntent(createOpenActivityIntent(activityClass))
@@ -256,21 +193,16 @@ class NotificationArchManager(
                 setSilent(true)
                 setShowWhen(false)
                 setAutoCancel(true)
-                setContentTitle(stateText)
+                setContentTitle(getString(if (isFocus) Res.string.main_focus_complete else Res.string.main_break_complete))
             }
         val extender = NotificationCompat.WearableExtender()
         if (withActions) {
             builder.setContentText(getString(Res.string.main_continue))
-            val nextActionTitle =
-                if (finishedType == TimerType.FOCUS && data.label.profile.isBreakEnabled) {
-                    getString(Res.string.main_start_break)
-                } else {
-                    getString(Res.string.main_start_focus)
-                }
+            val startBreak = isFocus && data.label.profile.isBreakEnabled
             val nextAction =
                 createNotificationAction(
-                    title = nextActionTitle,
-                    action = TimerService.Companion.Action.Next,
+                    title = getString(if (startBreak) Res.string.main_start_break else Res.string.main_start_focus),
+                    action = Action.Next,
                 )
             extender.addAction(nextAction)
             builder.addAction(nextAction)
@@ -340,12 +272,11 @@ class NotificationArchManager(
     }
 
     private fun createNotificationAction(
-        icon: IconCompat? = null,
         title: String,
-        action: TimerService.Companion.Action,
+        action: Action,
     ): NotificationCompat.Action = NotificationCompat.Action
         .Builder(
-            icon,
+            null,
             title,
             PendingIntent.getService(
                 context,
@@ -369,6 +300,19 @@ class NotificationArchManager(
     }
 
     fun isNotificationPolicyAccessGranted(): Boolean = notificationManager.isNotificationPolicyAccessGranted
+
+    private val DomainTimerData.isRunning get() = runtime.state != TimerState.PAUSED
+
+    private val DomainTimerData.runningChronometerBase
+        get() = if (isCurrentSessionCountdown()) runtime.endTime else runtime.startTime + runtime.timeSpentPaused
+
+    private fun DomainTimerData.chronometerBase(): Long {
+        if (isRunning) return runningChronometerBase
+        val now = SystemClock.elapsedRealtime()
+        return if (isCurrentSessionCountdown()) now + runtime.timeAtPause else now - runtime.timeAtPause
+    }
+
+    private fun DomainTimerData.labelSubText() = if (label.isDefault()) null else getLabelName()
 
     companion object {
         const val MAIN_CHANNEL_ID = "goodtime.notification"
