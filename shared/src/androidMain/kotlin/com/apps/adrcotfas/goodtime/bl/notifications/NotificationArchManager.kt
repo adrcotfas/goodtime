@@ -114,6 +114,8 @@ class NotificationArchManager(
                             else -> NotificationCompat.Metric.TimeDifference.forStopwatch(data.runtime.startTime + data.runtime.timeSpentPaused, format)
                         }
                     setStyle(NotificationCompat.MetricStyle().addMetric(NotificationCompat.Metric(metricValue, stateText)).setCriticalMetric(0))
+                    setContentTitle(if (isDefaultLabel) context.applicationInfo.loadLabel(context.packageManager) else labelName)
+                    setSubText(null)
                     setShowWhen(false)
                 } else if (Build.VERSION.SDK_INT < 36) {
                     val shown = if (running) baseTime else data.runtime.timeAtPause
