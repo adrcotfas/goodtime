@@ -117,6 +117,9 @@ class NotificationArchManager(
                     setContentTitle(if (isDefaultLabel) context.applicationInfo.loadLabel(context.packageManager) else labelName)
                     setSubText(null)
                     setShowWhen(false)
+                    if (!running) {
+                        setShortCriticalText(formatMillisToTime(data.runtime.timeAtPause))
+                    }
                 } else if (Build.VERSION.SDK_INT < 36) {
                     val shown = if (running) baseTime else data.runtime.timeAtPause
                     val chronometerBase = if (isCountDown) elapsedRealTime + shown else elapsedRealTime - shown
