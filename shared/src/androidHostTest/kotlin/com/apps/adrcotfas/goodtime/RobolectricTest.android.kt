@@ -23,7 +23,7 @@ import org.robolectric.annotation.Config
 import kotlin.test.Ignore
 
 @RunWith(RobolectricTestRunner::class)
-// ponytail: Robolectric 4.16 supports max SDK 36; drop the pin once it catches up with 37
+// TODO: Robolectric 4.16 supports max SDK 36; drop the pin once it catches up with 37
 @Config(sdk = [36])
 @Ignore("This is used as an interface")
 actual open class RobolectricTest actual constructor()
