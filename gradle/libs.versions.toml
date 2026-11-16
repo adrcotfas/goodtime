@@ -59,7 +59,7 @@ work = "2.12.0"
 google-play-auth = "22.0.0"
 google-play-auth-credentials = "1.6.0"
 google-api-client = "2.9.2"
-google-drive = "v3-rev20260720-2.0.0"
+google-drive = "v3-rev20261106-2.9.2"
 google-id = "1.2.1"
 
 [libraries]
