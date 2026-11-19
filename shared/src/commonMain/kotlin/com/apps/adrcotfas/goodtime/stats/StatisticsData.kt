@@ -109,70 +109,57 @@ fun computeStatisticsData(
 
     val oneYearAgoMillis = oneYearAgoLocalDate.toEpochMilliseconds()
 
-    sessions
-        .asSequence()
-        .map {
-            val timestamp = it.timestamp
-            PreProcessingSession(
-                label = it.label,
-                timestamp = timestamp,
-                dateTime = toLocalDateTime(timestamp),
-                adjustedDateTime = toLocalDateTime(timestamp - secondOfDay.seconds.inWholeMilliseconds),
-                duration = it.duration,
-                isWork = it.isWork,
-            )
-        }.forEach { session ->
-            val date = session.adjustedDateTime.date
+    sessions.forEach { session ->
+        if (session.isWork) {
+            if (session.timestamp >= oneYearAgoMillis) {
+                val date = toLocalDateTime(session.timestamp - secondOfDay.seconds.inWholeMilliseconds).date
+                heatmapData[date] = (heatmapData[date] ?: 0f) + session.duration
+                maxHeatMapValue = maxOf(maxHeatMapValue, heatmapData[date] ?: 0f)
 
-            if (session.isWork) {
-                if (session.timestamp >= oneYearAgoMillis) {
-                    heatmapData[date] = (heatmapData[date] ?: 0f) + session.duration
-                    maxHeatMapValue = maxOf(maxHeatMapValue, heatmapData[date] ?: 0f)
+                val weight = calculateSessionWeight(session.timestamp, today)
 
-                    val weight = calculateSessionWeight(session.timestamp, today)
-
-                    val currentSplitByHour = splitSessionByHour(session.dateTime, session.duration)
-                    currentSplitByHour.forEach { (hour, value) ->
-                        productiveHoursOfTheDay[hour] =
-                            (productiveHoursOfTheDay[hour] ?: 0f) + value * weight
-                    }
+                val currentSplitByHour = splitSessionByHour(toLocalDateTime(session.timestamp), session.duration)
+                currentSplitByHour.forEach { (hour, value) ->
+                    productiveHoursOfTheDay[hour] =
+                        (productiveHoursOfTheDay[hour] ?: 0f) + value * weight
                 }
-
-                if (session.timestamp >= today) {
-                    workToday += session.duration
-                    workTodayPerLabel[session.label] =
-                        (workTodayPerLabel[session.label] ?: 0L) + session.duration
-                    workSessionsToday++
-                }
-                if (session.timestamp >= startOfThisWeek) {
-                    workThisWeek += session.duration
-                    workThisWeekPerLabel[session.label] =
-                        (workThisWeekPerLabel[session.label] ?: 0L) + session.duration
-                    workSessionsThisWeek++
-                }
-                if (session.timestamp >= startOfThisMonth) {
-                    workThisMonth += session.duration
-                    workThisMonthPerLabel[session.label] =
-                        (workThisMonthPerLabel[session.label] ?: 0L) + session.duration
-                    workSessionsThisMonth++
-                }
-                workTotal += session.duration
-                workTotalPerLabel[session.label] =
-                    (workTotalPerLabel[session.label] ?: 0L) + session.duration
-                workSessionsTotal++
-            } else {
-                if (session.timestamp >= today) {
-                    breakToday += session.duration
-                }
-                if (session.timestamp >= startOfThisWeek) {
-                    breakThisWeek += session.duration
-                }
-                if (session.timestamp >= startOfThisMonth) {
-                    breakThisMonth += session.duration
-                }
-                breakTotal += session.duration
             }
+
+            if (session.timestamp >= today) {
+                workToday += session.duration
+                workTodayPerLabel[session.label] =
+                    (workTodayPerLabel[session.label] ?: 0L) + session.duration
+                workSessionsToday++
+            }
+            if (session.timestamp >= startOfThisWeek) {
+                workThisWeek += session.duration
+                workThisWeekPerLabel[session.label] =
+                    (workThisWeekPerLabel[session.label] ?: 0L) + session.duration
+                workSessionsThisWeek++
+            }
+            if (session.timestamp >= startOfThisMonth) {
+                workThisMonth += session.duration
+                workThisMonthPerLabel[session.label] =
+                    (workThisMonthPerLabel[session.label] ?: 0L) + session.duration
+                workSessionsThisMonth++
+            }
+            workTotal += session.duration
+            workTotalPerLabel[session.label] =
+                (workTotalPerLabel[session.label] ?: 0L) + session.duration
+            workSessionsTotal++
+        } else {
+            if (session.timestamp >= today) {
+                breakToday += session.duration
+            }
+            if (session.timestamp >= startOfThisWeek) {
+                breakThisWeek += session.duration
+            }
+            if (session.timestamp >= startOfThisMonth) {
+                breakThisMonth += session.duration
+            }
+            breakTotal += session.duration
         }
+    }
 
     // normalize the values for the heatmap
     heatmapData.forEach {

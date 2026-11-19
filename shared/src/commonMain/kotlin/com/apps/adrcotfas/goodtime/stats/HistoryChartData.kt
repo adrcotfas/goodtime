@@ -138,43 +138,30 @@ fun computeHistoryChartData(
         tmpDate = tmpDate.plus(iterationData.step)
     }
 
-    sessions
-        .asSequence()
-        .map {
-            val timestamp = it.timestamp
-            PreProcessingSession(
-                label = it.label,
-                timestamp = timestamp,
-                dateTime = toLocalDateTime(timestamp),
-                adjustedDateTime = toLocalDateTime(timestamp - workDayStart.seconds.inWholeMilliseconds),
-                duration = it.duration,
-                isWork = it.isWork,
-            )
-        }.forEach { session ->
-            val date = session.adjustedDateTime.date
+    sessions.forEach { session ->
+        if (session.isWork) {
+            val date = toLocalDateTime(session.timestamp - workDayStart.seconds.inWholeMilliseconds).date
             val label = if (aggregate) Label.DEFAULT_LABEL_NAME else session.label
-
-            if (session.isWork) {
-                val dateToConsider =
-                    when (type) {
-                        HistoryIntervalType.DAYS -> date
-                        HistoryIntervalType.WEEKS -> date.firstDayOfWeekInThisWeek(firstDayOfWeek)
-                        HistoryIntervalType.MONTHS -> LocalDate(date.year, date.month, 1)
-                        HistoryIntervalType.QUARTERS -> date.firstDayOfThisQuarter()
-                        HistoryIntervalType.YEARS -> LocalDate(date.year, 1, 1)
-                    }
-
-                if (dateToConsider in intermediateData.keys) {
-                    val innerMap =
-                        intermediateData
-                            .getOrElse(dateToConsider) { mutableMapOf(label to 0L) }
-                            .toMutableMap()
-                    innerMap[label] =
-                        innerMap.getOrElse(label) { 0L } + if (overviewType == OverviewType.TIME) session.duration else 1
-                    intermediateData[dateToConsider] = innerMap
+            val dateToConsider =
+                when (type) {
+                    HistoryIntervalType.DAYS -> date
+                    HistoryIntervalType.WEEKS -> date.firstDayOfWeekInThisWeek(firstDayOfWeek)
+                    HistoryIntervalType.MONTHS -> LocalDate(date.year, date.month, 1)
+                    HistoryIntervalType.QUARTERS -> date.firstDayOfThisQuarter()
+                    HistoryIntervalType.YEARS -> LocalDate(date.year, 1, 1)
                 }
+
+            if (dateToConsider in intermediateData.keys) {
+                val innerMap =
+                    intermediateData
+                        .getOrElse(dateToConsider) { mutableMapOf(label to 0L) }
+                        .toMutableMap()
+                innerMap[label] =
+                    innerMap.getOrElse(label) { 0L } + if (overviewType == OverviewType.TIME) session.duration else 1
+                intermediateData[dateToConsider] = innerMap
             }
         }
+    }
     // Aggregate data if needed
     intermediateData.forEach {
         val aggregatedData = aggregateDataIfNeeded(it.value)
