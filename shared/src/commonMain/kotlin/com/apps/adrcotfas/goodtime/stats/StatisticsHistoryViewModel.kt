@@ -71,30 +71,6 @@ class StatisticsHistoryViewModel(
     private fun loadData() {
         viewModelScope.launch {
             settingsRepository
-                .select { it.statisticsSettings.showArchived }
-                .flatMapLatest { showArchived ->
-                    if (showArchived) {
-                        localDataRepo.selectAllLabels()
-                    } else {
-                        localDataRepo.selectLabelsByArchived(isArchived = false)
-                    }
-                }.collect { labels ->
-                    _uiState.update {
-                        it.copy(
-                            selectedLabels =
-                            labels.map { label ->
-                                LabelData(
-                                    name = label.name,
-                                    colorIndex = label.colorIndex,
-                                )
-                            },
-                        )
-                    }
-                }
-        }
-
-        viewModelScope.launch {
-            settingsRepository
                 .select {
                     HistoryScreenSettings(
                         chartSettings = it.historyChartSettings,

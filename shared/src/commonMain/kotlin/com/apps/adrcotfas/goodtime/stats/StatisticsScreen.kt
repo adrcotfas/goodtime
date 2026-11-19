@@ -38,6 +38,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -108,6 +109,10 @@ fun StatisticsScreen(
     var showEditLabelConfirmationDialog by rememberSaveable { mutableStateOf(false) }
 
     val isLoading = uiState.isLoading || isLoadingHistoryChartData
+
+    LaunchedEffect(uiState.labels, uiState.selectedLabels) {
+        historyViewModel.setSelectedLabels(uiState.labels.filter { it.name in uiState.selectedLabels })
+    }
 
     BackHandler(enabled = uiState.showSelectionUi) {
         if (uiState.showSelectionUi) {
@@ -371,13 +376,6 @@ fun StatisticsScreen(
                         onDismiss = { showSelectVisibleLabelsDialog = false },
                         onConfirm = {
                             viewModel.setSelectedLabels(it)
-
-                            val labelData =
-                                uiState.labels.filter { label ->
-                                    it.contains(label.name)
-                                }
-
-                            historyViewModel.setSelectedLabels(labelData)
                             showSelectVisibleLabelsDialog = false
                         },
                         isLineChart = historyUiState.isLineChart,
