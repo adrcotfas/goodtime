@@ -128,13 +128,13 @@ fun computeHistoryChartData(
         }
 
     // timestamp to (label to duration)
-    val intermediateData = mutableMapOf<LocalDate, Map<String, Long>>()
+    val intermediateData = mutableMapOf<LocalDate, MutableMap<String, Long>>()
 
     // Initialize the data with zeros to default label
     var tmpDate = iterationData.intervalStart
     repeat(iterationData.intervalLength + 1) {
         intermediateData[tmpDate] =
-            (if (aggregate) listOf(Label.DEFAULT_LABEL_NAME) else labels).associateWith { 0L }
+            (if (aggregate) listOf(Label.DEFAULT_LABEL_NAME) else labels).associateWith { 0L }.toMutableMap()
         tmpDate = tmpDate.plus(iterationData.step)
     }
 
@@ -151,29 +151,19 @@ fun computeHistoryChartData(
                     HistoryIntervalType.YEARS -> LocalDate(date.year, 1, 1)
                 }
 
-            if (dateToConsider in intermediateData.keys) {
-                val innerMap =
-                    intermediateData
-                        .getOrElse(dateToConsider) { mutableMapOf(label to 0L) }
-                        .toMutableMap()
-                innerMap[label] =
-                    innerMap.getOrElse(label) { 0L } + if (overviewType == OverviewType.TIME) session.duration else 1
-                intermediateData[dateToConsider] = innerMap
+            intermediateData[dateToConsider]?.let {
+                it[label] = (it[label] ?: 0L) + if (overviewType == OverviewType.TIME) session.duration else 1
             }
         }
     }
-    // Aggregate data if needed
-    intermediateData.forEach {
-        val aggregatedData = aggregateDataIfNeeded(it.value)
-        intermediateData[it.key] = aggregatedData
-    }
+    val aggregatedData = intermediateData.mapValues { aggregateDataIfNeeded(it.value) }
 
     // prepare data structures ready for the chart
     val x = mutableListOf<Long>()
     val y = mutableMapOf<String, List<Long>>()
 
     val emptyList = List(iterationData.intervalLength + 1) { 0L }
-    intermediateData.asIterable().forEachIndexed { index, entry ->
+    aggregatedData.asIterable().forEachIndexed { index, entry ->
         x.add(entry.key.toEpochMilliseconds())
 
         entry.value.forEach { (label, duration) ->
