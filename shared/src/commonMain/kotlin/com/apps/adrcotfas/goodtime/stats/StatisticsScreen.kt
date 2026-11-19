@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.isDefault
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.ui.ConfirmationDialog
@@ -252,7 +253,9 @@ fun StatisticsScreen(
                     ) {
                         AddEditSessionContent(
                             session = uiState.newSession,
-                            labelData = uiState.labels.first { it.name == uiState.newSession.label },
+                            labelData =
+                            uiState.labels.firstOrNull { it.name == uiState.newSession.label }
+                                ?: LabelData(uiState.newSession.label, Label.DEFAULT_LABEL_COLOR_INDEX),
                             onUpdate = {
                                 viewModel.updateSessionToEdit(it)
                             },
