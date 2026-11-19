@@ -109,7 +109,16 @@ internal class LocalDataRepositoryImpl(
         }
     }
 
-    override suspend fun insertSession(session: Session): Long = sessionDao.insert(session.toLocal())
+    override suspend fun insertSession(session: Session): Long {
+        val label = labelDao.selectByName(session.label).first()
+        val toInsert =
+            if (label == null) {
+                session.copy(label = Label.DEFAULT_LABEL_NAME, isArchived = false)
+            } else {
+                session.copy(isArchived = label.isArchived)
+            }
+        return sessionDao.insert(toInsert.toLocal())
+    }
 
     override suspend fun updateSession(
         id: Long,
