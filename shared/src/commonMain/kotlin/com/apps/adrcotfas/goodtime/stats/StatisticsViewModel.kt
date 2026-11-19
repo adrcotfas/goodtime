@@ -29,6 +29,7 @@ import com.apps.adrcotfas.goodtime.common.TimeFormatProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.model.SessionSelection
 import com.apps.adrcotfas.goodtime.data.model.getLabelData
 import com.apps.adrcotfas.goodtime.data.model.toExternal
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
@@ -59,10 +60,7 @@ data class StatisticsUiState(
     val unarchivedLabelNames: Set<String> = emptySet(),
     val selectedLabels: List<String> = emptyList(),
     // Selection UI related fields
-    val selectedSessions: List<Long> = emptyList(),
-    val unselectedSessions: List<Long> = emptyList(), // for the case with select all active
-    val selectedSessionsCountWhenAllSelected: Int = 0,
-    val isSelectAllEnabled: Boolean = false,
+    val selection: SessionSelection = SessionSelection.Only(),
     val selectedLabelToBulkEdit: String? = null,
     // Add/Edit session related fields
     val sessionToEdit: Session? = null, // this does not change after initialization
@@ -77,15 +75,7 @@ data class StatisticsUiState(
     val is24HourFormat: Boolean = true,
 ) {
     val showSelectionUi: Boolean
-        get() = selectedSessions.isNotEmpty() || isSelectAllEnabled
-
-    val selectionCount: Int
-        get() =
-            if (isSelectAllEnabled) {
-                selectedSessionsCountWhenAllSelected - unselectedSessions.size
-            } else {
-                selectedSessions.size
-            }
+        get() = !selection.isEmpty
 }
 
 class StatisticsViewModel(
@@ -181,63 +171,31 @@ class StatisticsViewModel(
         _uiState.update { it.copy(selectedLabels = selectedLabels) }
     }
 
-    fun toggleSessionIsSelected(index: Long) {
-        _uiState.update {
-            if (it.isSelectAllEnabled) {
-                val unselectedSessions = it.unselectedSessions.toMutableList()
-                if (unselectedSessions.contains(index)) {
-                    unselectedSessions.remove(index)
-                } else {
-                    unselectedSessions.add(index)
-                }
-                it.copy(
-                    unselectedSessions = unselectedSessions,
-                    isSelectAllEnabled = unselectedSessions.size != it.selectedSessionsCountWhenAllSelected,
-                )
-            } else {
-                val selectedSessions = it.selectedSessions.toMutableList()
-                if (selectedSessions.contains(index)) {
-                    selectedSessions.remove(index)
-                } else {
-                    selectedSessions.add(index)
-                }
-                it.copy(selectedSessions = selectedSessions)
-            }
-        }
+    fun toggleSessionIsSelected(id: Long) {
+        _uiState.update { it.copy(selection = it.selection.toggle(id)) }
     }
 
     fun clearShowSelectionUi() {
-        _uiState.update {
-            it.copy(
-                isSelectAllEnabled = false,
-                selectedSessions = emptyList(),
-                unselectedSessions = emptyList(),
-                selectedSessionsCountWhenAllSelected = 0,
-            )
-        }
+        _uiState.update { it.copy(selection = SessionSelection.Only()) }
     }
 
     fun selectAllSessions(allSessionsCount: Int) {
         _uiState.update {
             it.copy(
-                isSelectAllEnabled = true,
-                selectedSessionsCountWhenAllSelected = allSessionsCount,
-                selectedSessions = emptyList(),
-                unselectedSessions = emptyList(),
+                selection =
+                SessionSelection.AllExcept(
+                    total = allSessionsCount,
+                    labels = it.selectedLabels,
+                    showBreaks = it.statisticsSettings.showBreaks,
+                ),
             )
         }
     }
 
     fun deleteSelectedSessions() {
+        val selection = uiState.value.selection
         viewModelScope.launch {
-            if (uiState.value.isSelectAllEnabled) {
-                localDataRepo.deleteSessionsExcept(
-                    uiState.value.unselectedSessions,
-                    uiState.value.selectedLabels,
-                )
-            } else {
-                localDataRepo.deleteSessions(uiState.value.selectedSessions)
-            }
+            localDataRepo.deleteSessions(selection)
         }
     }
 
@@ -290,19 +248,10 @@ class StatisticsViewModel(
     }
 
     fun bulkEditLabel() {
+        val label = uiState.value.selectedLabelToBulkEdit ?: return
+        val selection = uiState.value.selection
         viewModelScope.launch {
-            val label = uiState.value.selectedLabelToBulkEdit
-            label?.let {
-                if (uiState.value.isSelectAllEnabled) {
-                    localDataRepo.updateSessionsLabelByIdsExcept(
-                        label,
-                        uiState.value.unselectedSessions,
-                        uiState.value.selectedLabels,
-                    )
-                } else {
-                    localDataRepo.updateSessionsLabelByIds(label, uiState.value.selectedSessions)
-                }
-            }
+            localDataRepo.updateSessionsLabel(label, selection)
         }
     }
 

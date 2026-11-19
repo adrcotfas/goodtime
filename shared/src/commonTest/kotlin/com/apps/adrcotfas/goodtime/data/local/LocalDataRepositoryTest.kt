@@ -19,6 +19,9 @@ package com.apps.adrcotfas.goodtime.data.local
 
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.model.SessionSelection
+import com.apps.adrcotfas.goodtime.data.model.SessionSelection.AllExcept
+import com.apps.adrcotfas.goodtime.data.model.SessionSelection.Only
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WORK_DURATION
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
@@ -188,14 +191,14 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
             assertFalse(isArchived, "Session should follow the archived state of its new label")
         }
 
-        repo.updateSessionsLabelByIds(archivedLabelName, listOf(sessionId))
+        repo.updateSessionsLabel(archivedLabelName, Only(setOf(sessionId)))
         assertTrue(repo.selectSessionById(sessionId).first().isArchived, "Bulk edit to an archived label failed")
 
-        repo.updateSessionsLabelByIds(LABEL_NAME, listOf(sessionId))
+        repo.updateSessionsLabel(LABEL_NAME, Only(setOf(sessionId)))
         assertFalse(repo.selectSessionById(sessionId).first().isArchived, "Bulk edit to an active label failed")
 
-        repo.updateSessionsLabelByIds(archivedLabelName, listOf(sessionId))
-        repo.updateSessionsLabelByIdsExcept(LABEL_NAME, emptyList(), listOf(archivedLabelName))
+        repo.updateSessionsLabel(archivedLabelName, Only(setOf(sessionId)))
+        repo.updateSessionsLabel(LABEL_NAME, allExcept(emptyList(), listOf(archivedLabelName)))
         repo.selectSessionById(sessionId).first().run {
             assertEquals(LABEL_NAME, label, "Select-all edit should include archived sessions")
             assertFalse(isArchived, "Select-all edit to an active label failed")
@@ -244,7 +247,7 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
                 .first()
                 .first()
                 .id
-        repo.deleteSessions(listOf(sessionId))
+        repo.deleteSessions(Only(setOf(sessionId)))
         assertEquals(0, repo.selectAllSessions().first().size, "deleteSession failed")
 
         repo.deleteAllLabels()
@@ -271,10 +274,9 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
         }
 
         val allSessions = repo.selectAllSessions().first()
-        repo.updateSessionsLabelByIdsExcept(
+        repo.updateSessionsLabel(
             newLabel = "label1",
-            unselectedIds = emptyList(),
-            selectedLabels = emptyList(),
+            selection = allExcept(emptyList(), emptyList()),
         )
         assertEquals(allSessions, repo.selectAllSessions().first())
 
@@ -295,17 +297,15 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
                     it.label == "label1"
                 }.map { it.id }
 
-        repo.updateSessionsLabelByIdsExcept(
+        repo.updateSessionsLabel(
             newLabel = "label1",
-            unselectedIds = label1SessionsIds,
-            selectedLabels = listOf("label1"),
+            selection = allExcept(label1SessionsIds, listOf("label1")),
         )
         assertEquals(allSessions, repo.selectAllSessions().first())
 
-        repo.updateSessionsLabelByIdsExcept(
+        repo.updateSessionsLabel(
             newLabel = "label1",
-            unselectedIds = emptyList(),
-            selectedLabels = listOf("label0"),
+            selection = allExcept(emptyList(), listOf("label0")),
         )
         assertEquals(
             0,
@@ -324,10 +324,9 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
                 .size,
         )
 
-        repo.updateSessionsLabelByIdsExcept(
+        repo.updateSessionsLabel(
             newLabel = "label2",
-            unselectedIds = emptyList(),
-            selectedLabels = listOf("label0", "label1", "label2"),
+            selection = allExcept(emptyList(), listOf("label0", "label1", "label2")),
         )
 
         assertEquals(
@@ -351,10 +350,7 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
 
         val allSessions = repo.selectAllSessions().first()
 
-        repo.deleteSessionsExcept(
-            unselectedIds = emptyList(),
-            selectedLabels = emptyList(),
-        )
+        repo.deleteSessions(allExcept(emptyList(), emptyList()))
 
         assertEquals(allSessions.size, repo.selectAllSessions().first().size)
 
@@ -370,10 +366,7 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
                     it.label == "label1"
                 }.map { it.id }
 
-        repo.deleteSessionsExcept(
-            unselectedIds = label1SessionsIds,
-            selectedLabels = listOf("label1"),
-        )
+        repo.deleteSessions(allExcept(label1SessionsIds, listOf("label1")))
         var remainingSessions = repo.selectAllSessions().first()
         assertEquals(
             allSessions.size,
@@ -381,22 +374,38 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
             "expecting that no sessions were deleted",
         )
 
-        repo.deleteSessionsExcept(
-            unselectedIds = listOf(),
-            selectedLabels = listOf("label0"),
-        )
+        repo.deleteSessions(allExcept(listOf(), listOf("label0")))
 
         remainingSessions = repo.selectAllSessions().first()
         assertEquals(allSessions.size - label0SessionsIds.size, remainingSessions.size)
 
         val allLabelsNames = repo.selectAllLabels().first().map { it.name }
-        repo.deleteSessionsExcept(
-            unselectedIds = emptyList(),
-            selectedLabels = allLabelsNames,
-        )
+        repo.deleteSessions(allExcept(emptyList(), allLabelsNames))
         remainingSessions = repo.selectAllSessions().first()
         assertEquals(0, remainingSessions.size)
     }
+
+    @Test
+    fun selectAllHonorsTheBreaksFilter() = runTest {
+        repo.deleteAllSessions()
+        repo.insertSession(session.copy(id = 1, label = LABEL_NAME, isWork = true))
+        repo.insertSession(session.copy(id = 2, label = LABEL_NAME, isWork = false))
+
+        repo.updateSessionsLabel(Label.DEFAULT_LABEL_NAME, allExcept(emptyList(), listOf(LABEL_NAME), showBreaks = false))
+        assertEquals(
+            mapOf(1L to Label.DEFAULT_LABEL_NAME, 2L to LABEL_NAME),
+            repo.selectAllSessions().first().associate { it.id to it.label },
+        )
+
+        repo.deleteSessions(allExcept(emptyList(), listOf(Label.DEFAULT_LABEL_NAME, LABEL_NAME), showBreaks = false))
+        assertEquals(listOf(2L), repo.selectAllSessions().first().map { it.id })
+    }
+
+    private fun allExcept(
+        ids: List<Long>,
+        labels: List<String>,
+        showBreaks: Boolean = true,
+    ) = AllExcept(ids = ids.toSet(), total = 0, labels = labels, showBreaks = showBreaks)
 
     companion object {
         private const val LABEL_NAME = "label_name"

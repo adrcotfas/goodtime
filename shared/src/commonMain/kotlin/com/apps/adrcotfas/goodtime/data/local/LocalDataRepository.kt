@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.data.local
 import androidx.paging.PagingSource
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.model.SessionSelection
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import kotlinx.coroutines.flow.Flow
 
@@ -40,16 +41,9 @@ interface LocalDataRepository {
         newSession: Session,
     )
 
-    suspend fun updateSessionsLabelByIds(
+    suspend fun updateSessionsLabel(
         newLabel: String,
-        ids: List<Long>,
-    )
-
-    suspend fun updateSessionsLabelByIdsExcept(
-        newLabel: String,
-        unselectedIds: List<Long>,
-        selectedLabels: List<String>,
-        considerBreaks: Boolean = true,
+        selection: SessionSelection,
     )
 
     fun selectAllSessions(): Flow<List<Session>>
@@ -76,13 +70,7 @@ interface LocalDataRepository {
 
     fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int>
 
-    suspend fun deleteSessions(ids: List<Long>)
-
-    suspend fun deleteSessionsExcept(
-        unselectedIds: List<Long>,
-        selectedLabels: List<String>,
-        considerBreaks: Boolean = true,
-    )
+    suspend fun deleteSessions(selection: SessionSelection)
 
     suspend fun deleteAllSessions()
 

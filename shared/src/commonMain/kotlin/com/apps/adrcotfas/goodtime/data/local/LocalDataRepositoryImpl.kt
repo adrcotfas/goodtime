@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.data.local
 import androidx.paging.PagingSource
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.model.SessionSelection
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.toExternal
 import com.apps.adrcotfas.goodtime.data.model.toLocal
@@ -136,20 +137,16 @@ internal class LocalDataRepositoryImpl(
         )
     }
 
-    override suspend fun updateSessionsLabelByIds(
+    override suspend fun updateSessionsLabel(
         newLabel: String,
-        ids: List<Long>,
+        selection: SessionSelection,
     ) {
-        sessionDao.updateLabelByIds(newLabel, ids)
-    }
+        when (selection) {
+            is SessionSelection.Only -> sessionDao.updateLabelByIds(newLabel, selection.ids.toList())
 
-    override suspend fun updateSessionsLabelByIdsExcept(
-        newLabel: String,
-        unselectedIds: List<Long>,
-        selectedLabels: List<String>,
-        considerBreaks: Boolean,
-    ) {
-        sessionDao.updateLabelByIdsExcept(newLabel, unselectedIds, selectedLabels, considerBreaks)
+            is SessionSelection.AllExcept ->
+                sessionDao.updateLabelByIdsExcept(newLabel, selection.ids.toList(), selection.labels, selection.showBreaks)
+        }
     }
 
     override fun selectAllSessions(): Flow<List<Session>> = daos
@@ -194,16 +191,13 @@ internal class LocalDataRepositoryImpl(
 
     override fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int> = daos.flatMapLatest { it.sessionDao.selectNumberOfSessionsAfter(timestamp) }
 
-    override suspend fun deleteSessions(ids: List<Long>) {
-        sessionDao.delete(ids)
-    }
+    override suspend fun deleteSessions(selection: SessionSelection) {
+        when (selection) {
+            is SessionSelection.Only -> sessionDao.delete(selection.ids.toList())
 
-    override suspend fun deleteSessionsExcept(
-        unselectedIds: List<Long>,
-        selectedLabels: List<String>,
-        considerBreaks: Boolean,
-    ) {
-        sessionDao.deleteExcept(unselectedIds, selectedLabels, considerBreaks)
+            is SessionSelection.AllExcept ->
+                sessionDao.deleteExcept(selection.ids.toList(), selection.labels, selection.showBreaks)
+        }
     }
 
     override suspend fun deleteAllSessions() {

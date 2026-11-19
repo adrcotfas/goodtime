@@ -51,6 +51,7 @@ import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeUtils
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.model.SessionSelection
 import com.apps.adrcotfas.goodtime.ui.SmallLabelChip
 import com.apps.adrcotfas.goodtime.ui.enabledColors
 import com.apps.adrcotfas.goodtime.ui.selectedColors
@@ -68,9 +69,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun TimelineTab(
     sessions: LazyPagingItems<Session>,
-    isSelectAllEnabled: Boolean,
-    selectedSessions: List<Long>,
-    unselectedSessions: List<Long>,
+    selection: SessionSelection,
     labels: List<LabelData>,
     onClick: (Session) -> Unit,
     onLongClick: (Session) -> Unit,
@@ -119,9 +118,7 @@ fun TimelineTab(
         ) { index ->
             val session = sessions[index]
             if (session != null) {
-                val isSelected =
-                    selectedSessions.contains(session.id) ||
-                        (isSelectAllEnabled && !unselectedSessions.contains(session.id))
+                val isSelected = session.id in selection
 
                 // might be null at the moment of toggling "show archived"
                 val colorIndex =

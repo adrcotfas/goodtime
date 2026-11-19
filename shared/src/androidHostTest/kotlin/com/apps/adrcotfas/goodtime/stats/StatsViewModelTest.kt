@@ -33,6 +33,7 @@ import com.apps.adrcotfas.goodtime.fakes.FakeTimeProvider
 import com.apps.adrcotfas.goodtime.fakes.FakeTimerProfileDao
 import com.apps.adrcotfas.goodtime.testutil.retryTest
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -178,6 +179,34 @@ class StatsViewModelTest {
             assertTrue { sessions.firstOrNull { it.label == "A" } == null }
             assertTrue { sessions.size == 9 }
             assertTrue { sessions.firstOrNull { it.label != "B" } == null }
+        }
+    }
+
+    @Test
+    fun `Select all with breaks hidden leaves the hidden breaks alone`() = runTest {
+        retryTest {
+            fakeSessionDao.insert(Session.default().copy(id = 10, label = "A", isWork = false).toLocal())
+            fakeSessionDao.insert(Session.default().copy(id = 11, label = "B", isWork = false).toLocal())
+            val visible = viewModel.pagedSessions.asSnapshot()
+            assertTrue { visible.none { !it.isWork } }
+
+            viewModel.selectAllSessions(visible.size)
+            viewModel.toggleSessionIsSelected(1)
+            viewModel.setSelectedLabelToBulkEdit("C")
+            viewModel.bulkEditLabel()
+            advanceUntilIdle()
+            assertEquals(
+                listOf("A", "B"),
+                localDataRepository.selectAllSessions().first().filter { !it.isWork }.map { it.label },
+            )
+
+            viewModel.selectAllSessions(visible.size)
+            viewModel.deleteSelectedSessions()
+            advanceUntilIdle()
+            assertEquals(
+                listOf(10L, 11L),
+                localDataRepository.selectAllSessions().first().map { it.id }.sorted(),
+            )
         }
     }
 

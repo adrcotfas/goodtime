@@ -137,7 +137,7 @@ fun StatisticsScreen(
                 onDeleteClick = { showDeleteConfirmationDialog = true },
                 onSelectAll = { viewModel.selectAllSessions(sessionsPagingItems.itemCount) },
                 showSelectionUi = uiState.showSelectionUi,
-                selectionCount = uiState.selectionCount,
+                selectionCount = uiState.selection.count,
                 showSeparator = uiState.showSelectionUi && historyListState.canScrollBackward,
                 showBreaks = uiState.statisticsSettings.showBreaks,
                 onSetShowBreaks = viewModel::setShowBreaks,
@@ -202,9 +202,7 @@ fun StatisticsScreen(
                             TimelineTab(
                                 listState = historyListState,
                                 sessions = sessionsPagingItems,
-                                isSelectAllEnabled = uiState.isSelectAllEnabled,
-                                selectedSessions = uiState.selectedSessions,
-                                unselectedSessions = uiState.unselectedSessions,
+                                selection = uiState.selection,
                                 labels = uiState.labels,
                                 onClick = { session ->
                                     if (uiState.showSelectionUi) {
