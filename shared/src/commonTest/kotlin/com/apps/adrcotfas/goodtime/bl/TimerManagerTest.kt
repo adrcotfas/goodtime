@@ -119,12 +119,12 @@ class TimerManagerTest {
         )
         assertEquals(defaultLabel.timerProfile, timerManager.timerData.value.getTimerProfile())
 
-        settingsRepo.activateLabelWithName(customLabel.name)
+        settingsRepo.update { it.copy(labelName = customLabel.name) }
 
         assertEquals(customLabel.name, timerManager.timerData.value.getLabelName())
         assertEquals(customLabel.timerProfile, timerManager.timerData.value.getTimerProfile())
 
-        settingsRepo.activateDefaultLabel()
+        settingsRepo.update { it.copy(labelName = Label.DEFAULT_LABEL_NAME) }
         assertEquals(timerManager.timerData.value.getLabelName(), defaultLabel.name)
         assertEquals(timerManager.timerData.value.getTimerProfile(), defaultLabel.timerProfile)
 
@@ -140,13 +140,13 @@ class TimerManagerTest {
     @Test
     fun `Init persistent data only once`() = runTest {
         val customLongBreakData = LongBreakData(10, 42)
-        settingsRepo.setLongBreakData(customLongBreakData)
+        settingsRepo.update { it.copy(longBreakData = customLongBreakData) }
         timerManager.setup()
         assertEquals(timerManager.timerData.value.longBreakData, customLongBreakData)
 
         timeProvider.elapsedRealtime = 10.minutes.inWholeMilliseconds
         val customBreakBudgetData = BreakBudgetData(10.minutes, timeProvider.elapsedRealtime)
-        settingsRepo.setBreakBudgetData(customBreakBudgetData)
+        settingsRepo.update { it.copy(breakBudgetData = customBreakBudgetData) }
 
         timeProvider.elapsedRealtime = 0.minutes.inWholeMilliseconds
         timerManager.setup()
@@ -705,7 +705,7 @@ class TimerManagerTest {
 
     @Test
     fun `Auto-start break`() = runTest {
-        settingsRepo.setAutoStartBreak(true)
+        settingsRepo.update { it.copy(autoStartBreak = true) }
         timerManager.start(TimerType.FOCUS)
         val workDuration = DEFAULT_DURATION
         timeProvider.elapsedRealtime += workDuration
@@ -715,7 +715,7 @@ class TimerManagerTest {
 
     @Test
     fun `Work is next after work when break is disabled`() = runTest {
-        settingsRepo.setAutoStartWork(true)
+        settingsRepo.update { it.copy(autoStartFocus = true) }
         localDataRepo.updateDefaultLabel(
             defaultLabel.copy(
                 timerProfile =
@@ -733,7 +733,7 @@ class TimerManagerTest {
 
     @Test
     fun `Count-up work then count-down the break budget`() = runTest {
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
 
         timerManager.start(TimerType.FOCUS)
         val workDuration = 6.minutes.inWholeMilliseconds
@@ -765,7 +765,7 @@ class TimerManagerTest {
 
     @Test
     fun `Count-up then reset then wait for a while to start another count-up`() = runTest {
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
 
         timerManager.start()
         val workTime = 12.minutes.inWholeMilliseconds
@@ -831,8 +831,8 @@ class TimerManagerTest {
 
     @Test
     fun `Count-up then start a break with budget already there`() = runTest {
-        settingsRepo.setBreakBudgetData(BreakBudgetData(10.minutes, 0))
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(breakBudgetData = BreakBudgetData(10.minutes, 0)) }
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
         timerManager.setup()
 
         timerManager.start()
@@ -886,9 +886,9 @@ class TimerManagerTest {
         val breakBudget = 3.minutes
         val breakBudgetMillis = breakBudget.inWholeMilliseconds
 
-        settingsRepo.setBreakBudgetData(BreakBudgetData(breakBudget, 0))
-        settingsRepo.activateLabelWithName(countUpLabel.name)
-        settingsRepo.setAutoStartWork(true)
+        settingsRepo.update { it.copy(breakBudgetData = BreakBudgetData(breakBudget, 0)) }
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
+        settingsRepo.update { it.copy(autoStartFocus = true) }
         timerManager.setup()
 
         timerManager.start()
@@ -971,9 +971,9 @@ class TimerManagerTest {
         val breakBudget = 3.minutes
         val oneMinute = 1.minutes.inWholeMilliseconds
 
-        settingsRepo.setBreakBudgetData(BreakBudgetData(breakBudget, 0))
-        settingsRepo.activateLabelWithName(countUpLabel.name)
-        settingsRepo.setAutoStartWork(true)
+        settingsRepo.update { it.copy(breakBudgetData = BreakBudgetData(breakBudget, 0)) }
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
+        settingsRepo.update { it.copy(autoStartFocus = true) }
         timerManager.setup()
 
         timerManager.start()
@@ -1000,7 +1000,7 @@ class TimerManagerTest {
 
     @Test
     fun `Reset the break budget while a count-up focus session is running`() = runTest {
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
         timerManager.setup()
 
         timerManager.start()
@@ -1030,7 +1030,7 @@ class TimerManagerTest {
 
     @Test
     fun `Count-up then work for a while then change the work break ratio`() = runTest {
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
 
         timerManager.start()
         val workTime = 12.minutes.inWholeMilliseconds
@@ -1067,7 +1067,7 @@ class TimerManagerTest {
 
     @Test
     fun `Skip is ignored while the count-up break budget is under one minute`() = runTest {
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
         timerManager.start(TimerType.FOCUS)
 
         timeProvider.elapsedRealtime += (3.minutes - 1.seconds).inWholeMilliseconds
@@ -1082,7 +1082,7 @@ class TimerManagerTest {
 
     @Test
     fun `A count-up break cannot be paused`() = runTest {
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
         timerManager.start(TimerType.FOCUS)
         timeProvider.elapsedRealtime += 6.minutes.inWholeMilliseconds
         timerManager.skip()
@@ -1094,7 +1094,7 @@ class TimerManagerTest {
 
     @Test
     fun `Add one minute is ignored for a count-up session`() = runTest {
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
         timerManager.start(TimerType.FOCUS)
         val endTime = timerManager.timerData.value.runtime.endTime
 

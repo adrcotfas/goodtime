@@ -69,13 +69,13 @@ class SoundsViewModel(
 
     fun saveUserSound(userSoundData: SoundData) {
         viewModelScope.launch {
-            settingsRepository.addUserSound(userSoundData)
+            settingsRepository.update { it.copy(userSounds = it.userSounds + userSoundData) }
         }
     }
 
     fun removeUserSound(userSoundData: SoundData) {
         viewModelScope.launch {
-            settingsRepository.removeUserSound(userSoundData)
+            settingsRepository.update { it.copy(userSounds = it.userSounds - userSoundData) }
         }
     }
 }

@@ -118,7 +118,7 @@ class AddEditLabelViewModel(
             val isRenamingActiveLabel =
                 labelName == _uiState.value.activeLabelName && labelName != label.name
             if (isRenamingActiveLabel) {
-                settingsRepository.activateLabelWithName(label.name)
+                settingsRepository.update { it.copy(labelName = label.name) }
             }
             _uiState.update {
                 it.copy(labelToEdit = label)

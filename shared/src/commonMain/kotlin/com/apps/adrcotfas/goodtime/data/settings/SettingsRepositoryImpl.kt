@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.data.settings
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
+import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -27,7 +28,6 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import co.touchlab.kermit.Logger
-import com.apps.adrcotfas.goodtime.data.model.Label
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -85,270 +85,113 @@ class SettingsRepositoryImpl(
                 } else {
                     throw exception
                 }
-            }.map {
-                val default = AppSettings()
-                AppSettings(
-                    isPro = it[Keys.isProKey] ?: default.isPro,
-                    timeProfilesInitialized =
-                    it[Keys.timerProfilesInitializedKey]
-                        ?: default.timeProfilesInitialized,
-                    shouldAskForReview = it[Keys.shouldAskForReviewKey] ?: default.shouldAskForReview,
-                    lastAskedForReviewTime = it[Keys.lastAskedForReviewTimeKey] ?: default.lastAskedForReviewTime,
-                    productivityReminderSettings =
-                    it[Keys.productivityReminderSettingsKey]?.let { p ->
-                        json.decodeFromString<ProductivityReminderSettings>(p)
-                    } ?: default.productivityReminderSettings,
-                    uiSettings =
-                    it[Keys.uiSettingsKey]?.let { u ->
-                        json.decodeFromString<UiSettings>(u)
-                    } ?: default.uiSettings,
-                    statisticsSettings =
-                    it[Keys.statisticsSettingsKey]?.let { s ->
-                        json.decodeFromString<StatisticsSettings>(s)
-                    } ?: default.statisticsSettings,
-                    historyChartSettings =
-                    it[Keys.historyChartSettingsKey]?.let { h ->
-                        json.decodeFromString<HistoryChartSettings>(h)
-                    } ?: default.historyChartSettings,
-                    timerStyle =
-                    it[Keys.timerStyleKey]?.let { t ->
-                        json.decodeFromString<TimerStyleData>(t)
-                    } ?: default.timerStyle,
-                    workdayStart = it[Keys.workdayStartKey] ?: default.workdayStart,
-                    firstDayOfWeek = it[Keys.firstDayOfWeekKey] ?: default.firstDayOfWeek,
-                    workFinishedSound =
-                    it[Keys.workFinishedSoundKey]
-                        ?: default.workFinishedSound,
-                    breakFinishedSound =
-                    it[Keys.breakFinishedSoundKey]
-                        ?: default.breakFinishedSound,
-                    userSounds =
-                    it[Keys.userSoundsKey]?.let { u ->
-                        json.decodeFromString<Set<SoundData>>(u)
-                    } ?: emptySet(),
-                    notificationSoundVolume =
-                    it[Keys.notificationSoundVolumeKey]
-                        ?: default.notificationSoundVolume,
-                    vibrationStrength =
-                    it[Keys.vibrationStrengthKey]
-                        ?: default.vibrationStrength,
-                    enableTorch = it[Keys.enableTorchKey] ?: default.enableTorch,
-                    flashScreen =
-                    it[Keys.enableFlashScreenKey] ?: default.flashScreen,
-                    insistentNotification =
-                    it[Keys.insistentNotificationKey]
-                        ?: default.insistentNotification,
-                    autoStartFocus = it[Keys.autoStartWorkKey] ?: default.autoStartFocus,
-                    autoStartBreak = it[Keys.autoStartBreakKey] ?: default.autoStartBreak,
-                    labelName = it[Keys.labelNameKey] ?: default.labelName,
-                    longBreakData =
-                    it[Keys.longBreakDataKey]?.let { l ->
-                        json.decodeFromString<LongBreakData>(l)
-                    } ?: LongBreakData(),
-                    breakBudgetData =
-                    it[Keys.breakBudgetDataKey]?.let { b ->
-                        json.decodeFromString<BreakBudgetData>(b)
-                    } ?: BreakBudgetData(),
-                    notificationPermissionState =
-                    it[Keys.notificationPermissionStateKey]?.let { key ->
-                        NotificationPermissionState.entries[key]
-                    } ?: default.notificationPermissionState,
-                    lastInsertedSessionId =
-                    it[Keys.lastInsertedSessionIdKey]
-                        ?: default.lastInsertedSessionId,
-                    showOnboarding =
-                    it[Keys.showOnboardingKey]
-                        ?: default.showOnboarding,
-                    showTutorial = it[Keys.showTutorialKey] ?: default.showTutorial,
-                    dndOwnedByApp = it[Keys.dndOwnedByAppKey] ?: default.dndOwnedByApp,
-                    backupSettings =
-                    it[Keys.backupSettingsKey]?.let { b ->
-                        json.decodeFromString<BackupSettings>(b)
-                    } ?: BackupSettings(),
-                    lastDismissedUpdateVersionCode = it[Keys.lastDismissedUpdateVersionCodeKey] ?: default.lastDismissedUpdateVersionCode,
-                    persistedTimerState =
-                    it[Keys.persistedTimerStateKey]?.let { p ->
-                        json.decodeFromString<PersistedTimerState>(p)
-                    },
-                )
-            }.catch {
-                log.e("Error parsing settings", it)
-                emit(AppSettings())
-            }.distinctUntilChanged()
+            }.map { it.toAppSettings() }
+            .distinctUntilChanged()
 
-    override suspend fun updateReminderSettings(transform: (ProductivityReminderSettings) -> ProductivityReminderSettings) {
+    override suspend fun update(transform: (AppSettings) -> AppSettings) {
         dataStore.edit {
-            val previous =
-                it[Keys.productivityReminderSettingsKey]?.let { p -> json.decodeFromString(p) }
-                    ?: ProductivityReminderSettings()
-            val new = transform(previous)
-            it[Keys.productivityReminderSettingsKey] = json.encodeToString(new)
+            val old = it.toAppSettings()
+            it.write(old, transform(old))
         }
     }
 
-    override suspend fun updateUiSettings(transform: (UiSettings) -> UiSettings) {
-        dataStore.edit {
-            val previous =
-                it[Keys.uiSettingsKey]?.let { u -> json.decodeFromString(u) }
-                    ?: UiSettings()
-            val new = transform(previous)
-            it[Keys.uiSettingsKey] = json.encodeToString(new)
+    private inline fun <reified T> Preferences.decode(key: Preferences.Key<String>): T? = this[key]?.let { value ->
+        runCatching { json.decodeFromString<T>(value) }
+            .onFailure { e -> log.e("Error parsing ${key.name}", e) }
+            .getOrNull()
+    }
+
+    private fun Preferences.toAppSettings(): AppSettings {
+        val default = AppSettings()
+        return AppSettings(
+            isPro = this[Keys.isProKey] ?: default.isPro,
+            timeProfilesInitialized = this[Keys.timerProfilesInitializedKey] ?: default.timeProfilesInitialized,
+            shouldAskForReview = this[Keys.shouldAskForReviewKey] ?: default.shouldAskForReview,
+            lastAskedForReviewTime = this[Keys.lastAskedForReviewTimeKey] ?: default.lastAskedForReviewTime,
+            productivityReminderSettings = decode(Keys.productivityReminderSettingsKey) ?: default.productivityReminderSettings,
+            uiSettings = decode(Keys.uiSettingsKey) ?: default.uiSettings,
+            statisticsSettings = decode(Keys.statisticsSettingsKey) ?: default.statisticsSettings,
+            historyChartSettings = decode(Keys.historyChartSettingsKey) ?: default.historyChartSettings,
+            timerStyle = decode(Keys.timerStyleKey) ?: default.timerStyle,
+            workdayStart = this[Keys.workdayStartKey] ?: default.workdayStart,
+            firstDayOfWeek = this[Keys.firstDayOfWeekKey] ?: default.firstDayOfWeek,
+            workFinishedSound = this[Keys.workFinishedSoundKey] ?: default.workFinishedSound,
+            breakFinishedSound = this[Keys.breakFinishedSoundKey] ?: default.breakFinishedSound,
+            userSounds = decode(Keys.userSoundsKey) ?: default.userSounds,
+            notificationSoundVolume = this[Keys.notificationSoundVolumeKey] ?: default.notificationSoundVolume,
+            vibrationStrength = this[Keys.vibrationStrengthKey] ?: default.vibrationStrength,
+            enableTorch = this[Keys.enableTorchKey] ?: default.enableTorch,
+            flashScreen = this[Keys.enableFlashScreenKey] ?: default.flashScreen,
+            insistentNotification = this[Keys.insistentNotificationKey] ?: default.insistentNotification,
+            autoStartFocus = this[Keys.autoStartWorkKey] ?: default.autoStartFocus,
+            autoStartBreak = this[Keys.autoStartBreakKey] ?: default.autoStartBreak,
+            labelName = this[Keys.labelNameKey] ?: default.labelName,
+            longBreakData = decode(Keys.longBreakDataKey) ?: default.longBreakData,
+            breakBudgetData = decode(Keys.breakBudgetDataKey) ?: default.breakBudgetData,
+            notificationPermissionState =
+            this[Keys.notificationPermissionStateKey]?.let { NotificationPermissionState.entries.getOrNull(it) }
+                ?: default.notificationPermissionState,
+            lastInsertedSessionId = this[Keys.lastInsertedSessionIdKey] ?: default.lastInsertedSessionId,
+            showOnboarding = this[Keys.showOnboardingKey] ?: default.showOnboarding,
+            showTutorial = this[Keys.showTutorialKey] ?: default.showTutorial,
+            dndOwnedByApp = this[Keys.dndOwnedByAppKey] ?: default.dndOwnedByApp,
+            backupSettings = decode(Keys.backupSettingsKey) ?: default.backupSettings,
+            lastDismissedUpdateVersionCode =
+            this[Keys.lastDismissedUpdateVersionCodeKey] ?: default.lastDismissedUpdateVersionCode,
+            persistedTimerState = decode(Keys.persistedTimerStateKey),
+        )
+    }
+
+    /** Writes only the fields that changed, so untouched settings keep following their defaults. */
+    private inner class Writer(
+        private val prefs: MutablePreferences,
+        private val old: AppSettings,
+        private val new: AppSettings,
+    ) {
+        fun <T> put(key: Preferences.Key<T>, get: AppSettings.() -> T) {
+            val value = new.get()
+            if (old.get() != value) prefs[key] = value
+        }
+
+        inline fun <reified T> putJson(key: Preferences.Key<String>, get: AppSettings.() -> T?) {
+            val value = new.get()
+            if (old.get() == value) return
+            if (value == null) prefs.remove(key) else prefs[key] = json.encodeToString(value)
         }
     }
 
-    override suspend fun updateStatisticsSettings(transform: (StatisticsSettings) -> StatisticsSettings) {
-        dataStore.edit {
-            val previous =
-                it[Keys.statisticsSettingsKey]?.let { s -> json.decodeFromString(s) }
-                    ?: StatisticsSettings()
-            val new = transform(previous)
-            it[Keys.statisticsSettingsKey] = json.encodeToString(new)
-        }
-    }
-
-    override suspend fun updateHistoryChartSettings(transform: (HistoryChartSettings) -> HistoryChartSettings) {
-        dataStore.edit {
-            val previous =
-                it[Keys.historyChartSettingsKey]?.let { s -> json.decodeFromString(s) }
-                    ?: HistoryChartSettings()
-            val new = transform(previous)
-            it[Keys.historyChartSettingsKey] = json.encodeToString(new)
-        }
-    }
-
-    override suspend fun updateTimerStyle(transform: (TimerStyleData) -> TimerStyleData) {
-        dataStore.edit {
-            val previous =
-                it[Keys.timerStyleKey]?.let { t -> json.decodeFromString(t) }
-                    ?: TimerStyleData()
-            val new = transform(previous)
-            it[Keys.timerStyleKey] = json.encodeToString(new)
-        }
-    }
-
-    override suspend fun setWorkDayStart(secondOfDay: Int) {
-        dataStore.edit { it[Keys.workdayStartKey] = secondOfDay }
-    }
-
-    override suspend fun setFirstDayOfWeek(dayOfWeek: Int) {
-        dataStore.edit { it[Keys.firstDayOfWeekKey] = dayOfWeek }
-    }
-
-    override suspend fun setWorkFinishedSound(sound: String?) {
-        dataStore.edit { it[Keys.workFinishedSoundKey] = sound ?: "" }
-    }
-
-    override suspend fun setBreakFinishedSound(sound: String?) {
-        dataStore.edit { it[Keys.breakFinishedSoundKey] = sound ?: "" }
-    }
-
-    override suspend fun addUserSound(sound: SoundData) {
-        dataStore.add(Keys.userSoundsKey, sound)
-    }
-
-    override suspend fun removeUserSound(sound: SoundData) {
-        dataStore.remove(Keys.userSoundsKey, sound)
-    }
-
-    override suspend fun setNotificationSoundVolume(volume: Int) {
-        dataStore.edit { it[Keys.notificationSoundVolumeKey] = volume }
-    }
-
-    override suspend fun setVibrationStrength(strength: Int) {
-        dataStore.edit { it[Keys.vibrationStrengthKey] = strength }
-    }
-
-    override suspend fun setEnableTorch(enabled: Boolean) {
-        dataStore.edit { it[Keys.enableTorchKey] = enabled }
-    }
-
-    override suspend fun setEnableFlashScreen(enabled: Boolean) {
-        dataStore.edit { it[Keys.enableFlashScreenKey] = enabled }
-    }
-
-    override suspend fun setInsistentNotification(enabled: Boolean) {
-        dataStore.edit { it[Keys.insistentNotificationKey] = enabled }
-    }
-
-    override suspend fun setAutoStartWork(enabled: Boolean) {
-        dataStore.edit { it[Keys.autoStartWorkKey] = enabled }
-    }
-
-    override suspend fun setAutoStartBreak(enabled: Boolean) {
-        dataStore.edit { it[Keys.autoStartBreakKey] = enabled }
-    }
-
-    override suspend fun setLongBreakData(longBreakData: LongBreakData) {
-        dataStore.edit { it[Keys.longBreakDataKey] = json.encodeToString(longBreakData) }
-    }
-
-    override suspend fun setBreakBudgetData(breakBudgetData: BreakBudgetData) {
-        dataStore.edit { it[Keys.breakBudgetDataKey] = json.encodeToString(breakBudgetData) }
-    }
-
-    override suspend fun setNotificationPermissionState(state: NotificationPermissionState) {
-        dataStore.edit { it[Keys.notificationPermissionStateKey] = state.ordinal }
-    }
-
-    override suspend fun activateLabelWithName(labelName: String) {
-        dataStore.edit { it[Keys.labelNameKey] = labelName }
-    }
-
-    override suspend fun activateDefaultLabel() = activateLabelWithName(Label.DEFAULT_LABEL_NAME)
-
-    override suspend fun setLastInsertedSessionId(id: Long) {
-        dataStore.edit { it[Keys.lastInsertedSessionIdKey] = id }
-    }
-
-    override suspend fun setShowOnboarding(show: Boolean) {
-        dataStore.edit { it[Keys.showOnboardingKey] = show }
-    }
-
-    override suspend fun setShowTutorial(show: Boolean) {
-        dataStore.edit { it[Keys.showTutorialKey] = show }
-    }
-
-    override suspend fun setPro(isPro: Boolean) {
-        dataStore.edit { it[Keys.isProKey] = isPro }
-    }
-
-    override suspend fun setDndOwnedByApp(owned: Boolean) {
-        dataStore.edit { it[Keys.dndOwnedByAppKey] = owned }
-    }
-
-    override suspend fun setTimeProfilesInitialized(initialized: Boolean) {
-        dataStore.edit { it[Keys.timerProfilesInitializedKey] = initialized }
-    }
-
-    override suspend fun setShouldAskForReview(enable: Boolean) {
-        dataStore.edit { it[Keys.shouldAskForReviewKey] = enable }
-    }
-
-    override suspend fun setLastAskedForReviewTime(millis: Long) {
-        dataStore.edit { it[Keys.lastAskedForReviewTimeKey] = millis }
-    }
-
-    override suspend fun setBackupSettings(backupSettings: BackupSettings) {
-        dataStore.edit {
-            it[Keys.backupSettingsKey] = json.encodeToString(backupSettings)
-        }
-    }
-
-    override suspend fun setLastDismissedUpdateVersionCode(versionCode: Long) {
-        dataStore.edit { it[Keys.lastDismissedUpdateVersionCodeKey] = versionCode }
-    }
-
-    override suspend fun setPersistedTimerState(state: PersistedTimerState?) {
-        dataStore.edit {
-            if (state != null) {
-                it[Keys.persistedTimerStateKey] = json.encodeToString(state)
-            } else {
-                it.remove(Keys.persistedTimerStateKey)
-            }
-        }
-    }
-
-    override suspend fun clearPersistedTimerState() {
-        dataStore.edit { it.remove(Keys.persistedTimerStateKey) }
+    private fun MutablePreferences.write(old: AppSettings, new: AppSettings) = with(Writer(this, old, new)) {
+        put(Keys.isProKey) { isPro }
+        put(Keys.timerProfilesInitializedKey) { timeProfilesInitialized }
+        put(Keys.shouldAskForReviewKey) { shouldAskForReview }
+        put(Keys.lastAskedForReviewTimeKey) { lastAskedForReviewTime }
+        putJson(Keys.productivityReminderSettingsKey) { productivityReminderSettings }
+        putJson(Keys.uiSettingsKey) { uiSettings }
+        putJson(Keys.statisticsSettingsKey) { statisticsSettings }
+        putJson(Keys.historyChartSettingsKey) { historyChartSettings }
+        putJson(Keys.timerStyleKey) { timerStyle }
+        put(Keys.workdayStartKey) { workdayStart }
+        put(Keys.firstDayOfWeekKey) { firstDayOfWeek }
+        put(Keys.workFinishedSoundKey) { workFinishedSound }
+        put(Keys.breakFinishedSoundKey) { breakFinishedSound }
+        putJson(Keys.userSoundsKey) { userSounds }
+        put(Keys.notificationSoundVolumeKey) { notificationSoundVolume }
+        put(Keys.vibrationStrengthKey) { vibrationStrength }
+        put(Keys.enableTorchKey) { enableTorch }
+        put(Keys.enableFlashScreenKey) { flashScreen }
+        put(Keys.insistentNotificationKey) { insistentNotification }
+        put(Keys.autoStartWorkKey) { autoStartFocus }
+        put(Keys.autoStartBreakKey) { autoStartBreak }
+        put(Keys.labelNameKey) { labelName }
+        putJson(Keys.longBreakDataKey) { longBreakData }
+        putJson(Keys.breakBudgetDataKey) { breakBudgetData }
+        put(Keys.notificationPermissionStateKey) { notificationPermissionState.ordinal }
+        put(Keys.lastInsertedSessionIdKey) { lastInsertedSessionId }
+        put(Keys.showOnboardingKey) { showOnboarding }
+        put(Keys.showTutorialKey) { showTutorial }
+        put(Keys.dndOwnedByAppKey) { dndOwnedByApp }
+        putJson(Keys.backupSettingsKey) { backupSettings }
+        put(Keys.lastDismissedUpdateVersionCodeKey) { lastDismissedUpdateVersionCode }
+        putJson(Keys.persistedTimerStateKey) { persistedTimerState }
     }
 }

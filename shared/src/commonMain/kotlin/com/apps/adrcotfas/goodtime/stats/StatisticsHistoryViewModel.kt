@@ -26,6 +26,7 @@ import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.select
+import com.apps.adrcotfas.goodtime.data.settings.updateHistoryChartSettings
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

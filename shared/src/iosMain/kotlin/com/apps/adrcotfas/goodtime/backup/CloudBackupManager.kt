@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.backup
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.updateBackupSettings
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -131,7 +132,7 @@ class CloudBackupManager(
         }
 
         logger.i { "Auto-enabling iCloud auto-backup for Pro user" }
-        settingsRepository.setBackupSettings(backupSettings.copy(cloudAutoBackupEnabled = true))
+        settingsRepository.updateBackupSettings { it.copy(cloudAutoBackupEnabled = true) }
         setAutoBackupSchedulingEnabled(true)
 
         try {
@@ -265,12 +266,7 @@ class CloudBackupManager(
             cleanupOldBackups(backupsUrl, fileManager)
 
             // Update last backup timestamp
-            val currentSettings = settingsRepository.settings.first().backupSettings
-            settingsRepository.setBackupSettings(
-                currentSettings.copy(
-                    cloudLastBackupTimestamp = TimeProvider.now(),
-                ),
-            )
+            settingsRepository.updateBackupSettings { it.copy(cloudLastBackupTimestamp = TimeProvider.now()) }
 
             logger.i { "iOS cloud backup completed successfully to iCloud" }
         }

@@ -46,7 +46,7 @@ class StreakManager(
     fun incrementStreak(current: LongBreakData): LongBreakData {
         val newData = LongBreakData(current.streak + 1, lastWorkEndTime = timeProvider.elapsedRealtime())
         coroutineScope.launch {
-            settingsRepo.setLongBreakData(newData)
+            settingsRepo.update { it.copy(longBreakData = newData) }
         }
         log.v { "Streak incremented: ${newData.streak}" }
         return newData
@@ -64,7 +64,7 @@ class StreakManager(
         if (didLastWorkSessionFinishRecently(current, profile, millis)) return null
         log.v { "reset long break data" }
         coroutineScope.launch {
-            settingsRepo.setLongBreakData(LongBreakData())
+            settingsRepo.update { it.copy(longBreakData = LongBreakData()) }
         }
         return LongBreakData()
     }

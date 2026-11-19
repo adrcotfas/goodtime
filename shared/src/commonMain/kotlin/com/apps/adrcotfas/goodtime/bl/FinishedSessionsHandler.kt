@@ -72,14 +72,14 @@ class FinishedSessionsHandler(
         coroutineScope.launch {
             val id = repo.insertSession(session)
             log.v { "Inserted session with id: $id" }
-            settingsRepo.setLastInsertedSessionId(id)
+            settingsRepo.update { it.copy(lastInsertedSessionId = id) }
         }
     }
 
     fun resetLastInsertedSessionId() {
         log.v { "Resetting last inserted session id" }
         coroutineScope.launch {
-            settingsRepo.setLastInsertedSessionId(Long.MAX_VALUE)
+            settingsRepo.update { it.copy(lastInsertedSessionId = Long.MAX_VALUE) }
         }
     }
 }

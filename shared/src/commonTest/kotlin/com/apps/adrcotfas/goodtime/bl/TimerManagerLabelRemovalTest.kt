@@ -93,7 +93,7 @@ class TimerManagerLabelRemovalTest : RoomDatabaseTest() {
             )
         repo.insertLabel(Label.defaultLabel())
         repo.insertLabel(countUpLabel)
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
 
         val timerManager =
             TimerManager(
@@ -115,7 +115,7 @@ class TimerManagerLabelRemovalTest : RoomDatabaseTest() {
         timeProvider.elapsedRealtime += 5.minutes.inWholeMilliseconds
 
         remove(repo, countUpLabel.name)
-        settingsRepo.activateDefaultLabel()
+        settingsRepo.update { it.copy(labelName = Label.DEFAULT_LABEL_NAME) }
         timerManager.timerData.first { it.getLabelName() == Label.DEFAULT_LABEL_NAME }
         withContext(Dispatchers.Default) {
             withTimeoutOrNull(5.seconds) {

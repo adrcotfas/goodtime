@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.backup
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.updateBackupSettings
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.FileContent
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -102,11 +103,7 @@ class GoogleDriveManager(
 
             logger.i { "uploadBackup() - uploaded successfully: ${uploadedFile.id}" }
 
-            settingsRepository.setBackupSettings(
-                settingsRepository.settings.first().backupSettings.copy(
-                    cloudLastBackupTimestamp = TimeProvider.now(),
-                ),
-            )
+            settingsRepository.updateBackupSettings { it.copy(cloudLastBackupTimestamp = TimeProvider.now()) }
 
             // Clean up old backups
             cleanupOldBackups(driveService)

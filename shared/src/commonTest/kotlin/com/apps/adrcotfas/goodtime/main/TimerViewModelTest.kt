@@ -154,7 +154,7 @@ class TimerViewModelTest {
         val countUpLabel =
             Label(name = "flow", useDefaultTimeProfile = false, timerProfile = TimerProfile(isCountdown = false, workBreakRatio = 3))
         localDataRepo.insertLabel(countUpLabel)
-        settingsRepo.activateLabelWithName(countUpLabel.name)
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
 
         timerManager.start(TimerType.FOCUS)
         viewModel.timerUiState.test {
@@ -204,7 +204,7 @@ class TimerViewModelTest {
         viewModel.askForReviewIfEligible()
         assertTrue(settingsRepo.settings.first().shouldAskForReview, "should ask once eligible")
 
-        settingsRepo.setShouldAskForReview(false)
+        settingsRepo.update { it.copy(shouldAskForReview = false) }
         timeProvider.wallClock = timeProvider.wallClock!! + 1.days.inWholeMilliseconds
         viewModel.askForReviewIfEligible()
         assertFalse(settingsRepo.settings.first().shouldAskForReview, "should throttle a recent ask")

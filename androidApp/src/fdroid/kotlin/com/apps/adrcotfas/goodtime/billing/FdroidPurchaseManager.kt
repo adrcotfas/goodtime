@@ -39,7 +39,7 @@ class FdroidPurchaseManager(
         // Keep existing behavior: treat users as Pro.
         log.i { "F-Droid build: enabling Pro (no billing backend)" }
         ioScope.launch {
-            settingsRepository.setPro(true)
+            settingsRepository.update { it.copy(isPro = true) }
         }
     }
 }

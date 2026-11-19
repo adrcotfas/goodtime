@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.backup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.updateBackupSettings
 import com.apps.adrcotfas.goodtime.ui.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
 import goodtime_productivity.shared.generated.resources.Res
@@ -89,18 +90,12 @@ class CloudBackupViewModel(
                     )
                 } else {
                     iCloudBackupService.setAutoBackupEnabled(true)
-                    val currentSettings = settingsRepository.settings.first()
-                    settingsRepository.setBackupSettings(
-                        currentSettings.backupSettings.copy(cloudAutoBackupEnabled = true),
-                    )
+                    settingsRepository.updateBackupSettings { it.copy(cloudAutoBackupEnabled = true) }
                     _uiState.update { it.copy(isAutoBackupToggleInProgress = false) }
                 }
             } else {
                 iCloudBackupService.setAutoBackupEnabled(false)
-                val currentSettings = settingsRepository.settings.first()
-                settingsRepository.setBackupSettings(
-                    currentSettings.backupSettings.copy(cloudAutoBackupEnabled = false),
-                )
+                settingsRepository.updateBackupSettings { it.copy(cloudAutoBackupEnabled = false) }
                 _uiState.update { it.copy(isAutoBackupToggleInProgress = false) }
             }
         }

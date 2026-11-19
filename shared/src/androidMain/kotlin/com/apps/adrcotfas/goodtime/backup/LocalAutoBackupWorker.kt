@@ -25,6 +25,7 @@ import androidx.work.WorkerParameters
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.updateBackupSettings
 import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
 import java.io.FileInputStream
@@ -90,11 +91,7 @@ class LocalAutoBackupWorker(
                 .forEach { it.delete() }
 
             // Update last backup timestamp
-            settingsRepository.setBackupSettings(
-                settings.backupSettings.copy(
-                    localLastBackupTimestamp = System.currentTimeMillis(),
-                ),
-            )
+            settingsRepository.updateBackupSettings { it.copy(localLastBackupTimestamp = System.currentTimeMillis()) }
 
             logger.i { "Auto backup completed successfully" }
             return Result.success()

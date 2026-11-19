@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.bl
 
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
 import com.apps.adrcotfas.goodtime.data.settings.UiSettings
+import com.apps.adrcotfas.goodtime.data.settings.updateUiSettings
 import com.apps.adrcotfas.goodtime.fakes.FakeSettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

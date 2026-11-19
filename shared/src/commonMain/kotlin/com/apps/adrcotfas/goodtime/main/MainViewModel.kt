@@ -111,17 +111,17 @@ class MainViewModel(
 
     fun setShowOnboarding(show: Boolean) {
         viewModelScope.launch {
-            settingsRepository.setShowOnboarding(show)
+            settingsRepository.update { it.copy(showOnboarding = show) }
         }
     }
 
     fun setShowTutorial(show: Boolean) {
         viewModelScope.launch {
-            settingsRepository.setShowTutorial(show)
+            settingsRepository.update { it.copy(showTutorial = show) }
         }
     }
 
-    fun resetShouldAskForReview() = viewModelScope.launch { settingsRepository.setShouldAskForReview(false) }
+    fun resetShouldAskForReview() = viewModelScope.launch { settingsRepository.update { it.copy(shouldAskForReview = false) } }
 
     fun setUpdateAvailable(available: Boolean) {
         _uiState.update {
@@ -133,13 +133,13 @@ class MainViewModel(
         viewModelScope.launch {
             val state =
                 if (granted) NotificationPermissionState.GRANTED else NotificationPermissionState.DENIED
-            settingsRepository.setNotificationPermissionState(state)
+            settingsRepository.update { it.copy(notificationPermissionState = state) }
         }
     }
 
     fun setLastDismissedUpdateVersionCode(versionCode: Long) {
         viewModelScope.launch {
-            settingsRepository.setLastDismissedUpdateVersionCode(versionCode)
+            settingsRepository.update { it.copy(lastDismissedUpdateVersionCode = versionCode) }
         }
     }
 }

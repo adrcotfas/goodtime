@@ -101,7 +101,7 @@ internal class LocalDataRepositoryImpl(
                         workBreakRatio = 3,
                     ).toLocal(),
                 )
-                settingsRepo.setTimeProfilesInitialized(true)
+                settingsRepo.update { it.copy(timeProfilesInitialized = true) }
             }
 
             val localLabel = Label.defaultLabel().toLocal()

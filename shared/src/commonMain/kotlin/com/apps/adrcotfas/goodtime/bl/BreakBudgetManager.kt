@@ -49,7 +49,7 @@ class BreakBudgetManager(
         val deviceWasRestarted = elapsedRealtime < persisted.breakBudgetStart
         return if (deviceWasRestarted) {
             val breakBudget = persisted.copy(breakBudgetStart = elapsedRealtime)
-            settingsRepo.setBreakBudgetData(breakBudget)
+            settingsRepo.update { it.copy(breakBudgetData = breakBudget) }
             breakBudget
         } else {
             persisted
@@ -71,7 +71,7 @@ class BreakBudgetManager(
                 breakBudgetStart = elapsedRealtime,
             )
         coroutineScope.launch {
-            settingsRepo.setBreakBudgetData(newData)
+            settingsRepo.update { it.copy(breakBudgetData = newData) }
         }
         return newData
     }
@@ -81,7 +81,7 @@ class BreakBudgetManager(
         val newData = BreakBudgetData(breakBudgetStart = timeProvider.elapsedRealtime())
         log.i { "Resetting break budget" }
         coroutineScope.launch {
-            settingsRepo.setBreakBudgetData(newData)
+            settingsRepo.update { it.copy(breakBudgetData = newData) }
         }
         return newData
     }

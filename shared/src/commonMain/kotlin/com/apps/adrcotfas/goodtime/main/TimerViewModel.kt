@@ -39,6 +39,7 @@ import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import com.apps.adrcotfas.goodtime.data.settings.UiSettings
 import com.apps.adrcotfas.goodtime.data.settings.select
+import com.apps.adrcotfas.goodtime.data.settings.updateTimerStyle
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -286,7 +287,7 @@ class TimerViewModel(
 
     fun setActiveLabel(labelName: String) {
         viewModelScope.launch {
-            settingsRepo.activateLabelWithName(labelName)
+            settingsRepo.update { it.copy(labelName = labelName) }
         }
     }
 
@@ -329,15 +330,15 @@ class TimerViewModel(
                 timeProvider.now() - lastAsked >= MIN_TIME_BETWEEN_REVIEW_ASKS.inWholeMilliseconds &&
                 localDataRepo.selectNumberOfSessionsAfter(0).first() >= MIN_SESSIONS_FOR_REVIEW
             ) {
-                settingsRepo.setLastAskedForReviewTime(timeProvider.now())
-                settingsRepo.setShouldAskForReview(true)
+                settingsRepo.update { it.copy(lastAskedForReviewTime = timeProvider.now()) }
+                settingsRepo.update { it.copy(shouldAskForReview = true) }
             }
         }
     }
 
     fun setShowTutorial(show: Boolean) {
         viewModelScope.launch {
-            settingsRepo.setShowTutorial(show)
+            settingsRepo.update { it.copy(showTutorial = show) }
         }
     }
 }

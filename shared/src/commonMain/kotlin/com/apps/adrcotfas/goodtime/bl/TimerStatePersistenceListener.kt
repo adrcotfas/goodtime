@@ -79,14 +79,14 @@ class TimerStatePersistenceListener(
             )
 
         coroutineScope.launch {
-            settingsRepo.setPersistedTimerState(state)
+            settingsRepo.update { it.copy(persistedTimerState = state) }
             log.v { "Timer state persisted: $state" }
         }
     }
 
     private fun clearPersistedTimerState() {
         coroutineScope.launch {
-            settingsRepo.clearPersistedTimerState()
+            settingsRepo.update { it.copy(persistedTimerState = null) }
             log.v { "Timer state cleared" }
         }
     }

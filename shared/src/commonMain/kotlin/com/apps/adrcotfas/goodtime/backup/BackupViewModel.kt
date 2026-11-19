@@ -22,6 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.select
+import com.apps.adrcotfas.goodtime.data.settings.updateBackupSettings
 import com.apps.adrcotfas.goodtime.ui.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
 import goodtime_productivity.shared.generated.resources.Res
@@ -165,9 +166,9 @@ class BackupViewModel(
         )
     }
 
-    fun setBackupSettings(settings: BackupSettings) {
+    fun updateBackupSettings(transform: (BackupSettings) -> BackupSettings) {
         coroutineScope.launch {
-            settingsRepository.setBackupSettings(settings)
+            settingsRepository.updateBackupSettings(transform)
         }
     }
 }

@@ -58,7 +58,7 @@ class IosPurchaseManager(
         started = true
 
         ioScope.launch {
-            settingsRepository.setPro(true)
+            settingsRepository.update { it.copy(isPro = true) }
         }
 
         // TODO: enable later

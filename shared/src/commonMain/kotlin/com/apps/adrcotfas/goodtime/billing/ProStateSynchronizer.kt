@@ -19,8 +19,10 @@ package com.apps.adrcotfas.goodtime.billing
 
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
+import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
+import com.apps.adrcotfas.goodtime.data.settings.updateTimerStyle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -48,7 +50,7 @@ class ProStateSynchronizer(
                 log.i { "Pro entitlement revoked; resetting Pro-only settings" }
                 resetPreferencesOnProRevoked()
             }
-            settingsRepository.setPro(hasPro)
+            settingsRepository.update { it.copy(isPro = hasPro) }
             if (!wasPro && hasPro) {
                 onProGranted()
             }
@@ -57,23 +59,15 @@ class ProStateSynchronizer(
 
     private suspend fun resetPreferencesOnProRevoked() {
         resetTimerStyle()
-        with(settingsRepository) {
-            updateUiSettings {
-                it.copy(fullscreenMode = false, screensaverMode = false)
-            }
-            setEnableTorch(false)
-            setEnableFlashScreen(false)
-            setInsistentNotification(false)
-            activateDefaultLabel()
-        }
-        // Cancel auto-backups on refunds/revokes.
-        val backupSettings = settingsRepository.settings.first().backupSettings
-        if (backupSettings.autoBackupEnabled || backupSettings.cloudAutoBackupEnabled) {
-            settingsRepository.setBackupSettings(
-                backupSettings.copy(
-                    autoBackupEnabled = false,
-                    cloudAutoBackupEnabled = false,
-                ),
+        settingsRepository.update {
+            it.copy(
+                uiSettings = it.uiSettings.copy(fullscreenMode = false, screensaverMode = false),
+                enableTorch = false,
+                flashScreen = false,
+                insistentNotification = false,
+                labelName = Label.DEFAULT_LABEL_NAME,
+                // Cancel auto-backups on refunds/revokes.
+                backupSettings = it.backupSettings.copy(autoBackupEnabled = false, cloudAutoBackupEnabled = false),
             )
         }
         onProRevoked()

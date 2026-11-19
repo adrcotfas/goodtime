@@ -71,7 +71,7 @@ class TimerStateRestorationTest {
     fun `expired running timer is restored so it can be finished and saved`() = runTest(testDispatcher) {
         val persisted =
             runningState(startTime = 0, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000)
-        settingsRepo.setPersistedTimerState(persisted)
+        settingsRepo.update { it.copy(persistedTimerState = persisted) }
         timeProvider.elapsedRealtime = 300_000 // now() >= endTimeWallClock
 
         restoration().restoreTimerState { restored = it }
@@ -83,7 +83,7 @@ class TimerStateRestorationTest {
     fun `state is restored directly when device was not rebooted`() = runTest(testDispatcher) {
         val persisted =
             runningState(startTime = 10_000, endTime = 100_000, savedAtWallClock = 50_000, endTimeWallClock = 200_000)
-        settingsRepo.setPersistedTimerState(persisted)
+        settingsRepo.update { it.copy(persistedTimerState = persisted) }
         timeProvider.elapsedRealtime = 60_000 // >= startTime, so no reboot; < endTimeWallClock
 
         restoration().restoreTimerState { restored = it }
@@ -95,14 +95,17 @@ class TimerStateRestorationTest {
     fun `times are recalculated from wall clock after a reboot`() = runTest(testDispatcher) {
         // before reboot: started at elapsed 100_000, ends at elapsed 200_000 (duration 100_000)
         // wall clock: saved at 1_000_000, ends at 1_050_000
-        settingsRepo.setPersistedTimerState(
-            runningState(
-                startTime = 100_000,
-                endTime = 200_000,
-                savedAtWallClock = 1_000_000,
-                endTimeWallClock = 1_050_000,
-            ),
-        )
+        settingsRepo.update {
+            it.copy(
+                persistedTimerState =
+                runningState(
+                    startTime = 100_000,
+                    endTime = 200_000,
+                    savedAtWallClock = 1_000_000,
+                    endTimeWallClock = 1_050_000,
+                ),
+            )
+        }
         // after reboot: elapsedRealtime restarted below startTime, wall clock advanced 20s
         timeProvider.elapsedRealtime = 5_000
         timeProvider.wallClock = 1_020_000

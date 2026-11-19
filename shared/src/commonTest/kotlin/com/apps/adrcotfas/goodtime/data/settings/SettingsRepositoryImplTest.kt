@@ -17,7 +17,11 @@
  */
 package com.apps.adrcotfas.goodtime.data.settings
 
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.StaticConfig
 import com.apps.adrcotfas.goodtime.RobolectricTest
@@ -50,12 +54,13 @@ class SettingsRepositoryImplTest : RobolectricTest() {
     private lateinit var scope: CoroutineScope
     private lateinit var repo: SettingsRepositoryImpl
     private lateinit var storePath: String
+    private lateinit var dataStore: DataStore<Preferences>
 
     @BeforeTest
     fun setup() {
         scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
         storePath = "$tmpDir/settings-test-${Random.nextLong()}.preferences_pb"
-        val dataStore =
+        dataStore =
             PreferenceDataStoreFactory.createWithPath(scope = scope) {
                 storePath.toPath()
             }
@@ -76,14 +81,14 @@ class SettingsRepositoryImplTest : RobolectricTest() {
     @Test
     fun `break budget data round-trips`() = runTest {
         val data = BreakBudgetData(breakBudget = 12.minutes, breakBudgetStart = 1234L, isAccumulating = true)
-        repo.setBreakBudgetData(data)
+        repo.update { it.copy(breakBudgetData = data) }
         assertEquals(data, repo.settings.first().breakBudgetData)
     }
 
     @Test
     fun `long break data round-trips`() = runTest {
         val data = LongBreakData(streak = 3, lastWorkEndTime = 99_000L)
-        repo.setLongBreakData(data)
+        repo.update { it.copy(longBreakData = data) }
         assertEquals(data, repo.settings.first().longBreakData)
     }
 
@@ -105,22 +110,38 @@ class SettingsRepositoryImplTest : RobolectricTest() {
                 savedAtWallClock = 7,
                 endTimeWallClock = 8,
             )
-        repo.setPersistedTimerState(state)
+        repo.update { it.copy(persistedTimerState = state) }
         assertEquals(state, repo.settings.first().persistedTimerState)
 
-        repo.clearPersistedTimerState()
+        repo.update { it.copy(persistedTimerState = null) }
         assertNull(repo.settings.first().persistedTimerState)
     }
 
     @Test
     fun `scalar settings round-trip`() = runTest {
-        repo.setPro(true)
-        repo.setLastInsertedSessionId(42L)
-        repo.setAutoStartBreak(true)
+        repo.update { it.copy(isPro = true) }
+        repo.update { it.copy(lastInsertedSessionId = 42L) }
+        repo.update { it.copy(autoStartBreak = true) }
 
         val settings = repo.settings.first()
         assertEquals(true, settings.isPro)
         assertEquals(42L, settings.lastInsertedSessionId)
         assertEquals(true, settings.autoStartBreak)
+    }
+
+    @Test
+    fun `update writes only the changed keys`() = runTest {
+        repo.update { it.copy(isPro = true) }
+        assertEquals(setOf("isProKey"), dataStore.data.first().asMap().keys.map { it.name }.toSet())
+    }
+
+    @Test
+    fun `a corrupt key falls back to its default and does not block updates`() = runTest {
+        dataStore.edit { it[stringPreferencesKey("uiSettingsKey")] = "{not json" }
+        repo.update { it.copy(isPro = true) }
+
+        val settings = repo.settings.first()
+        assertEquals(true, settings.isPro)
+        assertEquals(UiSettings(), settings.uiSettings)
     }
 }

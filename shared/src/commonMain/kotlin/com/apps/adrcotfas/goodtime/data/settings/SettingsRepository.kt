@@ -21,81 +21,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
-/**
- * Repository for the app settings.
- */
 interface SettingsRepository {
     val settings: Flow<AppSettings>
 
-    suspend fun updateReminderSettings(transform: (ProductivityReminderSettings) -> ProductivityReminderSettings)
-
-    suspend fun updateUiSettings(transform: (UiSettings) -> UiSettings)
-
-    suspend fun updateStatisticsSettings(transform: (StatisticsSettings) -> StatisticsSettings)
-
-    suspend fun updateHistoryChartSettings(transform: (HistoryChartSettings) -> HistoryChartSettings)
-
-    suspend fun updateTimerStyle(transform: (TimerStyleData) -> TimerStyleData)
-
-    suspend fun setWorkDayStart(secondOfDay: Int)
-
-    suspend fun setFirstDayOfWeek(dayOfWeek: Int)
-
-    suspend fun setWorkFinishedSound(sound: String?)
-
-    suspend fun setBreakFinishedSound(sound: String?)
-
-    suspend fun addUserSound(sound: SoundData)
-
-    suspend fun removeUserSound(sound: SoundData)
-
-    suspend fun setNotificationSoundVolume(volume: Int)
-
-    suspend fun setVibrationStrength(strength: Int)
-
-    suspend fun setEnableTorch(enabled: Boolean)
-
-    suspend fun setEnableFlashScreen(enabled: Boolean)
-
-    suspend fun setInsistentNotification(enabled: Boolean)
-
-    suspend fun setAutoStartWork(enabled: Boolean)
-
-    suspend fun setAutoStartBreak(enabled: Boolean)
-
-    suspend fun setLongBreakData(longBreakData: LongBreakData)
-
-    suspend fun setBreakBudgetData(breakBudgetData: BreakBudgetData)
-
-    suspend fun setNotificationPermissionState(state: NotificationPermissionState)
-
-    suspend fun activateLabelWithName(labelName: String)
-
-    suspend fun activateDefaultLabel()
-
-    suspend fun setLastInsertedSessionId(id: Long)
-
-    suspend fun setShowOnboarding(show: Boolean)
-
-    suspend fun setShowTutorial(show: Boolean)
-
-    suspend fun setPro(isPro: Boolean)
-
-    suspend fun setDndOwnedByApp(owned: Boolean)
-
-    suspend fun setTimeProfilesInitialized(initialized: Boolean)
-
-    suspend fun setShouldAskForReview(enable: Boolean)
-
-    suspend fun setLastAskedForReviewTime(millis: Long)
-
-    suspend fun setBackupSettings(backupSettings: BackupSettings)
-
-    suspend fun setLastDismissedUpdateVersionCode(versionCode: Long)
-
-    suspend fun setPersistedTimerState(state: PersistedTimerState?)
-
-    suspend fun clearPersistedTimerState()
+    /** Atomically replaces the settings with [transform] applied to the current value. */
+    suspend fun update(transform: (AppSettings) -> AppSettings)
 }
 
 /**
@@ -104,3 +34,15 @@ interface SettingsRepository {
  * the projection and the equality check, so they cannot drift apart.
  */
 fun <T> SettingsRepository.select(selector: (AppSettings) -> T): Flow<T> = settings.map(selector).distinctUntilChanged()
+
+suspend fun SettingsRepository.updateUiSettings(transform: (UiSettings) -> UiSettings) = update { it.copy(uiSettings = transform(it.uiSettings)) }
+
+suspend fun SettingsRepository.updateTimerStyle(transform: (TimerStyleData) -> TimerStyleData) = update { it.copy(timerStyle = transform(it.timerStyle)) }
+
+suspend fun SettingsRepository.updateStatisticsSettings(transform: (StatisticsSettings) -> StatisticsSettings) = update { it.copy(statisticsSettings = transform(it.statisticsSettings)) }
+
+suspend fun SettingsRepository.updateHistoryChartSettings(transform: (HistoryChartSettings) -> HistoryChartSettings) = update { it.copy(historyChartSettings = transform(it.historyChartSettings)) }
+
+suspend fun SettingsRepository.updateReminderSettings(transform: (ProductivityReminderSettings) -> ProductivityReminderSettings) = update { it.copy(productivityReminderSettings = transform(it.productivityReminderSettings)) }
+
+suspend fun SettingsRepository.updateBackupSettings(transform: (BackupSettings) -> BackupSettings) = update { it.copy(backupSettings = transform(it.backupSettings)) }

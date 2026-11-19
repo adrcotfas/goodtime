@@ -22,6 +22,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.updateBackupSettings
 import kotlinx.coroutines.flow.first
 
 /**
@@ -46,15 +47,12 @@ class GoogleDriveBackupWorker(
         logger.i { "GoogleDriveBackupWorker - starting" }
 
         return try {
-            val settings = settingsRepository.settings.first()
             val result = backupService.getAuthTokenOrNull()
             if (result != null) {
                 googleDriveManager.uploadBackup(result)
                 logger.i { "GoogleDriveBackupWorker - backup completed successfully" }
             } else {
-                settingsRepository.setBackupSettings(
-                    settings.backupSettings.copy(cloudAutoBackupEnabled = false),
-                )
+                settingsRepository.updateBackupSettings { it.copy(cloudAutoBackupEnabled = false) }
                 logger.e { "missing Drive permission, disabling auto-backup" }
             }
             Result.success()

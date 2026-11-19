@@ -80,7 +80,7 @@ class DndModeManager(
                 if (!isDndDuringWork) return@launch
                 if (dndModeController.isDndModeEnabled()) return@launch
 
-                settingsRepository.setDndOwnedByApp(true)
+                settingsRepository.update { it.copy(dndOwnedByApp = true) }
                 withContext(Dispatchers.Main) {
                     delay(2500) // don't enter immediately to not affect ongoing sounds/vibrations
                     dndModeController.toggleDndMode(true)
@@ -98,7 +98,7 @@ class DndModeManager(
                         dndModeController.toggleDndMode(false)
                     }
                 }
-                settingsRepository.setDndOwnedByApp(false)
+                settingsRepository.update { it.copy(dndOwnedByApp = false) }
             }
     }
 }

@@ -111,9 +111,7 @@ fun AndroidBackupScreenContent(
             onResult = { uri ->
                 uri?.let {
                     context.takePersistableUriPermission(uri)
-                    backupViewModel.setBackupSettings(
-                        backupSettings.copy(autoBackupEnabled = true, path = uri.toString()),
-                    )
+                    backupViewModel.updateBackupSettings { it.copy(autoBackupEnabled = true, path = uri.toString()) }
                 }
             },
         )
@@ -130,9 +128,7 @@ fun AndroidBackupScreenContent(
 
     LaunchedEffect(Unit) {
         if (backupSettings.autoBackupEnabled && !context.isUriPersisted(backupSettings.path.toUri())) {
-            backupViewModel.setBackupSettings(
-                backupSettings.copy(autoBackupEnabled = false, path = ""),
-            )
+            backupViewModel.updateBackupSettings { it.copy(autoBackupEnabled = false, path = "") }
         }
     }
 
@@ -166,9 +162,7 @@ fun AndroidBackupScreenContent(
                 onLocalAutoBackupToggle = {
                     if (backupSettings.autoBackupEnabled) {
                         context.releasePersistableUriPermission(backupSettings.path.toUri())
-                        backupViewModel.setBackupSettings(
-                            backupSettings.copy(autoBackupEnabled = false, path = ""),
-                        )
+                        backupViewModel.updateBackupSettings { it.copy(autoBackupEnabled = false, path = "") }
                     } else {
                         autoExportDirLauncher.launch(Uri.EMPTY)
                     }

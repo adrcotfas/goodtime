@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.bl
 
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
+import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
@@ -118,7 +119,7 @@ class TimerManager(
                     ) { label, defaultLabel ->
                         val defaultTimerProfile = defaultLabel.timerProfile
                         if (label == null) {
-                            settingsRepo.activateDefaultLabel()
+                            settingsRepo.update { it.copy(labelName = Label.DEFAULT_LABEL_NAME) }
                             DomainLabel(defaultLabel, defaultTimerProfile)
                         } else {
                             // TODO: move this logic to DomainLabel; have DomainLabel a typedef of Label since it contains a TimerProfile already

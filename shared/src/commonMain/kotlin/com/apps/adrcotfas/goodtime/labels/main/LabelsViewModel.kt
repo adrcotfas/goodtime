@@ -84,7 +84,7 @@ class LabelsViewModel(
             val isDeletingActiveLabel = labelName == _uiState.value.activeLabelName
             repo.deleteLabel(labelName)
             if (isDeletingActiveLabel) {
-                settingsRepository.activateDefaultLabel()
+                settingsRepository.update { it.copy(labelName = Label.DEFAULT_LABEL_NAME) }
             }
         }
     }
@@ -97,7 +97,7 @@ class LabelsViewModel(
             val isActiveLabel = _uiState.value.activeLabelName == labelName
             repo.updateLabelIsArchived(labelName, isArchived)
             if (isActiveLabel) {
-                settingsRepository.activateDefaultLabel()
+                settingsRepository.update { it.copy(labelName = Label.DEFAULT_LABEL_NAME) }
             }
         }
     }

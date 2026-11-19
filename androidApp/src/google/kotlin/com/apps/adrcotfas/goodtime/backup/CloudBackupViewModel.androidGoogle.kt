@@ -22,6 +22,7 @@ import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.updateBackupSettings
 import com.apps.adrcotfas.goodtime.ui.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.SnackbarEvent
 import goodtime_productivity.shared.generated.resources.Res
@@ -89,10 +90,7 @@ class CloudBackupViewModel(
         viewModelScope.launch {
             googleDriveBackupService.disconnect()
             googleDriveBackupService.cancelAllBackupWork()
-            val currentSettings = settingsRepository.settings.first()
-            settingsRepository.setBackupSettings(
-                currentSettings.backupSettings.copy(cloudAutoBackupEnabled = false),
-            )
+            settingsRepository.updateBackupSettings { it.copy(cloudAutoBackupEnabled = false) }
             _uiState.update { it.copy(isConnected = false) }
         }
     }
@@ -117,10 +115,7 @@ class CloudBackupViewModel(
 
     private suspend fun executeToggleAutoBackup(enabled: Boolean) {
         googleDriveBackupService.setAutoBackupEnabled(enabled)
-        val currentSettings = settingsRepository.settings.first()
-        settingsRepository.setBackupSettings(
-            currentSettings.backupSettings.copy(cloudAutoBackupEnabled = enabled),
-        )
+        settingsRepository.updateBackupSettings { it.copy(cloudAutoBackupEnabled = enabled) }
         _uiState.update { it.copy(isAutoBackupToggleInProgress = false) }
     }
 

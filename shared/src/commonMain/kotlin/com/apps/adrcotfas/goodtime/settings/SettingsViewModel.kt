@@ -26,6 +26,9 @@ import com.apps.adrcotfas.goodtime.data.settings.AppSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
+import com.apps.adrcotfas.goodtime.data.settings.updateReminderSettings
+import com.apps.adrcotfas.goodtime.data.settings.updateTimerStyle
+import com.apps.adrcotfas.goodtime.data.settings.updateUiSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -167,13 +170,13 @@ class SettingsViewModel(
 
     fun setWorkDayStart(secondOfDay: Int) {
         viewModelScope.launch {
-            settingsRepository.setWorkDayStart(secondOfDay)
+            settingsRepository.update { it.copy(workdayStart = secondOfDay) }
         }
     }
 
     fun setFirstDayOfWeek(dayOfWeek: Int) {
         viewModelScope.launch {
-            settingsRepository.setFirstDayOfWeek(dayOfWeek)
+            settingsRepository.update { it.copy(firstDayOfWeek = dayOfWeek) }
         }
     }
 
@@ -183,38 +186,35 @@ class SettingsViewModel(
 
     fun setNotificationSoundVolume(volume: Int) {
         viewModelScope.launch {
-            settingsRepository.setNotificationSoundVolume(volume)
+            settingsRepository.update { it.copy(notificationSoundVolume = volume) }
         }
     }
 
     fun setVibrationStrength(vibrationStrength: Int) {
         viewModelScope.launch {
-            settingsRepository.setVibrationStrength(vibrationStrength)
+            settingsRepository.update { it.copy(vibrationStrength = vibrationStrength) }
         }
     }
 
     fun setEnableTorch(enable: Boolean) {
         viewModelScope.launch {
-            settingsRepository.setEnableTorch(enable)
+            settingsRepository.update { it.copy(enableTorch = enable) }
         }
     }
 
     fun setEnableFlashScreen(enable: Boolean) {
         viewModelScope.launch {
-            settingsRepository.setEnableFlashScreen(enable)
+            settingsRepository.update { it.copy(flashScreen = enable) }
         }
     }
 
     fun setInsistentNotification(enable: Boolean) {
         viewModelScope.launch {
-            settingsRepository.setInsistentNotification(enable)
-            if (enable) {
-                val settings = settingsRepository.settings.first()
-                if (settings.autoStartFocus) {
-                    setAutoStartWork(false)
-                }
-                if (settings.autoStartBreak) {
-                    setAutoStartBreak(false)
+            settingsRepository.update {
+                if (enable) {
+                    it.copy(insistentNotification = true, autoStartFocus = false, autoStartBreak = false)
+                } else {
+                    it.copy(insistentNotification = false)
                 }
             }
         }
@@ -222,24 +222,16 @@ class SettingsViewModel(
 
     fun setAutoStartWork(enable: Boolean) {
         viewModelScope.launch {
-            settingsRepository.setAutoStartWork(enable)
-            if (enable) {
-                val settings = settingsRepository.settings.first()
-                if (settings.insistentNotification) {
-                    setInsistentNotification(false)
-                }
+            settingsRepository.update {
+                it.copy(autoStartFocus = enable, insistentNotification = it.insistentNotification && !enable)
             }
         }
     }
 
     fun setAutoStartBreak(enable: Boolean) {
         viewModelScope.launch {
-            settingsRepository.setAutoStartBreak(enable)
-            if (enable) {
-                val settings = settingsRepository.settings.first()
-                if (settings.insistentNotification) {
-                    setInsistentNotification(false)
-                }
+            settingsRepository.update {
+                it.copy(autoStartBreak = enable, insistentNotification = it.insistentNotification && !enable)
             }
         }
     }
@@ -262,13 +254,13 @@ class SettingsViewModel(
 
     fun setWorkFinishedSound(ringtone: String) {
         viewModelScope.launch {
-            settingsRepository.setWorkFinishedSound(ringtone)
+            settingsRepository.update { it.copy(workFinishedSound = ringtone) }
         }
     }
 
     fun setBreakFinishedSound(ringtone: String) {
         viewModelScope.launch {
-            settingsRepository.setBreakFinishedSound(ringtone)
+            settingsRepository.update { it.copy(breakFinishedSound = ringtone) }
         }
     }
 

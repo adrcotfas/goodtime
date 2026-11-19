@@ -64,7 +64,7 @@ class BreakBudgetManagerTest {
     @Test
     fun `initial budget is read as persisted when the device was not rebooted`() = runTest(testDispatcher) {
         val persisted = BreakBudgetData(breakBudget = 10.minutes, breakBudgetStart = 5_000)
-        settingsRepo.setBreakBudgetData(persisted)
+        settingsRepo.update { it.copy(breakBudgetData = persisted) }
         timeProvider.elapsedRealtime = 10_000
 
         assertEquals(persisted, breakBudgetManager.initialBreakBudget())
@@ -72,7 +72,7 @@ class BreakBudgetManagerTest {
 
     @Test
     fun `initial budget start is reset and persisted after a reboot`() = runTest(testDispatcher) {
-        settingsRepo.setBreakBudgetData(BreakBudgetData(breakBudget = 10.minutes, breakBudgetStart = 50_000))
+        settingsRepo.update { it.copy(breakBudgetData = BreakBudgetData(breakBudget = 10.minutes, breakBudgetStart = 50_000)) }
         timeProvider.elapsedRealtime = 10_000 // below the persisted start -> reboot
 
         val result = breakBudgetManager.initialBreakBudget()
