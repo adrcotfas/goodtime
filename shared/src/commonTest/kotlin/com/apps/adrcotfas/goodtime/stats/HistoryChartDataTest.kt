@@ -18,9 +18,15 @@
 package com.apps.adrcotfas.goodtime.stats
 
 import com.apps.adrcotfas.goodtime.data.model.Label
+import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
+import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.DayOfWeek
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.days
 
 class HistoryChartDataTest {
     @Test
@@ -114,5 +120,31 @@ class HistoryChartDataTest {
                 Label.OTHERS_LABEL_NAME to 10,
             ),
         )
+    }
+
+    @Test
+    fun historyDaysPlacesSessionsInTheirBuckets() {
+        val now = Clock.System.now().toEpochMilliseconds()
+        val sessions =
+            listOf(
+                Session.create(timestamp = now, duration = 10, interruptions = 0, label = "a", isWork = true),
+                Session.create(timestamp = now, duration = 5, interruptions = 0, label = "b", isWork = true),
+                Session.create(timestamp = now - 1.days.inWholeMilliseconds, duration = 7, interruptions = 0, label = "a", isWork = true),
+                Session.create(timestamp = now, duration = 99, interruptions = 0, label = "a", isWork = false),
+            )
+        val data =
+            computeHistoryChartData(
+                sessions = sessions,
+                labels = listOf("a", "b"),
+                workDayStart = 0,
+                firstDayOfWeek = DayOfWeek.MONDAY,
+                type = HistoryIntervalType.DAYS,
+                overviewType = OverviewType.TIME,
+                aggregate = false,
+            )
+        assertEquals(HistoryChartData.NUM_DAYS + 1, data.x.size)
+        assertEquals(listOf(7L, 10L), data.y.getValue("a").takeLast(2))
+        assertEquals(listOf(0L, 5L), data.y.getValue("b").takeLast(2))
+        assertEquals(17L, data.y.getValue("a").sum())
     }
 }

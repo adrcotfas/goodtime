@@ -158,19 +158,11 @@ fun computeHistoryChartData(
     }
     val aggregatedData = intermediateData.mapValues { aggregateDataIfNeeded(it.value) }
 
-    // prepare data structures ready for the chart
-    val x = mutableListOf<Long>()
-    val y = mutableMapOf<String, List<Long>>()
-
-    val emptyList = List(iterationData.intervalLength + 1) { 0L }
-    aggregatedData.asIterable().forEachIndexed { index, entry ->
-        x.add(entry.key.toEpochMilliseconds())
-
-        entry.value.forEach { (label, duration) ->
-            y[label] =
-                (y[label] ?: emptyList).toMutableList().apply {
-                    this[index] = duration
-                }
+    val x = aggregatedData.keys.map { it.toEpochMilliseconds() }
+    val y = mutableMapOf<String, MutableList<Long>>()
+    aggregatedData.values.forEachIndexed { index, values ->
+        values.forEach { (label, duration) ->
+            y.getOrPut(label) { MutableList(x.size) { 0L } }[index] = duration
         }
     }
 
