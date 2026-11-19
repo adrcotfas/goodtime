@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -76,6 +77,8 @@ import goodtime_productivity.shared.generated.resources.labels_others
 import goodtime_productivity.shared.generated.resources.stats_history_interval_type_options
 import goodtime_productivity.shared.generated.resources.stats_history_title
 import goodtime_productivity.shared.generated.resources.stats_total
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Month
 import org.jetbrains.compose.resources.stringArrayResource
@@ -87,7 +90,6 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.data.x.isEmpty() || uiState.data.y.isEmpty()) return
 
-    val data = uiState.data
     val type = uiState.type
     val isTimeOverviewType = uiState.overviewType == OverviewType.TIME
 
@@ -100,9 +102,6 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
             .map {
                 MaterialTheme.getLabelColor(it.colorIndex)
             }.plus(MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX))
-
-    val x = remember(data) { data.x }
-    val y = remember(data) { data.y }
 
     val modelProducer = remember(isLineChart) { CartesianChartModelProducer() }
 
@@ -117,28 +116,35 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
             )
         }
 
-    LaunchedEffect(data, isLineChart) {
-        if (isLineChart) {
-            modelProducer.runTransaction {
-                lineModel {
-                    series(y[Label.DEFAULT_LABEL_NAME]!!)
-                    extras { it[timestampsKey] = x }
-                    extras { it[labelsKey] = y.keys }
-                    extras { it[extraBottomAxisStrings] = bottomAxisStrings }
-                    extras { it[extraViewType] = type }
-                    extras { it[extraFirstDayOfWeek] = uiState.firstDayOfWeek }
+    LaunchedEffect(modelProducer) {
+        snapshotFlow { uiState }
+            .filter { it.data.x.isNotEmpty() && it.data.y.isNotEmpty() }
+            .distinctUntilChangedBy { it.data }
+            .collect { state ->
+                val x = state.data.x
+                val y = state.data.y
+                if (isLineChart) {
+                    modelProducer.runTransaction {
+                        lineModel {
+                            series(y[Label.DEFAULT_LABEL_NAME]!!)
+                            extras { it[timestampsKey] = x }
+                            extras { it[labelsKey] = y.keys }
+                            extras { it[extraBottomAxisStrings] = bottomAxisStrings }
+                            extras { it[extraViewType] = state.type }
+                            extras { it[extraFirstDayOfWeek] = state.firstDayOfWeek }
+                        }
+                    }
+                } else {
+                    modelProducer.runTransaction {
+                        columnSeries { y.values.forEach { series(it) } }
+                        extras { it[timestampsKey] = x }
+                        extras { it[labelsKey] = y.keys }
+                        extras { it[extraBottomAxisStrings] = bottomAxisStrings }
+                        extras { it[extraViewType] = state.type }
+                        extras { it[extraFirstDayOfWeek] = state.firstDayOfWeek }
+                    }
                 }
             }
-        } else {
-            modelProducer.runTransaction {
-                columnSeries { y.values.forEach { series(it) } }
-                extras { it[timestampsKey] = x }
-                extras { it[labelsKey] = y.keys }
-                extras { it[extraBottomAxisStrings] = bottomAxisStrings }
-                extras { it[extraViewType] = type }
-                extras { it[extraFirstDayOfWeek] = uiState.firstDayOfWeek }
-            }
-        }
     }
 
     Column(
