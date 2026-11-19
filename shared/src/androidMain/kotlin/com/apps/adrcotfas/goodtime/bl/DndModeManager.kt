@@ -17,6 +17,8 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
+import android.app.NotificationManager
+import android.content.Context
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.select
 import kotlinx.coroutines.CoroutineScope
@@ -26,11 +28,29 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.milliseconds
 
 interface DndModeController {
     fun isDndModeEnabled(): Boolean
 
     fun toggleDndMode(enabled: Boolean)
+}
+
+class AndroidDndModeController(
+    context: Context,
+) : DndModeController {
+    private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    override fun isDndModeEnabled(): Boolean = notificationManager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
+
+    override fun toggleDndMode(enabled: Boolean) {
+        if (!isNotificationPolicyAccessGranted()) return
+        notificationManager.setInterruptionFilter(
+            if (enabled) NotificationManager.INTERRUPTION_FILTER_PRIORITY else NotificationManager.INTERRUPTION_FILTER_ALL,
+        )
+    }
+
+    fun isNotificationPolicyAccessGranted(): Boolean = notificationManager.isNotificationPolicyAccessGranted
 }
 
 class DndModeManager(
@@ -82,7 +102,7 @@ class DndModeManager(
 
                 settingsRepository.update { it.copy(dndOwnedByApp = true) }
                 withContext(Dispatchers.Main) {
-                    delay(2500) // don't enter immediately to not affect ongoing sounds/vibrations
+                    delay(2500.milliseconds) // don't enter immediately to not affect ongoing sounds/vibrations
                     dndModeController.toggleDndMode(true)
                 }
             }

@@ -29,7 +29,6 @@ import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.apps.adrcotfas.goodtime.R
-import com.apps.adrcotfas.goodtime.bl.DndModeController
 import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.TimerService
 import com.apps.adrcotfas.goodtime.bl.TimerService.Companion.Action
@@ -62,7 +61,7 @@ class NotificationArchManager(
     private val context: Context,
     private val activityClass: Class<*>,
     coroutineScope: CoroutineScope,
-) : DndModeController {
+) {
     private val notificationManager: NotificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -278,21 +277,6 @@ class NotificationArchManager(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             ),
         ).build()
-
-    override fun isDndModeEnabled(): Boolean = notificationManager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
-
-    override fun toggleDndMode(enabled: Boolean) {
-        if (!isNotificationPolicyAccessGranted()) {
-            return
-        }
-        if (enabled) {
-            notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY)
-        } else {
-            notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL)
-        }
-    }
-
-    fun isNotificationPolicyAccessGranted(): Boolean = notificationManager.isNotificationPolicyAccessGranted
 
     private val DomainTimerData.isRunning get() = runtime.state != TimerState.PAUSED
 

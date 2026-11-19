@@ -24,6 +24,7 @@ import com.apps.adrcotfas.goodtime.app.BuildConfig
 import com.apps.adrcotfas.goodtime.billing.PurchaseManager
 import com.apps.adrcotfas.goodtime.billing.configurePurchasesFromPlatform
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
+import com.apps.adrcotfas.goodtime.bl.AndroidDndModeController
 import com.apps.adrcotfas.goodtime.bl.DndModeManager
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager
@@ -110,9 +111,10 @@ class GoodtimeApplication :
                         )
                     }
 
+                    single<AndroidDndModeController> { AndroidDndModeController(get<Context>()) }
                     single<DndModeManager> {
                         DndModeManager(
-                            dndModeController = get<NotificationArchManager>(),
+                            dndModeController = get<AndroidDndModeController>(),
                             settingsRepository = get<SettingsRepository>(),
                             coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
                         )

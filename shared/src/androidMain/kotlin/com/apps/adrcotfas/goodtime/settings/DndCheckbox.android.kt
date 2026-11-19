@@ -30,7 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
+import com.apps.adrcotfas.goodtime.bl.AndroidDndModeController
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.ui.CheckboxListItem
 import goodtime_productivity.shared.generated.resources.Res
@@ -47,15 +47,15 @@ actual fun DndCheckbox(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
-    val notificationManager = koinInject<NotificationArchManager>()
-    var isNotificationPolicyAccessGranted by remember { mutableStateOf(notificationManager.isNotificationPolicyAccessGranted()) }
+    val dndModeController = koinInject<AndroidDndModeController>()
+    var isNotificationPolicyAccessGranted by remember { mutableStateOf(dndModeController.isNotificationPolicyAccessGranted()) }
     var isNotificationPolicyAccessRequested by remember { mutableStateOf(false) }
 
     LaunchedEffect(lifecycleState) {
         when (lifecycleState) {
             Lifecycle.State.RESUMED -> {
                 isNotificationPolicyAccessGranted =
-                    notificationManager.isNotificationPolicyAccessGranted()
+                    dndModeController.isNotificationPolicyAccessGranted()
                 if (isNotificationPolicyAccessRequested && isNotificationPolicyAccessGranted) {
                     onCheckedChange(true)
                 }
