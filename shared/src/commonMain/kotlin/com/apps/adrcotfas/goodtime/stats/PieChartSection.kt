@@ -66,6 +66,7 @@ import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.labels_default_label_name
 import goodtime_productivity.shared.generated.resources.labels_others
 import goodtime_productivity.shared.generated.resources.stats_focus_distribution
+import goodtime_productivity.shared.generated.resources.stats_no_items
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.PI
@@ -163,7 +164,7 @@ fun PieChartSection(
             if (values.isEmpty()) {
                 Text(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = "No items",
+                    text = stringResource(Res.string.stats_no_items),
                     style =
                     MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
