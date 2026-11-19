@@ -125,7 +125,7 @@ fun computeStatisticsData(
             val date = session.adjustedDateTime.date
 
             if (session.isWork) {
-                if (today - session.timestamp < oneYearAgoMillis) {
+                if (session.timestamp >= oneYearAgoMillis) {
                     heatmapData[date] = (heatmapData[date] ?: 0f) + session.duration
                     maxHeatMapValue = maxOf(maxHeatMapValue, heatmapData[date] ?: 0f)
 

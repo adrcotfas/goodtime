@@ -17,13 +17,17 @@
  */
 package com.apps.adrcotfas.goodtime.stats
 
+import com.apps.adrcotfas.goodtime.data.model.Session
 import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 
 class StatisticsDataTest {
@@ -92,5 +96,18 @@ class StatisticsDataTest {
         val duration = 150L
         val expected = mapOf(6 to 30L, 7 to 60L, 8 to 60L)
         assertEquals(expected, splitSessionByHour(endDateTime, duration))
+    }
+
+    @Test
+    fun heatmapIgnoresSessionsOlderThanOneYear() {
+        val now = Clock.System.now().toEpochMilliseconds()
+        val sessions =
+            listOf(
+                Session.create(timestamp = now - 400.days.inWholeMilliseconds, duration = 600, interruptions = 0, label = "", isWork = true),
+                Session.create(timestamp = now - 1.days.inWholeMilliseconds, duration = 60, interruptions = 0, label = "", isWork = true),
+            )
+        val heatmap = computeStatisticsData(sessions, DayOfWeek.MONDAY, 0).heatmapData
+        assertEquals(1, heatmap.size)
+        assertTrue(heatmap.values.single() == 1f)
     }
 }
