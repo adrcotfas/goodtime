@@ -38,7 +38,7 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlin.time.Duration.Companion.seconds
 
-class HistoryChartData(
+data class HistoryChartData(
     val x: List<Long> = emptyList(),
     val y: Map<String, List<Long>> = emptyMap(),
 ) {
