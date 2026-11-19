@@ -53,7 +53,7 @@ fun OverviewTab(
     onChangePieChartOverviewType: (OverviewDurationType) -> Unit,
     historyChartViewModel: StatisticsHistoryViewModel,
 ) {
-    val currentDateTime = remember { currentDateTime() }
+    val currentDateTime = remember(statisticsData) { currentDateTime() }
     val uiState by historyChartViewModel.uiState.collectAsStateWithLifecycle()
 
     val monthNames = remember { getLocalizedMonthNamesForStats() }

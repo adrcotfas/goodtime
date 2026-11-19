@@ -74,17 +74,17 @@ fun HeatmapSection(
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     val density = LocalDensity.current
-    val endLocalDate = remember { Time.currentDateTime().date }
-    val startLocalDate = remember { endLocalDate.minus(DatePeriod(days = 363)) }
+    val endLocalDate = remember(data) { Time.currentDateTime().date }
+    val startLocalDate = remember(endLocalDate) { endLocalDate.minus(DatePeriod(days = 363)) }
 
-    val startAtStartOfWeek = remember { startLocalDate.firstDayOfWeekInThisWeek(firstDayOfWeek) }
-    val endAtEndOfWeek = remember { endLocalDate.endOfWeekInThisWeek(firstDayOfWeek) }
-    val numberOfWeeks = remember { (startAtStartOfWeek.daysUntil(endAtEndOfWeek) + 1) / 7 }
+    val startAtStartOfWeek = remember(startLocalDate, firstDayOfWeek) { startLocalDate.firstDayOfWeekInThisWeek(firstDayOfWeek) }
+    val endAtEndOfWeek = remember(endLocalDate, firstDayOfWeek) { endLocalDate.endOfWeekInThisWeek(firstDayOfWeek) }
+    val numberOfWeeks = remember(startAtStartOfWeek, endAtEndOfWeek) { (startAtStartOfWeek.daysUntil(endAtEndOfWeek) + 1) / 7 }
 
     val fontSizeStyle = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Thin)
     val cellSize = remember { with(density) { fontSizeStyle.fontSize.toDp() } * 1.5f }
     val cellSpacing = remember { cellSize / 6f }
-    val daysInOrder = remember { firstDayOfWeek.entriesStartingWithThis() }
+    val daysInOrder = remember(firstDayOfWeek) { firstDayOfWeek.entriesStartingWithThis() }
 
     val monthNames = remember { getLocalizedMonthNamesForStats() }
     val dayNames = remember { getLocalizedDayNamesForStats() }
@@ -179,7 +179,7 @@ fun HeatmapSection(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 val currentWeekStart =
-                                    remember(index) { startAtStartOfWeek.plus(DatePeriod(days = index * 7)) }
+                                    remember(index, startAtStartOfWeek) { startAtStartOfWeek.plus(DatePeriod(days = index * 7)) }
 
                                 val monthName = monthNames[currentWeekStart.month.ordinal]
                                 if (currentWeekStart == startAtStartOfWeek ||
@@ -199,10 +199,7 @@ fun HeatmapSection(
 
                                 daysInOrder.forEach { dayOfWeek ->
                                     val currentDay =
-                                        remember(
-                                            index,
-                                            dayOfWeek,
-                                        ) { currentWeekStart.at(dayOfWeek) }
+                                        remember(currentWeekStart, dayOfWeek) { currentWeekStart.at(dayOfWeek) }
                                     if (currentDay in startLocalDate..endLocalDate) {
                                         Box(modifier = Modifier.padding(cellSpacing)) {
                                             Box(
