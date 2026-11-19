@@ -40,13 +40,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -96,10 +94,11 @@ class StatisticsViewModel(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(StatisticsUiState())
-    val uiState =
-        _uiState
-            .onStart { loadData() }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatisticsUiState())
+    val uiState = _uiState.asStateFlow()
+
+    init {
+        loadData()
+    }
 
     val pagedSessions: Flow<PagingData<Session>> =
         uiState
