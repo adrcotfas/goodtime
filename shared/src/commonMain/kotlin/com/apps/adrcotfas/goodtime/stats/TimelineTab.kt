@@ -37,7 +37,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -78,10 +77,7 @@ fun TimelineTab(
     listState: LazyListState,
 ) {
     LaunchedEffect(sessions.itemCount) {
-        snapshotFlow { listState.firstVisibleItemIndex }
-            .collect {
-                listState.animateScrollToItem(0)
-            }
+        listState.animateScrollToItem(0)
     }
 
     if (sessions.itemCount == 0) {
