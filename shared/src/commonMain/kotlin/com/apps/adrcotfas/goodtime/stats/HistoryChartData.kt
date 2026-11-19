@@ -201,7 +201,7 @@ fun computeHistoryChartData(
 }
 
 /**
- * Aggregates the [data] if needed by grouping the small values according to [threshold] into an "Others" label.
+ * Groups values below [threshold] and anything beyond the top [maxLabels] into an "Others" label.
  */
 fun aggregateDataIfNeeded(
     data: Map<String, Long>,
@@ -213,20 +213,24 @@ fun aggregateDataIfNeeded(
     val totalValue = data.values.sum()
     if (totalValue == 0L) return data
 
-    val smallKeys = data.filter { (_, v) -> v.toDouble() / totalValue < threshold }.keys
-    val aggregatorNeeded = smallKeys.isNotEmpty() || data.size > maxLabels
-
-    if (!aggregatorNeeded) return data
+    val keptKeys =
+        data.entries
+            .filter { it.value.toDouble() / totalValue >= threshold }
+            .sortedByDescending { it.value }
+            .take(maxLabels)
+            .map { it.key }
+            .toSet()
+    if (keptKeys.size == data.size) return data
 
     val result = LinkedHashMap<String, Long>(data.size + 1)
     var othersSum = 0L
 
     data.forEach { (key, value) ->
-        if (key in smallKeys) {
+        if (key in keptKeys) {
+            result[key] = value
+        } else {
             othersSum += value
             result[key] = 0
-        } else {
-            result[key] = value
         }
     }
 

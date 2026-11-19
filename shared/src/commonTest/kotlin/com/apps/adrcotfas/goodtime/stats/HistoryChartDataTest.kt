@@ -40,7 +40,7 @@ class HistoryChartDataTest {
                     "10" to 1,
                     "11" to 1,
                 ),
-            ),
+            ).filterValues { it > 0 },
             mapOf<String, Long>(
                 "1" to 1,
                 "2" to 1,
@@ -50,9 +50,7 @@ class HistoryChartDataTest {
                 "6" to 1,
                 "7" to 1,
                 "8" to 1,
-                "9" to 1,
-                "10" to 1,
-                "11" to 1,
+                Label.OTHERS_LABEL_NAME to 3,
             ),
         )
 
