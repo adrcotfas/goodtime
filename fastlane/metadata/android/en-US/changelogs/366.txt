@@ -1,0 +1,7 @@
+• Redesigned the timer notification with a larger time display, using the new metric style on Android 17
+• Added pause, resume and +1 min actions to the break notification
+• Improved the performance of the statistics screen
+• Fixed a few crashes when editing sessions with deleted or archived labels
+• Fixed select-all in statistics affecting hidden break sessions
+• Fixed a few chart and date picker glitches
+• Updated translations
