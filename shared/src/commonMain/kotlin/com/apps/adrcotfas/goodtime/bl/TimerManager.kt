@@ -36,8 +36,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Manages the timer state and provides methods to start, pause, resume and finish the timer.
@@ -102,6 +104,42 @@ class TimerManager(
     suspend fun awaitReady() {
         initJob?.join()
         timerData.first { it.isReady }
+    }
+
+    /**
+     * For entry points that can wake a fresh process (alarm, boot, sticky service restart):
+     * waits for the restored state, then catches up on an expiry nothing could act on.
+     * Returns false if the state could not be loaded in time.
+     */
+    suspend fun reconcile(): Boolean {
+        withTimeoutOrNull(AWAIT_READY_TIMEOUT) { awaitReady() }
+        if (!timerData.value.isReady) {
+            log.w { "reconcile: timer data not ready" }
+            return false
+        }
+        catchUpIfExpired()
+        return true
+    }
+
+    /**
+     * Finishes a running countdown whose time is up and resets a count-up past [COUNT_UP_HARD_LIMIT].
+     * Returns true if it did either.
+     */
+    fun catchUpIfExpired(): Boolean {
+        val data = timerData.value
+        if (!data.isReady || !data.runtime.state.isRunning) return false
+        val baseTime = data.getBaseTime(timeProvider)
+        return if (data.isCurrentSessionCountdown()) {
+            if (baseTime >= EXPIRY_SLACK) return false
+            log.i { "countdown expired, finishing it" }
+            finish(actionType = FinishActionType.FORCE_FINISH)
+            true
+        } else {
+            if (baseTime < COUNT_UP_HARD_LIMIT) return false
+            log.i { "count-up reached the hard limit, resetting it" }
+            reset(actionType = FinishActionType.MANUAL_RESET)
+            true
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -692,6 +730,11 @@ class TimerManager(
     companion object {
         val COUNT_UP_HARD_LIMIT = 900.minutes.inWholeMilliseconds
 
+        // stay under the ~10s broadcast ANR limit
+        val AWAIT_READY_TIMEOUT = 8.seconds
+
+        const val EXPIRY_SLACK = 500L
+
         // finish() can run well after the expected end (iOS foreground-return, or Android
         // restoring after a kill/reboot); don't auto-start the next session past this gap.
         val AUTOSTART_TIMEOUT = 30.minutes.inWholeMilliseconds
@@ -699,13 +742,14 @@ class TimerManager(
 }
 
 enum class FinishActionType {
-    // finish triggered by observing the current time rather than a scheduled alarm: the app is in
-    // the foreground and the time is up, or we're catching up on a countdown that expired while
-    // we couldn't act — iOS in the background, or Android after a process kill / device reboot
+    // finish triggered by observing that the time is up (TimerManager.catchUpIfExpired): the Android
+    // alarm, the app in the foreground, or catching up on a countdown that expired while we couldn't
+    // act — iOS in the background, or Android after a process kill / device reboot. Keeps the
+    // scheduled endTime, so a late wake-up doesn't lengthen the saved session
     FORCE_FINISH,
     MANUAL_RESET, // the user manually reset a session
     MANUAL_SKIP, // the user manually skipped a session, increment streak even if session is shorter than 1 minute
     MANUAL_NEXT, // at the end of a session, the user continues
     MANUAL_DO_NOTHING, // used when updating an existing finished session with extra idle time, notes etc
-    AUTO, // without user interaction as the result of a trigger (AlarmReceiver), also relevant for "auto-start" sessions
+    AUTO, // without user interaction, e.g. an "auto-start" session
 }

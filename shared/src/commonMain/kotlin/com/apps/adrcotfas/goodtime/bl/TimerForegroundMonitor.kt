@@ -34,7 +34,6 @@ import kotlinx.coroutines.launch
  */
 class TimerForegroundMonitor(
     private val timerManager: TimerManager,
-    private val timeProvider: TimeProvider,
     private val logger: Logger,
 ) {
     private var foregroundJob: Job? = null
@@ -60,21 +59,9 @@ class TimerForegroundMonitor(
         logger.v { "listenForeground" }
         timerManager.timerData
             .filter { it.runtime.state.isActive }
-            .collectLatest { activeTimerData ->
+            .collectLatest {
                 while (currentCoroutineContext().isActive && timerManager.timerData.value.runtime.state.isActive) {
-                    val isCountdown = activeTimerData.isCurrentSessionCountdown()
-                    val baseTime = activeTimerData.getBaseTime(timeProvider)
-
-                    if (isCountdown && baseTime < 500) {
-                        logger.v { "force finish" }
-                        timerManager.finish(actionType = FinishActionType.FORCE_FINISH)
-                        return@collectLatest
-                    } else if (!isCountdown && baseTime > TimerManager.COUNT_UP_HARD_LIMIT) {
-                        logger.v { "manual reset after hard limit" }
-                        timerManager.reset(actionType = FinishActionType.MANUAL_RESET)
-                        return@collectLatest
-                    }
-
+                    if (timerManager.catchUpIfExpired()) return@collectLatest
                     delay(1000)
                 }
             }

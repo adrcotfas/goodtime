@@ -24,7 +24,6 @@ import android.os.PowerManager
 import com.apps.adrcotfas.goodtime.di.MAIN_SCOPE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeoutOrNull
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
@@ -51,27 +50,13 @@ class AlarmReceiver :
             ).apply {
                 acquire(10.seconds.inWholeMilliseconds)
             }
-        // On a cold start (process killed while the timer was running) the state
-        // restoration runs asynchronously; acting before it lands would drop the session.
         val pendingResult = goAsync()
         coroutineScope.launch {
             try {
-                withTimeoutOrNull(AWAIT_READY_TIMEOUT) { timerManager.awaitReady() }
-                val isCountdown = timerManager.timerData.value.isCurrentSessionCountdown()
-                if (isCountdown) {
-                    timerManager.finish()
-                } else {
-                    // hard limit was reached for count-up
-                    timerManager.reset()
-                }
+                timerManager.reconcile()
             } finally {
                 pendingResult.finish()
             }
         }
-    }
-
-    companion object {
-        // stay under the ~10s broadcast ANR limit
-        private val AWAIT_READY_TIMEOUT = 8.seconds
     }
 }

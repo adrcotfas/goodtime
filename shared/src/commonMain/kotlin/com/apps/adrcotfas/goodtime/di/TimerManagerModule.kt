@@ -68,7 +68,6 @@ val timerManagerModule =
         single {
             TimerForegroundMonitor(
                 timerManager = get(),
-                timeProvider = get(),
                 getWith("TimerForegroundMonitor"),
             )
         }

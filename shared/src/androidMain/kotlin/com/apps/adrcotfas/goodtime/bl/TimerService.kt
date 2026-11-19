@@ -34,7 +34,6 @@ import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
-import kotlin.time.Duration.Companion.seconds
 
 class TimerService :
     Service(),
@@ -124,48 +123,32 @@ class TimerService :
 
     private fun withReadyTimer(block: suspend (TimerManager) -> Unit) {
         coroutineScope.launch {
-            withTimeoutOrNull(AWAIT_READY_TIMEOUT) { timerManager.awaitReady() }
+            withTimeoutOrNull(TimerManager.AWAIT_READY_TIMEOUT) { timerManager.awaitReady() }
             block(timerManager)
         }
     }
 
     private fun reconcileAfterProcessDeath() {
         coroutineScope.launch {
-            withTimeoutOrNull(AWAIT_READY_TIMEOUT) { timerManager.awaitReady() }
-            val data = timerManager.timerData.value
-            if (!data.isReady) {
+            if (!timerManager.reconcile()) {
                 // could not load the state in time; leave everything untouched
                 return@launch
             }
-            val state = data.runtime.state
-            when {
-                state.isRunning &&
-                    data.isCurrentSessionCountdown() &&
-                    data.getBaseTime(timeProvider) <= 0 -> {
-                    log.i { "countdown expired while the process was dead, finishing it" }
-                    timerManager.finish(actionType = FinishActionType.FORCE_FINISH)
-                }
-
-                state.isActive -> {
-                    log.i { "re-adopting the in-progress notification" }
-                    startInProgressForeground(data)
-                    // re-arm the alarm in case it was lost along with the process
-                    timerManager.onSendToBackground()
-                }
-
-                else -> {
-                    // nothing to resume; a finished notification, if any, is left untouched
-                    notificationManager.clearInProgressNotification()
-                    stopSelf()
-                }
+            val data = timerManager.timerData.value
+            if (data.runtime.state.isActive) {
+                log.i { "re-adopting the in-progress notification" }
+                startInProgressForeground(data)
+                // re-arm the alarm in case it was lost along with the process
+                timerManager.onSendToBackground()
+            } else {
+                // nothing to resume; a finished notification, if any, is left untouched
+                notificationManager.clearInProgressNotification()
+                stopSelf()
             }
         }
     }
 
     companion object {
-        // stay well under the system's patience for a restarted service
-        private val AWAIT_READY_TIMEOUT = 8.seconds
-
         enum class Action {
             StartOrUpdate,
             Reset,

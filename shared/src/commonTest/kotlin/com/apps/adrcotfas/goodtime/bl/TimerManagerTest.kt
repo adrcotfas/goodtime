@@ -1102,6 +1102,47 @@ class TimerManagerTest {
         assertEquals(endTime, timerManager.timerData.value.runtime.endTime)
     }
 
+    @Test
+    fun `Reconcile leaves a countdown with time left running`() = runTest {
+        timerManager.start(TimerType.FOCUS)
+        timeProvider.elapsedRealtime = DEFAULT_DURATION - 1.seconds.inWholeMilliseconds
+        assertTrue(timerManager.reconcile())
+        assertEquals(TimerState.RUNNING, timerManager.timerData.value.runtime.state)
+    }
+
+    @Test
+    fun `Reconcile finishes a late countdown at its scheduled end`() = runTest {
+        timerManager.start(TimerType.FOCUS)
+        timeProvider.elapsedRealtime = DEFAULT_DURATION + 5.minutes.inWholeMilliseconds
+        assertTrue(timerManager.reconcile())
+        assertEquals(TimerState.FINISHED, timerManager.timerData.value.runtime.state)
+        assertEquals(DEFAULT_DURATION, timerManager.timerData.value.runtime.endTime)
+        val session = localDataRepo.selectAllSessions().first().last()
+        assertEquals(DEFAULT_DURATION, session.duration.minutes.inWholeMilliseconds)
+    }
+
+    @Test
+    fun `Reconcile leaves a paused countdown alone`() = runTest {
+        timerManager.start(TimerType.FOCUS)
+        timeProvider.elapsedRealtime = DEFAULT_DURATION - 100
+        timerManager.toggle()
+        timeProvider.elapsedRealtime += 1.hours.inWholeMilliseconds
+        assertTrue(timerManager.reconcile())
+        assertEquals(TimerState.PAUSED, timerManager.timerData.value.runtime.state)
+    }
+
+    @Test
+    fun `Reconcile resets a count-up at the hard limit`() = runTest {
+        settingsRepo.update { it.copy(labelName = countUpLabel.name) }
+        timerManager.start()
+        timeProvider.elapsedRealtime = COUNT_UP_HARD_LIMIT - 1
+        assertTrue(timerManager.reconcile())
+        assertEquals(TimerState.RUNNING, timerManager.timerData.value.runtime.state)
+        timeProvider.elapsedRealtime = COUNT_UP_HARD_LIMIT
+        assertTrue(timerManager.reconcile())
+        assertEquals(TimerState.RESET, timerManager.timerData.value.runtime.state)
+    }
+
     companion object {
         private const val CUSTOM_LABEL_NAME = "dummy"
         private val dummyTimerProfile =
