@@ -71,8 +71,8 @@ import goodtime_productivity.shared.generated.resources.stats_timeline
 import goodtime_productivity.shared.generated.resources.unlock_premium
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
@@ -272,18 +272,16 @@ fun StatisticsScreen(
                                 Clock.System.now().toEpochMilliseconds(),
                             ).toLocalDateTime(timeZone)
                     val tomorrowMillis =
-                        LocalDateTime(
-                            now.date.plus(DatePeriod(days = 1)),
-                            LocalTime(hour = 0, minute = 0),
-                        ).toInstant(
-                            timeZone,
-                        ).toEpochMilliseconds()
+                        now.date
+                            .plus(DatePeriod(days = 1))
+                            .atStartOfDayIn(TimeZone.UTC)
+                            .toEpochMilliseconds()
 
                     val datePickerState =
                         rememberDatePickerState(
                             initialSelectedDateMillis =
-                            dateTime
-                                .toInstant(timeZone)
+                            dateTime.date
+                                .atStartOfDayIn(TimeZone.UTC)
                                 .toEpochMilliseconds(),
                             selectableDates =
                             object : SelectableDates {
