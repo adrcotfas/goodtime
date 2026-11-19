@@ -17,10 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.stats
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,16 +31,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -62,15 +54,13 @@ import com.patrykandpatrick.vico.compose.pie.PieSize
 import com.patrykandpatrick.vico.compose.pie.data.PieChartModel
 import com.patrykandpatrick.vico.compose.pie.data.PieValueFormatter
 import com.patrykandpatrick.vico.compose.pie.rememberPieChart
+import com.patrykandpatrick.vico.compose.pie.rememberPieRotationState
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.labels_default_label_name
 import goodtime_productivity.shared.generated.resources.labels_others
 import goodtime_productivity.shared.generated.resources.stats_focus_distribution
 import goodtime_productivity.shared.generated.resources.stats_no_items
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import kotlin.math.PI
-import kotlin.math.atan2
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.minutes
 
@@ -172,11 +162,6 @@ fun PieChartSection(
                 )
             } else {
                 var showPercentages by rememberSaveable { mutableStateOf(true) }
-                // TODO: revisit after https://github.com/patrykandpatrick/vico/pull/1548 is merged
-                val rotation =
-                    rememberSaveable(saver = Saver({ it.value }, { Animatable(it) })) { Animatable(0f) }
-                val decay = rememberSplineBasedDecay<Float>()
-                val scope = rememberCoroutineScope()
                 val total = values.sum().toFloat()
                 val onBackground = MaterialTheme.colorScheme.onBackground
 
@@ -211,7 +196,6 @@ fun PieChartSection(
                         spacing = 0.dp,
                         outerSize = PieSize.Outer.fixed(148.dp),
                         innerSize = PieSize.Inner.fixed(120.dp),
-                        startAngle = -90f + rotation.value,
                         valueFormatter = formatter,
                     )
                 val model = remember(values) { PieChartModel.build(*values.toTypedArray()) }
@@ -219,48 +203,16 @@ fun PieChartSection(
                 PieChartHost(
                     chart = pieChart,
                     model = model,
+                    rotationState = rememberPieRotationState(rotationEnabled = true),
                     modifier =
                     Modifier
                         .fillMaxSize()
                         .align(Alignment.CenterHorizontally)
-                        .pointerInput(Unit) {
-                            val tracker = VelocityTracker()
-                            var angle = 0f
-                            detectDragGestures(
-                                onDragStart = {
-                                    scope.launch { rotation.stop() }
-                                    tracker.resetTracking()
-                                    angle = rotation.value
-                                },
-                                onDragEnd = {
-                                    val velocity = tracker.calculateVelocity().x
-                                    scope.launch { rotation.animateDecay(velocity, decay) }
-                                },
-                            ) { change, _ ->
-                                val center = Offset(size.width / 2f, size.height / 2f)
-                                angle += angleDelta(center, change.previousPosition, change.position)
-                                tracker.addPosition(change.uptimeMillis, Offset(angle, 0f))
-                                scope.launch { rotation.snapTo(angle) }
-                                change.consume()
-                            }
-                        }.clickable(interactionSource = null, indication = null) {
+                        .clickable(interactionSource = null, indication = null) {
                             showPercentages = !showPercentages
                         },
                 )
             }
         }
     }
-}
-
-/** Returns the signed angle (in degrees) from [from] to [to] around [center], normalized to ±180°. */
-private fun angleDelta(center: Offset, from: Offset, to: Offset): Float {
-    val a = from - center
-    val b = to - center
-    var delta = (atan2(b.y, b.x) - atan2(a.y, a.x)) * 180f / PI.toFloat()
-    if (delta > 180f) {
-        delta -= 360f
-    } else if (delta < -180f) {
-        delta += 360f
-    }
-    return delta
 }
