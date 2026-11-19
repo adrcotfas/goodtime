@@ -146,7 +146,7 @@ fun MainTimerView(
                 onToggle?.let {
                     if (!timerUiState.isActive) {
                         onStart()
-                    } else {
+                    } else if (timerUiState.canPause) {
                         onToggle()
                     }
                 }

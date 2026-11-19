@@ -34,7 +34,6 @@ import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 class TimerService :
@@ -92,13 +91,7 @@ class TimerService :
 
             Action.Skip.name ->
                 withReadyTimer {
-                    // mirrors the guard in TimerManager.nextInternal, which silently ignores the skip
-                    val timerData = it.timerData.value
-                    val noBreakBudget =
-                        timerData.runtime.type.isFocus &&
-                            !timerData.getTimerProfile().isCountdown &&
-                            timerData.getBreakBudget(timeProvider.elapsedRealtime()) < 1.minutes
-                    if (noBreakBudget) {
+                    if (it.timerData.value.isBreakBudgetDepleted(timeProvider.elapsedRealtime())) {
                         Toast
                             .makeText(
                                 this,

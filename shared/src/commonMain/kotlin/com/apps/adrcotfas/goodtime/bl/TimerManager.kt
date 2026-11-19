@@ -252,7 +252,7 @@ class TimerManager(
             log.e { "Trying to add one minute when the timer is not running" }
             return
         }
-        if (!data.getTimerProfile().isCountdown) {
+        if (!data.canAddMinute()) {
             log.e { "Trying to add a minute to a timer that is not a countdown" }
             return
         }
@@ -286,9 +286,7 @@ class TimerManager(
     }
 
     private fun pause() {
-        val timerDataValue = timerData.value
-        val isBreakOfCountUpProfile = !timerDataValue.label.isCountdown && timerDataValue.runtime.type != TimerType.FOCUS
-        if (isBreakOfCountUpProfile) {
+        if (!timerData.value.canPause()) {
             log.e { "Trying to pause a break timer of a count up profile" }
             return
         }
@@ -446,8 +444,7 @@ class TimerManager(
 
         updateBreakBudgetIfNeeded()
 
-        val breakBudget = data.getBreakBudget(timeProvider.elapsedRealtime())
-        if (isWork && !isCountDown && breakBudget < 1.minutes) {
+        if (data.isBreakBudgetDepleted(timeProvider.elapsedRealtime())) {
             log.e { "Break budget is depleted, cannot start break" }
             return
         }

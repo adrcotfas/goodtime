@@ -30,6 +30,7 @@ import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepositoryImpl
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WORK_DURATION
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.fakes.FakeEventListener
@@ -57,6 +58,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Guards the split of the ticking time out of [TimerUiState] (review point #30): only the
@@ -142,6 +144,40 @@ class TimerViewModelTest {
             timeProvider.elapsedRealtime += 1_000
             advanceTimeBy(1_000)
             expectNoEvents()
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `count-up actions follow the break budget and session type`() = runTest(testDispatcher) {
+        val countUpLabel =
+            Label(name = "flow", useDefaultTimeProfile = false, timerProfile = TimerProfile(isCountdown = false, workBreakRatio = 3))
+        localDataRepo.insertLabel(countUpLabel)
+        settingsRepo.activateLabelWithName(countUpLabel.name)
+
+        timerManager.start(TimerType.FOCUS)
+        viewModel.timerUiState.test {
+            var state = awaitItem()
+            while (!state.isActive) state = awaitItem()
+            assertTrue(state.canPause)
+            assertFalse(state.canAddMinute)
+            assertFalse(state.canSkip)
+
+            val almostOneMinuteOfBudget = (3.minutes - 1.seconds).inWholeMilliseconds
+            timeProvider.elapsedRealtime += almostOneMinuteOfBudget
+            advanceTimeBy(almostOneMinuteOfBudget)
+            expectNoEvents()
+
+            timeProvider.elapsedRealtime += 1_000
+            advanceTimeBy(1_000)
+            assertTrue(awaitItem().canSkip)
+
+            viewModel.skip()
+            state = awaitItem()
+            while (!state.isBreak) state = awaitItem()
+            assertFalse(state.canPause)
+            assertTrue(state.canSkip)
 
             cancelAndIgnoreRemainingEvents()
         }

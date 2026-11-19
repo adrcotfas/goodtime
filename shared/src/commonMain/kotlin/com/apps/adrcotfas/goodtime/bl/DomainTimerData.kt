@@ -122,30 +122,24 @@ data class DomainTimerData(
     fun isDefaultLabel() = label.getLabelName() == Label.DEFAULT_LABEL_NAME
 
     fun getBreakBudget(elapsedRealtime: Long): Duration {
-        if (label.profile.isCountdown) return 0.minutes
-        return if (runtime.type.isFocus) {
-            when (runtime.state) {
-                TimerState.RUNNING -> {
-                    val breakBudgetMillis = breakBudgetData.breakBudget
-                    val workBreakRatio = label.profile.workBreakRatio
-                    (
-                        (
-                            (elapsedRealtime - runtime.lastStartTime).milliseconds /
-                                workBreakRatio
-                            ) + breakBudgetMillis
-                        ).let {
-                        if (it.isNegative()) 0.minutes else it
-                    }
-                }
-
-                else -> breakBudgetData.getRemainingBreakBudget(elapsedRealtime)
-            }
-        } else {
-            breakBudgetData.getRemainingBreakBudget(elapsedRealtime)
-        }
+        if (label.profile.isCountdown) return Duration.ZERO
+        val isEarningBudget = runtime.type.isFocus && runtime.state == TimerState.RUNNING
+        if (!isEarningBudget) return breakBudgetData.getRemainingBreakBudget(elapsedRealtime)
+        val focusSinceLastStart = (elapsedRealtime - runtime.lastStartTime).milliseconds
+        return (breakBudgetData.breakBudget + focusSinceLastStart / label.profile.workBreakRatio).coerceAtLeast(Duration.ZERO)
     }
 
     fun isCurrentSessionCountdown(): Boolean = getTimerProfile().isCountdown || runtime.type != TimerType.FOCUS
+
+    fun canPause(): Boolean = label.profile.isCountdown || runtime.type.isFocus
+
+    fun canAddMinute(): Boolean = label.profile.isCountdown
+
+    fun isBreakBudgetDepleted(elapsedRealtime: Long): Boolean = runtime.type.isFocus && !label.profile.isCountdown && getBreakBudget(elapsedRealtime) < 1.minutes
+
+    fun canSkip(elapsedRealtime: Long): Boolean = label.profile.isBreakEnabled && !isBreakBudgetDepleted(elapsedRealtime)
+
+    fun nextIsBreak(finishedType: TimerType = runtime.type): Boolean = finishedType.isFocus && label.profile.isBreakEnabled
 }
 
 enum class TimerState {

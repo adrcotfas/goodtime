@@ -158,20 +158,14 @@ class NotificationArchManager(
         val toggle = (if (data.isRunning) Res.string.main_pause else Res.string.main_resume) to Action.Toggle
         val stop = Res.string.main_stop to Action.DoReset
         val buttons =
-            when {
-                // count-up is always a focus session; Skip no-ops in TimerManager while the break budget is under one minute
-                !data.isCurrentSessionCountdown() -> listOf(toggle, stop)
-
-                // a break of a count-up profile is bounded by the break budget: no pause, no +1 min
-                !data.getTimerProfile().isCountdown -> listOf(stop)
-
-                data.isRunning -> listOf(toggle, Res.string.main_plus_1_min to Action.AddOneMinute)
-
-                else -> listOf(toggle, stop)
+            buildList {
+                if (data.canPause()) add(toggle)
+                add(if (data.canAddMinute() && data.isRunning) Res.string.main_plus_1_min to Action.AddOneMinute else stop)
+                if (data.label.profile.isBreakEnabled) {
+                    add((if (data.nextIsBreak()) Res.string.main_start_break else Res.string.main_start_focus) to Action.Skip)
+                }
             }
-        val next = (if (data.runtime.type.isFocus) Res.string.main_start_break else Res.string.main_start_focus) to Action.Skip
-        val all = if (data.label.profile.isBreakEnabled) buttons + next else buttons
-        return all.map { (title, action) -> createNotificationAction(getString(title), action) }
+        return buttons.map { (title, action) -> createNotificationAction(getString(title), action) }
     }
 
     suspend fun notifyFinished(
@@ -198,10 +192,9 @@ class NotificationArchManager(
         val extender = NotificationCompat.WearableExtender()
         if (withActions) {
             builder.setContentText(getString(Res.string.main_continue))
-            val startBreak = isFocus && data.label.profile.isBreakEnabled
             val nextAction =
                 createNotificationAction(
-                    title = getString(if (startBreak) Res.string.main_start_break else Res.string.main_start_focus),
+                    title = getString(if (data.nextIsBreak(finishedType)) Res.string.main_start_break else Res.string.main_start_focus),
                     action = Action.Next,
                 )
             extender.addAction(nextAction)

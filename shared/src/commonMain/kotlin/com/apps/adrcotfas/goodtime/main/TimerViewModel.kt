@@ -70,6 +70,9 @@ data class TimerUiState(
     val sessionsBeforeLongBreak: Int = 0,
     val longBreakData: LongBreakData = LongBreakData(),
     val breakBudgetMinutes: Long = 0,
+    val canPause: Boolean = true,
+    val canAddMinute: Boolean = true,
+    val canSkip: Boolean = true,
 ) {
     val isPaused = timerState.isPaused
     val isActive = timerState.isActive
@@ -245,6 +248,9 @@ class TimerViewModel(
         sessionsBeforeLongBreak = it.inUseSessionsBeforeLongBreak(),
         longBreakData = it.longBreakData,
         breakBudgetMinutes = it.getBreakBudget(timeProvider.elapsedRealtime()).inWholeMinutes,
+        canPause = it.canPause(),
+        canAddMinute = it.canAddMinute(),
+        canSkip = it.canSkip(timeProvider.elapsedRealtime()),
     )
 
     fun skip() {

@@ -1065,6 +1065,43 @@ class TimerManagerTest {
         )
     }
 
+    @Test
+    fun `Skip is ignored while the count-up break budget is under one minute`() = runTest {
+        settingsRepo.activateLabelWithName(countUpLabel.name)
+        timerManager.start(TimerType.FOCUS)
+
+        timeProvider.elapsedRealtime += (3.minutes - 1.seconds).inWholeMilliseconds
+        timerManager.skip()
+        assertEquals(TimerType.FOCUS, timerManager.timerData.value.runtime.type)
+        assertEquals(TimerState.RUNNING, timerManager.timerData.value.runtime.state)
+
+        timeProvider.elapsedRealtime += 1.seconds.inWholeMilliseconds
+        timerManager.skip()
+        assertEquals(TimerType.BREAK, timerManager.timerData.value.runtime.type)
+    }
+
+    @Test
+    fun `A count-up break cannot be paused`() = runTest {
+        settingsRepo.activateLabelWithName(countUpLabel.name)
+        timerManager.start(TimerType.FOCUS)
+        timeProvider.elapsedRealtime += 6.minutes.inWholeMilliseconds
+        timerManager.skip()
+        assertEquals(TimerType.BREAK, timerManager.timerData.value.runtime.type)
+
+        timerManager.toggle()
+        assertEquals(TimerState.RUNNING, timerManager.timerData.value.runtime.state)
+    }
+
+    @Test
+    fun `Add one minute is ignored for a count-up session`() = runTest {
+        settingsRepo.activateLabelWithName(countUpLabel.name)
+        timerManager.start(TimerType.FOCUS)
+        val endTime = timerManager.timerData.value.runtime.endTime
+
+        timerManager.addOneMinute()
+        assertEquals(endTime, timerManager.timerData.value.runtime.endTime)
+    }
+
     companion object {
         private const val CUSTOM_LABEL_NAME = "dummy"
         private val dummyTimerProfile =

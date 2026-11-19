@@ -53,22 +53,12 @@ fun rememberCustomDialControlState(
 }
 
 fun DialControlState<DialRegion>.updateEnabledOptions(timerUiState: TimerUiState) {
-    val label = timerUiState.label
-    val thereIsNoBreakBudget =
-        timerUiState.breakBudgetMinutes == 0L
-    val isCountUp = !label.profile.isCountdown
-    val isCountUpWithoutBreaks = isCountUp && !label.profile.isBreakEnabled
-
-    val showSkip =
-        (isCountUp && thereIsNoBreakBudget && timerUiState.timerType.isFocus) ||
-            isCountUpWithoutBreaks
-
     val disabledOptions =
         buildList {
-            if (isCountUp) {
+            if (!timerUiState.canAddMinute) {
                 add(DialRegion.TOP)
             }
-            if (showSkip) {
+            if (!timerUiState.canSkip) {
                 add(DialRegion.RIGHT)
                 add(DialRegion.LEFT)
             }
