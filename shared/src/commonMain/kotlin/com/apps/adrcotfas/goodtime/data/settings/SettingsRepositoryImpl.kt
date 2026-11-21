@@ -143,7 +143,8 @@ class SettingsRepositoryImpl(
     }
 
     /** Writes only the fields that changed, so untouched settings keep following their defaults. */
-    private inner class Writer(
+    private class Writer(
+        private val json: Json,
         private val prefs: MutablePreferences,
         private val old: AppSettings,
         private val new: AppSettings,
@@ -160,7 +161,7 @@ class SettingsRepositoryImpl(
         }
     }
 
-    private fun MutablePreferences.write(old: AppSettings, new: AppSettings) = with(Writer(this, old, new)) {
+    private fun MutablePreferences.write(old: AppSettings, new: AppSettings) = with(Writer(json, this, old, new)) {
         put(Keys.isProKey) { isPro }
         put(Keys.timerProfilesInitializedKey) { timeProfilesInitialized }
         put(Keys.shouldAskForReviewKey) { shouldAskForReview }
