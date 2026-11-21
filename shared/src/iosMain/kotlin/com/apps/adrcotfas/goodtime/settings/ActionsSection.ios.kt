@@ -100,7 +100,7 @@ private fun checkNotificationPermissionStatus(callback: (Boolean) -> Unit) {
 }
 
 @OptIn(ExperimentalForeignApi::class)
-private fun requestNotificationPermission(callback: (Boolean) -> Unit) {
+internal fun requestNotificationPermission(callback: (Boolean) -> Unit) {
     val center = UNUserNotificationCenter.currentNotificationCenter()
     val options = UNAuthorizationOptionAlert or UNAuthorizationOptionSound or UNAuthorizationOptionBadge
 

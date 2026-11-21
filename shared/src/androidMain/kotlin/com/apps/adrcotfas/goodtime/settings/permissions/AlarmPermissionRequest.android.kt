@@ -17,6 +17,10 @@
  */
 package com.apps.adrcotfas.goodtime.settings.permissions
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -32,7 +36,13 @@ import org.jetbrains.compose.resources.getString
 @Composable
 actual fun rememberAlarmPermissionRequester(permissionState: PermissionsState): suspend () -> Boolean {
     val context = LocalContext.current
-    return remember(permissionState.shouldAskForAlarmPermission, context) {
+    val notificationPermissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
+    return remember(
+        permissionState.shouldAskForAlarmPermission,
+        permissionState.shouldAskForNotificationPermission,
+        context,
+    ) {
         suspend {
             if (permissionState.shouldAskForAlarmPermission) {
                 SnackbarController.sendEvent(
@@ -50,6 +60,11 @@ actual fun rememberAlarmPermissionRequester(permissionState: PermissionsState): 
                 )
                 true
             } else {
+                if (permissionState.shouldAskForNotificationPermission &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                ) {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
                 false
             }
         }

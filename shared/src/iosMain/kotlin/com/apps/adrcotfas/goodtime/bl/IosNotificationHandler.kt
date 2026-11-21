@@ -21,6 +21,7 @@ import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
 import com.apps.adrcotfas.goodtime.settings.notifications.toSoundData
+import com.apps.adrcotfas.goodtime.settings.requestNotificationPermission
 import goodtime_productivity.shared.generated.resources.Res
 import goodtime_productivity.shared.generated.resources.main_break_complete
 import goodtime_productivity.shared.generated.resources.main_continue
@@ -145,6 +146,7 @@ class IosNotificationHandler(
             is Event.Start -> {
                 // Store current session info for later use
                 currentStartEvent = event
+                requestNotificationPermission {}
 
                 if (event.endTime != 0L && event.isCountdown) {
                     coroutineScope.launch {
