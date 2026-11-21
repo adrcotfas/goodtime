@@ -36,6 +36,7 @@ import platform.Foundation.NSURL
 import platform.UserNotifications.UNMutableNotificationContent
 import platform.UserNotifications.UNNotificationAction
 import platform.UserNotifications.UNNotificationCategory
+import platform.UserNotifications.UNNotificationInterruptionLevel
 import platform.UserNotifications.UNNotificationRequest
 import platform.UserNotifications.UNNotificationSound
 import platform.UserNotifications.UNTimeIntervalNotificationTrigger
@@ -217,6 +218,7 @@ class IosNotificationHandler(
                 setTitle(titleText)
                 setBody(getString(Res.string.main_continue))
                 setSound(notificationSound)
+                setInterruptionLevel(UNNotificationInterruptionLevel.UNNotificationInterruptionLevelTimeSensitive)
                 // Attach category to enable action button
                 setCategoryIdentifier(CATEGORY_TIMER_FINISHED)
             }
